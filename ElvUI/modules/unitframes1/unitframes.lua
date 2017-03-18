@@ -713,6 +713,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 		local inInstance, instanceType = IsInInstance();
 		if(inInstance and (instanceType == "raid" or instanceType == "pvp")) then
 			local _, _, _, _, maxPlayers = GetInstanceInfo();
+			print(_, _, _, _, maxPlayers)
 			local mapID = GetCurrentMapAreaID();
 			if(UF.mapIDs[mapID]) then
 				maxPlayers = UF.mapIDs[mapID];

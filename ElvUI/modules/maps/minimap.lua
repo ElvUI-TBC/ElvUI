@@ -281,87 +281,66 @@ function M:UpdateSettings()
 		MiniMapInstanceDifficulty:Point(pos, Minimap, pos, x, y)
 		MiniMapInstanceDifficulty:SetScale(scale)
 	end
-
-	if(ElvConfigToggle) then
-		if(E.db.general.reminder.enable and E.db.datatexts.minimapPanels and E.private.general.minimap.enable) then
-			ElvConfigToggle:Show();
-			ElvConfigToggle:SetWidth(E.RBRWidth);
-		else
-			ElvConfigToggle:Hide();
-		end
-	end
-
-	if(ElvUI_ReminderBuffs) then
-		E:GetModule("ReminderBuffs"):UpdateSettings();
-	end
 end
 
 function M:Initialize()
 	menuFrame:SetTemplate("Transparent", true);
 
-	M:UpdateSettings();
-
-	if(not E.private.general.minimap.enable) then
-		Minimap:SetMaskTexture("Textures\\MinimapMask");
-		return;
+	self:UpdateSettings()
+	if not E.private.general.minimap.enable then
+		Minimap:SetMaskTexture("Textures\\MinimapMask")
+		return
 	end
 
-	local mmholder = CreateFrame("Frame", "MMHolder", Minimap);
-	mmholder:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3);
-	mmholder:SetWidth((Minimap:GetWidth() + 29) + E.RBRWidth);
-	mmholder:Height(Minimap:GetHeight() + 53);
-	Minimap:ClearAllPoints();
-	if(E.db.general.reminder.position == "LEFT") then
-		Minimap:Point("TOPRIGHT", mmholder, "TOPRIGHT", -E.Border, -E.Border);
-	else
-		Minimap:Point("TOPLEFT", mmholder, "TOPLEFT", E.Border, -E.Border);
-	end
-	Minimap:SetMaskTexture("Interface\\ChatFrame\\ChatFrameBackground");
-	Minimap:CreateBackdrop("Default");
+	local mmholder = CreateFrame("Frame", "MMHolder", Minimap)
+	mmholder:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3)
+	mmholder:Width((Minimap:GetWidth() + 29))
+	mmholder:Height(Minimap:GetHeight() + 53)
+	
+	Minimap:ClearAllPoints()
+	Minimap:Point("TOPRIGHT", mmholder, "TOPRIGHT", -E.Border, -E.Border)
+	Minimap:SetMaskTexture("Interface\\ChatFrame\\ChatFrameBackground")
+	Minimap:CreateBackdrop("Default")
 	Minimap:SetFrameLevel(Minimap:GetFrameLevel() + 2)
 	Minimap:HookScript("OnEnter", function(self)
-		if(E.db.general.minimap.locationText ~= "MOUSEOVER" or not E.private.general.minimap.enable) then
-			return;
-		end
+		if E.db.general.minimap.locationText ~= "MOUSEOVER" or not E.private.general.minimap.enable then return end
 		self.location:Show();
 	end);
 
 	Minimap:HookScript("OnLeave", function(self)
-		if(E.db.general.minimap.locationText ~= "MOUSEOVER" or not E.private.general.minimap.enable) then
-			return;
-		end
-		self.location:Hide();
+		if E.db.general.minimap.locationText ~= "MOUSEOVER" or not E.private.general.minimap.enable then return end
+		self.location:Hide()
 	end);
 
-	Minimap.location = Minimap:CreateFontString(nil, "OVERLAY");
-	Minimap.location:FontTemplate(nil, nil, "OUTLINE");
-	Minimap.location:Point("TOP", Minimap, "TOP", 0, -2);
-	Minimap.location:SetJustifyH("CENTER");
-	Minimap.location:SetJustifyV("MIDDLE");
-	if(E.db.general.minimap.locationText ~= "SHOW" or not E.private.general.minimap.enable) then
+	Minimap.location = Minimap:CreateFontString(nil, "OVERLAY")
+	Minimap.location:FontTemplate(nil, nil, "OUTLINE")
+	Minimap.location:Point("TOP", Minimap, "TOP", 0, -2)
+	Minimap.location:SetJustifyH("CENTER")
+	Minimap.location:SetJustifyV("MIDDLE")
+	if E.db.general.minimap.locationText ~= "SHOW" or not E.private.general.minimap.enable then
 		Minimap.location:Hide();
 	end
 
-	MinimapBorder:Hide();
-	MinimapBorderTop:Hide();
+	MinimapBorder:Hide()
+	MinimapBorderTop:Hide()
 
-	MinimapZoomIn:Hide();
-	MinimapZoomOut:Hide();
+	MinimapZoomIn:Hide()
+	MinimapZoomOut:Hide()
 
-	MiniMapVoiceChatFrame:Hide();
+	MiniMapVoiceChatFrame:Hide()
 
-	MinimapNorthTag:Kill();
+	MinimapNorthTag:Kill()
 
-	MinimapZoneTextButton:Hide();
+	MinimapZoneTextButton:Hide()
 
-	MiniMapTracking:Kill();
+	MiniMapTracking:Kill()
 
-	MiniMapMailBorder:Hide();
-	MiniMapMailIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\mail");
+	MiniMapMailBorder:Hide()
+	MiniMapMailIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\mail")
 
-	MiniMapBattlefieldBorder:Hide();
+	MiniMapBattlefieldBorder:Hide()
 
-	MiniMapWorldMapButton:Hide();
+	MiniMapWorldMapButton:Hide()
 
 	--MiniMapInstanceDifficulty:SetParent(Minimap)
 
@@ -369,22 +348,22 @@ function M:Initialize()
 		TimeManagerClockButton:Kill()
 	end
 
-	E:CreateMover(MMHolder, "MinimapMover", L["Minimap"]);
+	E:CreateMover(MMHolder, "MinimapMover", L["Minimap"])
 
-	Minimap:EnableMouseWheel(true);
-	Minimap:SetScript("OnMouseWheel", M.Minimap_OnMouseWheel);
-	Minimap:SetScript("OnMouseUp", M.Minimap_OnMouseUp);
+	Minimap:EnableMouseWheel(true)
+	Minimap:SetScript("OnMouseWheel", M.Minimap_OnMouseWheel)
+	Minimap:SetScript("OnMouseUp", M.Minimap_OnMouseUp)
 
 	M:RegisterEvent("ZONE_CHANGED_NEW_AREA", "Update_ZoneText")
 	M:RegisterEvent("ZONE_CHANGED", "Update_ZoneText")
 	M:RegisterEvent("ZONE_CHANGED_INDOORS", "Update_ZoneText")
 	M:RegisterEvent("PLAYER_ENTERING_WORLD", "Update_ZoneText")
-	M:RegisterEvent("ADDON_LOADED");
+	M:RegisterEvent("ADDON_LOADED")
 
-	MinimapCluster:ClearAllPoints();
-	MinimapCluster:SetAllPoints(Minimap);
-	MinimapBackdrop:ClearAllPoints();
-	MinimapBackdrop:SetAllPoints(Minimap);
+	MinimapCluster:ClearAllPoints()
+	MinimapCluster:SetAllPoints(Minimap)
+	MinimapBackdrop:ClearAllPoints()
+	MinimapBackdrop:SetAllPoints(Minimap)
 
 	local fm = CreateFrame("Minimap", "FarmModeMap", E.UIParent);
 	fm:Size(E.db.farmSize);

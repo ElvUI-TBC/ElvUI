@@ -75,7 +75,7 @@ function A:UpdateTime(elapsed)
 	if(self.timeLeft > E.db.auras.fadeThreshold) then
 	--	E:StopFlash(self);
 	else
-		--E:Flash(self, 1);
+	--	E:Flash(self, 1);
 	end
 end
 
@@ -83,7 +83,7 @@ local UpdateTooltip = function(self)
 	if(self.isWeapon) then
 		GameTooltip:SetInventoryItem("player", self:GetID());
 	else
-		GameTooltip:SetUnitBuff("player", self:GetID(), self:GetParent().filter);
+		GameTooltip:SetUnitAura("player", self:GetID(), self:GetParent().filter);
 	end
 end
 
@@ -111,20 +111,21 @@ local OnClick = function(self)
 end
 
 function A:CreateIcon(button)
-	local font = LSM:Fetch("font", A.db.font);
+	local font = LSM:Fetch("font", self.db.font);
 	button:RegisterForClicks("RightButtonUp");
+	button:SetTemplate("Default");
 
 	button.texture = button:CreateTexture(nil, "BORDER");
 	button.texture:SetInside();
 	button.texture:SetTexCoord(unpack(E.TexCoords));
 
 	button.count = button:CreateFontString(nil, "ARTWORK");
-	button.count:SetPoint("BOTTOMRIGHT", -1 + A.db.countXOffset, 1 + A.db.countYOffset);
-	button.count:FontTemplate(font, A.db.fontSize, A.db.fontOutline);
+	button.count:SetPoint("BOTTOMRIGHT", -1 + self.db.countXOffset, 1 + self.db.countYOffset);
+	button.count:FontTemplate(font, self.db.fontSize, self.db.fontOutline);
 
 	button.time = button:CreateFontString(nil, "ARTWORK");
-	button.time:SetPoint("TOP", button, "BOTTOM", 1 + A.db.timeXOffset, 0 + A.db.timeYOffset);
-	button.time:FontTemplate(font, A.db.fontSize, A.db.fontOutline);
+	button.time:SetPoint("TOP", button, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset);
+	button.time:FontTemplate(font, self.db.fontSize, self.db.fontOutline);
 
 	button.highlight = button:CreateTexture(nil, "HIGHLIGHT");
 	button.highlight:SetTexture(1, 1, 1, 0.45);
@@ -134,33 +135,15 @@ function A:CreateIcon(button)
 	button:SetScript("OnEnter", OnEnter);
 	button:SetScript("OnLeave", OnLeave);
 	button:SetScript("OnClick", OnClick);
-
-	if(A.LBFGroup and E.private.auras.lbf.enable) then
-		local ButtonData = {
-			Icon = button.texture,
-			Flash = nil,
-			Cooldown = nil,
-			AutoCast = nil,
-			AutoCastable = nil,
-			HotKey = nil,
-			Count = false,
-			Name = nil,
-			Highlight = button.highlight,
-		};
-
-		A.LBFGroup:AddButton(button, ButtonData);
-	else
-		button:SetTemplate("Default");
-	end
 end
 
 local buttons = {};
 function A:ConfigureAuras(header, auraTable)
 	local headerName = header:GetName()
 
-	local db = A.db.debuffs;
+	local db = self.db.debuffs;
 	if(header.filter == "HELPFUL") then
-		db = A.db.buffs;
+		db = self.db.buffs;
 	end
 
 	local size = db.size;
@@ -197,18 +180,17 @@ function A:ConfigureAuras(header, auraTable)
 			if(button:IsShown()) then button:Hide(); end
 		else
 			button = CreateFrame("Button", "$parentAuraButton" .. i, header);
-			A:CreateIcon(button);
+			self:CreateIcon(button);
 		end
 		local buffInfo = auraTable[i];
 		button:SetID(buffInfo.index);
 
-		local timeLeft = GetPlayerBuffTimeLeft(buffInfo.index);
-		if(timeLeft) then
-			button.timeLeft = timeLeft;
-			button:SetScript("OnUpdate", A.UpdateTime);
+		if(buffInfo.timeLeft) then
+			button.timeLeft = buffInfo.timeLeft;
+			button:SetScript("OnUpdate", self.UpdateTime);
 
 			button.nextUpdate = -1;
-			A.UpdateTime(button, 0);
+			self.UpdateTime(button, 0);
 		else
 			button.timeLeft = nil;
 			button.time:SetText("");
@@ -246,17 +228,17 @@ function A:ConfigureAuras(header, auraTable)
 		button:ClearAllPoints();
 		button:SetPoint(point, header, cycle * wrapXOffset + tick * xOffset, cycle * wrapYOffset + tick * yOffset);
 
-		button:Size(size, size);
+		button:Size(size);
 
 		if(button.time) then
-			local font = LSM:Fetch("font", A.db.font);
+			local font = LSM:Fetch("font", self.db.font);
 			button.time:ClearAllPoints();
-			button.time:SetPoint("TOP", button, "BOTTOM", 1 + A.db.timeXOffset, 0 + A.db.timeYOffset);
-			button.time:FontTemplate(font, A.db.fontSize, A.db.fontOutline);
+			button.time:SetPoint("TOP", button, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset);
+			button.time:FontTemplate(font, self.db.fontSize, self.db.fontOutline);
 
 			button.count:ClearAllPoints();
-			button.count:SetPoint("BOTTOMRIGHT", -1 + A.db.countXOffset, 0 + A.db.countYOffset);
-			button.count:FontTemplate(font, A.db.fontSize, A.db.fontOutline);
+			button.count:SetPoint("BOTTOMRIGHT", -1 + self.db.countXOffset, 0 + self.db.countYOffset);
+			button.count:FontTemplate(font, self.db.fontSize, self.db.fontOutline);
 		end
 
 		button:Show();
@@ -360,9 +342,9 @@ sorters.TIME = sorters.EXPIRES;
 local sortingTable = {};
 function A:UpdateHeader(header)
 	local filter = header.filter;
-	local db = A.db.debuffs;
+	local db = self.db.debuffs;
 	if(filter == "HELPFUL") then
-		db = A.db.buffs;
+		db = self.db.buffs;
 	end
 
 	wipe(sortingTable);
@@ -370,7 +352,8 @@ function A:UpdateHeader(header)
 	local i = 1;
 	repeat
 		local aura, _ = freshTable();
-		aura.name, _, aura.icon, aura.count, aura.dispelType = UnitAura("player", i, filter);
+		aura.name, _, aura.icon, aura.count, aura.duration, aura.timeLeft, aura.caster = UnitAura("player", i, filter);
+		print(aura.name, _, aura.icon, aura.count, aura.duration, aura.timeLeft)
 		if(aura.name) then
 			aura.filter = filter;
 			aura.index = i;
@@ -383,15 +366,15 @@ function A:UpdateHeader(header)
 	until(not aura.name);
 
 	local sortMethod = (sorters[db.sortMethod] or sorters["INDEX"])[db.sortDir == "-"][db.seperateOwn];
---	tsort(sortingTable, sortMethod);
+	--tsort(sortingTable, sortMethod);
 
-	A:ConfigureAuras(header, sortingTable);
+	self:ConfigureAuras(header, sortingTable);
 	while(sortingTable[1]) do
 		releaseTable(tremove(sortingTable));
 	end
 
-	if(A.LBFGroup) then
-		A.LBFGroup:Skin(E.private.auras.lbf.skin);
+	if(self.LBFGroup) then
+		self.LBFGroup:Skin(E.private.auras.lbf.skin);
 	end
 end
 
@@ -413,9 +396,9 @@ function A:UpdateWeapon(button)
 		button.time:SetText("");
 	end
 
-	local enchantIndex = A.WeaponFrame.enchantIndex;
+	local enchantIndex = self.WeaponFrame.enchantIndex;
 	if(enchantIndex ~= nil) then
-		A.WeaponFrame:SetWidth((enchantIndex * A.db.buffs.size) + (enchantIndex == 2 and A.db.buffs.horizontalSpacing or 0));
+		self.WeaponFrame:Width((enchantIndex * A.db.buffs.size) + (enchantIndex == 2 and A.db.buffs.horizontalSpacing or 0));
 	end
 end
 
@@ -436,55 +419,56 @@ function A:CreateAuraHeader(filter)
 		end
 	end);
 
-	A:UpdateHeader(header);
+	self:UpdateHeader(header);
 
 	return header;
 end
 
 function A:Initialize()
-	if(A.db) then return; end
+	if(self.db) then return; end
 
 	if(E.private.auras.disableBlizzard) then
 		BuffFrame:Kill()
-		--TemporaryEnchantFrame:Kill();
+		ConsolidatedBuffs:Kill()
+		TemporaryEnchantFrame:Kill();
 	end
 
 	if(not E.private.auras.enable) then return; end
 
-	A.db = E.db.auras;
+	self.db = E.db.auras;
 
 	if(LBF) then
-		A.LBFGroup = LBF and LBF:Group("ElvUI", "Auras");
+		self.LBFGroup = LBF and LBF:Group("ElvUI", "Auras");
 	end
 
-	A.BuffFrame = A:CreateAuraHeader("HELPFUL")
-	A.BuffFrame:Point("TOPRIGHT", MMHolder, "TOPLEFT", -(6 + E.Border), -E.Border - E.Spacing);
-	E:CreateMover(A.BuffFrame, "BuffsMover", L["Player Buffs"]);
+	self.BuffFrame = self:CreateAuraHeader("HELPFUL")
+	self.BuffFrame:Point("TOPRIGHT", MMHolder, "TOPLEFT", -(6 + E.Border), -E.Border - E.Spacing);
+	E:CreateMover(self.BuffFrame, "BuffsMover", L["Player Buffs"]);
 
-	A.DebuffFrame = A:CreateAuraHeader("HARMFUL");
-	A.DebuffFrame:Point("BOTTOMRIGHT", MMHolder, "BOTTOMLEFT", -(6 + E.Border), E.Border + E.Spacing);
-	E:CreateMover(A.DebuffFrame, "DebuffsMover", L["Player Debuffs"]);
+	self.DebuffFrame = self:CreateAuraHeader("HARMFUL");
+	self.DebuffFrame:Point("BOTTOMRIGHT", MMHolder, "BOTTOMLEFT", -(6 + E.Border), E.Border + E.Spacing);
+	E:CreateMover(self.DebuffFrame, "DebuffsMover", L["Player Debuffs"]);
 
-	A.WeaponFrame = CreateFrame("Frame", "ElvUIPlayerWeapons", UIParent);
-	A.WeaponFrame:Point("TOPRIGHT", MMHolder, "BOTTOMRIGHT", 0, -E.Border - E.Spacing);
-	A.WeaponFrame:Size(A.db.buffs.size);
+	self.WeaponFrame = CreateFrame("Frame", "ElvUIPlayerWeapons", UIParent);
+	self.WeaponFrame:Point("TOPRIGHT", MMHolder, "BOTTOMRIGHT", 0, -E.Border - E.Spacing);
+	self.WeaponFrame:Size(A.db.buffs.size);
 
-	A.WeaponFrame.buttons = {};
+	self.WeaponFrame.buttons = {};
 	for i = 1, 2 do
-		A.WeaponFrame.buttons[i] = CreateFrame("Button", "$parentButton" .. i, A.WeaponFrame);
-		A.WeaponFrame.buttons[i]:Size(A.db.buffs.size);
+		self.WeaponFrame.buttons[i] = CreateFrame("Button", "$parentButton" .. i, self.WeaponFrame);
+		self.WeaponFrame.buttons[i]:Size(A.db.buffs.size);
 
 		if(i == 1) then
-			A.WeaponFrame.buttons[i]:SetPoint("RIGHT", A.WeaponFrame);
+			self.WeaponFrame.buttons[i]:SetPoint("RIGHT", self.WeaponFrame);
 		else
-			A.WeaponFrame.buttons[i]:SetPoint("RIGHT", A.WeaponFrame.buttons[1], "LEFT", -A.db.buffs.horizontalSpacing, 0);
+			self.WeaponFrame.buttons[i]:SetPoint("RIGHT", self.WeaponFrame.buttons[1], "LEFT", -A.db.buffs.horizontalSpacing, 0);
 		end
 
-		A:CreateIcon(A.WeaponFrame.buttons[i]);
-		A.WeaponFrame.buttons[i].isWeapon = true;
+		A:CreateIcon(self.WeaponFrame.buttons[i]);
+		self.WeaponFrame.buttons[i].isWeapon = true;
 	end
 
-	A.WeaponFrame:SetScript("OnUpdate", function(self)
+	self.WeaponFrame:SetScript("OnUpdate", function(self)
 		if(self:IsVisible()) then
 			local hasMainHandEnchant, mainHandExpiration, _, hasOffHandEnchant, offHandExpiration = GetWeaponEnchantInfo();
 			if(not hasMainHandEnchant and not hasOffHandEnchant) then
@@ -526,7 +510,7 @@ function A:Initialize()
 			end
 		end
 	end);
-	E:CreateMover(A.WeaponFrame, "WeaponsMover", L["Weapons"]);
+	E:CreateMover(self.WeaponFrame, "WeaponsMover", L["Weapons"]);
 end
 
 E:RegisterModule(A:GetName());
