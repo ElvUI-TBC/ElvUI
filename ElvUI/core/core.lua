@@ -1057,7 +1057,7 @@ function E:Initialize()
 	end
 
 	--self:Tutorials();
-	--self:GetModule("Minimap"):UpdateSettings();
+	self:GetModule("Minimap"):UpdateSettings();
 	--self:RefreshModulesDB()
 	collectgarbage("collect");
 
