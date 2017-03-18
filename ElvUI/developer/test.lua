@@ -45,6 +45,20 @@ function print(...)
 	DEFAULT_CHAT_FRAME:AddMessage(text);
 end
 
+function _ERRORMESSAGE(message)
+	debuginfo()
+	print("Error: " .. message .. "\n")
+	local stack = debugstack(4);
+	print("Stack: " .. stack)
+
+	return message;
+end
+seterrorhandler(_ERRORMESSAGE);
+DEFAULT_CHAT_FRAME:SetMaxResize(1000, 1000)
+
+
+string.join = function() end
+
 function BetterDate(formatString, timeVal)
 	local dateTable = date("*t", timeVal);
 	local amString = (dateTable.hour >= 12) and TIMEMANAGER_PM or TIMEMANAGER_AM;

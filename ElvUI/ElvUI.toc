@@ -5,12 +5,9 @@
 ## Notes: User Interface replacement AddOn for World of Warcraft.
 ## SavedVariables: ElvDB, ElvPrivateDB
 ## SavedVariablesPerCharacter: ElvCharacterDB
-## OptionalDeps: Blizzard_DebugTools, SharedMedia, Tukui, ButtonFacade
+## OptionalDeps: SharedMedia, Tukui, ButtonFacade
 ## X-oUF: ElvUF
 
-Blizzard_DebugTools.lua
-Dump.lua
-Blizzard_DebugTools.xml
 developer\load_developer.xml
 Libraries\Load_Libraries.xml
 locales\load_locales.xml
