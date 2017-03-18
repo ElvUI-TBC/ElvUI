@@ -50,9 +50,10 @@ local function OnEnter(self)
 
 			DT.tooltip:AddDoubleLine(format(lockoutInfoFormatNoEnc, maxPlayers, difficultyInfo[difficultyId], name), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b);
 		end
+		if i == 1 then
+			DT.tooltip:AddLine(" ")
+		end
 	end
-
-	DT.tooltip:AddLine(" ");
 
 	DT.tooltip:AddDoubleLine(TIMEMANAGER_TOOLTIP_REALMTIME, format(europeDisplayFormat_nocolor, GetGameTime()), 1, 1, 1, lockoutColorNormal.r, lockoutColorNormal.g, lockoutColorNormal.b);
 
@@ -72,7 +73,7 @@ local function OnUpdate(self, t)
 		E:StopFlash(self);
 	end
 
-	self.text:SetText(BetterDate(E.db.datatexts.timeFormat .. " " .. E.db.datatexts.dateFormat, time()))
+	self.text:SetText(BetterDate(E.db.datatexts.timeFormat .. " " .. E.db.datatexts.dateFormat, time()):gsub(":", timeDisplayFormat):gsub("%s", dateDisplayFormat));
 
 	lastPanel = self;
 	int = 1;
