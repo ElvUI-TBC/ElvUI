@@ -67,6 +67,7 @@ L["Combat Time"] = true;
 L["copperabbrev"] = "|cffeda55fc|r"
 L["Deficit:"] = "Défice:"
 L["DPS"] = "DPS"
+L["Durability"] = true;
 L["Earned:"] = "Ganho:"
 L["Friends List"] = "Lista de Amigos"
 L["Friends"] = "Amigos"

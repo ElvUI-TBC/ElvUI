@@ -64,7 +64,7 @@ local function OnEnter(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = join("", DURABILITY, ": ", hex, "%d%%|r");
+	displayString = join("", L["Durability"], ": ", hex, "%d%%|r");
 
 	if(lastPanel ~= nil) then
 		OnEvent(lastPanel, "ELVUI_COLOR_UPDATE");

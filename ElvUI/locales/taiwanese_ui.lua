@@ -67,6 +67,7 @@ L["Combat Time"] = true;
 L["copperabbrev"] = "|cffeda55f銅|r" --Also used in Bags
 L["Deficit:"] = "赤字:"
 L["DPS"] = "傷害輸出"
+L["Durability"] = true;
 L["Earned:"] = "賺取:"
 L["Friends List"] = "好友列表"
 L["Friends"] = "好友" --Also in Skins

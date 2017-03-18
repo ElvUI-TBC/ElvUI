@@ -67,6 +67,7 @@ L["Combat Time"] = true;
 L["copperabbrev"] = "|cffeda55fc|r" --Also used in Bags
 L["Deficit:"] = "Defizit:"
 L["DPS"] = "DPS"
+L["Durability"] = true;
 L["Earned:"] = "Verdient:"
 L["Friends List"] = "Freundesliste"
 L["Friends"] = "Freunde" --Also in Skins

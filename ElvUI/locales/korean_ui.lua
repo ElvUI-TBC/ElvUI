@@ -67,6 +67,7 @@ L["Combat Time"] = true;
 L["copperabbrev"] = "|TInterface\\MoneyFrame\\UI-MoneyIcons:0:0:1:0:64:16:33:48:1:16|t" --"|cffeda55f●|r"
 L["Deficit:"] = "손해:"
 L["DPS"] = "DPS"
+L["Durability"] = true;
 L["Earned:"] = "수입:"
 L["Friends List"] = "친구 목록"
 L["Friends"] = "친구"

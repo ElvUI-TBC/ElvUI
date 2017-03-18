@@ -66,6 +66,7 @@ L["Chest"] = "Грудь"
 L["Combat Time"] = "В бою";
 L["copperabbrev"] = "|cffeda55fм|r" --Also used in Bags
 L["DPS"] = "УВС"
+L["Durability"] = "Прочность";
 L["Deficit:"] = "Убыток:"
 L["Earned:"] = "Заработано"
 L["Friends List"] = "Список друзей"
