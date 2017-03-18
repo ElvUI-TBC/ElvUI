@@ -605,23 +605,6 @@ function TT:MODIFIER_STATE_CHANGED(_, key)
 	end
 end
 
-function TT:SetUnitAura(tt, ...)
-	local _, a, b, c, d, e, f, caster, h, _, id = UnitBuff(...)
-	print(h)
-	--[[if id and self.db.spellID then
-		if caster then
-			local name = UnitName(caster)
-			local _, class = UnitClass(caster)
-			local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class];
-			tt:AddDoubleLine(("|cFFCA3C3C%s|r %d"):format(ID, id), format("%s%s", E:RGBToHex(color.r, color.g, color.b), name))
-		else
-			tt:AddLine(("|cFFCA3C3C%s|r %d"):format(ID, id))
-		end
-
-		tt:Show()
-	end]]
-end
-
 function TT:GameTooltip_OnTooltipSetSpell(tt)
 	local id = select(3, tt:GetSpell())
 	if not id or not self.db.spellID then return end
@@ -744,9 +727,6 @@ function TT:Initialize()
 	--TT:SecureHook("GameTooltip_ShowStatusBar")
 	TT:SecureHook("SetItemRef")
 	TT:SecureHook("GameTooltip_ShowCompareItem")
-	--TT:SecureHook(GameTooltip, "SetUnitAura")
-	TT:SecureHook(GameTooltip, "SetUnitBuff", "SetUnitAura")
-	TT:SecureHook(GameTooltip, "SetUnitDebuff", "SetUnitAura")
 	TT:HookScript(GameTooltip, "OnTooltipSetSpell", "GameTooltip_OnTooltipSetSpell")
 	TT:HookScript(GameTooltip, "OnTooltipCleared", "GameTooltip_OnTooltipCleared")
 	TT:HookScript(GameTooltip, "OnTooltipSetItem", "GameTooltip_OnTooltipSetItem")
