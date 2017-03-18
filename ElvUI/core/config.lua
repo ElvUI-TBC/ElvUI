@@ -303,7 +303,7 @@ function E:CreateMoverPopup()
 	lock:SetPoint("BOTTOMRIGHT", -14, 14)
 	align:SetPoint("TOPRIGHT", lock, "TOPLEFT", -4, -2)
 
-	--S:HandleCheckBox(snapping)
+	S:HandleCheckBox(snapping)
 	S:HandleButton(lock)
 	S:HandleEditBox(align)
 

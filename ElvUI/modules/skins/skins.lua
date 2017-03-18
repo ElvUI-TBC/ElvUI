@@ -47,30 +47,26 @@ end
 
 function S:HandleButton(f, strip)
 	local name = f:GetName();
-	if(name) then
-		local left = _G[name .. "Left"];
-		local middle = _G[name .. "Middle"];
-		local right = _G[name .. "Right"];
+	if name then
+		local left = _G[name .. "Left"]
+		local middle = _G[name .. "Middle"]
+		local right = _G[name .. "Right"]
 
-		if(left) then left:Kill(); end
-		if(middle) then middle:Kill(); end
-		if(right) then right:Kill(); end
+		if left then left:Kill() end
+		if middle then middle:Kill() end
+		if right then right:Kill() end
 	end
 
-	if(f.Left) then f.Left:Kill(); end
-	if(f.Middle) then f.Middle:Kill(); end
-	if(f.Right) then f.Right:Kill(); end
+	if f.SetNormalTexture then f:SetNormalTexture(nil) end
+	if f.SetHighlightTexture then f:SetHighlightTexture(nil) end
+	if f.SetPushedTexture then f:SetPushedTexture(nil) end
+	if f.SetDisabledTexture then f:SetDisabledTexture(nil) end
 
-	if(f.SetNormalTexture) then f:SetNormalTexture(""); end
-	if(f.SetHighlightTexture) then f:SetHighlightTexture(""); end
-	if(f.SetPushedTexture) then f:SetPushedTexture(""); end
-	if(f.SetDisabledTexture) then f:SetDisabledTexture(""); end
+	if strip then f:StripTextures() end
 
-	if(strip) then f:StripTextures(); end
-
-	f:SetTemplate("Default", true);
-	f:HookScript("OnEnter", S.SetModifiedBackdrop);
-	f:HookScript("OnLeave", S.SetOriginalBackdrop);
+	f:SetTemplate("Default", true)
+	f:HookScript("OnEnter", S.SetModifiedBackdrop)
+	f:HookScript("OnLeave", S.SetOriginalBackdrop)
 end
 
 function S:HandleScrollBar(frame, thumbTrim)
@@ -273,56 +269,22 @@ function S:HandleDropDownBox(frame, width)
 end
 
 function S:HandleCheckBox(frame, noBackdrop)
-	assert(frame, "does not exist.");
-	frame:StripTextures();
-	if(noBackdrop) then
-		frame:SetTemplate("Default");
-		frame:Size(16);
+	assert(frame, "does not exist.")
+	frame:SetNormalTexture(nil)
+	frame:SetPushedTexture(nil)
+	frame:SetHighlightTexture(nil)
+	frame:SetDisabledTexture(nil)
+
+	if noBackdrop then
+		frame:SetTemplate("Default")
+		frame:Size(16)
+
+		frame:GetCheckedTexture():SetInside(nil, -4, -4)
+		frame:GetDisabledTexture():SetInside(nil, -4, -4)
 	else
-		frame:CreateBackdrop("Default");
-		frame.backdrop:SetInside(nil, 4, 4);
+		frame:CreateBackdrop("Default")
+		frame.backdrop:SetInside(nil, 4, 4)
 	end
-
-	if(frame.SetCheckedTexture) then
-		frame:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check");
-		if(noBackdrop) then
-			frame:GetCheckedTexture():SetInside(nil, -4, -4);
-		end
-	end
-
-	if(frame.SetDisabledTexture) then
-		frame:SetDisabledTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled");
-		if(noBackdrop) then
-			frame:GetDisabledTexture():SetInside(nil, -4, -4);
-		end
-	end
-
-	frame:HookScript("OnDisable", function(self)
-		if(not self.SetDisabledTexture) then return; end
-		if(self:GetChecked()) then
-			self:SetDisabledTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled");
-		else
-			self:SetDisabledTexture("");
-		end
-	end);
-
-	hooksecurefunc(frame, "SetNormalTexture", function(self, texPath)
-		if(texPath ~= "") then
-			self:SetNormalTexture("");
-		end
-	end);
-
-	hooksecurefunc(frame, "SetPushedTexture", function(self, texPath)
-		if(texPath ~= "") then
-			self:SetPushedTexture("");
-		end
-	end);
-
-	hooksecurefunc(frame, "SetHighlightTexture", function(self, texPath)
-		if(texPath ~= "") then
-			self:SetHighlightTexture("");
-		end
-	end);
 end
 
 function S:HandleIcon(icon, parent)
