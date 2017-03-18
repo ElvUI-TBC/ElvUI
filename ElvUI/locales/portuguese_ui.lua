@@ -71,6 +71,7 @@ L["Earned:"] = "Ganho:"
 L["Friends List"] = "Lista de Amigos"
 L["Friends"] = "Amigos"
 L["goldabbrev"] = "|cffffd700g|r"
+L["Haste"] = true;
 L["Hit"] = "Acerto"
 L["Hold Shift + Right Click:"] = true;
 L["Home Latency:"] = "Latência de Casa:"

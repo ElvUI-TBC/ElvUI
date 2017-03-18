@@ -71,6 +71,7 @@ L["Earned:"] = "Заработано"
 L["Friends List"] = "Список друзей"
 L["Friends"] = "Друзья" --Also in Skins
 L["goldabbrev"] = "|cffffd700з|r" --Also used in Bags
+L["Haste"] = "Скорость";
 L["HP"] = "+ Исцел."
 L["HPS"] = "ИВС"
 L["Hit"] = "Метк."

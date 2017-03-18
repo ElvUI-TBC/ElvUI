@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="datatexts.lua"/>
 	<Script file="system.lua"/>
-	<!--<Script file="armor.lua"/>-->
+	<Script file="armor.lua"/>
 	<!--<Script file="avoidance.lua"/>-->
 	<Script file="bags.lua"/>
 	<!--<Script file="combattime.lua"/>-->
@@ -10,7 +10,7 @@
 	<!--<Script file="durability.lua"/>-->
 	<!--<Script file="friends.lua"/>-->
 	<!--<Script file="guild.lua"/>-->
-	<!--<Script file="haste.lua"/>-->
+	<Script file="haste.lua"/>
 	<!--<Script file="hit.lua"/>-->
 	<!--<Script file="honorablekills.lua"/>-->
 	<!--<Script file="hps.lua"/>-->
@@ -20,6 +20,6 @@
 	<!--<Script file="attackpower.lua"/>-->
 	<!--<Script file="spellpower.lua"/>-->
 	<!--<Script file="battleground.lua"/>-->
-	<!--<Script file="resilience.lua"/>-->
-	<!--<Script file="elvuiconfig.lua"/>-->
+	<Script file="resilience.lua"/>
+	<Script file="elvuiconfig.lua"/>
 </Ui>

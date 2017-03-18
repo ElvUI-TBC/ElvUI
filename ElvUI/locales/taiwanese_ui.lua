@@ -71,6 +71,7 @@ L["Earned:"] = "賺取:"
 L["Friends List"] = "好友列表"
 L["Friends"] = "好友" --Also in Skins
 L["goldabbrev"] = "|cffffd700金|r" --Also used in Bags
+L["Haste"] = true;
 L["Hit"] = "命中"
 L["Hold Shift + Right Click:"] = true;
 L["Home Latency:"] = "本機延遲:"

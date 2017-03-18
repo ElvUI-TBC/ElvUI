@@ -71,6 +71,7 @@ L["Earned:"] = "Gagné:"
 L["Friends List"] = "Liste d'amis"
 L["Friends"] = "Amis" --Also in Skins
 L["goldabbrev"] = "|cffffd700g|r" --Also used in Bags
+L["Haste"] = true;
 L["Hit"] = "Toucher"
 L["Hold Shift + Right Click:"] = "Maintenir Majuscule + Clic droit";
 L["Home Latency:"] = "Latence du Domicile:"

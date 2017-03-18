@@ -71,6 +71,7 @@ L["Earned:"] = "Verdient:"
 L["Friends List"] = "Freundesliste"
 L["Friends"] = "Freunde" --Also in Skins
 L["goldabbrev"] = "|cffffd700g|r" --Also used in gold datatext
+L["Haste"] = true;
 L["Hit"] = "Hit"
 L["Hold Shift + Right Click:"] = "Halte Umschalt + Rechts Klick:"
 L["Home Latency:"] = "Standort Latenz"

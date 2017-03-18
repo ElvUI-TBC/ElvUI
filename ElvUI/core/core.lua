@@ -263,7 +263,7 @@ function E:PLAYER_ENTERING_WORLD()
 		self:UpdateMedia();
 		self.MediaUpdated = true;
 	else
-		self:ScheduleTimer("CheckRole", 0.01);
+		self:CheckRole();
 	end
 
 	local _, instanceType = IsInInstance();
@@ -366,11 +366,9 @@ function E:IsDispellableByMe(debuffType)
 end
 
 function E:GetTalentSpecInfo(isInspect)
-	local talantGroup = GetActiveTalentGroup(isInspect)
 	local maxPoints, specIdx, specName, specIcon = 0, 0
-
 	for i = 1, MAX_TALENT_TABS do
-		local name, icon, pointsSpent = GetTalentTabInfo(i, isInspect, nil, talantGroup)
+		local name, icon, pointsSpent = GetTalentTabInfo(i, isInspect)
 		if maxPoints < pointsSpent then
 			maxPoints = pointsSpent
 			specIdx = i
@@ -1022,7 +1020,7 @@ function E:Initialize()
 	--self:CheckIncompatible();
 	--self:DBConversions();
 
-	--self:ScheduleTimer("CheckRole", 0.01);
+	self:CheckRole();
 	self:UIScale("PLAYER_LOGIN");
 
 	self:LoadCommands();
@@ -1046,9 +1044,9 @@ function E:Initialize()
 
 	self:UpdateMedia();
 	self:UpdateFrameTemplates();
-	--self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "CheckRole");
-	--self:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckRole");
-	--self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale");
+	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "CheckRole");
+	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckRole");
+	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 
 	if(self.db.general.kittys) then

@@ -71,6 +71,7 @@ L["Earned:"] = "수입:"
 L["Friends List"] = "친구 목록"
 L["Friends"] = "친구"
 L["goldabbrev"] = "|TInterface\\MoneyFrame\\UI-MoneyIcons:0:0:1:0:64:16:1:16:1:16|t" --"|cffffd700●|r"
+L["Haste"] = true;
 L["Hit"] = "적중도"
 L["Hold Shift + Right Click:"] = true;
 L["Home Latency:"] = "지연 시간:"
