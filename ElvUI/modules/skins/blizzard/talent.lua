@@ -1,42 +1,25 @@
-local E, L, V, P, G = unpack(ElvUI);
-local S = E:GetModule("Skins");
+local E, L, V, P, G = unpack(ElvUI)
+local S = E:GetModule("Skins")
 
-local _G = _G;
+local _G = _G
 
-local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true) then return; end
+function S:LoadTalentSkin()
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true then return end
 
-	PlayerTalentFrame:StripTextures(true);
-	PlayerTalentFrame:CreateBackdrop("Transparent");
-	PlayerTalentFrame.backdrop:Point("TOPLEFT", 13, -12);
-	PlayerTalentFrame.backdrop:Point("BOTTOMRIGHT", -31, 76);
+	PlayerTalentFrame:StripTextures()
+	PlayerTalentFrame:CreateBackdrop("Transparent")
+	PlayerTalentFrame.backdrop:Point("TOPLEFT", 13, -12)
+	PlayerTalentFrame.backdrop:Point("BOTTOMRIGHT", -31, 76)
 
-	S:HandleCloseButton(PlayerTalentFrameCloseButton);
+	PlayerTalentFramePortrait:Hide()
 
-	PlayerTalentFrameStatusFrame:StripTextures();
-	PlayerTalentFrameStatusFrame:Point("TOPLEFT", PlayerTalentFrame, "TOPLEFT", 57, -40)
-	PlayerTalentFrameStatusFrame:HookScript("OnShow", function(self)
-		if(GlyphFrame and GlyphFrame:IsShown()) then
-			self:Hide();
-		end
-	end);
+	S:HandleCloseButton(PlayerTalentFrameCloseButton)
 
-	S:HandleButton(PlayerTalentFrameActivateButton, true);
-	PlayerTalentFrameActivateButton:Point("TOP", PlayerTalentFrame, "TOP", 0, -40)
-	PlayerTalentFrameActivateButton:HookScript("OnShow", function(self)
-		if(GlyphFrame and GlyphFrame:IsShown()) then
-			self:Hide();
-		end
-	end);
-
-	PlayerTalentFramePointsBar:StripTextures();
-	PlayerTalentFramePreviewBar:StripTextures();
-
-	S:HandleButton(PlayerTalentFrameResetButton);
-	PlayerTalentFrameLearnButton:Point("RIGHT", PlayerTalentFrameResetButton, "LEFT", -1, 0);
-	S:HandleButton(PlayerTalentFrameLearnButton);
-
-	PlayerTalentFramePreviewBarFiller:StripTextures();
+	S:HandleButton(PlayerTalentFrameCancelButton)
+	
+	for i = 1, 5 do
+		S:HandleTab(_G["PlayerTalentFrameTab" .. i])
+	end
 
 	PlayerTalentFrameScrollFrame:StripTextures();
 	PlayerTalentFrameScrollFrame:CreateBackdrop("Default");
@@ -60,20 +43,7 @@ local function LoadSkin()
 		end
 	end
 
-	for i = 1, 4 do
-		S:HandleTab(_G["PlayerTalentFrameTab" .. i]);
-	end
-
-	for i = 1, MAX_TALENT_TABS do
-		local tab = _G["PlayerSpecTab" .. i];
-		tab:GetRegions():Hide();
-
-		tab:SetTemplate("Default");
-		tab:StyleButton(nil, true);
-
-		tab:GetNormalTexture():SetInside();
-		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
-	end
+	--PlayerTalentFrameScrollButtonOverlay
 end
 
-S:AddCallbackForAddon("Blizzard_TalentUI", "Talent", LoadSkin);
+S:AddCallbackForAddon("Blizzard_TalentUI", "Talent", S.LoadTalentSkin)

@@ -10,7 +10,7 @@ local GetInventorySlotInfo = GetInventorySlotInfo
 local GetItemQualityColor = GetItemQualityColor
 local FauxScrollFrame_GetOffset = FauxScrollFrame_GetOffset
 
-local function LoadSkin()
+function S:LoadCharacterSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.character ~= true then return end
 
 	CharacterFrame:StripTextures(true)
@@ -228,4 +228,4 @@ local function LoadSkin()
 	PVPFrame:StripTextures()
 end
 
-S:AddCallback("Character", LoadSkin)
+S:AddCallback("Character", S.LoadCharacterSkin)
