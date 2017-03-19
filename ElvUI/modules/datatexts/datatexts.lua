@@ -218,7 +218,7 @@ function DT:LoadDataTexts()
 			panel.dataPanels[pointIndex]:SetScript("OnLeave", nil);
 			panel.dataPanels[pointIndex]:SetScript("OnClick", nil);
 			panel.dataPanels[pointIndex].text:FontTemplate(fontTemplate, DT.db.fontSize, DT.db.fontOutline);
-			panel.dataPanels[pointIndex].text:SetText("LOL");
+			panel.dataPanels[pointIndex].text:SetText(nil);
 			panel.dataPanels[pointIndex].pointIndex = pointIndex;
 
 			if((panelName == "LeftChatDataPanel" or panelName == "RightChatDataPanel") and (inInstance and (instanceType == "pvp")) and not DT.ForceHideBGStats and E.db.datatexts.battleground) then
