@@ -19,7 +19,7 @@
 	<Script file="gold.lua"/>
 	<!--<Script file="attackpower.lua"/>-->
 	<!--<Script file="spellpower.lua"/>-->
-	<!--<Script file="battleground.lua"/>-->
+	<Script file="battleground.lua"/>
 	<Script file="resilience.lua"/>
 	<Script file="elvuiconfig.lua"/>
 </Ui>
