@@ -38,14 +38,10 @@ function mod:UpdateElement_CastBarOnValueChanged(value)
 	end
 
 	local color
-	if self.Shield and self.Shield:IsShown() then
-		color = mod.db.castNoInterruptColor
+	if value > 0 and (isChannel and (value/max) <= 0.02 or (value/max) >= 0.98) then
+		color = green
 	else
-		if value > 0 and (isChannel and (value/max) <= 0.02 or (value/max) >= 0.98) then
-			color = green
-		else
-			color = mod.db.castColor
-		end
+		color = mod.db.castColor
 	end
 
 	local spell, _, spellName = UnitCastingInfo("target")

@@ -107,7 +107,6 @@ function mod:SetTargetFrame(frame)
 			self:ConfigureElement_HealthBar(frame)
 			self:ConfigureElement_CastBar(frame)
 			self:ConfigureElement_Glow(frame)
-			self:ConfigureElement_Elite(frame)
 			self:ConfigureElement_Level(frame)
 			self:ConfigureElement_Name(frame)
 			self:UpdateElement_All(frame, true)
@@ -330,7 +329,6 @@ function mod:OnShow()
 		mod:ConfigureElement_Level(self.UnitFrame)
 		mod:ConfigureElement_Name(self.UnitFrame)
 	end
-	mod:ConfigureElement_Elite(self.UnitFrame)
 
 	mod:UpdateElement_All(self.UnitFrame)
 
@@ -354,7 +352,6 @@ function mod:OnHide()
 	self.UnitFrame.Level:SetText("")
 	self.UnitFrame.Name:ClearAllPoints()
 	self.UnitFrame.Name:SetText("")
-	self.UnitFrame.Elite:Hide()
 	self.UnitFrame.CPoints:Hide()
 	self.UnitFrame:Hide()
 	self.UnitFrame.isTarget = nil
@@ -401,7 +398,6 @@ function mod:UpdateElement_All(frame, noTargetFrame)
 	mod:UpdateElement_HealerIcon(frame)
 	mod:UpdateElement_Name(frame)
 	mod:UpdateElement_Level(frame)
-	mod:UpdateElement_Elite(frame)
 
 	if not noTargetFrame then
 		mod:ScheduleTimer("SetTargetFrame", 0.01, frame)
@@ -410,7 +406,7 @@ end
 
 function mod:OnCreated(frame)
 	local HealthBar, CastBar = frame:GetChildren()
-	local Border, arg2, arg3, Highlight, Name, Level, BossIcon, RaidIcon, EliteIcon, ert, erte = frame:GetRegions()
+	local Border, CastBarBorder, CastBarIcon, Highlight, Name, Level, BossIcon, RaidIcon = frame:GetRegions()
 
 	frame.UnitFrame = CreateFrame("Frame", nil, frame)
 	frame.UnitFrame:SetAllPoints()
@@ -420,14 +416,13 @@ function mod:OnCreated(frame)
 	frame.UnitFrame.Level = self:ConstructElement_Level(frame.UnitFrame)
 	frame.UnitFrame.Name = self:ConstructElement_Name(frame.UnitFrame)
 	frame.UnitFrame.Glow = self:ConstructElement_Glow(frame.UnitFrame)
-	frame.UnitFrame.Elite = self:ConstructElement_Elite(frame.UnitFrame)
 	frame.UnitFrame.Buffs = self:ConstructElement_Auras(frame.UnitFrame, "LEFT")
 	frame.UnitFrame.Debuffs = self:ConstructElement_Auras(frame.UnitFrame, "RIGHT")
 	frame.UnitFrame.HealerIcon = self:ConstructElement_HealerIcon(frame.UnitFrame)
 	frame.UnitFrame.CPoints = self:ConstructElement_CPoints(frame.UnitFrame)
 
-	self:QueueObject(arg2)
-	self:QueueObject(arg3)
+	self:QueueObject(CastBarBorder)
+	self:QueueObject(CastBarIcon)
 	self:QueueObject(HealthBar)
 	self:QueueObject(CastBar)
 	self:QueueObject(Level)
@@ -435,11 +430,9 @@ function mod:OnCreated(frame)
 	self:QueueObject(Border)
 	self:QueueObject(Highlight)
 	BossIcon:SetAlpha(0)
-	--EliteIcon:SetAlpha(0)
 
 	frame.UnitFrame.oldHealthBar = HealthBar
 	frame.UnitFrame.oldCastBar = CastBar
-	frame.UnitFrame.oldCastBar.Shield = CastBarShield
 	frame.UnitFrame.oldCastBar.Icon = CastBarIcon
 	frame.UnitFrame.oldName = Name
 	frame.UnitFrame.oldHighlight = Highlight
@@ -449,19 +442,15 @@ function mod:OnCreated(frame)
 	frame.UnitFrame.RaidIcon = RaidIcon
 
 	frame.UnitFrame.BossIcon = BossIcon
-	--frame.UnitFrame.EliteIcon = EliteIcon
 
 	self.OnShow(frame)
 
-	if HealthBar:GetScript("OnValueChanged") then
-		
-	end
 	frame:SetScript("OnShow", self.OnShow)
 	frame:SetScript("OnHide", self.OnHide)
-	HealthBar:HookScript("OnValueChanged", self.UpdateElement_HealthOnValueChanged)
-	CastBar:HookScript("OnShow", self.UpdateElement_CastBarOnShow)
-	CastBar:HookScript("OnHide", self.UpdateElement_CastBarOnHide)
-	CastBar:HookScript("OnValueChanged", self.UpdateElement_CastBarOnValueChanged)
+	HealthBar:SetScript("OnValueChanged", self.UpdateElement_HealthOnValueChanged)
+	CastBar:SetScript("OnShow", self.UpdateElement_CastBarOnShow)
+	CastBar:SetScript("OnHide", self.UpdateElement_CastBarOnHide)
+	CastBar:SetScript("OnValueChanged", self.UpdateElement_CastBarOnValueChanged)
 
 	self.CreatedPlates[frame] = true
 	self.VisiblePlates[frame.UnitFrame] = true

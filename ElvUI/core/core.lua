@@ -921,7 +921,10 @@ function E:InitializeModules()
 	for _, module in pairs(E["RegisteredModules"]) do
 		local module = self:GetModule(module);
 		if(module.Initialize) then
-			module.Initialize(module)
+			local _, catch = pcall(module.Initialize, module);
+			if(catch) then
+				print(catch)
+			end
 		end
 	end
 end
@@ -1036,7 +1039,6 @@ function E:Initialize()
 		self:Install();
 	end
 
-	DEFAULT_CHAT_FRAME:AddMessage("ElvUI for wow: " .. GetBuildInfo() .. ". Game build: " .. select(2, GetBuildInfo()))
 	--if(not find(date(), "04/01/")) then
 	--	E.global.aprilFools = nil;
 	--end
@@ -1063,6 +1065,8 @@ function E:Initialize()
 	collectgarbage("collect");
 
 	if(self.db.general.loginmessage) then
+		local arg1, arg2 = GetBuildInfo()
+		E:Print("for: "..arg1..". Game build: "..arg2)
 	--	DEFAULT_CHAT_FRAME:AddMessage(select(2, E:GetModule("Chat"):FindURL("CHAT_MSG_DUMMY", format(L["LOGIN_MSG"], self["media"].hexvaluecolor, self["media"].hexvaluecolor, self.version)))..".");
 	end
 end
