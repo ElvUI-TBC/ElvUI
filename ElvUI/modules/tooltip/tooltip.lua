@@ -253,11 +253,8 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 end
 
 function TT:GetAvailableTooltip()
-	for i = 1, #GameTooltip.shoppingTooltips do
-		if not GameTooltip.shoppingTooltips[i]:IsShown() then
-			return GameTooltip.shoppingTooltips[i]
-		end
-	end
+	if not ShoppingTooltip1:IsShown() then return ShoppingTooltip1 end
+	if not ShoppingTooltip2:IsShown() then return ShoppingTooltip2 end
 end
 
 function TT:ScanForItemLevel(itemLink)

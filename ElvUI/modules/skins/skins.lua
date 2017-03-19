@@ -183,9 +183,9 @@ function S:HandleNextPrevButton(btn, buttonOverride)
 			self.icon:SetAlpha(1.0);
 		end);]]
 
-		if(btn:IsEnabled() == 0) then
-			btn:GetScript("OnDisable")(btn);
-		end
+		--if(btn:IsEnabled() == 0) then
+		--	btn:GetScript("OnDisable")(btn);
+		--end
 	end
 
 	if(buttonOverride) then
@@ -280,10 +280,10 @@ function S:HandleCheckBox(frame, noBackdrop)
 		frame:Size(16)
 
 		frame:GetCheckedTexture():SetInside(nil, -4, -4)
-		frame:GetDisabledTexture():SetInside(nil, -4, -4)
 	else
 		frame:CreateBackdrop("Default")
 		frame.backdrop:SetInside(nil, 4, 4)
+		frame.backdrop:SetFrameLevel(frame:GetFrameLevel())
 	end
 end
 

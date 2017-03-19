@@ -903,7 +903,10 @@ function E:InitializeInitialModules()
 	for _, module in pairs(E["RegisteredInitialModules"]) do
 		local module = self:GetModule(module, true);
 		if(module and module.Initialize) then
-			module.Initialize(module)
+			local _, catch = pcall(module.Initialize, module);
+			if(catch) then
+				print(catch)
+			end
 		end
 	end
 end
@@ -1026,7 +1029,7 @@ function E:Initialize()
 	self:LoadCommands();
 	self:InitializeModules();
 	self:LoadMovers();
-	--self:UpdateCooldownSettings();
+	self:UpdateCooldownSettings();
 	self.initialized = true;
 
 	if(self.private.install_complete == nil) then

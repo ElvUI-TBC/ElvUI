@@ -81,6 +81,39 @@ function AddOn:OnInitialize()
 	--if IsAddOnLoaded("Tukui") then
 	--	self:StaticPopup_Show("TUKUI_ELVUI_INCOMPATIBLE")
 	--end
+
+	local GameMenuButton = CreateFrame("Button", nil, GameMenuFrame, "GameMenuButtonTemplate")
+	GameMenuButton:Size(GameMenuButtonLogout:GetWidth(), GameMenuButtonLogout:GetHeight())
+
+	GameMenuButton:SetText(AddOnName);
+	GameMenuButton:SetScript("OnClick", function()
+		AddOn:ToggleConfig()
+		HideUIPanel(GameMenuFrame)
+	end)
+	GameMenuFrame[AddOnName] = GameMenuButton
+
+	GameMenuButtonRatings:HookScript("OnShow", function(self)
+		GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() + self:GetHeight())
+	end)
+	GameMenuButtonRatings:HookScript("OnHide", function(self)
+		GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() - self:GetHeight())
+	end)
+
+	GameMenuFrame:HookScript("OnShow", function()
+		if not GameMenuFrame.isElvUI then
+			GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() + GameMenuButtonLogout:GetHeight() + 17)
+			GameMenuFrame.isElvUI = true
+		end
+		local _, relTo = GameMenuButtonLogout:GetPoint()
+		if relTo ~= GameMenuFrame[AddOnName] then
+			GameMenuFrame[AddOnName]:ClearAllPoints()
+			GameMenuFrame[AddOnName]:Point("TOPLEFT", relTo, "BOTTOMLEFT", 0, -1)
+			GameMenuButtonLogout:ClearAllPoints()
+			GameMenuButtonLogout:Point("TOPLEFT", GameMenuFrame[AddOnName], "BOTTOMLEFT", 0, -16)
+		end
+	end)
+	local S = AddOn:GetModule("Skins")
+	S:HandleButton(GameMenuButton)
 end
 
 local f = CreateFrame("Frame");

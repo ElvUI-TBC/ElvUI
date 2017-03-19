@@ -1,6 +1,14 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
+local _G = _G
+local find = string.find
+
+local GetInventoryItemQuality = GetInventoryItemQuality
+local GetInventoryItemTexture = GetInventoryItemTexture
+local GetInventorySlotInfo = GetInventorySlotInfo
+local GetItemQualityColor = GetItemQualityColor
+local FauxScrollFrame_GetOffset = FauxScrollFrame_GetOffset
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.character ~= true then return end
@@ -10,15 +18,16 @@ local function LoadSkin()
 	CharacterFrame.backdrop:Point("TOPLEFT", 12, -12)
 	CharacterFrame.backdrop:Point("BOTTOMRIGHT", -32, 76)
 
-	S:HandleCloseButton(CharacterFrameCloseButton);
+	S:HandleCloseButton(CharacterFrameCloseButton)
 	CharacterFrameCloseButton:ClearAllPoints()
-	CharacterFrameCloseButton:Point("CENTER", CharacterFrame, "TOPRIGHT", -45, -25);
+	CharacterFrameCloseButton:Point("CENTER", CharacterFrame, "TOPRIGHT", -45, -25)
 
 	for i = 1, 5 do
-		local tab = _G["CharacterFrameTab"..i];
-		S:HandleTab(tab);
+		local tab = _G["CharacterFrameTab"..i]
+		S:HandleTab(tab)
 	end
-	
+
+	-- PaperDollFrame
 	PaperDollFrame:StripTextures()
 	S:HandleDropDownBox(PlayerTitleDropDown)
 
@@ -33,70 +42,190 @@ local function LoadSkin()
 	S:HandleDropDownBox(PlayerStatFrameLeftDropDown)
 	S:HandleDropDownBox(PlayerStatFrameRightDropDown)
 
-	CharacterResistanceFrame:CreateBackdrop("Default");
-	CharacterResistanceFrame.backdrop:SetOutside(MagicResFrame1, nil, nil, MagicResFrame5);
+	CharacterResistanceFrame:CreateBackdrop("Default")
+	CharacterResistanceFrame.backdrop:SetOutside(MagicResFrame1, nil, nil, MagicResFrame5)
 
 	for i = 1, 5 do
-		local frame = _G["MagicResFrame" .. i];
-		frame:Size(24);
-		frame = _G["PetMagicResFrame" .. i];
-		frame:Size(24);
+		local frame = _G["MagicResFrame"..i]
+		frame:Size(24)
+		frame = _G["PetMagicResFrame"..i]
+		frame:Size(24)
 	end
 
-	select(1, MagicResFrame1:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.25, 0.3203125);
-	select(1, MagicResFrame2:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.0234375, 0.09375);
-	select(1, MagicResFrame3:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.13671875, 0.20703125);
-	select(1, MagicResFrame4:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.36328125, 0.43359375);
-	select(1, MagicResFrame5:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.4765625, 0.546875);
+	select(1, MagicResFrame1:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.25, 0.3203125)
+	select(1, MagicResFrame2:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.0234375, 0.09375)
+	select(1, MagicResFrame3:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.13671875, 0.20703125)
+	select(1, MagicResFrame4:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.36328125, 0.43359375)
+	select(1, MagicResFrame5:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.4765625, 0.546875)
 
 	local slots = {"HeadSlot", "NeckSlot", "ShoulderSlot", "BackSlot", "ChestSlot", "ShirtSlot", "TabardSlot", "WristSlot",
 		"HandsSlot", "WaistSlot", "LegsSlot", "FeetSlot", "Finger0Slot", "Finger1Slot", "Trinket0Slot", "Trinket1Slot",
 		"MainHandSlot", "SecondaryHandSlot", "RangedSlot", "AmmoSlot"
-	};
+	}
 
 	for _, slot in pairs(slots) do
-		local icon = _G["Character"..slot.."IconTexture"];
-		local cooldown = _G["Character"..slot.."Cooldown"];
+		local icon = _G["Character"..slot.."IconTexture"]
+		local cooldown = _G["Character"..slot.."Cooldown"]
 
-		slot = _G["Character"..slot];
-		slot:StripTextures();
-		slot:StyleButton(false);
-		slot:SetTemplate("Default", true, true);
+		slot = _G["Character"..slot]
+		slot:StripTextures()
+		slot:StyleButton(false)
+		slot:SetTemplate("Default", true, true)
 
-		icon:SetTexCoord(unpack(E.TexCoords));
-		icon:SetInside();
-
-		slot:SetFrameLevel(PaperDollFrame:GetFrameLevel() + 2);
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetInside()
 
 		if(cooldown) then
-		--	E:RegisterCooldown(cooldown);
+			E:RegisterCooldown(cooldown)
 		end
 	end
 
-	local function ColorItemBorder()
+	local function ColorItemBorder(_, event, unit)
+		if event == "UNIT_INVENTORY_CHANGED" and unit ~= "player" then return end
+
 		for _, slot in pairs(slots) do
 			local target = _G["Character"..slot]
 			local slotId, _, _ = GetInventorySlotInfo(slot)
-			--local itemId = GetInventoryItemID("player", slotId)
-
-			--if itemId then
-				local rarity = GetInventoryItemQuality("player", slotId);
+			local itemId = GetInventoryItemTexture("player", slotId)
+			if itemId then
+				local rarity = GetInventoryItemQuality("player", slotId)
 				if rarity and rarity > 1 then
 					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
-					target:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					target:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
-			--else
-			--	target:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-			--end
+			else
+				target:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			end
 		end
 	end
 
-	local CheckItemBorderColor = CreateFrame("Frame")
-	CheckItemBorderColor:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
-	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)
+	local checkItemBorderColor = CreateFrame("Frame")
+	checkItemBorderColor:RegisterEvent("UNIT_INVENTORY_CHANGED")
+	checkItemBorderColor:SetScript("OnEvent", ColorItemBorder)
 	CharacterFrame:HookScript("OnShow", ColorItemBorder)
 	ColorItemBorder()
+
+	-- PetPaperDollFrame
+	PetPaperDollFrame:StripTextures()
+
+	-- SkillFrame
+	SkillFrame:StripTextures()
+
+	SkillFrameExpandButtonFrame:DisableDrawLayer("BACKGROUND")
+
+	SkillFrameCollapseAllButton:SetNormalTexture("")
+	SkillFrameCollapseAllButton.SetNormalTexture = E.noop
+	SkillFrameCollapseAllButton:SetHighlightTexture(nil)
+
+	SkillFrameCollapseAllButton.Text = SkillFrameCollapseAllButton:CreateFontString(nil, "OVERLAY")
+	SkillFrameCollapseAllButton.Text:FontTemplate(nil, 22)
+	SkillFrameCollapseAllButton.Text:Point("CENTER", -10, 0)
+	SkillFrameCollapseAllButton.Text:SetText("+")
+
+	hooksecurefunc(SkillFrameCollapseAllButton, "SetNormalTexture", function(self, texture)
+		if find(texture, "MinusButton") then
+			self.Text:SetText("-")
+		else
+			self.Text:SetText("+")
+		end
+	end)
+
+	S:HandleButton(SkillFrameCancelButton)
+
+	for i = 1, SKILLS_TO_DISPLAY do
+		local bar = _G["SkillRankFrame"..i]
+		bar:SetStatusBarTexture(E.media.normTex)
+		E:RegisterStatusBar(bar)
+		bar:CreateBackdrop("Default")
+
+		_G["SkillRankFrame"..i.."Border"]:StripTextures()
+		_G["SkillRankFrame"..i.."Background"]:SetTexture(nil)
+
+		local label = _G["SkillTypeLabel"..i]
+		label:SetNormalTexture("")
+		label.SetNormalTexture = E.noop
+		label:SetHighlightTexture(nil)
+
+		label.Text = label:CreateFontString(nil, "OVERLAY")
+		label.Text:FontTemplate(nil, 22)
+		label.Text:Point("LEFT", 3, 0)
+		label.Text:SetText("+")
+
+		hooksecurefunc(label, "SetNormalTexture", function(self, texture)
+			if find(texture, "MinusButton") then
+				self.Text:SetText("-")
+			else
+				self.Text:SetText("+")
+			end
+		end)
+	end
+
+	SkillListScrollFrame:StripTextures()
+	S:HandleScrollBar(SkillListScrollFrameScrollBar)
+
+	SkillDetailScrollFrame:StripTextures()
+	S:HandleScrollBar(SkillDetailScrollFrameScrollBar)
+
+	SkillDetailStatusBar:StripTextures()
+	SkillDetailStatusBar:SetParent(SkillDetailScrollFrame)
+	SkillDetailStatusBar:CreateBackdrop("Default")
+	SkillDetailStatusBar:SetStatusBarTexture(E.media.normTex)
+	E:RegisterStatusBar(SkillDetailStatusBar)
+
+	-- ReputationFrame
+	ReputationFrame:StripTextures()
+
+	for i = 1, NUM_FACTIONS_DISPLAYED do
+		local bar = _G["ReputationBar"..i]
+		local header = _G["ReputationHeader"..i]
+
+		bar:StripTextures()
+		bar:SetStatusBarTexture(E.media.normTex)
+		E:RegisterStatusBar(bar)
+		bar:CreateBackdrop("Default")
+
+		header:StripTextures(true)
+		header:SetNormalTexture(nil)
+		header.SetNormalTexture = E.noop
+
+		header.Text = header:CreateFontString(nil, "OVERLAY")
+		header.Text:FontTemplate(nil, 22)
+		header.Text:Point("LEFT", 3, 0)
+		header.Text:SetText("+")
+	end
+
+	local function UpdateFaction()
+		local offset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
+		local index, header
+		local numFactions = GetNumFactions()
+		for i = 1, NUM_FACTIONS_DISPLAYED, 1 do
+			header = _G["ReputationHeader"..i]
+			index = offset + i
+			if index <= numFactions then
+				if header.isCollapsed then
+					header.Text:SetText("+")
+				else
+					header.Text:SetText("-")
+				end
+			end
+		end
+	end
+	hooksecurefunc("ReputationFrame_Update", UpdateFaction)
+
+	ReputationListScrollFrame:StripTextures()
+	S:HandleScrollBar(ReputationListScrollFrameScrollBar)
+
+	ReputationDetailFrame:StripTextures()
+	ReputationDetailFrame:SetTemplate("Transparent")
+
+	S:HandleCloseButton(ReputationDetailCloseButton)
+
+	S:HandleCheckBox(ReputationDetailAtWarCheckBox)
+	S:HandleCheckBox(ReputationDetailInactiveCheckBox)
+	S:HandleCheckBox(ReputationDetailMainScreenCheckBox)
+	-- PVPFrame
+	PVPFrame:StripTextures()
 end
 
 S:AddCallback("Character", LoadSkin)
