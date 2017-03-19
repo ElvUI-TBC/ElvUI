@@ -45,5 +45,5 @@
 	<!--<Script file="trainer.lua"/>-->
 	<!--<Script file="tutorial.lua"/>-->
 	<!--<Script file="watchframe.lua"/>-->
-	<!--<Script file="worldmap.lua"/>-->
+	<Script file="worldmap.lua"/>
 </Ui>
