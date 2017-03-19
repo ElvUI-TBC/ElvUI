@@ -225,9 +225,9 @@ function CH:StyleChat(frame)
 	editbox.historyLines = ElvCharacterDB.ChatEditHistory
 	editbox.historyIndex = 0
 
-	for i, text in pairs(ElvCharacterDB.ChatEditHistory) do
-		editbox:AddHistoryLine(text)
-	end
+	--for i, text in pairs(ElvCharacterDB.ChatEditHistory) do
+	--	editbox:AddHistoryLine(text)
+	--end
 
 	hooksecurefunc("ChatEdit_UpdateHeader", function()
 		local type = editbox:GetAttribute("chatType")
