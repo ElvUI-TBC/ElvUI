@@ -166,7 +166,7 @@ function CH:StyleChat(frame)
 	_G[tab:GetName().."Right"]:SetTexture(nil)
 
 	tab.text = _G[name.."TabText"]
-	tab.text:SetTextColor(unpack(E["media"].rgbvaluecolor));
+	tab.text:SetTextColor(unpack(E["media"].rgbvaluecolor))
 	hooksecurefunc(tab.text, "SetTextColor", function(self, r, g, b)
 		local rR, gG, bB = unpack(E["media"].rgbvaluecolor)
 		if r ~= rR or g ~= gG or b ~= bB then
@@ -182,10 +182,10 @@ function CH:StyleChat(frame)
 		if InCombatLockdown() then
 			local MIN_REPEAT_CHARACTERS = E.db.chat.numAllowedCombatRepeat
 			if len(text) > MIN_REPEAT_CHARACTERS then
-				local repeatChar = true;
+				local repeatChar = true
 				for i = 1, MIN_REPEAT_CHARACTERS, 1 do
 					if sub(text,(0-i), (0-i)) ~= sub(text,(-1-i),(-1-i)) then
-						repeatChar = false;
+						repeatChar = false
 						break
 					end
 				end
@@ -213,17 +213,17 @@ function CH:StyleChat(frame)
 		end
 	end
 
-	local a, b, c = select(6, editbox:GetRegions()); a:Kill(); b:Kill(); c:Kill();
-	editbox:SetTemplate("Default", true);
-	editbox:SetAltArrowKeyMode(CH.db.useAltKey);
+	local a, b, c = select(6, editbox:GetRegions()); a:Kill(); b:Kill(); c:Kill()
+	editbox:SetTemplate("Default", true)
+	editbox:SetAltArrowKeyMode(CH.db.useAltKey)
 	editbox:HookScript("OnEditFocusGained", function(self) self:Show(); if(not LeftChatPanel:IsShown()) then LeftChatPanel.editboxforced = true; LeftChatToggleButton:GetScript("OnEnter")(LeftChatToggleButton); end end);
 	editbox:HookScript("OnEditFocusLost", function(self) if(LeftChatPanel.editboxforced) then LeftChatPanel.editboxforced = nil; if(LeftChatPanel:IsShown()) then LeftChatToggleButton:GetScript("OnLeave")(LeftChatToggleButton); end end self:Hide(); end);
-	editbox:SetAllPoints(LeftChatDataPanel);
-	--self:SecureHook(editbox, "AddHistoryLine", "ChatEdit_AddHistory");
-	editbox:HookScript("OnTextChanged", OnTextChanged);
+	editbox:SetAllPoints(LeftChatDataPanel)
+	--self:SecureHook(editbox, "AddHistoryLine", "ChatEdit_AddHistory")
+	editbox:HookScript("OnTextChanged", OnTextChanged)
 
-	editbox.historyLines = ElvCharacterDB.ChatEditHistory;
-	editbox.historyIndex = 0;
+	editbox.historyLines = ElvCharacterDB.ChatEditHistory
+	editbox.historyIndex = 0
 
 	for i, text in pairs(ElvCharacterDB.ChatEditHistory) do
 		editbox:AddHistoryLine(text)
@@ -347,7 +347,7 @@ end
 function CH:SetupChat()
 	if E.private.chat.enable ~= true then return end
 	for i, frame in pairs(DOCKED_CHAT_FRAMES) do
-		--local _, fontSize = FCF_GetChatWindowInfo(i);
+		--local _, fontSize = FCF_GetChatWindowInfo(i)
 		local id = frame:GetID()
 		self:StyleChat(frame)
 		--FCFTab_UpdateAlpha(frame)
@@ -389,7 +389,7 @@ function CH:SetupChat()
 
 	if not self.HookSecured then
 		--self:SecureHook("FCF_OpenTemporaryWindow", "SetupChat")
-		self.HookSecured = true;
+		self.HookSecured = true
 	end
 end
 
@@ -402,8 +402,8 @@ function CH:Initialize()
 	--self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "SetupChat")
 
 	self:SetupChat()
-	
-		local S = E:GetModule("Skins")
+
+	local S = E:GetModule("Skins")
 	S:HandleNextPrevButton(CombatLogQuickButtonFrame_CustomAdditionalFilterButton, true)
 	local frame = CreateFrame("Frame", "CopyChatFrame", E.UIParent)
 	tinsert(UISpecialFrames, "CopyChatFrame")
@@ -413,31 +413,31 @@ function CH:Initialize()
 	frame:Hide()
 	frame:SetMovable(true)
 	frame:EnableMouse(true)
-	frame:SetResizable(true);
-	frame:SetMinResize(350, 100);
+	frame:SetResizable(true)
+	frame:SetMinResize(350, 100)
 	frame:SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" and not self.isMoving then
-			self:StartMoving();
+			self:StartMoving()
 			self.isMoving = true;
 		elseif(button == "RightButton" and not self.isSizing) then
-			self:StartSizing();
+			self:StartSizing()
 			self.isSizing = true;
 		end
 	end)
 	frame:SetScript("OnMouseUp", function(self, button)
 		if button == "LeftButton" and self.isMoving then
-			self:StopMovingOrSizing();
-			self.isMoving = false;
-		elseif(button == "RightButton" and self.isSizing) then
-			self:StopMovingOrSizing();
-			self.isSizing = false;
+			self:StopMovingOrSizing()
+			self.isMoving = false
+		elseif button == "RightButton" and self.isSizing then
+			self:StopMovingOrSizing()
+			self.isSizing = false
 		end
 	end)
 	frame:SetScript("OnHide", function(self)
-		if(self.isMoving or self.isSizing) then
-			self:StopMovingOrSizing();
-			self.isMoving = false;
-			self.isSizing = false;
+		if self.isMoving or self.isSizing then
+			self:StopMovingOrSizing()
+			self.isMoving = false
+			self.isSizing = false
 		end
 	end)
 	frame:SetFrameStrata("DIALOG")
@@ -445,30 +445,31 @@ function CH:Initialize()
 	local scrollArea = CreateFrame("ScrollFrame", "CopyChatScrollFrame", frame, "UIPanelScrollFrameTemplate")
 	scrollArea:Point("TOPLEFT", frame, "TOPLEFT", 8, -30)
 	scrollArea:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 8)
-	--S:HandleScrollBar(CopyChatScrollFrameScrollBar)
+	S:HandleScrollBar(CopyChatScrollFrameScrollBar)
 	scrollArea:SetScript("OnSizeChanged", function(self)
-		CopyChatFrameEditBox:Width(self:GetWidth());
-		CopyChatFrameEditBox:Height(self:GetHeight());
-	end);
+		CopyChatFrameEditBox:Width(self:GetWidth())
+		CopyChatFrameEditBox:Height(self:GetHeight())
+	end)
 	scrollArea:HookScript("OnVerticalScroll", function(self, offset)
-		CopyChatFrameEditBox:SetHitRectInsets(0, 0, offset, (CopyChatFrameEditBox:GetHeight() - offset - self:GetHeight()));
-	end);
+		CopyChatFrameEditBox:SetHitRectInsets(0, 0, offset, (CopyChatFrameEditBox:GetHeight() - offset - self:GetHeight()))
+	end)
 
 	local editBox = CreateFrame("EditBox", "CopyChatFrameEditBox", frame)
 	editBox:SetMultiLine(true)
 	editBox:SetMaxLetters(99999)
 	editBox:EnableMouse(true)
 	editBox:SetAutoFocus(false)
-	editBox:SetFontObject(ChatFontNormal)
+	editBox:SetFontObject(GameFontNormal)
 	editBox:Width(scrollArea:GetWidth())
 	editBox:Height(200)
 	editBox:SetScript("OnEscapePressed", function() CopyChatFrame:Hide() end)
 	scrollArea:SetScrollChild(editBox)
 	CopyChatFrameEditBox:SetScript("OnTextChanged", function(_, userInput)
 		if userInput then return end
-		local _, max = CopyChatScrollFrameScrollBar:GetMinMaxValues()
-		for i=1, max do
-			ScrollFrameTemplate_OnMouseWheel(CopyChatScrollFrame, -1)
+		local scrollBar = CopyChatScrollFrameScrollBar
+		local _, max = scrollBar:GetMinMaxValues()
+		for i = 1, max do
+			scrollBar:SetValue(scrollBar:GetValue() + (scrollBar:GetHeight() / 2))
 		end
 	end)
 

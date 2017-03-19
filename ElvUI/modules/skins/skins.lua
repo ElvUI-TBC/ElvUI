@@ -41,6 +41,7 @@ function S:SetModifiedBackdrop()
 end
 
 function S:SetOriginalBackdrop()
+	print("FSDFSDF")
 	if(self.backdrop) then self = self.backdrop; end
 	self:SetBackdropBorderColor(unpack(E["media"].bordercolor));
 end
@@ -173,19 +174,19 @@ function S:HandleNextPrevButton(btn, buttonOverride)
 			self.icon:SetPoint("CENTER", 0, 0);
 		end);
 
-	--[[	btn:SetScript("OnDisable", function(self)
+		hooksecurefunc(btn, "Disable", function(self)
 			SetDesaturation(self.icon, true);
 			self.icon:SetAlpha(0.5);
-		end);
-
-		btn:SetScript("OnEnable", function(self)
+		end)
+		hooksecurefunc(btn, "Enable", function(self)
 			SetDesaturation(self.icon, false);
 			self.icon:SetAlpha(1.0);
-		end);]]
+		end)
 
-		--if(btn:IsEnabled() == 0) then
-		--	btn:GetScript("OnDisable")(btn);
-		--end
+		if(btn:IsEnabled() == 0) then
+			SetDesaturation(btn.icon, true);
+			btn.icon:SetAlpha(0.5);
+		end
 	end
 
 	if(buttonOverride) then

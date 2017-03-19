@@ -18,32 +18,30 @@ function S:LoadTalentSkin()
 	S:HandleButton(PlayerTalentFrameCancelButton)
 	
 	for i = 1, 5 do
-		S:HandleTab(_G["PlayerTalentFrameTab" .. i])
+		S:HandleTab(_G["PlayerTalentFrameTab"..i])
 	end
 
-	PlayerTalentFrameScrollFrame:StripTextures();
-	PlayerTalentFrameScrollFrame:CreateBackdrop("Default");
-	S:HandleScrollBar(PlayerTalentFrameScrollFrameScrollBar);
+	PlayerTalentFrameScrollFrame:StripTextures()
+	PlayerTalentFrameScrollFrame:CreateBackdrop("Default")
+	S:HandleScrollBar(PlayerTalentFrameScrollFrameScrollBar)
 
 	for i = 1, MAX_NUM_TALENTS do
-		local talent = _G["PlayerTalentFrameTalent"..i];
-		local icon = _G["PlayerTalentFrameTalent"..i.."IconTexture"];
-		local rank = _G["PlayerTalentFrameTalent"..i.."Rank"];
+		local talent = _G["PlayerTalentFrameTalent"..i]
+		local icon = _G["PlayerTalentFrameTalent"..i.."IconTexture"]
+		local rank = _G["PlayerTalentFrameTalent"..i.."Rank"]
 
-		if (talent) then
-			talent:StripTextures();
-			talent:SetTemplate("Default");
-			talent:StyleButton();
+		if talent then
+			talent:StripTextures()
+			talent:SetTemplate("Default")
+			talent:StyleButton()
 
-			icon:SetInside();
-			icon:SetTexCoord(unpack(E.TexCoords));
-			icon:SetDrawLayer("ARTWORK");
+			icon:SetInside()
+			icon:SetTexCoord(unpack(E.TexCoords))
+			icon:SetDrawLayer("ARTWORK")
 
-			rank:SetFont(E.LSM:Fetch("font", E.db["general"].font), 12, "OUTLINE");
+			rank:SetFont(E.LSM:Fetch("font", E.db["general"].font), 12, "OUTLINE")
 		end
 	end
-
-	--PlayerTalentFrameScrollButtonOverlay
 end
 
 S:AddCallbackForAddon("Blizzard_TalentUI", "Talent", S.LoadTalentSkin)
