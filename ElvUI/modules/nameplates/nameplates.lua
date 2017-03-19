@@ -453,8 +453,11 @@ function mod:OnCreated(frame)
 
 	self.OnShow(frame)
 
-	frame:HookScript("OnShow", self.OnShow)
-	frame:HookScript("OnHide", self.OnHide)
+	if HealthBar:GetScript("OnValueChanged") then
+		
+	end
+	frame:SetScript("OnShow", self.OnShow)
+	frame:SetScript("OnHide", self.OnHide)
 	HealthBar:HookScript("OnValueChanged", self.UpdateElement_HealthOnValueChanged)
 	CastBar:HookScript("OnShow", self.UpdateElement_CastBarOnShow)
 	CastBar:HookScript("OnHide", self.UpdateElement_CastBarOnHide)
