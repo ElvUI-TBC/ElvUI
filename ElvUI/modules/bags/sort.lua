@@ -305,12 +305,8 @@ function B.IterateBags(bagList, reverse, role)
 end
 
 function B:GetItemID(bag, slot)
-	if IsGuildBankBag(bag) then
-		local link = self:GetItemLink(bag, slot)
-		return link and tonumber(match(link, "item:(%d+)"))
-	else
-		return GetContainerItemID(bag, slot)
-	end
+	local link = self:GetItemLink(bag, slot)
+	return link and tonumber(match(link, "item:(%d+)"))
 end
 
 function B:GetItemInfo(bag, slot)
