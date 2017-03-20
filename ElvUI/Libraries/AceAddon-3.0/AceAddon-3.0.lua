@@ -261,7 +261,7 @@ local function IsModuleTrue(self) return true end
 -- MyModule = MyAddon:NewModule("MyModule", "AceEvent-3.0", "AceHook-3.0")
 --
 -- -- Create a module with a prototype
--- local prototype = { OnEnable = function(self) DEFAULT_CHAT_FRAME:AddMessage("OnEnable called!") end }
+-- local prototype = { OnEnable = function(self) print("OnEnable called!") end }
 -- MyModule = MyAddon:NewModule("MyModule", prototype, "AceEvent-3.0", "AceHook-3.0")
 function NewModule(self, name, prototype, ...)
 	if type(name) ~= "string" then error(("Usage: NewModule(name, [prototype, [lib, lib, lib, ...]): 'name' - string expected got '%s'."):format(type(name)), 2) end
@@ -305,7 +305,7 @@ end
 -- @name //addon//:GetName
 -- @paramsig
 -- @usage
--- DEFAULT_CHAT_FRAME:AddMessage(MyAddon:GetName())
+-- print(MyAddon:GetName())
 -- -- prints "MyAddon"
 function GetName(self)
 	return self.moduleName or self.name
@@ -429,7 +429,7 @@ end
 -- @param prototype Default prototype for the new modules (table)
 -- @usage
 -- -- Define a prototype
--- local prototype = { OnEnable = function(self) DEFAULT_CHAT_FRAME:AddMessage("OnEnable called!") end }
+-- local prototype = { OnEnable = function(self) print("OnEnable called!") end }
 -- -- Set the default prototype
 -- MyAddon:SetDefaultModulePrototype(prototype)
 -- -- Create a module and explicitly Enable it
@@ -613,7 +613,7 @@ end
 -- @usage
 -- -- Print a list of all installed AceAddon's
 -- for name, addon in AceAddon:IterateAddons() do
---   DEFAULT_CHAT_FRAME:AddMessage("Addon: " .. name)
+--   print("Addon: " .. name)
 -- end
 function AceAddon:IterateAddons() return pairs(self.addons) end
 
@@ -622,7 +622,7 @@ function AceAddon:IterateAddons() return pairs(self.addons) end
 -- -- Print a list of all enabled addons
 -- for name, status in AceAddon:IterateAddonStatus() do
 --   if status then
---     DEFAULT_CHAT_FRAME:AddMessage("EnabledAddon: " .. name)
+--     print("EnabledAddon: " .. name)
 --   end
 -- end
 function AceAddon:IterateAddonStatus() return pairs(self.statuses) end
@@ -634,8 +634,8 @@ function AceAddon:IterateModulesOfAddon(addon) return pairs(addon.modules) end
 
 -- Event Handling
 local function onEvent(this, event, arg1)
-	-- 2011-08-17 nevcairiel - ignore the load event of Blizzard_DebugTools, so a potential startup error isn't swallowed up
-	if (event == "ADDON_LOADED"  and arg1 ~= "Blizzard_DebugTools") or event == "PLAYER_LOGIN" then
+	-- 2011-08-17 nevcairiel - ignore the load event of !DebugTools, so a potential startup error isn't swallowed up
+	if (event == "ADDON_LOADED"  and arg1 ~= "!DebugTools") or event == "PLAYER_LOGIN" then
 		-- if a addon loads another addon, recursion could happen here, so we need to validate the table on every iteration
 		while(#AceAddon.initializequeue > 0) do
 			local addon = tremove(AceAddon.initializequeue, 1)

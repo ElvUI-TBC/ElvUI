@@ -12,6 +12,7 @@ local function LoadSkin()
 	ScriptErrorsFrameScrollFrame:CreateBackdrop("Default")
 	ScriptErrorsFrameScrollFrame:SetFrameLevel(ScriptErrorsFrameScrollFrame:GetFrameLevel() + 2)
 	EventTraceFrame:SetTemplate("Transparent")
+
 	local texs = {
 		"TopLeft",
 		"TopRight",
@@ -25,20 +26,24 @@ local function LoadSkin()
 		"DialogBG",
 	}
 
-	for i=1, #texs do
+	for i = 1, #texs do
 		_G["ScriptErrorsFrame"..texs[i]]:SetTexture(nil)
 		_G["EventTraceFrame"..texs[i]]:SetTexture(nil)
 	end
 
-	for i=1, ScriptErrorsFrame:GetNumChildren() do
-		local child = select(i, ScriptErrorsFrame:GetChildren())
-		if child:GetObjectType() == "Button" and not child:GetName() then
-			S:HandleButton(child)
-		end
-	end
+	S:HandleButton(ScriptErrorsFrame.reload)
+	S:HandleButton(ScriptErrorsFrame.firstButton)
+	S:HandleButton(ScriptErrorsFrame.lastButton)
+	S:HandleNextPrevButton(ScriptErrorsFrame.previous)
+	S:HandleNextPrevButton(ScriptErrorsFrame.next)
+	S:HandleButton(ScriptErrorsFrame.close)
 
+	-- TODO FIX HandleNextPrevButton button size
+	ScriptErrorsFrame.previous:Point("BOTTOM", ScriptErrorsFrame, "BOTTOM", -50, 12)
+	ScriptErrorsFrame.next:Point("BOTTOM", ScriptErrorsFrame, "BOTTOM", 50, 12)
+
+	local noscalemult = E.mult * GetCVar("uiScale")
 	FrameStackTooltip:HookScript("OnShow", function(self)
-		local noscalemult = E.mult * GetCVar("uiScale")
 		self:SetBackdrop({
 			bgFile = E["media"].blankTex,
 			edgeFile = E["media"].blankTex,
@@ -56,4 +61,4 @@ local function LoadSkin()
 	S:HandleCloseButton(EventTraceFrameCloseButton)
 end
 
-S:AddCallbackForAddon("Blizzard_DebugTools", "DebugTools", LoadSkin);
+S:AddCallbackForAddon("!DebugTools", "DebugTools", LoadSkin);

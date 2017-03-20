@@ -1,4 +1,4 @@
-## Interface: 30300
+## Interface: 20400
 ## Author: Elv, Bunny
 ## Version: 1.01
 ## Title: |cffA11313E|r|cffC4C4C4lvUI|r |cffA11313C|r|cffC4C4C4onfig|r

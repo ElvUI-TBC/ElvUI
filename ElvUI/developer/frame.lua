@@ -56,10 +56,41 @@ SlashCmdList["FRAME"] = function(arg)
 	end
 end
 
+CreateFrame("Frame", "FrameStackHighlight");
+FrameStackHighlight:SetFrameStrata("TOOLTIP");
+local t = FrameStackHighlight:CreateTexture(nil, "BORDER");
+t:SetAllPoints();
+t:SetTexture(0, 1, 0, 0.5);
+
+hooksecurefunc("FrameStackTooltip_Toggle", function()
+	local tooltip = _G["FrameStackTooltip"];
+	if(not tooltip:IsVisible()) then
+		FrameStackHighlight:Hide();
+	end
+end);
+
+local _timeSinceLast = 0
+FrameStackTooltip:HookScript("OnUpdate", function(self, elapsed)
+	_timeSinceLast = _timeSinceLast - elapsed;
+	if (_timeSinceLast <= 0) then
+		_timeSinceLast = FRAMESTACK_UPDATE_TIME;
+		local highlightFrame = UpdateFrameStack(self, self.showHidden)
+
+		FrameStackHighlight:ClearAllPoints();
+		if (highlightFrame and highlightFrame ~= _G["WorldFrame"]) then
+			FrameStackHighlight:SetPoint("BOTTOMLEFT", highlightFrame);
+			FrameStackHighlight:SetPoint("TOPRIGHT", highlightFrame);
+			FrameStackHighlight:Show();
+		else
+			FrameStackHighlight:Hide();
+		end
+	end
+end);
+
 SLASH_FRAMELIST1 = "/framelist"
 SlashCmdList["FRAMELIST"] = function(msg)
 	if(not FrameStackTooltip) then
-		UIParentLoadAddOn("Blizzard_DebugTools");
+		UIParentLoadAddOn("!DebugTools");
 	end
 
 	local isPreviouslyShown = FrameStackTooltip:IsShown()
@@ -71,14 +102,14 @@ SlashCmdList["FRAMELIST"] = function(msg)
 		end
 	end
 
-	DEFAULT_CHAT_FRAME:AddMessage("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+	print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 	for i = 2, FrameStackTooltip:NumLines() do
 		local text = _G["FrameStackTooltipTextLeft"..i]:GetText();
 		if(text and text ~= "") then
-			DEFAULT_CHAT_FRAME:AddMessage(text)
+			print(text)
 		end
 	end
-	DEFAULT_CHAT_FRAME:AddMessage("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+	print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
 	if(CopyChatFrame:IsShown()) then
 		CopyChatFrame:Hide()
@@ -94,14 +125,14 @@ local function TextureList(frame)
 	frame = _G[frame] or FRAME
 	--[[for key, obj in pairs(frame) do
 		if type(obj) == "table" and obj.GetObjectType and obj:GetObjectType() == "Texture" then
-			DEFAULT_CHAT_FRAME:AddMessage(key, obj:GetTexture())
+			print(key, obj:GetTexture())
 		end
 	end]]
 
 	for i=1, frame:GetNumRegions() do
 		local region = select(i, frame:GetRegions())
 		if(region:GetObjectType() == "Texture") then
-			DEFAULT_CHAT_FRAME:AddMessage(region:GetTexture(), region:GetName())
+			print(region:GetTexture(), region:GetName())
 		end
 	end
 end
@@ -120,7 +151,7 @@ local function GetPoint(frame)
 	local frameName = frame.GetName and frame:GetName() or "nil"
 	local relativeToName = relativeTo.GetName and relativeTo:GetName() or "nil"
 
-	DEFAULT_CHAT_FRAME:AddMessage(frameName, point, relativeToName, relativePoint, xOffset, yOffset)
+	print(frameName, point, relativeToName, relativePoint, xOffset, yOffset)
 end
 
 SLASH_GETPOINT1 = "/getpoint"

@@ -1,0 +1,13 @@
+## Interface: 20400
+## Title: !DebugTools
+## Notes: Tools for developing addons (Blizzard UI Debug Tools)
+## Author: Blizzard Entertainment
+## Special Thanks: Iriel, Kirov, Esamynn
+## Version: 1.0
+## Dependencies: !Compatibility
+## LoadOnDemand: 1
+
+Compatibility.lua
+Dump.lua
+Blizzard_DebugTools.lua
+Blizzard_DebugTools.xml
