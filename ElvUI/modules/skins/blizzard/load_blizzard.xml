@@ -10,7 +10,7 @@
 	<!--<Script file="binding.lua"/>-->
 	<!--<Script file="calendar.lua"/>-->
 	<Script file="character.lua"/>
-	<!--<Script file="debug.lua"/>-->
+	<Script file="debug.lua"/>
 	<!--<Script file="dressingroom.lua"/>-->
 	<!--<Script file="friends.lua"/>-->
 	<!--<Script file="gbank.lua"/>-->
