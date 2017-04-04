@@ -24,7 +24,7 @@
 	<!--<Script file="lfd.lua"/>-->
 	<!--<Script file="lfr.lua"/>-->
 	<!--<Script file="loot.lua"/>-->
-	<!--<Script file="macro.lua"/>-->
+	<Script file="macro.lua"/>
 	<Script file="mail.lua"/>
 	<Script file="merchant.lua"/>
 	<Script file="mirrortimers.lua"/>
