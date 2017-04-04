@@ -2,7 +2,7 @@
 	<!--<Script file="alerts.lua"/>-->
 	<!--<Script file="arena.lua"/>-->
 	<!--<Script file="arenaregistrar.lua"/>-->
-	<!--<Script file="auctionhouse.lua"/>-->
+	<Script file="auctionhouse.lua"/>
 	<!--<Script file="bags.lua"/>-->
 	<!--<Script file="barber.lua"/>-->
 	<!--<Script file="bgmap.lua"/>-->
