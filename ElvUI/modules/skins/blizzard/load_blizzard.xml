@@ -35,7 +35,7 @@
 	<Script file="raid.lua"/>
 	<Script file="socket.lua"/>
 	<!--<Script file="spellbook.lua"/>-->
-	<!--<Script file="stable.lua"/>-->
+	<!--<Script file="stable.lua"/>-->w
 	<!--<Script file="tabard.lua"/>-->
 	<Script file="talent.lua"/>
 	<!--<Script file="taxi.lua"/>-->
