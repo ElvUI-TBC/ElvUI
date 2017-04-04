@@ -36,7 +36,7 @@
 	<Script file="socket.lua"/>
 	<!--<Script file="spellbook.lua"/>-->
 	<Script file="stable.lua"/>
-	<!--<Script file="tabard.lua"/>-->
+	<Script file="tabard.lua"/>
 	<Script file="talent.lua"/>
 	<!--<Script file="taxi.lua"/>-->
 	<Script file="timemanager.lua"/>
