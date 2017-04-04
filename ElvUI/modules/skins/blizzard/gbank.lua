@@ -86,16 +86,16 @@ function S:LoadGBankSkin()
 	end
 
 	hooksecurefunc("GuildBankFrame_Update", function()
-		if GuildBankFrame.mode ~= "bank" then return; end
+		if GuildBankFrame.mode ~= "bank" then return end
 		local tab = GetCurrentGuildBankTab()
-		local button, index, column, itemLink, itemRarity, r, g, b;
+		local button, index, column, itemLink, itemRarity, r, g, b
 		for i=1, MAX_GUILDBANK_SLOTS_PER_TAB do
 			index = mod(i, NUM_SLOTS_PER_GUILDBANK_GROUP)
 			if ( index == 0 ) then
-				index = NUM_SLOTS_PER_GUILDBANK_GROUP;
+				index = NUM_SLOTS_PER_GUILDBANK_GROUP
 			end
 			column = ceil((i-0.5)/NUM_SLOTS_PER_GUILDBANK_GROUP)
-			button = _G["GuildBankColumn"..column.."Button"..index];
+			button = _G["GuildBankColumn"..column.."Button"..index]
 
 			itemLink = GetGuildBankItemLink(tab, i)
 			if itemLink then

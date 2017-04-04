@@ -36,9 +36,9 @@ function S.LoadTimeManagerSkin()
 
 	TimeManagerAlarmEnabledButton:Point("LEFT", 16, -45)
 	TimeManagerAlarmEnabledButton:SetNormalTexture(nil)
-	TimeManagerAlarmEnabledButton.SetNormalTexture = E.noop;
+	TimeManagerAlarmEnabledButton.SetNormalTexture = E.noop
 	TimeManagerAlarmEnabledButton:SetPushedTexture(nil)
-	TimeManagerAlarmEnabledButton.SetPushedTexture = E.noop;
+	TimeManagerAlarmEnabledButton.SetPushedTexture = E.noop
 	S:HandleButton(TimeManagerAlarmEnabledButton)
 
 	TimeManagerMilitaryTimeCheck:Point("TOPLEFT", 155, -190)
