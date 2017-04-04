@@ -12,9 +12,9 @@ function S:LoadMerchantSkin()
 	S:HandleCloseButton(MerchantFrameCloseButton, MerchantFrame.backdrop)
 
 	for i = 1, 12 do
-		local item = _G["MerchantItem" .. i];
-		local itemButton = _G["MerchantItem" .. i .. "ItemButton"];
-		local iconTexture = _G["MerchantItem" .. i .. "ItemButtonIconTexture"];
+		local item = _G["MerchantItem" .. i)
+		local itemButton = _G["MerchantItem" .. i .. "ItemButton")
+		local iconTexture = _G["MerchantItem" .. i .. "ItemButtonIconTexture")
 
 		item:StripTextures(true)
 		item:CreateBackdrop("Default")
@@ -71,12 +71,12 @@ function S:LoadMerchantSkin()
 
 	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function()
 		local numMerchantItems = GetMerchantNumItems()
-		local index;
-		local itemButton, itemName;
+		local index
+		local itemButton, itemName
 		for i = 1, BUYBACK_ITEMS_PER_PAGE do
 			index = (((MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE) + i)
-			itemButton = _G["MerchantItem" .. i .. "ItemButton"];
-			itemName = _G["MerchantItem" .. i .. "Name"];
+			itemButton = _G["MerchantItem" .. i .. "ItemButton")
+			itemName = _G["MerchantItem" .. i .. "Name")
 
 			if(index <= numMerchantItems) then
 				if(itemButton.link) then
@@ -111,10 +111,10 @@ function S:LoadMerchantSkin()
 
 	hooksecurefunc("MerchantFrame_UpdateBuybackInfo", function()
 		local numBuybackItems = GetNumBuybackItems()
-		local itemButton, itemName;
+		local itemButton, itemName
 		for i = 1, BUYBACK_ITEMS_PER_PAGE do
-			itemButton = _G["MerchantItem" .. i .. "ItemButton"];
-			itemName = _G["MerchantItem" .. i .. "Name"];
+			itemButton = _G["MerchantItem" .. i .. "ItemButton")
+			itemName = _G["MerchantItem" .. i .. "Name")
 
 			if(i <= numBuybackItems) then
 				local buybackName = GetBuybackItemInfo(i)
