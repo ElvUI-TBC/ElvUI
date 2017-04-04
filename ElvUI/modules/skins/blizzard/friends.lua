@@ -51,6 +51,17 @@ function S:LoadFriendsSkin()
 	S:HandleButton(FriendsFrameGroupInviteButton)
 
  	-- Ignore List Frame
+	for i = 1, 2 do
+		local Tab = _G["IgnoreFrameToggleTab"..i]
+		Tab:StripTextures()
+		Tab:CreateBackdrop("Default", true)
+		Tab.backdrop:Point("TOPLEFT", 3, -7)
+		Tab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+
+		Tab:HookScript("OnEnter", S.SetModifiedBackdrop)
+		Tab:HookScript("OnLeave", S.SetOriginalBackdrop)
+	end
+
 	S:HandleButton(FriendsFrameIgnorePlayerButton)
 	S:HandleButton(FriendsFrameStopIgnoreButton)
 
