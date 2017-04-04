@@ -8,18 +8,18 @@ local GetTradeSkillListLink = GetTradeSkillListLink
 local Minimap_SetPing = Minimap_SetPing
 local MINIMAPPING_FADE_TIMER = MINIMAPPING_FADE_TIMER
 
-function B:ADDON_LOADED(_, addon)
-	if addon == "Blizzard_TradeSkillUI" then
-		TradeSkillLinkButton:SetScript("OnClick", function()
-			local ChatFrameEditBox = ChatEdit_ChooseBoxForSend()
-			if not ChatFrameEditBox:IsShown() then
-				ChatEdit_ActivateChat(ChatFrameEditBox)
-			end
+-- function B:ADDON_LOADED(_, addon)
+-- 	if addon == "Blizzard_TradeSkillUI" then
+-- 		TradeSkillLinkButton:SetScript("OnClick", function()
+-- 			local ChatFrameEditBox = ChatEdit_ChooseBoxForSend()
+-- 			if not ChatFrameEditBox:IsShown() then
+-- 				ChatEdit_ActivateChat(ChatFrameEditBox)
+-- 			end
 
-			ChatFrameEditBox:Insert(GetTradeSkillListLink())
-		end)
-	end
-end
+-- 			ChatFrameEditBox:Insert(GetTradeSkillListLink())
+-- 		end)
+-- 	end
+-- end
 
 function B:Initialize()
 	self:EnhanceColorPicker()
