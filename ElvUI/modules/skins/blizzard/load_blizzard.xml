@@ -18,7 +18,7 @@
 	<!--<Script file="gmchat.lua"/>-->
 	<Script file="gossip.lua"/>
 	<Script file="greeting.lua"/>
-	<!--<Script file="guildregistrar.lua"/>-->
+	<Script file="guildregistrar.lua"/>
 	<!--<Script file="help.lua"/>-->
 	<Script file="inspect.lua"/>
 	<!--<Script file="lfd.lua"/>-->

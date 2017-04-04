@@ -1,7 +1,7 @@
-local E, L, V, P, G = unpack(ElvUI);
+local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-local function LoadSkin()
+function S:LoadGuildRegistrarSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.guildregistrar ~= true then return end
 	GuildRegistrarFrame:StripTextures(true)
 	GuildRegistrarFrame:CreateBackdrop("Transparent")
@@ -33,4 +33,4 @@ local function LoadSkin()
 	AvailableServicesText:SetTextColor(1, 1, 0)
 end
 
-S:AddCallback("GuildRegistrar", LoadSkin);
+S:AddCallback("GuildRegistrar", S.LoadGuildRegistrarSkin)
