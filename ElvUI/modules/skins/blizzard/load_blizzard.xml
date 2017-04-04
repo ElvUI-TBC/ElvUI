@@ -33,7 +33,7 @@
 	<!--<Script file="pvp.lua"/>-->
 	<!--<Script file="quest.lua"/>-->
 	<!--<Script file="raid.lua"/>-->
-	<!-- <Script file="socket.lua"/> -->
+	<Script file="socket.lua"/>
 	<!--<Script file="spellbook.lua"/>-->
 	<!--<Script file="stable.lua"/>-->
 	<!--<Script file="tabard.lua"/>-->
