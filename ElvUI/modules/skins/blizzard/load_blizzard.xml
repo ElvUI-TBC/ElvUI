@@ -26,14 +26,14 @@
 	<!--<Script file="loot.lua"/>-->
 	<!--<Script file="macro.lua"/>-->
 	<!--<Script file="mail.lua"/>-->
-	<!--<Script file="merchant.lua"/>-->
+	<Script file="merchant.lua"/>
 	<!--<Script file="mirrortimers.lua"/>-->
 	<!--<Script file="misc.lua"/>-->
 	<!--<Script file="petition.lua"/>-->
 	<!--<Script file="pvp.lua"/>-->
 	<!--<Script file="quest.lua"/>-->
 	<!--<Script file="raid.lua"/>-->
-	<!--<Script file="socket.lua"/>-->
+	<!-- <Script file="socket.lua"/> -->
 	<!--<Script file="spellbook.lua"/>-->
 	<!--<Script file="stable.lua"/>-->
 	<!--<Script file="tabard.lua"/>-->
