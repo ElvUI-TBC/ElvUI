@@ -1,7 +1,7 @@
-local E, L, V, P, G = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-local function LoadSkin()
+function S:LoadGossipSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.gossip ~= true then return end
 
 	ItemTextFrame:StripTextures(true)
@@ -18,12 +18,12 @@ local function LoadSkin()
 
 	S:HandleScrollBar(GossipGreetingScrollFrameScrollBar, 5)
 
-	GossipFrameGreetingPanel:StripTextures();
+	GossipFrameGreetingPanel:StripTextures()
 
-	GossipFramePortrait:Kill();
+	GossipFramePortrait:Kill()
 
-	S:HandleButton(GossipFrameGreetingGoodbyeButton);
-	GossipFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", GossipFrame, -34, 71);
+	S:HandleButton(GossipFrameGreetingGoodbyeButton)
+	GossipFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", GossipFrame, -34, 71)
 
 	for i = 1, NUMGOSSIPBUTTONS do
 		local obj = select(3,_G["GossipTitleButton"..i]:GetRegions())
@@ -32,9 +32,9 @@ local function LoadSkin()
 
 	GossipGreetingText:SetTextColor(1,1,1)
 	GossipFrame:CreateBackdrop("Transparent")
-	GossipFrame.backdrop:Point("TOPLEFT", 15, -19);
-	GossipFrame.backdrop:Point("BOTTOMRIGHT", -30, 67);
-	S:HandleCloseButton(GossipFrameCloseButton);
+	GossipFrame.backdrop:Point("TOPLEFT", 15, -19)
+	GossipFrame.backdrop:Point("BOTTOMRIGHT", -30, 67)
+	S:HandleCloseButton(GossipFrameCloseButton)
 
 	hooksecurefunc("GossipFrameUpdate", function()
 		for i=1, NUMGOSSIPBUTTONS do
@@ -49,4 +49,4 @@ local function LoadSkin()
 	end)
 end
 
-S:AddCallback("Gossip", LoadSkin);
+S:AddCallback("Gossip", S.LoadGossipSkin)

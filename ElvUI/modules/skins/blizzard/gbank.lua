@@ -1,7 +1,7 @@
-local E, L, V, P, G = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-local function LoadSkin()
+function S:LoadGBankSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.gbank ~= true then return end
 	GuildBankFrame:StripTextures()
 	GuildBankFrame:CreateBackdrop("Transparent")
@@ -86,18 +86,18 @@ local function LoadSkin()
 	end
 
 	hooksecurefunc("GuildBankFrame_Update", function()
-		if GuildBankFrame.mode ~= "bank" then return; end
-		local tab = GetCurrentGuildBankTab();
-		local button, index, column, itemLink, itemRarity, r, g, b;
+		if GuildBankFrame.mode ~= "bank" then return end
+		local tab = GetCurrentGuildBankTab()
+		local button, index, column, itemLink, itemRarity, r, g, b
 		for i=1, MAX_GUILDBANK_SLOTS_PER_TAB do
-			index = mod(i, NUM_SLOTS_PER_GUILDBANK_GROUP);
+			index = mod(i, NUM_SLOTS_PER_GUILDBANK_GROUP)
 			if ( index == 0 ) then
-				index = NUM_SLOTS_PER_GUILDBANK_GROUP;
+				index = NUM_SLOTS_PER_GUILDBANK_GROUP
 			end
-			column = ceil((i-0.5)/NUM_SLOTS_PER_GUILDBANK_GROUP);
-			button = _G["GuildBankColumn"..column.."Button"..index];
+			column = ceil((i-0.5)/NUM_SLOTS_PER_GUILDBANK_GROUP)
+			button = _G["GuildBankColumn"..column.."Button"..index]
 
-			itemLink = GetGuildBankItemLink(tab, i);
+			itemLink = GetGuildBankItemLink(tab, i)
 			if itemLink then
 				itemRarity = select(3, GetItemInfo(itemLink))
 				if itemRarity > 1 then
@@ -113,10 +113,10 @@ local function LoadSkin()
 	end)
 
 	--Popup
-	S:HandleIconSelectionFrame(GuildBankPopupFrame, NUM_GUILDBANK_ICONS_SHOWN, "GuildBankPopupButton", "GuildBankPopup");
+	S:HandleIconSelectionFrame(GuildBankPopupFrame, NUM_GUILDBANK_ICONS_SHOWN, "GuildBankPopupButton", "GuildBankPopup")
 
 	S:HandleScrollBar(GuildBankTransactionsScrollFrameScrollBar)
 	S:HandleScrollBar(GuildBankInfoScrollFrameScrollBar)
 end
 
-S:AddCallbackForAddon("Blizzard_GuildBankUI", "GuildBank", LoadSkin);
+S:AddCallbackForAddon("Blizzard_GuildBankUI", "GuildBank", S.LoadGBankSkin)

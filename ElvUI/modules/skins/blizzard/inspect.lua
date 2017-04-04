@@ -1,8 +1,8 @@
-local E, L, V, P, G = unpack(ElvUI); -- Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-local function LoadSkin()
-	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect) then return; end
+function S:LoadInspectSkin()
+	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect) then return end
 
 	InspectFrame:StripTextures(true)
 	InspectFrame:CreateBackdrop("Transparent")
@@ -41,36 +41,46 @@ local function LoadSkin()
 
 	for _, slot in pairs(slots) do
 		local icon = _G["Inspect"..slot.."IconTexture"]
-		local slot = _G["Inspect"..slot]
+		local cooldown = _G["Inspect"..slot.."Cooldown"]
+
+		slot = _G["Inspect"..slot]
 		slot:StripTextures()
-		slot:StyleButton()
+		slot:StyleButton(false)
+		slot:SetTemplate("Default", true, true)
+
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
-		slot:SetFrameLevel(slot:GetFrameLevel() + 2)
-		slot:CreateBackdrop("Default")
-		slot.backdrop:SetAllPoints()
+
+		if(cooldown) then
+			E:RegisterCooldown(cooldown)
+		end
 	end
 
-	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
-		if(button.hasItem) then
-			local itemID = GetInventoryItemID(InspectFrame.unit, button:GetID())
-			if(itemID) then
-				local _, _, quality = GetItemInfo(itemID)
-				if(not quality) then
-					E:Delay(0.1, function()
-						if(InspectFrame.unit) then
-							InspectPaperDollItemSlotButton_Update(button);
-						end
-					end);
-					return
-				elseif(quality and quality > 1) then
-					button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
-					return
+	local function ColorItemBorder(_, event, unit)
+		if event == "UNIT_INVENTORY_CHANGED" and unit ~= "target" then return end
+
+		for _, slot in pairs(slots) do
+			local target = _G["Inspect"..slot]
+			local slotId, _, _ = GetInventorySlotInfo(slot)
+			local itemId = GetInventoryItemTexture("player", slotId)
+			if itemId then
+				local rarity = GetInventoryItemQuality("player", slotId)
+				if rarity and rarity > 1 then
+					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
+				else
+					target:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
+			else
+				target:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 		end
-		button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor));
-	end)
+	end
+
+	local checkItemBorderColor = CreateFrame("Frame")
+	checkItemBorderColor:RegisterEvent("UNIT_INVENTORY_CHANGED")
+	checkItemBorderColor:SetScript("OnEvent", ColorItemBorder)
+	InspectFrame:HookScript("OnShow", ColorItemBorder)
+	ColorItemBorder()
 
 	S:HandleRotateButton(InspectModelRotateLeftButton)
 	S:HandleRotateButton(InspectModelRotateRightButton)
@@ -88,26 +98,27 @@ local function LoadSkin()
 	InspectTalentFrame:StripTextures()
 
 	S:HandleCloseButton(InspectTalentFrameCloseButton)
+	S:HandleButton(InspectTalentFrameCancelButton)
 
-	for i = 1, MAX_TALENT_TABS do
-		_G["InspectTalentFrameTab"..i]:StripTextures()
-	end
+	InspectTalentFrameTab1:StripTextures()
+	InspectTalentFrameTab2:StripTextures()
+	InspectTalentFrameTab3:StripTextures()
 
 	for i = 1, MAX_NUM_TALENTS do
-		local talent = _G["InspectTalentFrameTalent"..i];
-		local icon = _G["InspectTalentFrameTalent"..i.."IconTexture"];
-		local rank = _G["InspectTalentFrameTalent"..i.."Rank"];
+		local talent = _G["InspectTalentFrameTalent"..i]
+		local icon = _G["InspectTalentFrameTalent"..i.."IconTexture"]
+		local rank = _G["InspectTalentFrameTalent"..i.."Rank"]
 
-		if (talent) then
-			talent:StripTextures();
-			talent:SetTemplate("Default");
-			talent:StyleButton();
+		if talent then
+			talent:StripTextures()
+			talent:SetTemplate("Default")
+			talent:StyleButton()
 
-			icon:SetInside();
-			icon:SetTexCoord(unpack(E.TexCoords));
-			icon:SetDrawLayer("ARTWORK");
+			icon:SetInside()
+			icon:SetTexCoord(unpack(E.TexCoords))
+			icon:SetDrawLayer("ARTWORK")
 
-			rank:SetFont(E.LSM:Fetch("font", E.db["general"].font), 12, "OUTLINE");
+			rank:SetFont(E.LSM:Fetch("font", E.db["general"].font), 12, "OUTLINE")
 		end
 	end
 
@@ -118,7 +129,7 @@ local function LoadSkin()
 	S:HandleScrollBar(InspectTalentFrameScrollFrameScrollBar)
 	InspectTalentFrameScrollFrameScrollBar:Point("TOPLEFT", InspectTalentFrameScrollFrame, "TOPRIGHT", 8, -19)
 
-	InspectTalentFramePointsBar:StripTextures()
+	-- InspectTalentFramePointsBar:StripTextures()
 end
 
-S:AddCallbackForAddon("Blizzard_InspectUI", "Inspect", LoadSkin);
+S:AddCallbackForAddon("Blizzard_InspectUI", "Inspect", S.LoadInspectSkin)

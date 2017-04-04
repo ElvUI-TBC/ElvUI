@@ -48,8 +48,6 @@ function S:LoadCharacterSkin()
 	for i = 1, 5 do
 		local frame = _G["MagicResFrame"..i]
 		frame:Size(24)
-		frame = _G["PetMagicResFrame"..i]
-		frame:Size(24)
 	end
 
 	select(1, MagicResFrame1:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.25, 0.3203125)
@@ -108,6 +106,63 @@ function S:LoadCharacterSkin()
 
 	-- PetPaperDollFrame
 	PetPaperDollFrame:StripTextures()
+
+	S:HandleButton(PetPaperDollCloseButton)
+
+	S:HandleRotateButton(PetModelFrameRotateLeftButton)
+	PetModelFrameRotateLeftButton:ClearAllPoints()
+	PetModelFrameRotateLeftButton:Point("TOPLEFT", 3, -3)
+	S:HandleRotateButton(PetModelFrameRotateRightButton)
+	PetModelFrameRotateRightButton:ClearAllPoints()
+	PetModelFrameRotateRightButton:Point("TOPLEFT", PetModelFrameRotateLeftButton, "TOPRIGHT", 3, 0)
+
+	PetAttributesFrame:StripTextures()
+
+	PetResistanceFrame:CreateBackdrop("Default")
+	PetResistanceFrame.backdrop:SetOutside(PetMagicResFrame1, nil, nil, PetMagicResFrame5)
+
+	for i = 1, 5 do
+		local frame = _G["PetMagicResFrame"..i]
+		frame:Size(24)
+	end
+
+	select(1, PetMagicResFrame1:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.25, 0.3203125)
+	select(1, PetMagicResFrame2:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.0234375, 0.09375)
+	select(1, PetMagicResFrame3:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.13671875, 0.20703125)
+	select(1, PetMagicResFrame4:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.36328125, 0.43359375)
+	select(1, PetMagicResFrame5:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.4765625, 0.546875)
+
+	PetPaperDollFrameExpBar:StripTextures()
+	PetPaperDollFrameExpBar:SetStatusBarTexture(E["media"].normTex)
+	E:RegisterStatusBar(PetPaperDollFrameExpBar);
+	PetPaperDollFrameExpBar:CreateBackdrop("Default")
+
+	local function updHappiness(self)
+		local happiness = GetPetHappiness();
+		local _, isHunterPet = HasPetUI();
+		if(not happiness or not isHunterPet) then
+			return;
+		end
+		local texture = self:GetRegions();
+		if(happiness == 1) then
+			texture:SetTexCoord(0.41, 0.53, 0.06, 0.30);
+		elseif(happiness == 2) then
+			texture:SetTexCoord(0.22, 0.345, 0.06, 0.30);
+		elseif(happiness == 3) then
+			texture:SetTexCoord(0.04, 0.15, 0.06, 0.30);
+		end
+	end
+
+	PetPaperDollPetInfo:SetPoint("TOPLEFT", PetModelFrameRotateLeftButton, "BOTTOMLEFT", 9, -3);
+	PetPaperDollPetInfo:GetRegions():SetTexCoord(0.04, 0.15, 0.06, 0.30);
+	PetPaperDollPetInfo:SetFrameLevel(PetModelFrame:GetFrameLevel() + 2);
+	PetPaperDollPetInfo:CreateBackdrop("Default");
+	PetPaperDollPetInfo:Size(24, 24);
+	updHappiness(PetPaperDollPetInfo);
+
+	PetPaperDollPetInfo:RegisterEvent("UNIT_HAPPINESS");
+	PetPaperDollPetInfo:SetScript("OnEvent", updHappiness);
+	PetPaperDollPetInfo:SetScript("OnShow", updHappiness);
 
 	-- SkillFrame
 	SkillFrame:StripTextures()
