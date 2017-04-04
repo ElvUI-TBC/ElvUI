@@ -7,7 +7,7 @@
 	<!--<Script file="barber.lua"/>-->
 	<!--<Script file="bgmap.lua"/>-->
 	<!--<Script file="bgscore.lua"/>-->
-	<!--<Script file="binding.lua"/>-->
+	<Script file="binding.lua"/>
 	<!--<Script file="calendar.lua"/>-->
 	<Script file="character.lua"/>
 	<Script file="debug.lua"/>
@@ -20,7 +20,7 @@
 	<!--<Script file="greeting.lua"/>-->
 	<!--<Script file="guildregistrar.lua"/>-->
 	<!--<Script file="help.lua"/>-->
-	<!--<Script file="inspect.lua"/>-->
+	<Script file="inspect.lua"/>
 	<!--<Script file="lfd.lua"/>-->
 	<!--<Script file="lfr.lua"/>-->
 	<!--<Script file="loot.lua"/>-->
