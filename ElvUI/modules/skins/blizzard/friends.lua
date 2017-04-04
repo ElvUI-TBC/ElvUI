@@ -345,20 +345,20 @@ function S:LoadFriendsSkin()
 	-- Raid Frame
 	S:HandleButton(RaidFrameConvertToRaidButton)
 	S:HandleButton(RaidFrameRaidInfoButton)
-	S:HandleButton(RaidFrameNotInRaidRaidBrowserButton)
+	-- S:HandleButton(RaidFrameNotInRaidRaidBrowserButton)
 
 	RaidInfoFrame:StripTextures(true) -- Raid Info Frame
 	RaidInfoFrame:SetTemplate("Transparent")
 
-	RaidInfoInstanceLabel:StripTextures()
-	RaidInfoIDLabel:StripTextures()
+	-- RaidInfoInstanceLabel:StripTextures()
+	-- RaidInfoIDLabel:StripTextures()
 
 	S:HandleCloseButton(RaidInfoCloseButton)
 
 	S:HandleScrollBar(RaidInfoScrollFrameScrollBar)
 
-	S:HandleButton(RaidInfoExtendButton)
-	S:HandleButton(RaidInfoCancelButton)
+	-- S:HandleButton(RaidInfoExtendButton)
+	-- S:HandleButton(RaidInfoCancelButton)
 end
 
 S:AddCallback("Friends", S.LoadFriendsSkin)
