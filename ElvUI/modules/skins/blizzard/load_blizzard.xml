@@ -5,7 +5,7 @@
 	<Script file="auctionhouse.lua"/>
 	<!--<Script file="bags.lua"/>-->
 	<!--<Script file="barber.lua"/>-->
-	<!--<Script file="bgmap.lua"/>-->
+	<Script file="bgmap.lua"/>
 	<!--<Script file="bgscore.lua"/>-->
 	<Script file="binding.lua"/>
 	<!--<Script file="calendar.lua"/>-->
