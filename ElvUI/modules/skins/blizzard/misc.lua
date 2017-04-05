@@ -20,7 +20,7 @@ function S:LoadMiscSkin()
 		"OptionsFrameWorldAppearance",
 		"OptionsFramePixelShaders",
 		"OptionsFrameMiscellaneous",
-		"SoundOptionsFrame",
+		"AudioOptionsFrame",
 		"SoundOptionsFramePlayback",
 		"SoundOptionsFrameHardware",
 		"SoundOptionsFrameVolume",
@@ -131,7 +131,7 @@ function S:LoadMiscSkin()
 	local BlizzardHeader = {
 		"GameMenuFrame",
 		"InterfaceOptionsFrame",
-		"SoundOptionsFrame",
+		"AudioOptionsFrame",
 		"OptionsFrame",
 	}
 
@@ -778,6 +778,9 @@ function S:LoadMiscSkin()
 			S:HandleCheckBox(ocheckbox)
 		end
 	end
+
+	SoundOptionsFrameCheckButton1:Point("TOPLEFT", "SoundOptionsFrame", "TOPLEFT", 16, -15)
+
 	local optiondropdown = {
 		"OptionsFrameResolutionDropDown",
 		"OptionsFrameRefreshDropDown",
