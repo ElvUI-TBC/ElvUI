@@ -1,5 +1,4 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<!--<Script file="alerts.lua"/>-->
 	<Script file="arena.lua"/>
 	<Script file="arenaregistrar.lua"/>
 	<Script file="auctionhouse.lua"/>
@@ -9,26 +8,16 @@
 	<Script file="binding.lua"/>
 	<Script file="character.lua"/>
 	<Script file="debug.lua"/>
-<<<<<<< HEAD
-<!--
-	<Script file="dressingroom.lua"/>
--->
-=======
->>>>>>> master
 	<Script file="friends.lua"/>
 	<Script file="gbank.lua"/>
 	<!--<Script file="glyph.lua"/>-->
-	<!--<Script file="gmchat.lua"/>-->
+	<Script file="gmchat.lua"/>
 	<Script file="gossip.lua"/>
 	<Script file="greeting.lua"/>
 	<Script file="guildregistrar.lua"/>
 	<!--<Script file="help.lua"/>-->
 	<Script file="inspect.lua"/>
 	<!--<Script file="lfg.lua"/>-->
-<<<<<<< HEAD
-=======
-	<!--<Script file="lfm.lua"/>-->
->>>>>>> master
 	<!--<Script file="loot.lua"/>-->
 	<Script file="macro.lua"/>
 	<Script file="mail.lua"/>
