@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI);
 local S = E:GetModule("Skins")
 
-local function LoadSkin()
+function S:LoadBGMapSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bgmap ~= true then return end
 	BattlefieldMinimap:SetClampedToScreen(true)
 	BattlefieldMinimapCorner:Kill()
@@ -46,10 +46,10 @@ local function LoadSkin()
 	end)
 
 
-	hooksecurefunc("BattlefieldMinimap_UpdateOpacity", function()
-		local alpha = 1.0 - BattlefieldMinimapOptions.opacity or 0;
-		BattlefieldMinimap.backdrop:SetAlpha(alpha)
-	end)
+	-- hooksecurefunc("BattlefieldMinimap_UpdateOpacity", function()
+	-- 	local alpha = 1.0 - BattlefieldMinimapOptions.opacity or 0;
+	-- 	BattlefieldMinimap.backdrop:SetAlpha(alpha)
+	-- end)
 
 	local oldAlpha
 	BattlefieldMinimap:HookScript("OnEnter", function()
@@ -64,10 +64,10 @@ local function LoadSkin()
 		end
 	end)
 
-	BattlefieldMinimapCloseButton:HookScript("OnEnter", function()
-		oldAlpha = BattlefieldMinimapOptions.opacity or 0;
-		BattlefieldMinimap_UpdateOpacity(0)
-	end)
+	-- BattlefieldMinimapCloseButton:HookScript("OnEnter", function()
+	-- 	oldAlpha = BattlefieldMinimapOptions.opacity or 0;
+	-- 	BattlefieldMinimap_UpdateOpacity(0)
+	-- end)
 
 	BattlefieldMinimapCloseButton:HookScript("OnLeave", function()
 		if oldAlpha then
@@ -78,4 +78,4 @@ local function LoadSkin()
 
 end
 
-S:AddCallbackForAddon("Blizzard_BattlefieldMinimap", "BattlefieldMinimap", LoadSkin);
+S:AddCallbackForAddon("Blizzard_BattlefieldMinimap", "BattlefieldMinimap", S.LoadBGMapSkin);
