@@ -15,7 +15,15 @@ function S:LoadMiscSkin()
 		"GameMenuFrame",
 		"InterfaceOptionsFrame",
 		"OptionsFrame",
+		"OptionsFrameDisplay",
+		"OptionsFrameBrightness",
+		"OptionsFrameWorldAppearance",
+		"OptionsFramePixelShaders",
+		"OptionsFrameMiscellaneous",
 		"SoundOptionsFrame",
+		"SoundOptionsFramePlayback",
+		"SoundOptionsFrameHardware",
+		"SoundOptionsFrameVolume",
 		-- "BNToastFrame",
 		-- "TicketStatusFrameButton",
 		"DropDownList1MenuBackdrop",
@@ -229,6 +237,9 @@ function S:LoadMiscSkin()
 		end
 	end
 
+	-------------------------------------------------------------------------------
+	-- I think this is now obsolete for this version of World of Warcraft (2.4.3), technically speaking.
+	-------------------------------------------------------------------------------
 	-- mac menu/option panel, made by affli.
 	if IsMacClient() then
 		S:HandleButton(GameMenuButtonMacOptions)
@@ -573,6 +584,7 @@ function S:LoadMiscSkin()
 
 	local interfacecheckbox = {
 		"ControlsPanelStickyTargeting",
+		"ControlsPanelFixInputLag",
 		"ControlsPanelAutoDismount",
 		"ControlsPanelAutoClearAFK",
 		"ControlsPanelBlockTrades",
@@ -597,14 +609,10 @@ function S:LoadMiscSkin()
 		"DisplayPanelRotateMinimap",
 		"DisplayPanelScreenEdgeFlash",
 		"DisplayPanelShowClock",
-		"DisplayPanelColorblindMode",
+		"DisplayPanelBuffDurations",
 		"DisplayPanelShowItemLevel",
-		"ObjectivesPanelInstantQuestText",
-		"ObjectivesPanelAutoQuestTracking",
-		"ObjectivesPanelAutoQuestProgress",
-		"ObjectivesPanelMapQuestDifficulty",
-		"ObjectivesPanelAdvancedWorldMap",
-		"ObjectivesPanelWatchFrameWidth",
+		"QuestsPanelInstantQuestText",
+		"QuestsPanelAutoQuestTracking",
 		"SocialPanelProfanityFilter",
 		"SocialPanelSpamFilter",
 		"SocialPanelChatBubbles",
@@ -612,8 +620,9 @@ function S:LoadMiscSkin()
 		"SocialPanelChatHoverDelay",
 		"SocialPanelGuildMemberAlert",
 		"SocialPanelGuildRecruitment",
-		"SocialPanelChatMouseScroll",
-		"SocialPanelWholeChatWindowClickable",
+		"SocialPanelShowChatIcons",
+		"SocialPanelSimpleChat",
+		"SocialPanelLockChatSettings",
 		"ActionBarsPanelLockActionBars",
 		"ActionBarsPanelSecureAbilityToggle",
 		"ActionBarsPanelAlwaysShowActionBars",
@@ -622,10 +631,10 @@ function S:LoadMiscSkin()
 		"ActionBarsPanelRight",
 		"ActionBarsPanelRightTwo",
 		"NamesPanelMyName",
+		"NamesPanelCompanions",
 		"NamesPanelFriendlyPlayerNames",
-		"NamesPanelFriendlyPets",
-		"NamesPanelFriendlyGuardians",
-		"NamesPanelFriendlyTotems",
+		"NamesPanelFriendlyPetsMinions",
+		"NamesPanelFriendlyCreations",
 		"NamesPanelUnitNameplatesFriends",
 		"NamesPanelUnitNameplatesFriendlyGuardians",
 		"NamesPanelUnitNameplatesFriendlyPets",
@@ -636,9 +645,8 @@ function S:LoadMiscSkin()
 		"NamesPanelTitles",
 		"NamesPanelNonCombatCreature",
 		"NamesPanelEnemyPlayerNames",
-		"NamesPanelEnemyPets",
-		"NamesPanelEnemyGuardians",
-		"NamesPanelEnemyTotems",
+		"NamesPanelEnemyPetsMinions",
+		"NamesPanelEnemyCreations",
 		"NamesPanelUnitNameplatesEnemyPets",
 		"NamesPanelUnitNameplatesEnemies",
 		"NamesPanelUnitNameplatesEnemyGuardians",
@@ -674,7 +682,7 @@ function S:LoadMiscSkin()
 		"MousePanelInvertMouse",
 		"MousePanelClickToMove",
 		"MousePanelWoWMouse",
-		"HelpPanelShowTutorials",
+		"HelpPanelTutorials",
 		"HelpPanelLoadingScreenTips",
 		"HelpPanelEnhancedTooltips",
 		"HelpPanelBeginnerTooltips",
@@ -695,6 +703,12 @@ function S:LoadMiscSkin()
 		"UnitFramePanelFullSizeFocusFrame",
 		"FeaturesPanelPreviewTalentChanges",
 		"FeaturesPanelEquipmentManager",
+		"PartyRaidPanelPartyBackground",
+		"PartyRaidPanelPartyInRaid",
+		"PartyRaidPanelPartyPets",
+		"PartyRaidPanelDispellableDebuffs",
+		"PartyRaidPanelCastableBuffs",
+		"PartyRaidPanelRaidRange"
 	}
 	for i = 1, #interfacecheckbox do
 		local icheckbox = _G["InterfaceOptions"..interfacecheckbox[i]]
@@ -727,32 +741,36 @@ function S:LoadMiscSkin()
 	S:HandleButton(InterfaceOptionsHelpPanelResetTutorials)
 
 	local optioncheckbox = {
-		"SoundOptionsSoundPanelEnableSound",
-		"SoundOptionsSoundPanelSoundEffects",
-		"SoundOptionsSoundPanelErrorSpeech",
-		"SoundOptionsSoundPanelEmoteSounds",
-		"SoundOptionsSoundPanelPetSounds",
-		"SoundOptionsSoundPanelMusic",
-		"SoundOptionsSoundPanelLoopMusic",
-		"SoundOptionsSoundPanelAmbientSounds",
-		"SoundOptionsSoundPanelSoundInBG",
-		"SoundOptionsSoundPanelReverb",
-		"SoundOptionsSoundPanelHRTF",
-		"SoundOptionsSoundPanelEnableDSPs",
-		"SoundOptionsSoundPanelUseHardware",
-		"OptionsResolutionPanelVSync",
-		"OptionsResolutionPanelTripleBuffer",
-		"OptionsResolutionPanelHardwareCursor",
-		"OptionsResolutionPanelFixInputLag",
-		"OptionsResolutionPanelUseUIScale",
-		"OptionsResolutionPanelWindowed",
-		"OptionsResolutionPanelMaximized",
-		"OptionsResolutionPanelDisableResize",
-		"OptionsResolutionPanelDesktopGamma",
-		"OptionsEffectsPanelSpecularLighting",
-		"OptionsEffectsPanelFullScreenGlow",
-		"OptionsEffectsPanelDeathEffect",
-		"OptionsEffectsPanelProjectedTextures",
+		"OptionsFrameCheckButton1",
+		"OptionsFrameCheckButton2",
+		"OptionsFrameCheckButton3",
+		"OptionsFrameCheckButton4",
+		"OptionsFrameCheckButton5",
+		"OptionsFrameCheckButton6",
+		"OptionsFrameCheckButton7",
+		"OptionsFrameCheckButton8",
+		"OptionsFrameCheckButton9",
+		"OptionsFrameCheckButton10",
+		"OptionsFrameCheckButton11",
+		"OptionsFrameCheckButton12",
+		"OptionsFrameCheckButton13",
+		"OptionsFrameCheckButton14",
+		"OptionsFrameCheckButton15",
+		"OptionsFrameCheckButton16",
+		"OptionsFrameCheckButton17",
+		"OptionsFrameCheckButton18",
+		"OptionsFrameCheckButton19",
+		"SoundOptionsFrameCheckButton1",
+		"SoundOptionsFrameCheckButton2",
+		"SoundOptionsFrameCheckButton3",
+		"SoundOptionsFrameCheckButton4",
+		"SoundOptionsFrameCheckButton5",
+		"SoundOptionsFrameCheckButton6",
+		"SoundOptionsFrameCheckButton7",
+		"SoundOptionsFrameCheckButton8",
+		"SoundOptionsFrameCheckButton9",
+		"SoundOptionsFrameCheckButton10",
+		"SoundOptionsFrameCheckButton11"
 	}
 	for i = 1, #optioncheckbox do
 		local ocheckbox = _G[optioncheckbox[i]]
@@ -761,10 +779,10 @@ function S:LoadMiscSkin()
 		end
 	end
 	local optiondropdown = {
-		"OptionsResolutionPanelResolutionDropDown",
-		"OptionsResolutionPanelRefreshDropDown",
-		"OptionsResolutionPanelMultiSampleDropDown",
-		"SoundOptionsSoundPanelHardwareDropDown",
+		"OptionsFrameResolutionDropDown",
+		"OptionsFrameRefreshDropDown",
+		"OptionsFrameMultiSampleDropDown",
+		"SoundOptionsOutputDropDown",
 	}
 	for i = 1, #optiondropdown do
 		local odropdown = _G[optiondropdown[i]]
@@ -774,36 +792,21 @@ function S:LoadMiscSkin()
 		end
 	end
 
-	local sliders = {
-		"OptionsResolutionPanelUIScaleSlider",
-		"OptionsEffectsPanelQualitySlider",
-		"OptionsEffectsPanelViewDistance",
-		"OptionsEffectsPanelEnvironmentDetail",
-		"OptionsEffectsPanelTextureResolution",
-		"OptionsEffectsPanelTerrainDetail",
-		"OptionsEffectsPanelClutterDensity",
-		"OptionsEffectsPanelTextureFiltering",
-		"OptionsEffectsPanelParticleDensity",
-		"OptionsEffectsPanelShadowQuality",
-		"OptionsEffectsPanelClutterRadius",
-		"OptionsEffectsPanelWeatherIntensity",
-		"OptionsEffectsPanelPlayerTexture",
-		"OptionsResolutionPanelGammaSlider",
-		"SoundOptionsSoundPanelSoundQuality",
-		"SoundOptionsSoundPanelSoundChannels",
-		"SoundOptionsSoundPanelMasterVolume",
-		"SoundOptionsSoundPanelSoundVolume",
-		"SoundOptionsSoundPanelMusicVolume",
-		"SoundOptionsSoundPanelAmbienceVolume",
-		"InterfaceOptionsCameraPanelMaxDistanceSlider",
-		"InterfaceOptionsCameraPanelFollowSpeedSlider",
-		"InterfaceOptionsMousePanelMouseLookSpeedSlider",
-		"InterfaceOptionsMousePanelMouseSensitivitySlider",
-	}
+	S:HandleSliderFrame(InterfaceOptionsCameraPanelMaxDistanceSlider)
+	S:HandleSliderFrame(InterfaceOptionsCameraPanelFollowSpeedSlider)
+	S:HandleSliderFrame(InterfaceOptionsMousePanelMouseSensitivitySlider)
+	S:HandleSliderFrame(InterfaceOptionsMousePanelMouseLookSpeedSlider)
 
-	-- for _, slider in pairs(sliders) do
-	-- 	S:HandleSliderFrame(_G[slider])
-	-- end
+	-- Video Options Sliders
+	for i = 1, 11 do
+		S:HandleSliderFrame(_G["OptionsFrameSlider"..i])
+	end
+
+	-- Sound Options Sliders
+	for i = 1, 6 do
+		S:HandleSliderFrame(_G["SoundOptionsFrameSlider"..i])
+	end
+
 end
 
 S:AddCallback("Misc", S.LoadMiscSkin)
