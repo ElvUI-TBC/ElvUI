@@ -28,7 +28,7 @@ function B:Initialize()
 	self:PositionDurabilityFrame()
 	self:PositionGMFrames()
 
-	self:RegisterEvent("ADDON_LOADED")
+	-- self:RegisterEvent("ADDON_LOADED")
 
 	if (GetLocale() == "deDE") then
 		DAY_ONELETTER_ABBR = "%d d"
