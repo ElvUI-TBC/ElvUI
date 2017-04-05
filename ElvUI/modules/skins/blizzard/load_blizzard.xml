@@ -1,5 +1,4 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<!--<Script file="alerts.lua"/>-->
 	<Script file="arena.lua"/>
 	<Script file="arenaregistrar.lua"/>
 	<Script file="auctionhouse.lua"/>
@@ -9,9 +8,6 @@
 	<Script file="binding.lua"/>
 	<Script file="character.lua"/>
 	<Script file="debug.lua"/>
-<!--
-	<Script file="dressingroom.lua"/>
--->
 	<Script file="friends.lua"/>
 	<Script file="gbank.lua"/>
 	<!--<Script file="glyph.lua"/>-->
