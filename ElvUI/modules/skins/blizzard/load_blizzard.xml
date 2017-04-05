@@ -17,7 +17,7 @@
 	<Script file="help.lua"/>
 	<Script file="inspect.lua"/>
 	<!--<Script file="lfg.lua"/>-->
-	<!--<Script file="loot.lua"/>-->
+	<Script file="loot.lua"/>
 	<Script file="macro.lua"/>
 	<Script file="mail.lua"/>
 	<Script file="merchant.lua"/>
