@@ -10,7 +10,7 @@ local type = type
 local unpack = unpack
 
 function table:wipe(t)
-	if not t then return {} end
+	if not t then return end
 	if type(t) ~= "table" then return end
 
 	for k in pairs(t) do

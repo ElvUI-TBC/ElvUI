@@ -181,6 +181,7 @@ function UpdateFrameStack(tooltip, showHidden)
 			local frameName = _G[n] or match(n, "%((.+)%)$") or n
 			if frameName and frameName == highlightFrame then
 				tooltip:AddLine("-->" .. (a[cs] or "|cff444444") .. "<" .. l .. "> " .. n .. "|r")
+				highlighted = true
 			else
 				tooltip:AddLine("     " .. (a[cs] or "|cff444444") .. "<" .. l .. "> " .. n .. "|r")
 			end
