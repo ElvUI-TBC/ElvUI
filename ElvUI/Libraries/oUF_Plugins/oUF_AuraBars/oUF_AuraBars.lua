@@ -1,5 +1,5 @@
 local ns = oUF
-local oUF = oUF or ns.oUF
+local oUF = ns.oUF
 assert(oUF, "oUF_AuraBars was unable to locate oUF install.")
 
 local format = string.format
@@ -33,7 +33,11 @@ local function FormatTime(s)
 end
 
 local function UpdateTooltip(self)
-	GameTooltip:SetUnitAura(self.__unit, self:GetParent().aura.name, self:GetParent().aura.rank, self:GetParent().aura.filter)
+	if self:GetParent().aura.filter == "HELPFUL" then
+		GameTooltip:SetUnitBuff(self.__unit, self:GetID())
+	else
+		GameTooltip:SetUnitDebuff(self.__unit, self:GetID())
+	end
 end
 
 local function OnEnter(self)
@@ -180,10 +184,8 @@ local function UpdateBars(auraBars)
 	end
 end
 
-local function DefaultFilter(self, unit, name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate)
-	if unitCaster == "player" and not shouldConsolidate then
-		return true
-	end
+local function DefaultFilter(self, unit, name, rank, icon, count, debuffType, duration, expirationTime)
+	return true
 end
 
 local sort = function(a, b)
@@ -220,12 +222,10 @@ local function Update(self, event, unit)
 	local counter = 0
 	if(auraBars.forceShow) then
 		for index = 1, auraBars.maxBars do
-			local spellID = 47540
-			local name, rank, icon = GetSpellInfo(spellID)
-			local count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, canApplyAura, isBossDebuff = 5, "Magic", 0, 0, "player", nil, nil, nil, nil
+			local name, rank, icon = GetSpellInfo(36824)
+			local count, debuffType, duration, expirationTime = 5, "Magic", 0, 0
 			lastAuraIndex = lastAuraIndex + 1
 			auras[lastAuraIndex] = {}
-			auras[lastAuraIndex].spellID = spellID
 			auras[lastAuraIndex].name = name
 			auras[lastAuraIndex].rank = rank
 			auras[lastAuraIndex].icon = icon
@@ -233,34 +233,30 @@ local function Update(self, event, unit)
 			auras[lastAuraIndex].debuffType = debuffType
 			auras[lastAuraIndex].duration = duration
 			auras[lastAuraIndex].expirationTime = expirationTime
-			auras[lastAuraIndex].unitCaster = unitCaster
-			auras[lastAuraIndex].isStealable = isStealable
 			auras[lastAuraIndex].noTime = (duration == 0 and expirationTime == 0)
 			auras[lastAuraIndex].filter = helpOrHarm
-			auras[lastAuraIndex].shouldConsolidate = shouldConsolidate
 		end
 	else
 		for index = 1, 40 do
-			local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID
+			local name, rank, icon, count, debuffType, duration, expirationTime
 
 			if not both then
-				name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID = UnitAura(unit, index, helpOrHarm)
+				name, rank, icon, count, debuffType, duration, expirationTime = UnitAura(unit, index, helpOrHarm)
 
 				if not name then break end
 			else
-				name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID = UnitAura(unit, index, "HELPFUL")
+				name, rank, icon, count, debuffType, duration, expirationTime = UnitAura(unit, index, "HELPFUL")
 
 				if not name then
-					name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID = UnitAura(unit, index, "HARMFUL")
+					name, rank, icon, count, debuffType, duration, expirationTime = UnitAura(unit, index, "HARMFUL")
 
 					if not name then break end
 				end
 			end
 
-			if (auraBars.filter or DefaultFilter)(self, unit, name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID) then
+			if (auraBars.filter or DefaultFilter)(self, unit, name, rank, icon, count, debuffType, duration, expirationTime) then
 				lastAuraIndex = lastAuraIndex + 1
 				auras[lastAuraIndex] = {}
-				auras[lastAuraIndex].spellID = spellID
 				auras[lastAuraIndex].name = name
 				auras[lastAuraIndex].rank = rank
 				auras[lastAuraIndex].icon = icon
@@ -268,11 +264,8 @@ local function Update(self, event, unit)
 				auras[lastAuraIndex].debuffType = debuffType
 				auras[lastAuraIndex].duration = duration
 				auras[lastAuraIndex].expirationTime = expirationTime
-				auras[lastAuraIndex].unitCaster = unitCaster
-				auras[lastAuraIndex].isStealable = isStealable
 				auras[lastAuraIndex].noTime = (duration == 0 and expirationTime == 0)
 				auras[lastAuraIndex].filter = helpOrHarm
-				auras[lastAuraIndex].shouldConsolidate = shouldConsolidate
 			end
 		end
 	end
@@ -320,6 +313,7 @@ local function Update(self, event, unit)
 
 		-- Backup the details of the aura onto the bar, so the OnUpdate function can use it
 		bar.aura = aura
+		bar:SetID(index)
 
 		-- Configure
 		if bar.aura.noTime then

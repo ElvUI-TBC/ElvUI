@@ -1,5 +1,5 @@
 local ns = oUF
-local oUF = ns.oUF or oUF
+local oUF = ns.oUF
 
 local select, pairs, type = select, pairs, type
 local format = string.format

@@ -1,5 +1,5 @@
-local ns = oUF;
-local oUF = ns.oUF or oUF;
+local ns = oUF
+local oUF = ns.oUF
 assert(oUF, "oUF_HealComm4 was unable to locate oUF install");
 
 local UnitGUID = UnitGUID

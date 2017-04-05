@@ -145,7 +145,7 @@ function UF:Configure_AuraBars(frame)
 
 		auraBars.maxBars = db.aurabar.maxBars;
 		auraBars.forceShow = frame.forceShowAuras;
-		--auraBars:SetAnchors();
+		auraBars:SetAnchors();
 	else
 		if(frame:IsElementEnabled("AuraBars")) then
 			frame:DisableElement("AuraBars");
@@ -174,7 +174,7 @@ function UF.SortAuraBarName(a, b)
 	return a.name > b.name;
 end
 
-function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration, _, unitCaster, isStealable, shouldConsolidate, spellID)
+function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration)
 	if(not self.db) then return; end
 	local db = self.db.aurabar;
 
@@ -182,34 +182,13 @@ function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration, _, unitCast
 	local passPlayerOnlyCheck = true;
 	local anotherFilterExists = false;
 	local playerOnlyFilter = false;
-	local isPlayer = unitCaster == "player" or unitCaster == "vehicle";
 	local isFriend = UnitIsFriend("player", unit) == 1 and true or false;
 
 	if(UF:CheckFilter(db.playerOnly, isFriend)) then
-		if(isPlayer) then
-			returnValue = true;
-		else
-			returnValue = false;
-		end
 		if(not db.additionalFilterAllowNonPersonal) then
 			passPlayerOnlyCheck = returnValue;
 		end
 		playerOnlyFilter = true;
-	end
-
-	if(UF:CheckFilter(db.onlyDispellable, isFriend)) then
-		if((self.type == "buffs" and not isStealable) or (self.type == "debuffs" and debuffType and not E:IsDispellableByMe(debuffType)) or debuffType == nil) then
-			returnValue = false;
-		end
-		anotherFilterExists = true;
-	end
-
-	if(UF:CheckFilter(db.noConsolidated, isFriend)) then
-		if(shouldConsolidate == 1) then
-			returnValue = false;
-		end
-
-		anotherFilterExists = true;
 	end
 
 	if(UF:CheckFilter(db.noDuration, isFriend)) then

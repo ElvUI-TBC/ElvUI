@@ -1,5 +1,5 @@
 local ns = oUF
-local oUF = oUF or ns.oUF
+local oUF = ns.oUF
 if not oUF then return end
 
 local UnitAura = UnitAura

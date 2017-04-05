@@ -111,7 +111,7 @@ Here is an example of how to set oUF_AW up:
 -----------------------------------------------------------------------------------------------------------]]
 
 local ns = oUF
-local oUF = oUF or ns.oUF
+local oUF = ns.oUF
 assert(oUF, "oUF_AuraWatch cannot find an instance of oUF. If your oUF is embedded into a layout, it may not be embedded properly.")
 
 local CreateFrame = CreateFrame

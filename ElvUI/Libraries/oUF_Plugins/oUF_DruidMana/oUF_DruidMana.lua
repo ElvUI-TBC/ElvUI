@@ -1,7 +1,7 @@
 if(select(2, UnitClass("player")) ~= "DRUID") then return; end
 
-local ns = oUF;
-local oUF = ns.oUF or oUF;
+local ns = oUF
+local oUF = ns.oUF
 
 local UnitPower, UnitPowerMax = UnitPower, UnitPowerMax
 local UnitIsPlayer = UnitIsPlayer

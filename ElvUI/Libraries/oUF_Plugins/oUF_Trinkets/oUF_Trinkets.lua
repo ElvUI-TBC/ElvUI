@@ -1,5 +1,5 @@
 local ns = oUF
-local oUF = ns.oUF or oUF
+local oUF = ns.oUF
 assert(oUF, "oUF not loaded")
 
 local GetTime = GetTime

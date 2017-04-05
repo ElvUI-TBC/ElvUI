@@ -1,5 +1,5 @@
-local ns = oUF;
-local oUF = ns.oUF or oUF;
+local ns = oUF
+local oUF = ns.oUF
 assert(oUF, "oUF not loaded");
 
 local cos, sin, sqrt2, max, atan2 = math.cos, math.sin, math.sqrt(2), math.max, math.atan2;
