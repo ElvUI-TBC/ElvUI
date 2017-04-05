@@ -24,36 +24,25 @@ local menuList = {
 	{text = CHARACTER_BUTTON,
 	func = function() ToggleCharacter("PaperDollFrame") end},
 	{text = SPELLBOOK_ABILITIES_BUTTON,
-	func = function() ToggleFrame(SpellBookFrame) end},
+	func = function() ToggleSpellBook(BOOKTYPE_SPELL) end},
 	{text = TALENTS_BUTTON,
 	func = function() ToggleTalentFrame() end},
-	{text = ACHIEVEMENT_BUTTON,
-	func = function() ToggleAchievementFrame() end},
-	{text = QUESTLOG_BUTTON,
-	func = function() ToggleFrame(QuestLogFrame) end},
+	{text = L["Quest Log"],
+	func = function() ToggleQuestLog() end},
 	{text = SOCIAL_BUTTON,
-	func = function() ToggleFriendsFrame(1) end},
-	{text = L["Calendar"],
-	func = function() GameTimeFrame:Click() end},
+	func = function() ToggleFriendsFrame() end},
 	{text = L["Farm Mode"],
 	func = FarmMode},
 	{text = TIMEMANAGER_TITLE,
 	func = function() ToggleTimeManager() end},
 	{text = PLAYER_V_PLAYER,
-	func = function() ToggleFrame(PVPParentFrame) end},
-	{text = LFG_TITLE,
-	func = function() ToggleFrame(LFDParentFrame) end},
-	{text = L_LFRAID,
-	func = function() ToggleFrame(LFRParentFrame) end},
+	func = function() ToggleCharacter("PVPFrame") end},
+	{text = L["Looking For Group"],
+	func = function() ToggleLFGParentFrame(1) end},
+	{text = L["Looking For More"],
+	func = function() ToggleLFGParentFrame(2) end},
 	{text = HELP_BUTTON,
 	func = function() ToggleHelpFrame() end},
-	{text = L_CALENDAR,
-	func = function()
-		if(not CalendarFrame) then
-			LoadAddOn("Blizzard_Calendar")
-		end
-		Calendar_Toggle()
-	end}
 }
 
 function M:GetLocTextColor()
