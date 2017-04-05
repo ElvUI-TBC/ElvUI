@@ -1,10 +1,12 @@
-local E, L, V, P, G, _ = unpack(ElvUI);
+local E, L, V, P, G, _ = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-local function LoadSkin()
+local _G = _G
+
+function S:LoadTutorialSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tutorial ~= true then return end
 
-	for i=1, TutorialFrame:GetNumChildren() do
+	for i = 1, TutorialFrame:GetNumChildren() do
 		local child = select(i, TutorialFrame:GetChildren())
 		if child.GetPushedTexture and child:GetPushedTexture() and not child:GetName() then
 			S:HandleCloseButton(child)
@@ -12,36 +14,33 @@ local function LoadSkin()
 		end
 	end
 
-	local tutorialbutton = TutorialFrameAlertButton
-	local tutorialbuttonIcon = TutorialFrameAlertButton:GetNormalTexture()
+	for i = 1, MAX_TUTORIAL_ALERTS do
 
-	tutorialbutton:StripTextures()
-	tutorialbutton:CreateBackdrop("Default", true)
-	tutorialbutton:SetWidth(50)
-	tutorialbutton:SetHeight(50)
+		TutorialFrameAlertButton = _G["TutorialFrameAlertButton"..i]
+		local TutorialFrameAlertButton = TutorialFrameAlertButton
+		local TutorialFrameAlertButtonIcon = TutorialFrameAlertButton:GetNormalTexture()
 
-	tutorialbuttonIcon:SetTexture("INTERFACE\\ICONS\\INV_Letter_18")
-	tutorialbuttonIcon:ClearAllPoints()
-	tutorialbuttonIcon:SetPoint("TOPLEFT", TutorialFrameAlertButton, "TOPLEFT", 5, -5)
-	tutorialbuttonIcon:SetPoint("BOTTOMRIGHT", TutorialFrameAlertButton, "BOTTOMRIGHT", -5, 5)
-	tutorialbuttonIcon:SetTexCoord(unpack(E.TexCoords))
+		TutorialFrameAlertButton:StripTextures()
+		TutorialFrameAlertButton:CreateBackdrop("Default", true)
+		TutorialFrameAlertButton:SetWidth(45)
+		TutorialFrameAlertButton:SetHeight(45)
+		S:HandleItemButton(TutorialFrameAlertButton)
+
+		TutorialFrameAlertButtonIcon:SetTexture("Interface\\TutorialFrame\\TutorialFrameAlert")
+		TutorialFrameAlertButtonIcon:ClearAllPoints()
+		TutorialFrameAlertButtonIcon:SetPoint("TOPLEFT", TutorialFrameAlertButton, "TOPLEFT", 0, 0)
+		TutorialFrameAlertButtonIcon:SetPoint("BOTTOMRIGHT", TutorialFrameAlertButton, "BOTTOMRIGHT", 0, 0)
+		TutorialFrameAlertButtonIcon:SetWidth(75)
+		TutorialFrameAlertButtonIcon:SetHeight(75)
+		-- TutorialFrameAlertButtonIcon:SetTexCoord(unpack(E.TexCoords))
+	end
 
 	TutorialFrame:StripTextures()
 	TutorialFrame:SetTemplate("Transparent")
 
-	S:HandleNextPrevButton(TutorialFrameNextButton)
-	TutorialFrameNextButton:SetPoint("BOTTOMRIGHT", TutorialFrame, "BOTTOMRIGHT", -132, 7)
-	TutorialFrameNextButton:SetWidth(22)
-	TutorialFrameNextButton:SetHeight(22)
-
-	S:HandleNextPrevButton(TutorialFramePrevButton)
-	TutorialFramePrevButton:SetPoint("BOTTOMLEFT", TutorialFrame, "BOTTOMLEFT", 30, 7)
-	TutorialFramePrevButton:SetWidth(22)
-	TutorialFramePrevButton:SetHeight(22)
+	S:HandleCheckBox(TutorialFrameCheckButton)
 
 	S:HandleButton(TutorialFrameOkayButton)
-
-	TutorialFrameCallOut:Kill()
 end
 
-S:AddCallback("Tutorial", LoadSkin);
+S:AddCallback("Tutorial", S.LoadTutorialSkin)
