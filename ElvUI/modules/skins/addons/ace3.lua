@@ -273,7 +273,7 @@ function S:SkinAce3()
 			msg:Point("LEFT", 10, 0)
 			msg:Point("RIGHT", -10, 0)
 			msg:SetJustifyV("MIDDLE")
-			msg:SetWidth(msg:GetWidth() + 10)
+			msg:Width(msg:GetWidth() + 10)
 		elseif TYPE == "Slider" then
 			local frame = widget.slider
 			local editbox = widget.editbox

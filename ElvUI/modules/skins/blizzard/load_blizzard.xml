@@ -9,6 +9,9 @@
 	<Script file="binding.lua"/>
 	<Script file="character.lua"/>
 	<Script file="debug.lua"/>
+<!--
+	<Script file="dressingroom.lua"/>
+-->
 	<Script file="friends.lua"/>
 	<Script file="gbank.lua"/>
 	<!--<Script file="glyph.lua"/>-->
@@ -19,7 +22,6 @@
 	<!--<Script file="help.lua"/>-->
 	<Script file="inspect.lua"/>
 	<!--<Script file="lfg.lua"/>-->
-	<!--<Script file="lfm.lua"/>-->
 	<!--<Script file="loot.lua"/>-->
 	<Script file="macro.lua"/>
 	<Script file="mail.lua"/>

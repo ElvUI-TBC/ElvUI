@@ -15,18 +15,14 @@ function B:Initialize()
 		MINUTE_ONELETTER_ABBR = "%d m"
 	end
 
-	--[[QuestLogFrame:HookScript("OnShow", function()
+	QuestLogFrame:HookScript("OnShow", function()
 		local questFrame = QuestLogFrame:GetFrameLevel()
-		local controlPanel = QuestLogControlPanel:GetFrameLevel()
 		local scrollFrame = QuestLogDetailScrollFrame:GetFrameLevel()
 
-		if questFrame >= controlPanel then
-			QuestLogControlPanel:SetFrameLevel(questFrame + 1)
-		end
 		if questFrame >= scrollFrame then
 			QuestLogDetailScrollFrame:SetFrameLevel(questFrame + 1)
 		end
-	end)]]
+	end)
 end
 
 E:RegisterModule(B:GetName())

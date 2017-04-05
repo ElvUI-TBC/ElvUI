@@ -46,36 +46,35 @@ function S:LoadBGMapSkin()
 	end)
 
 
-	-- hooksecurefunc("BattlefieldMinimap_UpdateOpacity", function()
-	-- 	local alpha = 1.0 - BattlefieldMinimapOptions.opacity or 0;
-	-- 	BattlefieldMinimap.backdrop:SetAlpha(alpha)
-	-- end)
+	hooksecurefunc("BattlefieldMinimap_SetOpacity", function()
+		local alpha = 1.0 - BattlefieldMinimapOptions.opacity or 0;
+		BattlefieldMinimap.backdrop:SetAlpha(alpha)
+	end)
 
 	local oldAlpha
 	BattlefieldMinimap:HookScript("OnEnter", function()
 		oldAlpha = BattlefieldMinimapOptions.opacity or 0;
-		BattlefieldMinimap_UpdateOpacity(0)
+		BattlefieldMinimap_SetOpacity(0)
 	end)
 
 	BattlefieldMinimap:HookScript("OnLeave", function()
 		if oldAlpha then
-			BattlefieldMinimap_UpdateOpacity(oldAlpha)
+			BattlefieldMinimap_SetOpacity(oldAlpha)
 			oldAlpha = nil;
 		end
 	end)
 
-	-- BattlefieldMinimapCloseButton:HookScript("OnEnter", function()
-	-- 	oldAlpha = BattlefieldMinimapOptions.opacity or 0;
-	-- 	BattlefieldMinimap_UpdateOpacity(0)
-	-- end)
+	BattlefieldMinimapCloseButton:HookScript("OnEnter", function()
+		oldAlpha = BattlefieldMinimapOptions.opacity or 0;
+		BattlefieldMinimap_SetOpacity(0)
+	end)
 
 	BattlefieldMinimapCloseButton:HookScript("OnLeave", function()
 		if oldAlpha then
-			BattlefieldMinimap_UpdateOpacity(oldAlpha)
+			BattlefieldMinimap_SetOpacity(oldAlpha)
 			oldAlpha = nil;
 		end
 	end)
-
 end
 
 S:AddCallbackForAddon("Blizzard_BattlefieldMinimap", "BattlefieldMinimap", S.LoadBGMapSkin);

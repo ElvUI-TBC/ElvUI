@@ -24,14 +24,11 @@ function S:LoadMiscSkin()
 		"SoundOptionsFramePlayback",
 		"SoundOptionsFrameHardware",
 		"SoundOptionsFrameVolume",
-		-- "BNToastFrame",
-		-- "TicketStatusFrameButton",
+	--	"TicketStatusFrameButton",
 		"DropDownList1MenuBackdrop",
 		"DropDownList2MenuBackdrop",
 		"DropDownList1Backdrop",
 		"DropDownList2Backdrop",
-		-- "AutoCompleteBox",
-		-- "ConsolidatedBuffsTooltip",
 		"ReadyCheckFrame",
 		"StackSplitFrame",
 	}
@@ -40,14 +37,13 @@ function S:LoadMiscSkin()
 		_G[skins[i]]:SetTemplate("Transparent")
 	end
 
-
 	local ChatMenus = {
 		"ChatMenu",
 		"EmoteMenu",
 		"LanguageMenu",
 		"VoiceMacroMenu",
 	}
-	--
+
 	for i = 1, #ChatMenus do
 		if _G[ChatMenus[i]] == _G["ChatMenu"] then
 			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(E["media"].backdropfadecolor)) self:ClearAllPoints() self:Point("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 0, 30) end)
@@ -324,10 +320,6 @@ function S:LoadMiscSkin()
 		S:HandleButton(RatingMenuButtonOkay)
 	end
 
-	-- BNToastFrameCloseButton:Size(32)
-	-- BNToastFrameCloseButton:Point("TOPRIGHT", "BNToastFrame", 4, 4)
-	-- S:HandleCloseButton(BNToastFrameCloseButton)
-
 	OpacityFrame:StripTextures()
 	OpacityFrame:SetTemplate("Transparent")
 
@@ -338,9 +330,6 @@ function S:LoadMiscSkin()
 	ChatConfigFrame:SetTemplate("Transparent")
 	ChatConfigCategoryFrame:SetTemplate("Transparent")
 	ChatConfigBackgroundFrame:SetTemplate("Transparent")
-
-	-- ChatConfigChatSettingsClassColorLegend:SetTemplate("Transparent")
-	-- ChatConfigChannelSettingsClassColorLegend:SetTemplate("Transparent")
 
 	ChatConfigCombatSettingsFilters:SetTemplate("Transparent")
 

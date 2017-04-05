@@ -21,17 +21,11 @@ function S:LoadFriendsSkin()
 
 	S:HandleCloseButton(FriendsFrameCloseButton)
 
-	-- S:HandleDropDownBox(FriendsFrameStatusDropDown, 70)
-	-- FriendsFrameStatusDropDown:Point("TOPLEFT", FreindsListFrame, "TOPLEFT", 13, -44)
-	-- S:HandleEditBox(FriendsFrameBroadcastInput)
-	-- FriendsFrameBroadcastInput:SetWidth(224)
-	-- FriendsFrameBroadcastInput:Point("TOPLEFT", FriendsFrameStatusDropDown, "TOPRIGHT", 13, -3)
-
 	for i = 1, 5 do
 		S:HandleTab(_G["FriendsFrameTab"..i])
 	end
 
- 	-- Friends List Frame
+	-- Friends List Frame
 	for i = 1, 2 do
 		local Tab = _G["FriendsFrameToggleTab"..i]
 		Tab:StripTextures()
@@ -50,7 +44,7 @@ function S:LoadFriendsSkin()
 	S:HandleButton(FriendsFrameRemoveFriendButton)
 	S:HandleButton(FriendsFrameGroupInviteButton)
 
- 	-- Ignore List Frame
+	-- Ignore List Frame
 	for i = 1, 2 do
 		local Tab = _G["IgnoreFrameToggleTab"..i]
 		Tab:StripTextures()
@@ -356,7 +350,6 @@ function S:LoadFriendsSkin()
 	-- Raid Frame
 	S:HandleButton(RaidFrameConvertToRaidButton)
 	S:HandleButton(RaidFrameRaidInfoButton)
-	-- S:HandleButton(RaidFrameNotInRaidRaidBrowserButton)
 
 	RaidInfoFrame:StripTextures(true) -- Raid Info Frame
 	RaidInfoFrame:SetTemplate("Transparent")
@@ -367,9 +360,6 @@ function S:LoadFriendsSkin()
 	S:HandleCloseButton(RaidInfoCloseButton)
 
 	S:HandleScrollBar(RaidInfoScrollFrameScrollBar)
-
-	-- S:HandleButton(RaidInfoExtendButton)
-	-- S:HandleButton(RaidInfoCancelButton)
 end
 
 S:AddCallback("Friends", S.LoadFriendsSkin)

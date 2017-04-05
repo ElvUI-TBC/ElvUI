@@ -128,8 +128,6 @@ function S:LoadInspectSkin()
 	InspectTalentFrameScrollFrame.backdrop:Point("BOTTOMRIGHT", 5, -4)
 	S:HandleScrollBar(InspectTalentFrameScrollFrameScrollBar)
 	InspectTalentFrameScrollFrameScrollBar:Point("TOPLEFT", InspectTalentFrameScrollFrame, "TOPRIGHT", 8, -19)
-
-	-- InspectTalentFramePointsBar:StripTextures()
 end
 
 S:AddCallbackForAddon("Blizzard_InspectUI", "Inspect", S.LoadInspectSkin)
