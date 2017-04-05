@@ -24,21 +24,11 @@ function S:LoadMiscSkin()
 		"SoundOptionsFramePlayback",
 		"SoundOptionsFrameHardware",
 		"SoundOptionsFrameVolume",
-<<<<<<< HEAD
-	--	"TicketStatusFrameButton",
-=======
-		-- "BNToastFrame",
-		-- "TicketStatusFrameButton",
->>>>>>> master
+		"TicketStatusFrame",
 		"DropDownList1MenuBackdrop",
 		"DropDownList2MenuBackdrop",
 		"DropDownList1Backdrop",
 		"DropDownList2Backdrop",
-<<<<<<< HEAD
-=======
-		-- "AutoCompleteBox",
-		-- "ConsolidatedBuffsTooltip",
->>>>>>> master
 		"ReadyCheckFrame",
 		"StackSplitFrame",
 	}
@@ -330,13 +320,6 @@ function S:LoadMiscSkin()
 		S:HandleButton(RatingMenuButtonOkay)
 	end
 
-<<<<<<< HEAD
-=======
-	-- BNToastFrameCloseButton:Size(32)
-	-- BNToastFrameCloseButton:Point("TOPRIGHT", "BNToastFrame", 4, 4)
-	-- S:HandleCloseButton(BNToastFrameCloseButton)
-
->>>>>>> master
 	OpacityFrame:StripTextures()
 	OpacityFrame:SetTemplate("Transparent")
 
@@ -347,12 +330,6 @@ function S:LoadMiscSkin()
 	ChatConfigFrame:SetTemplate("Transparent")
 	ChatConfigCategoryFrame:SetTemplate("Transparent")
 	ChatConfigBackgroundFrame:SetTemplate("Transparent")
-<<<<<<< HEAD
-=======
-
-	-- ChatConfigChatSettingsClassColorLegend:SetTemplate("Transparent")
-	-- ChatConfigChannelSettingsClassColorLegend:SetTemplate("Transparent")
->>>>>>> master
 
 	ChatConfigCombatSettingsFilters:SetTemplate("Transparent")
 
