@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<!--<Script file="alerts.lua"/>-->
 	<Script file="arena.lua"/>
-	<!--<Script file="arenaregistrar.lua"/>-->
+	<Script file="arenaregistrar.lua"/>
 	<Script file="auctionhouse.lua"/>
 	<!--<Script file="bags.lua"/>-->
 	<Script file="bgmap.lua"/>
