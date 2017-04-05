@@ -1,7 +1,7 @@
-local E, L, V, P, G = unpack(ElvUI);
-local S = E:GetModule("Skins");
+local E, L, V, P, G = unpack(ElvUI)
+local S = E:GetModule("Skins")
 
-local function LoadSkin()
+function S:LoadDebugSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.debug ~= true then return end
 
 	ScriptErrorsFrame:SetParent(E.UIParent)
@@ -49,7 +49,7 @@ local function LoadSkin()
 			edgeFile = E["media"].blankTex,
 			tile = false, tileSize = 0, edgeSize = noscalemult,
 			insets = { left = -noscalemult, right = -noscalemult, top = -noscalemult, bottom = -noscalemult}
-		});
+		})
 		self:SetBackdropColor(unpack(E["media"].backdropfadecolor))
 		self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 	end)
@@ -61,4 +61,4 @@ local function LoadSkin()
 	S:HandleCloseButton(EventTraceFrameCloseButton)
 end
 
-S:AddCallbackForAddon("!DebugTools", "DebugTools", LoadSkin);
+S:AddCallbackForAddon("!DebugTools", "DebugTools", S.LoadDebugSkin)
