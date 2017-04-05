@@ -442,7 +442,6 @@ function B:Layout(isBank)
 				f.ContainerHolder[i]:HookScript("OnEnter", function(self) B.SetSlotAlphaForBag(self, f) end)
 				f.ContainerHolder[i]:HookScript("OnLeave", function(self) B.ResetSlotAlphaForBags(self, f) end)
 
-
 				if isBank then
 					f.ContainerHolder[i]:SetID(bagID)
 					if not f.ContainerHolder[i].tooltipText then

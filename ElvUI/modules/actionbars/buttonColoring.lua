@@ -4,8 +4,6 @@
 		Derived from RedRange with negligable improvements to CPU usage
 --]]
 
---[[ locals and speed ]]--
-
 local E, L, V, P, G = unpack(ElvUI);
 
 local _G = _G
@@ -19,22 +17,16 @@ local IsActionInRange = IsActionInRange
 local IsUsableAction = IsUsableAction
 local HasAction = HasAction
 
-
---[[ The main thing ]]--
-
-local tullaRange = CreateFrame('Frame', 'tullaRange', UIParent); tullaRange:Hide()
+local tullaRange = CreateFrame("Frame", "tullaRange", UIParent); tullaRange:Hide()
 
 function tullaRange:Load()
-	self:SetScript('OnUpdate', self.OnUpdate)
-	self:SetScript('OnHide', self.OnHide)
-	self:SetScript('OnEvent', self.OnEvent)
+	self:SetScript("OnUpdate", self.OnUpdate)
+	self:SetScript("OnHide", self.OnHide)
+	self:SetScript("OnEvent", self.OnEvent)
 	self.elapsed = 0
 
-	self:RegisterEvent('PLAYER_LOGIN')
+	self:RegisterEvent("PLAYER_LOGIN")
 end
-
-
---[[ Frame Events ]]--
 
 function tullaRange:OnEvent(event, ...)
 	local action = self[event]
@@ -55,9 +47,6 @@ function tullaRange:OnHide()
 	self.elapsed = 0
 end
 
-
---[[ Game Events ]]--
-
 function tullaRange:PLAYER_LOGIN()
 	if not TULLARANGE_COLORS then
 		self:LoadDefaults()
@@ -66,13 +55,10 @@ function tullaRange:PLAYER_LOGIN()
 
 	self.buttonsToUpdate = {}
 
-	hooksecurefunc('ActionButton_OnUpdate', self.RegisterButton)
-	hooksecurefunc('ActionButton_UpdateUsable', self.OnUpdateButtonUsable)
-	hooksecurefunc('ActionButton_Update', self.OnButtonUpdate)
+	hooksecurefunc("ActionButton_OnUpdate", self.RegisterButton)
+	hooksecurefunc("ActionButton_UpdateUsable", self.OnUpdateButtonUsable)
+	hooksecurefunc("ActionButton_Update", self.OnButtonUpdate)
 end
-
-
---[[ Actions ]]--
 
 function tullaRange:Update()
 	self:UpdateButtons(self.elapsed)
@@ -119,14 +105,10 @@ function tullaRange:UpdateButtonStatus()
 	self:UpdateShown()
 end
 
-
-
---[[ Button Hooking ]]--
-
 function tullaRange.RegisterButton()
-	this:HookScript('OnShow', tullaRange.OnButtonShow)
-	this:HookScript('OnHide', tullaRange.OnButtonHide)
-	this:SetScript('OnUpdate', nil)
+	this:HookScript("OnShow", tullaRange.OnButtonShow)
+	this:HookScript("OnHide", tullaRange.OnButtonHide)
+	this:SetScript("OnUpdate", nil)
 
 	tullaRange:UpdateButtonStatus(this)
 end
@@ -145,31 +127,23 @@ function tullaRange.OnUpdateButtonUsable()
 end
 
 function tullaRange.OnButtonUpdate()
-	 tullaRange:UpdateButtonStatus(this)
+	tullaRange:UpdateButtonStatus(this)
 end
-
-
---[[ Range Coloring ]]--
 
 function tullaRange.UpdateButtonUsable(button)
 	local action = ActionButton_GetPagedID(button)
 	local isUsable, notEnoughMana = IsUsableAction(action)
 
-	--usable
 	if isUsable then
-		--but out of range
 		if IsActionInRange(action) == 0 then
-			tullaRange.SetButtonColor(button, 'OOR')
-		--in range
+			tullaRange.SetButtonColor(button, "OOR")
 		else
-			tullaRange.SetButtonColor(button, 'NORMAL')
+			tullaRange.SetButtonColor(button, "NORMAL")
 		end
-	--out of mana
 	elseif notEnoughMana then
-		tullaRange.SetButtonColor(button, 'OOM')
-	--unusable
+		tullaRange.SetButtonColor(button, "OOM")
 	else
-		tullaRange.SetButtonColor(button, 'UNUSABLE')
+		tullaRange.SetButtonColor(button, "UNUSABLE")
 	end
 end
 
@@ -179,7 +153,7 @@ function tullaRange.SetButtonColor(button, colorType)
 
 		local r, g, b = tullaRange:GetColor(colorType)
 
-		local icon =  _G[button:GetName() .. 'Icon']
+		local icon = _G[button:GetName() .. "Icon"]
 		icon:SetVertexColor(r, g, b)
 	end
 end
@@ -195,7 +169,7 @@ function tullaRange.UpdateFlash(button, elapsed)
 			end
 			flashtime = ATTACK_BUTTON_FLASH_TIME - overtime
 
-			local flashTexture = _G[button:GetName() .. 'Flash']
+			local flashTexture = _G[button:GetName() .. "Flash"]
 			if flashTexture:IsShown() then
 				flashTexture:Hide()
 			else
@@ -206,9 +180,6 @@ function tullaRange.UpdateFlash(button, elapsed)
 		button.flashtime = flashtime
 	end
 end
-
-
---[[ Configuration ]]--
 
 function tullaRange:LoadDefaults()
 	TULLARANGE_COLORS = {
@@ -239,7 +210,5 @@ function tullaRange:GetColor(index)
 	local color = self.colors[index]
 	return color[1], color[2], color[3]
 end
-
---[[ Load The Thing ]]--
 
 tullaRange:Load()

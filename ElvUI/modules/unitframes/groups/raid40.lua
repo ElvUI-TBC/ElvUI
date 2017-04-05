@@ -4,8 +4,8 @@ local UF = E:GetModule("UnitFrames");
 local tinsert = table.insert;
 
 local CreateFrame = CreateFrame;
-local InCombatLockdown = InCombatLockdown;
 local IsInInstance = IsInInstance;
+local InCombatLockdown = InCombatLockdown;
 local GetInstanceInfo = GetInstanceInfo;
 local UnregisterStateDriver = UnregisterStateDriver;
 local RegisterStateDriver = RegisterStateDriver;
@@ -14,7 +14,7 @@ local ns = oUF;
 local ElvUF = ns.oUF;
 assert(ElvUF, "ElvUI was unable to locate oUF.");
 
-function UF:Construct_RaidFrames(unitGroup)
+function UF:Construct_Raid40Frames(unitGroup)
 	self:SetScript("OnEnter", UnitFrame_OnEnter);
 	self:SetScript("OnLeave", UnitFrame_OnLeave);
 
@@ -37,31 +37,31 @@ function UF:Construct_RaidFrames(unitGroup)
 	tinsert(self.__elements, UF.UpdateTargetGlow);
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", UF.UpdateTargetGlow);
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", UF.UpdateTargetGlow);
-	self.Threat = UF:Construct_Threat(self)
+	self.InfoPanel = UF:Construct_InfoPanel(self);
+	self.Threat = UF:Construct_Threat(self);
 	self.RaidIcon = UF:Construct_RaidIcon(self);
 	self.ReadyCheck = UF:Construct_ReadyCheckIcon(self);
 	self.HealCommBar = UF:Construct_HealComm(self);
 	self.GPS = UF:Construct_GPS(self);
 	self.Range = UF:Construct_Range(self);
 	self.customTexts = {};
-	self.InfoPanel = UF:Construct_InfoPanel(self);
+
 	UF:Update_StatusBars();
 	UF:Update_FontStrings();
-	self.unitframeType = "raid";
+	self.unitframeType = "raid40";
 
-	UF:Update_RaidFrames(self, UF.db["units"]["raid"]);
+	UF:Update_Raid40Frames(self, UF.db["units"]["raid40"]);
 
 	return self;
 end
 
-
-function UF:RaidSmartVisibility(event)
+function UF:Raid40SmartVisibility(event)
 	if(not self.db or (self.db and not self.db.enable) or (UF.db and not UF.db.smartRaidFilter) or self.isForced) then
 		self.blockVisibilityChanges = false;
 		return;
 	end
 
-	if(event == "PLAYER_REGEN_ENABLED") then self:UnregisterEvent("PLAYER_REGEN_ENABLED"); end
+	if(event == "PLAYER_REGEN_ENABLED") then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
 
 	if(not InCombatLockdown()) then
 		self.isInstanceForced = nil;
@@ -75,22 +75,22 @@ function UF:RaidSmartVisibility(event)
 
 			UnregisterStateDriver(self, "visibility");
 
-			if(maxPlayers < 40) then
+			if(maxPlayers == 40) then
 				self:Show();
 				self.isInstanceForced = true;
 				self.blockVisibilityChanges = false;
-				if(ElvUF_Raid.numGroups ~= E:Round(maxPlayers/5) and event) then
-					UF:CreateAndUpdateHeaderGroup("raid");
+				if(ElvUF_Raid40.numGroups ~= E:Round(maxPlayers/5) and event) then
+					UF:CreateAndUpdateHeaderGroup("raid40");
 				end
 			else
 				self:Hide();
-				self.blockVisibilityChanges = true;
+				self.blockVisibilityChanges = true
 			end
 		elseif(self.db.visibility) then
 			RegisterStateDriver(self, "visibility", self.db.visibility);
 			self.blockVisibilityChanges = false;
-			if(ElvUF_Raid.numGroups ~= self.db.numGroups) then
-				UF:CreateAndUpdateHeaderGroup("raid");
+			if(ElvUF_Raid40.numGroups ~= self.db.numGroups) then
+				UF:CreateAndUpdateHeaderGroup("raid40");
 			end
 		end
 	else
@@ -99,25 +99,25 @@ function UF:RaidSmartVisibility(event)
 	end
 end
 
-function UF:Update_RaidHeader(header, db)
+function UF:Update_Raid40Header(header, db)
 	header.db = db;
 
 	if(not header.positioned) then
 		header:ClearAllPoints();
 		header:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 195);
 
-		E:CreateMover(header, header:GetName() .. "Mover", L["Raid Frames"], nil, nil, nil, "ALL,RAID");
+		E:CreateMover(header, header:GetName() .. "Mover", L["Raid-40 Frames"], nil, nil, nil, "ALL,RAID");
 
 		header:RegisterEvent("PLAYER_LOGIN");
 		header:RegisterEvent("ZONE_CHANGED_NEW_AREA");
-		header:SetScript("OnEvent", UF["RaidSmartVisibility"]);
+		header:SetScript("OnEvent", UF["Raid40SmartVisibility"]);
 		header.positioned = true;
 	end
 
-	UF.RaidSmartVisibility(header);
+	UF.Raid40SmartVisibility(header);
 end
 
-function UF:Update_RaidFrames(frame, db)
+function UF:Update_Raid40Frames(frame, db)
 	frame.db = db;
 
 	frame.Portrait = frame.Portrait or (db.portrait.style == "2D" and frame.Portrait2D or frame.Portrait3D);
@@ -171,7 +171,7 @@ function UF:Update_RaidFrames(frame, db)
 		frame:SetAttribute("initial-width", frame.UNIT_WIDTH);
 	end
 
-	UF:Configure_InfoPanel(frame);
+	UF:Configure_InfoPanel(frame)
 
 	UF:Configure_HealthBar(frame);
 
@@ -212,4 +212,4 @@ function UF:Update_RaidFrames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements");
 end
 
-UF["headerstoload"]["raid"] = true;
+UF["headerstoload"]["raid40"] = true;

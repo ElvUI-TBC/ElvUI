@@ -3,7 +3,9 @@
 	<Script file="raid.lua"/>
 	<Script file="raid40.lua"/>
 	<Script file="arena.lua"/>
+<!--
 	<Script file="boss.lua"/>
+-->
 	<Script file="tank.lua"/>
 	<Script file="raidPets.lua"/>
 	<Script file="assist.lua"/>

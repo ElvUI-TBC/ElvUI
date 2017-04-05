@@ -62,11 +62,11 @@ function AB:StyleButton(noBackdrop)
 	local name = this:GetName()
 	local icon = _G[name.."Icon"]
 	local count = _G[name.."Count"]
-	local flash	 = _G[name.."Flash"]
+	local flash = _G[name.."Flash"]
 	local hotkey = _G[name.."HotKey"]
-	local border  = _G[name.."Border"]
+	local border = _G[name.."Border"]
 	local macroName = _G[name.."Name"]
-	local normal  = _G[name.."NormalTexture"]
+	local normal = _G[name.."NormalTexture"]
 	local buttonCooldown = _G[name.."Cooldown"]
 	local normal2 = this:GetNormalTexture()
 	local combat = InCombatLockdown()
