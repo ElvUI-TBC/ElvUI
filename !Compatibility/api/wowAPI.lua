@@ -12,7 +12,8 @@ local TIMEMANAGER_PM = TIMEMANAGER_PM
 
 function UnitAura(unit, i, filter)
 	if filter == "HELPFUL" then
-		return UnitBuff(unit, i)
+		local name, rank, aura, count, duration, maxDuration = UnitBuff(unit, i)
+		return name, rank, aura, count, nil, duration, maxDuration
 	else
 		return UnitDebuff(unit, i)
 	end

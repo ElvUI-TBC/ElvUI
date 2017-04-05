@@ -12,7 +12,11 @@ local VISIBLE = 1
 local HIDDEN = 0
 
 local UpdateTooltip = function(self)
-	GameTooltip:SetUnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
+	if self.filter == "HELPFUL" then
+		GameTooltip:SetUnitBuff(self:GetParent().__owner.unit, self:GetID())
+	else
+		GameTooltip:SetUnitDebuff(self:GetParent().__owner.unit, self:GetID())
+	end
 end
 
 local OnEnter = function(self)
@@ -46,13 +50,6 @@ local createAuraIcon = function(icons, index)
 	overlay:SetTexCoord(.296875, .5703125, 0, .515625)
 	button.overlay = overlay
 
-	local stealable = button:CreateTexture(nil, "OVERLAY")
-	stealable:SetTexture([[Interface\TargetingFrame\UI-TargetingFrame-Stealable]])
-	stealable:SetPoint("TOPLEFT", -3, 3)
-	stealable:SetPoint("BOTTOMRIGHT", 3, -3)
-	stealable:SetBlendMode("ADD")
-	button.stealable = stealable
-
 	button.UpdateTooltip = UpdateTooltip
 	button:SetScript("OnEnter", OnEnter)
 	button:SetScript("OnLeave", OnLeave)
@@ -73,16 +70,11 @@ local customFilter = function(icons, unit, icon, name)
 end
 
 local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visible)
-	local name, rank, texture, count, dispelType, duration, expiration, caster, isStealable, shouldConsolidate, spellID
-	if(isDebuff) then
-		name, rank, texture, count, dispelType, duration, expiration, caster, isStealable, shouldConsolidate, spellID = UnitDebuff(unit, index, filter)
-	else
-		name, rank, texture, count, dispelType, duration, expiration, caster, isStealable, shouldConsolidate, spellID = UnitBuff(unit, index, filter)
-	end
+	local name, rank, texture, count, dispelType, duration, expiration = UnitAura(unit, index, filter)
+
 	if icons.forceShow then
-		spellID = 47540
-		name, rank, texture = GetSpellInfo(spellID)
-		count, dispelType, duration, expiration, caster, isStealable, shouldConsolidate = 5, "Magic", 0, 60, "player", nil, nil
+		name, rank, texture = GetSpellInfo(47540)
+		count, dispelType, duration, expiration = 5, "Magic", 0, 60
 	end
 
 	if(name) then
@@ -98,19 +90,12 @@ local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visibl
 			end
 		end
 
-		local isPlayer
-		if(caster == "player" or caster == "vehicle") then
-			isPlayer = true
-		end
-
-		icon.owner = caster
 		icon.filter = filter
 		icon.isDebuff = isDebuff
-		icon.isPlayer = isPlayer
 
 		local show = true
 		if not icons.forceShow then
-			show = (icons.CustomFilter or customFilter) (icons, unit, icon, name, rank, texture, count, dispelType, duration, expiration, caster, isStealable, shouldConsolidate, spellID)
+			show = (icons.CustomFilter or customFilter) (icons, unit, icon, name, rank, texture, count, dispelType, duration, expiration)
 		end
 
 		if(show) then
@@ -131,13 +116,6 @@ local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visibl
 				icon.overlay:Show()
 			else
 				icon.overlay:Hide()
-			end
-
-			local stealable = not isDebuff and isStealable
-			if(stealable and icons.showStealableBuffs and not UnitIsUnit("player", unit)) then
-				icon.stealable:Show()
-			else
-				icon.stealable:Hide()
 			end
 
 			icon.icon:SetTexture(texture)

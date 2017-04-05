@@ -65,7 +65,6 @@ function UF:Construct_AuraIcon(button)
 	button.count:SetJustifyH("RIGHT");
 
 	button.overlay:SetTexture(nil);
-	button.stealable:SetTexture(nil);
 
 	button:RegisterForClicks("RightButtonUp");
 	button:SetScript("OnClick", function(self)
@@ -324,7 +323,7 @@ end
 local unstableAffliction = GetSpellInfo(30108);
 local vampiricTouch = GetSpellInfo(34914);
 function UF:PostUpdateAura(unit, button, index)
-	local name, _, _, _, dtype, duration, expiration, _, isStealable = UnitBuff(unit, index, button.filter);
+	local name, _, _, _, dtype, duration, expiration = UnitAura(unit, index, button.filter)
 	local isFriend = UnitIsFriend("player", unit) == 1 and true or false;
 
 	local auras = button:GetParent();
@@ -353,12 +352,6 @@ function UF:PostUpdateAura(unit, button, index)
 			end
 			button.icon:SetDesaturated(false);
 		end
-	else
-		if((isStealable) and not isFriend) then
-			button:SetBackdropBorderColor(237/255, 234/255, 142/255);
-		else
-			button:SetBackdropBorderColor(unpack(E["media"].bordercolor));
-		end
 	end
 
 	local size = button:GetParent().size;
@@ -367,7 +360,6 @@ function UF:PostUpdateAura(unit, button, index)
 	end
 
 	button.spell = name;
-	button.isStealable = isStealable;
 	button.duration = duration;
 
 	if(expiration and duration ~= 0) then
@@ -439,7 +431,7 @@ function UF:CheckFilter(filterType, isFriend)
 	return false;
 end
 
-function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration, _, _, isStealable, shouldConsolidate, spellID)
+function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 	local db = self:GetParent().db;
 	if(not db or not db[self.type]) then return true; end
 
@@ -470,13 +462,6 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration, _, _, isSteal
 			passPlayerOnlyCheck = returnValue;
 		end
 		playerOnlyFilter = true;
-	end
-
-	if(UF:CheckFilter(db.onlyDispellable, isFriend)) then
-		if((self.type == "buffs" and not isStealable) or (self.type == "debuffs" and dtype and not E:IsDispellableByMe(dtype)) or dtype == nil) then
-			returnValue = false;
-		end
-		anotherFilterExists = true;
 	end
 
 	if(UF:CheckFilter(db.noConsolidated, isFriend)) then
