@@ -24,7 +24,7 @@ function S:LoadMiscSkin()
 		"SoundOptionsFramePlayback",
 		"SoundOptionsFrameHardware",
 		"SoundOptionsFrameVolume",
-	--	"TicketStatusFrameButton",
+		"TicketStatusFrame",
 		"DropDownList1MenuBackdrop",
 		"DropDownList2MenuBackdrop",
 		"DropDownList1Backdrop",
