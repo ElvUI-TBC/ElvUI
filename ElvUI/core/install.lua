@@ -63,7 +63,7 @@ local function SetupChat()
 		FCF_StopDragging(frame)
 
 		-- set default Elvui font size
-		FCF_SetChatWindowFontSize(nil, frame, 12)
+		FCF_SetChatWindowFontSize(frame, 12)
 
 		-- rename windows general because moved to chat #3
 		if i == 1 then
@@ -168,18 +168,18 @@ local function SetupChat()
 end
 
 local function SetupCVars()
-	SetCVar("mapQuestDifficulty", 1)
-	SetCVar("ShowClassColorInNameplate", 1)
+	-- SetCVar("mapQuestDifficulty", 1)
+	-- SetCVar("ShowClassColorInNameplate", 1)
 	SetCVar("screenshotQuality", 10)
-	SetCVar("chatMouseScroll", 1)
-	SetCVar("chatStyle", "classic", "chatStyle");
-	SetCVar("WholeChatWindowClickable", 0)
-	SetCVar("ConversationMode", "inline")
-	SetCVar("showTutorials", 0)
+	-- SetCVar("chatMouseScroll", 1)
+	-- SetCVar("chatStyle", "classic", "chatStyle");
+	-- SetCVar("WholeChatWindowClickable", 0)
+	-- SetCVar("ConversationMode", "inline")
+	-- SetCVar("showTutorials", 0)
 	SetCVar("showNewbieTips", 0)
 	SetCVar("showLootSpam", 1)
 	SetCVar("UberTooltips", 1)
-	SetCVar("threatWarning", 3)
+	-- SetCVar("threatWarning", 3)
 	SetCVar("alwaysShowActionBars", 1)
 	SetCVar("lockActionBars", 1)
 
