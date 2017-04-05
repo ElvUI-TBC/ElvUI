@@ -18,8 +18,8 @@
 	<Script file="guildregistrar.lua"/>
 	<!--<Script file="help.lua"/>-->
 	<Script file="inspect.lua"/>
-	<!--<Script file="lfd.lua"/>-->
-	<!--<Script file="lfr.lua"/>-->
+	<!--<Script file="lfg.lua"/>-->
+	<!--<Script file="lfm.lua"/>-->
 	<!--<Script file="loot.lua"/>-->
 	<Script file="macro.lua"/>
 	<Script file="mail.lua"/>
