@@ -630,24 +630,9 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 			name = L["Block Auras Without Duration"],
 			desc = L["Don't display auras that have no duration."]
 		};
-		config.args.filters.args.onlyDispellable = {
-			order = 18,
-			type = "toggle",
-			name = L["Block Non-Dispellable Auras"],
-			desc = L["Don't display auras that cannot be purged or dispelled by your class."]
-		};
-
-		if(auraType == "buffs") then
-			config.args.filters.args.noConsolidated = {
-				order = 18,
-				type = "toggle",
-				name = L["Block Raid Buffs"],
-				desc = L["Don't display raid buffs such as Blessing of Kings or Mark of the Wild."]
-			};
-		end
 
 		config.args.filters.args.useFilter = {
-			order = 19,
+			order = 18,
 			name = L["Additional Filter"],
 			desc = L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
 			type = "select",
@@ -763,59 +748,8 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 				}
 			}
 		};
-		config.args.filters.args.onlyDispellable = {
-			order = 18,
-			guiInline = true,
-			type = "group",
-			name = L["Block Non-Dispellable Auras"],
-			args = {
-				friendly = {
-					order = 1,
-					type = "toggle",
-					name = L["Friendly"],
-					desc = L["If the unit is friendly to you."].." "..L["Don't display auras that cannot be purged or dispelled by your class."],
-					get = function(info) return E.db.unitframe.units[groupName][auraType].onlyDispellable.friendly; end,
-					set = function(info, value) E.db.unitframe.units[groupName][auraType].onlyDispellable.friendly = value; updateFunc(UF, groupName, numUnits); end
-				},
-				enemy = {
-					order = 2,
-					type = "toggle",
-					name = L["Enemy"],
-					desc = L["If the unit is an enemy to you."].." "..L["Don't display auras that cannot be purged or dispelled by your class."],
-					get = function(info) return E.db.unitframe.units[groupName][auraType].onlyDispellable.enemy; end,
-					set = function(info, value) E.db.unitframe.units[groupName][auraType].onlyDispellable.enemy = value; updateFunc(UF, groupName, numUnits); end
-				}
-			}
-		};
-		if(auraType == "buffs") then
-			config.args.filters.args.noConsolidated = {
-				order = 18,
-				guiInline = true,
-				type = "group",
-				name = L["Block Raid Buffs"],
-				args = {
-					friendly = {
-						order = 1,
-						type = "toggle",
-						name = L["Friendly"],
-						desc = L["If the unit is friendly to you."].." "..L["Don't display raid buffs such as Blessing of Kings or Mark of the Wild."],
-						get = function(info) return E.db.unitframe.units[groupName][auraType].noConsolidated.friendly; end,
-						set = function(info, value) E.db.unitframe.units[groupName][auraType].noConsolidated.friendly = value; updateFunc(UF, groupName, numUnits); end
-					},
-					enemy = {
-						order = 2,
-						type = "toggle",
-						name = L["Enemy"],
-						desc = L["If the unit is an enemy to you."].." "..L["Don't display raid buffs such as Blessing of Kings or Mark of the Wild."],
-						get = function(info) return E.db.unitframe.units[groupName][auraType].noConsolidated.enemy; end,
-						set = function(info, value) E.db.unitframe.units[groupName][auraType].noConsolidated.enemy = value; updateFunc(UF, groupName, numUnits); end
-					}
-				}
-			};
-		end
-
 		config.args.filters.args.useFilter = {
-			order = 19,
+			order = 18,
 			name = L["Additional Filter"],
 			desc = L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
 			type = "select",
@@ -1156,20 +1090,8 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 			name = L["Block Auras Without Duration"],
 			desc = L["Don't display auras that have no duration."]
 		};
-		config.args.filters.args.onlyDispellable = {
-			order = 14,
-			type = "toggle",
-			name = L["Block Non-Dispellable Auras"],
-			desc = L["Don't display auras that cannot be purged or dispelled by your class."]
-		};
-		config.args.filters.args.noConsolidated = {
-			order = 15,
-			type = "toggle",
-			name = L["Block Raid Buffs"],
-			desc = L["Don't display raid buffs such as Blessing of Kings or Mark of the Wild."]
-		};
 		config.args.filters.args.useFilter = {
-			order = 16,
+			order = 14,
 			name = L["Additional Filter"],
 			desc = L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
 			type = "select",
@@ -1285,56 +1207,8 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				}
 			}
 		};
-		config.args.filters.args.onlyDispellable = {
-			order = 14,
-			guiInline = true,
-			type = "group",
-			name = L["Block Non-Dispellable Auras"],
-			args = {
-				friendly = {
-					order = 1,
-					type = "toggle",
-					name = L["Friendly"],
-					desc = L["If the unit is friendly to you."] .. " " .. L["Don't display auras that cannot be purged or dispelled by your class."],
-					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].onlyDispellable.friendly; end,
-					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].onlyDispellable.friendly = value; updateFunc(UF, groupName); end
-				},
-				enemy = {
-					order = 2,
-					type = "toggle",
-					name = L["Enemy"],
-					desc = L["If the unit is an enemy to you."] .. " " .. L["Don't display auras that cannot be purged or dispelled by your class."],
-					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].onlyDispellable.enemy; end,
-					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].onlyDispellable.enemy = value; updateFunc(UF, groupName); end
-				}
-			}
-		};
-		config.args.filters.args.noConsolidated = {
-			order = 15,
-			guiInline = true,
-			type = "group",
-			name = L["Block Raid Buffs"],
-			args = {
-				friendly = {
-					order = 1,
-					type = "toggle",
-					name = L["Friendly"],
-					desc = L["If the unit is friendly to you."] .. " " .. L["Don't display raid buffs such as Blessing of Kings or Mark of the Wild."],
-					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].noConsolidated.friendly; end,
-					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].noConsolidated.friendly = value; updateFunc(UF, groupName); end
-				},
-				enemy = {
-					order = 2,
-					type = "toggle",
-					name = L["Enemy"],
-					desc = L["If the unit is an enemy to you."] .. " " .. L["Don't display raid buffs such as Blessing of Kings or Mark of the Wild."],
-					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].noConsolidated.enemy; end,
-					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].noConsolidated.enemy = value; updateFunc(UF, groupName); end
-				}
-			}
-		};
 		config.args.filters.args.useFilter = {
-			order = 16,
+			order = 14,
 			name = L["Additional Filter"],
 			desc = L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
 			type = "select",
