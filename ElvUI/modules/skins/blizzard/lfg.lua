@@ -1,108 +1,71 @@
-local E, L, V, P, G = unpack(ElvUI);
-local S = E:GetModule("Skins");
+local E, L, V, P, G = unpack(ElvUI)
+local S = E:GetModule("Skins")
 
-local find = string.find;
+local _G = _G
+local find = string.find
 
-local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.lfd ~= true then return end
+function S:LoadLFGSkin()
+	if (E.private.skins.blizzard.enable ~= true or not E.private.skins.blizzard.lfg ~= true) then return end
 
-	LFDParentFrame:StripTextures(true);
-	LFDQueueFrame:CreateBackdrop("Transparent");
-	LFDQueueFrame.backdrop:Point("TOPLEFT", 10, -11);
-	LFDQueueFrame.backdrop:Point("BOTTOMRIGHT", -1, 0);
+	LFGParentFrame:StripTextures(true)
+	LFGParentFrame:CreateBackdrop("Transparent")
+	LFGParentFrame.backdrop:Point("TOPLEFT", 10, -12)
+	LFGParentFrame.backdrop:Point("BOTTOMRIGHT", -31, 75)
 
-	LFDParentFramePortrait:Kill();
+	local lfgButtons = {
+		"LFGWizardFrameLFGButton",
+		"LFGWizardFrameLFMButton",
+		"LFGFrameClearAllButton",
+		"LFGFrameDoneButton",
+		"LFMFrameSearchButton",
+		"LFMFrameSendMessageButton",
+		"LFMFrameGroupInviteButton"
+	}
 
-	for i = 1, LFDParentFrame:GetNumChildren() do
-		local child = select(i, LFDParentFrame:GetChildren());
-		if(child.GetPushedTexture and child:GetPushedTexture() and not child:GetName()) then
-			S:HandleCloseButton(child);
+	for _, button in pairs(lfgButtons) do
+		_G[button]:StripTextures()
+		S:HandleButton(_G[button])
+	end
+
+	local lfgDropDowns = {
+		"TypeDropDown1",
+		"NameDropDown1",
+		"TypeDropDown2",
+		"NameDropDown2",
+		"TypeDropDown3",
+		"NameDropDown3",
+	}
+
+	for i = 1, 6 do
+		local ddown = _G["LFGFrame"..lfgDropDowns[i]]
+		if ddown then
+			S:HandleDropDownBox(ddown)
+			ddown:Width(250)
 		end
 	end
 
-	S:HandleCheckBox(LFDQueueFrameRoleButtonTank.checkButton);
-	LFDQueueFrameRoleButtonTank.checkButton:SetFrameLevel(LFDQueueFrameRoleButtonTank.checkButton:GetFrameLevel() + 2);
-	S:HandleCheckBox(LFDQueueFrameRoleButtonHealer.checkButton);
-	LFDQueueFrameRoleButtonHealer.checkButton:SetFrameLevel(LFDQueueFrameRoleButtonHealer.checkButton:GetFrameLevel() + 2);
-	S:HandleCheckBox(LFDQueueFrameRoleButtonDPS.checkButton);
-	LFDQueueFrameRoleButtonDPS.checkButton:SetFrameLevel(LFDQueueFrameRoleButtonDPS.checkButton:GetFrameLevel() + 2);
-	S:HandleCheckBox(LFDQueueFrameRoleButtonLeader.checkButton);
-	LFDQueueFrameRoleButtonLeader.checkButton:SetFrameLevel(LFDQueueFrameRoleButtonLeader.checkButton:GetFrameLevel() + 2);
+	S:HandleDropDownBox(LFMFrameTypeDropDown)
+	LFMFrameTypeDropDown:Width(150)
+	S:HandleDropDownBox(LFMFrameNameDropDown)
+	LFMFrameNameDropDown:Width(220)
 
-	LFDQueueFrame:StripTextures(true);
-
-	S:HandleDropDownBox(LFDQueueFrameTypeDropDown);
-
-	for i=1, LFD_MAX_REWARDS do
-		local Item = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i];
-		local ItemIconTexture = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."IconTexture"];
-		local ItemCount = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."Count"];
-
-		if(Item) then
-			Item:StripTextures();
-			Item:SetTemplate("Default");
-
-			ItemIconTexture:SetTexCoord(unpack(E.TexCoords));
-			ItemIconTexture:SetDrawLayer("OVERLAY");
-
-			ItemCount:SetDrawLayer("OVERLAY");
-		end
+	for i = 1, 2 do
+		local tab = _G["LFGParentFrameTab"..i]
+		S:HandleTab(tab)
 	end
 
-	LFDQueueFrameSpecificListScrollFrame:StripTextures();
-	S:HandleScrollBar(LFDQueueFrameSpecificListScrollFrameScrollBar);
-
-	S:HandleButton(LFDQueueFrameFindGroupButton, true);
-	S:HandleButton(LFDQueueFrameCancelButton, true);
-
-	for i = 1, NUM_LFD_CHOICE_BUTTONS do
-		local button = _G["LFDQueueFrameSpecificListButton" .. i];
-		button.enableButton:StripTextures();
-		button.enableButton:CreateBackdrop("Default");
-		button.enableButton.backdrop:SetInside(nil, 4, 4);
-
-		button.expandOrCollapseButton:SetNormalTexture("");
-		button.expandOrCollapseButton.SetNormalTexture = E.noop;
-		button.expandOrCollapseButton:SetHighlightTexture(nil);
-
-		button.expandOrCollapseButton.Text = button.expandOrCollapseButton:CreateFontString(nil, "OVERLAY");
-		button.expandOrCollapseButton.Text:FontTemplate(nil, 22);
-		button.expandOrCollapseButton.Text:Point("CENTER", 4, 0);
-		button.expandOrCollapseButton.Text:SetText("+");
-
-		hooksecurefunc(button.expandOrCollapseButton, "SetNormalTexture", function(self, texture)
-			if(find(texture, "MinusButton")) then
-				self.Text:SetText("-");
-			else
-				self.Text:SetText("+");
-			end
-		end);
+	for i = 1, 4 do
+		_G["LFMFrameColumnHeader" .. i]:StripTextures()
+		_G["LFMFrameColumnHeader" .. i]:StyleButton()
 	end
 
-	S:HandleButton(LFDQueueFramePartyBackfillBackfillButton);
-	S:HandleButton(LFDQueueFramePartyBackfillNoBackfillButton);
+	LFGComment:CreateBackdrop("Transparent")
 
-	LFDSearchStatus:SetTemplate("Transparent"); -- LFDSearchStatus
+	AutoJoinBackground:StripTextures()
+	S:HandleCheckBox(AutoJoinCheckButton)
+	AddMemberBackground:StripTextures()
+	S:HandleCheckBox(AutoAddMembersCheckButton)
 
-	LFDRoleCheckPopup:SetTemplate("Transparent"); -- LFDRoleCheckPopup
-
-	S:HandleCheckBox(LFDRoleCheckPopupRoleButtonTank.checkButton);
-	S:HandleCheckBox(LFDRoleCheckPopupRoleButtonHealer.checkButton);
-	S:HandleCheckBox(LFDRoleCheckPopupRoleButtonDPS.checkButton);
-
-	S:HandleButton(LFDRoleCheckPopupAcceptButton);
-	S:HandleButton(LFDRoleCheckPopupDeclineButton);
-
-	LFDDungeonReadyDialog:SetTemplate("Transparent"); -- LFDDungeonReadyDialog
-
-	S:HandleCloseButton(LFDDungeonReadyDialogCloseButton, nil, "-");
-
-	S:HandleButton(LFDDungeonReadyDialogEnterDungeonButton);
-	S:HandleButton(LFDDungeonReadyDialogLeaveQueueButton);
-
-	LFDDungeonReadyStatus:SetTemplate("Transparent"); -- LFDDungeonReadyStatus
-
-	S:HandleCloseButton(LFDDungeonReadyStatusCloseButton, nil, "-");
 end
 
-S:AddCallback("LFD", LoadSkin);
+S:AddCallback("LFG", S.LoadLFGSkin)
