@@ -22,7 +22,7 @@ function S:LoadTutorialSkin()
 
 		TutorialFrameAlertButton:StripTextures()
 		TutorialFrameAlertButton:CreateBackdrop("Default", true)
-		TutorialFrameAlertButton:SetWidth(45)
+		TutorialFrameAlertButton:SetWidth(35)
 		TutorialFrameAlertButton:SetHeight(45)
 		S:HandleItemButton(TutorialFrameAlertButton)
 
@@ -30,9 +30,9 @@ function S:LoadTutorialSkin()
 		TutorialFrameAlertButtonIcon:ClearAllPoints()
 		TutorialFrameAlertButtonIcon:SetPoint("TOPLEFT", TutorialFrameAlertButton, "TOPLEFT", 0, 0)
 		TutorialFrameAlertButtonIcon:SetPoint("BOTTOMRIGHT", TutorialFrameAlertButton, "BOTTOMRIGHT", 0, 0)
-		TutorialFrameAlertButtonIcon:SetWidth(75)
-		TutorialFrameAlertButtonIcon:SetHeight(75)
+		TutorialFrameAlertButtonIcon:SetTexCoord(0.07, 0.43, 0.15, 0.55)
 		-- TutorialFrameAlertButtonIcon:SetTexCoord(unpack(E.TexCoords))
+
 	end
 
 	TutorialFrame:StripTextures()
