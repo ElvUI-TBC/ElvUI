@@ -59,7 +59,7 @@ function S:LoadLFGSkin()
 		_G["LFMFrameColumnHeader" .. i]:StyleButton()
 	end
 
-	LFGComment:CreateBackdrop("Transparent")
+	S:HandleEditBox(LFGComment)
 
 	AutoJoinBackground:StripTextures()
 	S:HandleCheckBox(AutoJoinCheckButton)

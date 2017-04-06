@@ -103,6 +103,11 @@ function S:LoadFriendsSkin()
 	WhoListScrollFrame:StripTextures()
 	S:HandleScrollBar(WhoListScrollFrameScrollBar)
 
+	S:HandleEditBox(WhoFrameEditBox)
+	WhoFrameEditBox:Point("BOTTOMLEFT", "WhoFrame", "BOTTOMLEFT", 17, 108)
+	WhoFrameEditBox:Width(326)
+	WhoFrameEditBox:Height(18)
+
 	S:HandleButton(WhoFrameWhoButton)
 	WhoFrameWhoButton:ClearAllPoints()
 	WhoFrameWhoButton:SetPoint("BOTTOMLEFT", 16, 82)
