@@ -201,6 +201,18 @@ function S:LoadQuestSkin()
 	QuestLogFrame.backdrop:Point("TOPLEFT", QuestLogFrame, "TOPLEFT", 10, -12)
 	QuestLogFrame.backdrop:Point("BOTTOMRIGHT", QuestLogFrame, "BOTTOMRIGHT", -1, 8)
 
+	QuestLogHighlightFrame:CreateBackdrop("Transparent")
+	QuestLogHighlightFrame.backdrop:Point("TOPLEFT", QuestLogListScrollFrame, "TOPLEFT", 0, 0)
+	QuestLogHighlightFrame.backdrop:Point("BOTTOMRIGHT", QuestLogListScrollFrame, "BOTTOMRIGHT", 0, 0)
+
+	QuestLogListScrollFrame:Width(334)
+
+	local QuestBG = CreateFrame("Frame","QuestBG",QuestLogFrame)
+	QuestBG:CreateBackdrop("Transparent")
+	QuestBG:Point("TOPLEFT", QuestLogListScrollFrame, "TOPLEFT", 0, 0)
+	QuestBG:Width(334)
+	QuestBG:SetHeight(94)
+
 	QuestLogHighlightFrame:ClearAllPoints()
 	QuestLogHighlightFrame:SetWidth(QuestLogFrame:GetWidth() - 48)
 
@@ -246,6 +258,14 @@ function S:LoadQuestSkin()
 
 		_G["QuestLogTitle" .. i .. "Highlight"]:SetTexture("")
 		_G["QuestLogTitle" .. i .. "Highlight"].SetTexture = E.noop
+
+		-- Check this. I may be wrong in doing so.
+		QuestLogFrame:HookScript("OnShow", function()
+			QuestLogHighlightFrame:Width(340)
+			questLogTitle:HookScript("OnClick", function()
+				QuestLogHighlightFrame:Width(340)
+			end)
+		end)
 
 		questLogTitle.Text = questLogTitle:CreateFontString(nil, "OVERLAY")
 		questLogTitle.Text:FontTemplate(nil, 22)
