@@ -49,7 +49,7 @@
 	StepTitleTextJustification - The justification of the text on each step button ("LEFT", "RIGHT", "CENTER"). Default: "CENTER"
 ]]
 
-local E, L, V, P, G, _ = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB, Localize Underscore
+local E, L, V, P, G, _ = unpack(ElvUI), Localize Underscore
 local PI = E:NewModule("PluginInstaller")
 
 --Cache global variables

@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(ElvUI)
 local ns = oUF
 local ElvUF = ns.oUF
 assert(ElvUF, "ElvUI was unable to locate oUF.")

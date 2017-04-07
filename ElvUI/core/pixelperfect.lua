@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(ElvUI)
 
 local abs, floor, min, max = math.abs, math.floor, math.min, math.max;
 local match = string.match;

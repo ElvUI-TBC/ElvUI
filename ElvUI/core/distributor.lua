@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(ElvUI)
 local D = E:NewModule("Distributor", "AceEvent-3.0","AceTimer-3.0","AceComm-3.0","AceSerializer-3.0")
 local LibCompress = LibStub:GetLibrary("LibCompress");
 local LibBase64 = LibStub("LibBase64-1.0-ElvUI");
