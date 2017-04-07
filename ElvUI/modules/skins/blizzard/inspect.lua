@@ -56,31 +56,26 @@ function S:LoadInspectSkin()
 		end
 	end
 
-	local function ColorItemBorder(_, event, unit)
-		if event == "UNIT_INVENTORY_CHANGED" and unit ~= "InspectFrame.unit" then return end
-
-		for _, slot in pairs(slots) do
-			local target = _G["Inspect"..slot]
-			local slotId, _, _ = GetInventorySlotInfo(slot)
-			local itemId = GetInventoryItemTexture("InspectFrame.unit", slotId)
-			if itemId then
-				local rarity = GetInventoryItemQuality("InspectFrame.unit", slotId)
-				if rarity and rarity > 1 then
-					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
-				else
-					target:SetBackdropBorderColor(unpack(E.media.bordercolor))
+	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
+		if(button.hasItem) then
+			local itemID = GetInventoryItemLink(InspectFrame.unit, button:GetID())
+			if(itemID) then
+				local _, _, quality = GetItemInfo(itemID)
+				if(not quality) then
+					E:Delay(0.1, function()
+						if(InspectFrame.unit) then
+							InspectPaperDollItemSlotButton_Update(button)
+						end
+					end)
+					return
+				elseif(quality and quality > 1) then
+					button:SetBackdropBorderColor(GetItemQualityColor(quality))
+					return
 				end
-			else
-				target:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 		end
-	end
-
-	local checkItemBorderColor = CreateFrame("Frame")
-	checkItemBorderColor:RegisterEvent("UNIT_INVENTORY_CHANGED")
-	checkItemBorderColor:SetScript("OnEvent", ColorItemBorder)
-	InspectFrame:HookScript("OnShow", ColorItemBorder)
-	ColorItemBorder()
+		button:SetBackdropBorderColor(unpack(E.media.bordercolor))
+	end)
 
 	S:HandleRotateButton(InspectModelRotateLeftButton)
 	InspectModelRotateLeftButton:Point("TOPLEFT", 3, -3)
