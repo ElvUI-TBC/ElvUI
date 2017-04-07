@@ -65,7 +65,7 @@ function S:HandleButton(f, strip)
 	if strip then f:StripTextures() end
 
 	f:SetTemplate("Default", true)
-	
+
 	if f:GetScript("OnEnter") then f:HookScript("OnEnter", S.SetModifiedBackdrop) else f:SetScript("OnEnter", S.SetModifiedBackdrop) end
 	if f:GetScript("OnLeave") then f:HookScript("OnLeave", S.SetOriginalBackdrop) else f:SetScript("OnLeave", S.SetOriginalBackdrop) end
 end
@@ -263,7 +263,7 @@ function S:HandleDropDownBox(frame, width)
 
 		S:HandleNextPrevButton(button, true);
 	end
-	frame:CreateBackdrop("Default");
+	frame:CreateBackdrop("Transparent");
 	frame.backdrop:Point("TOPLEFT", 20, -2);
 	frame.backdrop:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2);
 	frame.backdrop:SetFrameLevel(frame:GetFrameLevel());

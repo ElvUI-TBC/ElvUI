@@ -21,7 +21,7 @@ function S:LoadBindingSkin()
 
 		S:HandleButton(bindingKey1)
 		S:HandleButton(bindingKey2)
-		bindingKey2:SetPoint("LEFT", bindingKey1, "RIGHT", 1, 0)
+		bindingKey2:Point("LEFT", bindingKey1, "RIGHT", 1, 0)
 	end
 
 	S:HandleScrollBar(KeyBindingFrameScrollFrameScrollBar)

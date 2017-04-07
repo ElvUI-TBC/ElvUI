@@ -61,16 +61,16 @@ function S:LoadFriendsSkin()
 
 	-- Who Frame
 	WhoFrameColumnHeader3:ClearAllPoints()
-	WhoFrameColumnHeader3:SetPoint("TOPLEFT", 20, -70)
+	WhoFrameColumnHeader3:Point("TOPLEFT", 20, -70)
 
 	WhoFrameColumnHeader4:ClearAllPoints()
-	WhoFrameColumnHeader4:SetPoint("LEFT", WhoFrameColumnHeader3, "RIGHT", -2, -0)
+	WhoFrameColumnHeader4:Point("LEFT", WhoFrameColumnHeader3, "RIGHT", -2, -0)
 
 	WhoFrameColumnHeader1:ClearAllPoints()
-	WhoFrameColumnHeader1:SetPoint("LEFT", WhoFrameColumnHeader4, "RIGHT", -2, -0)
+	WhoFrameColumnHeader1:Point("LEFT", WhoFrameColumnHeader4, "RIGHT", -2, -0)
 
 	WhoFrameColumnHeader2:ClearAllPoints()
-	WhoFrameColumnHeader2:SetPoint("LEFT", WhoFrameColumnHeader1, "RIGHT", -2, -0)
+	WhoFrameColumnHeader2:Point("LEFT", WhoFrameColumnHeader1, "RIGHT", -2, -0)
 
 	for i = 1, 4 do
 		_G["WhoFrameColumnHeader" .. i]:StripTextures()
@@ -91,11 +91,11 @@ function S:LoadFriendsSkin()
 		button.backdrop:SetAllPoints(button.icon)
 
 		_G["WhoFrameButton" .. i .. "Level"]:ClearAllPoints()
-		_G["WhoFrameButton" .. i .. "Level"]:SetPoint("TOPLEFT", 10, -3)
+		_G["WhoFrameButton" .. i .. "Level"]:Point("TOPLEFT", 10, -3)
 
 		_G["WhoFrameButton" .. i .. "Name"]:Size(100, 14)
 		_G["WhoFrameButton" .. i .. "Name"]:ClearAllPoints()
-		_G["WhoFrameButton" .. i .. "Name"]:SetPoint("LEFT", 85, -3)
+		_G["WhoFrameButton" .. i .. "Name"]:Point("LEFT", 85, -3)
 
 		_G["WhoFrameButton" .. i .. "Class"]:Hide()
 	end
@@ -110,10 +110,10 @@ function S:LoadFriendsSkin()
 
 	S:HandleButton(WhoFrameWhoButton)
 	WhoFrameWhoButton:ClearAllPoints()
-	WhoFrameWhoButton:SetPoint("BOTTOMLEFT", 16, 82)
+	WhoFrameWhoButton:Point("BOTTOMLEFT", 16, 82)
 	S:HandleButton(WhoFrameAddFriendButton)
-	WhoFrameAddFriendButton:SetPoint("LEFT", WhoFrameWhoButton, "RIGHT", 3, 0)
-	WhoFrameAddFriendButton:SetPoint("RIGHT", WhoFrameGroupInviteButton, "LEFT", -3, 0)
+	WhoFrameAddFriendButton:Point("LEFT", WhoFrameWhoButton, "RIGHT", 3, 0)
+	WhoFrameAddFriendButton:Point("RIGHT", WhoFrameGroupInviteButton, "LEFT", -3, 0)
 	S:HandleButton(WhoFrameGroupInviteButton)
 
 	hooksecurefunc("WhoList_Update", function()
@@ -145,16 +145,16 @@ function S:LoadFriendsSkin()
 	end)
 	-- Guild Frame
 	GuildFrameColumnHeader3:ClearAllPoints()
-	GuildFrameColumnHeader3:SetPoint("TOPLEFT", 20, -70)
+	GuildFrameColumnHeader3:Point("TOPLEFT", 20, -70)
 
 	GuildFrameColumnHeader4:ClearAllPoints()
-	GuildFrameColumnHeader4:SetPoint("LEFT", GuildFrameColumnHeader3, "RIGHT", -2, -0)
+	GuildFrameColumnHeader4:Point("LEFT", GuildFrameColumnHeader3, "RIGHT", -2, -0)
 
 	GuildFrameColumnHeader1:ClearAllPoints()
-	GuildFrameColumnHeader1:SetPoint("LEFT", GuildFrameColumnHeader4, "RIGHT", -2, -0)
+	GuildFrameColumnHeader1:Point("LEFT", GuildFrameColumnHeader4, "RIGHT", -2, -0)
 
 	GuildFrameColumnHeader2:ClearAllPoints()
-	GuildFrameColumnHeader2:SetPoint("LEFT", GuildFrameColumnHeader1, "RIGHT", -2, -0)
+	GuildFrameColumnHeader2:Point("LEFT", GuildFrameColumnHeader1, "RIGHT", -2, -0)
 
 	for i = 1, GUILDMEMBERS_TO_DISPLAY do
 		local button = _G["GuildFrameButton"..i]
@@ -168,11 +168,11 @@ function S:LoadFriendsSkin()
 		button.backdrop:SetAllPoints(button.icon)
 
 		_G["GuildFrameButton" .. i .. "Level"]:ClearAllPoints()
-		_G["GuildFrameButton" .. i .. "Level"]:SetPoint("TOPLEFT", 10, -3)
+		_G["GuildFrameButton" .. i .. "Level"]:Point("TOPLEFT", 10, -3)
 
 		_G["GuildFrameButton" .. i .. "Name"]:Size(100, 14)
 		_G["GuildFrameButton" .. i .. "Name"]:ClearAllPoints()
-		_G["GuildFrameButton" .. i .. "Name"]:SetPoint("LEFT", 85, -3)
+		_G["GuildFrameButton" .. i .. "Name"]:Point("LEFT", 85, -3)
 
 		_G["GuildFrameButton" .. i .. "Class"]:Hide()
 	end
@@ -214,7 +214,7 @@ function S:LoadFriendsSkin()
 	end)
 
 	GuildFrameLFGFrame:StripTextures()
-	GuildFrameLFGFrame:SetTemplate("Default")
+	GuildFrameLFGFrame:SetTemplate("Transparent")
 	S:HandleCheckBox(GuildFrameLFGButton)
 
 	for i = 1, 4 do
@@ -239,13 +239,13 @@ function S:LoadFriendsSkin()
 	S:HandleCloseButton(GuildMemberDetailCloseButton)
 
 	S:HandleButton(GuildMemberRemoveButton)
-	GuildMemberRemoveButton:SetPoint("BOTTOMLEFT", 8, 7)
+	GuildMemberRemoveButton:Point("BOTTOMLEFT", 8, 7)
 	S:HandleButton(GuildMemberGroupInviteButton)
-	GuildMemberGroupInviteButton:SetPoint("LEFT", GuildMemberRemoveButton, "RIGHT", 3, 0)
+	GuildMemberGroupInviteButton:Point("LEFT", GuildMemberRemoveButton, "RIGHT", 3, 0)
 
 	S:HandleNextPrevButton(GuildFramePromoteButton, true)
 	S:HandleNextPrevButton(GuildFrameDemoteButton, true)
-	GuildFrameDemoteButton:SetPoint("LEFT", GuildFramePromoteButton, "RIGHT", 2, 0)
+	GuildFrameDemoteButton:Point("LEFT", GuildFramePromoteButton, "RIGHT", 2, 0)
 
 	GuildMemberNoteBackground:SetTemplate("Default")
 	GuildMemberOfficerNoteBackground:SetTemplate("Default")
@@ -261,11 +261,11 @@ function S:LoadFriendsSkin()
 	S:HandleCloseButton(GuildInfoCloseButton)
 
 	S:HandleButton(GuildInfoSaveButton)
-	GuildInfoSaveButton:SetPoint("BOTTOMLEFT", 104, 11)
+	GuildInfoSaveButton:Point("BOTTOMLEFT", 104, 11)
 	S:HandleButton(GuildInfoCancelButton)
-	GuildInfoCancelButton:SetPoint("LEFT", GuildInfoSaveButton, "RIGHT", 3, 0)
+	GuildInfoCancelButton:Point("LEFT", GuildInfoSaveButton, "RIGHT", 3, 0)
 	S:HandleButton(GuildInfoGuildEventButton)
-	GuildInfoGuildEventButton:SetPoint("RIGHT", GuildInfoSaveButton, "LEFT", -28, 0)
+	GuildInfoGuildEventButton:Point("RIGHT", GuildInfoSaveButton, "LEFT", -28, 0)
 
 	GuildEventLogFrame:StripTextures() -- GuildEventLog Frame
 	GuildEventLogFrame:CreateBackdrop("Transparent")

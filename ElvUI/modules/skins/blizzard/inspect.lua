@@ -57,14 +57,14 @@ function S:LoadInspectSkin()
 	end
 
 	local function ColorItemBorder(_, event, unit)
-		if event == "UNIT_INVENTORY_CHANGED" and unit ~= "target" then return end
+		if event == "UNIT_INVENTORY_CHANGED" and unit ~= "InspectFrame.unit" then return end
 
 		for _, slot in pairs(slots) do
 			local target = _G["Inspect"..slot]
 			local slotId, _, _ = GetInventorySlotInfo(slot)
-			local itemId = GetInventoryItemTexture("player", slotId)
+			local itemId = GetInventoryItemTexture("InspectFrame.unit", slotId)
 			if itemId then
-				local rarity = GetInventoryItemQuality("player", slotId)
+				local rarity = GetInventoryItemQuality("InspectFrame.unit", slotId)
 				if rarity and rarity > 1 then
 					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
@@ -83,7 +83,9 @@ function S:LoadInspectSkin()
 	ColorItemBorder()
 
 	S:HandleRotateButton(InspectModelRotateLeftButton)
+	InspectModelRotateLeftButton:Point("TOPLEFT", 3, -3)
 	S:HandleRotateButton(InspectModelRotateRightButton)
+	InspectModelRotateRightButton:Point("TOPLEFT", InspectModelRotateLeftButton, "TOPRIGHT", 3, 0)
 
 	InspectPVPFrame:StripTextures()
 

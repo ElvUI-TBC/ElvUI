@@ -10,7 +10,7 @@ function S:LoadTutorialSkin()
 		local child = select(i, TutorialFrame:GetChildren())
 		if child.GetPushedTexture and child:GetPushedTexture() and not child:GetName() then
 			S:HandleCloseButton(child)
-			child:SetPoint("TOPRIGHT", TutorialFrame, "TOPRIGHT", 2, 4)
+			child:Point("TOPRIGHT", TutorialFrame, "TOPRIGHT", 2, 4)
 		end
 	end
 
@@ -22,14 +22,14 @@ function S:LoadTutorialSkin()
 
 		TutorialFrameAlertButton:StripTextures()
 		TutorialFrameAlertButton:CreateBackdrop("Default", true)
-		TutorialFrameAlertButton:SetWidth(35)
-		TutorialFrameAlertButton:SetHeight(45)
+		TutorialFrameAlertButton:Width(35)
+		TutorialFrameAlertButton:Height(45)
 		S:HandleItemButton(TutorialFrameAlertButton)
 
 		TutorialFrameAlertButtonIcon:SetTexture("Interface\\TutorialFrame\\TutorialFrameAlert")
 		TutorialFrameAlertButtonIcon:ClearAllPoints()
-		TutorialFrameAlertButtonIcon:SetPoint("TOPLEFT", TutorialFrameAlertButton, "TOPLEFT", 0, 0)
-		TutorialFrameAlertButtonIcon:SetPoint("BOTTOMRIGHT", TutorialFrameAlertButton, "BOTTOMRIGHT", 0, 0)
+		TutorialFrameAlertButtonIcon:Point("TOPLEFT", TutorialFrameAlertButton, "TOPLEFT", 0, 0)
+		TutorialFrameAlertButtonIcon:Point("BOTTOMRIGHT", TutorialFrameAlertButton, "BOTTOMRIGHT", 0, 0)
 		TutorialFrameAlertButtonIcon:SetTexCoord(0.07, 0.43, 0.15, 0.55)
 		-- TutorialFrameAlertButtonIcon:SetTexCoord(unpack(E.TexCoords))
 

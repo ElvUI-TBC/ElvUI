@@ -55,9 +55,9 @@ function S:LoadHelpSkin()
 			title:SetTexture("")
 			title:ClearAllPoints()
 			if title == _G["GameMenuFrameHeader"] then
-				title:SetPoint("TOP", GameMenuFrame, 0, 0)
+				title:Point("TOP", GameMenuFrame, 0, 0)
 			else
-				title:SetPoint("TOP", BlizzardHeader[i], -22, -8)
+				title:Point("TOP", BlizzardHeader[i], -22, -8)
 			end
 		end
 	end
@@ -68,8 +68,8 @@ function S:LoadHelpSkin()
 	S:HandleScrollBar(HelpFrameOpenTicketScrollFrameScrollBar)
 	S:HandleScrollBar(KnowledgeBaseArticleScrollFrameScrollBar)
 
-	HelpFrameOpenTicketSubmit:SetPoint("RIGHT", HelpFrameOpenTicketCancel, "LEFT", -2, 0)
-	KnowledgeBaseFrameStuck:SetPoint("LEFT", KnowledgeBaseFrameReportIssue, "RIGHT", 2, 0)
+	HelpFrameOpenTicketSubmit:Point("RIGHT", HelpFrameOpenTicketCancel, "LEFT", -2, 0)
+	KnowledgeBaseFrameStuck:Point("LEFT", KnowledgeBaseFrameReportIssue, "RIGHT", 2, 0)
 
 	KnowledgeBaseFrame:StripTextures()
 

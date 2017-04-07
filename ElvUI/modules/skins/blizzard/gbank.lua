@@ -27,9 +27,9 @@ function S:LoadGBankSkin()
 
 	GuildBankInfoScrollFrame:Point("TOPLEFT", GuildBankInfo, "TOPLEFT", -10, 12)
 	GuildBankInfoScrollFrame:StripTextures()
-	GuildBankInfoScrollFrame:SetWidth(GuildBankInfoScrollFrame:GetWidth() + 14)
+	GuildBankInfoScrollFrame:Width(GuildBankInfoScrollFrame:GetWidth() + 14)
 
-	GuildBankTabInfoEditBox:SetWidth(702)
+	GuildBankTabInfoEditBox:Width(702)
 
 	GuildBankTransactionsScrollFrame:StripTextures()
 

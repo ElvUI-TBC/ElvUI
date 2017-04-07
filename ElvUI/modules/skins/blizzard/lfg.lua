@@ -39,15 +39,12 @@ function S:LoadLFGSkin()
 	for i = 1, 6 do
 		local ddown = _G["LFGFrame"..lfgDropDowns[i]]
 		if ddown then
-			S:HandleDropDownBox(ddown)
-			ddown:Width(250)
+			S:HandleDropDownBox(ddown, 250)
 		end
 	end
 
-	S:HandleDropDownBox(LFMFrameTypeDropDown)
-	LFMFrameTypeDropDown:Width(150)
-	S:HandleDropDownBox(LFMFrameNameDropDown)
-	LFMFrameNameDropDown:Width(220)
+	S:HandleDropDownBox(LFMFrameTypeDropDown, 150)
+	S:HandleDropDownBox(LFMFrameNameDropDown, 220)
 
 	for i = 1, 2 do
 		local tab = _G["LFGParentFrameTab"..i]
