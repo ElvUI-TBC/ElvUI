@@ -168,20 +168,39 @@ local function SetupChat()
 end
 
 local function SetupCVars()
-	-- SetCVar("mapQuestDifficulty", 1)
-	-- SetCVar("ShowClassColorInNameplate", 1)
+	SetCVar("profanityFilter", 0)
 	SetCVar("screenshotQuality", 10)
-	-- SetCVar("chatMouseScroll", 1)
-	-- SetCVar("chatStyle", "classic", "chatStyle");
-	-- SetCVar("WholeChatWindowClickable", 0)
-	-- SetCVar("ConversationMode", "inline")
-	-- SetCVar("showTutorials", 0)
 	SetCVar("showNewbieTips", 0)
 	SetCVar("showLootSpam", 1)
 	SetCVar("UberTooltips", 1)
-	-- SetCVar("threatWarning", 3)
 	SetCVar("alwaysShowActionBars", 1)
 	SetCVar("lockActionBars", 1)
+	SetCVar("autoSelfCast", 1)
+
+	ALWAYS_SHOW_MULTIBARS = 1
+	SHOW_BUFF_DURATIONS = 1
+	QUEST_FADING_DISABLE = 1
+	NAMEPLATES_ON = 1
+	SHOW_COMBAT_TEXT = 1
+  COMBAT_TEXT_SHOW_LOW_HEALTH_MANA = 1
+  COMBAT_TEXT_SHOW_AURAS = 1
+  COMBAT_TEXT_SHOW_AURA_FADE = 1
+  COMBAT_TEXT_SHOW_COMBAT_STATE = 1
+  COMBAT_TEXT_SHOW_DODGE_PARRY_MISS = 1
+  COMBAT_TEXT_SHOW_RESISTANCES = 1
+  COMBAT_TEXT_SHOW_REPUTATION = 1
+  COMBAT_TEXT_SHOW_REACTIVES = 1
+  COMBAT_TEXT_SHOW_FRIENDLY_NAMES = 1
+  COMBAT_TEXT_SHOW_COMBO_POINTS = 1
+  COMBAT_TEXT_SHOW_MANA = 1
+  COMBAT_TEXT_FLOAT_MODE = 1
+  COMBAT_TEXT_SHOW_HONOR_GAINED = 1
+
+	MultiActionBar_ShowAllGrids()
+	TutorialFrame_HideAllAlerts()
+	ClearTutorials()
+
+	UIParentLoadAddOn("Blizzard_CombatText")
 
 	InstallStepComplete.message = L["CVars Set"]
 	InstallStepComplete:Show()
@@ -806,7 +825,7 @@ local function SetPage(PageNum)
 		InstallOption2Button:SetText(L["Icons Only"])
 	elseif PageNum == 8 then
 		f.SubTitle:SetText(L["Installation Complete"])
-		f.Desc1:SetText(L["You are now finished with the installation process. If you are in need of technical support please visit us at https://github.com/ElvUI-WotLK/ElvUI"])
+		f.Desc1:SetText(L["You are now finished with the installation process. If you are in need of technical support please visit us at https://github.com/ElvUI-TBC/ElvUI"])
 		f.Desc2:SetText(L["Please click the button below so you can setup variables and ReloadUI."])
 		InstallOption1Button:Show()
 		InstallOption1Button:SetScript("OnClick", InstallComplete)

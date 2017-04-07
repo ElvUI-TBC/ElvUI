@@ -7,7 +7,7 @@ if not L then return end
 L["INCOMPATIBLE_ADDON"] = "The addon %s is not compatible with ElvUI's %s module. Please select either the addon or the ElvUI module to disable."
 
 --*_MSG locales
-L["LOGIN_MSG"] = "Bienvenido a %sElvUI|r versión %s%s|r, escribe /ec para acceder al menú de configuración. Si necesitas ayuda o soporte técnico puedes visitarnos en https://github.com/ElvUI-WotLK/ElvUI"
+L["LOGIN_MSG"] = "Bienvenido a %sElvUI|r versión %s%s|r, escribe /ec para acceder al menú de configuración. Si necesitas ayuda o soporte técnico puedes visitarnos en https://github.com/ElvUI-TBC/ElvUI"
 
 --ActionBars
 L["Binding"] = "Controles"
@@ -173,7 +173,7 @@ L["This resolution requires that you change some settings to get everything to f
 L["This will change the layout of your unitframes and actionbars."] = true;
 L["Trade"] = "Intercambio"
 L["Welcome to ElvUI version %s!"] = "Bienvenido(a) a ElvUI versión %s!"
-L["You are now finished with the installation process. If you are in need of technical support please visit us at https://github.com/ElvUI-WotLK/ElvUI"] = "Ya has terminado con el proceso de instalación. Si necesitas ayuda o soporte técnico por favor visítanos en https://github.com/ElvUI-WotLK/ElvUI"
+L["You are now finished with the installation process. If you are in need of technical support please visit us at https://github.com/ElvUI-TBC/ElvUI"] = "Ya has terminado con el proceso de instalación. Si necesitas ayuda o soporte técnico por favor visítanos en https://github.com/ElvUI-TBC/ElvUI"
 L["You can always change fonts and colors of any element of ElvUI from the in-game configuration."] = "Siempre puedes cambiar las fuentes y colores de cualquier elemento de ElvUI desde la configuración."
 L["You can now choose what layout you wish to use based on your combat role."] = "Ahora puedes elegir qué distribución quieres basándote en tu rol de combate."
 L["You may need to further alter these settings depending how low you resolution is."] = "Puede que necesites cambiar estos ajutes dependiendo de qué tan baja sea tu resolución."
@@ -300,8 +300,8 @@ L["Disable Warning"] = "Deshabilitar Advertencia"
 L["Discard"] = "Descartar"
 L["Do you enjoy the new ElvUI?"] = true;
 L["Do you swear not to post in technical support about something not working without first disabling the addon/module combination first?"] = "¿Juras no escribir a Soporte Técnico acerca de algo que no funciona sin antes deshabilitar la combinación addon/módulo primero?"
-L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-WotLK/ElvUI/"] = true;
-L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-WotLK/ElvUI/"] = true;
+L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"] = true;
+L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"] = true;
 L["ElvUI needs to perform database optimizations please be patient."] = true;
 L["Hover your mouse over any actionbutton or spellbook button to bind it. Press the escape key or right click to clear the current actionbutton's keybinding."] = "Pasa tu ratón por encima de un botón de acción o de un botón del libro de hechizos para ligarlo. Pulsa escape o botón derecho para limpiar la asignación actual del botón de acción."
 L["I Swear"] = "Lo Juro"
@@ -328,7 +328,7 @@ L["Targeted By:"] = "Objetivo De:"
 --Tutorials
 L["A raid marker feature is available by pressing Escape -> Keybinds scroll to the bottom under ElvUI and setting a keybind for the raid marker."] = "La opción de marcador de banda está disponible pulsando Escape -> Asignar teclas -> Recorrer hacia abajo hasta ElvUI y establecer la tecla para el marcador de banda."
 L["ElvUI has a dual spec feature which allows you to load different profiles based on your current spec on the fly. You can enable this from the profiles tab."] = "ElvUI tiene la posibilidad de cargar diferentes perfiles automáticamente al cambiar de especialización de talentos. Puedes activar esta función en la pestaña de perfiles."
-L["For technical support visit us at https://github.com/ElvUI-WotLK/ElvUI"] = "Para soporte técnico visítanos en https://github.com/ElvUI-WotLK/ElvUI"
+L["For technical support visit us at https://github.com/ElvUI-TBC/ElvUI"] = "Para soporte técnico visítanos en https://github.com/ElvUI-TBC/ElvUI"
 L["If you accidently remove a chat frame you can always go the in-game configuration menu, press install, go to the chat portion and reset them."] = "Si eliminas un marco de chat accidentalmente, siempre puedes ir a la configuración, pulsar instalar, ir a la parte del chat, y restaurarlo."
 L["If you are experiencing issues with ElvUI try disabling all your addons except ElvUI, remember ElvUI is a full UI replacement addon, you cannot run two addons that do the same thing."] = "Si has experimentado errores con ElvUI prueba a desactivar todos tus addons excepto ElvUI, recuerda que ElvUI remplaza por completo la interfaz, no puede haber addons que hagan lo mismo."
 L["The focus unit can be set by typing /focus when you are targeting the unit you want to focus. It is recommended you make a macro to do this."] = "El foco puede establecerse escribiendo /enfoque cuando tienes seleccionado al objetivo al cual quieres hacer foco. Es recomendable que hagas una macro para esto."

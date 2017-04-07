@@ -23,13 +23,13 @@ E.PopupDialogs = {};
 E.StaticPopup_DisplayedFrames = {};
 
 E.PopupDialogs["ELVUI_UPDATE_AVAILABLE"] = {
-	text = L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-WotLK/ElvUI/"],
+	text = L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"],
 	hasEditBox = 1,
 	OnShow = function(self)
 		self.editBox:SetAutoFocus(false);
 		self.editBox.width = self.editBox:GetWidth();
 		self.editBox:SetWidth(220);
-		self.editBox:SetText("https://github.com/ElvUI-WotLK/ElvUI");
+		self.editBox:SetText("https://github.com/ElvUI-TBC/ElvUI");
 		self.editBox:HighlightText();
 		ChatEdit_FocusActiveWindow();
 	end,
@@ -49,8 +49,8 @@ E.PopupDialogs["ELVUI_UPDATE_AVAILABLE"] = {
 		self:GetParent():Hide();
 	end,
 	EditBoxOnTextChanged = function(self)
-		if(self:GetText() ~= "https://github.com/ElvUI-WotLK/ElvUI") then
-			self:SetText("https://github.com/ElvUI-WotLK/ElvUI");
+		if(self:GetText() ~= "https://github.com/ElvUI-TBC/ElvUI") then
+			self:SetText("https://github.com/ElvUI-TBC/ElvUI");
 		end
 		self:HighlightText();
 		self:ClearFocus();

@@ -954,13 +954,13 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:Size(16 + E.Border, 16 + E.Border);
 		f.sortButton:SetTemplate();
 		f.sortButton:SetPoint("RIGHT", f.bagText, "LEFT", -5, E.Border * 2);
-		f.sortButton:SetNormalTexture("Interface\\ICONS\\INV_Pet_RatCage");
+		f.sortButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
 		-- f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 		-- f.sortButton:GetNormalTexture():SetInside();
-		f.sortButton:SetPushedTexture("Interface\\ICONS\\INV_Pet_RatCage");
+		f.sortButton:SetPushedTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
 		-- f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords));
 		-- f.sortButton:GetPushedTexture():SetInside();
-		f.sortButton:SetDisabledTexture("Interface\\ICONS\\INV_Pet_RatCage");
+		f.sortButton:SetDisabledTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
 		-- f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords));
 		-- f.sortButton:GetDisabledTexture():SetInside();
 		-- f.sortButton:GetDisabledTexture():SetDesaturated(true);
@@ -1045,7 +1045,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.editBox:FontTemplate();
 
 		f.editBox.searchIcon = f.editBox:CreateTexture(nil, "OVERLAY");
-		f.editBox.searchIcon:SetTexture("Interface\\Common\\UI-Searchbox-Icon");
+		f.editBox.searchIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\UI-Searchbox-Icon");
 		f.editBox.searchIcon:SetPoint("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1);
 		f.editBox.searchIcon:Size(15, 15);
 	else
@@ -1065,13 +1065,13 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:Size(16 + E.Border, 16 + E.Border);
 		f.sortButton:SetTemplate();
 		f.sortButton:SetPoint("RIGHT", f.goldText, "LEFT", -5, E.Border * 2);
-		f.sortButton:SetNormalTexture("Interface\\ICONS\\INV_Pet_RatCage");
+		f.sortButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
 	--	f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 	--	f.sortButton:GetNormalTexture():SetInside();
-		f.sortButton:SetPushedTexture("Interface\\ICONS\\INV_Pet_RatCage");
+		f.sortButton:SetPushedTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
 	--	f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords));
 	--	f.sortButton:GetPushedTexture():SetInside();
-		f.sortButton:SetDisabledTexture("Interface\\ICONS\\INV_Pet_RatCage");
+		f.sortButton:SetDisabledTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
 	--	f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords));
 	--	f.sortButton:GetDisabledTexture():SetInside();
 	--	f.sortButton:GetDisabledTexture():SetDesaturated(true);
@@ -1149,7 +1149,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.editBox:FontTemplate();
 
 		f.editBox.searchIcon = f.editBox:CreateTexture(nil, "OVERLAY");
-		f.editBox.searchIcon:SetTexture("Interface\\Common\\UI-Searchbox-Icon");
+		f.editBox.searchIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\UI-Searchbox-Icon");
 		f.editBox.searchIcon:SetPoint("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1);
 		f.editBox.searchIcon:Size(15, 15);
 
