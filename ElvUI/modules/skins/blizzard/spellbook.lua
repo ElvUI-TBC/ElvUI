@@ -56,22 +56,22 @@ function S:LoadSpellBookSkin()
 		end
 	end
 
-	-- hooksecurefunc("SpellButton_UpdateButton", function(self)
-	-- 	local name = self:GetName()
-	-- 	local spellName = _G[name .. "SpellName"]
-	-- 	local subSpellName = _G[name .. "SubSpellName"]
-	-- 	local iconTexture = _G[name .. "IconTexture"]
-	-- 	local highlight = _G[name .. "Highlight"]
+	hooksecurefunc("SpellButton_UpdateButton", function()
+		local name = this:GetName()
+		local spellName = _G[name .. "SpellName"]
+		local subSpellName = _G[name .. "SubSpellName"]
+		local iconTexture = _G[name .. "IconTexture"]
+		local highlight = _G[name .. "Highlight"]
 
-	-- 	spellName:SetTextColor(1, 0.80, 0.10)
-	-- 	subSpellName:SetTextColor(1, 1, 1)
+		spellName:SetTextColor(1, 0.80, 0.10)
+		subSpellName:SetTextColor(1, 1, 1)
 
-	-- 	if (iconTexture) then
-	-- 		if (highlight) then
-	-- 			highlight:SetTexture(1, 1, 1, 0.3)
-	-- 		end
-	-- 	end
-	-- end)
+		if (iconTexture) then
+			if (highlight) then
+				highlight:SetTexture(1, 1, 1, 0.3)
+			end
+		end
+	end)
 
 	for i = 1, MAX_SKILLLINE_TABS do
 		local tab = _G["SpellBookSkillLineTab" .. i]
