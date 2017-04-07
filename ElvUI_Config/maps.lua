@@ -449,59 +449,6 @@ E.Options.args.maps = {
 								}
 							}
 						},
-						vehicleLeave = {
-							order = 6,
-							type = "group",
-							name = LEAVE_VEHICLE,
-							get = function(info) return E.db.general.minimap.icons.vehicleLeave[ info[#info] ]; end,
-							set = function(info, value) E.db.general.minimap.icons.vehicleLeave[ info[#info] ] = value; E:GetModule("ActionBars"):UpdateVehicleLeave(); end,
-							args = {
-								hide = {
-									order = 1,
-									type = "toggle",
-									name = L["Hide"]
-								},
-								spacer = {
-									order = 2,
-									type = "description",
-									name = "",
-									width = "full"
-								},
-								position = {
-									order = 3,
-									type = "select",
-									name = L["Position"],
-									values = {
-										["LEFT"] = L["Left"],
-										["RIGHT"] = L["Right"],
-										["TOP"] = L["Top"],
-										["BOTTOM"] = L["Bottom"],
-										["TOPLEFT"] = L["Top Left"],
-										["TOPRIGHT"] = L["Top Right"],
-										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"]
-									}
-								},
-								size = {
-									order = 4,
-									type = "range",
-									name = L["Size"],
-									min = 1, max = 50, step = 1
-								},
-								xOffset = {
-									order = 5,
-									type = "range",
-									name = L["xOffset"],
-									min = -50, max = 50, step = 1
-								},
-								yOffset = {
-									order = 6,
-									type = "range",
-									name = L["yOffset"],
-									min = -50, max = 50, step = 1
-								}
-							}
-						}
 					}
 				}
 			}
