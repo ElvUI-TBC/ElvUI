@@ -46,8 +46,8 @@ function S.LoadTimeManagerSkin()
 	S:HandleCheckBox(TimeManagerLocalTimeCheck)
 
 	StopwatchFrame:CreateBackdrop("Transparent")
-	StopwatchFrame.backdrop:Point("TOPLEFT", 0, -16)
-	StopwatchFrame.backdrop:Point("BOTTOMRIGHT", 0, 2)
+	StopwatchFrame.backdrop:Point("TOPLEFT", 6, -10)
+	StopwatchFrame.backdrop:Point("BOTTOMRIGHT", 0, 14)
 
 	StopwatchFrame:StripTextures()
 
@@ -66,7 +66,7 @@ function S.LoadTimeManagerSkin()
 	S:HandleButton(StopwatchResetButton)
 	StopwatchResetButton:Size(16,16)
 	StopwatchResetButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\reset")
-	StopwatchResetButton:Point("BOTTOMRIGHT", StopwatchFrame, "BOTTOMRIGHT", -4, 6)
+	StopwatchResetButton:Point("RIGHT", StopwatchFrame, "RIGHT", -4, 2)
 
 	local function SetPlayTexture()
 		StopwatchPlayPauseButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\play")
