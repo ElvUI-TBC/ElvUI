@@ -4,6 +4,7 @@ local oUF = ns.oUF
 local tinsert = table.insert
 local floor = math.floor
 
+local GetTime = GetTime
 local CreateFrame = CreateFrame
 local UnitAura = UnitAura
 local UnitIsUnit = UnitIsUnit
@@ -102,7 +103,7 @@ local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visibl
 			local cd = icon.cd
 			if(cd and not icons.disableCooldown) then
 				if(duration and duration > 0) then
-					cd:SetCooldown(expiration - duration, duration)
+					cd:SetCooldown(GetTime() - (duration - expiration), duration)
 					cd:Show()
 				else
 					cd:Hide()
