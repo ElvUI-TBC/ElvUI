@@ -255,7 +255,7 @@ local function Update(self, event, unit)
 				end
 			end
 
-			expirationTime = expirationTime + GetTime()
+			if expirationTime then expirationTime = expirationTime + GetTime() else duration = 0 expirationTime = 0 end
 			if (auraBars.filter or DefaultFilter)(self, unit, name, rank, icon, count, debuffType, duration, expirationTime) then
 				lastAuraIndex = lastAuraIndex + 1
 				auras[lastAuraIndex] = {}
