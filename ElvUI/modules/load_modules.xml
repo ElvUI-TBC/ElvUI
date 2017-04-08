@@ -6,9 +6,7 @@
 	<Include file="tooltip\load_tooltip.xml"/>
 	<Include file="datatexts\load_datatexts.xml"/>
 	<Include file="actionbars\load_actionbars.xml"/>
-<!--
 	<Include file="unitframes\load_unitframes.xml"/>
--->
 	<Include file="maps\load_maps.xml"/>
 	<Include file="chat\load_chat.xml"/>
 	<Include file="bags\load_bags.xml"/>

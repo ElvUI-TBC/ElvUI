@@ -175,6 +175,7 @@ local function UpdateBars(auraBars)
 			bar.spelltime:SetText(FormatTime(timeleft))
 			if auraBars.spark == true then
 				if (auraBars.scaleTime and ((auraBars.scaleTime <= 0) or (auraBars.scaleTime > 0 and timeleft < auraBars.scaleTime))) then
+					bar.spark:SetPoint("CENTER", bar, "LEFT", (timeleft / bar.aura.duration) * bar:GetWidth(), 0)
 					bar.spark:Show()
 				else
 					bar.spark:Hide()
@@ -254,6 +255,7 @@ local function Update(self, event, unit)
 				end
 			end
 
+			expirationTime = expirationTime + GetTime()
 			if (auraBars.filter or DefaultFilter)(self, unit, name, rank, icon, count, debuffType, duration, expirationTime) then
 				lastAuraIndex = lastAuraIndex + 1
 				auras[lastAuraIndex] = {}

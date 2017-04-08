@@ -14,9 +14,7 @@
 	<Script file="LibSharedMedia-3.0\LibSharedMedia-3.0.lua"/>
 	<Script file="LibSimpleSticky\LibSimpleSticky.lua"/>
 	<Include file='oUF\oUF.xml'/>
-<!--
 	<Include file='oUF_Plugins\oUF_Plugins.xml'/>
--->
 	<Script file="LibDataBroker\LibDataBroker-1.1.lua"/>
 <!--
 	<Script file="LibDualSpec-1.0\LibDualSpec-1.0.lua"/>

@@ -35,7 +35,7 @@ local createAuraIcon = function(icons, index)
 	local button = CreateFrame("Button", nil, icons)
 	button:RegisterForClicks("RightButtonUp")
 
-	local cd = CreateFrame("Cooldown", nil, button, "CooldownFrameTemplate")
+	local cd = CreateFrame("Cooldown", nil, button, "oUF_CooldownFrameTemplate")
 	cd:SetAllPoints(button)
 
 	local icon = button:CreateTexture(nil, "BORDER")

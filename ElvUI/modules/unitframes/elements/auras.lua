@@ -324,6 +324,8 @@ local unstableAffliction = GetSpellInfo(30108);
 local vampiricTouch = GetSpellInfo(34914);
 function UF:PostUpdateAura(unit, button, index)
 	local name, _, _, _, dtype, duration, expiration = UnitAura(unit, index, button.filter)
+	if expiration then expiration = expiration + GetTime() end
+
 	local isFriend = UnitIsFriend("player", unit) == 1 and true or false;
 
 	local auras = button:GetParent();

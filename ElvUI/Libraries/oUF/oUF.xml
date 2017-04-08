@@ -1,4 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Cooldown name="oUF_CooldownFrameTemplate" inherits="CooldownFrameTemplate" drawEdge="true" virtual="true"/>
+
 	<Script file="init.lua"/>
 	<Script file="private.lua"/>
 	<Script file="ouf.lua"/>
