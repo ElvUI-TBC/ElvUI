@@ -29,7 +29,9 @@ local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 local DND = DND;
 
-local CAMERA_SPEED = 0.005;
+local AFK_SPEED = 7.35;
+local NORM_SPEED = 230;
+
 local ignoreKeys = {
 	LALT = true,
 	LSHIFT = true,
@@ -79,8 +81,8 @@ function AFK:SetAFK(status)
 		UIParent:Hide();
 		self.AFKMode:Show();
 
-		SetCVar("cameraYawMoveSpeed","7.35");
-		SetCVar("cameraPitchMoveSpeed","90");
+		SetCVar("cameraYawMoveSpeed", AFK_SPEED);
+		SetCVar("cameraPitchMoveSpeed", "90");
 		MoveViewLeftStart();
 
 
@@ -112,7 +114,7 @@ function AFK:SetAFK(status)
 		self.AFKMode:Hide();
 		UIParent:Show();
 
-		SetCVar("cameraYawMoveSpeed","230");
+		SetCVar("cameraYawMoveSpeed", NORM_SPEED);
 		SetCVar("cameraPitchMoveSpeed","90");
 		MoveViewLeftStop();
 
