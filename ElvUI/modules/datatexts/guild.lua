@@ -37,7 +37,7 @@ local guildMotDString = "%s |cffaaaaaa |cffffffff%s"
 local levelNameString = "|cff%02x%02x%02x%d|r |cff%02x%02x%02x%s|r %s"
 local levelNameStatusString = "|cff%02x%02x%02x%d|r %s%s "
 local nameRankString = "%s |cff999999-|cffffffff %s"
-local moreMembersOnlineString = join("", "+ %d ", FRIENDS_LIST_ONLINE, "...")
+local moreMembersOnlineString = join("", "+ %d ", GUILD_TOTALONLINE, "...")
 local noteString = join("", "|cff999999   ", LABEL_NOTE, ":|r %s")
 local officerNoteString = join("", "|cff999999   ", GUILD_RANK1_DESC, ":|r %s")
 local guildTable, guildMotD = {}, ""
@@ -198,7 +198,7 @@ local function OnEnter(self, _, noUpdate)
 	for i = 1, #guildTable do
 		-- if more then 30 guild members are online, we don't Show any more, but inform user there are more
 		if 30 - shown <= 1 then
-			if online - 30 > 1 then DT.tooltip:AddLine(format(moreMembersOnlineString, online - 30), ttsubh.r, ttsubh.g, ttsubh.b) end
+			if online - 30 > 1 then DT.tooltip:AddLine(format(online), ttsubh.r, ttsubh.g, ttsubh.b) end
 			break
 		end
 
