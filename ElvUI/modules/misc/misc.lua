@@ -229,7 +229,7 @@ function M:AutoInvite(event, leaderName)
 end
 
 function M:ForceCVars()
-	if not GetCVarBool("lockActionBars") and E.private.actionbar.enable then
+	if not GetCVar("lockActionBars") and E.private.actionbar.enable then
 		SetCVar("lockActionBars", 1)
 	end
 end

@@ -131,7 +131,7 @@ end
 function AFK:OnEvent(event, ...)
 	if(event == "PLAYER_REGEN_DISABLED" or event == "UPDATE_BATTLEFIELD_STATUS") then
 		if(event == "UPDATE_BATTLEFIELD_STATUS") then
-			local status = GetBattlefieldStatus(...);
+			local status = GetBattlefieldStatus(nil, ...);
 			if(status == "confirm") then
 				self:SetAFK(false);
 			end
