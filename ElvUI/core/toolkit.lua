@@ -41,17 +41,16 @@ end
 
 local function Size(frame, width, height)
 	assert(width);
-	frame:SetWidth(E:Scale(width));
-	frame:SetHeight(E:Scale(height or width));
+	frame:SetSize(E:Scale(width), E:Scale(height or width));
 end
 
 local function Width(frame, width)
-	frame:SetWidth(width)
+	frame:SetWidth(E:Scale(width))
 end
 
 local function Height(frame, height)
 	assert(height)
-	frame:SetHeight(height);
+	frame:SetHeight(E:Scale(height));
 end
 
 local function Point(obj, arg1, arg2, arg3, arg4, arg5)
