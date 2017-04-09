@@ -386,7 +386,7 @@ local function ExportImport_Open(mode)
 
 	ACD:Close("ElvUI");
 
-	GameTooltip_Hide();
+	GameTooltip:Hide();
 end
 
 E.Options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(E.data);

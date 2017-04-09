@@ -1010,6 +1010,11 @@ function E:Contruct_StaticPopups()
 		_G[name .. "ItemFrameIconTexture"]:SetInside();
 	end
 
-	E:SecureHook("StaticPopup_Show", "StaticPopup_SetUpPosition")
+	E:RawHook("StaticPopup_Show", function(...)
+		local dialog = E.hooks.StaticPopup_Show(...)
+		E:StaticPopup_SetUpPosition(dialog)
+		return dialog
+	end, true)
+
 	E:SecureHook("StaticPopup_OnHide", "StaticPopup_CollapseTable")
 end
