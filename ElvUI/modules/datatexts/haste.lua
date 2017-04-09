@@ -1,12 +1,16 @@
 local E, L, V, P, G = unpack(ElvUI);
 local DT = E:GetModule("DataTexts");
 
+local GetCombatRating = GetCombatRating
+local GetCombatRatingBonus = GetCombatRatingBonus
+local UnitAttackSpeed = UnitAttackSpeed
+local UnitRangedDamage = UnitRangedDamage
 local ATTACK_SPEED = ATTACK_SPEED;
 local CR_HASTE_MELEE = CR_HASTE_MELEE;
 local CR_HASTE_RANGED = CR_HASTE_RANGED;
 local CR_HASTE_RATING_TOOLTIP = CR_HASTE_RATING_TOOLTIP;
 local CR_HASTE_SPELL = CR_HASTE_SPELL;
-local PAPERDOLLFRAME_TOOLTIP_FORMAT = PAPERDOLLFRAME_TOOLTIP_FORMAT;
+local PAPERDOLLFRAME_TOOLTIP_FORMAT = "%s";
 local SPELL_HASTE = SPELL_HASTE;
 local SPELL_HASTE_TOOLTIP = SPELL_HASTE_TOOLTIP;
 
@@ -68,4 +72,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true;
 
-DT:RegisterDatatext("Haste", {"UNIT_ATTACK_SPEED", "UNIT_SPELL_HASTE"}, OnEvent, nil, nil, OnEnter);
+DT:RegisterDatatext("Haste", {"UNIT_ATTACK_SPEED"}, OnEvent, nil, nil, OnEnter);

@@ -6,18 +6,18 @@ local sort, wipe = table.sort, wipe;
 local floor = math.floor;
 local format = string.format;
 
-local GetNumAddOns = GetNumAddOns;
-local GetAddOnInfo = GetAddOnInfo;
-local IsAddOnLoaded = IsAddOnLoaded;
-local UpdateAddOnMemoryUsage = UpdateAddOnMemoryUsage;
-local UpdateAddOnCPUUsage = UpdateAddOnCPUUsage;
-local GetAddOnMemoryUsage = GetAddOnMemoryUsage;
 local GetAddOnCPUUsage = GetAddOnCPUUsage;
-local ResetCPUUsage = ResetCPUUsage;
+local GetAddOnInfo = GetAddOnInfo;
+local GetAddOnMemoryUsage = GetAddOnMemoryUsage;
 local GetCVar = GetCVar;
-local GetNetStats = GetNetStats;
-local IsShiftKeyDown = IsShiftKeyDown;
 local GetFramerate = GetFramerate;
+local GetNetStats = GetNetStats;
+local GetNumAddOns = GetNumAddOns;
+local IsAddOnLoaded = IsAddOnLoaded;
+local IsShiftKeyDown = IsShiftKeyDown;
+local ResetCPUUsage = ResetCPUUsage;
+local UpdateAddOnCPUUsage = UpdateAddOnCPUUsage;
+local UpdateAddOnMemoryUsage = UpdateAddOnMemoryUsage;
 
 local int, int2 = 6, 5;
 local statusColors = {

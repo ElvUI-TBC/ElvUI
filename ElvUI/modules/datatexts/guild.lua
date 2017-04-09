@@ -17,7 +17,6 @@ local GuildRoster = GuildRoster
 local InviteUnit = InviteUnit
 local IsInGuild = IsInGuild
 local IsShiftKeyDown = IsShiftKeyDown
-local LoadAddOn = LoadAddOn
 local SetItemRef = SetItemRef
 local ToggleFriendsFrame = ToggleFriendsFrame
 local UnitInParty = UnitInParty
@@ -81,7 +80,6 @@ local eventHandlers = {
 	-- load guild frame, update guild message and guild xp
 	["PLAYER_ENTERING_WORLD"] = function (self)
 		if not GuildFrame and IsInGuild() then
-			LoadAddOn("Blizzard_GuildUI")
 			GuildRoster()
 		end
 	end,

@@ -7,7 +7,7 @@ local format, join = string.format, string.join;
 local ComputePetBonus = ComputePetBonus;
 local UnitAttackPower = UnitAttackPower;
 local UnitRangedAttackPower = UnitRangedAttackPower;
-local ATTACK_POWER = ATTACK_POWER;
+local ATTACK_POWER_COLON = ATTACK_POWER_COLON;
 local ATTACK_POWER_MAGIC_NUMBER = ATTACK_POWER_MAGIC_NUMBER;
 local MELEE_ATTACK_POWER = MELEE_ATTACK_POWER;
 local MELEE_ATTACK_POWER_TOOLTIP = MELEE_ATTACK_POWER_TOOLTIP;
@@ -15,6 +15,8 @@ local PET_BONUS_TOOLTIP_RANGED_ATTACK_POWER = PET_BONUS_TOOLTIP_RANGED_ATTACK_PO
 local PET_BONUS_TOOLTIP_SPELLDAMAGE = PET_BONUS_TOOLTIP_SPELLDAMAGE;
 local RANGED_ATTACK_POWER = RANGED_ATTACK_POWER;
 local RANGED_ATTACK_POWER_TOOLTIP = RANGED_ATTACK_POWER_TOOLTIP;
+
+local ATTACK_POWER = ATTACK_POWER_COLON:sub(1, -2)
 
 local base, posBuff, negBuff, effective, Rbase, RposBuff, RnegBuff, Reffective, pwr;
 local displayNumberString = "";

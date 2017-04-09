@@ -8,7 +8,6 @@ local format, join, upper = string.format, string.join, string.upper;
 local GetInventoryItemDurability = GetInventoryItemDurability;
 local GetInventorySlotInfo = GetInventorySlotInfo;
 local ToggleCharacter = ToggleCharacter;
-local DURABILITY = DURABILITY;
 
 local displayString = "";
 local tooltipString = "%d%%";
