@@ -25,19 +25,19 @@ local Downloads = {}
 local Uploads = {}
 
 function D:Initialize()
-	D:RegisterComm(REQUEST_PREFIX)
-	D:RegisterEvent("CHAT_MSG_ADDON")
+	self:RegisterComm(REQUEST_PREFIX)
+	self:RegisterEvent("CHAT_MSG_ADDON")
 
-	D.statusBar = CreateFrame("StatusBar", "ElvUI_Download", UIParent)
-	E:RegisterStatusBar(D.statusBar);
-	D.statusBar:CreateBackdrop("Default")
-	D.statusBar:SetStatusBarTexture(E.media.normTex)
-	D.statusBar:SetStatusBarColor(0.95, 0.15, 0.15)
-	D.statusBar:Size(250, 18)
-	D.statusBar.text = D.statusBar:CreateFontString(nil, "OVERLAY")
-	D.statusBar.text:FontTemplate()
-	D.statusBar.text:SetPoint("CENTER")
-	D.statusBar:Hide()
+	self.statusBar = CreateFrame("StatusBar", "ElvUI_Download", UIParent)
+	E:RegisterStatusBar(self.statusBar);
+	self.statusBar:CreateBackdrop("Default")
+	self.statusBar:SetStatusBarTexture(E.media.normTex)
+	self.statusBar:SetStatusBarColor(0.95, 0.15, 0.15)
+	self.statusBar:Size(250, 18)
+	self.statusBar.text = self.statusBar:CreateFontString(nil, "OVERLAY")
+	self.statusBar.text:FontTemplate()
+	self.statusBar.text:SetPoint("CENTER")
+	self.statusBar:Hide()
 end
 
 -- Used to start uploads
@@ -56,7 +56,7 @@ function D:Distribute(target, otherServer, isGlobal)
 
 	if not data or not profileKey then return end
 
-	local serialData = D:Serialize(data)
+	local serialData = self:Serialize(data)
 	local length = len(serialData)
 	local message = format("%s:%d:%s", profileKey, length, target)
 
@@ -68,17 +68,17 @@ function D:Distribute(target, otherServer, isGlobal)
 	if otherServer then
 		local numParty, numRaid = GetNumPartyMembers(), GetNumRaidMembers();
 		if(numRaid > 0 and UnitInRaid("target")) then
-			D:SendCommMessage(REQUEST_PREFIX, message, "RAID");
+			self:SendCommMessage(REQUEST_PREFIX, message, "RAID");
 		elseif(numParty > 0 and UnitInParty("target")) then
-			D:SendCommMessage(REQUEST_PREFIX, message, "PARTY");
+			self:SendCommMessage(REQUEST_PREFIX, message, "PARTY");
 		else
 			E:Print(L["Must be in group with the player if he isn't on the same server as you."])
 			return
 		end
 	else
-		D:SendCommMessage(REQUEST_PREFIX, message, "WHISPER", target)
+		self:SendCommMessage(REQUEST_PREFIX, message, "WHISPER", target)
 	end
-	D:RegisterComm(REPLY_PREFIX)
+	self:RegisterComm(REPLY_PREFIX)
 	E:StaticPopup_Show("DISTRIBUTOR_WAITING")
 end
 
@@ -92,7 +92,7 @@ function D:CHAT_MSG_ADDON(_, _, message, _, sender)
 		Downloads[sender].current = max
 	end
 
-	D.statusBar:SetValue(Downloads[sender].current)
+	self.statusBar:SetValue(Downloads[sender].current)
 end
 
 function D:OnCommReceived(prefix, msg, dist, sender)
@@ -103,8 +103,8 @@ function D:OnCommReceived(prefix, msg, dist, sender)
 			return
 		end
 
-		if D.statusBar:IsShown() then
-			D:SendCommMessage(REPLY_PREFIX, profile..":NO", dist, sender)
+		if self.statusBar:IsShown() then
+			self:SendCommMessage(REPLY_PREFIX, profile..":NO", dist, sender)
 			return
 		end
 
@@ -116,14 +116,14 @@ function D:OnCommReceived(prefix, msg, dist, sender)
 		E.PopupDialogs["DISTRIBUTOR_RESPONSE"] = {
 			text = textString,
 			OnAccept = function()
-				D.statusBar:SetMinMaxValues(0, length)
-				D.statusBar:SetValue(0)
-				D.statusBar.text:SetFormattedText(L["Data From: %s"], sender)
-				E:StaticPopupSpecial_Show(D.statusBar)
-				D:SendCommMessage(REPLY_PREFIX, profile..":YES", dist, sender)
+				self.statusBar:SetMinMaxValues(0, length)
+				self.statusBar:SetValue(0)
+				self.statusBar.text:SetFormattedText(L["Data From: %s"], sender)
+				E:StaticPopupSpecial_Show(self.statusBar)
+				self:SendCommMessage(REPLY_PREFIX, profile..":YES", dist, sender)
 			end,
 			OnCancel = function()
-				D:SendCommMessage(REPLY_PREFIX, profile..":NO", dist, sender)
+				self:SendCommMessage(REPLY_PREFIX, profile..":NO", dist, sender)
 			end,
 			button1 = ACCEPT,
 			button2 = CANCEL,
@@ -139,26 +139,26 @@ function D:OnCommReceived(prefix, msg, dist, sender)
 			profile = profile,
 		}
 
-		D:RegisterComm(TRANSFER_PREFIX)
+		self:RegisterComm(TRANSFER_PREFIX)
 	elseif prefix == REPLY_PREFIX then
-		D:UnregisterComm(REPLY_PREFIX)
+		self:UnregisterComm(REPLY_PREFIX)
 		E:StaticPopup_Hide("DISTRIBUTOR_WAITING")
 
 		local profileKey, response = split(":", msg)
 		if response == "YES" then
-			D:RegisterComm(TRANSFER_COMPLETE_PREFIX)
-			D:SendCommMessage(TRANSFER_PREFIX, Uploads[profileKey].serialData, dist, Uploads[profileKey].target)
+			self:RegisterComm(TRANSFER_COMPLETE_PREFIX)
+			self:SendCommMessage(TRANSFER_PREFIX, Uploads[profileKey].serialData, dist, Uploads[profileKey].target)
 			Uploads[profileKey] = nil
 		else
 			E:StaticPopup_Show("DISTRIBUTOR_REQUEST_DENIED")
 			Uploads[profileKey] = nil
 		end
 	elseif prefix == TRANSFER_PREFIX then
-		D:UnregisterComm(TRANSFER_PREFIX)
-		E:StaticPopupSpecial_Hide(D.statusBar)
+		self:UnregisterComm(TRANSFER_PREFIX)
+		E:StaticPopupSpecial_Hide(self.statusBar)
 
 		local profileKey = Downloads[sender].profile
-		local success, data = D:Deserialize(msg)
+		local success, data = self:Deserialize(msg)
 
 		if success then
 			local textString = format(L["Profile download complete from %s, would you like to load the profile %s now?"], sender, profileKey)
@@ -176,13 +176,13 @@ function D:OnCommReceived(prefix, msg, dist, sender)
 						hasEditBox = 1,
 						editBoxWidth = 350,
 						maxLetters = 127,
-						OnAccept = function(D)
-							ElvDB.profiles[D.editBox:GetText()] = data
-							LibStub("AceAddon-3.0"):GetAddon("ElvUI").data:SetProfile(D.editBox:GetText())
+						OnAccept = function(self)
+							ElvDB.profiles[self.editBox:GetText()] = data
+							LibStub("AceAddon-3.0"):GetAddon("ElvUI").data:SetProfile(self.editBox:GetText())
 							E:UpdateAll(true)
 							Downloads[sender] = nil
 						end,
-						OnShow = function(D) D.editBox:SetText(profileKey) D.editBox:SetFocus() end,
+						OnShow = function(self) self.editBox:SetText(profileKey) self.editBox:SetFocus() end,
 						timeout = 0,
 						exclusive = 1,
 						whileDead = 1,
@@ -191,7 +191,7 @@ function D:OnCommReceived(prefix, msg, dist, sender)
 					}
 
 					E:StaticPopup_Show("DISTRIBUTOR_CONFIRM")
-					D:SendCommMessage(TRANSFER_COMPLETE_PREFIX, "COMPLETE", dist, sender)
+					self:SendCommMessage(TRANSFER_COMPLETE_PREFIX, "COMPLETE", dist, sender)
 					return
 				end
 			end
@@ -217,13 +217,13 @@ function D:OnCommReceived(prefix, msg, dist, sender)
 			}
 
 			E:StaticPopup_Show("DISTRIBUTOR_CONFIRM")
-			D:SendCommMessage(TRANSFER_COMPLETE_PREFIX, "COMPLETE", dist, sender)
+			self:SendCommMessage(TRANSFER_COMPLETE_PREFIX, "COMPLETE", dist, sender)
 		else
 			E:StaticPopup_Show("DISTRIBUTOR_FAILED")
-			D:SendCommMessage(TRANSFER_COMPLETE_PREFIX, "FAILED", dist, sender)
+			self:SendCommMessage(TRANSFER_COMPLETE_PREFIX, "FAILED", dist, sender)
 		end
 	elseif prefix == TRANSFER_COMPLETE_PREFIX then
-		D:UnregisterComm(TRANSFER_COMPLETE_PREFIX)
+		self:UnregisterComm(TRANSFER_COMPLETE_PREFIX)
 		if msg == "COMPLETE" then
 			E:StaticPopup_Show("DISTRIBUTOR_SUCCESS")
 		else
@@ -345,7 +345,7 @@ end
 
 function D:Decode(dataString)
 	local profileInfo, profileType, profileKey, profileData, message;
-	local stringType = D:GetImportStringType(dataString);
+	local stringType = self:GetImportStringType(dataString);
 
 	if(stringType == "Base64") then
 		local decodedData = LibBase64:Decode(dataString);
@@ -375,13 +375,20 @@ function D:Decode(dataString)
 	elseif(stringType == "Table") then
 		local profileDataAsString;
 		profileDataAsString, profileInfo = E:StringSplitMultiDelim(dataString, "}::");
-		profileDataAsString = format("%s%s", profileDataAsString, "}");
-		profileType, profileKey = E:StringSplitMultiDelim(profileInfo, "::");
+
+		if not profileInfo then
+			E:Print("Error extracting profile info. Invalid import string!")
+			return
+		end
 
 		if(not profileDataAsString) then
 			E:Print("Error extracting profile data. Invalid import string!");
 			return;
 		end
+
+		profileDataAsString = format("%s%s", profileDataAsString, "}");
+		profileType, profileKey = E:StringSplitMultiDelim(profileInfo, "::");
+
 
 		local profileToTable = loadstring(format("%s %s", "return", profileDataAsString));
 		if(profileToTable) then
@@ -449,7 +456,7 @@ function D:ExportProfile(profileType, exportFormat)
 end
 
 function D:ImportProfile(dataString)
-	local profileType, profileKey, profileData = D:Decode(dataString);
+	local profileType, profileKey, profileData = self:Decode(dataString);
 
 	if(not profileData or type(profileData) ~= "table") then
 		E:Print("Error: something went wrong when converting string to table!");
@@ -501,20 +508,20 @@ E.PopupDialogs["IMPORT_PROFILE_EXISTS"] = {
 	hasEditBox = 1,
 	editBoxWidth = 350,
 	maxLetters = 127,
-	OnAccept = function(D)
+	OnAccept = function(self)
 		local profileType = D.profileType;
-		local profileKey = D.editBox:GetText();
+		local profileKey = self.editBox:GetText();
 		local profileData = D.profileData;
 		SetImportedProfile(profileType, profileKey, profileData, true);
 	end,
-	EditBoxOnTextChanged = function(D)
-		if(D:GetText() == "") then
-			D:GetParent().button1:Disable();
+	EditBoxOnTextChanged = function(self)
+		if(self:GetText() == "") then
+			self:GetParent().button1:Disable();
 		else
-			D:GetParent().button1:Enable();
+			self:GetParent().button1:Enable();
 		end
 	end,
-	OnShow = function(D) D.editBox:SetText(D.profileKey); D.editBox:SetFocus(); end,
+	OnShow = function(self) self.editBox:SetText(D.profileKey); self.editBox:SetFocus(); end,
 	timeout = 0,
 	whileDead = 1,
 	hideOnEscape = true,

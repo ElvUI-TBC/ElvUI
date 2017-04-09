@@ -15,41 +15,41 @@ local function Panel_OnShow(self)
 end
 
 function LO:Initialize()
-	LO:CreateChatPanels()
-	LO:CreateMinimapPanels()
+	self:CreateChatPanels()
+	self:CreateMinimapPanels()
 
-	LO.BottomPanel = CreateFrame("Frame", "ElvUI_BottomPanel", E.UIParent)
-	LO.BottomPanel:SetTemplate("Transparent")
-	LO.BottomPanel:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", -1, -1)
-	LO.BottomPanel:Point("BOTTOMRIGHT", E.UIParent, "BOTTOMRIGHT", 1, -1)
-	LO.BottomPanel:Height(PANEL_HEIGHT)
-	LO.BottomPanel:SetScript("OnShow", Panel_OnShow)
-	Panel_OnShow(LO.BottomPanel)
-	LO:BottomPanelVisibility()
+	self.BottomPanel = CreateFrame("Frame", "ElvUI_BottomPanel", E.UIParent)
+	self.BottomPanel:SetTemplate("Transparent")
+	self.BottomPanel:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", -1, -1)
+	self.BottomPanel:Point("BOTTOMRIGHT", E.UIParent, "BOTTOMRIGHT", 1, -1)
+	self.BottomPanel:Height(PANEL_HEIGHT)
+	self.BottomPanel:SetScript("OnShow", Panel_OnShow)
+	Panel_OnShow(self.BottomPanel)
+	self:BottomPanelVisibility()
 
-	LO.TopPanel = CreateFrame("Frame", "ElvUI_TopPanel", E.UIParent)
-	LO.TopPanel:SetTemplate("Transparent")
-	LO.TopPanel:Point("TOPLEFT", E.UIParent, "TOPLEFT", -1, 1)
-	LO.TopPanel:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", 1, 1)
-	LO.TopPanel:Height(PANEL_HEIGHT)
-	LO.TopPanel:SetScript("OnShow", Panel_OnShow)
-	Panel_OnShow(LO.TopPanel)
-	LO:TopPanelVisibility()
+	self.TopPanel = CreateFrame("Frame", "ElvUI_TopPanel", E.UIParent)
+	self.TopPanel:SetTemplate("Transparent")
+	self.TopPanel:Point("TOPLEFT", E.UIParent, "TOPLEFT", -1, 1)
+	self.TopPanel:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", 1, 1)
+	self.TopPanel:Height(PANEL_HEIGHT)
+	self.TopPanel:SetScript("OnShow", Panel_OnShow)
+	Panel_OnShow(self.TopPanel)
+	self:TopPanelVisibility()
 end
 
 function LO:BottomPanelVisibility()
 	if(E.db.general.bottomPanel) then
-		LO.BottomPanel:Show()
+		self.BottomPanel:Show()
 	else
-		LO.BottomPanel:Hide()
+		self.BottomPanel:Hide()
 	end
 end
 
 function LO:TopPanelVisibility()
 	if E.db.general.topPanel then
-		LO.TopPanel:Show()
+		self.TopPanel:Show()
 	else
-		LO.TopPanel:Hide()
+		self.TopPanel:Hide()
 	end
 end
 
