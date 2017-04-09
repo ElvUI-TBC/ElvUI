@@ -116,6 +116,7 @@ assert(oUF, "oUF_AuraWatch cannot find an instance of oUF. If your oUF is embedd
 
 local CreateFrame = CreateFrame
 local GetSpellInfo = GetSpellInfo
+local GetTime = GetTime
 local UnitBuff, UnitDebuff, UnitGUID = UnitBuff, UnitDebuff, UnitGUID
 local GUIDs = {}
 
@@ -202,7 +203,7 @@ local function resetIcon(icon, frame, count, duration, remaining)
 		icon:Show()
 		if icon.cd then
 			if duration and duration > 0 and icon.style ~= "NONE" then
-				icon.cd:SetCooldown(remaining - duration, duration)
+				icon.cd:SetCooldown(GetTime() - (duration - remaining), duration)
 				icon.cd:Show()
 			else
 				icon.cd:Hide()
