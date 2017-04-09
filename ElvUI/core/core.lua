@@ -350,8 +350,7 @@ end
 E.UIParent = CreateFrame("Frame", "ElvUIParent", UIParent);
 E.UIParent:SetFrameLevel(UIParent:GetFrameLevel());
 E.UIParent:SetPoint("CENTER", UIParent, "CENTER");
-E.UIParent:SetWidth(UIParent:GetWidth());
-E.UIParent:SetHeight(UIParent:GetHeight());
+E.UIParent:SetSize(UIParent:GetSize());
 E["snapBars"][#E["snapBars"] + 1] = E.UIParent;
 
 E.HiddenFrame = CreateFrame("Frame");
@@ -905,6 +904,8 @@ function E:InitializeInitialModules()
 		local module = self:GetModule(module, true);
 		if(module and module.Initialize) then
 			local _, catch = pcall(module.Initialize, module);
+		--	if(catch and GetCVar("scriptErrors") == 1) then
+		--		ScriptErrorsFrame_OnError(catch, false);
 			if(catch) then
 				print(catch)
 			end
@@ -923,6 +924,8 @@ function E:InitializeModules()
 		local module = self:GetModule(module);
 		if(module.Initialize) then
 			local _, catch = pcall(module.Initialize, module);
+		--	if(catch and GetCVar("scriptErrors") == 1) then
+		--		ScriptErrorsFrame_OnError(catch, false);
 			if(catch) then
 				print(catch)
 			end

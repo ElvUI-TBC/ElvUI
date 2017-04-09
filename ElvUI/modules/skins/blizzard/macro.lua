@@ -46,7 +46,7 @@ function S:LoadMacroSkin()
 	MacroFrameSelectedMacroButtonIcon:SetTexCoord(unpack(E.TexCoords))
 	MacroFrameSelectedMacroButtonIcon:SetInside()
 
-	for i = 1, 18 do
+	for i = 1, MAX_MACROS do
 		local Button = _G["MacroButton"..i]
 		local ButtonIcon = _G["MacroButton"..i.."Icon"]
 
