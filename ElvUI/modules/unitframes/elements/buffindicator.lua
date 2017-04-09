@@ -157,6 +157,8 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 					icon.cd:SetAllPoints(icon);
 					icon.cd:SetReverse(true);
 					icon.cd:SetFrameLevel(icon:GetFrameLevel());
+					icon.cd.noOCC = true;
+					icon.cd.noCooldownCount = true;
 				end
 
 				if(icon.style == "coloredIcon") then

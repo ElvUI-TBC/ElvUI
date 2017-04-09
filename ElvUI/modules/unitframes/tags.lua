@@ -281,7 +281,8 @@ end
 
 ElvUF.Tags.Events["power:max"] = "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_MAXRUNIC_POWER"
 ElvUF.Tags.Methods["power:max"] = function(unit)
-	local max = UnitManaMax(unit, UnitPowerType(unit))
+	local pType = UnitPowerType(unit)
+	local max = UnitManaMax(unit, pType)
 
 	return E:GetFormattedText("CURRENT", max, max)
 end
