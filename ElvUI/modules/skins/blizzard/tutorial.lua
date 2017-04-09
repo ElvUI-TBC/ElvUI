@@ -15,9 +15,7 @@ function S:LoadTutorialSkin()
 	end
 
 	for i = 1, MAX_TUTORIAL_ALERTS do
-
-		TutorialFrameAlertButton = _G["TutorialFrameAlertButton"..i]
-		local TutorialFrameAlertButton = TutorialFrameAlertButton
+		local TutorialFrameAlertButton = _G["TutorialFrameAlertButton"..i]
 		local TutorialFrameAlertButtonIcon = TutorialFrameAlertButton:GetNormalTexture()
 
 		TutorialFrameAlertButton:StripTextures()
@@ -32,7 +30,6 @@ function S:LoadTutorialSkin()
 		TutorialFrameAlertButtonIcon:Point("BOTTOMRIGHT", TutorialFrameAlertButton, "BOTTOMRIGHT", 0, 0)
 		TutorialFrameAlertButtonIcon:SetTexCoord(0.07, 0.43, 0.15, 0.55)
 		-- TutorialFrameAlertButtonIcon:SetTexCoord(unpack(E.TexCoords))
-
 	end
 
 	TutorialFrame:StripTextures()

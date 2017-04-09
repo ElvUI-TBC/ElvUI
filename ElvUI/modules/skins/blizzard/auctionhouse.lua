@@ -122,7 +122,7 @@ function S:LoadAuctionHouseSkin()
 
 	AuctionFrameTab1:ClearAllPoints()
 	AuctionFrameTab1:Point("BOTTOMLEFT", AuctionFrame, "BOTTOMLEFT", 25, -25)
-	AuctionFrameTab1.Point = E.noop
+	AuctionFrameTab1.SetPoint = E.noop
 
 	for i=1, NUM_FILTERS_TO_DISPLAY do
 		local tab = _G["AuctionFilterButton"..i]
