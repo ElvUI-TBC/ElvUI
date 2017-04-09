@@ -83,44 +83,44 @@ end
 
 G.unitframe.buffwatch = {
 	PRIEST = {
-		[6788] = ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true), -- Ослабленная душа
-		[10060] = ClassBuff(10060 , "RIGHT", {227/255, 23/255, 13/255}), -- Придание сил
-		[48066] = ClassBuff(48066, "BOTTOMRIGHT", {0.81, 0.85, 0.1}, true), -- Слово силы: Щит
-		[48068] = ClassBuff(48068, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Обновление
-		[48111] = ClassBuff(48111, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Молитва восстановления
+		[6788] = ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true), -- Weakened Soul
+		[10060] = ClassBuff(10060 , "RIGHT", {227/255, 23/255, 13/255}), -- Power Infusion
+		[48066] = ClassBuff(48066, "BOTTOMRIGHT", {0.81, 0.85, 0.1}, true), -- Power Word: Shield
+		[48068] = ClassBuff(48068, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Renew
+		[48111] = ClassBuff(48111, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Prayer of Mending
 	},
 	DRUID = {
-		[48441] = ClassBuff(48441, "TOPRIGHT", {0.8, 0.4, 0.8}), -- Омоложение
-		[48443] = ClassBuff(48443, "BOTTOMLEFT", {0.2, 0.8, 0.2}), -- Восстановление
-		[48451] = ClassBuff(48451, "TOPLEFT", {0.4, 0.8, 0.2}), -- Жизнецвет
-		[53251] = ClassBuff(53251, "BOTTOMRIGHT", {0.8, 0.4, 0}), -- Буйный рост
+		[48441] = ClassBuff(48441, "TOPRIGHT", {0.8, 0.4, 0.8}), -- Rejuvenation
+		[48443] = ClassBuff(48443, "BOTTOMLEFT", {0.2, 0.8, 0.2}), -- Regrowth
+		[48451] = ClassBuff(48451, "TOPLEFT", {0.4, 0.8, 0.2}), -- Lifebloom
+		[53251] = ClassBuff(53251, "BOTTOMRIGHT", {0.8, 0.4, 0}), -- Wild Growth
 	},
 	PALADIN = {
-		[1038] = ClassBuff(1038, "BOTTOMRIGHT", {238/255, 201/255, 0}, true), -- Длань спасения
-		[1044] = ClassBuff(1044, "BOTTOMRIGHT", {221/255, 117/255, 0}, true), -- Длань свободы
-		[6940] = ClassBuff(6940, "BOTTOMRIGHT", {227/255, 23/255, 13/255}, true), -- Длань жертвенности
-		[10278] = ClassBuff(10278, "BOTTOMRIGHT", {0.2, 0.2, 1}, true), -- Длань защиты
-		[53563] = ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}), -- Частица Света
-		[53601] = ClassBuff(53601, "TOPRIGHT", {0.4, 0.7, 0.2}), -- Священный щит
+		[1038] = ClassBuff(1038, "BOTTOMRIGHT", {238/255, 201/255, 0}, true), -- Hand of Salvation
+		[1044] = ClassBuff(1044, "BOTTOMRIGHT", {221/255, 117/255, 0}, true), -- Hand of Freedom
+		[6940] = ClassBuff(6940, "BOTTOMRIGHT", {227/255, 23/255, 13/255}, true), -- Hand of Sacrifice
+		[10278] = ClassBuff(10278, "BOTTOMRIGHT", {0.2, 0.2, 1}, true), -- Hand of Protection
+		[53563] = ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}), -- Beacon of Light
+		[53601] = ClassBuff(53601, "TOPRIGHT", {0.4, 0.7, 0.2}), -- Sacred Shield
 	},
 	SHAMAN = {
-		[16237] = ClassBuff(16237, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Стойкость предков
-		[49284] = ClassBuff(49284, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Щит земли
-		[52000] = ClassBuff(52000, "BOTTOMRIGHT", {0.7, 0.4, 0}), -- Жизнь земли
-		[61301] = ClassBuff(61301, "TOPLEFT", {0.7, 0.3, 0.7}), -- Быстрина
+		[16237] = ClassBuff(16237, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Ancestral Fortitude
+		[49284] = ClassBuff(49284, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Earth Shield
+		[52000] = ClassBuff(52000, "BOTTOMRIGHT", {0.7, 0.4, 0}), -- Earthliving
+		[61301] = ClassBuff(61301, "TOPLEFT", {0.7, 0.3, 0.7}), -- Riptide
 	},
 	ROGUE = {
-		[57933] = ClassBuff(57933, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Маленькие хитрости
+		[57933] = ClassBuff(57933, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Tricks of the Trade
 	},
 	MAGE = {
-		[54646] = ClassBuff(54646, "TOPRIGHT", {0.2, 0.2, 1}), -- Магическая консетрация
+		[54646] = ClassBuff(54646, "TOPRIGHT", {0.2, 0.2, 1}), -- Focus Magic
 	},
 	WARRIOR = {
-		[3411] = ClassBuff(3411, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Вмешательство
-		[59665] = ClassBuff(59665, "TOPLEFT", {0.2, 0.2, 1}), -- Бдительность
+		[3411] = ClassBuff(3411, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Intervene
+		[59665] = ClassBuff(59665, "TOPLEFT", {0.2, 0.2, 1}), -- Vigilance
 	},
 	DEATHKNIGHT = {
-		[49016] = ClassBuff(49016, "TOPRIGHT", {227/255, 23/255, 13/255}) -- Истерия
+		[49016] = ClassBuff(49016, "TOPRIGHT", {227/255, 23/255, 13/255}) -- Hysteria
 	},
 	HUNTER = {}
 };
@@ -130,28 +130,28 @@ P["unitframe"]["filters"] = {
 };
 
 G.unitframe.ChannelTicks = {
-	-- Чернокнижник
-	[SpellName(1120)] = 5, -- Похищение души
-	[SpellName(689)] = 5, -- Похищение жизни
-	[SpellName(5138)] = 5, -- Похищение маны
-	[SpellName(5740)] = 4, -- Огненный ливень
-	[SpellName(755)] = 10, -- Канал здоровья
-	-- Друид
-	[SpellName(44203)] = 4, -- Спокойствие
-	[SpellName(16914)] = 10, -- Гроза
-	-- Жрец
-	[SpellName(15407)] = 3, -- Пытка разума
-	[SpellName(48045)] = 5, -- Искушение разума
-	[SpellName(47540)] = 3, -- Исповедь
-	-- Маг
-	[SpellName(5143)] = 5, -- Чародейские стрелы
-	[SpellName(10)] = 8, -- Снежная буря
-	[SpellName(12051)] = 4 -- Прилив сил
+	-- Warlock
+	[SpellName(1120)] = 5, -- Drain Soul
+	[SpellName(689)] = 5, -- Drain Life
+	[SpellName(5138)] = 5, -- Drain Mana
+	[SpellName(5740)] = 4, -- Rain of Fire
+	[SpellName(755)] = 10, -- Health Funnel
+	-- Druid
+	[SpellName(44203)] = 4, -- Tranquility
+	[SpellName(16914)] = 10, -- Hurricane
+	-- Priest
+	[SpellName(15407)] = 3, -- Mind Flay
+	[SpellName(48045)] = 5, -- Mind Sear
+	[SpellName(47540)] = 3, -- Penance
+	-- Mage
+	[SpellName(5143)] = 5, -- Arcane Missiles
+	[SpellName(10)] = 8, -- Blizzard
+	[SpellName(12051)] = 4 -- Evocation
 };
 
 G.unitframe.AuraBarColors = {
-	[SpellName(2825)] = {r = 250/255, g = 146/255, b = 27/255},	-- Жажда крови
-	[SpellName(32182)] = {r = 250/255, g = 146/255, b = 27/255} -- Героизм
+	[SpellName(2825)] = {r = 250/255, g = 146/255, b = 27/255},	-- Bloodlust
+	[SpellName(32182)] = {r = 250/255, g = 146/255, b = 27/255} -- Heroism
 };
 
 G.unitframe.InvalidSpells = {
@@ -159,48 +159,5 @@ G.unitframe.InvalidSpells = {
 };
 
 G.unitframe.DebuffHighlightColors = {
-	[SpellName(25771)] = {enable = false, style = "FILL", color = { r = 0.85, g = 0, b = 0, a = 0.85 }}
-};
-
-G.oldBuffWatch = {
-	PRIEST = {
-		ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true), -- Ослабленная душа
-		ClassBuff(10060 , "RIGHT", {227/255, 23/255, 13/255}), -- Придание сил
-		ClassBuff(48066, "BOTTOMRIGHT", {0.81, 0.85, 0.1}, true), -- Слово силы: Щит
-		ClassBuff(48068, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Обновление
-		ClassBuff(48111, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Молитва восстановления
-	},
-	DRUID = {
-		ClassBuff(48441, "TOPRIGHT", {0.8, 0.4, 0.8}), -- Омоложение
-		ClassBuff(48443, "BOTTOMLEFT", {0.2, 0.8, 0.2}), -- Востановление
-		ClassBuff(48451, "TOPLEFT", {0.4, 0.8, 0.2}), -- Жизнецвет
-		ClassBuff(53251, "BOTTOMRIGHT", {0.8, 0.4, 0}), -- Буйный рост
-	},
-	PALADIN = {
-		ClassBuff(1038, "BOTTOMRIGHT", {238/255, 201/255, 0}, true), -- Длань спасения
-		ClassBuff(1044, "BOTTOMRIGHT", {221/255, 117/255, 0}, true), -- Длань свободы
-		ClassBuff(6940, "BOTTOMRIGHT", {227/255, 23/255, 13/255}, true), -- Длань жертвенности
-		ClassBuff(10278, "BOTTOMRIGHT", {0.2, 0.2, 1}, true), -- Длань защиты
-		ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}), -- Частица Света
-		ClassBuff(53601, "TOPRIGHT", {0.4, 0.7, 0.2}), -- Священный щит
-	},
-	SHAMAN = {
-		ClassBuff(16237, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Стойкость предков
-		ClassBuff(49284, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Щит земли
-		ClassBuff(52000, "BOTTOMRIGHT", {0.7, 0.4, 0}), -- Жизнь земли
-		ClassBuff(61301, "TOPLEFT", {0.7, 0.3, 0.7}), -- Быстрина
-	},
-	ROGUE = {
-		ClassBuff(57933, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Маленькие хитрости
-	},
-	MAGE = {
-		ClassBuff(54646, "TOPRIGHT", {0.2, 0.2, 1}), -- Магическая концентрация
-	},
-	WARRIOR = {
-		ClassBuff(3411, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Вмешательство
-		ClassBuff(59665, "TOPLEFT", {0.2, 0.2, 1}), -- Бдительность
-	},
-	DEATHKNIGHT = {
-		ClassBuff(49016, "TOPRIGHT", {227/255, 23/255, 13/255}) -- Истерия
-	}
+	[SpellName(25771)] = {enable = false, style = "FILL", color = {r = 0.85, g = 0, b = 0, a = 0.85}} -- Forbearance
 };

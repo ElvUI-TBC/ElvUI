@@ -79,6 +79,7 @@ local auraSortMethodValues = {
 };
 
 local CUSTOMTEXT_CONFIGS = {};
+local filters;
 
 local function GetOptionsTable_InformationPanel(updateFunc, groupName, numUnits)
 	local config = {
@@ -956,7 +957,6 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 	return config;
 end
 
-local filters;
 local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 	local config = {
 		order = 800,
