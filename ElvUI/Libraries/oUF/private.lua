@@ -17,9 +17,9 @@ function Private.argcheck(value, num, ...)
 end
 
 function Private.print(...)
-	DEFAULT_CHAT_FRAME:AddMessage("|cff33ff99oUF:|r", ...)
+	print("|cff33ff99oUF:|r", ...)
 end
 
 function Private.error(...)
-	Private.DEFAULT_CHAT_FRAME:AddMessage("|cffff0000Error:|r " .. format(...))
+	Private.print("|cffff0000Error:|r " .. format(...))
 end

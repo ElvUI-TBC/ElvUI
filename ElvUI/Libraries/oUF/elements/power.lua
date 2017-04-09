@@ -10,9 +10,9 @@ local UnitIsPlayer = UnitIsPlayer
 local UnitIsTapped = UnitIsTapped
 local UnitIsTappedByPlayer = UnitIsTappedByPlayer
 local UnitIsUnit = UnitIsUnit
+local UnitMana = UnitMana
+local UnitManaMax = UnitManaMax
 local UnitPlayerControlled = UnitPlayerControlled
-local UnitPower = UnitPower
-local UnitPowerMax = UnitPowerMax
 local UnitPowerType = UnitPowerType
 local UnitReaction = UnitReaction
 

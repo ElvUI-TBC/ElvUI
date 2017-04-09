@@ -2,7 +2,6 @@ local ns = oUF
 local oUF = ns.oUF
 
 local GetPartyAssignment = GetPartyAssignment
-local UnitHasVehicleUI = UnitHasVehicleUI
 local UnitInRaid = UnitInRaid
 
 local Update = function(self, event)
@@ -14,11 +13,10 @@ local Update = function(self, event)
 		raidrole:PreUpdate()
 	end
 
-	local inVehicle = UnitHasVehicleUI(unit)
-	if(GetPartyAssignment("MAINTANK", unit) and not inVehicle) then
+	if(GetPartyAssignment("MAINTANK", unit)) then
 		raidrole:Show()
 		raidrole:SetTexture[[Interface\GROUPFRAME\UI-GROUP-MAINTANKICON]]
-	elseif(GetPartyAssignment("MAINASSIST", unit) and not inVehicle) then
+	elseif(GetPartyAssignment("MAINASSIST", unit)) then
 		raidrole:Show()
 		raidrole:SetTexture[[Interface\GROUPFRAME\UI-GROUP-ASSISTANTICON]]
 	else

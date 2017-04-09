@@ -15,7 +15,6 @@ local GetNumRaidMembers = GetNumRaidMembers
 local GetPetHappiness = GetPetHappiness
 local GetQuestDifficultyColor = GetQuestDifficultyColor
 local GetRaidRosterInfo = GetRaidRosterInfo
-local GetThreatStatusColor = GetThreatStatusColor
 local IsResting = IsResting
 local UnitCanAttack = UnitCanAttack
 local UnitClass = UnitClass
@@ -23,7 +22,6 @@ local UnitClassification = UnitClassification
 local UnitCreatureFamily = UnitCreatureFamily
 local UnitCreatureType = UnitCreatureType
 local UnitFactionGroup = UnitFactionGroup
-local UnitHasVehicleUI = UnitHasVehicleUI
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
 local UnitIsConnected = UnitIsConnected
@@ -33,13 +31,12 @@ local UnitIsPVP = UnitIsPVP
 local UnitIsPartyLeader = UnitIsPartyLeader
 local UnitIsPlayer = UnitIsPlayer
 local UnitLevel = UnitLevel
+local UnitMana = UnitMana
+local UnitManaMax = UnitManaMax
 local UnitName = UnitName
-local UnitPower = UnitPower
-local UnitPowerMax = UnitPowerMax
 local UnitPowerType = UnitPowerType
 local UnitRace = UnitRace
 local UnitSex = UnitSex
-local UnitThreatSituation = UnitThreatSituation
 
 local _PATTERN = "%[..-%]+"
 
@@ -106,7 +103,7 @@ local tagStrings = {
 	end]],
 
 	["missingpp"] = [[function(u)
-		local current = UnitPowerMax(u) - UnitPower(u)
+		local current = UnitManaMax(u) - UnitMana(u)
 		if(current > 0) then
 			return current
 		end
@@ -132,11 +129,11 @@ local tagStrings = {
 	end]],
 
 	["perpp"] = [[function(u)
-		local m = UnitPowerMax(u)
+		local m = UnitManaMax(u)
 		if(m == 0) then
 			return 0
 		else
-			return math.floor(UnitPower(u)/m*100+.5)
+			return math.floor(UnitMana(u)/m*100+.5)
 		end
 	end]],
 
@@ -202,29 +199,8 @@ local tagStrings = {
 		end
 	end]],
 
-	["threat"] = [[function(u)
-		local s = UnitThreatSituation(u)
-		if(s == 1) then
-			return "++"
-		elseif(s == 2) then
-			return "--"
-		elseif(s == 3) then
-			return "Aggro"
-		end
-	end]],
-
-	["threatcolor"] = [[function(u)
-		return Hex(GetThreatStatusColor(UnitThreatSituation(u)))
-	end]],
-
 	["cpoints"] = [[function(u)
-		local cp
-		if(UnitHasVehicleUI("player")) then
-			cp = GetComboPoints("vehicle", "target")
-		else
-			cp = GetComboPoints("player", "target")
-		end
-
+		local cp = GetComboPoints("player", "target")
 		if(cp > 0) then
 			return cp
 		end
@@ -295,11 +271,11 @@ local tagStrings = {
 	end]],
 
 	["curmana"] = [[function(unit)
-		return UnitPower(unit, SPELL_POWER_MANA)
+		return UnitMana(unit, SPELL_POWER_MANA)
 	end]],
 
 	["maxmana"] = [[function(unit)
-		return UnitPowerMax(unit, SPELL_POWER_MANA)
+		return UnitManaMax(unit, SPELL_POWER_MANA)
 	end]],
 
 	["happiness"] = [[function(u)
@@ -338,9 +314,9 @@ local tagStrings = {
 local tags = setmetatable(
 	{
 		curhp = UnitHealth,
-		curpp = UnitPower,
+		curpp = UnitMana,
 		maxhp = UnitHealthMax,
-		maxpp = UnitPowerMax,
+		maxpp = UnitManaMax,
 		class = UnitClass,
 		faction = UnitFactionGroup,
 		race = UnitRace,
@@ -384,32 +360,30 @@ _ENV._TAGS = tags
 local tagEvents = {
 	["curhp"]				= "UNIT_HEALTH",
 	["maxhp"]				= "UNIT_MAXHEALTH",
-	["curpp"]				= "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER",
-	["maxpp"]				= "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_MAXRUNIC_POWER",
+	["curpp"]				= "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE",
+	["maxpp"]				= "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE",
 	["dead"]				= "UNIT_HEALTH",
 	["leader"]				= "PARTY_LEADER_CHANGED",
 	["leaderlong"]			= "PARTY_LEADER_CHANGED",
 	["level"]				= "UNIT_LEVEL PLAYER_LEVEL_UP",
 	["missinghp"]			= "UNIT_HEALTH UNIT_MAXHEALTH",
-	["missingpp"]			= "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_MAXRUNIC_POWER UNIT_RUNIC_POWER",
+	["missingpp"]			= "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE",
 	["name"]				= "UNIT_NAME_UPDATE",
 	["offline"]				= "UNIT_HEALTH",
 	["perhp"]				= "UNIT_HEALTH UNIT_MAXHEALTH",
-	["perpp"]				= "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_MAXRUNIC_POWER UNIT_RUNIC_POWER",
+	["perpp"]				= "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE",
 	["plus"]				= "UNIT_CLASSIFICATION_CHANGED",
 	["pvp"]					= "UNIT_FACTION",
 	["rare"]				= "UNIT_CLASSIFICATION_CHANGED",
 	["resting"]				= "PLAYER_UPDATE_RESTING",
 	["status"]				= "UNIT_HEALTH PLAYER_UPDATE_RESTING",
-	["threat"]				= "UNIT_THREAT_SITUATION_UPDATE",
-	["threatcolor"]			= "UNIT_THREAT_SITUATION_UPDATE",
-	["cpoints"]				= "UNIT_COMBO_POINTS PLAYER_TARGET_CHANGED",
+	["cpoints"]				= "PLAYER_COMBO_POINTS PLAYER_TARGET_CHANGED",
 	["smartlevel"]			= "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED",
 	["classification"]		= "UNIT_CLASSIFICATION_CHANGED",
 	["shortclassification"]	= "UNIT_CLASSIFICATION_CHANGED",
 	["group"]				= "PARTY_MEMBERS_CHANGED RAID_ROSTER_UPDATE",
-	["curmana"]				= "UNIT_POWER UNIT_MAXPOWER",
-	["maxmana"]				= "UNIT_POWER UNIT_MAXPOWER",
+	["curmana"]				= "UNIT_MANA UNIT_MAXMANA",
+	["maxmana"]				= "UNIT_MANA UNIT_MAXMANA",
 	["happiness"]			= "UNIT_HAPPINESS",
 	["powercolor"]			= "UNIT_DISPLAYPOWER",
 }
@@ -423,7 +397,7 @@ local unitlessEvents = {
 	PARTY_MEMBERS_CHANGED = true,
 	PARTY_LEADER_CHANGED = true,
 
-	UNIT_COMBO_POINTS = true,
+	PLAYER_COMBO_POINTS = true,
 }
 
 local events = {}

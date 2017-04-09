@@ -76,10 +76,6 @@ local function UpdateSpellList()
 	elseif class == "HUNTER" then
 		AddSpell(petSpells, 136) -- Лечение питомца
 		AddSpell(enemySpells, 75) -- Автоматическая стрельба
-	elseif class == "DEATHKNIGHT" then
-		AddSpell(enemySpells, 49576) -- Хватка смерти
-		AddSpell(friendlySpells, 47541) -- Лик смерти
-		AddSpell(resSpells, 61999) -- Воскрешение союзника
 	elseif class == "ROGUE" then
 		AddSpell(enemySpells, 2094) -- Ослепление
 		AddSpell(longEnemySpells, 1725) -- Отвлечение

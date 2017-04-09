@@ -187,7 +187,7 @@ end
 
 local secureDropdown
 local InitializeSecureMenu = function(self)
-	local unit = self.unit
+	local unit = this.unit
 	if(not unit) then return end
 
 	local unitType = string.match(unit, "^([a-z]+)[0-9]+$") or unit
@@ -199,12 +199,10 @@ local InitializeSecureMenu = function(self)
 		menu = "BOSS"
 	elseif(unitType == "focus") then
 		menu = "FOCUS"
-	elseif(unitType == "arenapet" or unitType == "arena") then
-		menu = "ARENAENEMY"
+--	elseif(unitType == "arenapet" or unitType == "arena") then
+--		menu = "ARENAENEMY"
 	elseif(UnitIsUnit(unit, "player")) then
 		menu = "SELF"
-	elseif(UnitIsUnit(unit, "vehicle")) then
-		menu = "VEHICLE"
 	elseif(UnitIsUnit(unit, "pet")) then
 		menu = "PET"
 	elseif(UnitIsPlayer(unit)) then
@@ -220,7 +218,7 @@ local InitializeSecureMenu = function(self)
 	end
 
 	if(menu) then
-		UnitPopup_ShowMenu(self, menu, unit)
+		UnitPopup_ShowMenu(this, menu, unit)
 	end
 end
 
