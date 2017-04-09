@@ -19,7 +19,8 @@ function S:LoadPVPSkin()
 
 	S:HandleCloseButton(BattlefieldFrameCloseButton)
 
---[[
+	BattlefieldFrameZoneDescription:SetTextColor(1, 1, 1)
+
 	PVPFrame:StripTextures(true)
 
 	for i = 1, MAX_ARENA_TEAMS do
@@ -47,7 +48,7 @@ function S:LoadPVPSkin()
 	S:HandleButton(PVPTeamDetailsAddTeamMember)
 
 	S:HandleNextPrevButton(PVPTeamDetailsToggleButton)
-]]
+
 end
 
 S:AddCallback("PvP", S.LoadPVPSkin)
