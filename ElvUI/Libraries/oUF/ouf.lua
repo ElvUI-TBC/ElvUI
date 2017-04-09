@@ -186,8 +186,8 @@ for k, v in pairs{
 end
 
 local secureDropdown
-local InitializeSecureMenu = function(self)
-	local unit = this.unit
+local InitializeSecureMenu = function()
+	local unit = SecureTemplatesDropdown.unit
 	if(not unit) then return end
 
 	local unitType = string.match(unit, "^([a-z]+)[0-9]+$") or unit
@@ -218,7 +218,7 @@ local InitializeSecureMenu = function(self)
 	end
 
 	if(menu) then
-		UnitPopup_ShowMenu(this, menu, unit)
+		UnitPopup_ShowMenu(SecureTemplatesDropdown, menu, unit)
 	end
 end
 
