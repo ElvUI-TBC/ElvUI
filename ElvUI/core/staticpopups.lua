@@ -505,7 +505,6 @@ function E:StaticPopup_OnHide()
 	if(OnHide) then
 		OnHide(self, self.data);
 	end
-	self.extraFrame:Hide();
 	if(dialog.enterClicksFirstButton) then
 		self:SetScript("OnKeyDown", nil);
 	end
@@ -1011,6 +1010,6 @@ function E:Contruct_StaticPopups()
 		_G[name .. "ItemFrameIconTexture"]:SetInside();
 	end
 
-	E:SecureHook("StaticPopup_SetUpPosition");
-	E:SecureHook("StaticPopup_CollapseTable");
+	E:SecureHook("StaticPopup_Show", "StaticPopup_SetUpPosition")
+	E:SecureHook("StaticPopup_OnHide", "StaticPopup_CollapseTable")
 end

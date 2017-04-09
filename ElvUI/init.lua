@@ -75,12 +75,12 @@ function AddOn:OnInitialize()
 
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
 	--self:RegisterEvent("PLAYER_LOGIN", "Initialize")
-	--self:Contruct_StaticPopups()
+	self:Contruct_StaticPopups()
 	self:InitializeInitialModules()
 
-	--if IsAddOnLoaded("Tukui") then
-	--	self:StaticPopup_Show("TUKUI_ELVUI_INCOMPATIBLE")
-	--end
+	if IsAddOnLoaded("Tukui") then
+		self:StaticPopup_Show("TUKUI_ELVUI_INCOMPATIBLE")
+	end
 
 	local GameMenuButton = CreateFrame("Button", nil, GameMenuFrame, "GameMenuButtonTemplate")
 	GameMenuButton:Size(GameMenuButtonLogout:GetWidth(), GameMenuButtonLogout:GetHeight())

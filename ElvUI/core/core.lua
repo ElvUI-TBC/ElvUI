@@ -419,7 +419,7 @@ end
 
 function E:CheckIncompatible()
 	if(E.global.ignoreIncompatible) then return; end
-
+--[[
 	if(IsAddOnLoaded("Prat-3.0") and E.private.chat.enable) then
 		E:IncompatibleAddOn("Prat-3.0", "Chat");
 	end
@@ -436,6 +436,7 @@ function E:CheckIncompatible()
 	if(IsAddOnLoaded("TidyPlates") and E.private.nameplates.enable) then
 		E:IncompatibleAddOn("TidyPlates", "NamePlate");
 	end
+]]
 end
 
 function E:IsFoolsDay()
@@ -935,14 +936,7 @@ end
 
 --DATABASE CONVERSIONS
 function E:DBConversions()
-	if E.db.nameplate then
-		E.db.nameplate = nil
-	end
 
-	if E.global.nameplate then
-		E.global.nameplates = E.global.nameplate
-		E.global.nameplate = nil
-	end
 end
 
 local CPU_USAGE = {};
@@ -1027,8 +1021,8 @@ function E:Initialize()
 	self.private = self.charSettings.profile;
 	self.db = self.data.profile;
 	self.global = self.data.global;
---	self:CheckIncompatible();
---	self:DBConversions();
+	self:CheckIncompatible();
+	self:DBConversions();
 
 	self:CheckRole();
 	self:UIScale("PLAYER_LOGIN");
@@ -1063,7 +1057,7 @@ function E:Initialize()
 		self:Delay(5, self.Print, self, L["Type /hellokitty to revert to old settings."]);
 	end
 
---	self:Tutorials();
+	self:Tutorials();
 	self:GetModule("Minimap"):UpdateSettings();
 --	self:RefreshModulesDB()
 	collectgarbage("collect");
