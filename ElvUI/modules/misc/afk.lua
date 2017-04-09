@@ -131,7 +131,13 @@ end
 function AFK:OnEvent(event, ...)
 	if(event == "PLAYER_REGEN_DISABLED" or event == "UPDATE_BATTLEFIELD_STATUS") then
 		if(event == "UPDATE_BATTLEFIELD_STATUS") then
-			local status = GetBattlefieldStatus(nil, ...);
+			for i = 1, MAX_BATTLEFIELD_QUEUES do
+			  status,mapName,instanceID = GetBattlefieldStatus(i);
+			  if instanceID ~= 0 then
+			    status = status;
+			  end
+			 end
+			local status = status;
 			if(status == "confirm") then
 				self:SetAFK(false);
 			end
