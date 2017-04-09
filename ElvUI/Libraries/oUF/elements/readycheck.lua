@@ -64,8 +64,6 @@ local Enable = function(self, unit)
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
-
-
 		self:RegisterEvent("READY_CHECK", Path, true)
 		self:RegisterEvent("READY_CHECK_CONFIRM", Path, true)
 		self:RegisterEvent("READY_CHECK_FINISHED", Path, true)

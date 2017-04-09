@@ -85,7 +85,6 @@ function AFK:SetAFK(status)
 		SetCVar("cameraPitchMoveSpeed", "90");
 		MoveViewLeftStart();
 
-
 		if(IsInGuild()) then
 			local guildName, guildRankName = GetGuildInfo("player");
 			self.AFKMode.bottom.guild:SetFormattedText("%s - %s", guildName, guildRankName);

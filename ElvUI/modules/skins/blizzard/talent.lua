@@ -16,7 +16,7 @@ function S:LoadTalentSkin()
 	S:HandleCloseButton(PlayerTalentFrameCloseButton)
 
 	S:HandleButton(PlayerTalentFrameCancelButton)
-	
+
 	for i = 1, 5 do
 		S:HandleTab(_G["PlayerTalentFrameTab"..i])
 	end

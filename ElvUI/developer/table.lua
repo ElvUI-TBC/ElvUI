@@ -2,21 +2,6 @@ local setmetatable, getmetatable = setmetatable, getmetatable;
 local pairs, type = pairs, type;
 local table = table;
 
-function table.wipe(t)
-	if t == nil then return end
-
-	for k in pairs (t) do
-		t [k] = nil
-	end
-end
-function wipe(t)
-	if t == nil then return end
-
-	for k in pairs (t) do
-		t [k] = nil
-	end
-end
-
 function table.copy(t, deep, seen)
 	seen = seen or {};
 	if(t == nil) then return nil; end

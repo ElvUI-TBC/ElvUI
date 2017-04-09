@@ -1,4 +1,4 @@
-﻿local E, L, V, P, G = unpack(ElvUI)
+local E, L, V, P, G = unpack(ElvUI)
 local AB = E:GetModule("ActionBars")
 
 local ceil = math.ceil
@@ -14,7 +14,7 @@ function AB:PositionAndSizeBar5()
 	local numColumns = ceil(numButtons / buttonsPerRow)
 	local widthMult = self.db["bar5"].widthMult
 	local heightMult = self.db["bar5"].heightMult
-	
+
 	if numButtons < buttonsPerRow then
 		buttonsPerRow = numButtons
 	end
@@ -26,26 +26,26 @@ function AB:PositionAndSizeBar5()
 	bar:SetWidth(spacing + ((size * (buttonsPerRow * widthMult)) + ((spacing * (buttonsPerRow - 1)) * widthMult) + (spacing * widthMult)))
 	bar:SetHeight(spacing + ((size * (numColumns * heightMult)) + ((spacing * (numColumns - 1)) * heightMult) + (spacing * heightMult)))
 	bar.mover:Size(bar:GetSize())
-	
+
 	if self.db["bar5"].backdrop == true then
 		bar.backdrop:Show()
 	else
 		bar.backdrop:Hide()
 	end
-	
+
 	local horizontalGrowth, verticalGrowth
 	if point == "TOPLEFT" or point == "TOPRIGHT" then
 		verticalGrowth = "DOWN"
 	else
 		verticalGrowth = "UP"
 	end
-	
+
 	if point == "BOTTOMLEFT" or point == "TOPLEFT" then
 		horizontalGrowth = "RIGHT"
 	else
 		horizontalGrowth = "LEFT"
 	end
-	
+
 	local button, lastButton, lastColumnButton
 	for i = 1, NUM_ACTIONBAR_BUTTONS do
 		button = _G["MultiBarRightButton"..i]
@@ -62,24 +62,24 @@ function AB:PositionAndSizeBar5()
 				self:HookScript(bar, "OnEnter", "Bar_OnEnter")
 				self:HookScript(bar, "OnLeave", "Bar_OnLeave")
 			end
-			
+
 			if not self.hooks[button] then
 				self:HookScript(button, "OnEnter", "Button_OnEnter")
-				self:HookScript(button, "OnLeave", "Button_OnLeave")				
+				self:HookScript(button, "OnLeave", "Button_OnLeave")
 			end
 		else
 			bar:SetAlpha(self.db["bar5"].alpha)
 			if self.hooks[bar] then
 				self:Unhook(bar, "OnEnter")
-				self:Unhook(bar, "OnLeave")	
+				self:Unhook(bar, "OnLeave")
 			end
-			
+
 			if self.hooks[button] then
 				self:Unhook(button, "OnEnter")
-				self:Unhook(button, "OnLeave")	
+				self:Unhook(button, "OnLeave")
 			end
 		end
-		
+
 		if i == 1 then
 			local x, y
 			if point == "BOTTOMLEFT" then
@@ -102,7 +102,7 @@ function AB:PositionAndSizeBar5()
 				buttonPoint = "BOTTOM"
 				anchorPoint = "TOP"
 			end
-			button:Point(buttonPoint, lastColumnButton, anchorPoint, x, y)		
+			button:Point(buttonPoint, lastColumnButton, anchorPoint, x, y)
 		else
 			local x = spacing
 			local y = 0
@@ -112,10 +112,10 @@ function AB:PositionAndSizeBar5()
 				buttonPoint = "RIGHT"
 				anchorPoint = "LEFT"
 			end
-			
+
 			button:Point(buttonPoint, lastButton, anchorPoint, x, y)
 		end
-		
+
 		if i > numButtons then
 			button:SetScale(0.000001)
 			button:SetAlpha(0)

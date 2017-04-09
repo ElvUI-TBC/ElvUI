@@ -6241,7 +6241,6 @@ for i = 1, 5 do
 	};
 end
 
-
 if(P.unitframe.colors.classResources[E.myclass]) then
 	E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args.spacer2 = {
 		order = 10,

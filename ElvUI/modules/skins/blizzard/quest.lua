@@ -120,24 +120,24 @@ function S:LoadQuestSkin()
 		end
 	end)
 
-	-- local function QuestObjectiveText()
-	-- 	local numObjectives = GetNumQuestLeaderBoards()
-	-- 	local objective
-	-- 	local _, type, finished
-	-- 	local numVisibleObjectives = 0
-	-- 	for i = 1, numObjectives do
-	-- 		_, type, finished = GetQuestLogLeaderBoard(i)
-	-- 		if(type ~= "spell") then
-	-- 			numVisibleObjectives = numVisibleObjectives+1
-	-- 			objective = _G["QuestObjective" .. numVisibleObjectives]
-	-- 			if(finished) then
-	-- 				objective:SetTextColor(1, 1, 0)
-	-- 			else
-	-- 				objective:SetTextColor(0.6, 0.6, 0.6)
-	-- 			end
-	-- 		end
-	-- 	end
-	-- end
+--	local function QuestObjectiveText()
+--		local numObjectives = GetNumQuestLeaderBoards()
+--		local objective
+--		local _, type, finished
+--		local numVisibleObjectives = 0
+--		for i = 1, numObjectives do
+--			_, type, finished = GetQuestLogLeaderBoard(i)
+--			if(type ~= "spell") then
+--				numVisibleObjectives = numVisibleObjectives+1
+--				objective = _G["QuestObjective" .. numVisibleObjectives]
+--				if(finished) then
+--					objective:SetTextColor(1, 1, 0)
+--				else
+--					objective:SetTextColor(0.6, 0.6, 0.6)
+--				end
+--			end
+--		end
+--	end
 
 	hooksecurefunc("QuestFrameItems_Update", function()
 		local titleTextColor = {1, 1, 0}

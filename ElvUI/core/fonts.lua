@@ -78,7 +78,7 @@ function E:UpdateBlizzardFonts()
 		SetFont(GameTooltipText,					NORMAL, self.db.general.fontSize);
 		SetFont(GameTooltipTextSmall,				NORMAL, self.db.general.fontSize);
 		SetFont(GameTooltipHeaderText,				NORMAL, self.db.general.fontSize);
-		--SetFont(WorldMapTextFont,					NORMAL, self.db.general.fontSize);
+	--	SetFont(WorldMapTextFont,					NORMAL, self.db.general.fontSize);
 		SetFont(InvoiceTextFontNormal,				NORMAL, self.db.general.fontSize);
 		SetFont(InvoiceTextFontSmall,				NORMAL, self.db.general.fontSize);
 		SetFont(CombatTextFont,						COMBAT, 100, MONOCHROME .. "OUTLINE");

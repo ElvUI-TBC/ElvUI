@@ -1,4 +1,4 @@
-﻿local E, L, V, P, G = unpack(ElvUI)
+local E, L, V, P, G = unpack(ElvUI)
 local AB = E:GetModule("ActionBars")
 
 local ceil = math.ceil

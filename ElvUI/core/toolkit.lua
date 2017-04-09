@@ -39,10 +39,6 @@ local function GetTemplate(t, isPixelPerfectForced)
 	end
 end
 
-local function GetSize(frame)
-	return frame:GetWidth(), frame:GetHeight();
-end
-
 local function Size(frame, width, height)
 	assert(width);
 	frame:SetWidth(E:Scale(width));
@@ -304,7 +300,6 @@ end
 
 local function addapi(object)
 	local mt = getmetatable(object).__index
-	if not object.GetSize then mt.GetSize = GetSize end
 	if not object.Size then mt.Size = Size end
 	if not object.Point then mt.Point = Point end
 	if not object.SetOutside then mt.SetOutside = SetOutside end
