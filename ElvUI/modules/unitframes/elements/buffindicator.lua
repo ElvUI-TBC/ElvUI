@@ -128,7 +128,7 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 				icon.decimalThreshold = buffs[i].decimalThreshold;
 				icon.size = (buffs[i].sizeOverride ~= nil and buffs[i].sizeOverride > 0 and buffs[i].sizeOverride or db.size);
 
-				icon:SetWidth(icon.size);
+				icon:Width(icon.size);
 				icon:Height(icon.size);
 				icon:ClearAllPoints();
 				icon:Point(buffs[i].point or "TOPLEFT", frame.Health, buffs[i].point or "TOPLEFT", buffs[i].xOffset, buffs[i].yOffset);

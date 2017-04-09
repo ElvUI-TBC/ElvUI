@@ -963,8 +963,8 @@ function E:Install()
 		f.Option4:SetText("")
 		f.Option4:Hide()
 		f.Option4:SetScript("OnShow", function()
-			f.Option1:SetWidth(100)
-			f.Option2:SetWidth(100)
+			f.Option1:Width(100)
+			f.Option2:Width(100)
 
 			f.Option1:ClearAllPoints();
 			f.Option1:Point("RIGHT", f.Option2, "LEFT", -4, 0);
@@ -981,17 +981,17 @@ function E:Install()
 		f.Desc1 = f:CreateFontString(nil, "OVERLAY")
 		f.Desc1:FontTemplate()
 		f.Desc1:Point("TOPLEFT", 20, -75)
-		f.Desc1:SetWidth(f:GetWidth() - 40)
+		f.Desc1:Width(f:GetWidth() - 40)
 
 		f.Desc2 = f:CreateFontString(nil, "OVERLAY")
 		f.Desc2:FontTemplate()
 		f.Desc2:Point("TOPLEFT", 20, -125)
-		f.Desc2:SetWidth(f:GetWidth() - 40)
+		f.Desc2:Width(f:GetWidth() - 40)
 
 		f.Desc3 = f:CreateFontString(nil, "OVERLAY")
 		f.Desc3:FontTemplate()
 		f.Desc3:Point("TOPLEFT", 20, -175)
-		f.Desc3:SetWidth(f:GetWidth() - 40)
+		f.Desc3:Width(f:GetWidth() - 40)
 
 		local close = CreateFrame("Button", "InstallCloseButton", f, "UIPanelCloseButton")
 		close:SetPoint("TOPRIGHT", f, "TOPRIGHT")

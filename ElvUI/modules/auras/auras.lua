@@ -228,7 +228,7 @@ function A:ConfigureAuras(header, auraTable)
 		button:ClearAllPoints();
 		button:SetPoint(point, header, cycle * wrapXOffset + tick * xOffset, cycle * wrapYOffset + tick * yOffset);
 
-		button:Size(size);
+		button:SetSize(size);
 
 		if(button.time) then
 			local font = LSM:Fetch("font", self.db.font);

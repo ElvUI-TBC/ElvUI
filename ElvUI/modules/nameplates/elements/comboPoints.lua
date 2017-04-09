@@ -45,13 +45,13 @@ end
 function mod:ConstructElement_CPoints(parent)
 	local frame = CreateFrame("Frame", nil, parent.HealthBar)
 	frame:Point("CENTER", parent.HealthBar, "BOTTOM")
-	frame:Size(68, 1)
+	frame:SetSize(68, 1)
 	frame:Hide()
 
 	for i = 1, MAX_COMBO_POINTS do
 		frame[i] = frame:CreateTexture(nil, "OVERLAY")
 		frame[i]:SetTexture([[Interface\AddOns\ElvUI\media\textures\bubbleTex.tga]])
-		frame[i]:Size(12, 12)
+		frame[i]:SetSize(12, 12)
 		frame[i]:SetVertexColor(unpack(ComboColors[i]))
 
 		if i == 1 then

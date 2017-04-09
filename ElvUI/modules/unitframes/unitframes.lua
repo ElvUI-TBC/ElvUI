@@ -586,7 +586,7 @@ function UF.groupPrototype:Configure_Groups(self)
 		self:GetScript("OnSizeChanged")(self);
 	end
 
-	self:Size(width - db.horizontalSpacing, height - db.verticalSpacing);
+	self:SetSize(width - db.horizontalSpacing, height - db.verticalSpacing);
 end
 
 function UF.groupPrototype:Update(self)

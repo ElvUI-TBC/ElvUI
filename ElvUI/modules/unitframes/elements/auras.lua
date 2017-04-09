@@ -23,7 +23,7 @@ function UF:Construct_Buffs(frame)
 	buffs.CustomFilter = self.AuraFilter;
 	buffs:SetFrameLevel(frame.RaisedElementParent:GetFrameLevel() + 10);
 	buffs.type = "buffs";
-	buffs:SetWidth(100);
+	buffs:Width(100);
 
 	return buffs;
 end
@@ -37,7 +37,7 @@ function UF:Construct_Debuffs(frame)
 	debuffs.CustomFilter = self.AuraFilter;
 	debuffs.type = "debuffs";
 	debuffs:SetFrameLevel(frame.RaisedElementParent:GetFrameLevel() + 10);
-	debuffs:SetWidth(100);
+	debuffs:Width(100);
 
 	return debuffs;
 end
@@ -117,14 +117,14 @@ function UF:Configure_Auras(frame, auraType)
 			totalWidth = totalWidth - powerOffset;
 		end
 	end
-	auras:SetWidth(totalWidth);
+	auras:Width(totalWidth);
 
 	auras.forceShow = frame.forceShowAuras;
 	auras.num = db[auraType].perrow * rows;
 	auras.size = db[auraType].sizeOverride ~= 0 and db[auraType].sizeOverride or ((((auras:GetWidth() - (auras.spacing*(auras.num/rows - 1))) / auras.num)) * rows);
 
 	if(db[auraType].sizeOverride and db[auraType].sizeOverride > 0) then
-		auras:SetWidth((db[auraType].perrow * db[auraType].sizeOverride));
+		auras:Width((db[auraType].perrow * db[auraType].sizeOverride));
 	end
 
 	local attachTo = self:GetAuraAnchorFrame(frame, db[auraType].attachTo, db.debuffs.attachTo == "BUFFS" and db.buffs.attachTo == "DEBUFFS");
@@ -358,7 +358,7 @@ function UF:PostUpdateAura(unit, button, index)
 
 	local size = button:GetParent().size;
 	if(size) then
-		button:Size(size, size);
+		button:SetSize(size, size);
 	end
 
 	button.spell = name;

@@ -38,7 +38,7 @@ end
 
 function RU:CreateUtilButton(name, parent, template, width, height, point, relativeto, point2, xOfs, yOfs, text, texture)
 	local b = CreateFrame("Button", name, parent, template);
-	b:SetWidth(width);
+	b:Width(width);
 	b:Height(height);
 	b:Point(point, relativeto, point2, xOfs, yOfs);
 	b:HookScript("OnEnter", ButtonEnter);
@@ -87,7 +87,7 @@ end
 function RU:Initialize()
 	local RaidUtilityPanel = CreateFrame("Frame", "RaidUtilityPanel", E.UIParent, "SecureHandlerClickTemplate");
 	RaidUtilityPanel:SetTemplate("Transparent");
-	RaidUtilityPanel:SetWidth(230);
+	RaidUtilityPanel:Width(230);
 	RaidUtilityPanel:Height(PANEL_HEIGHT);
 	RaidUtilityPanel:Point("TOP", E.UIParent, "TOP", -400, 1);
 	RaidUtilityPanel:SetFrameLevel(3);

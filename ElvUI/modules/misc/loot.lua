@@ -270,7 +270,7 @@ function M:LOOT_OPENED(_, autoloot)
 
 	local color = ITEM_QUALITY_COLORS[m]
 	lootFrame:SetBackdropBorderColor(color.r, color.g, color.b, .8)
-	lootFrame:SetWidth(max(w, t))
+	lootFrame:Width(max(w, t))
 end
 
 function M:LoadLoot()

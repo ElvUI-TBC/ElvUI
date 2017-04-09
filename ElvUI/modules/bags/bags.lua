@@ -407,7 +407,7 @@ function B:Layout(isBank)
 	local holderWidth = ((buttonSize + buttonSpacing) * numContainerColumns) - buttonSpacing;
 	local numContainerRows = 0;
 	local countColor = E.db.bags.countFontColor;
-	f.holderFrame:SetWidth(holderWidth);
+	f.holderFrame:Width(holderWidth);
 
 	f.totalSlots = 0
 	local lastButton;
@@ -951,7 +951,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.bagText:SetText(L["Bank"]);
 
 		f.sortButton = CreateFrame("Button", name.."SortButton", f);
-		f.sortButton:Size(16 + E.Border, 16 + E.Border);
+		f.sortButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.sortButton:SetTemplate();
 		f.sortButton:SetPoint("RIGHT", f.bagText, "LEFT", -5, E.Border * 2);
 		f.sortButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
@@ -974,7 +974,7 @@ function B:ContructContainerFrame(name, isBank)
 		end
 
 		f.bagsButton = CreateFrame("Button", name.."BagsButton", f.holderFrame);
-		f.bagsButton:Size(16 + E.Border, 16 + E.Border);
+		f.bagsButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.bagsButton:SetTemplate();
 		f.bagsButton:SetPoint("RIGHT", f.sortButton, "LEFT", -5, 0);
 		f.bagsButton:SetNormalTexture("Interface\\Buttons\\Button-Backpack-Up");
@@ -992,13 +992,13 @@ function B:ContructContainerFrame(name, isBank)
 			PlaySound("igMainMenuOption");
 			if(numSlots >= 1) then
 				ToggleFrame(f.ContainerHolder)
-			-- else
-			-- 	E:StaticPopup_Show("NO_BANK_BAGS");
+		--	else
+		--	E:StaticPopup_Show("NO_BANK_BAGS");
 			end
 		end);
 
 		f.purchaseBagButton = CreateFrame("Button", nil, f.holderFrame);
-		f.purchaseBagButton:Size(16 + E.Border, 16 + E.Border);
+		f.purchaseBagButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.purchaseBagButton:SetTemplate();
 		f.purchaseBagButton:SetPoint("RIGHT", f.bagsButton, "LEFT", -5, 0);
 		f.purchaseBagButton:SetNormalTexture("Interface\\ICONS\\INV_Misc_Coin_01");
@@ -1047,7 +1047,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.editBox.searchIcon = f.editBox:CreateTexture(nil, "OVERLAY");
 		f.editBox.searchIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\UI-Searchbox-Icon");
 		f.editBox.searchIcon:SetPoint("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1);
-		f.editBox.searchIcon:Size(15, 15);
+		f.editBox.searchIcon:SetSize(15, 15);
 	else
 		f.keyFrame = CreateFrame("Frame", name.."KeyFrame", f)
 		f.keyFrame:SetPoint("TOPRIGHT", f, "TOPLEFT", -(E.PixelMode and 1 or 3), 0);
@@ -1062,7 +1062,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.goldText:SetJustifyH("RIGHT");
 
 		f.sortButton = CreateFrame("Button", name.."SortButton", f);
-		f.sortButton:Size(16 + E.Border, 16 + E.Border);
+		f.sortButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.sortButton:SetTemplate();
 		f.sortButton:SetPoint("RIGHT", f.goldText, "LEFT", -5, E.Border * 2);
 		f.sortButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
@@ -1085,7 +1085,7 @@ function B:ContructContainerFrame(name, isBank)
 		end
 
 		f.keyButton = CreateFrame("Button", name.."KeyButton", f);
-		f.keyButton:Size(16 + E.Border, 16 + E.Border);
+		f.keyButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.keyButton:SetTemplate();
 		f.keyButton:SetPoint("RIGHT", f.sortButton, "LEFT", -5, 0);
 		f.keyButton:SetNormalTexture("Interface\\ICONS\\INV_Misc_Key_14");
@@ -1101,7 +1101,7 @@ function B:ContructContainerFrame(name, isBank)
 		-- f.keyButton:SetScript("OnClick", function() ToggleFrame(f.keyFrame); end);
 
 		f.bagsButton = CreateFrame("Button", name.."BagsButton", f);
-		f.bagsButton:Size(16 + E.Border, 16 + E.Border);
+		f.bagsButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.bagsButton:SetTemplate();
 		f.bagsButton:SetPoint("RIGHT", f.keyButton, "LEFT", -5, 0);
 		f.bagsButton:SetNormalTexture("Interface\\Buttons\\Button-Backpack-Up");
@@ -1117,7 +1117,7 @@ function B:ContructContainerFrame(name, isBank)
 		-- f.bagsButton:SetScript("OnClick", function() ToggleFrame(f.ContainerHolder); end);
 
 		f.vendorGraysButton = CreateFrame("Button", nil, f.holderFrame);
-		f.vendorGraysButton:Size(16 + E.Border, 16 + E.Border);
+		f.vendorGraysButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.vendorGraysButton:SetTemplate();
 		f.vendorGraysButton:SetPoint("RIGHT", f.bagsButton, "LEFT", -5, 0);
 		f.vendorGraysButton:SetNormalTexture("Interface\\ICONS\\INV_Misc_Coin_01");
@@ -1151,7 +1151,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.editBox.searchIcon = f.editBox:CreateTexture(nil, "OVERLAY");
 		f.editBox.searchIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\UI-Searchbox-Icon");
 		f.editBox.searchIcon:SetPoint("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1);
-		f.editBox.searchIcon:Size(15, 15);
+		f.editBox.searchIcon:SetSize(15, 15);
 
 		--Currency
 		f.currencyButton = CreateFrame("Frame", nil, f);
@@ -1267,8 +1267,8 @@ function B:OpenBank()
 	self:Layout(true)
 	self.BankFrame:Show();
 	self.BankFrame:UpdateAllSlots();
-	self.BagFrame:Show();
-	-- self:UpdateTokens()
+	self:OpenBags()
+--	self:UpdateTokens()
 end
 
 function B:PLAYERBANKBAGSLOTS_CHANGED()
@@ -1316,7 +1316,7 @@ function B:Initialize()
 	self:LoadBagBar();
 
 	local BagFrameHolder = CreateFrame("Frame", nil, E.UIParent);
-	BagFrameHolder:SetWidth(200);
+	BagFrameHolder:Width(200);
 	BagFrameHolder:Height(22);
 	BagFrameHolder:SetFrameLevel(BagFrameHolder:GetFrameLevel() + 400);
 
@@ -1336,7 +1336,7 @@ function B:Initialize()
 	E:CreateMover(BagFrameHolder, "ElvUIBagMover", L["Bag Mover (Grow Up)"], nil, nil, B.PostBagMove);
 
 	local BankFrameHolder = CreateFrame("Frame", nil, E.UIParent);
-	BankFrameHolder:SetWidth(200);
+	BankFrameHolder:Width(200);
 	BankFrameHolder:Height(22);
 	BankFrameHolder:Point("BOTTOMLEFT", LeftChatPanel, "BOTTOMLEFT", 0, 22 + E.Border*4 - E.Spacing*2);
 	BankFrameHolder:SetFrameLevel(BankFrameHolder:GetFrameLevel() + 400);

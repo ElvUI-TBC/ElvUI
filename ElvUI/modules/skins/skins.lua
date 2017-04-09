@@ -244,7 +244,7 @@ function S:HandleDropDownBox(frame, width)
 	if(not width) then width = 155; end
 
 	frame:StripTextures();
-	frame:SetWidth(width);
+	frame:Width(width);
 
 	if(_G[frame:GetName() .. "Text"]) then
 		_G[frame:GetName() .. "Text"]:ClearAllPoints();
@@ -376,7 +376,7 @@ function S:HandleSliderFrame(frame)
 	frame:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3);
 	frame:GetThumbTexture():Size(SIZE-2,SIZE-2);
 	if(orientation == "VERTICAL") then
-		frame:SetWidth(SIZE);
+		frame:Width(SIZE);
 	else
 		frame:Height(SIZE);
 

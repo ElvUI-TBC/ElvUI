@@ -95,7 +95,7 @@ function mod:ReputationBar_OnClick()
 end
 
 function mod:UpdateReputationDimensions()
-	self.repBar:SetWidth(self.db.reputation.width);
+	self.repBar:Width(self.db.reputation.width);
 	self.repBar:Height(self.db.reputation.height);
 	self.repBar.statusBar:SetOrientation(self.db.reputation.orientation);
 	self.repBar.text:FontTemplate(E.LSM:Fetch("font", self.db.reputation.textFont), self.db.reputation.textSize, self.db.reputation.textOutline);

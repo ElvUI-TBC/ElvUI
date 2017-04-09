@@ -254,7 +254,7 @@ do
 			return;
 		end
 		local helloKittyLeft = CreateFrame("Frame", "HelloKittyLeft", UIParent);
-		helloKittyLeft:Size(120, 128);
+		helloKittyLeft:SetSize(120, 128);
 		helloKittyLeft:SetMovable(true);
 		helloKittyLeft:EnableMouse(true);
 		helloKittyLeft:RegisterForDrag("LeftButton");
@@ -271,7 +271,7 @@ do
 		helloKittyLeft:SetScript("OnUpdate", OnUpdate);
 
 		local helloKittyRight = CreateFrame("Frame", "HelloKittyRight", UIParent);
-		helloKittyRight:Size(120, 128);
+		helloKittyRight:SetSize(120, 128);
 		helloKittyRight:SetMovable(true);
 		helloKittyRight:EnableMouse(true);
 		helloKittyRight:RegisterForDrag("LeftButton");

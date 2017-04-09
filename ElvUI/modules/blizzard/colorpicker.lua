@@ -166,7 +166,7 @@ function B:EnhanceColorPicker()
 
 	-- add Color Swatch for the copied color
 	t = ColorPickerFrame:CreateTexture("ColorPPCopyColorSwatch")
-	t:Size(w,h)
+	t:SetSize(w,h)
 	t:SetTexture(0,0,0)
 	t:Hide()
 
@@ -199,7 +199,7 @@ function B:EnhanceColorPicker()
 	b = CreateFrame("Button", "ColorPPClass", ColorPickerFrame, "UIPanelButtonTemplate")
 	b:SetText(CLASS)
 	S:HandleButton(b)
-	b:SetWidth(80)
+	b:Width(80)
 	b:Height(22)
 	b:Point("TOP", "ColorPPCopy", "BOTTOMRIGHT", 0, -7)
 
@@ -216,7 +216,7 @@ function B:EnhanceColorPicker()
 	b = CreateFrame("Button", "ColorPPPaste", ColorPickerFrame, "UIPanelButtonTemplate")
 	b:SetText(CALENDAR_PASTE_EVENT)
 	S:HandleButton(b)
-	b:SetWidth(60)
+	b:Width(60)
 	b:Height(22)
 	b:Point("TOPLEFT", "ColorPPCopy", "TOPRIGHT", 2, 0)
 	b:Disable() -- enable when something has been copied
@@ -236,7 +236,7 @@ function B:EnhanceColorPicker()
 	b = CreateFrame("Button", "ColorPPDefault", ColorPickerFrame, "UIPanelButtonTemplate")
 	b:SetText(DEFAULT)
 	S:HandleButton(b)
-	b:SetWidth(80)
+	b:Width(80)
 	b:Height(22)
 	b:Point("TOPLEFT", "ColorPPClass", "BOTTOMLEFT", 0, -7)
 	b:Disable() -- enable when something has been copied
@@ -288,11 +288,11 @@ function B:EnhanceColorPicker()
 		if i == 4 then
 			-- Hex entry box
 			box:SetMaxLetters(6)
-			box:SetWidth(56)
+			box:Width(56)
 			box:SetNumeric(false)
 		else
 			box:SetMaxLetters(3)
-			box:SetWidth(40)
+			box:Width(40)
 			box:SetNumeric(true)
 		end
 		box:SetPoint("TOP", "ColorPickerWheel", "BOTTOM", 0, -15)

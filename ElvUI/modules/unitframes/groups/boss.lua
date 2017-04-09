@@ -126,10 +126,10 @@ function UF:Update_BossFrames(frame, db)
 	end
 
 	if(db.growthDirection == "UP" or db.growthDirection == "DOWN") then
-		BossHeader:SetWidth(frame.UNIT_WIDTH)
+		BossHeader:Width(frame.UNIT_WIDTH)
 		BossHeader:Height(frame.UNIT_HEIGHT + ((frame.UNIT_HEIGHT + db.spacing) * (MAX_BOSS_FRAMES -1)))
 	elseif(db.growthDirection == "LEFT" or db.growthDirection == "RIGHT") then
-		BossHeader:SetWidth(frame.UNIT_WIDTH + ((frame.UNIT_WIDTH + db.spacing) * (MAX_BOSS_FRAMES -1)))
+		BossHeader:Width(frame.UNIT_WIDTH + ((frame.UNIT_WIDTH + db.spacing) * (MAX_BOSS_FRAMES -1)))
 		BossHeader:Height(frame.UNIT_HEIGHT)
 	end
 
