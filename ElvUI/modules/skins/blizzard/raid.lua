@@ -43,7 +43,7 @@ function S:LoadRaidSkin()
 	end
 
 	hooksecurefunc("RaidClassButton_Update", function()
-		local button, icon
+		local button, icon, count
 		for index, value in pairs(RAID_CLASS_BUTTONS) do
 			button = _G["RaidClassButton" .. value.button]
 			icon = _G["RaidClassButton" .. value.button .. "IconTexture"]
