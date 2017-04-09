@@ -44,7 +44,7 @@ function S:LoadHelpSkin()
 		S:HandleButton(helpButton)
 	end
 
-		-- hide header textures and move text/buttons.
+	-- hide header textures and move text/buttons.
 	local BlizzardHeader = {
 		"KnowledgeBaseFrame"
 	}

@@ -3,7 +3,7 @@ local UF = E:GetModule("UnitFrames");
 
 function UF:Construct_PvPIcon(frame)
 	local PvP = frame.RaisedElementParent:CreateTexture(nil, "ARTWORK")
-	PvP:Size(30, 30)
+	PvP:SetSize(30, 30)
 	PvP:SetPoint("CENTER", frame, "CENTER")
 
 	return PvP

@@ -96,9 +96,9 @@ function UF:Configure_Castbar(frame)
 	if(not frame.VARIABLES_SET) then return; end
 	local castbar = frame.Castbar;
 	local db = frame.db;
-	castbar:SetWidth(db.castbar.width - ((frame.BORDER+frame.SPACING)*2));
+	castbar:Width(db.castbar.width - ((frame.BORDER+frame.SPACING)*2));
 	castbar:Height(db.castbar.height - ((frame.BORDER+frame.SPACING)*2));
-	castbar.Holder:SetWidth(db.castbar.width);
+	castbar.Holder:Width(db.castbar.width);
 	castbar.Holder:Height(db.castbar.height);
 	if(castbar.Holder:GetScript("OnSizeChanged")) then
 		castbar.Holder:GetScript("OnSizeChanged")(castbar.Holder);
@@ -123,7 +123,7 @@ function UF:Configure_Castbar(frame)
 				castbar.Icon.bg:Size(db.castbar.height - frame.SPACING*2);
 			end
 
-			castbar:SetWidth(db.castbar.width - castbar.Icon.bg:GetWidth() - (frame.BORDER + frame.SPACING*5));
+			castbar:Width(db.castbar.width - castbar.Icon.bg:GetWidth() - (frame.BORDER + frame.SPACING*5));
 		end
 
 		castbar.Icon.bg:Show();

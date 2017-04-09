@@ -82,7 +82,7 @@ function UF:Configure_ClassBar(frame)
 			bars.Holder = CreateFrame("Frame", nil, bars);
 			bars.Holder:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 150);
 			bars.Holder:Size(db.classbar.detachedWidth, db.classbar.height);
-			bars:SetWidth(CLASSBAR_WIDTH);
+			bars:Width(CLASSBAR_WIDTH);
 			bars:Height(frame.CLASSBAR_HEIGHT - ((frame.BORDER+frame.SPACING)*2));
 			bars:ClearAllPoints();
 			bars:Point("BOTTOMLEFT", bars.Holder, "BOTTOMLEFT", frame.BORDER + frame.SPACING, frame.BORDER + frame.SPACING);
@@ -107,7 +107,7 @@ function UF:Configure_ClassBar(frame)
 		end
 	end
 
-	bars:SetWidth(CLASSBAR_WIDTH);
+	bars:Width(CLASSBAR_WIDTH);
 	bars:Height(frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2));
 
 	if(E.myclass ~= "DRUID") then

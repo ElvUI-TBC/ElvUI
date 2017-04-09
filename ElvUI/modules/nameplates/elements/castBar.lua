@@ -64,7 +64,7 @@ end
 
 function mod:ConfigureElement_CastBar(frame)
 	local castBar = frame.CastBar
-	
+
 	castBar:SetPoint("TOPLEFT", frame.HealthBar, "BOTTOMLEFT", 0, -self.db.units[frame.UnitType].castbar.offset)
 	castBar:SetPoint("TOPRIGHT", frame.HealthBar, "BOTTOMRIGHT", 0, -self.db.units[frame.UnitType].castbar.offset)
 	castBar:SetHeight(self.db.units[frame.UnitType].castbar.height)
@@ -116,7 +116,7 @@ function mod:ConstructElement_CastBar(parent)
 	frame.Spark = frame:CreateTexture(nil, "OVERLAY")
 	frame.Spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
 	frame.Spark:SetBlendMode("ADD")
-	frame.Spark:Size(15, 15)
+	frame.Spark:SetSize(15, 15)
 	frame:Hide()
 	return frame
 end

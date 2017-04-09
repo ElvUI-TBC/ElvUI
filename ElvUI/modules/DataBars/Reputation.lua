@@ -52,12 +52,17 @@ function mod:UpdateReputation(event)
 			standingLabel = FactionStandingLabelUnknown
 		end
 
+		local maxMinDiff = max - min
+		if maxMinDiff == 0 then
+			maxMinDiff = 1
+		end
+
 		if(textFormat == "PERCENT") then
-			text = format("%s: %d%% [%s]", name, ((value - min) / (max - min) * 100), standingLabel);
+			text = format("%s: %d%% [%s]", name, ((value - min) / maxMinDiff * 100), standingLabel);
 		elseif(textFormat == "CURMAX") then
 			text = format("%s: %s - %s [%s]", name, E:ShortValue(value - min), E:ShortValue(max - min), standingLabel);
 		elseif(textFormat == "CURPERC") then
-			text = format("%s: %s - %d%% [%s]", name, E:ShortValue(value - min), ((value - min) / (max - min) * 100), standingLabel);
+			text = format("%s: %s - %d%% [%s]", name, E:ShortValue(value - min), ((value - min) / maxMinDiff * 100), standingLabel);
 		elseif(textFormat == "CUR") then
 			text = format("%s: %s [%s]", name, E:ShortValue(value - min), standingLabel);
 		elseif(textFormat == "REM") then
@@ -65,7 +70,7 @@ function mod:UpdateReputation(event)
 		elseif(textFormat == "CURREM") then
 			text = format("%s: %s - %s [%s]", name, E:ShortValue(value - min), E:ShortValue((max - min) - (value-min)), standingLabel);
 		elseif(textFormat == "CURPERCREM") then
-			text = format("%s: %s - %d%% (%s) [%s]", name, E:ShortValue(value - min), ((value - min) / (max - min) * 100), E:ShortValue((max - min) - (value-min)), standingLabel)
+			text = format("%s: %s - %d%% (%s) [%s]", name, E:ShortValue(value - min), ((value - min) / maxMinDiff * 100), E:ShortValue((max - min) - (value-min)), standingLabel)
 		end
 
 		bar.text:SetText(text)
@@ -95,7 +100,7 @@ function mod:ReputationBar_OnClick()
 end
 
 function mod:UpdateReputationDimensions()
-	self.repBar:SetWidth(self.db.reputation.width);
+	self.repBar:Width(self.db.reputation.width);
 	self.repBar:Height(self.db.reputation.height);
 	self.repBar.statusBar:SetOrientation(self.db.reputation.orientation);
 	self.repBar.text:FontTemplate(E.LSM:Fetch("font", self.db.reputation.textFont), self.db.reputation.textSize, self.db.reputation.textOutline);

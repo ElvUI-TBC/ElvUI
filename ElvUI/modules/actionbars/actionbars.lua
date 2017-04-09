@@ -13,7 +13,7 @@ function AB:CreateActionBars()
 	self:CreateBar5()
 	--self:CreateBarPet()
 	--self:CreateBarShapeShift()
-	
+
 	if ( E.myclass == "SHAMAN" ) then
 	--	self:CreateTotemBar()
 	end
@@ -41,7 +41,7 @@ function AB:UpdateButtonSettings()
 			self["handledbuttons"][button] = nil
 		end
 	end
-	
+
 	self:PositionAndSizeBar()
 	--self:PositionAndSizeBarPet()
 	--self:PositionAndSizeBarShapeShift()
@@ -58,7 +58,7 @@ function AB:GetPage(bar, defaultPage, condition)
 	return condition
 end
 
-function AB:StyleButton(noBackdrop)	
+function AB:StyleButton(noBackdrop)
 	local name = this:GetName()
 	local icon = _G[name.."Icon"]
 	local count = _G[name.."Count"]
@@ -67,25 +67,26 @@ function AB:StyleButton(noBackdrop)
 	local border = _G[name.."Border"]
 	local macroName = _G[name.."Name"]
 	local normal = _G[name.."NormalTexture"]
-	local buttonCooldown = _G[name.."Cooldown"]
 	local normal2 = this:GetNormalTexture()
-	local combat = InCombatLockdown()
-	
+	local buttonCooldown = _G[name.."Cooldown"]
+	local color = self.db.fontColor
+
 	if flash then flash:SetTexture(nil) end
-	if normal then normal:SetTexture(nil) normal:Hide() normal:SetAlpha(0) end	
-	if normal2 then normal2:SetTexture(nil) normal2:Hide() normal2:SetAlpha(0) end	
+	if normal then normal:SetTexture(nil) normal:Hide() normal:SetAlpha(0) end
+	if normal2 then normal2:SetTexture(nil) normal2:Hide() normal2:SetAlpha(0) end
 	if border then border:Kill() end
-	
+
 	if not this.noBackdrop then
 		this.noBackdrop = noBackdrop
 	end
-	
+
 	if count then
 		count:ClearAllPoints()
 		count:SetPoint("BOTTOMRIGHT", 0, 2)
 		count:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
+		count:SetTextColor(color.r, color.g, color.b)
 	end
-	
+
 	if macroName then
 		if self.db.macrotext then
 			macroName:Show()
@@ -97,27 +98,28 @@ function AB:StyleButton(noBackdrop)
 			macroName:Hide()
 		end
 	end
-	
+
 	if not this.noBackdrop and not this.backdrop then
 		this:CreateBackdrop("Default", true)
 		this.backdrop:SetAllPoints()
 	end
-	
+
 	if icon then
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
 	end
-	
+
 	if self.db.hotkeytext then
 		hotkey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
+		hotkey:SetTextColor(color.r, color.g, color.b)
 	end
-	
+
 	self:FixKeybindText(this)
 	this:StyleButton()
-	
+
 	if(not self.handledbuttons[this]) then
 		E:RegisterCooldown(buttonCooldown)
-		
+
 		self.handledbuttons[this] = true
 	end
 end
@@ -145,34 +147,34 @@ function AB:DisableBlizzard()
 	MainMenuBar:EnableMouse(false)
 	PetActionBarFrame:EnableMouse(false)
 	ShapeshiftBarFrame:EnableMouse(false)
-	
+
 	local elements = {
-		MainMenuBar, 
-		MainMenuBarArtFrame, 
-		BonusActionBarFrame, 
+		MainMenuBar,
+		MainMenuBarArtFrame,
+		BonusActionBarFrame,
 		VehicleMenuBar,
-		PetActionBarFrame, 
+		PetActionBarFrame,
 		ShapeshiftBarFrame,
-		ShapeshiftBarLeft, 
-		ShapeshiftBarMiddle, 
+		ShapeshiftBarLeft,
+		ShapeshiftBarMiddle,
 		ShapeshiftBarRight,
 	}
 	for _, element in pairs(elements) do
 		if element:GetObjectType() == "Frame" then
 			element:UnregisterAllEvents()
-			
+
 			if element == MainMenuBarArtFrame then
 				element:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
 			end
 		end
-		
+
 		if element ~= MainMenuBar then
 			element:Hide()
 		end
 		element:SetAlpha(0)
 	end
 	elements = nil
-	
+
 	local uiManagedFrames = {
 		"MultiBarLeft",
 		"MultiBarRight",
@@ -195,10 +197,10 @@ function AB:DisableBlizzard()
 	end
 end
 
-function AB:FixKeybindText(button, type)
+function AB:FixKeybindText(button)
 	local hotkey = _G[button:GetName().."HotKey"]
 	local text = hotkey:GetText()
-	
+
 	if text then
 		text = gsub(text, "SHIFT%-", L["KEY_SHIFT"])
 		text = gsub(text, "ALT%-", L["KEY_ALT"])
@@ -216,37 +218,37 @@ function AB:FixKeybindText(button, type)
 		text = gsub(text, "NMULTIPLY", "*")
 		text = gsub(text, "NMINUS", "N-")
 		text = gsub(text, "NPLUS", "N+")
-		
+
 		if hotkey:GetText() == _G["RANGE_INDICATOR"] then
 			hotkey:SetText("")
 		else
 			hotkey:SetText(text)
 		end
 	end
-	
+
 	if self.db.hotkeytext == true then
 		hotkey:Show()
 	else
 		hotkey:Hide()
 	end
-	
+
 	hotkey:ClearAllPoints()
-	hotkey:Point("TOPRIGHT", 0, -3)	
+	hotkey:Point("TOPRIGHT", 0, -3)
 end
 
 function AB:Initialize()
 	self.db = E.db.actionbar
 	if E.private.actionbar.enable ~= true then return end
 	E.ActionBars = AB
-	
+
 	self:DisableBlizzard()
-	
+
 	--self:SetupMicroBar()
 	self:CreateActionBars()
-	
+
 	self:UpdateButtonSettings()
 	--self:LoadKeyBinder()
-	
+
 	self:SecureHook("ActionButton_Update", "StyleButton")
 	self:SecureHook("PetActionBar_Update", "UpdatePet")
 end

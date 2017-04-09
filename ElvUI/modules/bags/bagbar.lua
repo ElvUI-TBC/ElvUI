@@ -97,11 +97,11 @@ function B:SizeAndPositionBagBar()
 	end
 
 	if E.db.bags.bagBar.growthDirection == "HORIZONTAL" then
-		ElvUIBags:SetWidth(E.db.bags.bagBar.size*(TOTAL_BAGS) + buttonSpacing*(TOTAL_BAGS-1) + ((E.db.bags.bagBar.showBackdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2));
+		ElvUIBags:Width(E.db.bags.bagBar.size*(TOTAL_BAGS) + buttonSpacing*(TOTAL_BAGS-1) + ((E.db.bags.bagBar.showBackdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2));
 		ElvUIBags:Height(E.db.bags.bagBar.size + ((E.db.bags.bagBar.showBackdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2));
 	else
 		ElvUIBags:Height(E.db.bags.bagBar.size*(TOTAL_BAGS) + buttonSpacing*(TOTAL_BAGS-1) + ((E.db.bags.bagBar.showBackdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2));
-		ElvUIBags:SetWidth(E.db.bags.bagBar.size + ((E.db.bags.bagBar.showBackdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2));
+		ElvUIBags:Width(E.db.bags.bagBar.size + ((E.db.bags.bagBar.showBackdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2));
 	end
 end
 

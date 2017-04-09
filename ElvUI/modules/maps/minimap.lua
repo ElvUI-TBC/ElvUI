@@ -266,6 +266,7 @@ function M:Initialize()
 	menuFrame:SetTemplate("Transparent", true)
 
 	self:UpdateSettings()
+
 	if not E.private.general.minimap.enable then
 		Minimap:SetMaskTexture("Textures\\MinimapMask")
 		return
@@ -335,11 +336,11 @@ function M:Initialize()
 	Minimap:SetScript("OnMouseWheel", M.Minimap_OnMouseWheel)
 	Minimap:SetScript("OnMouseUp", M.Minimap_OnMouseUp)
 
-	M:RegisterEvent("ZONE_CHANGED_NEW_AREA", "Update_ZoneText")
-	M:RegisterEvent("ZONE_CHANGED", "Update_ZoneText")
-	M:RegisterEvent("ZONE_CHANGED_INDOORS", "Update_ZoneText")
-	M:RegisterEvent("PLAYER_ENTERING_WORLD", "Update_ZoneText")
-	M:RegisterEvent("ADDON_LOADED")
+	self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "Update_ZoneText")
+	self:RegisterEvent("ZONE_CHANGED", "Update_ZoneText")
+	self:RegisterEvent("ZONE_CHANGED_INDOORS", "Update_ZoneText")
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "Update_ZoneText")
+	self:RegisterEvent("ADDON_LOADED")
 
 	MinimapCluster:ClearAllPoints()
 	MinimapCluster:SetAllPoints(Minimap)

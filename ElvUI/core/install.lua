@@ -182,19 +182,19 @@ local function SetupCVars()
 	QUEST_FADING_DISABLE = 1
 	NAMEPLATES_ON = 1
 	SHOW_COMBAT_TEXT = 1
-  COMBAT_TEXT_SHOW_LOW_HEALTH_MANA = 1
-  COMBAT_TEXT_SHOW_AURAS = 1
-  COMBAT_TEXT_SHOW_AURA_FADE = 1
-  COMBAT_TEXT_SHOW_COMBAT_STATE = 1
-  COMBAT_TEXT_SHOW_DODGE_PARRY_MISS = 1
-  COMBAT_TEXT_SHOW_RESISTANCES = 1
-  COMBAT_TEXT_SHOW_REPUTATION = 1
-  COMBAT_TEXT_SHOW_REACTIVES = 1
-  COMBAT_TEXT_SHOW_FRIENDLY_NAMES = 1
-  COMBAT_TEXT_SHOW_COMBO_POINTS = 1
-  COMBAT_TEXT_SHOW_MANA = 1
-  COMBAT_TEXT_FLOAT_MODE = 1
-  COMBAT_TEXT_SHOW_HONOR_GAINED = 1
+	COMBAT_TEXT_SHOW_LOW_HEALTH_MANA = 1
+	COMBAT_TEXT_SHOW_AURAS = 1
+	COMBAT_TEXT_SHOW_AURA_FADE = 1
+	COMBAT_TEXT_SHOW_COMBAT_STATE = 1
+	COMBAT_TEXT_SHOW_DODGE_PARRY_MISS = 1
+	COMBAT_TEXT_SHOW_RESISTANCES = 1
+	COMBAT_TEXT_SHOW_REPUTATION = 1
+	COMBAT_TEXT_SHOW_REACTIVES = 1
+	COMBAT_TEXT_SHOW_FRIENDLY_NAMES = 1
+	COMBAT_TEXT_SHOW_COMBO_POINTS = 1
+	COMBAT_TEXT_SHOW_MANA = 1
+	COMBAT_TEXT_FLOAT_MODE = 1
+	COMBAT_TEXT_SHOW_HONOR_GAINED = 1
 
 	MultiActionBar_ShowAllGrids()
 	TutorialFrame_HideAllAlerts()
@@ -963,8 +963,8 @@ function E:Install()
 		f.Option4:SetText("")
 		f.Option4:Hide()
 		f.Option4:SetScript("OnShow", function()
-			f.Option1:SetWidth(100)
-			f.Option2:SetWidth(100)
+			f.Option1:Width(100)
+			f.Option2:Width(100)
 
 			f.Option1:ClearAllPoints();
 			f.Option1:Point("RIGHT", f.Option2, "LEFT", -4, 0);
@@ -981,17 +981,17 @@ function E:Install()
 		f.Desc1 = f:CreateFontString(nil, "OVERLAY")
 		f.Desc1:FontTemplate()
 		f.Desc1:Point("TOPLEFT", 20, -75)
-		f.Desc1:SetWidth(f:GetWidth() - 40)
+		f.Desc1:Width(f:GetWidth() - 40)
 
 		f.Desc2 = f:CreateFontString(nil, "OVERLAY")
 		f.Desc2:FontTemplate()
 		f.Desc2:Point("TOPLEFT", 20, -125)
-		f.Desc2:SetWidth(f:GetWidth() - 40)
+		f.Desc2:Width(f:GetWidth() - 40)
 
 		f.Desc3 = f:CreateFontString(nil, "OVERLAY")
 		f.Desc3:FontTemplate()
 		f.Desc3:Point("TOPLEFT", 20, -175)
-		f.Desc3:SetWidth(f:GetWidth() - 40)
+		f.Desc3:Width(f:GetWidth() - 40)
 
 		local close = CreateFrame("Button", "InstallCloseButton", f, "UIPanelCloseButton")
 		close:SetPoint("TOPRIGHT", f, "TOPRIGHT")

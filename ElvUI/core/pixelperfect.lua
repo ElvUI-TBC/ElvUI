@@ -89,15 +89,15 @@ function E:UIScale(event)
 				height = h;
 			end
 
-			self.UIParent:Size(width, height);
+			self.UIParent:SetSize(width, height);
 		else
 			--[[Eyefinity Test mode
 				Resize the E.UIParent to be smaller than it should be, all objects inside should relocate.
 				Dragging moveable frames outside the box and reloading the UI ensures that they are saving position correctly.
 			]]
-			--self.UIParent:Size(UIParent:GetWidth() - 250, UIParent:GetHeight() - 250);
+			--self.UIParent:SetSize(UIParent:GetWidth() - 250, UIParent:GetHeight() - 250);
 
-			self.UIParent:Size(UIParent:GetSize());
+			self.UIParent:SetSize(UIParent:GetSize());
 		end
 
 		self.UIParent:ClearAllPoints();

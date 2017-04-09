@@ -45,7 +45,6 @@ function S:LoadBGMapSkin()
 		end
 	end)
 
-
 	hooksecurefunc("BattlefieldMinimap_SetOpacity", function()
 		local alpha = 1.0 - BattlefieldMinimapOptions.opacity or 0;
 		BattlefieldMinimap.backdrop:SetAlpha(alpha)

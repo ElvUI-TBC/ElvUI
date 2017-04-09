@@ -350,8 +350,7 @@ end
 E.UIParent = CreateFrame("Frame", "ElvUIParent", UIParent);
 E.UIParent:SetFrameLevel(UIParent:GetFrameLevel());
 E.UIParent:SetPoint("CENTER", UIParent, "CENTER");
-E.UIParent:SetWidth(UIParent:GetWidth());
-E.UIParent:SetHeight(UIParent:GetHeight());
+E.UIParent:SetSize(UIParent:GetSize());
 E["snapBars"][#E["snapBars"] + 1] = E.UIParent;
 
 E.HiddenFrame = CreateFrame("Frame");
@@ -367,6 +366,7 @@ end
 
 function E:GetTalentSpecInfo(isInspect)
 	local maxPoints, specIdx, specName, specIcon = 0, 0
+
 	for i = 1, MAX_TALENT_TABS do
 		local name, icon, pointsSpent = GetTalentTabInfo(i, isInspect)
 		if maxPoints < pointsSpent then
@@ -904,6 +904,8 @@ function E:InitializeInitialModules()
 		local module = self:GetModule(module, true);
 		if(module and module.Initialize) then
 			local _, catch = pcall(module.Initialize, module);
+		--	if(catch and GetCVar("scriptErrors") == 1) then
+		--		ScriptErrorsFrame_OnError(catch, false);
 			if(catch) then
 				print(catch)
 			end
@@ -922,6 +924,8 @@ function E:InitializeModules()
 		local module = self:GetModule(module);
 		if(module.Initialize) then
 			local _, catch = pcall(module.Initialize, module);
+		--	if(catch and GetCVar("scriptErrors") == 1) then
+		--		ScriptErrorsFrame_OnError(catch, false);
 			if(catch) then
 				print(catch)
 			end
@@ -1018,13 +1022,13 @@ function E:Initialize()
 	self.data.RegisterCallback(self, "OnProfileChanged", "UpdateAll");
 	self.data.RegisterCallback(self, "OnProfileCopied", "UpdateAll");
 	self.data.RegisterCallback(self, "OnProfileReset", "OnProfileReset");
-	--LibStub("LibDualSpec-1.0"):EnhanceDatabase(self.data, "ElvUI");
+--	LibStub("LibDualSpec-1.0"):EnhanceDatabase(self.data, "ElvUI");
 	self.charSettings = LibStub("AceDB-3.0"):New("ElvPrivateDB", self.privateVars);
 	self.private = self.charSettings.profile;
 	self.db = self.data.profile;
 	self.global = self.data.global;
-	--self:CheckIncompatible();
-	--self:DBConversions();
+--	self:CheckIncompatible();
+--	self:DBConversions();
 
 	self:CheckRole();
 	self:UIScale("PLAYER_LOGIN");
@@ -1039,13 +1043,13 @@ function E:Initialize()
 		self:Install();
 	end
 
-	--if(not find(date(), "04/01/")) then
-	--	E.global.aprilFools = nil;
-	--end
+--	if(not find(date(), "04/01/")) then
+--		E.global.aprilFools = nil;
+--	end
 
-	--if(self:HelloKittyFixCheck()) then
-	--	self:HelloKittyFix();
-	--end
+--	if(self:HelloKittyFixCheck()) then
+--		self:HelloKittyFix();
+--	end
 
 	self:UpdateMedia();
 	self:UpdateFrameTemplates();
@@ -1059,14 +1063,12 @@ function E:Initialize()
 		self:Delay(5, self.Print, self, L["Type /hellokitty to revert to old settings."]);
 	end
 
-	--self:Tutorials();
+--	self:Tutorials();
 	self:GetModule("Minimap"):UpdateSettings();
-	--self:RefreshModulesDB()
+--	self:RefreshModulesDB()
 	collectgarbage("collect");
 
 	if(self.db.general.loginmessage) then
-		local arg1, arg2 = GetBuildInfo()
-		E:Print("for: "..arg1..". Game build: "..arg2)
-	--	DEFAULT_CHAT_FRAME:AddMessage(select(2, E:GetModule("Chat"):FindURL("CHAT_MSG_DUMMY", format(L["LOGIN_MSG"], self["media"].hexvaluecolor, self["media"].hexvaluecolor, self.version)))..".");
+	--	print(select(2, E:GetModule("Chat"):FindURL("CHAT_MSG_DUMMY", format(L["LOGIN_MSG"], self["media"].hexvaluecolor, self["media"].hexvaluecolor, self.version)))..".");
 	end
 end

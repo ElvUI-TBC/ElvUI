@@ -96,7 +96,7 @@ function UF:Configure_Power(frame)
 
 		power:ClearAllPoints()
 		if(frame.POWERBAR_DETACHED) then
-			power:SetWidth(frame.POWERBAR_WIDTH - ((frame.BORDER + frame.SPACING)*2));
+			power:Width(frame.POWERBAR_WIDTH - ((frame.BORDER + frame.SPACING)*2));
 			power:Height(frame.POWERBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2));
 			if(not power.Holder or (power.Holder and not power.Holder.mover)) then
 				power.Holder = CreateFrame("Frame", nil, power);
@@ -140,10 +140,10 @@ function UF:Configure_Power(frame)
 			power:Height(frame.POWERBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2));
 
 			if(frame.ORIENTATION == "LEFT") then
-				power:SetWidth(frame.POWERBAR_WIDTH - frame.BORDER*2);
+				power:Width(frame.POWERBAR_WIDTH - frame.BORDER*2);
 				power:Point("RIGHT", frame, "BOTTOMRIGHT", -(frame.BORDER*2 + 4), ((frame.POWERBAR_HEIGHT-frame.BORDER)/2));
 			elseif(frame.ORIENTATION == "RIGHT") then
-				power:SetWidth(frame.POWERBAR_WIDTH - frame.BORDER*2);
+				power:Width(frame.POWERBAR_WIDTH - frame.BORDER*2);
 				power:Point("LEFT", frame, "BOTTOMLEFT", (frame.BORDER*2 + 4), ((frame.POWERBAR_HEIGHT-frame.BORDER)/2));
 			else
 				power:Point("LEFT", frame, "BOTTOMLEFT", (frame.BORDER*2 + 4), ((frame.POWERBAR_HEIGHT-frame.BORDER)/2));

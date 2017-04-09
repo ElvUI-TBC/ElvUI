@@ -115,7 +115,7 @@ function mod:ExperienceBar_OnClick()
 end
 
 function mod:UpdateExperienceDimensions()
-	self.expBar:SetWidth(self.db.experience.width);
+	self.expBar:Width(self.db.experience.width);
 	self.expBar:Height(self.db.experience.height);
 
 	self.expBar.text:FontTemplate(E.LSM:Fetch("font", self.db.experience.textFont), self.db.experience.textSize, self.db.experience.textOutline);

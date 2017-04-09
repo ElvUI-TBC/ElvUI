@@ -14,13 +14,13 @@ local IsInInstance = IsInInstance;
 function DT:Initialize()
 	E.DataTexts = DT;
 
-	DT.tooltip = CreateFrame("GameTooltip", "DatatextTooltip", E.UIParent, "GameTooltipTemplate");
-	TT:HookScript(DT.tooltip, "OnShow", "SetStyle");
+	self.tooltip = CreateFrame("GameTooltip", "DatatextTooltip", E.UIParent, "GameTooltipTemplate");
+	TT:HookScript(self.tooltip, "OnShow", "SetStyle");
 
-	DT:RegisterLDB();
-	DT:LoadDataTexts();
+	self:RegisterLDB();
+	self:LoadDataTexts();
 
-	DT:RegisterEvent("PLAYER_ENTERING_WORLD", "LoadDataTexts");
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "LoadDataTexts");
 end
 
 DT.RegisteredPanels = {};
@@ -80,7 +80,7 @@ function DT:RegisterLDB()
 			LDB.callbacks:Fire("LibDataBroker_AttributeChanged_" .. name .. "_text", name, nil, obj.text, obj);
 		end
 
-		DT:RegisterDatatext(name, {"PLAYER_ENTER_WORLD"}, OnEvent, nil, OnClick, OnEnter, OnLeave);
+		self:RegisterDatatext(name, {"PLAYER_ENTER_WORLD"}, OnEvent, nil, OnClick, OnEnter, OnLeave);
 	end
 end
 
@@ -122,9 +122,9 @@ end
 
 function DT:SetupTooltip(panel)
 	local parent = panel:GetParent();
-	DT.tooltip:Hide();
-	DT.tooltip:SetOwner(parent, parent.anchor, parent.xOff, parent.yOff);
-	DT.tooltip:ClearLines();
+	self.tooltip:Hide();
+	self.tooltip:SetOwner(parent, parent.anchor, parent.xOff, parent.yOff);
+	self.tooltip:ClearLines();
 	GameTooltip:Hide();
 end
 
@@ -199,15 +199,15 @@ function DT:AssignPanelToDataText(panel, data)
 end
 
 function DT:LoadDataTexts()
-	DT.db = E.db.datatexts;
+	self.db = E.db.datatexts;
 	for name, obj in LDB:DataObjectIterator() do
-		LDB:UnregisterAllCallbacks(DT);
+		LDB:UnregisterAllCallbacks(self);
 	end
 
 	local inInstance, instanceType = IsInInstance();
-	local fontTemplate = LSM:Fetch("font", DT.db.font);
+	local fontTemplate = LSM:Fetch("font", self.db.font);
 	if(ElvConfigToggle) then
-		ElvConfigToggle.text:FontTemplate(fontTemplate, DT.db.fontSize, DT.db.fontOutline);
+		ElvConfigToggle.text:FontTemplate(fontTemplate, self.db.fontSize, self.db.fontOutline);
 	end
 	for panelName, panel in pairs(DT.RegisteredPanels) do
 		for i = 1, panel.numPoints do
@@ -217,7 +217,7 @@ function DT:LoadDataTexts()
 			panel.dataPanels[pointIndex]:SetScript("OnEnter", nil);
 			panel.dataPanels[pointIndex]:SetScript("OnLeave", nil);
 			panel.dataPanels[pointIndex]:SetScript("OnClick", nil);
-			panel.dataPanels[pointIndex].text:FontTemplate(fontTemplate, DT.db.fontSize, DT.db.fontOutline);
+			panel.dataPanels[pointIndex].text:FontTemplate(fontTemplate, self.db.fontSize, self.db.fontOutline);
 			panel.dataPanels[pointIndex].text:SetText(nil);
 			panel.dataPanels[pointIndex].pointIndex = pointIndex;
 
@@ -231,13 +231,13 @@ function DT:LoadDataTexts()
 				DT.UPDATE_BATTLEFIELD_SCORE(panel.dataPanels[pointIndex])
 			else
 				for name, data in pairs(DT.RegisteredDataTexts) do
-					for option, value in pairs(DT.db.panels) do
+					for option, value in pairs(self.db.panels) do
 						if(value and type(value) == "table") then
-							if(option == panelName and DT.db.panels[option][pointIndex] and DT.db.panels[option][pointIndex] == name) then
+							if(option == panelName and self.db.panels[option][pointIndex] and self.db.panels[option][pointIndex] == name) then
 								DT:AssignPanelToDataText(panel.dataPanels[pointIndex], data)
 							end
 						elseif(value and type(value) == "string" and value == name) then
-							if(DT.db.panels[option] == name and option == panelName) then
+							if(self.db.panels[option] == name and option == panelName) then
 								DT:AssignPanelToDataText(panel.dataPanels[pointIndex], data);
 							end
 						end

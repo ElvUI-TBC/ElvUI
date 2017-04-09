@@ -432,13 +432,13 @@ function E:CreateMoverPopup()
 	S:HandleButton(resetButton)
 	-- Up Button
 	local upButton = CreateFrame("Button", nudgeFrame:GetName().."PrevButton", nudgeFrame);
-	upButton:Size(26, 26);
+	upButton:SetSize(26, 26);
 	upButton:SetPoint("BOTTOMRIGHT", nudgeFrame, "BOTTOM", -6, 4);
 	upButton:SetScript("OnClick", function()
 		E:NudgeMover(nil, 1);
 	end);
 	upButton.icon = upButton:CreateTexture(nil, "ARTWORK");
-	upButton.icon:Size(13, 13);
+	upButton.icon:SetSize(13, 13);
 	upButton.icon:SetPoint("CENTER");
 	upButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]]);
 	upButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500);
@@ -447,13 +447,13 @@ function E:CreateMoverPopup()
 	S:HandleButton(upButton);
 	-- Down Button
 	local downButton = CreateFrame("Button", nudgeFrame:GetName().."DownButton", nudgeFrame);
-	downButton:Size(26, 26);
+	downButton:SetSize(26, 26);
 	downButton:SetPoint("BOTTOMLEFT", nudgeFrame, "BOTTOM", 6, 4);
 	downButton:SetScript("OnClick", function()
 		E:NudgeMover(nil, -1);
 	end);
 	downButton.icon = downButton:CreateTexture(nil, "ARTWORK");
-	downButton.icon:Size(13, 13);
+	downButton.icon:SetSize(13, 13);
 	downButton.icon:SetPoint("CENTER");
 	downButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]]);
 	downButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500);
@@ -462,13 +462,13 @@ function E:CreateMoverPopup()
 	S:HandleButton(downButton);
 	-- Left Button
 	local leftButton = CreateFrame("Button", nudgeFrame:GetName().."LeftButton", nudgeFrame);
-	leftButton:Size(26, 26);
+	leftButton:SetSize(26, 26);
 	leftButton:SetPoint("RIGHT", upButton, "LEFT", -6, 0);
 	leftButton:SetScript("OnClick", function()
 		E:NudgeMover(-1);
 	end);
 	leftButton.icon = leftButton:CreateTexture(nil, "ARTWORK");
-	leftButton.icon:Size(13, 13);
+	leftButton.icon:SetSize(13, 13);
 	leftButton.icon:SetPoint("CENTER");
 	leftButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]]);
 	leftButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500);
@@ -477,13 +477,13 @@ function E:CreateMoverPopup()
 	S:HandleButton(leftButton);
 	-- Right Button
 	local rightButton = CreateFrame("Button", nudgeFrame:GetName().."RightButton", nudgeFrame);
-	rightButton:Size(26, 26);
+	rightButton:SetSize(26, 26);
 	rightButton:SetPoint("LEFT", downButton, "RIGHT", 6, 0);
 	rightButton:SetScript("OnClick", function()
 		E:NudgeMover(1);
 	end);
 	rightButton.icon = rightButton:CreateTexture(nil, "ARTWORK");
-	rightButton.icon:Size(13, 13);
+	rightButton.icon:SetSize(13, 13);
 	rightButton.icon:SetPoint("CENTER");
 	rightButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]]);
 	rightButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500);

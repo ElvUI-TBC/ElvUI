@@ -1,3 +1,7 @@
+local function GetSize(frame)
+	return frame:GetWidth(), frame:GetHeight()
+end
+
 local function SetSize(frame, width, height)
 	assert(width)
 	frame:SetWidth(width)
@@ -6,6 +10,7 @@ end
 
 local function addapi(object)
 	local mt = getmetatable(object).__index
+	if not object.GetSize then mt.GetSize = GetSize end
 	if not object.SetSize then mt.SetSize = SetSize end
 end
 

@@ -4,8 +4,8 @@ local oUF = ns.oUF
 local tinsert = table.insert
 local floor = math.floor
 
-local GetTime = GetTime
 local CreateFrame = CreateFrame
+local GetTime = GetTime
 local UnitAura = UnitAura
 local UnitIsUnit = UnitIsUnit
 

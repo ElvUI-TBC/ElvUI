@@ -82,15 +82,14 @@ function TOTEMS:PositionAndSize()
 	end
 
 	if(self.db.growthDirection == "HORIZONTAL") then
-		self.bar:SetWidth(self.db.size*(MAX_TOTEMS) + self.db.spacing*(MAX_TOTEMS) + self.db.spacing);
+		self.bar:Width(self.db.size*(MAX_TOTEMS) + self.db.spacing*(MAX_TOTEMS) + self.db.spacing);
 		self.bar:Height(self.db.size + self.db.spacing*2);
 	else
 		self.bar:Height(self.db.size*(MAX_TOTEMS) + self.db.spacing*(MAX_TOTEMS) + self.db.spacing);
-		self.bar:SetWidth(self.db.size + self.db.spacing*2);
+		self.bar:Width(self.db.size + self.db.spacing*2);
 	end
 	self:Update();
 end
-
 
 function TOTEMS:Initialize()
 	self.db = E.db.general.totems;
