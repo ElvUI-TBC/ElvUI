@@ -16,6 +16,7 @@ local MoveViewLeftStop = MoveViewLeftStop;
 local IsInGuild = IsInGuild;
 local GetGuildInfo = GetGuildInfo;
 local GetBattlefieldStatus = GetBattlefieldStatus;
+local MAX_BATTLEFIELD_QUEUES = MAX_BATTLEFIELD_QUEUES;
 local UnitIsAFK = UnitIsAFK;
 local SetCVar = SetCVar;
 local IsShiftKeyDown = IsShiftKeyDown;
@@ -132,10 +133,10 @@ function AFK:OnEvent(event, ...)
 	if(event == "PLAYER_REGEN_DISABLED" or event == "UPDATE_BATTLEFIELD_STATUS") then
 		if(event == "UPDATE_BATTLEFIELD_STATUS") then
 			for i = 1, MAX_BATTLEFIELD_QUEUES do
-			  status, mapName, instanceID, lowestlevel, highestlevel, teamSize, registeredMatch = GetBattlefieldStatus(i);
-			  if instanceID ~= 0 then
-			    status = status;
-			  end
+				status, mapName, instanceID, lowestlevel, highestlevel, teamSize, registeredMatch = GetBattlefieldStatus(i);
+				if instanceID ~= 0 then
+					status = status;
+				end
 			end
 			local status = status;
 			if(status == "confirm") then
