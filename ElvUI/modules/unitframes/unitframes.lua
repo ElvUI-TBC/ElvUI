@@ -990,7 +990,7 @@ function ElvUF:DisableBlizzard(unit)
 		HandleFrame(FocusFrame);
 		HandleFrame(FocusFrameToT);
 	elseif((unit == "targettarget") and E.private["unitframe"]["disabledBlizzardFrames"].target) then
-		HandleFrame(TargetFrameToT);
+		HandleFrame(TargetofTargetFrame);
 	elseif((unit:match"(boss)%d?$" == "boss") and E.private["unitframe"]["disabledBlizzardFrames"].boss) then
 		local id = unit:match"boss(%d)";
 		if(id) then

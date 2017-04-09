@@ -590,7 +590,7 @@ function mod:UNIT_AURA(_, unit)
 	end
 end
 
-function mod:UNIT_COMBO_POINTS(_, unit)
+function mod:PLAYER_COMBO_POINTS(_, unit)
 	if unit == "player" or unit == "vehicle" then
 		self:ForEachPlate("UpdateElement_CPoints")
 	end
@@ -639,7 +639,7 @@ function mod:Initialize()
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	self:RegisterEvent("UNIT_AURA")
-	self:RegisterEvent("UNIT_COMBO_POINTS")
+	self:RegisterEvent("PLAYER_COMBO_POINTS")
 
 	E.NamePlates = self
 end
