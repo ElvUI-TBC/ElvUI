@@ -129,11 +129,11 @@ function AFK:SetAFK(status)
 end
 
 function AFK:OnEvent(event, ...)
-	local status, mapName, instanceID, lowestlevel, highestlevel, teamSize, registeredMatch;
 	if(event == "PLAYER_REGEN_DISABLED" or event == "UPDATE_BATTLEFIELD_STATUS") then
 		if(event == "UPDATE_BATTLEFIELD_STATUS") then
+			local status, _, instanceID;
 			for i = 1, MAX_BATTLEFIELD_QUEUES do
-				status, mapName, instanceID, lowestlevel, highestlevel, teamSize, registeredMatch = GetBattlefieldStatus(i);
+				status, _, instanceID = GetBattlefieldStatus(i);
 				if instanceID ~= 0 then
 					status = status;
 				end
