@@ -52,7 +52,7 @@ function UF:Update_AssistHeader(header, db)
 
 	header:SetAttribute("startingIndex", -1);
 	RegisterStateDriver(header, "visibility", "show");
-	RegisterStateDriver(header, "visibility", "[@raid1,exists] show;hide");
+	RegisterStateDriver(header, "visibility", "[target=raid1,exists] show;hide");
 	header:SetAttribute("startingIndex", 1);
 
 	header:SetAttribute("point", "BOTTOM");

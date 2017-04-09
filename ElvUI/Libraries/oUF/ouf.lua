@@ -401,12 +401,12 @@ end
 local getCondition
 do
 	local conditions = {
-		raid40 = "[@raid26,exists] show;",
-		raid25 = "[@raid11,exists] show;",
-		raid10 = "[@raid6,exists] show;",
+		raid40 = "[target=raid26,exists] show;",
+		raid25 = "[target=raid11,exists] show;",
+		raid10 = "[target=raid6,exists] show;",
 		raid = "[group:raid] show;",
 		party = "[group:party,nogroup:raid] show;",
-		solo = "[@player,exists,nogroup:party] show;",
+		solo = "[target=player,exists,nogroup:party] show;",
 	}
 
 	function getCondition(...)
