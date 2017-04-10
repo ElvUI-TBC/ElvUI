@@ -204,7 +204,7 @@ function A:ConfigureAuras(header, auraTable)
 		end
 
 		if(buffInfo.filter == "HARMFUL") then
-			local color = DebuffTypeColor[buffInfo.dispelType or ""];
+			local color = DebuffTypeColor[buffInfo.dispelType or "none"];
 			button:SetBackdropBorderColor(color.r, color.g, color.b);
 		else
 			button:SetBackdropBorderColor(unpack(E.media.bordercolor));
@@ -429,7 +429,6 @@ function A:Initialize()
 
 	if(E.private.auras.disableBlizzard) then
 		BuffFrame:Kill()
-		ConsolidatedBuffs:Kill()
 		TemporaryEnchantFrame:Kill();
 	end
 
