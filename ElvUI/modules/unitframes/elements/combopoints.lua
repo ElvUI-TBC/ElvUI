@@ -2,7 +2,6 @@ local E, L, V, P, G = unpack(ElvUI);
 local UF = E:GetModule("UnitFrames");
 
 local CreateFrame = CreateFrame;
-local UnitHasVehicleUI = UnitHasVehicleUI;
 local GetShapeshiftForm = GetShapeshiftForm;
 local GetComboPoints = GetComboPoints;
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS;
@@ -152,12 +151,7 @@ function UF:UpdateComboDisplay(event, unit)
 	local db = self.db;
 	if(not db) then return; end
 	local cpoints = self.CPoints;
-	local cp;
-	if (UnitHasVehicleUI("player") or UnitHasVehicleUI("vehicle")) then
-		cp = GetComboPoints("vehicle", "target");
-	else
-		cp = GetComboPoints("player", "target");
-	end
+	local cp = GetComboPoints("player", "target");
 
 	if(cp == 0 and db.combobar.autoHide) then
 		cpoints:Hide();
