@@ -606,45 +606,6 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general[ info[#info] ] = value; E:GetModule("Blizzard"):SetWatchFrameHeight(); end
 				}
 			}
-		},
-		threatGroup = {
-			order = 11,
-			type = "group",
-			name = L["Threat"],
-			args = {
-				threatHeader = {
-					order = 40,
-					type = "header",
-					name = L["Threat"]
-				},
-				threatEnable = {
-					order = 41,
-					type = "toggle",
-					name = L["Enable"],
-					get = function(info) return E.db.general.threat.enable; end,
-					set = function(info, value) E.db.general.threat.enable = value; E:GetModule("Threat"):ToggleEnable()end
-				},
-				threatPosition = {
-					order = 42,
-					type = "select",
-					name = L["Position"],
-					desc = L["Adjust the position of the threat bar to either the left or right datatext panels."],
-					values = {
-						["LEFTCHAT"] = L["Left Chat"],
-						["RIGHTCHAT"] = L["Right Chat"]
-					},
-					get = function(info) return E.db.general.threat.position; end,
-					set = function(info, value) E.db.general.threat.position = value; E:GetModule("Threat"):UpdatePosition(); end
-				},
-				threatTextSize = {
-					order = 43,
-					name = L["Font Size"],
-					type = "range",
-					min = 6, max = 22, step = 1,
-					get = function(info) return E.db.general.threat.textSize; end,
-					set = function(info, value) E.db.general.threat.textSize = value; E:GetModule("Threat"):UpdatePosition(); end
-				}
-			}
 		}
 	}
 };

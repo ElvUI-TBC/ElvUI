@@ -68,19 +68,7 @@ P["general"] = {
 				["xOffset"] = 0,
 				["yOffset"] = 0,
 			},
-			["vehicleLeave"] = {
-				["size"] = 26,
-				["position"] = "BOTTOMLEFT",
-				["xOffset"] = 2,
-				["yOffset"] = 2,
-				["hide"] = false,
-			},
 		}
-	},
-	["threat"] = {
-		["enable"] = true,
-		["position"] = "RIGHTCHAT",
-		["textSize"] = 12,
 	},
 	["totems"] = {
 		["enable"] = true,
@@ -88,15 +76,6 @@ P["general"] = {
 		["sortDirection"] = "ASCENDING",
 		["size"] = 40,
 		["spacing"] = 4,
-	},
-	["reminder"] = {
-		["enable"] = true,
-		["durations"] = true,
-		["reverse"] = true,
-		["position"] = "RIGHT",
-		["font"] = "Homespun",
-		["fontSize"] = 10,
-		["fontOutline"] = "MONOCHROMEOUTLINE"
 	},
 	["kittys"] = false
 };

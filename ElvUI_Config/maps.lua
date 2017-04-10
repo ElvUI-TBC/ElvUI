@@ -31,15 +31,6 @@ E.Options.args.maps = {
 							get = function(info) return E.global.general.smallerWorldMap end,
 							set = function(info, value) E.global.general.smallerWorldMap = value; E:StaticPopup_Show("GLOBAL_RL") end,
 						},
-						mapAlphaWhenMoving = {
-							order = 2,
-							type = "range",
-							name = L["Map Opacity When Moving"],
-							isPercent = true,
-							min = 0, max = 1, step = 0.01,
-							get = function(info) return E.global.general.mapAlphaWhenMoving; end,
-							set = function(info, value) E.global.general.mapAlphaWhenMoving = value; E:GetModule("Misc"):UpdateMapAlpha(); end
-						},
 					},
 				},
 				spacer = {

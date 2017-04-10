@@ -5,7 +5,6 @@ G["general"] = {
 	["minUiScale"] = 0.64,
 	["eyefinity"] = false,
 	["smallerWorldMap"] = true,
-	["mapAlphaWhenMoving"] = 0.35,
 	["WorldMapCoordinates"] = {
 		["enable"] = true,
 		["position"] = "BOTTOMLEFT",
