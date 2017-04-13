@@ -4,7 +4,7 @@ E.DataBars = mod;
 
 local _G = _G;
 
-local GetExpansionLevel = GetExpansionLevel;
+local GetAccountExpansionLevel = GetAccountExpansionLevel;
 local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE;
 
 function mod:OnLeave()
@@ -43,7 +43,7 @@ function mod:UpdateDataBarDimensions()
 end
 
 function mod:PLAYER_LEVEL_UP(level)
-	local maxLevel = MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()];
+	local maxLevel = MAX_PLAYER_LEVEL_TABLE[GetAccountExpansionLevel()];
 	if((level ~= maxLevel or not self.db.experience.hideAtMaxLevel) and self.db.experience.enable) then
 		self:UpdateExperience("PLAYER_LEVEL_UP", level);
 	else
