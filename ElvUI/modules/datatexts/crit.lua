@@ -42,14 +42,14 @@ local function OnEnter(self)
 
 	local text, tooltip;
 	if(E.Role == "Caster") then
-		text = format(PAPERDOLLFRAME_TOOLTIP_FORMAT, SPELL_CRIT_CHANCE) .. " " .. format("%.2F%%", GetSpellCritChance(2));
+		text = format(PAPERDOLLFRAME_TOOLTIP_FORMAT, SPELL_CRIT_CHANCE) .. " " .. format("%.2f%%", GetSpellCritChance(2));
 		tooltip = format(PAPERDOLLFRAME_TOOLTIP_FORMAT, COMBAT_RATING_NAME11) .. " " .. GetCombatRating(11);
 	else
 		if(E.myclass == "HUNTER") then
-			text = format(PAPERDOLLFRAME_TOOLTIP_FORMAT, RANGED_CRIT_CHANCE) .. " " .. format("%.2F%%", GetRangedCritChance());
+			text = format(PAPERDOLLFRAME_TOOLTIP_FORMAT, RANGED_CRIT_CHANCE) .. " " .. format("%.2f%%", GetRangedCritChance());
 			tooltip = format(CR_CRIT_RANGED_TOOLTIP, GetCombatRating(CR_CRIT_RANGED), GetCombatRatingBonus(CR_CRIT_RANGED));
 		else
-			text = format(PAPERDOLLFRAME_TOOLTIP_FORMAT, MELEE_CRIT_CHANCE) .. " " .. format("%.2F%%", GetCritChance());
+			text = format(PAPERDOLLFRAME_TOOLTIP_FORMAT, MELEE_CRIT_CHANCE) .. " " .. format("%.2f%%", GetCritChance());
 			tooltip = format(CR_CRIT_MELEE_TOOLTIP, GetCombatRating(CR_CRIT_MELEE), GetCombatRatingBonus(CR_CRIT_MELEE));
 		end
 	end

@@ -40,13 +40,13 @@ local function OnEnter(self)
 		text = SPELL_HASTE;
 		tooltip = format(SPELL_HASTE_TOOLTIP, GetCombatRatingBonus(CR_HASTE_SPELL));
 	elseif(E.myclass == "HUNTER") then
-		text = format(PAPERDOLLFRAME_TOOLTIP_FORMAT, ATTACK_SPEED).." "..format("%.2F", UnitRangedDamage("player"));
+		text = format(PAPERDOLLFRAME_TOOLTIP_FORMAT, ATTACK_SPEED).." "..format("%.2f", UnitRangedDamage("player"));
 		tooltip = format(CR_HASTE_RATING_TOOLTIP, GetCombatRating(CR_HASTE_RANGED), GetCombatRatingBonus(CR_HASTE_RANGED));
 	else
 		local speed, offhandSpeed = UnitAttackSpeed("player");
-		speed = format("%.2F", speed);
+		speed = format("%.2f", speed);
 		if(offhandSpeed) then
-			offhandSpeed = format("%.2F", offhandSpeed);
+			offhandSpeed = format("%.2f", offhandSpeed);
 		end
 		local string;
 		if(offhandSpeed) then
