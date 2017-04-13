@@ -149,7 +149,6 @@ function LO:SetDataPanelStyle()
 		RightChatDataPanel:SetTemplate("Transparent")
 		RightChatToggleButton:SetTemplate("Transparent")
 		RightMiniPanel:SetTemplate("Transparent")
-		ElvConfigToggle:SetTemplate("Transparent")
 	else
 		LeftChatDataPanel:SetTemplate("Default", true)
 		LeftChatToggleButton:SetTemplate("Default", true)
@@ -157,7 +156,6 @@ function LO:SetDataPanelStyle()
 		RightChatDataPanel:SetTemplate("Default", true)
 		RightChatToggleButton:SetTemplate("Default", true)
 		RightMiniPanel:SetTemplate("Default", true)
-		ElvConfigToggle:SetTemplate("Default", true)
 	end
 end
 
