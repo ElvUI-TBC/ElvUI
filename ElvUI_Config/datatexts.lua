@@ -188,7 +188,7 @@ E.Options.args.datatexts = {
 							E.db.LeftChatPanelFaded = true;
 							HideLeftChat();
 						end
-						E:GetModule("Chat"):UpdateAnchors();
+						--E:GetModule("Chat"):UpdateAnchors();
 						E:GetModule("Layout"):ToggleChatPanels();
 					end
 				},
@@ -203,7 +203,7 @@ E.Options.args.datatexts = {
 							E.db.RightChatPanelFaded = true;
 							HideRightChat();
 						end
-						E:GetModule("Chat"):UpdateAnchors();
+						--E:GetModule("Chat"):UpdateAnchors();
 						E:GetModule("Layout"):ToggleChatPanels();
 					end
 				},
