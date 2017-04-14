@@ -73,10 +73,10 @@ end
 local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visible)
 	local name, rank, texture, count, dispelType, duration, expiration = UnitAura(unit, index, filter)
 
-	if icons.forceShow then
-		name, rank, texture = GetSpellInfo(47540)
-		count, dispelType, duration, expiration = 5, "Magic", 0, 60
-	end
+	-- if icons.forceShow then
+	-- 	name, rank, texture = GetSpellInfo(47540)
+	-- 	count, dispelType, duration, expiration = 5, "Magic", 0, 60
+	-- end
 
 	if(name) then
 		local n = visible + offset + 1

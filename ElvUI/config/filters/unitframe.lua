@@ -142,7 +142,7 @@ G.unitframe.ChannelTicks = {
 	-- Priest
 	[SpellName(15407)] = 3, -- Mind Flay
 	[SpellName(48045)] = 5, -- Mind Sear
-	[SpellName(47540)] = 3, -- Penance
+	-- [SpellName(47540)] = 3, -- Penance
 	-- Mage
 	[SpellName(5143)] = 5, -- Arcane Missiles
 	[SpellName(10)] = 8, -- Blizzard
