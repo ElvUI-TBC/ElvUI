@@ -66,3 +66,11 @@ function GetQuestDifficultyColor(level)
 		return QuestDifficultyColors["trivial"]
 	end
 end
+
+function ToggleFrame(frame)
+	if ( frame:IsShown() ) then
+		HideUIPanel(frame);
+	else
+		ShowUIPanel(frame);
+	end
+end
