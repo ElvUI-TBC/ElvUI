@@ -7,6 +7,7 @@
 	<Script file="bgscore.lua"/>
 	<Script file="binding.lua"/>
 	<Script file="character.lua"/>
+	<Script file="craft.lua"/>
 	<Script file="debug.lua"/>
 	<Script file="dressingroom.lua"/>
 	<Script file="friends.lua"/>
