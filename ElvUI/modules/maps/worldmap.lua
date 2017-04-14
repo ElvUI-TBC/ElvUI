@@ -101,7 +101,7 @@ function M:Initialize()
 		BlackoutWorld:SetTexture(nil)
 
 		WorldMapFrame:SetParent(E.UIParent)
-		WorldMapFrame:EnableKeyboard(false)
+		WorldMapFrame:EnableKeyboard(true)
 		WorldMapFrame:SetScale(1)
 		WorldMapFrame:EnableMouse(false)
 
