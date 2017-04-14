@@ -955,15 +955,15 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:SetTemplate();
 		f.sortButton:SetPoint("RIGHT", f.bagText, "LEFT", -5, E.Border * 2);
 		f.sortButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
-		-- f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
-		-- f.sortButton:GetNormalTexture():SetInside();
+		f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
+		f.sortButton:GetNormalTexture():SetInside();
 		f.sortButton:SetPushedTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
-		-- f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords));
-		-- f.sortButton:GetPushedTexture():SetInside();
+		f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords));
+		f.sortButton:GetPushedTexture():SetInside();
 		f.sortButton:SetDisabledTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
-		-- f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords));
-		-- f.sortButton:GetDisabledTexture():SetInside();
-		-- f.sortButton:GetDisabledTexture():SetDesaturated(true);
+		f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords));
+		f.sortButton:GetDisabledTexture():SetInside();
+		f.sortButton:GetDisabledTexture():SetDesaturated(true);
 		f.sortButton:StyleButton(nil, true);
 		f.sortButton.ttText = L["Sort Bags"];
 		f.sortButton:SetScript("OnEnter", self.Tooltip_Show);
@@ -992,8 +992,8 @@ function B:ContructContainerFrame(name, isBank)
 			PlaySound("igMainMenuOption");
 			if(numSlots >= 1) then
 				ToggleFrame(f.ContainerHolder)
-		--	else
-		--	E:StaticPopup_Show("NO_BANK_BAGS");
+			else
+				E:StaticPopup_Show("NO_BANK_BAGS");
 			end
 		end);
 
@@ -1015,8 +1015,8 @@ function B:ContructContainerFrame(name, isBank)
 			local _, full = GetNumBankSlots();
 			if(full) then
 				E:StaticPopup_Show("CANNOT_BUY_BANK_SLOT");
-			-- else
-			-- 	E:StaticPopup_Show("BUY_BANK_SLOT");
+			else
+				E:StaticPopup_Show("CONFIRM_BUY_BANK_SLOT");
 			end
 		end);
 
@@ -1066,15 +1066,15 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:SetTemplate();
 		f.sortButton:SetPoint("RIGHT", f.goldText, "LEFT", -5, E.Border * 2);
 		f.sortButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
-	--	f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
-	--	f.sortButton:GetNormalTexture():SetInside();
+		f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
+		f.sortButton:GetNormalTexture():SetInside();
 		f.sortButton:SetPushedTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
-	--	f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords));
-	--	f.sortButton:GetPushedTexture():SetInside();
+		f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords));
+		f.sortButton:GetPushedTexture():SetInside();
 		f.sortButton:SetDisabledTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
-	--	f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords));
-	--	f.sortButton:GetDisabledTexture():SetInside();
-	--	f.sortButton:GetDisabledTexture():SetDesaturated(true);
+		f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords));
+		f.sortButton:GetDisabledTexture():SetInside();
+		f.sortButton:GetDisabledTexture():SetDesaturated(true);
 		f.sortButton:StyleButton(nil, true);
 		f.sortButton.ttText = L["Sort Bags"];
 		f.sortButton:SetScript("OnEnter", self.Tooltip_Show);
@@ -1098,7 +1098,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.keyButton.ttText = L["Toggle Key"];
 		f.keyButton:SetScript("OnEnter", self.Tooltip_Show);
 		f.keyButton:SetScript("OnLeave", self.Tooltip_Hide);
-		-- f.keyButton:SetScript("OnClick", function() ToggleFrame(f.keyFrame); end);
+		f.keyButton:SetScript("OnClick", function() ToggleFrame(f.keyFrame); end);
 
 		f.bagsButton = CreateFrame("Button", name.."BagsButton", f);
 		f.bagsButton:SetSize(16 + E.Border, 16 + E.Border);
@@ -1114,7 +1114,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.bagsButton.ttText = L["Toggle Bags"];
 		f.bagsButton:SetScript("OnEnter", self.Tooltip_Show);
 		f.bagsButton:SetScript("OnLeave", self.Tooltip_Hide);
-		-- f.bagsButton:SetScript("OnClick", function() ToggleFrame(f.ContainerHolder); end);
+		f.bagsButton:SetScript("OnClick", function() ToggleFrame(f.ContainerHolder); end);
 
 		f.vendorGraysButton = CreateFrame("Button", nil, f.holderFrame);
 		f.vendorGraysButton:SetSize(16 + E.Border, 16 + E.Border);
@@ -1208,7 +1208,7 @@ function B:ToggleBags(id)
 	if id and GetContainerNumSlots(id) == 0 then return; end
 
 	if self.BagFrame:IsShown() then
-	--	self:CloseBags();
+		self:CloseBags();
 	else
 		self:OpenBags();
 	end
@@ -1268,7 +1268,7 @@ function B:OpenBank()
 	self.BankFrame:Show();
 	self.BankFrame:UpdateAllSlots();
 	self:OpenBags()
---	self:UpdateTokens()
+	-- self:UpdateTokens()
 end
 
 function B:PLAYERBANKBAGSLOTS_CHANGED()
@@ -1324,7 +1324,7 @@ function B:Initialize()
 		BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", -(E.Border*2), 22 + E.Border*4 - E.Spacing*2);
 		E:CreateMover(BagFrameHolder, "ElvUIBagMover", L["Bag Mover"], nil, nil, B.PostBagMove);
 
-		--self:SecureHook("UpdateContainerFrameAnchors");
+		self:SecureHook("UpdateContainerFrameAnchors");
 		return;
 	end
 
@@ -1358,7 +1358,7 @@ function B:Initialize()
 	self:SecureHook("OpenBackpack", "OpenBags");
 	self:SecureHook("CloseAllBags", "CloseBags");
 	self:SecureHook("CloseBackpack", "CloseBags");
-	--self:SecureHook("BackpackTokenFrame_Update", "UpdateTokens");
+	-- self:SecureHook("BackpackTokenFrame_Update", "UpdateTokens");
 
 	self:Layout();
 
