@@ -195,10 +195,8 @@ local InitializeSecureMenu = function()
 	local menu
 	if(unitType == "party") then
 		menu = "PARTY"
-	elseif(unitType == "boss") then
-		menu = "BOSS"
-	elseif(unitType == "focus") then
-		menu = "FOCUS"
+--	elseif(unitType == "focus") then
+--		menu = "FOCUS"
 --	elseif(unitType == "arenapet" or unitType == "arena") then
 --		menu = "ARENAENEMY"
 	elseif(UnitIsUnit(unit, "player")) then
@@ -213,8 +211,8 @@ local InitializeSecureMenu = function()
 		else
 			menu = "PLAYER"
 		end
-	elseif(UnitIsUnit(unit, "target")) then
-		menu = "TARGET"
+--	elseif(UnitIsUnit(unit, "target")) then
+--		menu = "TARGET"
 	end
 
 	if(menu) then
