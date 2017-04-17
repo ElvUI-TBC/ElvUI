@@ -164,7 +164,6 @@ local function CreateRollButton(parent, ntex, ptex, htex, rolltype, tiptext, ...
 	f:SetScript("OnEnter", SetTip);
 	f:SetScript("OnLeave", HideTip);
 	f:SetScript("OnClick", ClickRoll);
-	f:SetMotionScriptsWhileDisabled(true);
 	local txt = f:CreateFontString(nil, nil);
 	txt:FontTemplate(nil, nil, "OUTLINE");
 	txt:Point("CENTER", 0, rolltype == 2 and 1 or rolltype == 0 and -1.2 or 0);
