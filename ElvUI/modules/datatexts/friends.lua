@@ -11,7 +11,7 @@ local SendChatMessage = SendChatMessage;
 local InviteUnit = InviteUnit;
 local SetItemRef = SetItemRef;
 local GetFriendInfo = GetFriendInfo;
-local GetNumFriends = GetNumFriends;
+local GetnumberOfFriends = GetnumberOfFriends;
 local GetQuestDifficultyColor = GetQuestDifficultyColor;
 local UnitInParty = UnitInParty;
 local UnitInRaid = UnitInRaid;
@@ -23,6 +23,17 @@ local LOCALIZED_CLASS_NAMES_MALE = LOCALIZED_CLASS_NAMES_MALE;
 local LOCALIZED_CLASS_NAMES_FEMALE = LOCALIZED_CLASS_NAMES_FEMALE;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
+
+local playersOnline = 0
+
+local numberOfFriends = GetNumFriends()
+local name, level, class, zone, online, status, note
+for i = 1, numberOfFriends, 1 do
+	name, level, class, zone, online, status, note = GetFriendInfo(i)
+	if online then
+		playersOnline = playersOnline + 1
+	end
+end
 
 local menuFrame = CreateFrame("Frame", "FriendDatatextRightClickMenu", E.UIParent, "UIDropDownMenuTemplate");
 local menuList = {
@@ -56,7 +67,7 @@ local lastPanel;
 local levelNameString = "|cff%02x%02x%02x%d|r |cff%02x%02x%02x%s|r";
 local levelNameClassString = "|cff%02x%02x%02x%d|r %s%s%s";
 local worldOfWarcraftString = WORLD_OF_WARCRAFT;
-local totalOnlineString = join("", FRIENDS_LIST_ONLINE, ": %s/%s");
+local totalOnlineString = join("", L["Online"], ": %s/%s");
 local tthead = {r = 0.4, g = 0.78, b = 1};
 local activezone, inactivezone = {r = 0.3, g = 1.0, b = 0.3}, {r = 0.65, g = 0.65, b = 0.65};
 local displayString = "";
@@ -93,7 +104,7 @@ local function BuildFriendTable(total)
 end
 
 local function OnEvent(self, event, ...)
-	local _, onlineFriends = GetNumFriends();
+	local onlineFriends = playersOnline
 
 	if(event == "CHAT_MSG_SYSTEM") then
 		local message = select(1, ...);
@@ -141,7 +152,8 @@ end
 local function OnEnter(self)
 	DT:SetupTooltip(self);
 
-	local numberOfFriends, onlineFriends = GetNumFriends();
+	local numberOfFriends = numberOfFriends;
+	local onlineFriends = playersOnline;
 	if(onlineFriends == 0) then return; end
 
 	if(not dataValid) then
