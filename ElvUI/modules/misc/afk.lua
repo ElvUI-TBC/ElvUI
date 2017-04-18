@@ -31,7 +31,8 @@ local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 local DND = DND;
 
 local AFK_SPEED = 7.35;
-local NORM_SPEED = 230;
+local DEFAULT_SPEED = 230;
+local PITCH_SPEED = 90;
 
 local ignoreKeys = {
 	LALT = true,
@@ -83,7 +84,7 @@ function AFK:SetAFK(status)
 		self.AFKMode:Show();
 
 		SetCVar("cameraYawMoveSpeed", AFK_SPEED);
-		SetCVar("cameraPitchMoveSpeed", "90");
+		SetCVar("cameraPitchMoveSpeed", PITCH_SPEED);
 		MoveViewLeftStart();
 
 		if(IsInGuild()) then
@@ -114,8 +115,8 @@ function AFK:SetAFK(status)
 		self.AFKMode:Hide();
 		UIParent:Show();
 
-		SetCVar("cameraYawMoveSpeed", NORM_SPEED);
-		SetCVar("cameraPitchMoveSpeed","90");
+		SetCVar("cameraYawMoveSpeed", DEFAULT_SPEED);
+		SetCVar("cameraPitchMoveSpeed", PITCH_SPEED);
 		MoveViewLeftStop();
 
 		self:CancelTimer(self.timer);

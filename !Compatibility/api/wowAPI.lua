@@ -10,6 +10,9 @@ local UnitLevel = UnitLevel
 local TIMEMANAGER_AM = TIMEMANAGER_AM
 local TIMEMANAGER_PM = TIMEMANAGER_PM
 
+LOCALIZED_CLASS_NAMES_MALE = {}
+LOCALIZED_CLASS_NAMES_FEMALE = {}
+
 function UnitAura(unit, i, filter)
 	if filter == "HELPFUL" then
 		local name, rank, aura, count, duration, maxDuration = UnitBuff(unit, i)

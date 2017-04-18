@@ -37,6 +37,8 @@ function S:LoadFriendsSkin()
 		Tab:HookScript("OnLeave", S.SetOriginalBackdrop)
 	end
 
+	FriendsFrameFriendsScrollFrame:StripTextures()
+
 	S:HandleScrollBar(FriendsFrameFriendsScrollFrameScrollBar)
 
 	S:HandleButton(FriendsFrameAddFriendButton)

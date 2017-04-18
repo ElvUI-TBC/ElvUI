@@ -167,16 +167,6 @@ function M:AutoInvite(event, leaderName)
 			end
 		end
 
-		if not inGroup then
-			for bnIndex = 1, BNGetNumFriends() do
-				local _, _, _, name = BNGetFriendInfo(bnIndex)
-				leaderName = leaderName:match("(.+)%-.+") or leaderName
-				if name == leaderName then
-					AcceptGroup()
-					break
-				end
-			end
-		end
 	elseif event == "PARTY_MEMBERS_CHANGED" and hideStatic == true then
 		StaticPopup_Hide("PARTY_INVITE")
 		hideStatic = false
@@ -187,6 +177,8 @@ function M:ForceCVars()
 	if not GetCVar("lockActionBars") and E.private.actionbar.enable then
 		SetCVar("lockActionBars", 1)
 	end
+	SetCVar("cameraYawMoveSpeed", 230);
+	SetCVar("cameraPitchMoveSpeed", 90);
 end
 
 function M:Initialize()
