@@ -101,9 +101,11 @@ function M:Initialize()
 		BlackoutWorld:SetTexture(nil)
 
 		WorldMapFrame:SetParent(E.UIParent)
-		WorldMapFrame:EnableKeyboard(true)
 		WorldMapFrame:SetScale(1)
+		WorldMapFrame:EnableKeyboard(false)
 		WorldMapFrame:EnableMouse(false)
+
+		tinsert(UISpecialFrames, WorldMapFrame:GetName())
 
 		if WorldMapFrame:GetAttribute("UIPanelLayout-area") ~= "center" then
 			SetUIPanelAttribute(WorldMapFrame, "area", "center")
@@ -118,6 +120,8 @@ function M:Initialize()
 				DropDownList1:SetScale(UIParent:GetScale())
 			end
 		end)
+
+		WorldMapTooltip:SetFrameLevel(WorldMapPositioningGuide:GetFrameLevel() + 110);
 	end
 end
 
