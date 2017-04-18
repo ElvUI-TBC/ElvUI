@@ -208,7 +208,6 @@ L["Bags"] = "Bolsas"
 L["Bank Mover (Grow Down)"] = true;
 L["Bank Mover (Grow Up)"] = true;
 L["Bar "] = "Barra "
-L["BNet Frame"] = "Quadro do Bnet"
 L["Boss Frames"] = "Quadros dos Chefes"
 L["Classbar"] = "Barra da Classe"
 L["Experience Bar"] = "Barra de Experiência"

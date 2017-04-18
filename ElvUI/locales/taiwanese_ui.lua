@@ -208,7 +208,6 @@ L["Bags"] = "背包" --Also in DataTexts
 L["Bank Mover (Grow Down)"] = "銀行錨點 (向下增長)"
 L["Bank Mover (Grow Up)"] = "銀行錨點 (向上增長)"
 L["Bar "] = "快捷列 " --Also in ActionBars
-L["BNet Frame"] = "戰網提示資訊"
 L["Boss Frames"] = "首領框架" --Also used in UnitFrames
 L["Classbar"] = "職業特有條"
 L["Experience Bar"] = "經驗條"

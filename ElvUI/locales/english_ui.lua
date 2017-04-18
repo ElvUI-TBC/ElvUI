@@ -208,7 +208,6 @@ L["Bags"] = true; --Also in DataTexts
 L["Bank Mover (Grow Down)"] = true;
 L["Bank Mover (Grow Up)"] = true;
 L["Bar "] = true; --Also in ActionBars
-L["BNet Frame"] = true;
 L["Boss Frames"] = true; --Also used in UnitFrames
 L["Classbar"] = true; --Also used in UnitFrames
 L["Experience Bar"] = true;
