@@ -1,6 +1,8 @@
 --Cache global variables
 local date = date
 local gsub = string.gsub
+local strupper = string.upper
+local strlower = string.lower
 --WoW API
 local GetQuestGreenRange = GetQuestGreenRange
 local UnitBuff = UnitBuff
