@@ -8,13 +8,12 @@ local MICRO_BUTTONS = {
 	"CharacterMicroButton",
 	"SpellbookMicroButton",
 	"TalentMicroButton",
-	"AchievementMicroButton",
 	"QuestLogMicroButton",
 	"SocialsMicroButton",
-	"PVPMicroButton",
-	"LFDMicroButton",
+	"LFGMicroButton",
 	"MainMenuMicroButton",
-	"HelpMicroButton"
+	"HelpMicroButton",
+	"KeyRingButton"
 };
 
 local function Button_OnEnter()

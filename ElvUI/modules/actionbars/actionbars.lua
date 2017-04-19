@@ -243,7 +243,7 @@ function AB:Initialize()
 
 	self:DisableBlizzard()
 
-	--self:SetupMicroBar()
+	self:SetupMicroBar()
 	self:CreateActionBars()
 
 	self:UpdateButtonSettings()

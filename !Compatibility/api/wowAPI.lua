@@ -77,3 +77,13 @@ function ToggleFrame(frame)
 		ShowUIPanel(frame);
 	end
 end
+
+function MainMenuMicroButton_SetPushed()
+	MainMenuMicroButton:SetButtonState("PUSHED", 1);
+	MainMenuBarPerformanceBar:SetPoint("TOPLEFT", MainMenuMicroButton, "TOPLEFT", 9, -36);
+end
+
+function MainMenuMicroButton_SetNormal()
+	MainMenuMicroButton:SetButtonState("NORMAL");
+	MainMenuBarPerformanceBar:SetPoint("TOPLEFT", MainMenuMicroButton, "TOPLEFT", 10, -34);
+end
