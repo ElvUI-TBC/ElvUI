@@ -57,7 +57,7 @@ function S:LoadLFGSkin()
 	end
 
 	local LFGCloseButton = CreateFrame("Button", "LFGCloseButton", LFGParentFrame, "UIPanelCloseButton")
-	LFGCloseButton:SetPoint("TOPRIGHT", LFGParentFrame, "TOPRIGHT", -25, -7)
+	LFGCloseButton:Point("TOPRIGHT", -25, -7)
 	LFGCloseButton:Size(33)
 	LFGCloseButton:SetFrameStrata("HIGH")
 
