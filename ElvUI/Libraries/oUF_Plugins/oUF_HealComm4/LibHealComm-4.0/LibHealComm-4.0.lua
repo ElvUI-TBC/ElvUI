@@ -6,11 +6,11 @@ local HealComm = LibStub:NewLibrary(major, minor)
 if( not HealComm ) then return end
 
 -- API CONSTANTS
---local ALL_DATA = 0x0f
+local ALL_DATA = 0x0f
 local DIRECT_HEALS = 0x01
 local CHANNEL_HEALS = 0x02
 local HOT_HEALS = 0x04
---local ABSORB_SHIELDS = 0x08
+local ABSORB_SHIELDS = 0x08
 local BOMB_HEALS = 0x10
 local ALL_HEALS = bit.bor(DIRECT_HEALS, CHANNEL_HEALS, HOT_HEALS, BOMB_HEALS)
 local CASTED_HEALS = bit.bor(DIRECT_HEALS, CHANNEL_HEALS)
@@ -945,11 +945,11 @@ if( playerClass == "PALADIN" ) then
 		local HealingLight = GetSpellInfo(20237)
 		talentData[HealingLight] = {mod = 0.04, current = 0}
 		-- Divinity (Add)
-		local Divinity = GetSpellInfo(63646)
-		talentData[Divinity] = {mod = 0.01, current = 0}
+		-- local Divinity = GetSpellInfo(63646)
+		-- talentData[Divinity] = {mod = 0.01, current = 0}
 		-- Touched by the Light (Add?)
-		local TouchedbytheLight = GetSpellInfo(53592)
-		talentData[TouchedbytheLight] = {mod = 0.10, current = 0}
+		-- local TouchedbytheLight = GetSpellInfo(53592)
+		-- talentData[TouchedbytheLight] = {mod = 0.10, current = 0}
 		-- 100% of your heal on someone within range of your beacon heals the beacon target too
 		local BeaconofLight = GetSpellInfo(53563)
 		-- 100% chance to crit
@@ -1073,8 +1073,8 @@ if( playerClass == "PRIEST" ) then
 		local BindingHeal = GetSpellInfo(32546)
 		spellData[BindingHeal] = {coeff = 1.5 / 3.5, levels = {64, 72, 78}, averages = {avg(1042, 1338), avg(1619, 2081), avg(1952, 2508)}, increase = {30, 24, 7}}
 		-- Penance
-		local Penance = GetSpellInfo(53007)
-		spellData[Penance] = {coeff = 0.857, ticks = 3, levels = {60, 70, 75, 80}, averages = {avg(670, 756), avg(805, 909), avg(1278, 1442), avg(1484, 1676)}}
+		-- local Penance = GetSpellInfo(53007)
+		-- spellData[Penance] = {coeff = 0.857, ticks = 3, levels = {60, 70, 75, 80}, averages = {avg(670, 756), avg(805, 909), avg(1278, 1442), avg(1484, 1676)}}
 		-- Heal
 		local Heal = GetSpellInfo(2054)
 		spellData[Heal] = {coeff = 3 / 3.5, levels = {16, 22, 28, 34}, averages = {avg(295, 341), avg(429, 491), avg(566, 642), avg(712, 804)}, increase = {153, 185, 208, 207}}
@@ -1097,17 +1097,17 @@ if( playerClass == "PRIEST" ) then
 		local FocusedPower = GetSpellInfo(33190)
 		talentData[FocusedPower] = {mod = 0.02, current = 0}
 		-- Divine Providence (Add)
-		local DivineProvidence = GetSpellInfo(47567)
-		talentData[DivineProvidence] = {mod = 0.02, current = 0}
+		-- local DivineProvidence = GetSpellInfo(47567)
+		-- talentData[DivineProvidence] = {mod = 0.02, current = 0}
 		-- Improved Renew (Add)
 		local ImprovedRenew = GetSpellInfo(14908)
 		talentData[ImprovedRenew] = {mod = 0.05, current = 0}
 		-- Empowered Renew (Multi, spell power)
-		local EmpoweredRenew = GetSpellInfo(63534)
-		talentData[EmpoweredRenew] = {mod = 0.05, current = 0}
+		-- local EmpoweredRenew = GetSpellInfo(63534)
+		-- talentData[EmpoweredRenew] = {mod = 0.05, current = 0}
 		-- Twin Disciplines (Add)
-		local TwinDisciplines = GetSpellInfo(47586)
-		talentData[TwinDisciplines] = {mod = 0.01, current = 0}
+		-- local TwinDisciplines = GetSpellInfo(47586)
+		-- talentData[TwinDisciplines] = {mod = 0.01, current = 0}
 
 		-- Keep track of who has grace on them
 		local activeGraceGUID, activeGraceModifier
@@ -1249,11 +1249,11 @@ if( playerClass == "SHAMAN" ) then
 	LoadClassData = function()
 		-- Hot data
 		-- Riptide
-		local Riptide = GetSpellInfo(61295)
-		hotData[Riptide] = {interval = 3, ticks = 5, coeff = 0.50, levels = {60, 70, 75, 80}, averages = {665, 885, 1435, 1670}}
+		-- local Riptide = GetSpellInfo(61295)
+		-- hotData[Riptide] = {interval = 3, ticks = 5, coeff = 0.50, levels = {60, 70, 75, 80}, averages = {665, 885, 1435, 1670}}
 		-- Earthliving Weapon proc
-		local Earthliving = GetSpellInfo(52000)
-		hotData[Earthliving] = {interval = 3, ticks = 4, coeff = 0.80, levels = {30, 40, 50, 60, 70, 80}, averages = {116, 160, 220, 348, 456, 652}}
+		-- local Earthliving = GetSpellInfo(52000)
+		-- hotData[Earthliving] = {interval = 3, ticks = 4, coeff = 0.80, levels = {30, 40, 50, 60, 70, 80}, averages = {116, 160, 220, 348, 456, 652}}
 
 		-- Spell data
 		-- Chain Heal
@@ -1276,8 +1276,8 @@ if( playerClass == "SHAMAN" ) then
 		local ImpChainHeal = GetSpellInfo(30872)
 		talentData[ImpChainHeal] = {mod = 0.10, current = 0}
 		-- Tidal Waves (Add, this is a buff)
-		local TidalWaves = GetSpellInfo(51566)
-		talentData[TidalWaves] = {mod = 0.04, current = 0}
+		-- local TidalWaves = GetSpellInfo(51566)
+		-- talentData[TidalWaves] = {mod = 0.04, current = 0}
 		-- Healing Way (Multi, this goes from 8 -> 16 -> 25 so have to manually do the conversion)
 		local HealingWay = GetSpellInfo(29206)
 		talentData[HealingWay] = {mod = 0, current = 0}
@@ -2670,15 +2670,6 @@ function HealComm:OnInitialize()
 	-- Setup the metatables for average healing
 	for spell in pairs(spellData) do
 		averageHeal[spell] = setmetatable({spell = spell}, self.averageHealMT)
-	end
-
-	-- Cache glyphs initially
-    for id=1, GetNumGlyphSockets() do
-		local enabled, _, glyphID = GetGlyphSocketInfo(id)
-		if( enabled and glyphID ) then
-			glyphCache[glyphID] = true
-			glyphCache[id] = glyphID
-		end
 	end
 
 	self:PLAYER_EQUIPMENT_CHANGED()

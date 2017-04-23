@@ -56,7 +56,17 @@ function S:LoadLFGSkin()
 		_G["LFMFrameColumnHeader" .. i]:StyleButton()
 	end
 
+	local LFGCloseButton = CreateFrame("Button", "LFGCloseButton", LFGParentFrame, "UIPanelCloseButton")
+	LFGCloseButton:Point("TOPRIGHT", -25, -7)
+	LFGCloseButton:Size(33)
+	LFGCloseButton:SetFrameStrata("HIGH")
+
+	S:HandleIcon(LookingForGroupIcon)
+	S:HandleIcon(LookingForMoreIcon)
+
 	S:HandleEditBox(LFGComment)
+
+	S:HandleCloseButton(LFGCloseButton)
 
 	AutoJoinBackground:StripTextures()
 	S:HandleCheckBox(AutoJoinCheckButton)

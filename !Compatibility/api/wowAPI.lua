@@ -10,6 +10,9 @@ local UnitLevel = UnitLevel
 local TIMEMANAGER_AM = TIMEMANAGER_AM
 local TIMEMANAGER_PM = TIMEMANAGER_PM
 
+LOCALIZED_CLASS_NAMES_MALE = {}
+LOCALIZED_CLASS_NAMES_FEMALE = {}
+
 function UnitAura(unit, i, filter)
 	if filter == "HELPFUL" then
 		local name, rank, aura, count, duration, maxDuration = UnitBuff(unit, i)
@@ -73,4 +76,14 @@ function ToggleFrame(frame)
 	else
 		ShowUIPanel(frame);
 	end
+end
+
+function MainMenuMicroButton_SetPushed()
+	MainMenuMicroButton:SetButtonState("PUSHED", 1);
+	MainMenuBarPerformanceBar:SetPoint("TOPLEFT", MainMenuMicroButton, "TOPLEFT", 9, -36);
+end
+
+function MainMenuMicroButton_SetNormal()
+	MainMenuMicroButton:SetButtonState("NORMAL");
+	MainMenuBarPerformanceBar:SetPoint("TOPLEFT", MainMenuMicroButton, "TOPLEFT", 10, -34);
 end

@@ -30,51 +30,43 @@ local rollpairs = locale == "deDE" and {
 	["(.*) würfelt nicht für: (.+|r)$"] = "pass",
 	["(.*) hat für (.+) 'Gier' ausgewählt"] = "greed",
 	["(.*) hat für (.+) 'Bedarf' ausgewählt"] = "need",
-	["(.*) hat für '(.+)' Entzauberung gewählt."] = "disenchant",
 } or locale == "frFR" and {
 	["(.*) a passé pour : (.+) parce qu'((il)|(elle)) ne peut pas ramasser cette objet.$"] = "pass",
 	["(.*) a passé pour : (.+)"] = "pass",
 	["(.*) a choisi Cupidité pour : (.+)"] = "greed",
 	["(.*) a choisi Besoin pour : (.+)"] = "need",
-	["(.*) a choisi Désenchantement pour : (.+)"] = "disenchant",
 } or locale == "zhTW" and {
 	["(.*)自動放棄:(.+)，因為他無法拾取該物品$"] = "pass",
 	["(.*)自動放棄:(.+)，因為她無法拾取該物品$"] = "pass",
 	["(.*)放棄了:(.+)"] = "pass",
 	["(.*)選擇了貪婪:(.+)"] = "greed",
 	["(.*)選擇了需求:(.+)"] = "need",
-	["(.*)選擇了分解:(.+)"] = "disenchant",
 } or locale == "ruRU" and {
 	["(.*) автоматически передает предмет (.+), поскольку не может его забрать"] = "pass",
 	["(.*) пропускает розыгрыш предмета \"(.+)\", поскольку не может его забрать"] = "pass",
 	["(.*) отказывается от предмета (.+)%."] = "pass",
 	["Разыгрывается: (.+)%. (.*): \"Не откажусь\""] = "greed",
 	["Разыгрывается: (.+)%. (.*): \"Мне это нужно\""] = "need",
-	["Разыгрывается: (.+)%. (.*): \"Распылить\""] = "disenchant",
 } or locale == "koKR" and {
 	["(.*)님이 획득할 수 없는 아이템이어서 자동으로 주사위 굴리기를 포기했습니다: (.+)"] = "pass",
 	["(.*)님이 주사위 굴리기를 포기했습니다: (.+)"] = "pass",
 	["(.*)님이 차비를 선택했습니다: (.+)"] = "greed",
 	["(.*)님이 입찰을 선택했습니다: (.+)"] = "need",
-	["(.*)님이 마력 추출을 선택했습니다: (.+)"] = "disenchant",
 } or locale == "esES" and {
 	["^(.*) pasó automáticamente de: (.+) porque no puede despojar este objeto.$"] = "pass",
 	["^(.*) pasó de: (.+|r)$"] = "pass",
 	["(.*) eligió Codicia para: (.+)"] = "greed",
 	["(.*) eligió Necesidad para: (.+)"] = "need",
-	["(.*) eligió Desencantar para: (.+)"] = "disenchant",
 } or locale == "esMX" and {
 	["^(.*) pasó automáticamente de: (.+) porque no puede despojar este objeto.$"] = "pass",
 	["^(.*) pasó de: (.+|r)$"] = "pass",
 	["(.*) eligió Codicia para: (.+)"] = "greed",
 	["(.*) eligió Necesidad para: (.+)"] = "need",
-	["(.*) eligió Desencantar para: (.+)"] = "disenchant",
 } or {
 	["^(.*) automatically passed on: (.+) because s?he cannot loot that item.$"] = "pass",
 	["^(.*) passed on: (.+|r)$"] = "pass",
 	["(.*) has selected Greed for: (.+)"] = "greed",
 	["(.*) has selected Need for: (.+)"] = "need",
-	["(.*) has selected Disenchant for: (.+)"] = "disenchant"
 }
 
 local function ClickRoll(frame)
@@ -84,7 +76,7 @@ end
 local function HideTip() GameTooltip:Hide(); end
 local function HideTip2() GameTooltip:Hide(); ResetCursor(); end
 
-local rolltypes = {"need", "greed", "disenchant", [0] = "pass"};
+local rolltypes = {"need", "greed", [0] = "pass"};
 local function SetTip(frame)
 	GameTooltip:SetOwner(frame, "ANCHOR_RIGHT");
 	GameTooltip:SetText(frame.tiptext);
@@ -164,7 +156,6 @@ local function CreateRollButton(parent, ntex, ptex, htex, rolltype, tiptext, ...
 	f:SetScript("OnEnter", SetTip);
 	f:SetScript("OnLeave", HideTip);
 	f:SetScript("OnClick", ClickRoll);
-	f:SetMotionScriptsWhileDisabled(true);
 	local txt = f:CreateFontString(nil, nil);
 	txt:FontTemplate(nil, nil, "OUTLINE");
 	txt:Point("CENTER", 0, rolltype == 2 and 1 or rolltype == 0 and -1.2 or 0);
@@ -221,11 +212,9 @@ function M:CreateRollFrame()
 
 	local need, needtext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-Dice-Up", "Interface\\Buttons\\UI-GroupLoot-Dice-Highlight", "Interface\\Buttons\\UI-GroupLoot-Dice-Down", 1, NEED, "LEFT", frame.button, "RIGHT", 5, -1);
 	local greed, greedtext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-Coin-Up", "Interface\\Buttons\\UI-GroupLoot-Coin-Highlight", "Interface\\Buttons\\UI-GroupLoot-Coin-Down", 2, GREED, "LEFT", need, "RIGHT", 0, -1);
-	local de, detext;
-	de, detext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-DE-Up", "Interface\\Buttons\\UI-GroupLoot-DE-Highlight", "Interface\\Buttons\\UI-GroupLoot-DE-Down", 3, ROLL_DISENCHANT, "LEFT", greed, "RIGHT", 0, -1);
 	local pass, passtext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-Pass-Up", nil, "Interface\\Buttons\\UI-GroupLoot-Pass-Down", 0, PASS, "LEFT", de or greed, "RIGHT", 0, 2);
-	frame.needbutt, frame.greedbutt, frame.disenchantbutt = need, greed, de;
-	frame.need, frame.greed, frame.pass, frame.disenchant = needtext, greedtext, passtext, detext;
+	frame.needbutt, frame.greedbutt = need, greed;
+	frame.need, frame.greed, frame.pass = needtext, greedtext, passtext;
 
 	local bind = frame:CreateFontString();
 	bind:Point("LEFT", pass, "RIGHT", 3, 1);
@@ -274,21 +263,17 @@ function M:START_LOOT_ROLL(_, rollID, time)
 	f.need:SetText(0);
 	f.greed:SetText(0);
 	f.pass:SetText(0);
-	f.disenchant:SetText(0);
 
-	local texture, name, _, quality, bop, canNeed, canGreed, canDisenchant = GetLootRollItemInfo(rollID);
+	local texture, name, _, quality, bop, canNeed, canGreed = GetLootRollItemInfo(rollID);
 	f.button.icon:SetTexture(texture);
 	f.button.link = GetLootRollItemLink(rollID);
 
 	if(canNeed) then f.needbutt:Enable(); else f.needbutt:Disable(); end
 	if(canGreed) then f.greedbutt:Enable() else f.greedbutt:Disable(); end
-	if(canDisenchant) then f.disenchantbutt:Enable(); else f.disenchantbutt:Disable(); end
 	SetDesaturation(f.needbutt:GetNormalTexture(), not canNeed);
 	SetDesaturation(f.greedbutt:GetNormalTexture(), not canGreed);
-	SetDesaturation(f.disenchantbutt:GetNormalTexture(), not canDisenchant);
 	if(canNeed) then f.needbutt:SetAlpha(1); else f.needbutt:SetAlpha(0.2); end
 	if(canGreed) then f.greedbutt:SetAlpha(1); else f.greedbutt:SetAlpha(0.2); end
-	if(canDisenchant) then f.disenchantbutt:SetAlpha(1); else f.disenchantbutt:SetAlpha(0.2); end
 
 	f.fsbind:SetText(bop and "BoP" or "BoE")
 	f.fsbind:SetVertexColor(bop and 1 or .3, bop and .3 or 1, bop and .1 or .3)
@@ -306,18 +291,14 @@ function M:START_LOOT_ROLL(_, rollID, time)
 	AlertFrame_FixAnchors();
 
 	if(E.db.general.autoRoll and UnitLevel("player") == MAX_PLAYER_LEVEL and quality == 2 and not bop) then
-		if(canDisenchant) then
-			RollOnLoot(rollID, 3);
-		else
 			RollOnLoot(rollID, 2);
-		end
 	end
 end
 
 function M:ParseRollChoice(msg)
 	for i, v in pairs(rollpairs) do
 		local _, _, playername, itemname = find(msg, i);
-		if(locale == "ruRU" and (v == "greed" or v == "need" or v == "disenchant")) then
+		if(locale == "ruRU" and (v == "greed" or v == "need")) then
 			local temp = playername;
 			playername = itemname;
 			itemname = temp;

@@ -208,7 +208,6 @@ L["Bags"] = "가방"
 L["Bank Mover (Grow Down)"] = true;
 L["Bank Mover (Grow Up)"] = true;
 L["Bar "] = "바 "
-L["BNet Frame"] = "배틀넷 알림"
 L["Boss Frames"] = "보스 프레임"
 L["Classbar"] = "직업바"
 L["Experience Bar"] = "경험치 바"
