@@ -12,7 +12,7 @@ local wipe, tinsert, tsort, tremove = table.wipe, table.insert, table.sort, tabl
 local CreateFrame = CreateFrame;
 local UnitAura = UnitAura;
 local CancelItemTempEnchantment = CancelItemTempEnchantment;
-local CancelUnitBuff = CancelUnitBuff;
+local CancelPlayerBuff = CancelPlayerBuff;
 local GetInventoryItemQuality = GetInventoryItemQuality;
 local GetItemQualityColor = GetItemQualityColor;
 local GetWeaponEnchantInfo = GetWeaponEnchantInfo;
@@ -73,9 +73,9 @@ function A:UpdateTime(elapsed)
 	self.time:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatID], E.TimeFormats[formatID][1]), timerValue);
 
 	if(self.timeLeft > E.db.auras.fadeThreshold) then
-	--	E:StopFlash(self);
-	else
-	--	E:Flash(self, 1);
+		E:StopFlash(self);
+	-- else
+		-- E:Flash(self, 1);
 	end
 end
 
@@ -83,7 +83,7 @@ local UpdateTooltip = function(self)
 	if(self.isWeapon) then
 		GameTooltip:SetInventoryItem("player", self:GetID());
 	else
-		GameTooltip:SetUnitAura("player", self:GetID(), self:GetParent().filter);
+		GameTooltip:SetPlayerBuff(self:GetID(), self:GetParent().filter);
 	end
 end
 
@@ -106,7 +106,7 @@ local OnClick = function(self)
 			CancelItemTempEnchantment(2);
 		end
 	else
-		CancelUnitBuff("player", self:GetID(), self:GetParent().filter);
+		CancelPlayerBuff(self:GetID(), self:GetParent().filter);
 	end
 end
 
@@ -175,17 +175,17 @@ function A:ConfigureAuras(header, auraTable)
 
 	wipe(buttons);
 	for i = 1, #auraTable do
-		local button = _G[headerName.."AuraButton"..i]
+		local button = _G[headerName.."BuffButton"..i]
 		if(button) then
 			if(button:IsShown()) then button:Hide(); end
 		else
-			button = CreateFrame("Button", "$parentAuraButton" .. i, header);
+			button = CreateFrame("Button", "$parentBuffButton" .. i, header);
 			self:CreateIcon(button);
 		end
 		local buffInfo = auraTable[i];
 		button:SetID(buffInfo.index);
 
-		if(buffInfo.timeLeft) then
+		if(buffInfo.timeLeft > 0) then
 			button.timeLeft = buffInfo.timeLeft;
 			button:SetScript("OnUpdate", self.UpdateTime);
 
@@ -248,11 +248,11 @@ function A:ConfigureAuras(header, auraTable)
 		bottom = min(bottom, button:GetBottom() or huge);
 	end
 	local deadIndex = #(auraTable) + 1;
-	local button = _G[headerName.."AuraButton"..deadIndex]
+	local button = _G[headerName.."BuffButton"..deadIndex]
 	while(button) do
 		if(button:IsShown()) then button:Hide(); end
 		deadIndex = deadIndex + 1;
-		button = _G[headerName.."AuraButton"..deadIndex]
+		button = _G[headerName.."BuffButton"..deadIndex]
 	end
 
 	if(display >= 1) then
@@ -287,20 +287,6 @@ local function sortFactory(key, separateOwn, reverse)
 					if(ownA ~= ownB) then
 						return ownA == (separateOwn > 0)
 					end
-					return a[key] > b[key];
-				else
-					return a.filter < b.filter;
-				end
-			end;
-		else
-			return function(a, b)
-				if(a.filter == b.filter) then
-					local ownA, ownB = a.caster == "player", b.caster == "player";
-					if(ownA ~= ownB) then
-						return ownA == (separateOwn > 0);
-					end
-					return a[key] < b[key];
-				else
 					return a.filter < b.filter;
 				end
 			end;
@@ -309,16 +295,6 @@ local function sortFactory(key, separateOwn, reverse)
 		if(reverse) then
 			return function(a, b)
 				if(a.filter == b.filter) then
-					return a[key] > b[key];
-				else
-					return a.filter < b.filter;
-				end
-			end;
-		else
-			return function(a, b)
-				if(a.filter == b.filter) then
-					return a[key] < b[key];
-				else
 					return a.filter < b.filter;
 				end
 			end;
@@ -353,7 +329,7 @@ function A:UpdateHeader(header)
 	repeat
 		local aura, _ = freshTable();
 		aura.name, _, aura.icon, aura.count, aura.duration, aura.timeLeft, aura.caster = UnitAura("player", i, filter);
-		print(aura.name, _, aura.icon, aura.count, aura.duration, aura.timeLeft)
+		-- print(aura.name, _, aura.icon, aura.count, aura.duration, aura.timeLeft)
 		if(aura.name) then
 			aura.filter = filter;
 			aura.index = i;
@@ -366,7 +342,7 @@ function A:UpdateHeader(header)
 	until(not aura.name);
 
 	local sortMethod = (sorters[db.sortMethod] or sorters["INDEX"])[db.sortDir == "-"][db.seperateOwn];
-	--tsort(sortingTable, sortMethod);
+	tsort(sortingTable, sortMethod);
 
 	self:ConfigureAuras(header, sortingTable);
 	while(sortingTable[1]) do
@@ -385,7 +361,7 @@ function A:UpdateWeapon(button)
 		button:SetBackdropBorderColor(GetItemQualityColor(quality));
 	end
 
-	if(button.duration) then
+	if(button.duration > 0) then
 		button.timeLeft = button.duration / 1e3;
 		button.nextUpdate = -1;
 		button:SetScript("OnUpdate", A.UpdateTime);

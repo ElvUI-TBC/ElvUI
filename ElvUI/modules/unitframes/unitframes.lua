@@ -45,7 +45,6 @@ UF["badHeaderPoints"] = {
 UF["headerFunctions"] = {};
 
 UF["classMaxResourceBar"] = {
-	["DEATHKNIGHT"] = 6,
 	["DRUID"] = 1
 };
 
@@ -60,7 +59,7 @@ UF["mapIDs"] = {
 
 UF["headerGroupBy"] = {
 	["CLASS"] = function(header)
-		header:SetAttribute("groupingOrder", "DEATHKNIGHT,DRUID,HUNTER,MAGE,PALADIN,PRIEST,SHAMAN,WARLOCK,WARRIOR");
+		header:SetAttribute("groupingOrder", "DRUID,HUNTER,MAGE,PALADIN,PRIEST,SHAMAN,WARLOCK,WARRIOR");
 		header:SetAttribute("sortMethod", "NAME");
 		header:SetAttribute("groupBy", "CLASS");
 	end,
