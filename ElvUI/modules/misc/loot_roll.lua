@@ -26,44 +26,34 @@ M.RollBars = {};
 
 local locale = GetLocale()
 local rollpairs = locale == "deDE" and {
-	["(.*) passt automatisch bei (.+), weil [ersi]+ den Gegenstand nicht benutzen kann.$"] = "pass",
 	["(.*) würfelt nicht für: (.+|r)$"] = "pass",
 	["(.*) hat für (.+) 'Gier' ausgewählt"] = "greed",
 	["(.*) hat für (.+) 'Bedarf' ausgewählt"] = "need",
 } or locale == "frFR" and {
-	["(.*) a passé pour : (.+) parce qu'((il)|(elle)) ne peut pas ramasser cette objet.$"] = "pass",
 	["(.*) a passé pour : (.+)"] = "pass",
 	["(.*) a choisi Cupidité pour : (.+)"] = "greed",
 	["(.*) a choisi Besoin pour : (.+)"] = "need",
 } or locale == "zhTW" and {
-	["(.*)自動放棄:(.+)，因為他無法拾取該物品$"] = "pass",
-	["(.*)自動放棄:(.+)，因為她無法拾取該物品$"] = "pass",
 	["(.*)放棄了:(.+)"] = "pass",
 	["(.*)選擇了貪婪:(.+)"] = "greed",
 	["(.*)選擇了需求:(.+)"] = "need",
 } or locale == "ruRU" and {
-	["(.*) автоматически передает предмет (.+), поскольку не может его забрать"] = "pass",
-	["(.*) пропускает розыгрыш предмета \"(.+)\", поскольку не может его забрать"] = "pass",
 	["(.*) отказывается от предмета (.+)%."] = "pass",
 	["Разыгрывается: (.+)%. (.*): \"Не откажусь\""] = "greed",
 	["Разыгрывается: (.+)%. (.*): \"Мне это нужно\""] = "need",
 } or locale == "koKR" and {
-	["(.*)님이 획득할 수 없는 아이템이어서 자동으로 주사위 굴리기를 포기했습니다: (.+)"] = "pass",
 	["(.*)님이 주사위 굴리기를 포기했습니다: (.+)"] = "pass",
 	["(.*)님이 차비를 선택했습니다: (.+)"] = "greed",
 	["(.*)님이 입찰을 선택했습니다: (.+)"] = "need",
 } or locale == "esES" and {
-	["^(.*) pasó automáticamente de: (.+) porque no puede despojar este objeto.$"] = "pass",
 	["^(.*) pasó de: (.+|r)$"] = "pass",
 	["(.*) eligió Codicia para: (.+)"] = "greed",
 	["(.*) eligió Necesidad para: (.+)"] = "need",
 } or locale == "esMX" and {
-	["^(.*) pasó automáticamente de: (.+) porque no puede despojar este objeto.$"] = "pass",
 	["^(.*) pasó de: (.+|r)$"] = "pass",
 	["(.*) eligió Codicia para: (.+)"] = "greed",
 	["(.*) eligió Necesidad para: (.+)"] = "need",
 } or {
-	["^(.*) automatically passed on: (.+) because s?he cannot loot that item.$"] = "pass",
 	["^(.*) passed on: (.+|r)$"] = "pass",
 	["(.*) has selected Greed for: (.+)"] = "greed",
 	["(.*) has selected Need for: (.+)"] = "need",
@@ -212,7 +202,7 @@ function M:CreateRollFrame()
 
 	local need, needtext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-Dice-Up", "Interface\\Buttons\\UI-GroupLoot-Dice-Highlight", "Interface\\Buttons\\UI-GroupLoot-Dice-Down", 1, NEED, "LEFT", frame.button, "RIGHT", 5, -1);
 	local greed, greedtext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-Coin-Up", "Interface\\Buttons\\UI-GroupLoot-Coin-Highlight", "Interface\\Buttons\\UI-GroupLoot-Coin-Down", 2, GREED, "LEFT", need, "RIGHT", 0, -1);
-	local pass, passtext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-Pass-Up", nil, "Interface\\Buttons\\UI-GroupLoot-Pass-Down", 0, PASS, "LEFT", de or greed, "RIGHT", 0, 2);
+	local pass, passtext = CreateRollButton(frame, "Interface\\AddOns\\ElvUI\\media\\textures\\UI-GroupLoot-Pass-Up", nil, "Interface\\AddOns\\ElvUI\\media\\textures\\UI-GroupLoot-Pass-Down", 0, PASS, "LEFT", greed, "RIGHT", 0, 2);
 	frame.needbutt, frame.greedbutt = need, greed;
 	frame.need, frame.greed, frame.pass = needtext, greedtext, passtext;
 
@@ -264,19 +254,19 @@ function M:START_LOOT_ROLL(_, rollID, time)
 	f.greed:SetText(0);
 	f.pass:SetText(0);
 
-	local texture, name, _, quality, bop, canNeed, canGreed = GetLootRollItemInfo(rollID);
+	local texture, name, count, quality, bindOnPickUp = GetLootRollItemInfo(rollID);
 	f.button.icon:SetTexture(texture);
 	f.button.link = GetLootRollItemLink(rollID);
 
-	if(canNeed) then f.needbutt:Enable(); else f.needbutt:Disable(); end
-	if(canGreed) then f.greedbutt:Enable() else f.greedbutt:Disable(); end
-	SetDesaturation(f.needbutt:GetNormalTexture(), not canNeed);
-	SetDesaturation(f.greedbutt:GetNormalTexture(), not canGreed);
-	if(canNeed) then f.needbutt:SetAlpha(1); else f.needbutt:SetAlpha(0.2); end
-	if(canGreed) then f.greedbutt:SetAlpha(1); else f.greedbutt:SetAlpha(0.2); end
+	f.needbutt:Enable();
+	f.greedbutt:Enable();
+	SetDesaturation(f.needbutt:GetNormalTexture());
+	SetDesaturation(f.greedbutt:GetNormalTexture());
+	f.needbutt:SetAlpha(1);
+	f.greedbutt:SetAlpha(1);
 
-	f.fsbind:SetText(bop and "BoP" or "BoE")
-	f.fsbind:SetVertexColor(bop and 1 or .3, bop and .3 or 1, bop and .1 or .3)
+	f.fsbind:SetText(bindOnPickUp and "BoP" or "BoE")
+	f.fsbind:SetVertexColor(bindOnPickUp and 1 or .3, bindOnPickUp and .3 or 1, bindOnPickUp and .1 or .3)
 
 	local color = ITEM_QUALITY_COLORS[quality];
 	f.fsloot:SetText(name);
@@ -288,9 +278,8 @@ function M:START_LOOT_ROLL(_, rollID, time)
 
 	f:SetPoint("CENTER", WorldFrame, "CENTER");
 	f:Show();
-	AlertFrame_FixAnchors();
 
-	if(E.db.general.autoRoll and UnitLevel("player") == MAX_PLAYER_LEVEL and quality == 2 and not bop) then
+	if(E.db.general.autoRoll and UnitLevel("player") == MAX_PLAYER_LEVEL and quality == 2 and not bindOnPickUp) then
 			RollOnLoot(rollID, 2);
 	end
 end

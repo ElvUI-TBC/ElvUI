@@ -1,5 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="blizzard.lua"/>
+    <Script file="blizzard.lua"/>
+    <Script file="alertframe.lua"/>
 	<Script file="colorpicker.lua"/>
 	<Script file="kill.lua"/>
 	<Script file="gm.lua"/>
