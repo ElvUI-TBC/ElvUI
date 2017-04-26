@@ -12,7 +12,7 @@ function AB:CreateActionBars()
 	self:CreateBar4()
 	self:CreateBar5()
 	--self:CreateBarPet()
-	--self:CreateBarShapeShift()
+	self:CreateBarShapeShift()
 
 	if ( E.myclass == "SHAMAN" ) then
 	--	self:CreateTotemBar()
@@ -44,7 +44,7 @@ function AB:UpdateButtonSettings()
 
 	self:PositionAndSizeBar()
 	--self:PositionAndSizeBarPet()
-	--self:PositionAndSizeBarShapeShift()
+	self:PositionAndSizeBarShapeShift()
 end
 
 function AB:GetPage(bar, defaultPage, condition)
@@ -58,8 +58,8 @@ function AB:GetPage(bar, defaultPage, condition)
 	return condition
 end
 
-function AB:StyleButton(noBackdrop)
-	local name = this:GetName()
+function AB:StyleButton(button, noBackdrop)
+	local name = button:GetName()
 	local icon = _G[name.."Icon"]
 	local count = _G[name.."Count"]
 	local flash = _G[name.."Flash"]
@@ -67,7 +67,7 @@ function AB:StyleButton(noBackdrop)
 	local border = _G[name.."Border"]
 	local macroName = _G[name.."Name"]
 	local normal = _G[name.."NormalTexture"]
-	local normal2 = this:GetNormalTexture()
+	local normal2 = button:GetNormalTexture()
 	local buttonCooldown = _G[name.."Cooldown"]
 	local color = self.db.fontColor
 
@@ -76,8 +76,8 @@ function AB:StyleButton(noBackdrop)
 	if normal2 then normal2:SetTexture(nil) normal2:Hide() normal2:SetAlpha(0) end
 	if border then border:Kill() end
 
-	if not this.noBackdrop then
-		this.noBackdrop = noBackdrop
+	if not button.noBackdrop then
+		button.noBackdrop = noBackdrop
 	end
 
 	if count then
@@ -99,9 +99,9 @@ function AB:StyleButton(noBackdrop)
 		end
 	end
 
-	if not this.noBackdrop and not this.backdrop then
-		this:CreateBackdrop("Default", true)
-		this.backdrop:SetAllPoints()
+	if not button.noBackdrop and not button.backdrop then
+		button:CreateBackdrop("Default", true)
+		button.backdrop:SetAllPoints()
 	end
 
 	if icon then
@@ -114,32 +114,76 @@ function AB:StyleButton(noBackdrop)
 		hotkey:SetTextColor(color.r, color.g, color.b)
 	end
 
-	self:FixKeybindText(this)
-	this:StyleButton()
+	self:FixKeybindText(button)
+	button:StyleButton()
 
-	if(not self.handledbuttons[this]) then
+	if(not self.handledbuttons[button]) then
 		E:RegisterCooldown(buttonCooldown)
 
-		self.handledbuttons[this] = true
+		self.handledbuttons[button] = true
 	end
 end
 
 function AB:Bar_OnEnter(bar)
-	UIFrameFadeIn(bar, 0.2, bar:GetAlpha(), 1)
+	if(bar:GetParent() == self.fadeParent) then
+		if(not self.fadeParent.mouseLock) then
+			E:UIFrameFadeIn(self.fadeParent, 0.2, self.fadeParent:GetAlpha(), 1);
+		end
+	elseif(bar.mouseover) then
+		E:UIFrameFadeIn(bar, 0.2, bar:GetAlpha(), bar.db.alpha)
+	end
 end
 
 function AB:Bar_OnLeave(bar)
-	UIFrameFadeOut(bar, 0.2, bar:GetAlpha(), 0)
+	if(bar:GetParent() == self.fadeParent) then
+		if(not self.fadeParent.mouseLock) then
+			E:UIFrameFadeOut(self.fadeParent, 0.2, self.fadeParent:GetAlpha(), 1 - self.db.globalFadeAlpha);
+		end
+	elseif(bar.mouseover) then
+		E:UIFrameFadeOut(bar, 0.2, bar:GetAlpha(), 0);
+	end
 end
 
 function AB:Button_OnEnter(button)
-	local bar = button:GetParent()
-	UIFrameFadeIn(bar, 0.2, bar:GetAlpha(), 1)
+	local bar = button:GetParent();
+	if(bar:GetParent() == self.fadeParent) then
+		if(not self.fadeParent.mouseLock) then
+			E:UIFrameFadeIn(self.fadeParent, 0.2, self.fadeParent:GetAlpha(), 1);
+		end
+	elseif(bar.mouseover) then
+		E:UIFrameFadeIn(bar, 0.2, bar:GetAlpha(), bar.db.alpha);
+	end
 end
 
 function AB:Button_OnLeave(button)
-	local bar = button:GetParent()
-	UIFrameFadeOut(bar, 0.2, bar:GetAlpha(), 0)
+	local bar = button:GetParent();
+	if(bar:GetParent() == self.fadeParent) then
+		if(not self.fadeParent.mouseLock) then
+			E:UIFrameFadeOut(self.fadeParent, 0.2, self.fadeParent:GetAlpha(), 1 - self.db.globalFadeAlpha);
+		end
+	elseif(bar.mouseover) then
+		E:UIFrameFadeOut(bar, 0.2, bar:GetAlpha(), 0);
+	end
+end
+
+function AB:FadeParent_OnEvent(event, unit)
+	if((event == "UNIT_SPELLCAST_START"
+	or event == "UNIT_SPELLCAST_STOP"
+	or event == "UNIT_SPELLCAST_CHANNEL_START"
+	or event == "UNIT_SPELLCAST_CHANNEL_STOP"
+	or event == "UNIT_HEALTH") and unit ~= "player") then return; end
+
+	local cur, max = UnitHealth("player"), UnitHealthMax("player");
+	local cast, channel = UnitCastingInfo("player"), UnitChannelInfo("player");
+	local target, focus = UnitExists("target"), UnitExists("focus");
+	local combat = UnitAffectingCombat("player");
+	if((cast or channel) or (cur ~= max) or (target or focus) or combat) then
+		self.mouseLock = true
+		E:UIFrameFadeIn(self, 0.2, self:GetAlpha(), 1)
+	else
+		self.mouseLock = false
+		E:UIFrameFadeOut(self, 0.2, self:GetAlpha(), 1 - AB.db.globalFadeAlpha)
+	end
 end
 
 function AB:DisableBlizzard()
@@ -236,10 +280,27 @@ function AB:FixKeybindText(button)
 	hotkey:Point("TOPRIGHT", 0, -3)
 end
 
+function AB:ActionButton_Update()
+	self:StyleButton(this);
+end
+
 function AB:Initialize()
 	self.db = E.db.actionbar
 	if E.private.actionbar.enable ~= true then return end
 	E.ActionBars = AB
+
+	self.fadeParent = CreateFrame("Frame", "Elv_ABFade", UIParent);
+	self.fadeParent:SetAlpha(1 - self.db.globalFadeAlpha);
+	self.fadeParent:RegisterEvent("PLAYER_REGEN_DISABLED");
+	self.fadeParent:RegisterEvent("PLAYER_REGEN_ENABLED");
+	self.fadeParent:RegisterEvent("PLAYER_TARGET_CHANGED");
+	self.fadeParent:RegisterEvent("UNIT_SPELLCAST_START");
+	self.fadeParent:RegisterEvent("UNIT_SPELLCAST_STOP");
+	self.fadeParent:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START");
+	self.fadeParent:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP");
+	self.fadeParent:RegisterEvent("UNIT_HEALTH");
+	self.fadeParent:RegisterEvent("PLAYER_FOCUS_CHANGED");
+	self.fadeParent:SetScript("OnEvent", self.FadeParent_OnEvent);
 
 	self:DisableBlizzard()
 
@@ -249,7 +310,7 @@ function AB:Initialize()
 	self:UpdateButtonSettings()
 	--self:LoadKeyBinder()
 
-	self:SecureHook("ActionButton_Update", "StyleButton")
+	self:SecureHook("ActionButton_Update")
 	self:SecureHook("PetActionBar_Update", "UpdatePet")
 end
 
