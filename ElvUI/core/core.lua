@@ -1059,7 +1059,7 @@ function E:Initialize()
 
 	self:Tutorials();
 	self:GetModule("Minimap"):UpdateSettings();
---	self:RefreshModulesDB()
+	self:RefreshModulesDB()
 	collectgarbage("collect");
 
 	if(self.db.general.loginmessage) then
