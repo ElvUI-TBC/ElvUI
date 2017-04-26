@@ -31,7 +31,7 @@ local Update = function(self, event, unit)
 
 	local cur, max = UnitMana(unit), UnitManaMax(unit)
 	local disconnected = not UnitIsConnected(unit)
-	local tapped = not UnitPlayerControlled(unit) and (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit) and not UnitIsTappedByAllThreatList(unit))
+	local tapped = not UnitPlayerControlled(unit) and (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit))
 	power:SetMinMaxValues(0, max)
 
 	if(disconnected) then
@@ -45,7 +45,7 @@ local Update = function(self, event, unit)
 
 	local r, g, b, t
 
-	if(power.colorTapping and not UnitPlayerControlled(unit) and (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit) and not UnitIsTappedByAllThreatList(unit))) then
+	if(power.colorTapping and not UnitPlayerControlled(unit) and (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit))) then
 		t = self.colors.tapped
 	elseif(power.colorDisconnected and disconnected) then
 		t = self.colors.disconnected
