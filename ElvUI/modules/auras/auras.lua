@@ -179,7 +179,7 @@ function A:ConfigureAuras(header, auraTable)
 		if(button) then
 			if(button:IsShown()) then button:Hide(); end
 		else
-			button = CreateFrame("Button", "$parentBuffButton" .. i, header);
+			button = CreateFrame("Button", "$parentBuff" .. i, header);
 			self:CreateIcon(button);
 		end
 		local buffInfo = auraTable[i];
