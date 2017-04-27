@@ -9,8 +9,8 @@ local type, unpack, select, pairs = type, unpack, select, pairs;
 local min, random = math.min, math.random;
 local format = string.format;
 
-local UnitPower = UnitPower;
-local UnitPowerMax = UnitPowerMax;
+local UnitMana = UnitMana;
+local UnitManaMax = UnitManaMax;
 local UnitHealth = UnitHealth;
 local UnitHealthMax = UnitHealthMax;
 local UnitName = UnitName;
@@ -31,12 +31,12 @@ local overrideFuncs = {}
 local function createConfigEnv()
 	if( configEnv ) then return end
 	configEnv = setmetatable({
-		UnitPower = function (unit, displayType)
+		UnitMana = function (unit, displayType)
 			if(unit:find("target") or unit:find("focus")) then
-				return UnitPower(unit, displayType);
+				return UnitMana(unit, displayType);
 			end
 
-			return random(1, UnitPowerMax(unit, displayType) or 1);
+			return random(1, UnitManaMax(unit, displayType) or 1);
 		end,
 		UnitHealth = function(unit)
 			if(unit:find("target") or unit:find("focus")) then

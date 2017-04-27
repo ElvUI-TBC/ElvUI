@@ -3,7 +3,7 @@ if(select(2, UnitClass("player")) ~= "DRUID") then return; end
 local ns = oUF
 local oUF = ns.oUF
 
-local UnitPower, UnitPowerMax = UnitPower, UnitPowerMax
+local UnitMana, UnitManaMax = UnitMana, UnitManaMax
 local UnitIsPlayer = UnitIsPlayer
 local UnitPlayerControlled = UnitPlayerControlled
 local UnitClass = UnitClass
@@ -39,7 +39,7 @@ local UNIT_MANA = function(self, event, unit, powerType)
 		druidmana:PreUpdate(unit);
 	end
 
-	local min, max = UnitPower("player", 0), UnitPowerMax("player", 0);
+	local min, max = UnitMana("player", 0), UnitManaMax("player", 0);
 
 	druidmana.ManaBar:SetMinMaxValues(0, max);
 	druidmana.ManaBar:SetValue(min);
