@@ -416,15 +416,15 @@ function A:Initialize()
 	end
 
 	self.BuffFrame = self:CreateAuraHeader("HELPFUL")
-	self.BuffFrame:Point("TOPRIGHT", MMHolder, "TOPLEFT", -(6 + E.Border), -E.Border - E.Spacing);
+	self.BuffFrame:Point("TOPRIGHT", MinimapCluster, "TOPLEFT", -(3 + E.Border), -E.Border - E.Spacing + 1.5);
 	E:CreateMover(self.BuffFrame, "BuffsMover", L["Player Buffs"]);
 
 	self.DebuffFrame = self:CreateAuraHeader("HARMFUL");
-	self.DebuffFrame:Point("BOTTOMRIGHT", MMHolder, "BOTTOMLEFT", -(6 + E.Border), E.Border + E.Spacing);
+	self.DebuffFrame:Point("BOTTOMRIGHT", MinimapCluster, "BOTTOMLEFT", -(3 + E.Border), E.Border + E.Spacing - 6);
 	E:CreateMover(self.DebuffFrame, "DebuffsMover", L["Player Debuffs"]);
 
 	self.WeaponFrame = CreateFrame("Frame", "ElvUIPlayerWeapons", UIParent);
-	self.WeaponFrame:Point("TOPRIGHT", MMHolder, "BOTTOMRIGHT", 0, -E.Border - E.Spacing);
+	self.WeaponFrame:Point("TOPRIGHT", MinimapCluster, "BOTTOMRIGHT", 0, -E.Border - E.Spacing - 24);
 	self.WeaponFrame:Size(A.db.buffs.size);
 
 	self.WeaponFrame.buttons = {};
