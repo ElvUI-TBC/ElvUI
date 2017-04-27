@@ -74,8 +74,8 @@ function A:UpdateTime(elapsed)
 
 	if(self.timeLeft > E.db.auras.fadeThreshold) then
 		E:StopFlash(self);
-	-- else
-		-- E:Flash(self, 1);
+	else
+		return self.timeLeft;
 	end
 end
 
@@ -179,22 +179,21 @@ function A:ConfigureAuras(header, auraTable)
 		if(button) then
 			if(button:IsShown()) then button:Hide(); end
 		else
-			button = CreateFrame("Button", "$parentBuff" .. i, header);
+			button = CreateFrame("Button", "$parentBuffButton" .. i, header);
 			self:CreateIcon(button);
 		end
 		local buffInfo = auraTable[i];
 		button:SetID(buffInfo.index);
 
-		if(buffInfo.timeLeft > 0) then
+		if(buffInfo.timeLeft) and (buffInfo.timeLeft > 0) then
 			button.timeLeft = buffInfo.timeLeft;
-			button:SetScript("OnUpdate", self.UpdateTime);
-
 			button.nextUpdate = -1;
+			button:SetScript("OnUpdate", self.UpdateTime);
 			self.UpdateTime(button, 0);
 		else
 			button.timeLeft = nil;
-			button.time:SetText("");
 			button:SetScript("OnUpdate", nil);
+			button.time:SetText("");
 		end
 
 		if(buffInfo.count > 1) then
@@ -361,7 +360,7 @@ function A:UpdateWeapon(button)
 		button:SetBackdropBorderColor(GetItemQualityColor(quality));
 	end
 
-	if(button.duration > 0) then
+	if(button.duration) then
 		button.timeLeft = button.duration / 1e3;
 		button.nextUpdate = -1;
 		button:SetScript("OnUpdate", A.UpdateTime);
