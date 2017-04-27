@@ -12,8 +12,7 @@ local MICRO_BUTTONS = {
 	"SocialsMicroButton",
 	"LFGMicroButton",
 	"MainMenuMicroButton",
-	"HelpMicroButton",
-	"KeyRingButton"
+	"HelpMicroButton"
 };
 
 local function Button_OnEnter()
@@ -132,6 +131,8 @@ function AB:SetupMicroBar()
 	end
 
 	MicroButtonPortrait:SetInside(CharacterMicroButton.backdrop);
+
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "UpdateMicroButtonsParent")
 
 	self:SecureHook("MainMenuMicroButton_SetPushed");
 	self:SecureHook("MainMenuMicroButton_SetNormal");
