@@ -42,7 +42,7 @@ E.Options.args.bags = {
 						["ICON_TEXT"] = L["Icons and Text"],
 						["ICON_TEXT_ABBR"] = L["Icons and Text (Short)"]
 					},
-					set = function(info, value) E.db.bags[ info[#info] ] = value; B:UpdateTokens(); end
+					set = function(info, value) E.db.bags[ info[#info] ] = value; end
 				},
 				moneyFormat = {
 					order = 2,
