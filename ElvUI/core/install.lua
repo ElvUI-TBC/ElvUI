@@ -176,31 +176,25 @@ local function SetupCVars()
 	SetCVar("alwaysShowActionBars", 1)
 	SetCVar("lockActionBars", 1)
 	SetCVar("autoSelfCast", 1)
+	SetCVar("RotateMinimap", 0)
+	SetCVar("SpamFilter", 0)
+	SetCVar("autoDismount", 1)
+	SetCVar("autoQuestWatch", 1)
+	SetCVar("buffDurations", 1)
+	SetCVar("cameraDistanceMax", 50)
+	SetCVar("gameTip", 0)
+	SetCVar("lootUnderMouse", 0)
+	SetCVar("maxfpsbk", 0)
+	SetCVar("removeChatDelay", 1)
+	SetCVar("scriptErrors", 0)
+	SetCVar("taintLog", 0)
+	SetCVar("violenceLevel", 5)
 
-	ALWAYS_SHOW_MULTIBARS = 1
-	SHOW_BUFF_DURATIONS = 1
-	QUEST_FADING_DISABLE = 1
-	NAMEPLATES_ON = 1
-	SHOW_COMBAT_TEXT = 1
-	COMBAT_TEXT_SHOW_LOW_HEALTH_MANA = 1
-	COMBAT_TEXT_SHOW_AURAS = 1
-	COMBAT_TEXT_SHOW_AURA_FADE = 1
-	COMBAT_TEXT_SHOW_COMBAT_STATE = 1
-	COMBAT_TEXT_SHOW_DODGE_PARRY_MISS = 1
-	COMBAT_TEXT_SHOW_RESISTANCES = 1
-	COMBAT_TEXT_SHOW_REPUTATION = 1
-	COMBAT_TEXT_SHOW_REACTIVES = 1
-	COMBAT_TEXT_SHOW_FRIENDLY_NAMES = 1
-	COMBAT_TEXT_SHOW_COMBO_POINTS = 1
-	COMBAT_TEXT_SHOW_MANA = 1
-	COMBAT_TEXT_FLOAT_MODE = 1
-	COMBAT_TEXT_SHOW_HONOR_GAINED = 1
+	SetActionBarToggles(1, 0, 1, 1)
 
 	MultiActionBar_ShowAllGrids()
 	TutorialFrame_HideAllAlerts()
 	ClearTutorials()
-
-	UIParentLoadAddOn("Blizzard_CombatText")
 
 	InstallStepComplete.message = L["CVars Set"]
 	InstallStepComplete:Show()
