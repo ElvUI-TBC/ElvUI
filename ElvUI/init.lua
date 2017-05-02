@@ -74,7 +74,7 @@ function AddOn:OnInitialize()
 	self:UpdateMedia();
 
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
-	--self:RegisterEvent("PLAYER_LOGIN", "Initialize")
+	self:RegisterEvent("PLAYER_LOGIN", "Initialize")
 	self:Contruct_StaticPopups()
 	self:InitializeInitialModules()
 
