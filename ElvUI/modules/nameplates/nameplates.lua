@@ -598,30 +598,30 @@ end
 
 function mod:PLAYER_REGEN_DISABLED()
 	if self.db.showFriendlyCombat == "TOGGLE_ON" then
-		SetCVar("nameplateShowFriends", 1)
+		ShowFriendNameplates();
 	elseif self.db.showFriendlyCombat == "TOGGLE_OFF" then
-		SetCVar("nameplateShowFriends", 0)
+		HideFriendNameplates();
 	end
 
 	if self.db.showEnemyCombat == "TOGGLE_ON" then
-		SetCVar("nameplateShowEnemies", 1)
+		ShowNameplates();
 	elseif self.db.showEnemyCombat == "TOGGLE_OFF" then
-		SetCVar("nameplateShowEnemies", 0)
+		HideNameplates();
 	end
 end
 
 function mod:PLAYER_REGEN_ENABLED()
 	self:CleanAuraLists()
 	if self.db.showFriendlyCombat == "TOGGLE_ON" then
-		SetCVar("nameplateShowFriends", 0)
+		HideFriendNameplates();
 	elseif self.db.showFriendlyCombat == "TOGGLE_OFF" then
-		SetCVar("nameplateShowFriends", 1)
+		ShowFriendNameplates();
 	end
 
 	if self.db.showEnemyCombat == "TOGGLE_ON" then
-		SetCVar("nameplateShowEnemies", 0)
+		HideNameplates();
 	elseif self.db.showEnemyCombat == "TOGGLE_OFF" then
-		SetCVar("nameplateShowEnemies", 1)
+		ShowNameplates();
 	end
 end
 
