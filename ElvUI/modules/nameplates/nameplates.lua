@@ -536,9 +536,9 @@ function mod:SearchForFrame(guid, raidIcon, name)
 end
 
 function mod:UpdateCVars()
-	--SetCVar("ShowClassColorInNameplate", "1")
-	--SetCVar("showVKeyCastbar", "1")
-	--SetCVar("nameplateAllowOverlap", self.db.motionType == "STACKED" and "0" or "1")
+	-- SetCVar("ShowClassColorInNameplate", "1")
+	SetCVar("showVKeyCastbar", "1")
+	-- SetCVar("nameplateAllowOverlap", self.db.motionType == "STACKED" and "0" or "1")
 end
 
 local function CopySettings(from, to)
