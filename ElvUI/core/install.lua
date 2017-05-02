@@ -190,6 +190,9 @@ local function SetupCVars()
 	SetCVar("taintLog", 0)
 	SetCVar("violenceLevel", 5)
 
+	ShowFriendNameplates();
+	ShowNameplates();
+
 	SetActionBarToggles(1, 0, 1, 1)
 
 	MultiActionBar_ShowAllGrids()
