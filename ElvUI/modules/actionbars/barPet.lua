@@ -6,13 +6,13 @@ local ceil = math.ceil;
 local bar = CreateFrame("Frame", "ElvUI_BarPet", E.UIParent, "SecureStateHeaderTemplate");
 
 function AB:UpdatePet()
-	for i=1, NUM_PET_ACTION_SLOTS, 1 do
+	local petActionsUsable = GetPetActionsUsable();
+	for i = 1, NUM_PET_ACTION_SLOTS, 1 do
 		local buttonName = "PetActionButton"..i;
 		local button = _G[buttonName];
 		local icon = _G[buttonName.."Icon"];
-		local autoCast = _G[buttonName.."AutoCastable"];
-		local shine = _G[buttonName.."Shine"];
-		local checked = button:GetCheckedTexture();
+		local autoCast = _G[buttonName.."AutoCast"];
+		local autoCastable = _G[buttonName.."AutoCastable"];
 		local name, subtext, texture, isToken, isActive, autoCastAllowed, autoCastEnabled = GetPetActionInfo(i);
 
 		if not isToken then
@@ -28,32 +28,32 @@ function AB:UpdatePet()
 
 		if isActive and name ~= "PET_ACTION_FOLLOW" then
 			button:SetChecked(1);
-			if IsPetAttackAction(i) then
+			if IsPetAttackActive(i) then
 				PetActionButton_StartFlash(button);
 			end
 		else
 			button:SetChecked(0);
-			if IsPetAttackAction(i) then
+			if IsPetAttackActive(i) then
 				PetActionButton_StopFlash(button);
 			end
 		end
 
 		if autoCastAllowed then
-			autoCast:Show();
+			autoCastable:Show();
 		else
-			autoCast:Hide();
+			autoCastable:Hide();
 		end
 
 		if autoCastEnabled then
-			AutoCastShine_AutoCastStart(shine);
+			autoCast:Show()
 		else
-			AutoCastShine_AutoCastStop(shine);
+			autoCast:Hide()
 		end
 
 		button:SetAlpha(1);
 
 		if texture then
-			if GetPetActionSlotUsable(i) then
+			if petActionsUsable then
 				SetDesaturation(icon, nil);
 			else
 				SetDesaturation(icon, 1);
@@ -68,8 +68,6 @@ function AB:UpdatePet()
 			SetDesaturation(icon, 1);
 			button:SetChecked(0);
 		end
-
-		checked:SetAlpha(0.3);
 	end
 end
 
@@ -201,16 +199,6 @@ function AB:PositionAndSizeBarPet()
 		end
 
 		self:StyleButton(button);
-
-		--wtf lol
-		if not button.CheckFixed then
-			hooksecurefunc(button:GetCheckedTexture(), "SetAlpha", function(self, value)
-				if value == 1 then
-					self:SetAlpha(0.3)
-				end
-			end)
-			button.CheckFixed = true;
-		end
 	end
 
 	RegisterStateDriver(bar, "visibility", self.db["barPet"].visibility);

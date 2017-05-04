@@ -11,7 +11,7 @@ function AB:CreateActionBars()
 	self:CreateBar3()
 	self:CreateBar4()
 	self:CreateBar5()
-	--self:CreateBarPet()
+	self:CreateBarPet()
 	self:CreateBarShapeShift()
 
 	if ( E.myclass == "SHAMAN" ) then
@@ -226,8 +226,6 @@ function AB:DisableBlizzard()
 		"MultiBarBottomRight",
 		"ShapeshiftBarFrame",
 		"PETACTIONBAR_YPOS",
-		"MultiCastActionBarFrame",
-		"MULTICASTACTIONBAR_YPOS",
 	}
 	for _, frame in pairs(uiManagedFrames) do
 		UIPARENT_MANAGED_FRAME_POSITIONS[frame] = nil
