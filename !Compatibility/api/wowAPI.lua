@@ -32,6 +32,25 @@ CURRENT_CHAT_FRAME_ID = nil;
 LOCALIZED_CLASS_NAMES_MALE = {}
 LOCALIZED_CLASS_NAMES_FEMALE = {}
 
+local accessIDs = {};
+local nextAccessID = 1;
+
+local accessIDToType = {};
+local accessIDToTarget = {};
+
+local maxTempIndex = NUM_CHAT_WINDOWS + 1;
+
+CHAT_CATEGORY_LIST = {
+	PARTY = { "PARTY_LEADER", "PARTY_GUIDE", "MONSTER_PARTY" },
+	RAID = { "RAID_LEADER", "RAID_WARNING" },
+	GUILD = { "GUILD_ACHIEVEMENT" },
+	WHISPER = { "WHISPER_INFORM", "AFK", "DND" },
+	CHANNEL = { "CHANNEL_JOIN", "CHANNEL_LEAVE", "CHANNEL_NOTICE", "CHANNEL_USER" },
+	BATTLEGROUND = { "BATTLEGROUND_LEADER" },
+};
+
+CHAT_INVERTED_CATEGORY_LIST = {};
+
 function UnitAura(unit, i, filter)
 	if filter == "HELPFUL" then
 		local name, rank, aura, count, duration, maxDuration = UnitBuff(unit, i)
@@ -99,61 +118,12 @@ end
 
 function MainMenuMicroButton_SetPushed()
 	MainMenuMicroButton:SetButtonState("PUSHED", 1);
-	MainMenuBarPerformanceBar:SetPoint("TOPLEFT", MainMenuMicroButton, "TOPLEFT", 9, -36);
 end
 
 function MainMenuMicroButton_SetNormal()
 	MainMenuMicroButton:SetButtonState("NORMAL");
-	MainMenuBarPerformanceBar:SetPoint("TOPLEFT", MainMenuMicroButton, "TOPLEFT", 10, -34);
 end
 
-function FCF_SavePositionAndDimensions(chatFrame)
-	local centerX = chatFrame:GetLeft() + chatFrame:GetWidth() / 2;
-	local centerY = chatFrame:GetBottom() + chatFrame:GetHeight() / 2;
-
-	local horizPoint, vertPoint;
-	local screenWidth, screenHeight = GetScreenWidth(), GetScreenHeight();
-	local xOffset, yOffset;
-	if ( centerX > screenWidth / 2 ) then
-		horizPoint = "RIGHT";
-		xOffset = (chatFrame:GetRight() - screenWidth)/screenWidth;
-	else
-		horizPoint = "LEFT";
-		xOffset = chatFrame:GetLeft()/screenWidth;
-	end
-
-	if ( centerY > screenHeight / 2 ) then
-		vertPoint = "TOP";
-		yOffset = (chatFrame:GetTop() - screenHeight)/screenHeight;
-	else
-		vertPoint = "BOTTOM";
-		yOffset = chatFrame:GetBottom()/screenHeight;
-	end
-
-	SetChatWindowShown(chatFrame:GetID(), vertPoint..horizPoint, xOffset, yOffset);
-end
-
-function ToggleChatColorNamesByClassGroup(checked, group)
-	local info = ChatTypeGroup[group];
-	if ( info ) then
-		for key, value in pairs(info) do
-			-- SetChatColorNameByClass(strsub(value, 10), checked);	--strsub gets rid of CHAT_MSG_
-		end
-	else
-		-- SetChatColorNameByClass(group, checked);
-	end
-end
-
-CHAT_CATEGORY_LIST = {
-	PARTY = { "PARTY_LEADER", "PARTY_GUIDE", "MONSTER_PARTY" },
-	RAID = { "RAID_LEADER", "RAID_WARNING" },
-	GUILD = { "GUILD_ACHIEVEMENT" },
-	WHISPER = { "WHISPER_INFORM", "AFK", "DND" },
-	CHANNEL = { "CHANNEL_JOIN", "CHANNEL_LEAVE", "CHANNEL_NOTICE", "CHANNEL_USER" },
-	BATTLEGROUND = { "BATTLEGROUND_LEADER" },
-};
-
-CHAT_INVERTED_CATEGORY_LIST = {};
 for category, sublist in pairs(CHAT_CATEGORY_LIST) do
 	for _, item in pairs(sublist) do
 		CHAT_INVERTED_CATEGORY_LIST[item] = category;
@@ -178,12 +148,6 @@ function FCFManager_ShouldSuppressMessage(chatFrame, chatType, chatTarget)
 	return false;
 end
 
-local accessIDs = {};
-local nextAccessID = 1;
-
-local accessIDToType = {};
-local accessIDToTarget = {};
-
 function ChatHistory_GetAccessID(chatType, chatTarget)
 	if ( not accessIDs[ChatHistory_GetToken(chatType, chatTarget)] ) then
 		accessIDs[ChatHistory_GetToken(chatType, chatTarget)] = nextAccessID;
@@ -198,7 +162,6 @@ function ChatHistory_GetChatType(accessID)
 	return accessIDToType[accessID], accessIDToTarget[accessID];
 end
 
---Private functions
 function ChatHistory_GetToken(chatType, chatTarget)
 	return strlower(chatType)..";;"..(chatTarget and strlower(chatTarget) or "");
 end
@@ -214,9 +177,8 @@ function FCF_CopyChatSettings(copyTo, copyFrom)
 	FCF_SetChatWindowFontSize(nil, copyTo, fontSize);
 end
 
-local maxTempIndex = NUM_CHAT_WINDOWS + 1;
 function FCF_OpenTemporaryWindow(chatType, chatTarget, sourceChatFrame, selectWindow)
-	local chatFrame, chatTab, conversationIcon;
+	local chatFrame, chatTab;
 	for _, chatFrameName in pairs(CHAT_FRAMES) do
 		local frame = _G[chatFrameName];
 		if ( frame.isTemporary ) then
@@ -241,25 +203,6 @@ function FCF_OpenTemporaryWindow(chatType, chatTarget, sourceChatFrame, selectWi
 	--Clear the edit box history.
 	chatFrame.editBox:ClearHistory();
 
-	if ( sourceChatFrame ) then
-		--Stop displaying this type of chat in the old chat frame.
-		if ( chatType == "WHISPER" ) then
-			ChatFrame_ExcludePrivateMessageTarget(sourceChatFrame, chatTarget);
-		end
-
-		--Copy over messages
-		local accessID = ChatHistory_GetAccessID(chatType, chatTarget);
-		for i = 1, sourceChatFrame:GetNumMessages(accessID) do
-			local text, accessID, lineID, extraData = sourceChatFrame:GetMessageInfo(i, accessID);
-			local cType, cTarget = ChatHistory_GetChatType(extraData);
-
-			local info = ChatTypeInfo[cType];
-			chatFrame:AddMessage(text, info.r, info.g, info.b, lineID, false, accessID, extraData);
-		end
-		--Remove the messages from the old frame.
-		sourceChatFrame:RemoveMessagesByAccessID(accessID);
-	end
-
 	--Close the Editbox
 	chatFrame.editBox:Hide();
 
@@ -268,7 +211,7 @@ function FCF_OpenTemporaryWindow(chatType, chatTarget, sourceChatFrame, selectWi
 	chatTab:Show();
 
 	-- Dock the frame by default
-	FCF_DockFrame(chatFrame, (#FCFDock_GetChatFrames(DOCKED_CHAT_FRAMES)+1), selectWindow);
+	FCF_DockFrame(chatFrame, (#(DOCKED_CHAT_FRAMES)+1), selectWindow);
 	return chatFrame;
 end
 
@@ -276,16 +219,13 @@ function FCF_SetTemporaryWindowType(chatFrame, chatType, chatTarget)
 	local chatTab = _G[chatFrame:GetName().."Tab"];
 	--If the frame was already registered, unregister it.
 	if ( chatFrame.isRegistered ) then
-		FCFManager_UnregisterDedicatedFrame(chatFrame, chatFrame.chatType, chatFrame.chatTarget);
 		chatFrame.isRegistered = false;
 	end
 
 	--Set the title text
 	local name;
-	if ( chatType == "WHISPER" or chatType == "BN_WHISPER" ) then
+	if ( chatType == "WHISPER" ) then
 		name = chatTarget;
-	elseif ( chatType == "BN_CONVERSATION" ) then
-		name = format(CONVERSATION_NAME, tonumber(chatTarget) + MAX_WOW_CHAT_CHANNELS);
 	end
 	FCF_SetWindowName(chatFrame, name);
 
@@ -296,45 +236,16 @@ function FCF_SetTemporaryWindowType(chatFrame, chatType, chatTarget)
 
 	ChatFrame_RemoveAllMessageGroups(chatFrame);
 	ChatFrame_RemoveAllChannels(chatFrame);
-	ChatFrame_ReceiveAllPrivateMessages(chatFrame);
-	ChatFrame_ReceiveAllBNConversations(chatFrame);
 
 	ChatFrame_AddMessageGroup(chatFrame, chatType);
 
 	chatFrame.editBox:SetAttribute("chatType", chatType);
 	chatFrame.editBox:SetAttribute("stickyType", chatType);
 
-	if ( chatType == "WHISPER" or chatType == "BN_WHISPER" ) then
-		chatFrame.editBox:SetAttribute("tellTarget", chatTarget);
-		ChatFrame_AddPrivateMessageTarget(chatFrame, chatTarget);
-	elseif ( chatType == "BN_CONVERSATION" ) then
-		chatFrame.editBox:SetAttribute("channelTarget", chatTarget);
-		ChatFrame_AddBNConversationTarget(chatFrame, chatTarget);
-	end
-
 	-- Set up the colors
 	local info = ChatTypeInfo[chatType];
 	chatTab.selectedColorTable = { r = info.r, g = info.g, b = info.b };
-	FCFTab_UpdateColors(chatTab, not chatFrame.isDocked or chatFrame == FCFDock_GetSelectedWindow(GENERAL_CHAT_DOCK));
-
-	--If it's a conversation, create the conversation button
-	if ( chatType == "BN_CONVERSATION" or chatType == "BN_WHISPER" ) then
-		if ( chatFrame.conversationButton ) then
-			BNConversationButton_UpdateTarget(chatFrame.conversationButton);
-			chatFrame.conversationButton:Show();
-		else
-			CreateFrame("Button", chatFrame:GetName().."ConversationButton", chatFrame.buttonFrame, "BNConversationRosterButtonTemplate", chatFrame:GetID());
-		end
-		if ( chatFrame:GetHeight() < CHAT_FRAME_BIGGER_MIN_HEIGHT ) then
-			chatFrame:SetHeight(CHAT_FRAME_BIGGER_MIN_HEIGHT);
-		end
-		chatFrame:SetMinResize(CHAT_FRAME_MIN_WIDTH, CHAT_FRAME_BIGGER_MIN_HEIGHT);
-	else
-		if ( chatFrame.conversationButton ) then
-			chatFrame.conversationButton:Hide();
-		end
-		chatFrame:SetMinResize(CHAT_FRAME_MIN_WIDTH, CHAT_FRAME_NORMAL_MIN_HEIGHT);
-	end
+	FCFTab_UpdateColors(chatTab, not chatFrame.isDocked or chatFrame == GetChatWindowInfo(DEFAULT_CHAT_FRAME:GetID()));
 
 	--Register this frame
 	FCFManager_RegisterDedicatedFrame(chatFrame, chatType, chatTarget);
@@ -372,17 +283,23 @@ function FCFTab_UpdateColors(self, selected)
 	self.rightHighlightTexture:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
 	self.glow:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
 
-	if ( self.conversationIcon ) then
-		self.conversationIcon:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
-	end
-
-	local minimizedFrame = _G["ChatFrame"..self:GetID().."Minimized"];
-	if ( minimizedFrame ) then
-		minimizedFrame.selectedColorTable = self.selectedColorTable;
-		FCFMin_UpdateColors(minimizedFrame);
-	end
 end
 
+function FCFMin_UpdateColors(minFrame)
+	--Color it.
+	local colorTable = minFrame.selectedColorTable or DEFAULT_TAB_SELECTED_COLOR_TABLE;
+
+	if ( minFrame.selectedColorTable ) then
+		minFrame:GetFontString():SetTextColor(colorTable.r, colorTable.g, colorTable.b);
+	else
+		minFrame:GetFontString():SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+	end
+
+	minFrame.leftHighlightTexture:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+	minFrame.middleHighlightTexture:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+	minFrame.rightHighlightTexture:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+	minFrame.glow:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+end
 
 function FCFTab_UpdateAlpha(chatFrame)
 	local chatTab = _G[chatFrame:GetName().."Tab"];
@@ -407,57 +324,4 @@ function FCFTab_UpdateAlpha(chatFrame)
 	else
 		chatTab:SetAlpha(chatTab.noMouseAlpha);
 	end
-end
-
-function FCF_StartAlertFlash(chatFrame)
-	if ( chatFrame.minFrame ) then
-		UIFrameFlash(chatFrame.minFrame.glow, 1.0, 1.0, -1, false, 0, 0, "chat");
-
-		chatFrame.minFrame.alerting = true;
-	end
-
-	local chatTab = _G[chatFrame:GetName().."Tab"];
-	UIFrameFlash(chatTab.glow, 1.0, 1.0, -1, false, 0, 0, "chat");
-
-	chatTab.alerting = true;
-
-	FCFTab_UpdateAlpha(chatFrame);
-
-	FCFDockOverflowButton_UpdatePulseState(GENERAL_CHAT_DOCK.overflowButton);
-end
-
-function FCFDockOverflowButton_UpdatePulseState(self)
-	local dock = self:GetParent();
-	local shouldPulse = false;
-	for _, chatFrame in pairs(FCFDock_GetChatFrames(dock)) do
-		local chatTab = _G[chatFrame:GetName().."Tab"];
-		if ( not chatFrame.isStaticDocked and chatTab.alerting) then
-			--Make sure the rects are valid. (Not always the case when resizing the WoW client
-			if ( not chatTab:GetRight() or not dock.scrollFrame:GetRight() ) then
-				return false;
-			end
-			--Check if it's off the screen.
-			local DELTA = 3;	--Chosen through experimentation
-			if ( chatTab:GetRight() < (dock.scrollFrame:GetLeft() + DELTA) or chatTab:GetLeft() > (dock.scrollFrame:GetRight() - DELTA) ) then
-				shouldPulse = true;
-				break;
-			end
-		end
-	end
-
-	if ( shouldPulse ) then
-		UIFrameFlash(self:GetHighlightTexture(), 1.0, 1.0, -1, true, 0, 0, "chat");
-		self:LockHighlight();
-		self.alerting = true;
-	else
-		UIFrameFlashStop(self:GetHighlightTexture());
-		self:UnlockHighlight();
-		self:GetHighlightTexture():Show();
-		self.alerting = false;
-	end
-
-	if ( self.list:IsShown() ) then
-		FCFDockOverflowList_Update(self.list, dock);
-	end
-	return true;
 end

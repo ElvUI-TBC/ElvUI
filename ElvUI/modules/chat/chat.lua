@@ -19,15 +19,14 @@ local InCombatLockdown = InCombatLockdown;
 local ChatFrame_SendTell = ChatFrame_SendTell;
 local GetChannelName = GetChannelName;
 local ToggleFrame = ToggleFrame;
-local FCF_GetChatWindowInfo = FCF_GetChatWindowInfo;
+local GetChatWindowInfo = GetChatWindowInfo;
 local FCF_SetChatWindowFontSize = FCF_SetChatWindowFontSize;
 local GetMouseFocus = GetMouseFocus;
 local FloatingChatFrame_Update = FloatingChatFrame_Update;
 local IsMouseButtonDown = IsMouseButtonDown;
-local FCF_SavePositionAndDimensions = FCF_SavePositionAndDimensions;
 local PlaySoundFile = PlaySoundFile;
-local ChatEdit_ChooseBoxForSend = ChatEdit_ChooseBoxForSend;
-local ChatEdit_ActivateChat = ChatEdit_ActivateChat;
+local ChatFrameEditBox = ChatFrameEditBox;
+local ChatFrame_ActivateCombatMessagesChat = ChatFrame_ActivateCombatMessagesChat;
 local ShowUIPanel, HideUIPanel = ShowUIPanel, HideUIPanel;
 local BetterDate = BetterDate;
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID;
@@ -47,6 +46,8 @@ local FCF_GetCurrentChatFrame = FCF_GetCurrentChatFrame;
 local GetGuildRosterMOTD = GetGuildRosterMOTD;
 local ScrollFrameTemplate_OnMouseWheel = ScrollFrameTemplate_OnMouseWheel;
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS;
+local DEFAULT_CHAT_FRAME = DEFAULT_CHAT_FRAME;
+local MAX_WOW_CHAT_CHANNELS = 10;
 
 local GlobalStrings = {
 	["AFK"] = AFK,
@@ -90,7 +91,6 @@ local hyperlinkTypes = {
 	["achievement"] = true,
 	["instancelock"] = true,
 	["talent"] = true,
-	["glyph"] = true,
 }
 
 local tabTexs = {
@@ -259,17 +259,22 @@ function CH:StyleChat(frame)
 
 	if frame.styled then return end
 
+	frame:SetFrameLevel(4)
+
 	local id = frame:GetID()
-
-	local tab = _G[name.."Tab"]
 	local editbox = frame.editBox
+	local tab = _G[name.."Tab"]
 
-	_G[tab:GetName().."Left"]:SetTexture(nil)
-	_G[tab:GetName().."Middle"]:SetTexture(nil)
-	_G[tab:GetName().."Right"]:SetTexture(nil)
+	hooksecurefunc(tab, "SetAlpha", function(t, alpha)
+		if alpha ~= 1 and (not t.isDocked or SELECTED_CHAT_FRAME:GetID() == t:GetID()) then
+			t:SetAlpha(1)
+		elseif alpha < 0.6 then
+			t:SetAlpha(0.6)
+		end
+	end)
 
 	tab.text = _G[name.."TabText"]
-	tab.text:SetTextColor(unpack(E["media"].rgbvaluecolor))
+	tab.text:SetTextColor(unpack(E["media"].rgbvaluecolor));
 	hooksecurefunc(tab.text, "SetTextColor", function(self, r, g, b)
 		local rR, gG, bB = unpack(E["media"].rgbvaluecolor)
 		if r ~= rR or g ~= gG or b ~= bB then
@@ -277,6 +282,8 @@ function CH:StyleChat(frame)
 		end
 	end)
 
+	frame:SetClampRectInsets(0,0,0,0)
+	frame:SetClampedToScreen(false)
 	frame:StripTextures(true)
 
 	local function OnTextChanged(self)
@@ -284,17 +291,17 @@ function CH:StyleChat(frame)
 
 		if InCombatLockdown() then
 			local MIN_REPEAT_CHARACTERS = E.db.chat.numAllowedCombatRepeat
-			if len(text) > MIN_REPEAT_CHARACTERS then
-				local repeatChar = true
-				for i = 1, MIN_REPEAT_CHARACTERS, 1 do
-					if sub(text,(0-i), (0-i)) ~= sub(text,(-1-i),(-1-i)) then
-						repeatChar = false
-						break
-					end
+			if (len(text) > MIN_REPEAT_CHARACTERS) then
+			local repeatChar = true;
+			for i=1, MIN_REPEAT_CHARACTERS, 1 do
+				if ( sub(text,(0-i), (0-i)) ~= sub(text,(-1-i),(-1-i)) ) then
+					repeatChar = false;
+					break;
 				end
-				if repeatChar then
+			end
+				if ( repeatChar ) then
 					self:Hide()
-					return
+					return;
 				end
 			end
 		end
@@ -302,10 +309,10 @@ function CH:StyleChat(frame)
 		if text:len() < 5 then
 			if text:sub(1, 4) == "/tt " then
 				local unitname, realm = UnitName("target")
-				if unitname and realm and not UnitIsSameServer("player", "target") then
+				if unitname and realm then
 					unitname = unitname .. "-" .. realm:gsub(" ", "")
 				end
-				ChatFrame_SendTell((unitname or L["Invalid Target"]), DEFAULT_CHAT_FRAME)
+				ChatFrame_SendTell((unitname or L["Invalid Target"]), ChatFrame1)
 			end
 		end
 
@@ -316,17 +323,17 @@ function CH:StyleChat(frame)
 		end
 	end
 
-	local a, b, c = select(6, editbox:GetRegions()); a:Kill(); b:Kill(); c:Kill()
-	editbox:SetTemplate("Default", true)
-	editbox:SetAltArrowKeyMode(CH.db.useAltKey)
+	local a, b, c = select(6, editbox:GetRegions()); a:Kill(); b:Kill(); c:Kill();
+	editbox:SetTemplate("Default", true);
+	editbox:SetAltArrowKeyMode(CH.db.useAltKey);
 	editbox:HookScript("OnEditFocusGained", function(self) self:Show(); if(not LeftChatPanel:IsShown()) then LeftChatPanel.editboxforced = true; LeftChatToggleButton:GetScript("OnEnter")(LeftChatToggleButton); end end);
 	editbox:HookScript("OnEditFocusLost", function(self) if(LeftChatPanel.editboxforced) then LeftChatPanel.editboxforced = nil; if(LeftChatPanel:IsShown()) then LeftChatToggleButton:GetScript("OnLeave")(LeftChatToggleButton); end end self:Hide(); end);
-	editbox:SetAllPoints(LeftChatDataPanel)
-	-- self:SecureHook(editbox, "AddHistoryLine", "ChatEdit_AddHistory")
-	editbox:HookScript("OnTextChanged", OnTextChanged)
+	editbox:SetAllPoints(LeftChatDataPanel);
+	-- self:SecureHook(editbox, "AddHistoryLine", "ChatEdit_AddHistory");
+	editbox:HookScript("OnTextChanged", OnTextChanged);
 
-	editbox.historyLines = ElvCharacterDB.ChatEditHistory
-	editbox.historyIndex = 0
+	editbox.historyLines = ElvCharacterDB.ChatEditHistory;
+	editbox.historyIndex = 0;
 
 	for i, text in pairs(ElvCharacterDB.ChatEditHistory) do
 		editbox:AddHistoryLine(text)
@@ -334,7 +341,7 @@ function CH:StyleChat(frame)
 
 	hooksecurefunc("ChatEdit_UpdateHeader", function()
 		local type = editbox:GetAttribute("chatType")
-		if type == "CHANNEL" then
+		if ( type == "CHANNEL" ) then
 			local id = GetChannelName(editbox:GetAttribute("channelTarget"))
 			if id == 0 then
 				editbox:SetBackdropBorderColor(unpack(E.media.bordercolor))
@@ -346,6 +353,7 @@ function CH:StyleChat(frame)
 		end
 	end)
 
+	--copy chat button
 	frame.button = CreateFrame("Button", format("CopyChatButton%d", id), frame)
 	frame.button:EnableMouse(true)
 	frame.button:SetAlpha(0.35)
@@ -357,11 +365,11 @@ function CH:StyleChat(frame)
 	frame.button.tex:SetInside()
 	frame.button.tex:SetTexture([[Interface\AddOns\ElvUI\media\textures\copy.tga]])
 
-	frame.button:SetScript("OnMouseUp", function(self, btn)
+	frame.button:SetScript("OnMouseUp", function(_, btn)
 		if btn == "LeftButton" then
-			CH:CopyChat(self:GetParent())
+			CH:CopyChat(frame)
 		elseif btn == "RightButton" and id ~= 2 then
-			ChatMenu:Show()
+			ToggleFrame(ChatMenu)
 		end
 	end)
 
@@ -441,51 +449,35 @@ function CH:CopyChat(frame)
 	end
 end
 
-function CH:ScrollToBottom(frame)
-	frame:ScrollToBottom()
-
-	self:CancelTimer(frame.ScrollTimer, true)
+function CH:OnEnter(frame)
+	_G[frame:GetName().."Text"]:Show()
 end
 
-function CH:SetupChat()
-	if E.private.chat.enable ~= true then return end
-	for i, frame in pairs(DOCKED_CHAT_FRAMES) do
-		local _, fontSize = GetChatWindowInfo(i)
-		local id = frame:GetID()
-		self:StyleChat(frame)
-		FCFTab_UpdateAlpha(frame)
-		--frame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
-		if self.db.fontOutline ~= "NONE" then
-			frame:SetShadowColor(0, 0, 0, 0.2)
-		else
-			frame:SetShadowColor(0, 0, 0, 1)
-		end
-		frame:SetTimeVisible(100)
-		frame:SetShadowOffset((E.mult or 1), -(E.mult or 1))
-		frame:SetFading(self.db.fade)
+function CH:OnLeave(frame)
+	_G[frame:GetName().."Text"]:Hide()
+end
 
-		if not frame.scriptsSet then
-			frame:SetScript("OnMouseWheel", ChatFrame_OnMouseScroll)
-			frame:EnableMouseWheel(true)
-			if id > NUM_CHAT_WINDOWS then
-				frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
-			elseif id ~= 2 then
-				frame:SetScript("OnEvent", CH.ChatFrame_OnEvent)
-			end
-		end
+function CH:SetupChatTabs(frame, hook)
+	if hook and (not self.hooks or not self.hooks[frame] or not self.hooks[frame].OnEnter) then
+		self:HookScript(frame, "OnEnter")
+		self:HookScript(frame, "OnLeave")
+	elseif not hook and self.hooks and self.hooks[frame] and self.hooks[frame].OnEnter then
+		self:Unhook(frame, "OnEnter")
+		self:Unhook(frame, "OnLeave")
 	end
 
-	if self.db.hyperlinkHover then
-		self:EnableHyperlink()
-	end
+	if not hook then
+		_G[frame:GetName().."Text"]:Show()
 
-	DEFAULT_CHAT_FRAME:SetParent(LeftChatPanel)
-	--self:ScheduleRepeatingTimer("PositionChat", 1)
-	self:PositionChat(true)
+		if frame.owner and frame.owner.button and GetMouseFocus() ~= frame.owner.button then
+			frame.owner.button:SetAlpha(0.35)
+		end
+	elseif GetMouseFocus() ~= frame then
+		_G[frame:GetName().."Text"]:Hide()
 
-	if not self.HookSecured then
-		self:SecureHook("FCF_OpenTemporaryWindow", "SetupChat")
-		self.HookSecured = true
+		if frame.owner and frame.owner.button and GetMouseFocus() ~= frame.owner.button then
+			frame.owner.button:SetAlpha(0)
+		end
 	end
 end
 
@@ -496,11 +488,11 @@ function CH:UpdateAnchors()
 		if(not E.db.datatexts.leftChatPanel and (self.db.panelBackdrop == "HIDEBOTH" or self.db.panelBackdrop == "RIGHT")) then
 			frame:ClearAllPoints();
 			if(E.db.chat.editBoxPosition == "BELOW_CHAT") then
-				frame:SetPoint("TOPLEFT", DEFAULT_CHAT_FRAME, "BOTTOMLEFT");
-				frame:SetPoint("BOTTOMRIGHT", DEFAULT_CHAT_FRAME, "BOTTOMRIGHT", 0, -LeftChatTab:GetHeight());
+				frame:SetPoint("TOPLEFT", ChatFrame1, "BOTTOMLEFT");
+				frame:SetPoint("BOTTOMRIGHT", ChatFrame1, "BOTTOMRIGHT", 0, -LeftChatTab:GetHeight());
 			else
-				frame:SetPoint("BOTTOMLEFT", DEFAULT_CHAT_FRAME, "TOPLEFT");
-				frame:SetPoint("TOPRIGHT", DEFAULT_CHAT_FRAME, "TOPRIGHT", 0, LeftChatTab:GetHeight());
+				frame:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT");
+				frame:SetPoint("TOPRIGHT", ChatFrame1, "TOPRIGHT", 0, LeftChatTab:GetHeight());
 			end
 		else
 			if(E.db.datatexts.leftChatPanel and E.db.chat.editBoxPosition == "BELOW_CHAT") then
@@ -513,7 +505,6 @@ function CH:UpdateAnchors()
 
 	CH:PositionChat(true);
 end
-
 
 local function FindRightChatID()
 	local rightChatID
@@ -529,6 +520,44 @@ local function FindRightChatID()
 	end
 
 	return rightChatID
+end
+
+function CH:UpdateChatTabs()
+	local fadeUndockedTabs = E.db["chat"].fadeUndockedTabs
+	local fadeTabsNoBackdrop = E.db["chat"].fadeTabsNoBackdrop
+
+	for i = 1, CreatedFrames do
+		local chat = _G[format("ChatFrame%d", i)]
+		local tab = _G[format("ChatFrame%sTab", i)]
+		local id = chat:GetID();
+		local point = chat:GetPoint();
+		local isDocked = chat.isDocked
+		local chatbg = format("ChatFrame%dBackground", i);
+		if id > NUM_CHAT_WINDOWS then
+			point = point or select(1, chat:GetPoint());
+			if select(2, tab:GetPoint()):GetName() ~= chatbg then
+				isDocked = true
+			else
+				isDocked = false
+			end
+		end
+
+		if chat:IsShown() and not (id > NUM_CHAT_WINDOWS) and (id == self.RightChatWindowID) then
+			if E.db.chat.panelBackdrop == "HIDEBOTH" or E.db.chat.panelBackdrop == "LEFT" then
+				CH:SetupChatTabs(tab, fadeTabsNoBackdrop and true or false)
+			else
+				CH:SetupChatTabs(tab, false)
+			end
+		elseif not isDocked and chat:IsShown() then
+			CH:SetupChatTabs(tab, fadeUndockedTabs and true or false)
+		else
+			if E.db.chat.panelBackdrop == "HIDEBOTH" or E.db.chat.panelBackdrop == "RIGHT" then
+				CH:SetupChatTabs(tab, fadeTabsNoBackdrop and true or false)
+			else
+				CH:SetupChatTabs(tab, false)
+			end
+		end
+	end
 end
 
 function CH:PositionChat(override)
@@ -580,8 +609,6 @@ function CH:PositionChat(override)
 				chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET) - CombatLogQuickButtonFrame_Custom:GetHeight())
 			end
 
-			FCF_SavePositionAndDimensions(chat, true);
-
 			tab:SetParent(RightChatPanel)
 			chat:SetParent(RightChatPanel)
 
@@ -608,12 +635,12 @@ function CH:PositionChat(override)
 				end
 				chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET))
 
-				FCF_SavePositionAndDimensions(chat, true);
 			end
+
+			tab:SetParent(LeftChatPanel)
 			chat:SetParent(LeftChatPanel)
+
 			if i > 2 then
-			-- 	tab:SetParent(GeneralDockManagerScrollFrameChild)
-			-- else
 				tab:SetParent(DEFAULT_CHAT_FRAME)
 			end
 			if chat:IsMovable() then
@@ -629,30 +656,6 @@ function CH:PositionChat(override)
 	end
 
 	self.initialMove = true;
-end
-
-function CH:SetupChatTabs(frame, hook)
-	if hook and (not self.hooks or not self.hooks[frame] or not self.hooks[frame].OnEnter) then
-		self:HookScript(frame, "OnEnter")
-		self:HookScript(frame, "OnLeave")
-	elseif not hook and self.hooks and self.hooks[frame] and self.hooks[frame].OnEnter then
-		self:Unhook(frame, "OnEnter")
-		self:Unhook(frame, "OnLeave")
-	end
-
-	if not hook then
-		_G[frame:GetName().."Text"]:Show()
-
-		if frame.owner and frame.owner.button and GetMouseFocus() ~= frame.owner.button then
-			frame.owner.button:SetAlpha(0.35)
-		end
-	elseif GetMouseFocus() ~= frame then
-		_G[frame:GetName().."Text"]:Hide()
-
-		if frame.owner and frame.owner.button and GetMouseFocus() ~= frame.owner.button then
-			frame.owner.button:SetAlpha(0)
-		end
-	end
 end
 
 local function UpdateChatTabColor(_, r, g, b)
@@ -673,7 +676,7 @@ function CH:PrintURL(url)
 end
 
 function CH:FindURL(event, msg, ...)
-	if (event == "CHAT_MSG_WHISPER" or event == "CHAT_MSG_BN_WHISPER") and CH.db.whisperSound ~= "None" and not CH.SoundPlayed then
+	if (event == "CHAT_MSG_WHISPER") and CH.db.whisperSound ~= "None" and not CH.SoundPlayed then
 		if (msg:sub(1,3) == "OQ,") then return false, msg, ... end
 		if (CH.db.noAlertInCombat and not InCombatLockdown()) or not CH.db.noAlertInCombat then
 			PlaySoundFile(LSM:Fetch("sound", CH.db.whisperSound), "Master")
@@ -713,10 +716,10 @@ end
 local SetHyperlink = ItemRefTooltip.SetHyperlink;
 function ItemRefTooltip:SetHyperlink(data, ...)
 	if((data):sub(1, 3) == "url") then
-		local ChatFrameEditBox = ChatEdit_ChooseBoxForSend();
+		local ChatFrameEditBox = ChatFrameEditBox;
 		local currentLink = (data):sub(5);
 		if(not ChatFrameEditBox:IsShown()) then
-			ChatEdit_ActivateChat(ChatFrameEditBox);
+			ChatFrame_ActivateCombatMessages(ChatFrameEditBox);
 		end
 		ChatFrameEditBox:Insert(currentLink);
 		ChatFrameEditBox:HighlightText();
@@ -727,14 +730,14 @@ end
 
 local function WIM_URLLink(link)
 	if (link):sub(1, 3) == "url" then
-		local ChatFrameEditBox = ChatEdit_ChooseBoxForSend()
-		local currentLink = (link):sub(5)
+		local ChatFrameEditBox = ChatFrameEditBox;
+		local currentLink = (link):sub(5);
 		if (not ChatFrameEditBox:IsShown()) then
-			ChatEdit_ActivateChat(ChatFrameEditBox)
+			ChatFrame_ActivateCombatMessagesChat(ChatFrameEditBox);
 		end
-		ChatFrameEditBox:Insert(currentLink)
-		ChatFrameEditBox:HighlightText()
-		return
+		ChatFrameEditBox:Insert(currentLink);
+		ChatFrameEditBox:HighlightText();
+		return;
 	end
 end
 
@@ -922,16 +925,10 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			end
 		end]]
 
-		if ( chatGroup == "WHISPER" or chatGroup == "BN_WHISPER" ) then
+		if ( chatGroup == "WHISPER" ) then
 			if ( self.privateMessageList and not self.privateMessageList[strlower(arg2)] ) then
 				return true;
 			elseif ( self.excludePrivateMessageList and self.excludePrivateMessageList[strlower(arg2)] ) then
-				return true;
-			end
-		elseif ( chatGroup == "BN_CONVERSATION" ) then
-			if ( self.bnConversationList and not self.bnConversationList[arg8] ) then
-				return true;
-			elseif ( self.excludeBNConversationList and self.excludeBNConversationList[arg8] ) then
 				return true;
 			end
 		end
@@ -962,10 +959,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id);
 			end
 		elseif (type == "CHANNEL_NOTICE_USER") then
-			local globalstring = _G["CHAT_"..arg1.."_NOTICE_BN"];
-			if ( not globalstring ) then
-				globalstring = _G["CHAT_"..arg1.."_NOTICE"];
-			end
+			local globalstring = _G["CHAT_"..arg1.."_NOTICE"];
 
 			globalstring = CH:ConcatenateTimeStamp(globalstring);
 
@@ -979,10 +973,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			end
 		elseif (type == "CHANNEL_NOTICE") then
 			if arg1 == "NOT_IN_LFG" then return; end
-			local globalstring = _G["CHAT_"..arg1.."_NOTICE_BN"];
-			if ( not globalstring ) then
-				globalstring = _G["CHAT_"..arg1.."_NOTICE"];
-			end
+			local globalstring = _G["CHAT_"..arg1.."_NOTICE"];
 			if ( arg10 > 0 ) then
 				arg4 = arg4.." "..arg10;
 			end
@@ -1016,6 +1007,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 					pflag = _G["CHAT_FLAG_"..arg6];
 				end
 			else
+
 				if(pflag == true) then
 					pflag = nil
 				end
@@ -1033,10 +1025,6 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				arg1 = gsub(arg1, "%%", "%%%%");
 			end
 
-			if ((type == "PARTY_LEADER") and (HasLFGRestrictions())) then
-				type = "PARTY_GUIDE";
-			end
-
 			-- Search for icon links and replace them with texture links.
 			local term;
 			for tag in gmatch(arg1, "%b{}") do
@@ -1046,18 +1034,10 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				end
 			end
 
-			local playerLink;
-
-			if ( type ~= "BN_WHISPER" and type ~= "BN_WHISPER_INFORM" and type ~= "BN_CONVERSATION" ) then
-				playerLink = "|Hplayer:"..arg2..":"..arg11..":"..chatGroup..(chatTarget and ":"..chatTarget or "").."|h";
-			else
-				playerLink = "|HBNplayer:"..arg2..":"..arg13..":"..arg11..":"..chatGroup..(chatTarget and ":"..chatTarget or "").."|h";
-			end
-
 			if ( (strlen(arg3) > 0) and (arg3 ~= "Universal") and (arg3 ~= self.defaultLanguage) ) then
 				local languageHeader = "["..arg3.."] ";
 				if ( showLink and (strlen(arg2) > 0) ) then
-					body = format(_G["CHAT_"..type.."_GET"]..languageHeader..arg1, pflag..playerLink.."["..coloredName.."]".."|h");
+					body = format(_G["CHAT_"..type.."_GET"]..languageHeader..arg1, pflag.."["..coloredName.."]".."|h");
 				else
 					body = format(_G["CHAT_"..type.."_GET"]..languageHeader..arg1, pflag..arg2);
 				end
@@ -1069,26 +1049,19 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 					body = format(_G["CHAT_" .. type .. "_GET"] .. arg1, pflag .. arg2, arg2);
 				else
 					if ( type == "EMOTE" ) then
-						body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag..playerLink..coloredName.."|h");
+						body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag..coloredName.."|h");
 					elseif ( type == "TEXT_EMOTE") then
-						body = string.gsub(arg1, arg2, pflag..playerLink..coloredName.."|h", 1);
+						body = string.gsub(arg1, arg2, pflag..coloredName.."|h", 1);
 					else
-						body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag..playerLink.."["..coloredName.."]".."|h");
+						body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag.."["..coloredName.."]".."|h");
 					end
 				end
 			end
 
 			-- Add Channel
 			arg4 = gsub(arg4, "%s%-%s.*", "");
-			if(chatGroup == "BN_CONVERSATION") then
-				body = format(CHAT_BN_CONVERSATION_GET_LINK, arg8, GlobalStrings.MAX_WOW_CHAT_CHANNELS + arg8)..body;
-			elseif(channelLength > 0) then
+			if(channelLength > 0) then
 				body = "|Hchannel:channel:"..arg8.."|h["..arg4.."]|h "..body;
-			end
-
-			--Add Timestamps
-			if ( CHAT_TIMESTAMP_FORMAT ) then
-				body = BetterDate(CHAT_TIMESTAMP_FORMAT, time())..body;
 			end
 
 			local accessID = ChatHistory_GetAccessID(chatGroup, chatTarget);
@@ -1101,28 +1074,18 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				body = body:gsub("^(.-|h) "..L["yells"], "%1")
 				body = body:gsub("<"..GlobalStrings.AFK..">", "[|cffFF0000"..L["AFK"].."|r] ")
 				body = body:gsub("<"..GlobalStrings.DND..">", "[|cffE7E716"..L["DND"].."|r] ")
-				body = body:gsub("%[BN_CONVERSATION:", "%[".."")
 				body = body:gsub("^%["..GlobalStrings.RAID_WARNING.."%]", "["..L["RW"].."]")
 			end
 			self:AddMessage(CH:ConcatenateTimeStamp(body), info.r, info.g, info.b, info.id, false, accessID, typeID);
 		end
 
 		if ( type == "WHISPER" ) then
-			--BN_WHISPER FIXME
 			ChatEdit_SetLastTellTarget(arg2);
 			if ( self.tellTimer and (GetTime() > self.tellTimer) ) then
 				PlaySound("TellMessage");
 			end
 			self.tellTimer = GetTime() + GlobalStrings.CHAT_TELL_ALERT_TIME;
-			--FCF_FlashTab(self);
-		end
-
-		if ( not self:IsShown() ) then
-			if ( (self == DEFAULT_CHAT_FRAME and info.flashTabOnGeneral) or (self ~= DEFAULT_CHAT_FRAME and info.flashTab) ) then
-				if ( not CHAT_OPTIONS.HIDE_FRAME_ALERTS or type == "WHISPER" ) then
-					FCF_StartAlertFlash(self);
-				end
-			end
+			FCF_FlashTab(self);
 		end
 
 		return true;
@@ -1138,6 +1101,53 @@ function CH:ChatFrame_OnEvent(event, ...)
 	end
 	if ( CH.ChatFrame_MessageEventHandler(self, event, ...) ) then
 		return
+	end
+end
+
+function CH:FloatingChatFrame_OnEvent(event, ...)
+	CH.ChatFrame_OnEvent(self, event, ...);
+	FloatingChatFrame_OnEvent(self, event, ...);
+end
+
+function CH:SetupChat()
+	if E.private.chat.enable ~= true then return end
+	for i, frame in pairs(DOCKED_CHAT_FRAMES) do
+		local _, fontSize = GetChatWindowInfo(i)
+		local id = frame:GetID()
+		self:StyleChat(frame)
+		FCFTab_UpdateAlpha(frame)
+		--frame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
+		if self.db.fontOutline ~= "NONE" then
+			frame:SetShadowColor(0, 0, 0, 0.2)
+		else
+			frame:SetShadowColor(0, 0, 0, 1)
+		end
+		frame:SetTimeVisible(100)
+		frame:SetShadowOffset((E.mult or 1), -(E.mult or 1))
+		frame:SetFading(self.db.fade)
+
+		if not frame.scriptsSet then
+			frame:SetScript("OnMouseWheel", ChatFrame_OnMouseScroll)
+			frame:EnableMouseWheel(true)
+			if id > NUM_CHAT_WINDOWS then
+				frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
+			elseif id ~= 2 then
+				frame:SetScript("OnEvent", CH.ChatFrame_OnEvent)
+			end
+		end
+	end
+
+	if self.db.hyperlinkHover then
+		self:EnableHyperlink()
+	end
+
+	DEFAULT_CHAT_FRAME:SetParent(LeftChatPanel)
+	--self:ScheduleRepeatingTimer("PositionChat", 1)
+	self:PositionChat(true)
+
+	if not self.HookSecured then
+		self:SecureHook("FCF_OpenTemporaryWindow", "SetupChat")
+		self.HookSecured = true
 	end
 end
 
@@ -1336,11 +1346,6 @@ function CH:UpdateChatKeywords()
 	end
 end
 
-function CH:FloatingChatFrame_OnEvent(event, ...)
-	CH.ChatFrame_OnEvent(self, event, ...);
-	FloatingChatFrame_OnEvent(self, event, ...);
-end
-
 function CH:UpdateFading()
 	for _, frameName in pairs(CHAT_FRAMES) do
 		local frame = _G[frameName]
@@ -1413,7 +1418,7 @@ function CH:SaveChatHistory(event, ...)
 	end
 end
 
-function CH:ChatFrame_AddMessageEventFilter (event, filter)
+function CH:ChatFrame_AddMessageEventFilter(event, filter)
 	assert(event and filter);
 
 	if ( chatFilters[event] ) then
@@ -1430,7 +1435,7 @@ function CH:ChatFrame_AddMessageEventFilter (event, filter)
 	tinsert(chatFilters[event], filter);
 end
 
-function CH:ChatFrame_RemoveMessageEventFilter (event, filter)
+function CH:ChatFrame_RemoveMessageEventFilter(event, filter)
 	assert(event and filter);
 
 	if ( chatFilters[event] ) then
@@ -1477,16 +1482,6 @@ function CH:DelayGMOTD()
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end
 
-function CH:ON_FCF_SavePositionAndDimensions(_, noLoop)
-	if not noLoop then
-		CH:PositionChat()
-	end
-
-	if not E.db.chat.lockPositions then
-		CH:UpdateChatTabs() --It was not done in PositionChat, so do it now
-	end
-end
-
 function CH:Initialize()
 	if ElvCharacterDB.ChatHistory then
 		ElvCharacterDB.ChatHistory = nil --Depreciated
@@ -1523,24 +1518,35 @@ function CH:Initialize()
 
 	ChatFrameMenuButton:Kill()
 
-	for i = 1, 7 do
+	for i = 1, NUM_CHAT_WINDOWS do
 		_G["ChatFrame"..i.."UpButton"]:Kill()
 		_G["ChatFrame"..i.."DownButton"]:Kill()
 		_G["ChatFrame"..i.."BottomButton"]:Kill()
+		_G["ChatFrame"..i.."ResizeTop"]:Kill()
+		_G["ChatFrame"..i.."ResizeBottom"]:Kill()
+		_G["ChatFrame"..i.."ResizeLeft"]:Kill()
+		_G["ChatFrame"..i.."ResizeRight"]:Kill()
+		_G["ChatFrame"..i.."ResizeTopLeft"]:Kill()
+		_G["ChatFrame"..i.."ResizeTopRight"]:Kill()
+		_G["ChatFrame"..i.."ResizeBottomLeft"]:Kill()
+		_G["ChatFrame"..i.."ResizeBottomRight"]:Kill()
+		_G["ChatFrame"..i.."TabDockRegion"]:Kill()
+		_G["ChatFrame"..i.."TabLeft"]:SetTexture(nil)
+		_G["ChatFrame"..i.."TabMiddle"]:SetTexture(nil)
+		_G["ChatFrame"..i.."TabRight"]:SetTexture(nil)
 	end
 	--------------------------------------
 	-- TEMPORARY TILL A FIX CAN BE MADE --
 	--------------------------------------
 
-	for i = 4, 7 do
-		_G["ChatFrame"..i]:Kill()
+	for i = 4, NUM_CHAT_WINDOWS do
+		FCF_Close(_G["ChatFrame"..i])
 	end
 
 	--------------------------------------
 	--------------------------------------
 
 	self:SecureHook("FCF_SetChatWindowFontSize", "SetChatFont")
-	self:SecureHook("FCF_SavePositionAndDimensions", "ON_FCF_SavePositionAndDimensions")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "DelayGMOTD")
 	self:RegisterEvent("UPDATE_CHAT_WINDOWS", "SetupChat")
 	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "SetupChat")
@@ -1554,8 +1560,6 @@ function CH:Initialize()
 
 	self:RegisterEvent("CHAT_MSG_BATTLEGROUND", "SaveChatHistory")
 	self:RegisterEvent("CHAT_MSG_BATTLEGROUND_LEADER", "SaveChatHistory")
-	self:RegisterEvent("CHAT_MSG_BN_WHISPER", "SaveChatHistory")
-	self:RegisterEvent("CHAT_MSG_BN_WHISPER_INFORM", "SaveChatHistory")
 	self:RegisterEvent("CHAT_MSG_CHANNEL", "SaveChatHistory")
 	self:RegisterEvent("CHAT_MSG_EMOTE", "SaveChatHistory")
 	self:RegisterEvent("CHAT_MSG_TEXT_EMOTE", "SaveChatHistory")

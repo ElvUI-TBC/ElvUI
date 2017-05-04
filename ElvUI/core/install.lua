@@ -20,7 +20,7 @@ local FCF_ResetChatWindows = FCF_ResetChatWindows;
 local FCF_SetLocked = FCF_SetLocked;
 local FCF_DockFrame, FCF_UnDockFrame = FCF_DockFrame, FCF_UnDockFrame;
 local FCF_OpenNewWindow = FCF_OpenNewWindow;
-local FCF_SavePositionAndDimensions = FCF_SavePositionAndDimensions;
+-- local FCF_SavePositionAndDimensions = FCF_SavePositionAndDimensions;
 local FCF_SetWindowName = FCF_SetWindowName;
 local FCF_StopDragging = FCF_StopDragging;
 local FCF_SetChatWindowFontSize = FCF_SetChatWindowFontSize;
@@ -59,7 +59,6 @@ local function SetupChat()
 			frame:Point("BOTTOMLEFT", RightChatDataPanel, "TOPLEFT", 1, 3)
 		end
 
-		FCF_SavePositionAndDimensions(frame)
 		FCF_StopDragging(frame)
 
 		-- set default Elvui font size
@@ -103,9 +102,6 @@ local function SetupChat()
 	ChatFrame_AddMessageGroup(ChatFrame1, "DND")
 	ChatFrame_AddMessageGroup(ChatFrame1, "IGNORED")
 	ChatFrame_AddMessageGroup(ChatFrame1, "ACHIEVEMENT")
-	ChatFrame_AddMessageGroup(ChatFrame1, "BN_WHISPER")
-	ChatFrame_AddMessageGroup(ChatFrame1, "BN_CONVERSATION")
-	ChatFrame_AddMessageGroup(ChatFrame1, "BN_INLINE_TOAST_ALERT")
 
 	ChatFrame_RemoveAllMessageGroups(ChatFrame3)
 	ChatFrame_AddMessageGroup(ChatFrame3, "COMBAT_FACTION_CHANGE")
@@ -120,32 +116,32 @@ local function SetupChat()
 	ChatFrame_AddChannel(ChatFrame3, L["Trade"])
 
 	-- enable classcolor automatically on login and on each character without doing /configure each time.
-	ToggleChatColorNamesByClassGroup(true, "SAY")
-	ToggleChatColorNamesByClassGroup(true, "EMOTE")
-	ToggleChatColorNamesByClassGroup(true, "YELL")
-	ToggleChatColorNamesByClassGroup(true, "GUILD")
-	ToggleChatColorNamesByClassGroup(true, "OFFICER")
-	ToggleChatColorNamesByClassGroup(true, "GUILD_ACHIEVEMENT")
-	ToggleChatColorNamesByClassGroup(true, "ACHIEVEMENT")
-	ToggleChatColorNamesByClassGroup(true, "WHISPER")
-	ToggleChatColorNamesByClassGroup(true, "PARTY")
-	ToggleChatColorNamesByClassGroup(true, "PARTY_LEADER")
-	ToggleChatColorNamesByClassGroup(true, "RAID")
-	ToggleChatColorNamesByClassGroup(true, "RAID_LEADER")
-	ToggleChatColorNamesByClassGroup(true, "RAID_WARNING")
-	ToggleChatColorNamesByClassGroup(true, "BATTLEGROUND")
-	ToggleChatColorNamesByClassGroup(true, "BATTLEGROUND_LEADER")
-	ToggleChatColorNamesByClassGroup(true, "CHANNEL1")
-	ToggleChatColorNamesByClassGroup(true, "CHANNEL2")
-	ToggleChatColorNamesByClassGroup(true, "CHANNEL3")
-	ToggleChatColorNamesByClassGroup(true, "CHANNEL4")
-	ToggleChatColorNamesByClassGroup(true, "CHANNEL5")
-	ToggleChatColorNamesByClassGroup(true, "CHANNEL6")
-	ToggleChatColorNamesByClassGroup(true, "CHANNEL7")
-	ToggleChatColorNamesByClassGroup(true, "CHANNEL8")
-	ToggleChatColorNamesByClassGroup(true, "CHANNEL9")
-	ToggleChatColorNamesByClassGroup(true, "CHANNEL10")
-	ToggleChatColorNamesByClassGroup(true, "CHANNEL11")
+	-- ToggleChatColorNamesByClassGroup(true, "SAY")
+	-- ToggleChatColorNamesByClassGroup(true, "EMOTE")
+	-- ToggleChatColorNamesByClassGroup(true, "YELL")
+	-- ToggleChatColorNamesByClassGroup(true, "GUILD")
+	-- ToggleChatColorNamesByClassGroup(true, "OFFICER")
+	-- ToggleChatColorNamesByClassGroup(true, "GUILD_ACHIEVEMENT")
+	-- ToggleChatColorNamesByClassGroup(true, "ACHIEVEMENT")
+	-- ToggleChatColorNamesByClassGroup(true, "WHISPER")
+	-- ToggleChatColorNamesByClassGroup(true, "PARTY")
+	-- ToggleChatColorNamesByClassGroup(true, "PARTY_LEADER")
+	-- ToggleChatColorNamesByClassGroup(true, "RAID")
+	-- ToggleChatColorNamesByClassGroup(true, "RAID_LEADER")
+	-- ToggleChatColorNamesByClassGroup(true, "RAID_WARNING")
+	-- ToggleChatColorNamesByClassGroup(true, "BATTLEGROUND")
+	-- ToggleChatColorNamesByClassGroup(true, "BATTLEGROUND_LEADER")
+	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL1")
+	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL2")
+	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL3")
+	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL4")
+	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL5")
+	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL6")
+	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL7")
+	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL8")
+	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL9")
+	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL10")
+	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL11")
 
 	--Adjust Chat Colors
 	--General
