@@ -60,7 +60,7 @@ local GlobalStrings = {
 	["RAID_WARNING"] = RAID_WARNING
 };
 
-local CreatedFrames = 0;
+local CreatedFrames = 3;
 local lines = {};
 local msgList, msgCount, msgTime = {}, {}, {}
 local chatFilters = {};
@@ -1518,6 +1518,10 @@ function CH:Initialize()
 
 	ChatFrameMenuButton:Kill()
 
+	--------------------------------------
+	-- TEMPORARY TILL A FIX CAN BE MADE --
+	--------------------------------------
+
 	for i = 1, NUM_CHAT_WINDOWS do
 		_G["ChatFrame"..i.."UpButton"]:Kill()
 		_G["ChatFrame"..i.."DownButton"]:Kill()
@@ -1534,10 +1538,13 @@ function CH:Initialize()
 		_G["ChatFrame"..i.."TabLeft"]:SetTexture(nil)
 		_G["ChatFrame"..i.."TabMiddle"]:SetTexture(nil)
 		_G["ChatFrame"..i.."TabRight"]:SetTexture(nil)
+		if i == 3 then
+			_G["ChatFrame"..i]:SetUserPlaced(true)
+			_G["ChatFrame"..i]:SetParent(RightChatPanel)
+			_G["ChatFrame"..i]:SetWidth(RightChatPanel:GetWidth())
+			_G["ChatFrame"..i.."Background"]:SetTexture(nil)
+		end
 	end
-	--------------------------------------
-	-- TEMPORARY TILL A FIX CAN BE MADE --
-	--------------------------------------
 
 	for i = 4, NUM_CHAT_WINDOWS do
 		FCF_Close(_G["ChatFrame"..i])
