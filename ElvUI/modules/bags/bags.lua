@@ -1154,11 +1154,11 @@ function B:ContructContainerFrame(name, isBank)
 		f.editBox.searchIcon:SetSize(15, 15);
 
 		--Currency
-		f.currencyButton = CreateFrame("Frame", nil, f);
-		f.currencyButton:Point("BOTTOM", 0, 4);
-		f.currencyButton:Point("TOPLEFT", f.holderFrame, "BOTTOMLEFT", 0, 18);
-		f.currencyButton:Point("TOPRIGHT", f.holderFrame, "BOTTOMRIGHT", 0, 18);
-		f.currencyButton:Height(22);
+		-- f.currencyButton = CreateFrame("Frame", nil, f);
+		-- f.currencyButton:Point("BOTTOM", 0, 4);
+		-- f.currencyButton:Point("TOPLEFT", f.holderFrame, "BOTTOMLEFT", 0, 18);
+		-- f.currencyButton:Point("TOPRIGHT", f.holderFrame, "BOTTOMRIGHT", 0, 18);
+		-- f.currencyButton:Height(22);
 		--[[for i = 1, MAX_WATCHED_TOKENS do
 			f.currencyButton[i] = CreateFrame("Button", nil, f.currencyButton);
 			f.currencyButton[i]:Size(16);
@@ -1324,7 +1324,7 @@ function B:Initialize()
 		BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", -(E.Border*2), 22 + E.Border*4 - E.Spacing*2);
 		E:CreateMover(BagFrameHolder, "ElvUIBagMover", L["Bag Mover"], nil, nil, B.PostBagMove);
 
-		self:SecureHook("UpdateContainerFrameAnchors");
+		-- self:SecureHook("UpdateContainerFrameAnchors");
 		return;
 	end
 
