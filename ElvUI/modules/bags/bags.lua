@@ -1016,7 +1016,7 @@ function B:ContructContainerFrame(name, isBank)
 			if(full) then
 				E:StaticPopup_Show("CANNOT_BUY_BANK_SLOT");
 			else
-				E:StaticPopup_Show("CONFIRM_BUY_BANK_SLOT");
+				E:StaticPopup_Show("BUY_BANK_SLOT");
 			end
 		end);
 

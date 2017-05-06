@@ -254,24 +254,71 @@ function CH:GetSmileyReplacementText(msg)
 end
 
 function CH:StyleChat(frame)
+	local id = frame:GetID()
 	local name = frame:GetName()
+	local tab = _G[name.."Tab"]
+	local editbox = frame.editBox
 	_G[name.."TabText"]:FontTemplate(LSM:Fetch("font", self.db.tabFont), self.db.tabFontSize, self.db.tabFontOutline)
 
 	if frame.styled then return end
 
-	frame:SetFrameLevel(4)
+	-------------------------------------------
+	-- TEMPORARY TILL A TRUE FIX CAN BE MADE --
+	-------------------------------------------
 
-	local id = frame:GetID()
-	local editbox = frame.editBox
-	local tab = _G[name.."Tab"]
+	for i = 1, NUM_CHAT_WINDOWS do
+		local frame = "ChatFrame"..i;
+		local tab = _G[frame.."Tab"];
 
-	hooksecurefunc(tab, "SetAlpha", function(t, alpha)
-		if alpha ~= 1 and (not t.isDocked or SELECTED_CHAT_FRAME:GetID() == t:GetID()) then
-			t:SetAlpha(1)
-		elseif alpha < 0.6 then
-			t:SetAlpha(0.6)
+		for i = 1, #CHAT_FRAME_TEXTURES do
+			_G[frame..CHAT_FRAME_TEXTURES[i]]:Kill()
 		end
-	end)
+
+		tab:SetAlpha(1)
+		hooksecurefunc(tab, "SetAlpha", function(t, alpha)
+			if alpha ~= 1 and (not t.isDocked or DEFAULT_CHAT_FRAME:GetID() == t:GetID()) then
+				t:SetAlpha(1)
+			elseif alpha < 0.6 then
+				t:SetAlpha(0.6)
+			end
+		end)
+		tab.SetAlpha = UIFrameFadeRemoveFrame
+
+		tab:HookScript("OnEnter", function() _G[frame.."TabText"]:Show() end)
+		tab:HookScript("OnLeave", function() _G[frame.."TabText"]:Show() end)
+
+		_G[frame.."UpButton"]:Kill()
+		_G[frame.."DownButton"]:Kill()
+		_G[frame.."BottomButton"]:Kill()
+		_G[frame.."TabDockRegion"]:Kill()
+		_G[frame.."TabLeft"]:Kill()
+		_G[frame.."TabMiddle"]:Kill()
+		_G[frame.."TabRight"]:Kill()
+		_G[frame.."Tab"]:GetHighlightTexture():SetTexture(nil)
+		if _G[frame].isDocked or _G[frame]:IsVisible() then
+        	_G[frame.."Tab"]:Show()
+		end
+		if i == 1 or i == 2 then
+			_G[frame.."Tab"]:SetParent(LeftChatPanel)
+		elseif i == 3 then
+			_G[frame]:Width(ChatFrame1:GetWidth())
+			_G[frame]:Height(ChatFrame1:GetHeight())
+			_G[frame]:SetUserPlaced(true)
+			_G[frame]:SetParent(RightChatPanel)
+			_G[frame]:SetWidth(RightChatPanel:GetWidth())
+			_G[frame.."Background"]:SetTexture(nil)
+			_G[frame.."Tab"]:SetParent(RightChatPanel)
+		elseif i == 4 or i == 5 or i == 6 or i == 7 then
+			FCF_Close(_G[frame])
+		end
+	end
+
+	-------------------------------------------
+	-------------------------------------------
+
+	frame:SetFrameLevel(4)
+	frame:SetClampRectInsets(0,0,0,0)
+	frame:SetClampedToScreen(false)
 
 	tab.text = _G[name.."TabText"]
 	tab.text:SetTextColor(unpack(E["media"].rgbvaluecolor));
@@ -282,9 +329,6 @@ function CH:StyleChat(frame)
 		end
 	end)
 
-	frame:SetClampRectInsets(0,0,0,0)
-	frame:SetClampedToScreen(false)
-	frame:StripTextures(true)
 
 	local function OnTextChanged(self)
 		local text = self:GetText()
@@ -329,7 +373,7 @@ function CH:StyleChat(frame)
 	editbox:HookScript("OnEditFocusGained", function(self) self:Show(); if(not LeftChatPanel:IsShown()) then LeftChatPanel.editboxforced = true; LeftChatToggleButton:GetScript("OnEnter")(LeftChatToggleButton); end end);
 	editbox:HookScript("OnEditFocusLost", function(self) if(LeftChatPanel.editboxforced) then LeftChatPanel.editboxforced = nil; if(LeftChatPanel:IsShown()) then LeftChatToggleButton:GetScript("OnLeave")(LeftChatToggleButton); end end self:Hide(); end);
 	editbox:SetAllPoints(LeftChatDataPanel);
-	-- self:SecureHook(editbox, "AddHistoryLine", "ChatEdit_AddHistory");
+	-- self:SecureHook("AddHistoryLine", "ChatEdit_AddHistory");
 	editbox:HookScript("OnTextChanged", OnTextChanged);
 
 	editbox.historyLines = ElvCharacterDB.ChatEditHistory;
@@ -829,7 +873,7 @@ function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, a
 	local info = ChatTypeInfo[chatType];
 
 	if(info and info.colorNameByClass and arg12 ~= "") then
-		local _, _, englishClass, _, _, _, name = pcall(GetPlayerInfoByGUID, arg12);
+		local _, _, englishClass, _, _, _, name = pcall(UnitGUID("player"), arg12);
 		if(englishClass) then
 			local classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[englishClass] or RAID_CLASS_COLORS[englishClass];
 			if(not classColorTable) then
@@ -904,10 +948,6 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			chatTarget = strupper(arg2);
 		end
 
-		if ( FCFManager_ShouldSuppressMessage(self, chatGroup, chatTarget) ) then
-			return true;
-		end
-
 		--[[if not (chatGroup == "CHANNEL") and not (self:GetName() == "AFKChat") then
 			local found2 = false
 			for i = 1, #self.messageTypeList, 1 do
@@ -942,10 +982,6 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id);
 		elseif ( strsub(type,1,10) == "BG_SYSTEM_" ) then
 			self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id);
-		elseif ( strsub(type,1,11) == "ACHIEVEMENT" ) then
-			self:AddMessage(format(CH:ConcatenateTimeStamp(arg1), "|Hplayer:"..arg2.."|h".."["..coloredName.."]".."|h"), info.r, info.g, info.b, info.id);
-		elseif ( strsub(type,1,18) == "GUILD_ACHIEVEMENT" ) then
-			self:AddMessage(format(CH:ConcatenateTimeStamp(arg1), "|Hplayer:"..arg2.."|h".."["..coloredName.."]".."|h"), info.r, info.g, info.b, info.id);
 		elseif ( type == "IGNORED" ) then
 			self:AddMessage(format(CH:ConcatenateTimeStamp(GlobalStrings.CHAT_IGNORED), arg2), info.r, info.g, info.b, info.id);
 		elseif ( type == "FILTERED" ) then
@@ -1115,7 +1151,6 @@ function CH:SetupChat()
 		local _, fontSize = GetChatWindowInfo(i)
 		local id = frame:GetID()
 		self:StyleChat(frame)
-		FCFTab_UpdateAlpha(frame)
 		--frame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
 		if self.db.fontOutline ~= "NONE" then
 			frame:SetShadowColor(0, 0, 0, 0.2)
@@ -1145,10 +1180,10 @@ function CH:SetupChat()
 	--self:ScheduleRepeatingTimer("PositionChat", 1)
 	self:PositionChat(true)
 
-	if not self.HookSecured then
-		self:SecureHook("FCF_OpenTemporaryWindow", "SetupChat")
-		self.HookSecured = true
-	end
+	-- if not self.HookSecured then
+	-- 	self:SecureHook("FCF_OpenTemporaryWindow", "SetupChat")
+	-- 	self.HookSecured = true
+	-- end
 end
 
 local function PrepareMessage(author, message)
@@ -1517,41 +1552,6 @@ function CH:Initialize()
 	-- self:SecureHook("ChatEdit_OnEnterPressed")
 
 	ChatFrameMenuButton:Kill()
-
-	--------------------------------------
-	-- TEMPORARY TILL A FIX CAN BE MADE --
-	--------------------------------------
-
-	for i = 1, NUM_CHAT_WINDOWS do
-		_G["ChatFrame"..i.."UpButton"]:Kill()
-		_G["ChatFrame"..i.."DownButton"]:Kill()
-		_G["ChatFrame"..i.."BottomButton"]:Kill()
-		_G["ChatFrame"..i.."ResizeTop"]:Kill()
-		_G["ChatFrame"..i.."ResizeBottom"]:Kill()
-		_G["ChatFrame"..i.."ResizeLeft"]:Kill()
-		_G["ChatFrame"..i.."ResizeRight"]:Kill()
-		_G["ChatFrame"..i.."ResizeTopLeft"]:Kill()
-		_G["ChatFrame"..i.."ResizeTopRight"]:Kill()
-		_G["ChatFrame"..i.."ResizeBottomLeft"]:Kill()
-		_G["ChatFrame"..i.."ResizeBottomRight"]:Kill()
-		_G["ChatFrame"..i.."TabDockRegion"]:Kill()
-		_G["ChatFrame"..i.."TabLeft"]:SetTexture(nil)
-		_G["ChatFrame"..i.."TabMiddle"]:SetTexture(nil)
-		_G["ChatFrame"..i.."TabRight"]:SetTexture(nil)
-		if i == 3 then
-			_G["ChatFrame"..i]:SetUserPlaced(true)
-			_G["ChatFrame"..i]:SetParent(RightChatPanel)
-			_G["ChatFrame"..i]:SetWidth(RightChatPanel:GetWidth())
-			_G["ChatFrame"..i.."Background"]:SetTexture(nil)
-		end
-	end
-
-	for i = 4, NUM_CHAT_WINDOWS do
-		FCF_Close(_G["ChatFrame"..i])
-	end
-
-	--------------------------------------
-	--------------------------------------
 
 	self:SecureHook("FCF_SetChatWindowFontSize", "SetChatFont")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "DelayGMOTD")
