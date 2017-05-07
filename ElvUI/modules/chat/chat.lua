@@ -93,12 +93,6 @@ local hyperlinkTypes = {
 	["talent"] = true,
 }
 
-local tabTexs = {
-	"",
-	"Selected",
-	"Highlight"
-}
-
 local smileyPack = {
 	["Angry"] = [[Interface\AddOns\ElvUI\media\textures\smileys\angry.blp]],
 	["Grin"] = [[Interface\AddOns\ElvUI\media\textures\smileys\grin.blp]],
@@ -254,69 +248,26 @@ function CH:GetSmileyReplacementText(msg)
 end
 
 function CH:StyleChat(frame)
-	local id = frame:GetID()
 	local name = frame:GetName()
-	local tab = _G[name.."Tab"]
-	local editbox = frame.editBox
 	_G[name.."TabText"]:FontTemplate(LSM:Fetch("font", self.db.tabFont), self.db.tabFontSize, self.db.tabFontOutline)
 
 	if frame.styled then return end
 
-	-------------------------------------------
-	-- TEMPORARY TILL A TRUE FIX CAN BE MADE --
-	-------------------------------------------
-
-	for i = 1, NUM_CHAT_WINDOWS do
-		local frame = "ChatFrame"..i;
-		local tab = _G[frame.."Tab"];
-
-		for i = 1, #CHAT_FRAME_TEXTURES do
-			_G[frame..CHAT_FRAME_TEXTURES[i]]:Kill()
-		end
-
-		tab:SetAlpha(1)
-		hooksecurefunc(tab, "SetAlpha", function(t, alpha)
-			if alpha ~= 1 and (not t.isDocked or DEFAULT_CHAT_FRAME:GetID() == t:GetID()) then
-				t:SetAlpha(1)
-			elseif alpha < 0.6 then
-				t:SetAlpha(0.6)
-			end
-		end)
-		tab.SetAlpha = UIFrameFadeRemoveFrame
-
-		tab:HookScript("OnEnter", function() _G[frame.."TabText"]:Show() end)
-		tab:HookScript("OnLeave", function() _G[frame.."TabText"]:Show() end)
-
-		_G[frame.."UpButton"]:Kill()
-		_G[frame.."DownButton"]:Kill()
-		_G[frame.."BottomButton"]:Kill()
-		_G[frame.."TabDockRegion"]:Kill()
-		_G[frame.."TabLeft"]:Kill()
-		_G[frame.."TabMiddle"]:Kill()
-		_G[frame.."TabRight"]:Kill()
-		_G[frame.."Tab"]:GetHighlightTexture():SetTexture(nil)
-		if _G[frame].isDocked or _G[frame]:IsVisible() then
-        	_G[frame.."Tab"]:Show()
-		end
-		if i == 1 or i == 2 then
-			_G[frame.."Tab"]:SetParent(LeftChatPanel)
-		elseif i == 3 then
-			_G[frame]:Width(ChatFrame1:GetWidth())
-			_G[frame]:Height(ChatFrame1:GetHeight())
-			_G[frame]:SetUserPlaced(true)
-			_G[frame]:SetParent(RightChatPanel)
-			_G[frame]:SetWidth(RightChatPanel:GetWidth())
-			_G[frame.."Background"]:SetTexture(nil)
-			_G[frame.."Tab"]:SetParent(RightChatPanel)
-		elseif i == 4 or i == 5 or i == 6 or i == 7 then
-			FCF_Close(_G[frame])
-		end
-	end
-
-	-------------------------------------------
-	-------------------------------------------
-
 	frame:SetFrameLevel(4)
+
+	local id = frame:GetID()
+
+	local tab = _G[name.."Tab"]
+	local editbox = ChatFrameEditBox
+
+	hooksecurefunc(tab, "SetAlpha", function(t, alpha)
+		if alpha ~= 1 and (not t.isDocked or SELECTED_CHAT_FRAME:GetID() == t:GetID()) then
+			t:SetAlpha(1)
+		elseif alpha < 0.6 then
+			t:SetAlpha(0.6)
+		end
+	end)
+
 	frame:SetClampRectInsets(0,0,0,0)
 	frame:SetClampedToScreen(false)
 
@@ -373,7 +324,7 @@ function CH:StyleChat(frame)
 	editbox:HookScript("OnEditFocusGained", function(self) self:Show(); if(not LeftChatPanel:IsShown()) then LeftChatPanel.editboxforced = true; LeftChatToggleButton:GetScript("OnEnter")(LeftChatToggleButton); end end);
 	editbox:HookScript("OnEditFocusLost", function(self) if(LeftChatPanel.editboxforced) then LeftChatPanel.editboxforced = nil; if(LeftChatPanel:IsShown()) then LeftChatToggleButton:GetScript("OnLeave")(LeftChatToggleButton); end end self:Hide(); end);
 	editbox:SetAllPoints(LeftChatDataPanel);
-	-- self:SecureHook("AddHistoryLine", "ChatEdit_AddHistory");
+	-- self:SecureHook(editbox, "AddHistoryLine", "ChatEdit_AddHistory");
 	editbox:HookScript("OnTextChanged", OnTextChanged);
 
 	editbox.historyLines = ElvCharacterDB.ChatEditHistory;
@@ -435,7 +386,7 @@ function CH:UpdateSettings()
 	for i = 1, CreatedFrames do
 		local chat = _G[format("ChatFrame%d", i)]
 		local name = chat:GetName()
-		local editbox = _G[name.."EditBox"]
+		local editbox = ChatFrameEditBox
 		editbox:SetAltArrowKeyMode(CH.db.useAltKey)
 	end
 end
@@ -517,17 +468,17 @@ function CH:SetupChatTabs(frame, hook)
 			frame.owner.button:SetAlpha(0.35)
 		end
 	elseif GetMouseFocus() ~= frame then
-		_G[frame:GetName().."Text"]:Hide()
+		_G[frame:GetName().."Text"]:Show()
 
 		if frame.owner and frame.owner.button and GetMouseFocus() ~= frame.owner.button then
-			frame.owner.button:SetAlpha(0)
+			frame.owner.button:SetAlpha(1)
 		end
 	end
 end
 
 function CH:UpdateAnchors()
 	for _, frameName in pairs(CHAT_FRAMES) do
-		local frame = _G[frameName .. "EditBox"];
+		local frame = ChatFrameEditBox
 		if(not frame) then break; end
 		if(not E.db.datatexts.leftChatPanel and (self.db.panelBackdrop == "HIDEBOTH" or self.db.panelBackdrop == "RIGHT")) then
 			frame:ClearAllPoints();
@@ -625,7 +576,7 @@ function CH:PositionChat(override)
 		chatbg = format("ChatFrame%dBackground", i)
 		id = chat:GetID()
 		tab = _G[format("ChatFrame%sTab", i)]
-		point = FloatingChatFrame_Update(id)
+		point = chat:GetPoint()
 		isDocked = chat.isDocked
 		tab.isDocked = chat.isDocked
 		tab.owner = chat
@@ -680,12 +631,11 @@ function CH:PositionChat(override)
 				chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET))
 
 			end
-
-			tab:SetParent(LeftChatPanel)
 			chat:SetParent(LeftChatPanel)
-
 			if i > 2 then
 				tab:SetParent(DEFAULT_CHAT_FRAME)
+			else
+				tab:SetParent(LeftChatPanel)
 			end
 			if chat:IsMovable() then
 				chat:SetUserPlaced(true)
@@ -1149,9 +1099,8 @@ function CH:SetupChat()
 	if E.private.chat.enable ~= true then return end
 	for i, frame in pairs(DOCKED_CHAT_FRAMES) do
 		local _, fontSize = GetChatWindowInfo(i)
-		local id = frame:GetID()
 		self:StyleChat(frame)
-		--frame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
+		frame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
 		if self.db.fontOutline ~= "NONE" then
 			frame:SetShadowColor(0, 0, 0, 0.2)
 		else
@@ -1164,24 +1113,31 @@ function CH:SetupChat()
 		if not frame.scriptsSet then
 			frame:SetScript("OnMouseWheel", ChatFrame_OnMouseScroll)
 			frame:EnableMouseWheel(true)
-			if id > NUM_CHAT_WINDOWS then
+			--THIS CAUSES LUA ERROR WHEN RESETTING CHAT TO DEFAULTS OR WHEN RUNNING FCF_ResetChatWindows()
+			-- if id > NUM_CHAT_WINDOWS then
+			-- 	frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
+			-- elseif id ~= 2 then
+			-- 	frame:SetScript("OnEvent", CH.ChatFrame_OnEvent)
+			-- end
+			--Use this instead for the time being
+			if id ~= 2 then
 				frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
-			elseif id ~= 2 then
-				frame:SetScript("OnEvent", CH.ChatFrame_OnEvent)
 			end
+
+			frame.scriptsSet = true
 		end
 	end
 
 	if self.db.hyperlinkHover then
-		self:EnableHyperlink()
+		-- self:EnableHyperlink()
 	end
 
 	DEFAULT_CHAT_FRAME:SetParent(LeftChatPanel)
-	--self:ScheduleRepeatingTimer("PositionChat", 1)
+	-- self:ScheduleRepeatingTimer("PositionChat", 1)
 	self:PositionChat(true)
 
 	-- if not self.HookSecured then
-	-- 	self:SecureHook("FCF_OpenTemporaryWindow", "SetupChat")
+	-- 	self:SecureHook("FCF_OpenNewWindow", "SetupChat")
 	-- 	self.HookSecured = true
 	-- end
 end
@@ -1552,6 +1508,35 @@ function CH:Initialize()
 	-- self:SecureHook("ChatEdit_OnEnterPressed")
 
 	ChatFrameMenuButton:Kill()
+
+	for i = 1, NUM_CHAT_WINDOWS do
+		local frame = "ChatFrame"..i;
+		local tab = _G[frame.."Tab"];
+		local text = _G[frame.."TabText"]
+
+		for i = 1, #CHAT_FRAME_TEXTURES do
+			_G[frame..CHAT_FRAME_TEXTURES[i]]:Kill()
+		end
+
+		-- tab:SetAlpha(1)
+		tab.SetAlpha = UIFrameFadeRemoveFrame
+
+		tab:HookScript("OnEnter", function() _G[frame.."TabText"]:Show() end)
+		tab:HookScript("OnLeave", function() _G[frame.."TabText"]:Show() end)
+
+		if _G[frame].isDocked or _G[frame]:IsVisible() then
+	    	tab:Show()
+		end
+
+		_G[frame.."UpButton"]:Kill()
+		_G[frame.."DownButton"]:Kill()
+		_G[frame.."BottomButton"]:Kill()
+		_G[frame.."TabDockRegion"]:Kill()
+		_G[frame.."TabLeft"]:Kill()
+		_G[frame.."TabMiddle"]:Kill()
+		_G[frame.."TabRight"]:Kill()
+		_G[frame.."Tab"]:GetHighlightTexture():SetTexture(nil)
+	end
 
 	self:SecureHook("FCF_SetChatWindowFontSize", "SetChatFont")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "DelayGMOTD")

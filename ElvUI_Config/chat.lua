@@ -163,44 +163,44 @@ E.Options.args.chat = {
 					desc = L["Number of messages you scroll for each step."],
 					min = 1, max = 10, step = 1,
 				},
-				timeStampFormat = {
-					order = 16,
-					type = "select",
-					name = TIMESTAMPS_LABEL,
-					desc = OPTION_TOOLTIP_TIMESTAMPS,
-					values = {
-						["NONE"] = NONE,
-						["%I:%M "] = "03:27",
-						["%I:%M:%S "] = "03:27:32",
-						["%I:%M %p "] = "03:27 PM",
-						["%I:%M:%S %p "] = "03:27:32 PM",
-						["%H:%M "] = "15:27",
-						["%H:%M:%S "] =	"15:27:32"
-					}
-				},
-				useCustomTimeColor = {
-					order = 17,
-					type = "toggle",
-					name = L["Custom Timestamp Color"],
-					disabled = function() return not E.db.chat.timeStampFormat == "NONE"; end
-				},
-				customTimeColor = {
-					order = 18,
-					type = "color",
-					hasAlpha = false,
-					name = L["Timestamp Color"],
-					disabled = function() return (not E.db.chat.timeStampFormat == "NONE" or not E.db.chat.useCustomTimeColor); end,
-					get = function(info)
-						local t = E.db.chat.customTimeColor;
-						local d = P.chat.customTimeColor;
-						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
-					end,
-					set = function(info, r, g, b)
-						E.db.chat.customTimeColor = {};
-						local t = E.db.chat.customTimeColor;
-						t.r, t.g, t.b = r, g, b;
-					end
-				},
+				-- timeStampFormat = {
+				-- 	order = 16,
+				-- 	type = "select",
+				-- 	name = TIMESTAMPS_LABEL,
+				-- 	desc = nil,
+				-- 	values = {
+				-- 		["NONE"] = NONE,
+				-- 		["%I:%M "] = "03:27",
+				-- 		["%I:%M:%S "] = "03:27:32",
+				-- 		["%I:%M %p "] = "03:27 PM",
+				-- 		["%I:%M:%S %p "] = "03:27:32 PM",
+				-- 		["%H:%M "] = "15:27",
+				-- 		["%H:%M:%S "] =	"15:27:32"
+				-- 	}
+				-- },
+				-- useCustomTimeColor = {
+				-- 	order = 17,
+				-- 	type = "toggle",
+				-- 	name = L["Custom Timestamp Color"],
+				-- 	disabled = function() return not E.db.chat.timeStampFormat == "NONE"; end
+				-- },
+				-- customTimeColor = {
+				-- 	order = 18,
+				-- 	type = "color",
+				-- 	hasAlpha = false,
+				-- 	name = L["Timestamp Color"],
+				-- 	disabled = function() return (not E.db.chat.timeStampFormat == "NONE" or not E.db.chat.useCustomTimeColor); end,
+				-- 	get = function(info)
+				-- 		local t = E.db.chat.customTimeColor;
+				-- 		local d = P.chat.customTimeColor;
+				-- 		return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
+				-- 	end,
+				-- 	set = function(info, r, g, b)
+				-- 		E.db.chat.customTimeColor = {};
+				-- 		local t = E.db.chat.customTimeColor;
+				-- 		t.r, t.g, t.b = r, g, b;
+				-- 	end
+				-- },
 				scrollDirection = {
 					order = 19,
 					type = "select",

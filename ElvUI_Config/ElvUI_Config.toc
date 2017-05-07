@@ -13,7 +13,7 @@ General.lua
 actionbars.lua
 auras.lua
 bags.lua
-# chat.lua
+chat.lua
 datatexts.lua
 filters.lua
 nameplates.lua
