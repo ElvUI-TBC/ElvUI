@@ -1,7 +1,11 @@
 local E, L, V, P, G = unpack(ElvUI)
 local AB = E:GetModule("ActionBars")
 
+local _G = _G
 local ceil = math.ceil
+
+local CreateFrame = CreateFrame
+local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS
 
 local bar = CreateFrame("Frame", "ElvUI_Bar5", E.UIParent, "SecureStateHeaderTemplate")
 
@@ -23,8 +27,8 @@ function AB:PositionAndSizeBar5()
 		numColumns = 1
 	end
 
-	bar:SetWidth(spacing + ((size * (buttonsPerRow * widthMult)) + ((spacing * (buttonsPerRow - 1)) * widthMult) + (spacing * widthMult)))
-	bar:SetHeight(spacing + ((size * (numColumns * heightMult)) + ((spacing * (numColumns - 1)) * heightMult) + (spacing * heightMult)))
+	bar:Width(spacing + ((size * (buttonsPerRow * widthMult)) + ((spacing * (buttonsPerRow - 1)) * widthMult) + (spacing * widthMult)))
+	bar:Height(spacing + ((size * (numColumns * heightMult)) + ((spacing * (numColumns - 1)) * heightMult) + (spacing * heightMult)))
 	bar.mover:Size(bar:GetSize())
 
 	if self.db["bar5"].backdrop == true then
@@ -123,6 +127,28 @@ function AB:PositionAndSizeBar5()
 			button:SetScale(1)
 			button:SetAlpha(1)
 		end
+	end
+
+	if self.db["bar5"].enabled or not bar.initialized then
+		if not self.db["bar5"].mouseover then
+			bar:SetAlpha(self.db["bar5"].alpha)
+		end
+
+		bar:Show()
+		RegisterStateDriver(bar, "visibility", self.db["bar5"].visibility)
+		RegisterStateDriver(bar, "page", self:GetPage("bar5", 5, condition))
+
+		if not bar.initialized then
+			bar.initialized = true
+			AB:PositionAndSizeBar5()
+			return
+		end
+
+		E:EnableMover(bar.mover:GetName())
+	else
+		E:DisableMover(bar.mover:GetName())
+		bar:Hide()
+		UnregisterStateDriver(bar, "visibility")
 	end
 end
 

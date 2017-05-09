@@ -1,7 +1,11 @@
 local E, L, V, P, G = unpack(ElvUI)
 local AB = E:GetModule("ActionBars")
 
+local _G = _G
 local ceil = math.ceil
+
+local CreateFrame = CreateFrame
+local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS
 
 local bar = CreateFrame("Frame", "ElvUI_Bar1", E.UIParent, "SecureStateHeaderTemplate")
 
@@ -15,41 +19,38 @@ function AB:PositionAndSizeBar1()
 	local widthMult = self.db["bar1"].widthMult
 	local heightMult = self.db["bar1"].heightMult
 
-	if(numButtons < buttonsPerRow) then
+	if numButtons < buttonsPerRow then
 		buttonsPerRow = numButtons
 	end
 
-	if(numColumns < 1) then
+	if numColumns < 1 then
 		numColumns = 1
 	end
 
-	bar:SetWidth(spacing + ((size * (buttonsPerRow * widthMult)) + ((spacing * (buttonsPerRow - 1)) * widthMult) + (spacing * widthMult)))
-	bar:SetHeight(spacing + ((size * (numColumns * heightMult)) + ((spacing * (numColumns - 1)) * heightMult) + (spacing * heightMult)))
+	bar:Width(spacing + ((size * (buttonsPerRow * widthMult)) + ((spacing * (buttonsPerRow - 1)) * widthMult) + (spacing * widthMult)))
+	bar:Height(spacing + ((size * (numColumns * heightMult)) + ((spacing * (numColumns - 1)) * heightMult) + (spacing * heightMult)))
 	bar.mover:Size(bar:GetSize())
 
-	if(self.db["bar1"].backdrop) then
+	if self.db["bar1"].backdrop then
 		bar.backdrop:Show()
 	else
 		bar.backdrop:Hide()
 	end
 
 	local horizontalGrowth, verticalGrowth
-	do
-		if(point == "TOPLEFT" or point == "TOPRIGHT") then
+		if point == "TOPLEFT" or point == "TOPRIGHT" then
 			verticalGrowth = "DOWN"
 		else
 			verticalGrowth = "UP"
 		end
 
-		if(point == "BOTTOMLEFT" or point == "TOPLEFT") then
+		if point == "BOTTOMLEFT" or point == "TOPLEFT" then
 			horizontalGrowth = "RIGHT"
 		else
 			horizontalGrowth = "LEFT"
 		end
-	end
 
 	local button, lastButton, lastColumnButton
-	do
 		for i = 1, NUM_ACTIONBAR_BUTTONS do
 			button = _G["ActionButton"..i]
 			lastButton = _G["ActionButton"..i-1]
@@ -60,53 +61,51 @@ function AB:PositionAndSizeBar1()
 			button:SetAttribute("showgrid", 1)
 			ActionButton_ShowGrid(button)
 
-			if(self.db["bar1"].mouseover) then
+			if self.db["bar1"].mouseover == true then
 				bar:SetAlpha(0)
 
-				if(not self.hooks[bar]) then
+				if not self.hooks[bar] then
 					self:HookScript(bar, "OnEnter", "Bar_OnEnter")
 					self:HookScript(bar, "OnLeave", "Bar_OnLeave")
 				end
 
-				if(not self.hooks[button]) then
+				if not self.hooks[button] then
 					self:HookScript(button, "OnEnter", "Button_OnEnter")
 					self:HookScript(button, "OnLeave", "Button_OnLeave")
 				end
 			else
 				bar:SetAlpha(self.db["bar1"].alpha)
 
-				if(self.hooks[bar]) then
+				if self.hooks[bar] then
 					self:Unhook(bar, "OnEnter")
 					self:Unhook(bar, "OnLeave")
 				end
 
-				if(self.hooks[button]) then
+				if self.hooks[button] then
 					self:Unhook(button, "OnEnter")
 					self:Unhook(button, "OnLeave")
 				end
 			end
 
-			if(i == 1) then
+			if i == 1 then
 				local x, y
-				do
-					if(point == "BOTTOMLEFT") then
+					if point == "BOTTOMLEFT" then
 						x, y = spacing, spacing
-					elseif(point == "TOPRIGHT") then
+					elseif point == "TOPRIGHT" then
 						x, y = -spacing, -spacing
-					elseif(point == "TOPLEFT") then
+					elseif point == "TOPLEFT" then
 						x, y = spacing, -spacing
 					else
 						x, y = -spacing, spacing
 					end
-				end
 
 				button:Point(point, bar, point, x, y)
-			elseif((i - 1) % buttonsPerRow == 0) then
+			elseif (i - 1) % buttonsPerRow == 0 then
 				local x = 0
 				local y = -spacing
 				local buttonPoint, anchorPoint = "TOP", "BOTTOM"
 
-				if(verticalGrowth == "UP") then
+				if verticalGrowth == "UP" then
 					y = spacing
 					buttonPoint = "BOTTOM"
 					anchorPoint = "TOP"
@@ -118,7 +117,7 @@ function AB:PositionAndSizeBar1()
 				local y = 0
 				local buttonPoint, anchorPoint = "LEFT", "RIGHT"
 
-				if(horizontalGrowth == "LEFT") then
+				if horizontalGrowth == "LEFT" then
 					x = -spacing
 					buttonPoint = "RIGHT"
 					anchorPoint = "LEFT"
@@ -127,7 +126,7 @@ function AB:PositionAndSizeBar1()
 				button:Point(buttonPoint, lastButton, anchorPoint, x, y)
 			end
 
-			if(i > numButtons) then
+			if i > numButtons then
 				button:SetScale(0.000001)
 				button:SetAlpha(0)
 			else
@@ -135,6 +134,26 @@ function AB:PositionAndSizeBar1()
 				button:SetAlpha(1)
 			end
 		end
+
+	if self.db["bar1"].enabled or not bar.initialized then
+		if not self.db["bar1"].mouseover then
+			bar:SetAlpha(self.db["bar1"].alpha)
+		end
+
+		bar:Show()
+		RegisterStateDriver(bar, "visibility", self.db["bar1"].visibility)
+		RegisterStateDriver(bar, "page", self:GetPage("bar1", 1, condition))
+
+		if not bar.initialized then
+			bar.initialized = true
+			AB:PositionAndSizeBar1()
+			return
+		end
+		E:EnableMover(bar.mover:GetName())
+	else
+		E:DisableMover(bar.mover:GetName())
+		bar:Hide()
+		UnregisterStateDriver(bar, "visibility")
 	end
 end
 

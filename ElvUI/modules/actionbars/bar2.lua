@@ -1,7 +1,11 @@
 local E, L, V, P, G = unpack(ElvUI)
 local AB = E:GetModule("ActionBars")
 
+local _G = _G
 local ceil = math.ceil
+
+local CreateFrame = CreateFrame
+local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS
 
 local bar = CreateFrame("Frame", "ElvUI_Bar2", E.UIParent, "SecureStateHeaderTemplate")
 
@@ -58,6 +62,7 @@ function AB:PositionAndSizeBar2()
 
 		if self.db["bar2"].mouseover == true then
 			bar:SetAlpha(0)
+
 			if not self.hooks[bar] then
 				self:HookScript(bar, "OnEnter", "Bar_OnEnter")
 				self:HookScript(bar, "OnLeave", "Bar_OnLeave")
@@ -97,16 +102,19 @@ function AB:PositionAndSizeBar2()
 			local x = 0
 			local y = -spacing
 			local buttonPoint, anchorPoint = "TOP", "BOTTOM"
+
 			if verticalGrowth == "UP" then
 				y = spacing
 				buttonPoint = "BOTTOM"
 				anchorPoint = "TOP"
 			end
+
 			button:Point(buttonPoint, lastColumnButton, anchorPoint, x, y)
 		else
 			local x = spacing
 			local y = 0
 			local buttonPoint, anchorPoint = "LEFT", "RIGHT"
+
 			if horizontalGrowth == "LEFT" then
 				x = -spacing
 				buttonPoint = "RIGHT"
@@ -139,7 +147,10 @@ function AB:PositionAndSizeBar2()
 			AB:PositionAndSizeBar2()
 			return
 		end
+
+		E:EnableMover(bar.mover:GetName())
 	else
+		E:DisableMover(bar.mover:GetName())
 		bar:Hide()
 		UnregisterStateDriver(bar, "visibility")
 	end
