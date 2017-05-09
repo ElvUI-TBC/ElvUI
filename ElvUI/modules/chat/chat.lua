@@ -19,13 +19,13 @@ local InCombatLockdown = InCombatLockdown;
 local ChatFrame_SendTell = ChatFrame_SendTell;
 local GetChannelName = GetChannelName;
 local ToggleFrame = ToggleFrame;
-local GetChatWindowInfo = GetChatWindowInfo;
+local FCF_GetChatWindowInfo = FCF_GetChatWindowInfo;
 local FCF_SetChatWindowFontSize = FCF_SetChatWindowFontSize;
 local GetMouseFocus = GetMouseFocus;
 local FloatingChatFrame_Update = FloatingChatFrame_Update;
 local IsMouseButtonDown = IsMouseButtonDown;
 local PlaySoundFile = PlaySoundFile;
-local ChatFrameEditBox = ChatFrameEditBox;
+local ChatFrameEditBox = _G["ChatFrameEditBox"];
 local ChatFrame_ActivateCombatMessagesChat = ChatFrame_ActivateCombatMessagesChat;
 local ShowUIPanel, HideUIPanel = ShowUIPanel, HideUIPanel;
 local BetterDate = BetterDate;
@@ -60,11 +60,10 @@ local GlobalStrings = {
 	["RAID_WARNING"] = RAID_WARNING
 };
 
-local CreatedFrames = 3;
+local CreatedFrames = 0;
 local lines = {};
 local msgList, msgCount, msgTime = {}, {}, {}
 local chatFilters = {};
-local CHAT_FRAMES = {};
 
 local PLAYER_REALM = gsub(E.myrealm,"[%s%-]","")
 
@@ -88,7 +87,6 @@ local hyperlinkTypes = {
 	["unit"] = true,
 	["quest"] = true,
 	["enchant"] = true,
-	["achievement"] = true,
 	["instancelock"] = true,
 	["talent"] = true,
 }
@@ -258,13 +256,17 @@ function CH:StyleChat(frame)
 	local id = frame:GetID()
 
 	local tab = _G[name.."Tab"]
-	local editbox = ChatFrameEditBox
+	local editbox = _G["ChatFrameEditBox"]
 
+	tab:SetAlpha(1)
+	UIFrameFadeRemoveFrame(tab)
 	hooksecurefunc(tab, "SetAlpha", function(t, alpha)
 		if alpha ~= 1 and (not t.isDocked or SELECTED_CHAT_FRAME:GetID() == t:GetID()) then
 			t:SetAlpha(1)
+			UIFrameFadeRemoveFrame(t)
 		elseif alpha < 0.6 then
 			t:SetAlpha(0.6)
+			UIFrameFadeRemoveFrame(t)
 		end
 	end)
 
@@ -386,7 +388,7 @@ function CH:UpdateSettings()
 	for i = 1, CreatedFrames do
 		local chat = _G[format("ChatFrame%d", i)]
 		local name = chat:GetName()
-		local editbox = ChatFrameEditBox
+		local editbox = _G["ChatFrameEditBox"]
 		editbox:SetAltArrowKeyMode(CH.db.useAltKey)
 	end
 end
@@ -431,7 +433,7 @@ end
 
 function CH:CopyChat(frame)
 	if not CopyChatFrame:IsShown() then
-		local _, fontSize = GetChatWindowInfo(frame:GetID())
+		local _, fontSize = FCF_GetChatWindowInfo(frame:GetID())
 		if fontSize < 10 then fontSize = 12 end
 		FCF_SetChatWindowFontSize(frame, 0.01)
 		CopyChatFrame:Show()
@@ -478,7 +480,8 @@ end
 
 function CH:UpdateAnchors()
 	for _, frameName in pairs(CHAT_FRAMES) do
-		local frame = ChatFrameEditBox
+		local frame = _G["ChatFrameEditBox"]
+
 		if(not frame) then break; end
 		if(not E.db.datatexts.leftChatPanel and (self.db.panelBackdrop == "HIDEBOTH" or self.db.panelBackdrop == "RIGHT")) then
 			frame:ClearAllPoints();
@@ -710,7 +713,7 @@ end
 local SetHyperlink = ItemRefTooltip.SetHyperlink;
 function ItemRefTooltip:SetHyperlink(data, ...)
 	if((data):sub(1, 3) == "url") then
-		local ChatFrameEditBox = ChatFrameEditBox;
+		local ChatFrameEditBox = _G["ChatFrameEditBox"];
 		local currentLink = (data):sub(5);
 		if(not ChatFrameEditBox:IsShown()) then
 			ChatFrame_ActivateCombatMessages(ChatFrameEditBox);
@@ -724,7 +727,7 @@ end
 
 local function WIM_URLLink(link)
 	if (link):sub(1, 3) == "url" then
-		local ChatFrameEditBox = ChatFrameEditBox;
+		local ChatFrameEditBox = _G["ChatFrameEditBox"];
 		local currentLink = (link):sub(5);
 		if (not ChatFrameEditBox:IsShown()) then
 			ChatFrame_ActivateCombatMessagesChat(ChatFrameEditBox);
@@ -969,7 +972,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			self:AddMessage(format(CH:ConcatenateTimeStamp(globalstring), arg8, arg4), info.r, info.g, info.b, info.id, false, accessID, typeID);
 		else
 			local body;
-			local _, fontHeight = GetChatWindowInfo(self:GetID());
+			local _, fontHeight = FCF_GetChatWindowInfo(self:GetID());
 
 			if ( fontHeight == 0 ) then
 				--fontHeight will be 0 if it's still at the default (14)
@@ -1097,9 +1100,12 @@ end
 
 function CH:SetupChat()
 	if E.private.chat.enable ~= true then return end
-	for i, frame in pairs(DOCKED_CHAT_FRAMES) do
-		local _, fontSize = GetChatWindowInfo(i)
+	for _, frameName in pairs(CHAT_FRAMES) do
+		local frame = _G[frameName]
+		local id = frame:GetID()
+		local _, fontSize = FCF_GetChatWindowInfo(id)
 		self:StyleChat(frame)
+		FCFTab_UpdateAlpha(frame)
 		frame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
 		if self.db.fontOutline ~= "NONE" then
 			frame:SetShadowColor(0, 0, 0, 0.2)
@@ -1129,17 +1135,17 @@ function CH:SetupChat()
 	end
 
 	if self.db.hyperlinkHover then
-		-- self:EnableHyperlink()
+		self:EnableHyperlink()
 	end
 
 	DEFAULT_CHAT_FRAME:SetParent(LeftChatPanel)
 	-- self:ScheduleRepeatingTimer("PositionChat", 1)
 	self:PositionChat(true)
 
-	-- if not self.HookSecured then
-	-- 	self:SecureHook("FCF_OpenNewWindow", "SetupChat")
-	-- 	self.HookSecured = true
-	-- end
+	if not self.HookSecured then
+		self:SecureHook("FCF_OpenTemporaryWindow", "SetupChat")
+		self.HookSecured = true
+	end
 end
 
 local function PrepareMessage(author, message)
@@ -1517,9 +1523,6 @@ function CH:Initialize()
 		for i = 1, #CHAT_FRAME_TEXTURES do
 			_G[frame..CHAT_FRAME_TEXTURES[i]]:Kill()
 		end
-
-		-- tab:SetAlpha(1)
-		tab.SetAlpha = UIFrameFadeRemoveFrame
 
 		tab:HookScript("OnEnter", function() _G[frame.."TabText"]:Show() end)
 		tab:HookScript("OnLeave", function() _G[frame.."TabText"]:Show() end)

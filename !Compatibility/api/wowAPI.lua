@@ -13,6 +13,8 @@ local UnitLevel = UnitLevel
 local TIMEMANAGER_AM = TIMEMANAGER_AM
 local TIMEMANAGER_PM = TIMEMANAGER_PM
 
+DEFAULT_TAB_SELECTED_COLOR_TABLE = { r = 1, g = 0.5, b = 0.25 };
+
 CHAT_FRAME_TAB_SELECTED_MOUSEOVER_ALPHA = 1.0;
 CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0.4;
 CHAT_FRAME_TAB_ALERTING_MOUSEOVER_ALPHA = 1.0;
@@ -31,6 +33,10 @@ CURRENT_CHAT_FRAME_ID = nil;
 
 LOCALIZED_CLASS_NAMES_MALE = {}
 LOCALIZED_CLASS_NAMES_FEMALE = {}
+
+CURRENT_CHAT_FRAME_ID = nil;
+
+local dedicatedWindows = {};
 
 local accessIDs = {};
 local nextAccessID = 1;
@@ -80,6 +86,16 @@ QuestDifficultyColors = {
 	["trivial"] = {r = 0.50, g = 0.50, b = 0.50},
 	["header"] = {r = 0.70, g = 0.70, b = 0.70}
 }
+
+CHAT_FRAMES = {
+	"ChatFrame1",
+	"ChatFrame2",
+	"ChatFrame3",
+	"ChatFrame4",
+	"ChatFrame5",
+	"ChatFrame6",
+	"ChatFrame7"
+};
 
 CHAT_CATEGORY_LIST = {
 	PARTY = { "PARTY_LEADER", "PARTY_GUIDE", "MONSTER_PARTY" },
@@ -149,4 +165,311 @@ end
 
 function ChatHistory_GetToken(chatType, chatTarget)
 	return strlower(chatType)..";;"..(chatTarget and strlower(chatTarget) or "");
+end
+
+function FCF_OpenTemporaryWindow(chatType, chatTarget, sourceChatFrame, selectWindow)
+	local chatFrame, chatTab;
+	for _, chatFrameName in pairs(CHAT_FRAMES) do
+		local frame = _G[chatFrameName];
+		if ( frame.isTemporary ) then
+			if ( not frame.inUse and not frame.isDocked ) then
+				chatFrame = frame;
+				chatTab = _G[chatFrame:GetName().."Tab"];
+				break;
+			end
+		end
+	end
+
+	if ( not chatFrame ) then
+		chatTab = CreateFrame("Button", "ChatFrame"..maxTempIndex.."Tab", UIParent, "ChatTabTemplate", maxTempIndex);
+
+
+		local tabText = _G[chatTab:GetName().."Text"];
+		tabText:SetPoint("LEFT", chatTab, "RIGHT", 10, -6);
+		tabText:SetJustifyH("LEFT");
+		chatTab.sizePadding = 10;
+
+		chatFrame = CreateFrame("ScrollingMessageFrame", "ChatFrame"..maxTempIndex, UIParent, "FloatingChatFrameTemplate", maxTempIndex);
+		chatFrame:SetScript("OnMouseWheel", FloatingChatFrame_OnMouseScroll);
+		chatFrame:EnableMouseWheel(true);
+
+
+		maxTempIndex = maxTempIndex + 1;
+	end
+
+	--Copy chat settings from the source frame.
+	FCF_CopyChatSettings(chatFrame, sourceChatFrame or DEFAULT_CHAT_FRAME);
+
+	-- clear stale messages
+	chatFrame:Clear();
+	chatFrame.inUse = true;
+	chatFrame.isTemporary = true;
+
+	FCF_SetTemporaryWindowType(chatFrame, chatType, chatTarget);
+
+	if ( sourceChatFrame ) then
+		--Stop displaying this type of chat in the old chat frame.
+		if ( chatType == "WHISPER") then
+			ChatFrame_ExcludePrivateMessageTarget(sourceChatFrame, chatTarget);
+		end
+
+		--Copy over messages
+		local accessID = ChatHistory_GetAccessID(chatType, chatTarget);
+		-- for i = 1, sourceChatFrame:GetNumMessages(accessID) do
+		-- 	local text, accessID, lineID, extraData = sourceChatFrame:GetMessageInfo(i, accessID);
+		-- 	local cType, cTarget = ChatHistory_GetChatType(extraData);
+
+		-- 	local info = ChatTypeInfo[cType];
+		-- 	chatFrame:AddMessage(text, info.r, info.g, info.b, lineID, false, accessID, extraData);
+		-- end
+		--Remove the messages from the old frame.
+		sourceChatFrame:RemoveChatWindowMessages(accessID);
+	end
+
+	--Close the Editbox
+	-- ChatEdit_DeactivateChat(chatFrame.editBox);
+
+	-- Show the frame and tab
+	chatFrame:Show();
+	chatTab:Show();
+
+	-- Dock the frame by default
+	FCF_DockFrame(chatFrame, (#FCFDock_GetChatFrames(DEFAULT_CHAT_FRAME)+1), selectWindow);
+	return chatFrame;
+end
+
+function FCF_SetTemporaryWindowType(chatFrame, chatType, chatTarget)
+	local chatTab = _G[chatFrame:GetName().."Tab"];
+	--If the frame was already registered, unregister it.
+	if ( chatFrame.isRegistered ) then
+		FCFManager_UnregisterDedicatedFrame(chatFrame, chatFrame.chatType, chatFrame.chatTarget);
+		chatFrame.isRegistered = false;
+	end
+
+	--Set the title text
+	local name;
+	if ( chatType == "WHISPER" ) then
+		name = chatTarget;
+	end
+	FCF_SetWindowName(chatFrame, name);
+
+
+	--Set up the window to receive the message types we want.
+	chatFrame.chatType = chatType;
+	chatFrame.chatTarget = chatTarget;
+
+	ChatFrame_RemoveAllMessageGroups(chatFrame);
+	ChatFrame_RemoveAllChannels(chatFrame);
+	ChatFrame_ReceiveAllPrivateMessages(chatFrame);
+
+	ChatFrame_AddMessageGroup(chatFrame, chatType);
+
+	chatFrame.editBox:SetAttribute("chatType", chatType);
+	chatFrame.editBox:SetAttribute("stickyType", chatType);
+
+	if ( chatType == "WHISPER" ) then
+		chatFrame.editBox:SetAttribute("tellTarget", chatTarget);
+		ChatFrame_AddPrivateMessageTarget(chatFrame, chatTarget);
+	end
+
+	-- Set up the colors
+	local info = ChatTypeInfo[chatType];
+	chatTab.selectedColorTable = { r = info.r, g = info.g, b = info.b };
+	FCFTab_UpdateColors(chatTab, not chatFrame.isDocked or chatFrame == FCFDock_GetSelectedWindow(DEFAULT_CHAT_FRAME));
+
+	chatFrame:SetMinMaxValues(CHAT_FRAME_MIN_WIDTH, CHAT_FRAME_NORMAL_MIN_HEIGHT);
+
+	--Register this frame
+	FCFManager_RegisterDedicatedFrame(chatFrame, chatType, chatTarget);
+	chatFrame.isRegistered = true;
+
+	--The window name may have been updated, so update the dock and tabs.
+	FCF_DockUpdate();
+end
+
+function ChatEdit_DeactivateChat(editBox)
+	if ( ACTIVE_CHAT_EDIT_BOX == editBox ) then
+		ACTIVE_CHAT_EDIT_BOX = nil;
+	end
+
+	ChatEdit_SetDeactivated(editBox);
+end
+
+local function ChatEdit_SetDeactivated(editBox)
+	editBox:SetFrameStrata("LOW");
+	editBox:SetText("");
+	editBox.header:Hide();
+	editBox:SetAlpha(0.35);
+	editBox:ClearFocus();
+
+	editBox.focusLeft:Hide();
+	editBox.focusRight:Hide();
+	editBox.focusMid:Hide();
+end
+
+function FCFManager_UnregisterDedicatedFrame(chatFrame, chatType, chatTarget)
+	local token = FCFManager_GetToken(chatType, chatTarget);
+	local windowList = dedicatedWindows[token];
+	if ( windowList ) then
+		tDeleteItem(windowList, chatFrame);
+	end
+end
+
+function FCFTab_UpdateColors(self, selected)
+	if ( selected ) then
+		self.leftSelectedTexture:Show();
+		self.middleSelectedTexture:Show();
+		self.rightSelectedTexture:Show();
+	else
+		self.leftSelectedTexture:Hide();
+		self.middleSelectedTexture:Hide();
+		self.rightSelectedTexture:Hide();
+	end
+
+	local colorTable = self.selectedColorTable or DEFAULT_TAB_SELECTED_COLOR_TABLE;
+
+	if ( self.selectedColorTable ) then
+		self:GetFontString():SetTextColor(colorTable.r, colorTable.g, colorTable.b);
+	else
+		self:GetFontString():SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+	end
+
+	self.leftSelectedTexture:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+	self.middleSelectedTexture:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+	self.rightSelectedTexture:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+
+	self.leftHighlightTexture:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+	self.middleHighlightTexture:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+	self.rightHighlightTexture:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+	self.glow:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+
+	if ( self.conversationIcon ) then
+		self.conversationIcon:SetVertexColor(colorTable.r, colorTable.g, colorTable.b);
+	end
+
+	local minimizedFrame = _G["ChatFrame"..self:GetID().."Minimized"];
+	if ( minimizedFrame ) then
+		minimizedFrame.selectedColorTable = self.selectedColorTable;
+		FCFMin_UpdateColors(minimizedFrame);
+	end
+end
+
+function FCFDock_GetSelectedWindow(dock)
+	return dock.selected;
+end
+
+function FCFTab_UpdateAlpha(chatFrame)
+	local chatTab = _G[chatFrame:GetName().."Tab"];
+	if ( not chatFrame.isDocked or chatFrame == FCFDock_GetSelectedWindow(DEFAULT_CHAT_FRAME) ) then
+		chatTab.mouseOverAlpha = CHAT_FRAME_TAB_SELECTED_MOUSEOVER_ALPHA;
+		chatTab.noMouseAlpha = CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA;
+	else
+		if ( chatTab.alerting ) then
+			chatTab.mouseOverAlpha = CHAT_FRAME_TAB_ALERTING_MOUSEOVER_ALPHA;
+			chatTab.noMouseAlpha = CHAT_FRAME_TAB_ALERTING_NOMOUSE_ALPHA;
+		else
+			chatTab.mouseOverAlpha = CHAT_FRAME_TAB_NORMAL_MOUSEOVER_ALPHA;
+			chatTab.noMouseAlpha = CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA;
+		end
+	end
+
+	-- If this is in the middle of fading, stop it, since we're about to set the alpha
+	UIFrameFadeRemoveFrame(chatTab);
+
+	if ( chatFrame.hasBeenFaded ) then
+		chatTab:SetAlpha(chatTab.mouseOverAlpha);
+	else
+		chatTab:SetAlpha(chatTab.noMouseAlpha);
+	end
+end
+
+function FloatingChatFrame_OnMouseScroll(self, delta)
+	if ( delta > 0 ) then
+		self:ScrollUp();
+	else
+		self:ScrollDown();
+	end
+end
+
+function FCF_GetChatWindowInfo(id)
+	if ( id > NUM_CHAT_WINDOWS ) then
+		local frame = _G["ChatFrame"..id];
+		local tab = _G["ChatFrame"..id.."Tab"];
+		local background = _G["ChatFrame"..id.."Background"];
+
+		if ( frame and tab and background ) then
+			local r, g, b, a = background:GetVertexColor();
+
+			return tab:GetText(), select(2, frame:GetFont()), r, g, b, a, frame:IsShown(), frame.isLocked, frame.isDocked, frame.isUninteractable;
+			--This is a temporary chat window. Pass this to whatever handles those options.
+		end
+	else
+		return GetChatWindowInfo(id);
+	end
+end
+
+function FCF_CopyChatSettings(copyTo, copyFrom)
+	local name, fontSize, r, g, b, a, shown, locked, docked = FCF_GetChatWindowInfo(copyFrom:GetID());
+	FCF_SetWindowColor(copyTo, r, g, b, 1);
+	FCF_SetWindowAlpha(copyTo, a, 1);
+	--If we're copying to a docked window, we don't want to copy locked.
+	if ( not copyTo.isDocked ) then
+		FCF_SetLocked(copyTo, locked);
+	end
+	-- FCF_SetUninteractable(copyTo, uninteractable);
+	FCF_SetChatWindowFontSize(nil, copyTo, fontSize);
+end
+
+local function FCFManager_GetToken(chatType, chatTarget)
+	return strlower(chatType)..(chatTarget and ";;"..strlower(chatTarget) or "");
+end
+
+function FCFManager_RegisterDedicatedFrame(chatFrame, chatType, chatTarget)
+	local token = FCFManager_GetToken(chatType, chatTarget);
+	if ( not dedicatedWindows[token] ) then
+		dedicatedWindows[token] = {};
+	end
+
+	if ( not tContains(dedicatedWindows[token], chatFrame) ) then
+		tinsert(dedicatedWindows[token], chatFrame);
+	end
+end
+
+function FCFDock_GetChatFrames(dock)
+	return dock.DOCKED_CHAT_FRAMES;
+end
+
+function ChatFrame_AddPrivateMessageTarget(chatFrame, chatTarget)
+	ChatFrame_RemoveExcludePrivateMessageTarget(chatFrame, chatTarget);
+	if ( chatFrame.privateMessageList ) then
+		chatFrame.privateMessageList[strlower(chatTarget)] = true;
+	else
+		chatFrame.privateMessageList = { [strlower(chatTarget)] = true };
+	end
+end
+
+function ChatFrame_RemovePrivateMessageTarget(chatFrame, chatTarget)
+	if ( chatFrame.privateMessageList ) then
+		chatFrame.privateMessageList[strlower(chatTarget)] = nil;
+	end
+end
+
+function ChatFrame_ExcludePrivateMessageTarget(chatFrame, chatTarget)
+	ChatFrame_RemovePrivateMessageTarget(chatFrame, chatTarget);
+	if ( chatFrame.excludePrivateMessageList ) then
+		chatFrame.excludePrivateMessageList[strlower(chatTarget)] = true;
+	else
+		chatFrame.excludePrivateMessageList = { [strlower(chatTarget)] = true };
+	end
+end
+
+function ChatFrame_RemoveExcludePrivateMessageTarget(chatFrame, chatTarget)
+	if ( chatFrame.excludePrivateMessageList ) then
+		chatFrame.excludePrivateMessageList[strlower(chatTarget)] = nil;
+	end
+end
+
+function ChatFrame_ReceiveAllPrivateMessages(chatFrame)
+	chatFrame.privateMessageList = nil;
+	chatFrame.excludePrivateMessageList = nil;
 end
