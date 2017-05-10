@@ -673,7 +673,7 @@ function CH:PrintURL(url)
 end
 
 function CH:FindURL(event, msg, ...)
-	if (event == "CHAT_MSG_WHISPER") and CH.db.whisperSound ~= "None" and not CH.SoundPlayed then
+	if event == "CHAT_MSG_WHISPER" and CH.db.whisperSound ~= "None" and not CH.SoundPlayed then
 		if (msg:sub(1,3) == "OQ,") then return false, msg, ... end
 		if (CH.db.noAlertInCombat and not InCombatLockdown()) or not CH.db.noAlertInCombat then
 			PlaySoundFile(LSM:Fetch("sound", CH.db.whisperSound), "Master")
@@ -1139,7 +1139,7 @@ function CH:SetupChat()
 	end
 
 	DEFAULT_CHAT_FRAME:SetParent(LeftChatPanel)
-	-- self:ScheduleRepeatingTimer("PositionChat", 1)
+	self:ScheduleRepeatingTimer("PositionChat", 1)
 	self:PositionChat(true)
 
 	if not self.HookSecured then
@@ -1149,13 +1149,14 @@ function CH:SetupChat()
 end
 
 local function PrepareMessage(author, message)
+	if not author then return message end
 	return format("%s%s", author:upper(), message)
 end
 
 function CH:ChatThrottleHandler(_, ...)
 	local arg1, arg2 = ...
 
-	if arg2 ~= "" then
+	if arg2 and arg2 ~= "" then
 		local message = PrepareMessage(arg2, arg1)
 		if msgList[message] == nil then
 			msgList[message] = true
@@ -1172,7 +1173,7 @@ function CH:CHAT_MSG_CHANNEL(event, message, author, ...)
 	local msg = PrepareMessage(author, message)
 
 	-- ignore player messages
-	if author == UnitName("player") then return CH.FindURL(self, event, message, author, ...) end
+	if author and author == UnitName("player") then return CH.FindURL(self, event, message, author, ...) end
 	if msgList[msg] and CH.db.throttleInterval ~= 0 then
 		if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
 			blockFlag = true
@@ -1182,7 +1183,7 @@ function CH:CHAT_MSG_CHANNEL(event, message, author, ...)
 	if blockFlag then
 		return true;
 	else
-		if CH.db.throttleInterval ~= 0 then
+		if msgList[msg] and CH.db.throttleInterval ~= 0 then
 			msgTime[msg] = time()
 		end
 
@@ -1197,7 +1198,7 @@ function CH:CHAT_MSG_YELL(event, message, author, ...)
 	if msg == nil then return CH.FindURL(self, event, message, author, ...) end
 
 	-- ignore player messages
-	if author == UnitName("player") then return CH.FindURL(self, event, message, author, ...) end
+	if author and author == UnitName("player") then return CH.FindURL(self, event, message, author, ...) end
 	if msgList[msg] and msgCount[msg] > 1 and CH.db.throttleInterval ~= 0 then
 		if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
 			blockFlag = true
@@ -1207,7 +1208,7 @@ function CH:CHAT_MSG_YELL(event, message, author, ...)
 	if blockFlag then
 		return true;
 	else
-		if CH.db.throttleInterval ~= 0 then
+		if msgList[msg] and msgCount[msg] > 1 and CH.db.throttleInterval ~= 0 then
 			msgTime[msg] = time()
 		end
 
@@ -1398,7 +1399,7 @@ function CH:SaveChatHistory(event, ...)
 
 		local message, author = ...
 		local msg = PrepareMessage(author, message)
-		if author ~= UnitName("player") and msgList[msg] then
+		if author and author ~= UnitName("player") and msgList[msg] then
 			if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
 				return;
 			end

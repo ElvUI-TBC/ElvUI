@@ -288,10 +288,6 @@ function UF:PostCastStart(unit, name)
 	local db = self:GetParent().db;
 	if not db or not db.castbar then return; end
 
-	if(unit == "vehicle") then
-		unit = "player";
-	end
-
 	if(db.castbar.displayTarget and self.curTarget) then
 		self.Text:SetText(name.." --> "..self.curTarget);
 	else
@@ -359,7 +355,7 @@ end
 function UF:PostChannelUpdate(unit, name)
 	local db = self:GetParent().db;
 	if not db then return; end
-	if not (unit == "player" or unit == "vehicle") then return end
+	if not (unit == "player") then return end
 
 	if db.castbar.ticks then
 		if(E.global.unitframe.ChannelTicks[name]) then
@@ -373,7 +369,7 @@ function UF:PostChannelUpdate(unit, name)
 end
 
 function UF:PostCastInterruptible(unit)
-	if(unit == "vehicle" or unit == "player") then return; end
+	if(unit == "player") then return; end
 
 	local colors = ElvUF.colors;
 	local r, g, b = colors.castColor[1], colors.castColor[2], colors.castColor[3];

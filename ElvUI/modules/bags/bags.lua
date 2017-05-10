@@ -464,9 +464,9 @@ function B:Layout(isBank)
 			f.ContainerHolder[i]:Size(buttonSize)
 			f.ContainerHolder[i]:ClearAllPoints()
 			if (isBank and i == 2) or (not isBank and i == 1) then
-				f.ContainerHolder[i]:SetPoint("BOTTOMLEFT", f.ContainerHolder, "BOTTOMLEFT", buttonSpacing, buttonSpacing)
+				f.ContainerHolder[i]:Point("BOTTOMLEFT", f.ContainerHolder, "BOTTOMLEFT", buttonSpacing, buttonSpacing)
 			else
-				f.ContainerHolder[i]:SetPoint("LEFT", lastContainerButton, "RIGHT", buttonSpacing, 0)
+				f.ContainerHolder[i]:Point("LEFT", lastContainerButton, "RIGHT", buttonSpacing, 0)
 			end
 
 			lastContainerButton = f.ContainerHolder[i];
@@ -517,7 +517,7 @@ function B:Layout(isBank)
 					f.Bags[bagID][slotID].slotID = slotID
 
 					f.Bags[bagID][slotID].itemLevel = f.Bags[bagID][slotID]:CreateFontString(nil, "OVERLAY");
-					f.Bags[bagID][slotID].itemLevel:SetPoint("BOTTOMRIGHT", 0, 2);
+					f.Bags[bagID][slotID].itemLevel:Point("BOTTOMRIGHT", 0, 2);
 					f.Bags[bagID][slotID].itemLevel:FontTemplate(E.LSM:Fetch("font", E.db.bags.itemLevelFont), E.db.bags.itemLevelFontSize, E.db.bags.itemLevelFontOutline);
 				end
 
@@ -953,7 +953,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton = CreateFrame("Button", name.."SortButton", f);
 		f.sortButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.sortButton:SetTemplate();
-		f.sortButton:SetPoint("RIGHT", f.bagText, "LEFT", -5, E.Border * 2);
+		f.sortButton:Point("RIGHT", f.bagText, "LEFT", -5, E.Border * 2);
 		f.sortButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
 		f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 		f.sortButton:GetNormalTexture():SetInside();
@@ -976,7 +976,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.bagsButton = CreateFrame("Button", name.."BagsButton", f.holderFrame);
 		f.bagsButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.bagsButton:SetTemplate();
-		f.bagsButton:SetPoint("RIGHT", f.sortButton, "LEFT", -5, 0);
+		f.bagsButton:Point("RIGHT", f.sortButton, "LEFT", -5, 0);
 		f.bagsButton:SetNormalTexture("Interface\\Buttons\\Button-Backpack-Up");
 		f.bagsButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 		f.bagsButton:GetNormalTexture():SetInside();
@@ -1000,7 +1000,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.purchaseBagButton = CreateFrame("Button", nil, f.holderFrame);
 		f.purchaseBagButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.purchaseBagButton:SetTemplate();
-		f.purchaseBagButton:SetPoint("RIGHT", f.bagsButton, "LEFT", -5, 0);
+		f.purchaseBagButton:Point("RIGHT", f.bagsButton, "LEFT", -5, 0);
 		f.purchaseBagButton:SetNormalTexture("Interface\\ICONS\\INV_Misc_Coin_01");
 		f.purchaseBagButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 		f.purchaseBagButton:GetNormalTexture():SetInside();
@@ -1031,7 +1031,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.editBox = CreateFrame("EditBox", name.."EditBox", f);
 		f.editBox:SetFrameLevel(f.editBox:GetFrameLevel() + 2);
 		f.editBox:CreateBackdrop("Default");
-		f.editBox.backdrop:SetPoint("TOPLEFT", f.editBox, "TOPLEFT", -20, 2);
+		f.editBox.backdrop:Point("TOPLEFT", f.editBox, "TOPLEFT", -20, 2);
 		f.editBox:Height(15);
 		f.editBox:Point("BOTTOMLEFT", f.holderFrame, "TOPLEFT", (E.Border * 2) + 18, E.Border * 2 + 2);
 		f.editBox:Point("RIGHT", f.purchaseBagButton, "LEFT", -5, 0);
@@ -1046,11 +1046,11 @@ function B:ContructContainerFrame(name, isBank)
 
 		f.editBox.searchIcon = f.editBox:CreateTexture(nil, "OVERLAY");
 		f.editBox.searchIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\UI-Searchbox-Icon");
-		f.editBox.searchIcon:SetPoint("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1);
+		f.editBox.searchIcon:Point("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1);
 		f.editBox.searchIcon:SetSize(15, 15);
 	else
 		f.keyFrame = CreateFrame("Frame", name.."KeyFrame", f)
-		f.keyFrame:SetPoint("TOPRIGHT", f, "TOPLEFT", -(E.PixelMode and 1 or 3), 0);
+		f.keyFrame:Point("TOPRIGHT", f, "TOPLEFT", -(E.PixelMode and 1 or 3), 0);
 		f.keyFrame:SetTemplate("Transparent");
 		f.keyFrame:SetID(KEYRING_CONTAINER);
 		f.keyFrame.slots = {};
@@ -1064,7 +1064,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton = CreateFrame("Button", name.."SortButton", f);
 		f.sortButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.sortButton:SetTemplate();
-		f.sortButton:SetPoint("RIGHT", f.goldText, "LEFT", -5, E.Border * 2);
+		f.sortButton:Point("RIGHT", f.goldText, "LEFT", -5, E.Border * 2);
 		f.sortButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_RatCage");
 		f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 		f.sortButton:GetNormalTexture():SetInside();
@@ -1087,7 +1087,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.keyButton = CreateFrame("Button", name.."KeyButton", f);
 		f.keyButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.keyButton:SetTemplate();
-		f.keyButton:SetPoint("RIGHT", f.sortButton, "LEFT", -5, 0);
+		f.keyButton:Point("RIGHT", f.sortButton, "LEFT", -5, 0);
 		f.keyButton:SetNormalTexture("Interface\\ICONS\\INV_Misc_Key_14");
 		f.keyButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 		f.keyButton:GetNormalTexture():SetInside();
@@ -1103,7 +1103,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.bagsButton = CreateFrame("Button", name.."BagsButton", f);
 		f.bagsButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.bagsButton:SetTemplate();
-		f.bagsButton:SetPoint("RIGHT", f.keyButton, "LEFT", -5, 0);
+		f.bagsButton:Point("RIGHT", f.keyButton, "LEFT", -5, 0);
 		f.bagsButton:SetNormalTexture("Interface\\Buttons\\Button-Backpack-Up");
 		f.bagsButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 		f.bagsButton:GetNormalTexture():SetInside();
@@ -1119,7 +1119,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.vendorGraysButton = CreateFrame("Button", nil, f.holderFrame);
 		f.vendorGraysButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.vendorGraysButton:SetTemplate();
-		f.vendorGraysButton:SetPoint("RIGHT", f.bagsButton, "LEFT", -5, 0);
+		f.vendorGraysButton:Point("RIGHT", f.bagsButton, "LEFT", -5, 0);
 		f.vendorGraysButton:SetNormalTexture("Interface\\ICONS\\INV_Misc_Coin_01");
 		f.vendorGraysButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 		f.vendorGraysButton:GetNormalTexture():SetInside();
@@ -1135,7 +1135,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.editBox = CreateFrame("EditBox", name.."EditBox", f);
 		f.editBox:SetFrameLevel(f.editBox:GetFrameLevel() + 2);
 		f.editBox:CreateBackdrop("Default");
-		f.editBox.backdrop:SetPoint("TOPLEFT", f.editBox, "TOPLEFT", -20, 2);
+		f.editBox.backdrop:Point("TOPLEFT", f.editBox, "TOPLEFT", -20, 2);
 		f.editBox:Height(15);
 		f.editBox:Point("BOTTOMLEFT", f.holderFrame, "TOPLEFT", (E.Border * 2) + 18, E.Border * 2 + 2);
 		f.editBox:Point("RIGHT", f.vendorGraysButton, "LEFT", -5, 0);
@@ -1150,7 +1150,7 @@ function B:ContructContainerFrame(name, isBank)
 
 		f.editBox.searchIcon = f.editBox:CreateTexture(nil, "OVERLAY");
 		f.editBox.searchIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\UI-Searchbox-Icon");
-		f.editBox.searchIcon:SetPoint("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1);
+		f.editBox.searchIcon:Point("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1);
 		f.editBox.searchIcon:SetSize(15, 15);
 
 		--Currency
@@ -1324,7 +1324,7 @@ function B:Initialize()
 		BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", -(E.Border*2), 22 + E.Border*4 - E.Spacing*2);
 		E:CreateMover(BagFrameHolder, "ElvUIBagMover", L["Bag Mover"], nil, nil, B.PostBagMove);
 
-		-- self:SecureHook("UpdateContainerFrameAnchors");
+		self:SecureHook("UpdateContainerFrameAnchors");
 		return;
 	end
 
