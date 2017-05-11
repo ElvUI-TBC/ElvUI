@@ -1340,15 +1340,15 @@ function CH:ChatEdit_OnEnterPressed(editBox)
 	end
 end
 
-function CH:SetChatFont(dropDown, chatFrame, fontSize)
-	if ( not chatFrame ) then
+function CH:SetChatFont(chatFrame, fontSize)
+	if not chatFrame then
 		chatFrame = FCF_GetCurrentChatFrame();
 	end
-	if ( not fontSize ) then
-		fontSize = dropDown.value;
+	if not fontSize then
+		fontSize = self.value;
 	end
-	print(chatFrame)
-	chatFrame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
+	chatFrame:SetFont(self.db.font, fontSize, self.db.fontOutline)
+
 	if self.db.fontOutline ~= "NONE" then
 		chatFrame:SetShadowColor(0, 0, 0, 0.2)
 	else
@@ -1580,7 +1580,6 @@ function CH:Initialize()
 	self:RegisterEvent("CHAT_MSG_EMOTE", "SaveChatHistory")
 	self:RegisterEvent("CHAT_MSG_TEXT_EMOTE", "SaveChatHistory")
 	self:RegisterEvent("CHAT_MSG_GUILD", "SaveChatHistory")
-	self:RegisterEvent("CHAT_MSG_GUILD_ACHIEVEMENT", "SaveChatHistory")
 	self:RegisterEvent("CHAT_MSG_OFFICER", "SaveChatHistory")
 	self:RegisterEvent("CHAT_MSG_PARTY", "SaveChatHistory")
 	self:RegisterEvent("CHAT_MSG_RAID", "SaveChatHistory")
