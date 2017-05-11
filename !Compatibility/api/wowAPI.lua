@@ -29,12 +29,8 @@ CHAT_FRAME_NORMAL_MIN_HEIGHT = 120;
 CHAT_FRAME_BIGGER_MIN_HEIGHT = 147;
 CHAT_FRAME_MIN_WIDTH = 296;
 
-CURRENT_CHAT_FRAME_ID = nil;
-
 LOCALIZED_CLASS_NAMES_MALE = {}
 LOCALIZED_CLASS_NAMES_FEMALE = {}
-
-CURRENT_CHAT_FRAME_ID = nil;
 
 local dedicatedWindows = {};
 
@@ -472,4 +468,91 @@ end
 function ChatFrame_ReceiveAllPrivateMessages(chatFrame)
 	chatFrame.privateMessageList = nil;
 	chatFrame.excludePrivateMessageList = nil;
+end
+
+function FCFManager_ShouldSuppressMessage(chatFrame, chatType, chatTarget)
+	--Using GetToken probably isn't the best way to do this due to the string concatenation, but it's the easiest to get in quickly.
+	if ( chatFrame.chatType and FCFManager_GetToken(chatType, chatTarget) == FCFManager_GetToken(chatFrame.chatType, chatFrame.chatTarget) ) then
+		--This frame is a dedicated frame of this type, so we should always display.
+		return false;
+	end
+
+	return false;
+end
+
+function ChatEdit_ActivateChat(editBox)
+	if ( ACTIVE_CHAT_EDIT_BOX and ACTIVE_CHAT_EDIT_BOX ~= editBox ) then
+		ChatEdit_DeactivateChat(ACTIVE_CHAT_EDIT_BOX);
+	end
+	ACTIVE_CHAT_EDIT_BOX = editBox;
+
+	ChatEdit_SetLastActiveWindow(editBox);
+
+	--Stop any sort of fading
+	UIFrameFadeRemoveFrame(editBox);
+
+	editBox:Show();
+	editBox:SetFocus();
+	editBox:SetFrameStrata("DIALOG");
+	editBox:Raise();
+
+	editBox:SetAlpha(1.0);
+
+	ChatEdit_UpdateHeader(editBox);
+
+	if ( CHAT_SHOW_IME ) then
+		_G[editBox:GetName().."Language"]:Show();
+	end
+end
+
+local function ChatEdit_SetDeactivated(editBox)
+	editBox:SetFrameStrata("LOW");
+	editBox:SetText("");
+	editBox.header:Hide();
+	editBox:SetAlpha(0.35);
+	editBox:ClearFocus();
+
+	editBox.focusLeft:Hide();
+	editBox.focusRight:Hide();
+	editBox.focusMid:Hide();
+	ChatEdit_ResetChatTypeToSticky(editBox);
+	ChatEdit_ResetChatType(editBox);
+	_G[editBox:GetName().."Language"]:Hide();
+end
+
+function ChatEdit_DeactivateChat(editBox)
+	if ( ACTIVE_CHAT_EDIT_BOX == editBox ) then
+		ACTIVE_CHAT_EDIT_BOX = nil;
+	end
+
+	ChatEdit_SetDeactivated(editBox);
+end
+
+function ChatEdit_ResetChatTypeToSticky(editBox)
+	editBox:SetAttribute("chatType", editBox:GetAttribute("stickyType"));
+end
+
+function ChatEdit_ResetChatType(self)
+	if ( self:GetAttribute("chatType") == "PARTY" and UnitName("party1") == "" ) then
+		self:SetAttribute("chatType", "SAY");
+	end
+	if ( self:GetAttribute("chatType") == "RAID" and (GetNumRaidMembers() == 0) ) then
+		self:SetAttribute("chatType", "SAY");
+	end
+	if ( (self:GetAttribute("chatType") == "GUILD" or self:GetAttribute("chatType") == "OFFICER") and not IsInGuild() ) then
+		self:SetAttribute("chatType", "SAY");
+	end
+	if ( self:GetAttribute("chatType") == "BATTLEGROUND" and (GetNumRaidMembers() == 0) ) then
+		self:SetAttribute("chatType", "SAY");
+	end
+	self.tabCompleteIndex = 1;
+	self.tabCompleteText = nil;
+	ChatEdit_UpdateHeader(self);
+	ChatEdit_OnInputLanguageChanged(self);
+end
+
+function ChatEdit_SetLastActiveWindow(editBox)
+	local previousValue = LAST_ACTIVE_CHAT_EDIT_BOX;
+
+	LAST_ACTIVE_CHAT_EDIT_BOX = editBox;
 end
