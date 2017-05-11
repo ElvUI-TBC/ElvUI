@@ -1345,9 +1345,9 @@ function CH:SetChatFont(chatFrame, fontSize)
 		chatFrame = FCF_GetCurrentChatFrame();
 	end
 	if not fontSize then
-		fontSize = self.value;
+		fontSize = this.value;
 	end
-	chatFrame:SetFont(self.db.font, fontSize, self.db.fontOutline)
+	chatFrame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
 
 	if self.db.fontOutline ~= "NONE" then
 		chatFrame:SetShadowColor(0, 0, 0, 0.2)
