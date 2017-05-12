@@ -33,7 +33,7 @@ local BankFrameItemButton_Update = BankFrameItemButton_Update;
 local BankFrameItemButton_UpdateLocked = BankFrameItemButton_UpdateLocked;
 local UpdateSlot = UpdateSlot;
 local GetContainerNumFreeSlots = GetContainerNumFreeSlots;
-local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo;
+-- local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo;
 local IsModifiedClick = IsModifiedClick;
 local GetMoney = GetMoney;
 local PickupContainerItem = PickupContainerItem;
@@ -46,8 +46,6 @@ local SEARCH = SEARCH;
 local KEYRING_CONTAINER = KEYRING_CONTAINER;
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES;
 local MAX_CONTAINER_ITEMS = MAX_CONTAINER_ITEMS;
-local TEXTURE_ITEM_QUEST_BANG = TEXTURE_ITEM_QUEST_BANG;
-local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS;
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES;
 local CONTAINER_SCALE = CONTAINER_SCALE;
 local CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y = CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y;
@@ -798,17 +796,18 @@ end
 function B:GetGraysValue()
 	local c = 0;
 
-	for b = 0, 4 do
-		for s = 1, GetContainerNumSlots(b) do
-			local l = GetContainerItemLink(b, s);
-			if(l and select(11, GetItemInfo(l))) then
-				local p = select(11, GetItemInfo(l)) * select(2, GetContainerItemInfo(b, s));
-				if(select(3, GetItemInfo(l)) == 0 and p > 0) then
-					c = c + p;
-				end
-			end
-		end
-	end
+    for b = 0, 4 do
+        for s = 0, GetContainerNumSlots(b) do
+            local l = GetContainerItemLink(b, s)
+            if l and find(l,"ff9d9d9d") then
+                local _, _, istring = find(l, "|H(.+)|h")
+                local _, _, q = GetItemInfo(istring)
+                if q == 0 then
+                	c = c + 1;
+                end
+            end
+        end
+    end
 
 	return c;
 end
@@ -821,28 +820,27 @@ function B:VendorGrays(delete, _, getValue)
 
 	local c = 0
 	local count = 0
-	for b=0,4 do
-		for s=1,GetContainerNumSlots(b) do
+	for b = 0, 4 do
+		for s = 1,GetContainerNumSlots(b) do
 			local l = GetContainerItemLink(b, s)
-			if l and select(11, GetItemInfo(l)) then
-				local p = select(11, GetItemInfo(l))*select(2, GetContainerItemInfo(b, s))
+			if l and find(l,"ff9d9d9d") then
 
 				if delete then
-					if find(l,"ff9d9d9d") then
+					if l and find(l,"ff9d9d9d") then
 						if not getValue then
 							PickupContainerItem(b, s)
 							DeleteCursorItem()
 						end
-						c = c+p
+						c = c + 1;
 						count = count + 1
 					end
 				else
-					if select(3, GetItemInfo(l))==0 and p>0 then
+					if l and find(l,"ff9d9d9d") and MerchantFrame:IsShown() then
 						if not getValue then
 							UseContainerItem(b, s)
 							PickupMerchantItem()
 						end
-						c = c+p
+						c = c + 1;
 					end
 				end
 			end
@@ -853,7 +851,7 @@ function B:VendorGrays(delete, _, getValue)
 		return c
 	end
 
-	if c>0 and not delete then
+	if c > 0 and not delete then
 		local g, s, c = floor(c/10000) or 0, floor((c%10000)/100) or 0, c%100
 		E:Print(L["Vendored gray items for:"].." |cffffffff"..g..L.goldabbrev.." |cffffffff"..s..L.silverabbrev.." |cffffffff"..c..L.copperabbrev..".")
 	end
@@ -1315,7 +1313,7 @@ function B:Initialize()
 		BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", -(E.Border*2), 22 + E.Border*4 - E.Spacing*2);
 		E:CreateMover(BagFrameHolder, "ElvUIBagMover", L["Bag Mover"], nil, nil, B.PostBagMove);
 
-		self:SecureHook("UpdateContainerFrameAnchors");
+		-- self:SecureHook("UpdateContainerFrameAnchors");
 		return;
 	end
 

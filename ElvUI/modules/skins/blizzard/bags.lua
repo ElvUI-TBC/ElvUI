@@ -15,9 +15,8 @@ function S:ContainerFrame_Update(self)
 	local _, quality;
 
 	for i = 1, self.size, 1 do
-		itemButton = _G[name.."Item"..i];
-
-		_, _, _, quality = GetContainerItemInfo(id, itemButton:GetID());
+		local itemButton = _G[name.."Item"..i];
+		local _, _, _, quality = GetContainerItemInfo(id, itemButton:GetID());
 
 		if(quality and quality > 1) then
 			itemButton:SetBackdropBorderColor(GetItemQualityColor(quality));
