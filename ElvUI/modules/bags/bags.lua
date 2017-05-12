@@ -23,7 +23,6 @@ local GetGuildBankTabInfo = GetGuildBankTabInfo;
 local GetGuildBankItemLink = GetGuildBankItemLink;
 local GetContainerItemLink = GetContainerItemLink;
 local GetItemInfo = GetItemInfo;
-local GetContainerItemQuestInfo = GetContainerItemQuestInfo;
 local GetItemQualityColor = GetItemQualityColor;
 local GetContainerItemCooldown = GetContainerItemCooldown;
 local SetItemButtonCount = SetItemButtonCount;
@@ -643,7 +642,6 @@ function B:UpdateKeySlot(slotID)
 		local _;
 		slot.name, _, slot.rarity = GetItemInfo(clink);
 
-		local isQuestItem, questId, isActiveQuest = GetContainerItemQuestInfo(bagID, slotID);
 		local r, g, b;
 
 		if(slot.rarity) then
@@ -651,14 +649,7 @@ function B:UpdateKeySlot(slotID)
 		end
 
 		-- color slot according to item quality
-		if questId and not isActiveQuest then
-			slot:SetBackdropBorderColor(1.0, 1.0, 0.0);
-			if(slot.questIcon) then
-				slot.questIcon:Show();
-			end
-		elseif questId or isQuestItem then
-			slot:SetBackdropBorderColor(1.0, 0.3, 0.3);
-		elseif slot.rarity and slot.rarity > 1 then
+		if slot.rarity and slot.rarity > 1 then
 			slot:SetBackdropBorderColor(r, g, b);
 		else
 			slot:SetBackdropBorderColor(unpack(E.media.bordercolor));
