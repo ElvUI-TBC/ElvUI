@@ -14,24 +14,16 @@ function S:ContainerFrame_Update(self)
 	local name = self:GetName();
 	local itemButton;
 	local _, quality;
-	local isQuestItem, questId, isActive;
 
 	for i = 1, self.size, 1 do
 		itemButton = _G[name.."Item"..i];
 
 		_, _, _, quality = GetContainerItemInfo(id, itemButton:GetID());
-		isQuestItem, questId, isActive = GetContainerItemQuestInfo(id, itemButton:GetID());
 
 		if(quality and quality > 1) then
 			itemButton:SetBackdropBorderColor(GetItemQualityColor(quality));
 		else
 			itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor));
-		end
-
-		if(questId and not isActive) then
-			itemButton:SetBackdropBorderColor(1, 1, 0);
-		elseif(questId or isQuestItem) then
-			itemButton:SetBackdropBorderColor(1, 0.2, 0.2);
 		end
 	end
 end
@@ -45,14 +37,6 @@ function S:BankFrameItemButton_Update(button)
 			button:SetBackdropBorderColor(GetItemQualityColor(quality));
 		else
 			button:SetBackdropBorderColor(unpack(E["media"].bordercolor));
-		end
-
-		local isQuestItem, questId, isActive = GetContainerItemQuestInfo(BANK_CONTAINER, buttonID);
-
-		if(questId and not isActive) then
-			button:SetBackdropBorderColor(1, 1, 0);
-		elseif(questId or isQuestItem) then
-			button:SetBackdropBorderColor(1, 0.2, 0.2);
 		end
 	end
 end
