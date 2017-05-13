@@ -44,50 +44,6 @@ function AB:PositionAndSizeBar()
 	self:PositionAndSizeBar5()
 end
 
-function AB:UpdateBar1Paging()
-	if(self.db.bar5.enabled) then
-		E.ActionBars.barDefaults.bar1.conditions = "[bonusbar:5] 11; [bar:3] 3; [bar:4] 4; [bar:5] 5;";
-	else
-		E.ActionBars.barDefaults.bar1.conditions = "[bonusbar:5] 11; [bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5;";
-	end
-
-	if((E.private.actionbar.enable ~= true or InCombatLockdown()) or not self.isInitialized) then return; end
-	local bar2Option = InterfaceOptionsActionBarsPanelBottomRight;
-	local bar3Option = InterfaceOptionsActionBarsPanelBottomLeft;
-	local bar4Option = InterfaceOptionsActionBarsPanelRightTwo;
-	local bar5Option = InterfaceOptionsActionBarsPanelRight;
-
-	if((self.db.bar2.enabled and not bar2Option:GetChecked()) or (not self.db.bar2.enabled and bar2Option:GetChecked())) then
-		bar2Option:Click()
-	end
-
-	if((self.db.bar3.enabled and not bar3Option:GetChecked()) or (not self.db.bar3.enabled and bar3Option:GetChecked())) then
-		bar3Option:Click()
-	end
-
-	if(not self.db.bar5.enabled and not self.db.bar4.enabled) then
-		if(bar4Option:GetChecked()) then
-			bar4Option:Click();
-		end
-
-		if(bar5Option:GetChecked()) then
-			bar5Option:Click();
-		end
-	elseif(not self.db.bar5.enabled) then
-		if(not bar5Option:GetChecked()) then
-			bar5Option:Click();
-		end
-
-		if(not bar4Option:GetChecked()) then
-			bar4Option:Click();
-		end
-	elseif((self.db.bar4.enabled and not bar4Option:GetChecked()) or (not self.db.bar4.enabled and bar4Option:GetChecked())) then
-		bar4Option:Click();
-	elseif((self.db.bar5.enabled and not bar5Option:GetChecked()) or (not self.db.bar5.enabled and bar5Option:GetChecked())) then
-		bar5Option:Click();
-	end
-end
-
 function AB:UpdateButtonSettings()
 	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
 	for button, _ in pairs(self["handledbuttons"]) do

@@ -158,16 +158,6 @@ local function BuildABConfig()
 				}
 			}
 		};
-
-		if(i == 5) then
-			group["bar" .. i].args.enabled.set = function(info, value)
-				E.db.actionbar["bar"..i].enabled = value;
-				AB:PositionAndSizeBar("bar5");
-
-				AB:UpdateBar1Paging();
-				AB:PositionAndSizeBar("bar1");
-			end
-		end
 	end
 
 	group["barPet"] = {
