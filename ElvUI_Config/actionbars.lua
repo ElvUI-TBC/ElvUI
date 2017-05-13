@@ -386,70 +386,10 @@ local function BuildABConfig()
 				values = {
 					["darkenInactive"] = L["Darken Inactive"],
 					["classic"] = L["Classic"],
-				},
-			},
-		},
-	}
-
-	if E.myclass == "SHAMAN" then
-		group["barTotem"] = {
-			order = 100,
-			name = L["Totems"],
-			type = "group",
-			guiInline = false,
-			disabled = function() return not E.private.actionbar.enable or not E.myclass == "SHAMAN" end,
-			get = function(info) return E.db.actionbar["barTotem"][ info[#info] ] end,
-			set = function(info, value) E.db.actionbar["barTotem"][ info[#info] ] = value; AB:AdjustTotemSettings(); AB:PositionAndSizeBarTotem(); end,
-			args = {
-				enabled = {
-					order = 1,
-					type = "toggle",
-					name = L["Enable"],
-					set = function(info, value) E.db.actionbar["barTotem"][ info[#info] ] = value; E:StaticPopup_Show("PRIVATE_RL"); end
-				},
-				restorePosition = {
-					order = 2,
-					type = "execute",
-					name = L["Restore Bar"],
-					desc = L["Restore the actionbars default settings"],
-					func = function() E:CopyTable(E.db.actionbar["barTotem"], P.actionbar["barTotem"]); E:ResetMovers(L["Totems"]); AB:AdjustTotemSettings() end,
-				},
-				mouseover = {
-					order = 3,
-					name = L["Mouse Over"],
-					desc = L["The frame is not shown unless you mouse over the frame."],
-					type = "toggle",
-				},
-				buttonsize = {
-					type = "range",
-					name = L["Button Size"],
-					desc = L["The size of the action buttons."],
-					min = 15, max = 60, step = 1,
-					order = 4,
-				},
-				buttonspacing = {
-					type = "range",
-					name = L["Button Spacing"],
-					desc = L["The spacing between buttons."],
-					min = -1, max = 10, step = 1,
-					order = 5,
-				},
-				inheritGlobalFade = {
-					order = 6,
-					type = "toggle",
-					name = L["Inherit Global Fade"],
-					desc = L["Inherit the global fade, mousing over, targetting, setting focus, losing health, entering combat will set the remove transparency. Otherwise it will use the transparency level in the general actionbar settings for global fade alpha."]
-				},
-				alpha = {
-					order = 7,
-					type = "range",
-					name = L["Alpha"],
-					isPercent = true,
-					min = 0, max = 1, step = 0.01,
-				},
-			},
+				}
+			}
 		}
-	end
+	}
 end
 
 E.Options.args.actionbar = {
@@ -684,11 +624,11 @@ E.Options.args.actionbar = {
 							desc = L["The frame is not shown unless you mouse over the frame."],
 							type = "toggle"
 						}
-					},
-				},
-			},
-		},
-	},
+					}
+				}
+			}
+		}
+	}
 }
 group = E.Options.args.actionbar.args
 BuildABConfig()

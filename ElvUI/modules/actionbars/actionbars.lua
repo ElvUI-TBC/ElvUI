@@ -25,10 +25,6 @@ function AB:CreateActionBars()
 	self:CreateBar5()
 	self:CreateBarPet()
 	self:CreateBarShapeShift()
-
-	if ( E.myclass == "SHAMAN" ) then
-	--	self:CreateTotemBar()
-	end
 end
 
 function AB:PLAYER_REGEN_ENABLED()
