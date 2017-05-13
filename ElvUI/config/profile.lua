@@ -2588,7 +2588,6 @@ P["actionbar"] = {
 	["font"] = "Homespun",
 	["fontSize"] = 10,
 	["fontOutline"] = "MONOCHROMEOUTLINE",
-	["fontColor"] = {r = 1, g = 1, b = 1},
 
 	["macrotext"] = false,
 	["hotkeytext"] = true,

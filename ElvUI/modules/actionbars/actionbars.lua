@@ -125,7 +125,6 @@ function AB:StyleButton(button, noBackdrop)
 	local normal = _G[name.."NormalTexture"]
 	local normal2 = button:GetNormalTexture()
 	local buttonCooldown = _G[name.."Cooldown"]
-	local color = self.db.fontColor
 
 	if flash then flash:SetTexture(nil) end
 	if normal then normal:SetTexture(nil) normal:Hide() normal:SetAlpha(0) end
@@ -140,7 +139,6 @@ function AB:StyleButton(button, noBackdrop)
 		count:ClearAllPoints()
 		count:SetPoint("BOTTOMRIGHT", 0, 2)
 		count:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
-		count:SetTextColor(color.r, color.g, color.b)
 	end
 
 	if macroName then
@@ -167,7 +165,6 @@ function AB:StyleButton(button, noBackdrop)
 
 	if self.db.hotkeytext then
 		hotkey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
-		hotkey:SetTextColor(color.r, color.g, color.b)
 	end
 
 	self:FixKeybindText(button)

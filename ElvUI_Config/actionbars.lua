@@ -617,23 +617,7 @@ E.Options.args.actionbar = {
 						["MONOCHROME"] = (not E.isMacClient) and "MONOCHROME" or nil,
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE",
-					},
-				},
-				fontColor = {
-					order = 7,
-					type = "color",
-					name = COLOR,
-					get = function(info)
-						local t = E.db.actionbar[ info[#info] ];
-						local d = P.actionbar[info[#info]];
-						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
-					end,
-					set = function(info, r, g, b)
-						E.db.actionbar[ info[#info] ] = {};
-						local t = E.db.actionbar[ info[#info] ];
-						t.r, t.g, t.b = r, g, b;
-						AB:UpdateButtonSettings();
-					end
+					}
 				}
 			}
 		},
