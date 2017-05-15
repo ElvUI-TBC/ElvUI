@@ -10,7 +10,7 @@
 	<Include file="AceSerializer-3.0\AceSerializer-3.0.xml"/>
 	<Include file="AceTimer-3.0\AceTimer-3.0.xml"/>
 	<Include file="AceHook-3.0\AceHook-3.0.xml"/>
-	<Script file="ItemPrice-1.1\ItemPrice-1.1.lua"/>
+	<Script file="LibItemPrice-1.1\LibItemPrice-1.1.lua"/>
 	<Script file="LibSharedMedia-3.0\LibSharedMedia-3.0.lua"/>
 	<Script file="LibSimpleSticky\LibSimpleSticky.lua"/>
 	<Include file='oUF\oUF.xml'/>
