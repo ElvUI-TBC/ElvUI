@@ -55,7 +55,7 @@ local CONTAINER_SPACING, VISIBLE_CONTAINER_SPACING = CONTAINER_SPACING, VISIBLE_
 
 local SEARCH_STRING = ""
 
-local hooks        = {}
+local hooks = {}
 hooks.GetSellValue = GetSellValue
 
 B.ProfessionColors = {
@@ -825,7 +825,6 @@ function B:GetGraysValue()
 	        end
 	    end
 	end
-
 
 	return c;
 end

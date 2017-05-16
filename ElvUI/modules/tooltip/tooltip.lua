@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local TT = E:NewModule("Tooltip", "AceHook-3.0", "AceEvent-3.0")
+local Value = LibStub("ItemPrice-1.1")
 
 local _G = _G
 local unpack, tonumber, select, pairs = unpack, tonumber, select, pairs
@@ -571,6 +572,14 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 			tt:AddLine(" ")
 			tt:AddDoubleLine(left, right)
 		end
+
+		if link and link ~= 0 then
+			local value = GetSellValue(link) * num
+			if value and value ~= 0 then
+				tt:AddDoubleLine("|cffffd700Vendor|r", E:FormatMoney(value, "BLIZZARD", false), 1, 1, 1, 1, 1, 1)
+			end
+		end
+
 		if bankCount ~= " " then
 			tt:AddDoubleLine(" ", bankCount)
 		end
