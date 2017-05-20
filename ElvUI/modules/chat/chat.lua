@@ -836,7 +836,7 @@ function CH:ConcatenateTimeStamp(msg)
 	return msg
 end
 
-function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
+local function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
 	local chatType = strsub(event, 10);
 	if(strsub(chatType, 1, 7) == "WHISPER") then
 		chatType = "WHISPER";
@@ -846,9 +846,129 @@ function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, a
 	end
 	local info = ChatTypeInfo[chatType];
 
-	if(info and arg2) then
-		local _, englishClass, _ = UnitClass("player")
-    	local name, _ = UnitName("player")
+	if info and arg2 then
+
+		-- Credits to TekNoLogic
+		-- https://github.com/TekNoLogic/teknicolor/blob/f17f3dcbb9aac13262532d3f237e8dfacded51f2/teknicolor.lua
+
+		local classnames = {
+			["Warlock"] = "Warlock",
+			["Warrior"] = "Warrior",
+			["Hunter"] = "Hunter",
+			["Mage"] = "Mage",
+			["Priest"] = "Priest",
+			["Druid"] = "Druid",
+			["Paladin"] = "Paladin",
+			["Shaman"] = "Shaman",
+			["Rogue"] = "Rogue",
+		}
+
+		local classes = {}
+		for class, eng in pairs(classnames) do
+			local c = RAID_CLASS_COLORS[string.upper(eng)]
+			local hex = string.format("%02x%02x%02x", c.r*255, c.g*255, c.b*255)
+			classes[eng] = hex
+			classes[class] = hex
+			classes[string.upper(eng)] = hex
+		end
+
+		local x, className = {}, {}
+		local names = setmetatable({}, {
+			__index = function(t, k) return x[k] end,
+			__newindex = function(t, k, v)
+				if not v or not k or x[k] or not classes[v] then return end
+				className[k] = v
+			end,
+		})
+
+		classColor = {}
+		classColor.nametable = names
+
+		local f = CreateFrame("Frame")
+		f:SetScript("OnEvent", function(self, event, ...) if classColor[event] then classColor[event](classColor, event, ...) end end)
+
+		function classColor:PLAYER_LOGIN()
+			names[UnitName("player")] = select(2, UnitClass("player"))
+
+			f:RegisterEvent("FRIENDLIST_UPDATE")
+			f:RegisterEvent("GUILD_ROSTER_UPDATE")
+			f:RegisterEvent("RAID_ROSTER_UPDATE")
+			f:RegisterEvent("PARTY_MEMBERS_CHANGED")
+			f:RegisterEvent("PLAYER_TARGET_CHANGED")
+			f:RegisterEvent("WHO_LIST_UPDATE")
+			f:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+			f:RegisterEvent("CHAT_MSG_SYSTEM")
+
+			if IsInGuild() then GuildRoster() end
+			if GetNumFriends() > 0 then ShowFriends() end
+			self.PLAYER_LOGIN = nil
+		end
+
+		if IsLoggedIn() then classColor:PLAYER_LOGIN() else f:RegisterEvent("PLAYER_LOGIN") end
+
+		function classColor:FRIENDLIST_UPDATE()
+			for i=1,GetNumFriends() do
+				local name, _, class = GetFriendInfo(i)
+				if name then names[name] = class end
+			end
+		end
+
+		function classColor:GUILD_ROSTER_UPDATE()
+			for i=1,GetNumGuildMembers(true) do
+				local name, _, _, _,class = GetGuildRosterInfo(i)
+				if name then names[name] = class end
+			end
+		end
+
+		function classColor:RAID_ROSTER_UPDATE()
+			for i=1,GetNumRaidMembers() do
+				local name, _, _, _, _, class = GetRaidRosterInfo(i)
+				names[name] = class
+			end
+		end
+
+		function classColor:PARTY_MEMBERS_CHANGED()
+			for i=1,GetNumPartyMembers() do
+				local unit = "party".. i
+				local _, class = UnitClass(unit)
+				names[UnitName(unit)] = class
+			end
+		end
+
+		function classColor:PLAYER_TARGET_CHANGED()
+			if not UnitIsPlayer("target") or not UnitIsFriend("player", "target") then return end
+			local _, class = UnitClass("target")
+			names[UnitName("target")] = class
+		end
+
+		function classColor:WHO_LIST_UPDATE()
+			for i=1,GetNumWhoResults() do
+				local name, _, _, _, class = GetWhoInfo(i)
+				names[name] = class
+			end
+		end
+
+		function classColor:UPDATE_MOUSEOVER_UNIT()
+			if not UnitIsPlayer("mouseover") or not UnitIsFriend("player", "mouseover") then return end
+			local _, class = UnitClass("mouseover")
+			names[UnitName("mouseover")] = class
+		end
+
+		function classColor:CHAT_MSG_SYSTEM()
+			local _, _, name, class = string.find(arg1, "^|Hplayer:%w+|h%[(%w+)%]|h: Level %d+ %w+ (%w+) %- .+$")
+			if name and class then names[name] = class end
+		end
+
+		local function classname()
+			local name = arg2
+			if name and className[name] then name = className[name] end
+
+			return name
+		end
+
+		local englishClass = classname()
+    	local name = arg2
+
 		if(englishClass) then
 			local classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[englishClass] or RAID_CLASS_COLORS[englishClass];
 			if(not classColorTable) then
