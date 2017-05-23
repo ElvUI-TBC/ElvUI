@@ -7,28 +7,28 @@ local unpack = unpack
 function S:LoadWatchFrameSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.watchframe ~= true) then return end
 
-	local WatchFrameCollapseExpandButton = CreateFrame("Button","WatchFrameCollapseExpandButton",UIParent,"UIPanelButtonTemplate")
-	WatchFrameCollapseExpandButton:ClearAllPoints()
-	WatchFrameCollapseExpandButton:Point("TOPLEFT", "QuestWatchFrame", "TOPLEFT", -50, 0)
-	WatchFrameCollapseExpandButton:StripTextures()
-	S:HandleCloseButton(WatchFrameCollapseExpandButton)
-	WatchFrameCollapseExpandButton.backdrop:SetAllPoints()
-	WatchFrameCollapseExpandButton:Size(16)
-	WatchFrameCollapseExpandButton.text:SetText("-")
-	WatchFrameCollapseExpandButton.text:Point("CENTER")
-	WatchFrameCollapseExpandButton:SetFrameStrata("MEDIUM")
+	-- local WatchFrameCollapseExpandButton = CreateFrame("Button","WatchFrameCollapseExpandButton",UIParent,"UIPanelButtonTemplate")
+	-- WatchFrameCollapseExpandButton:ClearAllPoints()
+	-- WatchFrameCollapseExpandButton:Point("TOPLEFT", "QuestWatchFrame", "TOPLEFT", -50, 0)
+	-- WatchFrameCollapseExpandButton:StripTextures()
+	-- S:HandleCloseButton(WatchFrameCollapseExpandButton)
+	-- WatchFrameCollapseExpandButton.backdrop:SetAllPoints()
+	-- WatchFrameCollapseExpandButton:Size(16)
+	-- WatchFrameCollapseExpandButton.text:SetText("-")
+	-- WatchFrameCollapseExpandButton.text:Point("CENTER")
+	-- WatchFrameCollapseExpandButton:SetFrameStrata("MEDIUM")
 
-	WatchFrameCollapseExpandButton:SetScript("OnClick", function(self)
-		if (QuestWatchFrame:IsShown()) then
-			self.text:SetText("+")
-			QuestWatchFrame:Hide()
-			PlaySound("igMiniMapClose")
-		else
-			self.text:SetText("-")
-			QuestWatchFrame:Show()
-			PlaySound("igMiniMapOpen")
-		end
-	end)
+	-- WatchFrameCollapseExpandButton:SetScript("OnClick", function(self)
+	-- 	if (QuestWatchFrame:IsShown()) then
+	-- 		self.text:SetText("+")
+	-- 		QuestWatchFrame:Hide()
+	-- 		PlaySound("igMiniMapClose")
+	-- 	else
+	-- 		self.text:SetText("-")
+	-- 		QuestWatchFrame:Show()
+	-- 		PlaySound("igMiniMapOpen")
+	-- 	end
+	-- end)
 
 	-- hooksecurefunc("WatchFrame_Update", function()
 	-- 	local questIndex
