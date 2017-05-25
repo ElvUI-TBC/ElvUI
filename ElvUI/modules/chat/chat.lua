@@ -1028,9 +1028,6 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 
 				pflag = pflag or ""
 			end
-			if ( type == "WHISPER_INFORM" ) then
-				return;
-			end
 
 			local showLink = 1;
 			if ( strsub(type, 1, 7) == "MONSTER" or strsub(type, 1, 9) == "RAID_BOSS") then
