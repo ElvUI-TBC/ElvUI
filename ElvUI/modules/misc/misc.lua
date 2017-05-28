@@ -177,8 +177,6 @@ function M:ForceCVars()
 	if not GetCVar("lockActionBars") and E.private.actionbar.enable then
 		SetCVar("lockActionBars", 1)
 	end
-	SetCVar("cameraYawMoveSpeed", 230);
-	SetCVar("cameraPitchMoveSpeed", 90);
 end
 
 function M:Initialize()
