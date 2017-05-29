@@ -20,7 +20,6 @@ local FCF_ResetChatWindows = FCF_ResetChatWindows;
 local FCF_SetLocked = FCF_SetLocked;
 local FCF_DockFrame, FCF_UnDockFrame = FCF_DockFrame, FCF_UnDockFrame;
 local FCF_OpenNewWindow = FCF_OpenNewWindow;
--- local FCF_SavePositionAndDimensions = FCF_SavePositionAndDimensions;
 local FCF_SetWindowName = FCF_SetWindowName;
 local FCF_StopDragging = FCF_StopDragging;
 local FCF_SetChatWindowFontSize = FCF_SetChatWindowFontSize;
@@ -113,34 +112,6 @@ local function SetupChat()
 	ChatFrame_RemoveChannel(ChatFrame1, L["Trade"])
 	ChatFrame_AddChannel(ChatFrame3, L["Trade"])
 
-	-- enable classcolor automatically on login and on each character without doing /configure each time.
-	-- ToggleChatColorNamesByClassGroup(true, "SAY")
-	-- ToggleChatColorNamesByClassGroup(true, "EMOTE")
-	-- ToggleChatColorNamesByClassGroup(true, "YELL")
-	-- ToggleChatColorNamesByClassGroup(true, "GUILD")
-	-- ToggleChatColorNamesByClassGroup(true, "OFFICER")
-	-- ToggleChatColorNamesByClassGroup(true, "GUILD_ACHIEVEMENT")
-	-- ToggleChatColorNamesByClassGroup(true, "ACHIEVEMENT")
-	-- ToggleChatColorNamesByClassGroup(true, "WHISPER")
-	-- ToggleChatColorNamesByClassGroup(true, "PARTY")
-	-- ToggleChatColorNamesByClassGroup(true, "PARTY_LEADER")
-	-- ToggleChatColorNamesByClassGroup(true, "RAID")
-	-- ToggleChatColorNamesByClassGroup(true, "RAID_LEADER")
-	-- ToggleChatColorNamesByClassGroup(true, "RAID_WARNING")
-	-- ToggleChatColorNamesByClassGroup(true, "BATTLEGROUND")
-	-- ToggleChatColorNamesByClassGroup(true, "BATTLEGROUND_LEADER")
-	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL1")
-	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL2")
-	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL3")
-	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL4")
-	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL5")
-	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL6")
-	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL7")
-	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL8")
-	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL9")
-	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL10")
-	-- ToggleChatColorNamesByClassGroup(true, "CHANNEL11")
-
 	--Adjust Chat Colors
 	--General
 	ChangeChatColor("CHANNEL1", 195/255, 230/255, 232/255)
@@ -162,34 +133,14 @@ local function SetupChat()
 end
 
 local function SetupCVars()
-	SetCVar("profanityFilter", 0)
 	SetCVar("screenshotQuality", 10)
 	SetCVar("showNewbieTips", 0)
 	SetCVar("showLootSpam", 1)
 	SetCVar("UberTooltips", 1)
 	SetCVar("alwaysShowActionBars", 1)
 	SetCVar("lockActionBars", 1)
-	SetCVar("autoSelfCast", 1)
-	SetCVar("RotateMinimap", 0)
-	SetCVar("SpamFilter", 0)
-	SetCVar("autoDismount", 1)
-	SetCVar("autoQuestWatch", 1)
-	SetCVar("buffDurations", 1)
-	SetCVar("cameraDistanceMax", 50)
-	SetCVar("gameTip", 0)
-	SetCVar("lootUnderMouse", 0)
-	SetCVar("maxfpsbk", 0)
-	SetCVar("removeChatDelay", 1)
-	SetCVar("scriptErrors", 0)
-	SetCVar("taintLog", 0)
-	SetCVar("violenceLevel", 5)
-
-	ShowFriendNameplates();
-	ShowNameplates();
 
 	SetActionBarToggles(1, 0, 1, 1)
-
-	MultiActionBar_ShowAllGrids()
 	TutorialFrame_HideAllAlerts()
 	ClearTutorials()
 
