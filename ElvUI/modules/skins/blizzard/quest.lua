@@ -109,35 +109,17 @@ function S:LoadQuestSkin()
 	end
 
 	hooksecurefunc("QuestRewardItem_OnClick", function()
-		for i = 1, MAX_NUM_ITEMS do
-			local questItem = _G["QuestRewardItem" .. i]
-			_G[questItem:GetName() .. "Name"]:SetTextColor(1, 1, 0)
-		end
-		if(questItem ~= questItem) then
-			QuestRewardItemHighlight:ClearAllPoints()
-			QuestRewardItemHighlight:SetOutside(questItem:GetName() .. "IconTexture")
-			_G[questItem:GetName() .. "Name"]:SetTextColor(1, 1, 1)
-		end
-	end)
+		QuestRewardItemHighlight:ClearAllPoints();
+		QuestRewardItemHighlight:SetOutside(this:GetName() .. "IconTexture");
+		_G[this:GetName() .. "Name"]:SetTextColor(1, 1, 0);
 
---	local function QuestObjectiveText()
---		local numObjectives = GetNumQuestLeaderBoards()
---		local objective
---		local _, type, finished
---		local numVisibleObjectives = 0
---		for i = 1, numObjectives do
---			_, type, finished = GetQuestLogLeaderBoard(i)
---			if(type ~= "spell") then
---				numVisibleObjectives = numVisibleObjectives+1
---				objective = _G["QuestObjective" .. numVisibleObjectives]
---				if(finished) then
---					objective:SetTextColor(1, 1, 0)
---				else
---					objective:SetTextColor(0.6, 0.6, 0.6)
---				end
---			end
---		end
---	end
+		for i = 1, MAX_NUM_ITEMS do
+			local questItem = _G["QuestRewardItem" .. i];
+			if(questItem ~= this) then
+				_G[questItem:GetName() .. "Name"]:SetTextColor(1, 1, 1);
+			end
+		end
+	end);
 
 	hooksecurefunc("QuestFrameItems_Update", function()
 		local titleTextColor = {1, 1, 0}
