@@ -34,7 +34,6 @@ local BankFrameItemButton_Update = BankFrameItemButton_Update;
 local BankFrameItemButton_UpdateLocked = BankFrameItemButton_UpdateLocked;
 local UpdateSlot = UpdateSlot;
 local GetContainerNumFreeSlots = GetContainerNumFreeSlots;
--- local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo;
 local IsModifiedClick = IsModifiedClick;
 local GetMoney = GetMoney;
 local PickupContainerItem = PickupContainerItem;
@@ -513,7 +512,7 @@ function B:Layout(isBank)
 					f.Bags[bagID][slotID].iconTexture:SetTexCoord(unpack(E.TexCoords));
 
 					f.Bags[bagID][slotID].cooldown = _G[f.Bags[bagID][slotID]:GetName().."Cooldown"];
-					-- E:RegisterCooldown(f.Bags[bagID][slotID].cooldown)
+					E:RegisterCooldown(f.Bags[bagID][slotID].cooldown)
 					f.Bags[bagID][slotID].bagID = bagID
 					f.Bags[bagID][slotID].slotID = slotID
 
@@ -715,83 +714,6 @@ function B:OnEvent(event, ...)
 		end
 	end
 end
-
---[[
-function B:UpdateTokens()
-	local f = self.BagFrame;
-
-	local numTokens = 0
-	for i = 1, MAX_WATCHED_TOKENS do
-		local name, count, type, icon, itemID = GetBackpackCurrencyInfo(i)
-		local button = f.currencyButton[i];
-
-		if(type == 1) then
-			icon = "Interface\\PVPFrame\\PVP-ArenaPoints-Icon";
-		elseif(type == 2) then
-			icon = "Interface\\PVPFrame\\PVP-Currency-"..UnitFactionGroup("player");
-		end
-
-		button:ClearAllPoints();
-		if name then
-			button.icon:SetTexture(icon);
-
-			if self.db.currencyFormat == "ICON_TEXT" then
-				button.text:SetText(name..": "..count);
-			elseif self.db.currencyFormat == "ICON_TEXT_ABBR" then
-				button.text:SetText(E:AbbreviateString(name)..": "..count);
-			elseif self.db.currencyFormat == "ICON" then
-				button.text:SetText(count);
-			end
-
-			button.itemID = itemID;
-			button:Show();
-			numTokens = numTokens + 1;
-		else
-			button:Hide();
-		end
-	end
-
-	if numTokens == 0 then
-		f.bottomOffset = 8;
-
-		if f.currencyButton:IsShown() then
-			f.currencyButton:Hide();
-			self:Layout();
-		end
-
-		return;
-	elseif not f.currencyButton:IsShown() then
-		f.bottomOffset = 28;
-		f.currencyButton:Show();
-		self:Layout();
-	end
-
-	f.bottomOffset = 28;
-	if numTokens == 1 then
-		f.currencyButton[1]:Point("BOTTOM", f.currencyButton, "BOTTOM", -(f.currencyButton[1].text:GetWidth() / 2), 3);
-	elseif numTokens == 2 then
-		f.currencyButton[1]:Point("BOTTOM", f.currencyButton, "BOTTOM", -(f.currencyButton[1].text:GetWidth()) - (f.currencyButton[1]:GetWidth() / 2), 3);
-		f.currencyButton[2]:Point("BOTTOMLEFT", f.currencyButton, "BOTTOM", f.currencyButton[2]:GetWidth() / 2, 3);
-	else
-		f.currencyButton[1]:Point("BOTTOMLEFT", f.currencyButton, "BOTTOMLEFT", 3, 3);
-		f.currencyButton[2]:Point("BOTTOM", f.currencyButton, "BOTTOM", -(f.currencyButton[2].text:GetWidth() / 3), 3);
-		f.currencyButton[3]:Point("BOTTOMRIGHT", f.currencyButton, "BOTTOMRIGHT", -(f.currencyButton[3].text:GetWidth()) - (f.currencyButton[3]:GetWidth() / 2), 3);
-	end
-end
-]]--
-
---[[
-function B:Token_OnEnter()
-	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-	GameTooltip:SetBackpackToken(self:GetID());
-end
-
-function B:Token_OnClick()
-	if(IsModifiedClick("CHATLINK")) then
-		ChatEdit_InsertLink(select(2, GetItemInfo(self.itemID)));
-	end
-end
-]]--
 
 function B:UpdateGoldText()
 	self.BagFrame.goldText:SetText(E:FormatMoney(GetMoney(), E.db["bags"].moneyFormat, not E.db["bags"].moneyCoins));
@@ -1161,30 +1083,6 @@ function B:ContructContainerFrame(name, isBank)
 		f.editBox.searchIcon:Point("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1);
 		f.editBox.searchIcon:SetSize(15, 15);
 
-		--Currency
-		-- f.currencyButton = CreateFrame("Frame", nil, f);
-		-- f.currencyButton:Point("BOTTOM", 0, 4);
-		-- f.currencyButton:Point("TOPLEFT", f.holderFrame, "BOTTOMLEFT", 0, 18);
-		-- f.currencyButton:Point("TOPRIGHT", f.holderFrame, "BOTTOMRIGHT", 0, 18);
-		-- f.currencyButton:Height(22);
-		--[[for i = 1, MAX_WATCHED_TOKENS do
-			f.currencyButton[i] = CreateFrame("Button", nil, f.currencyButton);
-			f.currencyButton[i]:Size(16);
-			f.currencyButton[i]:SetTemplate("Default");
-			f.currencyButton[i]:SetID(i);
-			f.currencyButton[i].icon = f.currencyButton[i]:CreateTexture(nil, "OVERLAY");
-			f.currencyButton[i].icon:SetInside();
-			f.currencyButton[i].icon:SetTexCoord(unpack(E.TexCoords));
-			f.currencyButton[i].text = f.currencyButton[i]:CreateFontString(nil, "OVERLAY");
-			f.currencyButton[i].text:Point("LEFT", f.currencyButton[i], "RIGHT", 2, 0);
-			f.currencyButton[i].text:FontTemplate();
-
-			f.currencyButton[i]:SetScript("OnEnter", B.Token_OnEnter);
-			f.currencyButton[i]:SetScript("OnLeave", function() GameTooltip:Hide() end);
-			f.currencyButton[i]:SetScript("OnClick", B.Token_OnClick);
-			f.currencyButton[i]:Hide();
-		end]]
-
 		f:SetScript("OnHide", function()
 			CloseBackpack()
 			for i = 1, NUM_BAG_FRAMES do
@@ -1276,7 +1174,6 @@ function B:OpenBank()
 	self.BankFrame:Show();
 	self.BankFrame:UpdateAllSlots();
 	self:OpenBags()
-	-- self:UpdateTokens()
 end
 
 function B:PLAYERBANKBAGSLOTS_CHANGED()
@@ -1366,7 +1263,6 @@ function B:Initialize()
 	self:SecureHook("OpenBackpack", "OpenBags");
 	self:SecureHook("CloseAllBags", "CloseBags");
 	self:SecureHook("CloseBackpack", "CloseBags");
-	-- self:SecureHook("BackpackTokenFrame_Update", "UpdateTokens");
 
 	self:Layout();
 
