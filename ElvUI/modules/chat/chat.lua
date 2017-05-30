@@ -47,7 +47,6 @@ local GetGuildRosterMOTD = GetGuildRosterMOTD;
 local ScrollFrameTemplate_OnMouseWheel = ScrollFrameTemplate_OnMouseWheel;
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS;
 local DEFAULT_CHAT_FRAME = DEFAULT_CHAT_FRAME;
-local MAX_WOW_CHAT_CHANNELS = 10;
 
 local GlobalStrings = {
 	["AFK"] = AFK,
@@ -56,7 +55,6 @@ local GlobalStrings = {
 	["CHAT_RESTRICTED"] = CHAT_RESTRICTED,
 	["CHAT_TELL_ALERT_TIME"] = CHAT_TELL_ALERT_TIME,
 	["DND"] = DND,
-	["MAX_WOW_CHAT_CHANNELS"] = MAX_WOW_CHAT_CHANNELS,
 	["RAID_WARNING"] = RAID_WARNING
 };
 
@@ -1008,14 +1006,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			local pflag;
 			if(strlen(arg6) > 0) then
 				if ( arg6 == "GM" ) then
-					--If it was a whisper, dispatch it to the GMChat addon.
-					if ( type == "WHISPER" ) then
-						return;
-					end
 					--Add Blizzard Icon, this was sent by a GM
-					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz.blp:0:2:0:-3|t ";
-				elseif ( arg6 == "DEV" ) then
-					--Add Blizzard Icon, this was sent by a Dev
 					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz.blp:0:2:0:-3|t ";
 				else
 					pflag = _G["CHAT_FLAG_"..arg6];
@@ -1256,7 +1247,7 @@ end
 local protectLinks = {}
 function CH:CheckKeyword(message)
 	for itemLink in message:gmatch("|%x+|Hitem:.-|h.-|h|r") do
-		protectLinks[itemLink]=itemLink:gsub('%s','|s')
+		protectLinks[itemLink]=itemLink:gsub("%s","|s")
 		for keyword, _ in pairs(CH.Keywords) do
 			if itemLink == keyword then
 				if(self.db.keywordSound ~= "None" and not self.SoundPlayed) then
@@ -1271,7 +1262,7 @@ function CH:CheckKeyword(message)
 	end
 
 	for itemLink, tempLink in pairs(protectLinks) do
-		message = message:gsub(itemLink:gsub('([%(%)%.%%%+%-%*%?%[%^%$])','%%%1'), tempLink)
+		message = message:gsub(itemLink:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1"), tempLink)
 	end
 
 	local classColorTable, tempWord, rebuiltString, lowerCaseWord, wordMatch, classMatch
@@ -1315,7 +1306,7 @@ function CH:CheckKeyword(message)
 	end
 
 	for itemLink, tempLink in pairs(protectLinks) do
-		rebuiltString = rebuiltString:gsub(tempLink:gsub('([%(%)%.%%%+%-%*%?%[%^%$])','%%%1'), itemLink)
+		rebuiltString = rebuiltString:gsub(tempLink:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1"), itemLink)
 		protectLinks[itemLink] = nil
 	end
 
