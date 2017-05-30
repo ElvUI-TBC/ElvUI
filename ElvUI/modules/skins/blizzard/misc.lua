@@ -46,9 +46,9 @@ function S:LoadMiscSkin()
 
 	for i = 1, #ChatMenus do
 		if _G[ChatMenus[i]] == _G["ChatMenu"] then
-			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(E["media"].backdropfadecolor)) self:ClearAllPoints() self:Point("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 0, 30) end)
+			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Transparent", true) self:SetBackdropColor(unpack(E["media"].backdropfadecolor)) self:ClearAllPoints() self:Point("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 0, 30) end)
 		else
-			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(E["media"].backdropfadecolor)) end)
+			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Transparent", true) self:SetBackdropColor(unpack(E["media"].backdropfadecolor)) end)
 		end
 	end
 
@@ -196,7 +196,6 @@ function S:LoadMiscSkin()
 	S:HandleButton(CoinPickupOkayButton)
 	S:HandleButton(CoinPickupCancelButton)
 
-	-- ReadyCheckListenerFrame:SetAlpha(0)
 	ReadyCheckFrame:HookScript("OnShow", function(self) if UnitIsUnit("player", self.initiator) then self:Hide() end end) -- bug fix, don't show it if initiator
 	StackSplitFrame:GetRegions():Hide()
 
@@ -207,12 +206,12 @@ function S:LoadMiscSkin()
 	InterfaceOptionsFrame:SetScript("OnDragStart", function(self)
 		if InCombatLockdown() then return end
 
-		if IsShiftKeyDown() then
-			self:StartMoving()
-		end
+		self:StartMoving()
+		self.isMoving = true
 	end)
 	InterfaceOptionsFrame:SetScript("OnDragStop", function(self)
 		self:StopMovingOrSizing()
+		self.isMoving = false
 	end)
 
 	-- Declension frame
