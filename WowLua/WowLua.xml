@@ -1,0 +1,678 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+	../UI.xsd">
+	<Button name="WowLuaButtonTemplate" virtual="true">
+		<Size x="25" y="25"/>
+		<Scripts>
+			<OnClick>
+				WowLua:Button_OnClick(self, button)
+			</OnClick>
+			<OnEnter>
+				WowLua:Button_OnEnter(self)
+			</OnEnter>
+			<OnLeave>
+				WowLua:Button_OnLeave(self)
+			</OnLeave>
+		</Scripts>
+	</Button>
+
+	<Frame name="WowLuaOpenDropDown" inherits="UIDropDownMenuTemplate" frameStrata="FULLSCREEN_DIALOG">
+		<Scripts>
+			<OnLoad>
+				WowLua:OpenDropDownOnLoad(self)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="WowLuaFrame" toplevel="true" movable="true" parent="UIParent" enableMouse="true" resizable="true" frameStrata="MEDIUM">
+		<Size x="640" y="512"/>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<ResizeBounds>
+			<minResize x="365" y="300"/>
+		</ResizeBounds>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBG1" file="Interface\WorldStateFrame\WorldStateFinalScoreFrame-TopBackground">
+					<Size x="256" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="13" y="-18"/>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBG2" file="Interface\WorldStateFrame\WorldStateFinalScoreFrame-TopBackground">
+					<Size x="256" y="64"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentBG1" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBG3" file="Interface\WorldStateFrame\WorldStateFinalScoreFrame-TopBackground">
+					<Size x="256" y="64"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentBG2" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBG4" file="Interface\WorldStateFrame\WorldStateFinalScoreFrame-TopBackground">
+					<Size x="256" y="64"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentBG3" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture name="$parentTopLeft" file="Interface\AddOns\WowLua\images\topleft">
+					<Size x="128" y="256"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentTopRight" file="Interface\WorldStateFrame\WorldStateFinalScoreFrame-TopRight">
+					<Size x="140" y="242"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT">
+							<Offset x="0" y="-14"/>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.546875" top="0" bottom="0.9453125"/>
+				</Texture>
+				<Texture file="Interface\WorldStateFrame\WorldStateFinalScoreFrame-Top">
+					<Size y="242"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTopLeft" relativePoint="TOPRIGHT">
+							<Offset x="0" y="-14"/>
+						</Anchor>
+						<Anchor point="TOPRIGHT" relativeTo="$parentTopRight" relativePoint="TOPLEFT">
+							<Offset x="0" y="0"/>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.3" right="0.35" top="0" bottom="0.9453125"/>
+				</Texture>
+				<Texture name="$parentBotLeft" file="Interface\WorldStateFrame\WorldStateFinalScoreFrame-BotLeft">
+					<Size x="128" y="168"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT">
+							<Offset x="8" y="0"/>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="1" top="0" bottom="0.65625"/>
+				</Texture>
+				<Texture name="$parentBotRight" file="Interface\WorldStateframe\WorldStateFinalScoreFrame-BotRight">
+					<Size x="140" y="168"/>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+					<TexCoords left="0" right="0.546875" top="0" bottom="0.65625"/>
+				</Texture>
+				<Texture file="Interface\WorldStateFrame\WorldStateFinalScoreFrame-BotLeft">
+					<Size y="168"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentBotLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="TOPRIGHT" relativeTo="$parentBotRight" relativePoint="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0.25" right="0.5" top="0" bottom="0.65625"/>
+				</Texture>
+				<Texture name="$parentMidLeft" file="Interface\WorldStateFrame\WorldStateFinalScoreFrame-TopLeft">
+					<Size x="128" y="10"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTopLeft" relativePoint="BOTTOMLEFT">
+							<Offset x="8" y="0"/>
+						</Anchor>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentBotLeft" relativePoint="TOPLEFT">
+							<Offset x="8" y="0"/>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="1" top="0.9375" bottom="1"/>
+				</Texture>
+				<Texture name="$parentMidRight" file="Interface\WorldStateFrame\WorldStateFinalScoreFrame-TopRight">
+					<Size x="140" y="10"/>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentTopRight" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentBotRight" relativePoint="TOPRIGHT"/>
+					</Anchors>
+					<TexCoords left="0" right="0.546875" top="0.9375" bottom="1"/>
+				</Texture>
+				<Texture file="Interface\WorldStateFrame\WorldStateFinalScoreFrame-TopLeft">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentMidLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentMidRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+					<TexCoords left="0.25" right="0.5" top="0.25" bottom="0.5"/>
+				</Texture>
+				<FontString name="$parentTitle" inherits="GameFontNormal" text="WowLua Editor">
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset x="15" y="-19"/>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture file="Interface\MacroFrame\MacroFrame-Icon">
+					<Size x="60" y="60"/>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="7" y="-6"/>
+						</Anchor>
+					</Anchors>
+				</Texture>	
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="WowLuaButton_Close" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset x="5" y="-10"/>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						WowLua:Button_OnClick(self, button)
+					</OnClick>
+					<OnEnter>
+						WowLua:Button_OnEnter(self)
+					</OnEnter>
+					<OnLeave>
+						WowLua:Button_OnLeave(self)
+					</OnLeave>
+				</Scripts>
+			</Button>
+			<Button name="$parentDragHeader">
+				<Size y="60"/>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="0" y="-13"/>
+					</Anchor>
+					<Anchor point="TOPRIGHT">
+						<Offset x="0" y="0"/>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<Frame name="WowLuaFrameToolbar">
+						<Size y="30"/>
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="80" y="-26"/>
+							</Anchor>
+							<Anchor point="TOPRIGHT">
+								<Offset x="-5" y="-26"/>
+							</Anchor>
+						</Anchors>
+						<!-- Used for placement
+						<Layers>
+							<Layer level="ARTWORK">
+								<Texture setAllPoints="true">
+									<Color r="1" g="0.2" b="0.2" a="0.5"/>
+								</Texture>
+							</Layer>
+						</Layers>
+						-->
+						<Frames>
+							<Button name="WowLuaButton_New" inherits="WowLuaButtonTemplate">
+								<Anchors>
+									<Anchor point="LEFT"/>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\new"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+							</Button>
+							<Button name="WowLuaButton_Open" inherits="WowLuaButtonTemplate">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="WowLuaButton_New" relativePoint="RIGHT">
+										<Offset x="5" y="0"/>
+									</Anchor>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\open"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+							</Button>
+							<Button name="WowLuaButton_Save" inherits="WowLuaButtonTemplate">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="WowLuaButton_Open" relativePoint="RIGHT">
+										<Offset x="5" y="0"/>
+									</Anchor>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\save"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+							</Button>
+							<Button name="WowLuaButton_Undo" inherits="WowLuaButtonTemplate">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="WowLuaButton_Save" relativePoint="RIGHT">
+										<Offset x="5" y="0"/>
+									</Anchor>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\undo"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+							</Button>
+							<Button name="WowLuaButton_Redo" inherits="WowLuaButtonTemplate">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="WowLuaButton_Undo" relativePoint="RIGHT">
+										<Offset x="5" y="0"/>
+									</Anchor>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\redo"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+							</Button>
+							<Button name="WowLuaButton_Delete" inherits="WowLuaButtonTemplate">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="WowLuaButton_Redo" relativePoint="RIGHT">
+										<Offset x="5" y="0"/>
+									</Anchor>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\delete"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+							</Button>
+							<Button name="WowLuaButton_Lock" inherits="WowLuaButtonTemplate">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="WowLuaButton_Delete" relativePoint="RIGHT">
+										<Offset x="5" y="0"/>
+									</Anchor>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\padlock-disabled"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+								<Scripts>
+									<OnHide>
+										WowLuaButton_Unlock:Show()
+									</OnHide>
+								</Scripts>
+							</Button>
+							<Button name="WowLuaButton_Unlock" inherits="WowLuaButtonTemplate" hidden="true">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="WowLuaButton_Lock" relativePoint="TOPLEFT"/>
+									<Anchor point="BOTTOMRIGHT" relativeTo="WowLuaButton_Lock" relativePoint="BOTTOMRIGHT"/>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\padlock"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+								<Scripts>
+									<OnHide>
+										WowLuaButton_Lock:Show()
+									</OnHide>
+								</Scripts>
+							</Button>
+							<Button name="WowLuaButton_Previous" inherits="WowLuaButtonTemplate">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="WowLuaButton_Lock" relativePoint="RIGHT">
+										<Offset x="5" y="0"/>
+									</Anchor>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\left"/>
+								<DisabledTexture file="Interface\AddOns\WowLua\images\left"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+								<Scripts>
+									<OnLoad>
+										self:GetDisabledTexture():SetDesaturated(true)
+									</OnLoad>
+								</Scripts>
+							</Button>
+							<Button name="WowLuaButton_Next" inherits="WowLuaButtonTemplate">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="WowLuaButton_Previous" relativePoint="RIGHT">
+										<Offset x="5" y="0"/>
+									</Anchor>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\right"/>
+								<DisabledTexture file="Interface\AddOns\WowLua\images\right"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+								<Scripts>
+									<OnLoad>
+										self:GetDisabledTexture():SetDesaturated(true)
+									</OnLoad>
+								</Scripts>
+							</Button>
+							<Button name="WowLuaButton_Run" inherits="WowLuaButtonTemplate">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="WowLuaButton_Next" relativePoint="RIGHT">
+										<Offset x="5" y="0"/>
+									</Anchor>
+								</Anchors>
+								<NormalTexture file="Interface\AddOns\WowLua\images\run-1"/>
+								<HighlightTexture file="Interface\AddOns\WowLua\images\highlight"/>
+							</Button>
+						</Frames>
+					</Frame>
+
+				</Frames>
+				<Scripts>
+					<OnMouseDown>
+						local parent = self:GetParent()
+						if parent:IsMovable() then
+						parent:StartMoving()
+						end
+					</OnMouseDown>
+					<OnMouseUp>
+						local parent = self:GetParent()
+						parent:StopMovingOrSizing()
+					</OnMouseUp>
+				</Scripts>
+			</Button>
+			<Button name="$parentResizeBar">
+				<Size y="16"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT">
+						<Offset x="14" y="100"/>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT">
+						<Offset x="0" y="100"/>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BORDER">
+						<Texture name="$parentLeftNub" file="Interface\ClassTrainerFrame\UI-ClassTrainer-HorizontalBar">
+							<Size x="75" y="16"/>
+							<Anchors>
+								<Anchor point="LEFT">
+									<Offset x="-1"/>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.29296875" top="0" bottom="0.25"/>
+						</Texture>
+						<Texture name="$parentRightNub" file="Interface\ClassTrainerFrame\UI-ClassTrainer-HorizontalBar">
+							<Size x="75" y="16"/>
+							<Anchors>
+								<Anchor point="RIGHT">
+									<Offset x="1"/>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.29296875" top="0.25" bottom="0.5"/>
+						</Texture>
+						<Texture name="$parentBar" file="Interface\ClassTrainerFrame\UI-ClassTrainer-HorizontalBar">
+							<Size y="16"/>
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="$parentLeftNub" relativePoint="RIGHT"/>
+								<Anchor point="RIGHT" relativeTo="$parentRightNub" relativePoint="LEFT"/>
+							</Anchors>
+							<TexCoords left="0.29296875" right="1.0" top="0" bottom="0.25"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnMouseDown>
+						WowLua:ResizeBar_OnMouseDown(self, button)
+					</OnMouseDown>
+					<OnMouseUp>
+						WowLua:ResizeBar_OnMouseUp(self, button)
+					</OnMouseUp>
+				</Scripts>
+			</Button>
+			<Button name="$parentResizeCorner">
+				<Size x="16" y="16"/>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset x="-3" y="3"/>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnMouseDown>
+						self:GetParent():StartSizing()
+					</OnMouseDown>
+					<OnLoad>
+						self:GetNormalTexture():SetVertexColor(0.6, 0.6, 0.6)
+					</OnLoad>
+					<OnMouseUp>
+						self:GetParent():StopMovingOrSizing()
+						if WowLuaFrameEditBox then
+						WowLuaFrameEditBox:SetWidth(WowLuaFrameEditScrollFrame:GetWidth())
+						end
+					</OnMouseUp>
+					<OnHide>
+						self:GetParent():StopMovingOrSizing()
+						if WowLuaFrameEditBox then
+						WowLuaFrameEditBox:SetWidth(WowLuaFrameEditScrollFrame:GetWidth())
+						end
+					</OnHide>
+				</Scripts>
+				<NormalTexture file="Interface\AddOns\WowLua\images\resize"/>
+			</Button>
+			<ScrollFrame name="$parentLineNumScrollFrame">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="18" y="-74"/>
+					</Anchor>
+					<Anchor point="BOTTOMRIGHT" relativeTo="$parentResizeBar" relativePoint="TOPLEFT">
+						<Offset x="30" y="-4"/>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture setAllPoints="true"><Color r="0.1" g="0.1" b="0.1" a="0.85"/></Texture>
+					</Layer>
+				</Layers>
+				<!-- Basically copy/pasted from MacroFrame -->
+				<ScrollChild>
+					<EditBox name="WowLuaFrameLineNumEditBox" multiLine="true" maxLines="9999" letters="4096" nonspacewrap="true" spacing="1" autoFocus="false">
+						<Size>
+							<AbsDimension x="100" y="100"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="20" y="0"/>
+							</Anchor>
+							<Anchor point="BOTTOMRIGHT"/>
+						</Anchors>
+						<Scripts>
+							<OnEditFocusGained>
+								self:ClearFocus()
+							</OnEditFocusGained>
+							</Scripts>
+						<FontString font="Interface\AddOns\WowLua\fonts\VeraMono.ttf">
+							<FontHeight val="14"/>
+						</FontString>
+					</EditBox>
+				</ScrollChild>
+			</ScrollFrame>
+			<ScrollFrame name="$parentEditScrollFrame" inherits="UIPanelScrollFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentLineNumScrollFrame" relativePoint="TOPRIGHT">
+						<Offset x="0" y="0"/>
+					</Anchor>
+					<Anchor point="BOTTOMRIGHT" relativeTo="$parentResizeBar" relativePoint="TOPRIGHT">
+						<Offset x="-25" y="-4"/>
+					</Anchor>
+				</Anchors>
+				<!-- Basically copy/pasted from MacroFrame -->
+				<Scripts>
+					<OnVerticalScroll>
+						WowLuaFrameLineNumScrollFrame:SetVerticalScroll(offset)
+						WowLua:OnVerticalScroll(self);
+					</OnVerticalScroll>
+					<OnShow>
+						WowLua:OnVerticalScroll(self);
+					</OnShow>
+					<OnLoad>
+						self.scrollBarHideable = 1;
+					</OnLoad>
+				</Scripts>
+				<ScrollChild>
+					<EditBox name="WowLuaFrameEditBox" multiLine="true" nonspacewrap="true" spacing="1" autoFocus="false">
+						<Size>
+							<AbsDimension x="100" y="100"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="20" y="0"/>
+							</Anchor>
+							<Anchor point="BOTTOMRIGHT"/>
+						</Anchors>
+						<Layers>
+							<Layer level="BACKGROUND">
+								<FontString name="$parentLineTest" font="Interface\AddOns\WowLua\fonts\VeraMono.ttf" hidden="true">
+									<Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+									<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT"/>
+									<FontHeight val="14"/>
+								</FontString>
+							</Layer>
+						</Layers>
+						<Scripts>
+							<OnLoad>
+								WowLua.indent.enable(self, nil, 3)
+								WowLua.unlockedTextChanged = self:GetScript("OnTextChanged")
+							</OnLoad>
+							<OnEscapePressed>
+								self:ClearFocus();
+							</OnEscapePressed>
+							<OnTextChanged>
+								WowLua:SetTitle()
+								WowLua.highlightNum = nil
+							</OnTextChanged>
+							<OnCursorChanged>
+								WowLua.lastCursorPos = WowLua.cursorPos
+								WowLua.cursorPos = self:GetCursorPosition()
+								ScrollingEdit_OnCursorChanged(self,x,y,w,h)
+								WowLua:UpdateLineNums()
+								WowLuaFrameEditScrollFrameScrollBar:SetValue(WowLuaFrameEditScrollFrame:GetVerticalScroll())
+							</OnCursorChanged>
+							<OnUpdate>
+								ScrollingEdit_OnUpdate(WowLuaFrameEditScrollFrame)
+							</OnUpdate>
+						</Scripts>
+						<FontString font="Interface\AddOns\WowLua\fonts\VeraMono.ttf">
+							<FontHeight val="14"/>
+						</FontString>
+					</EditBox>
+				</ScrollChild>
+			</ScrollFrame>
+			<Button name="$parentEditFocusGrabber">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="18" y="-72"/>
+					</Anchor>
+					<Anchor point="BOTTOMRIGHT" relativeTo="$parentResizeBar" relativePoint="TOPRIGHT">
+						<Offset x="-30" y="0"/>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						WowLuaFrameEditBox:SetFocus()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Frame name="$parentCommand">
+				<Size y="16"/>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT">
+						<Offset x="18" y="3"/>
+					</Anchor>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset x="-15" y="0"/>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture>
+							<Anchors>
+								<Anchor point="TOPLEFT"/>
+								<Anchor point="BOTTOMRIGHT" relativeTo="WowLuaFrameResizeCorner">
+									<Offset x="-3" y="2"/>
+								</Anchor>
+							</Anchors>
+							<Color r="0.1" g="0.1" b="0.1" a="0.85"/>
+						</Texture>
+					</Layer>
+					<Layer level="ARTWORK">
+						<FontString name="$parentPrompt" text="&gt; " font="Interface\AddOns\WowLua\fonts\VeraMono.ttf">
+							<Anchors>
+								<Anchor point="LEFT"/>
+							</Anchors>
+							<FontHeight val="14"/>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<EditBox name="$parentEditBox" letters="4096" nonspacewrap="true" spacing="1" historyLines="100" autoFocus="false">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentPrompt" relativePoint="TOPRIGHT">
+								<Offset x="5" y="0"/>
+							</Anchor>
+							<Anchor point="BOTTOMRIGHT"/>
+						</Anchors>
+						<Scripts>
+							<OnEscapePressed>
+								self:ClearFocus()
+							</OnEscapePressed>
+							<OnTabPressed>
+								WowLuaFrameEditBox:SetFocus()
+							</OnTabPressed>
+							<OnLoad>
+								WowLua.indent.enable(self)
+							</OnLoad>
+							<OnEnterPressed>
+								local text = self:GetText();
+								WowLua:ProcessLine(text);
+								self:AddHistoryLine(text);
+							</OnEnterPressed>
+						</Scripts>
+						<FontString font="Interface\AddOns\WowLua\fonts\VeraMono.ttf">
+							<FontHeight val="14"/>
+						</FontString>
+					</EditBox>
+				</Frames>
+			</Frame>
+			<ScrollingMessageFrame name="$parentOutput" maxLines="9999" fade="false" enableMouse="true">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="WowLuaFrameResizeBar" relativePoint="BOTTOMLEFT">
+						<Offset x="5" y="2"/>
+					</Anchor>
+					<Anchor point="BOTTOM" relativeTo="WowLuaFrameCommand" relativePoint="TOP">
+						<Offset x="0" y="0"/>
+					</Anchor>
+					<Anchor point="RIGHT">
+						<Offset x="-4" y="0"/>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<Button name="$parentUpButton" inherits="UIPanelScrollUpButtonTemplate">
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT"/>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								WowLua:ScrollingMessageFrameScroll(self:GetParent(), "up", "page");
+							</OnClick>
+						</Scripts>
+					</Button>
+					<Button name="$parentDownButton" inherits="UIPanelScrollDownButtonTemplate">
+						<Anchors>
+							<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								WowLua:ScrollingMessageFrameScroll(self:GetParent(), "down", "page");
+							</OnClick>
+						</Scripts>
+					</Button>
+				</Frames>
+				<Scripts>
+					<OnMouseWheel>
+						local direction;
+						if delta > 0 then
+						direction = "up";
+						else
+						direction = "down";
+						end
+						local type = ( IsShiftKeyDown() and "end" ) or
+						( IsControlKeyDown() and "page" ) or "line";
+						WowLua:ScrollingMessageFrameScroll(self, direction, type);
+					</OnMouseWheel>
+					<OnMessageScrollChanged>
+						WowLua:UpdateScrollingMessageFrame(self);
+					</OnMessageScrollChanged>
+					<OnShow>
+						WowLua:UpdateScrollingMessageFrame(self);
+					</OnShow>
+				</Scripts>
+				<FontString font="Interface\AddOns\WowLua\fonts\VeraMono.ttf" justifyH="LEFT">
+					<FontHeight val="14"/>
+				</FontString>
+			</ScrollingMessageFrame>
+		</Frames>
+		<Scripts>
+			<OnShow>
+				WowLua:Initialize(self)
+			</OnShow>
+			<OnHide>
+				PlaySound("igMainMenuQuit");
+			</OnHide>
+			<OnSizeChanged>
+				WowLua:OnSizeChanged(self)
+			</OnSizeChanged>
+		</Scripts>
+	</Frame>
+</Ui>

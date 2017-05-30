@@ -1,0 +1,16 @@
+<Bindings>
+  <Binding name="TOGGLE_WOWLUA" description="Toggle WowLua window" header="WOWLUA">
+	  if WowLuaFrame:IsShown() then
+		  WowLuaFrame:Hide()
+	  else
+	      SlashCmdList["WOWLUA"]("") 
+      end
+  </Binding>
+  <Binding name="RUN_WOWLUA" description="Runs the current page in WowLua">
+	  WowLuaButton_Run:Click(WowLuaButton_Run, "LeftButton")
+  </Binding>
+  <Binding name="SAVE_WOWLUA" description="Saves the current page in WowLua">
+	  WowLuaButton_Save:Click(WowLuaButton_Save, "LeftButton")
+  </Binding>
+</Bindings>
+
