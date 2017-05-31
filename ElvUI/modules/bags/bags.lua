@@ -1104,7 +1104,7 @@ function B:ContructContainerFrame(name, isBank)
 	end
 
 	f:SetScript("OnShow", function(self)
-	--	self:UpdateCooldowns();
+		self:UpdateCooldowns();
 	end);
 
 	tinsert(UISpecialFrames, f:GetName()) --Keep an eye on this for taints..
