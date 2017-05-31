@@ -574,9 +574,9 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 		end
 
 		if link and link ~= 0 then
-			local value = GetSellValue(link) * num
-			if value and value ~= 0 then
-				tt:AddDoubleLine("|cffffd700Vendor|r", E:FormatMoney(value, "BLIZZARD", false), 1, 1, 1, 1, 1, 1)
+			local value = GetSellValue(link)
+			if value and value > 0 then
+				tt:AddDoubleLine("|cffffd700Vendor|r", E:FormatMoney(value * num, "BLIZZARD", false), 1, 1, 1, 1, 1, 1)
 			end
 		end
 
