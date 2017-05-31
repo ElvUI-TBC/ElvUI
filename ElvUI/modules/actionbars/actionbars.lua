@@ -125,6 +125,7 @@ function AB:StyleButton(button, noBackdrop)
 	if(not self.handledbuttons[button]) then
 		E:RegisterCooldown(buttonCooldown)
 
+		self:RegisterButton(button, true)
 		self.handledbuttons[button] = true
 	end
 end
@@ -286,6 +287,10 @@ function AB:ActionButton_Update()
 	self:StyleButton(this);
 end
 
+function AB:ActionButton_UpdateHotkeys()
+	self:FixKeybindText(this);
+end
+
 function AB:Initialize()
 	self.db = E.db.actionbar
 	if E.private.actionbar.enable ~= true then return end
@@ -310,10 +315,11 @@ function AB:Initialize()
 	self:CreateActionBars()
 
 	self:UpdateButtonSettings()
-	--self:LoadKeyBinder()
+	self:LoadKeyBinder()
 
 	self:SecureHook("ActionButton_Update")
 	self:SecureHook("PetActionBar_Update", "UpdatePet")
+	self:SecureHook("ActionButton_UpdateHotkeys")
 end
 
 E:RegisterModule(AB:GetName())

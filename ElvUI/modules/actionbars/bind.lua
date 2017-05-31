@@ -17,7 +17,6 @@ local GetBindingKey = GetBindingKey
 local IsAltKeyDown, IsControlKeyDown = IsAltKeyDown, IsControlKeyDown
 local IsShiftKeyDown, IsModifiedClick = IsShiftKeyDown, IsModifiedClick
 local InCombatLockdown = InCombatLockdown
-local GameTooltip_ShowCompareItem = GameTooltip_ShowCompareItem
 local GetMacroInfo = GetMacroInfo
 local SecureActionButton_OnClick = SecureActionButton_OnClick
 local GameTooltip_Hide = GameTooltip_Hide
@@ -210,6 +209,7 @@ function AB:RegisterButton(b, override)
 	local shapeshift = ShapeshiftButton1:GetScript("OnClick")
 	local pet = PetActionButton1:GetScript("OnClick")
 	local button = SecureActionButton_OnClick
+
 	if b.IsProtected and b.GetObjectType and b.GetScript and b:GetObjectType()=="CheckButton" and b:IsProtected() then
 		local script = b:GetScript("OnClick")
 		if script==button or override then
@@ -223,21 +223,6 @@ function AB:RegisterButton(b, override)
 	end
 end
 
-local elapsed = 0
-function AB:Tooltip_OnUpdate(tooltip, e)
-	elapsed = elapsed + e
-	if elapsed < .2 then return else elapsed = 0 end
-	if (not tooltip.comparing and IsModifiedClick("COMPAREITEMS")) then
-		GameTooltip_ShowCompareItem(tooltip)
-		tooltip.comparing = true
-	elseif ( tooltip.comparing and not IsModifiedClick("COMPAREITEMS")) then
-		for _, frame in pairs(tooltip.shoppingTooltips) do
-			frame:Hide()
-		end
-		tooltip.comparing = false
-	end
-end
-
 function AB:RegisterMacro(addon)
 	if addon == "Blizzard_MacroUI" then
 		for i=1, MAX_MACROS do
@@ -248,7 +233,7 @@ function AB:RegisterMacro(addon)
 end
 
 function AB:ChangeBindingProfile()
-	if ( ElvUIBindPopupWindowCheckButton:GetChecked() ) then
+	if (ElvUIBindPopupWindowCheckButton:GetChecked()) then
 		LoadBindings(2)
 		SaveBindings(2)
 	else
@@ -267,9 +252,6 @@ function AB:LoadKeyBinder()
 	bind.texture:SetAllPoints(bind)
 	bind.texture:SetTexture(0, 0, 0, .25)
 	bind:Hide()
-
-	self:HookScript(GameTooltip, "OnUpdate", "Tooltip_OnUpdate")
-	hooksecurefunc(GameTooltip, "Hide", function(tooltip) for _, tt in pairs(tooltip.shoppingTooltips) do tt:Hide() end end)
 
 	bind:SetScript("OnEnter", function(self) local db = self.button:GetParent().db if db and db.mouseover then AB:Button_OnEnter(self.button) end end)
 	bind:SetScript("OnLeave", function(self) AB:BindHide() local db = self.button:GetParent().db if db and db.mouseover then AB:Button_OnLeave(self.button) end end)
@@ -308,7 +290,8 @@ function AB:LoadKeyBinder()
 
 	local header = CreateFrame("Button", nil, f)
 	header:SetTemplate("Default", true)
-	header:SetWidth(100) header:SetHeight(25)
+	header:SetWidth(100)
+	header:SetHeight(25)
 	header:SetPoint("CENTER", f, "TOP")
 	header:SetFrameLevel(header:GetFrameLevel() + 2)
 	header:EnableMouse(true)
@@ -337,7 +320,7 @@ function AB:LoadKeyBinder()
 	end)
 
 	perCharCheck:SetScript("OnClick", function()
-		if ( AB.bindingsChanged ) then
+		if (AB.bindingsChanged) then
 			E:StaticPopup_Show("CONFIRM_LOSE_BINDING_CHANGES")
 		else
 			AB:ChangeBindingProfile()
