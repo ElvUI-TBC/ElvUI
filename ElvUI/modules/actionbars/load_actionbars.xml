@@ -2,6 +2,7 @@
 	<Script file="actionbars.lua"/>
 	<Script file="microbar.lua"/>
 	<Script file="bar1.lua"/>
+	<Script file="bonusBar.lua"/>
 	<Script file="bar2.lua"/>
 	<Script file="bar3.lua"/>
 	<Script file="bar4.lua"/>
