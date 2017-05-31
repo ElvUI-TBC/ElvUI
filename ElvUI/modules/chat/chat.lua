@@ -949,8 +949,8 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			end
 		end
 
-		if ( type == "SYSTEM" or type == "SKILL" or type == "LOOT" or type == "MONEY" or
-			type == "OPENING" or type == "TRADESKILLS" or type == "PET_INFO" or type == "TARGETICONS") then
+		if ( type == "SYSTEM" or type == "TEXT_EMOTE" or type == "SKILL" or type == "LOOT" or type == "MONEY" or
+		     type == "OPENING" or type == "TRADESKILLS" or type == "PET_INFO" ) then
 			self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id);
 		elseif ( strsub(type,1,7) == "COMBAT_" ) then
 			self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id);
@@ -997,23 +997,22 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			local body;
 			local _, fontHeight = FCF_GetChatWindowInfo(self:GetID());
 
-			if ( fontHeight == 0 ) then
+			if fontHeight == 0 then
 				--fontHeight will be 0 if it's still at the default (14)
 				fontHeight = 14;
 			end
 
 			-- Add AFK/DND flags
 			local pflag;
-			if(strlen(arg6) > 0) then
-				if ( arg6 == "GM" ) then
+			if strlen(arg6) > 0 then
+				if arg6 == "GM" then
 					--Add Blizzard Icon, this was sent by a GM
 					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz.blp:0:2:0:-3|t ";
 				else
 					pflag = _G["CHAT_FLAG_"..arg6];
 				end
 			else
-
-				if(pflag == true) then
+				if pflag == true then
 					pflag = nil
 				end
 
@@ -1021,7 +1020,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			end
 
 			local showLink = 1;
-			if ( strsub(type, 1, 7) == "MONSTER" or strsub(type, 1, 9) == "RAID_BOSS") then
+			if strsub(type, 1, 7) == "MONSTER" or strsub(type, 1, 9) == "RAID_BOSS" then
 				showLink = nil;
 			else
 				arg1 = gsub(arg1, "%%", "%%%%");
@@ -1031,7 +1030,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			local term;
 			for tag in gmatch(arg1, "%b{}") do
 				term = strlower(gsub(tag, "[{}]", ""));
-				if ( ICON_TAG_LIST[term] and ICON_LIST[ICON_TAG_LIST[term]] ) then
+				if ICON_TAG_LIST[term] and ICON_LIST[ICON_TAG_LIST[term]] then
 					arg1 = gsub(arg1, tag, ICON_LIST[ICON_TAG_LIST[term]] .. "0|t");
 				end
 			end
@@ -1041,9 +1040,9 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 
 			playerLink = "|Hplayer:"..arg2..":"..arg11..":"..chatGroup..(chatTarget and ":"..chatTarget or "").."|h";
 
-			if ( (strlen(arg3) > 0) and (arg3 ~= "Universal") and (arg3 ~= defaultLanguage) ) then
+			if strlen(arg3) > 0 and arg3 ~= "Universal" and arg3 ~= defaultLanguage then
 				local languageHeader = "["..arg3.."] ";
-				if ( showLink and (strlen(arg2) > 0) ) then
+				if showLink and strlen(arg2) > 0 then
 					body = format(_G["CHAT_"..type.."_GET"]..languageHeader..arg1, pflag..playerLink.."["..coloredName.."]".."|h");
 				else
 					body = format(_G["CHAT_"..type.."_GET"]..languageHeader..arg1, pflag..arg2);
