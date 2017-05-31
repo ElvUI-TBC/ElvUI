@@ -285,14 +285,15 @@ function B:UpdateSlot(bagID, slotID)
 	end
 	slot.name, slot.rarity = nil, nil;
 
-	local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
-	-- CooldownFrame_SetTimer(slot.cooldown, start, duration, enable)
-	if ( duration > 0 and enable == 0 ) then
-		SetItemButtonTextureVertexColor(slot, 0.4, 0.4, 0.4);
-	else
-		SetItemButtonTextureVertexColor(slot, 1, 1, 1);
+	if bagID ~= BANK_CONTAINER then
+		local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
+		CooldownFrame_SetTimer(slot.cooldown, start, duration, enable)
+		if duration > 0 and enable == 0 then
+			SetItemButtonTextureVertexColor(slot, 0.4, 0.4, 0.4);
+		else
+			SetItemButtonTextureVertexColor(slot, 1, 1, 1);
+		end
 	end
-
 	slot.itemLevel:SetText("")
 	if(B.ProfessionColors[bagType]) then
 		slot:SetBackdropBorderColor(unpack(B.ProfessionColors[bagType]))
@@ -511,10 +512,12 @@ function B:Layout(isBank)
 					f.Bags[bagID][slotID].iconTexture:SetInside(f.Bags[bagID][slotID]);
 					f.Bags[bagID][slotID].iconTexture:SetTexCoord(unpack(E.TexCoords));
 
-					f.Bags[bagID][slotID].cooldown = _G[f.Bags[bagID][slotID]:GetName().."Cooldown"];
-					-- E:RegisterCooldown(f.Bags[bagID][slotID].cooldown)
-					f.Bags[bagID][slotID].bagID = bagID
-					f.Bags[bagID][slotID].slotID = slotID
+					if bagID ~= BANK_CONTAINER then
+						f.Bags[bagID][slotID].cooldown = _G[f.Bags[bagID][slotID]:GetName().."Cooldown"];
+						E:RegisterCooldown(f.Bags[bagID][slotID].cooldown)
+						f.Bags[bagID][slotID].bagID = bagID
+						f.Bags[bagID][slotID].slotID = slotID
+					end
 
 					f.Bags[bagID][slotID].itemLevel = f.Bags[bagID][slotID]:CreateFontString(nil, "OVERLAY");
 					f.Bags[bagID][slotID].itemLevel:Point("BOTTOMRIGHT", 0, 2);
@@ -583,7 +586,7 @@ function B:Layout(isBank)
 				f.keyFrame.slots[i]:SetID(i);
 
 				f.keyFrame.slots[i].cooldown = _G[f.keyFrame.slots[i]:GetName().."Cooldown"];
-				-- E:RegisterCooldown(f.keyFrame.slots[i].cooldown)
+				E:RegisterCooldown(f.keyFrame.slots[i].cooldown)
 
 				f.keyFrame.slots[i].iconTexture = _G[f.keyFrame.slots[i]:GetName().."IconTexture"];
 				f.keyFrame.slots[i].iconTexture:SetInside(f.keyFrame.slots[i]);
@@ -1101,7 +1104,7 @@ function B:ContructContainerFrame(name, isBank)
 	end
 
 	f:SetScript("OnShow", function(self)
-		self:UpdateCooldowns();
+	--	self:UpdateCooldowns();
 	end);
 
 	tinsert(UISpecialFrames, f:GetName()) --Keep an eye on this for taints..
