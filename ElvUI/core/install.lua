@@ -15,7 +15,6 @@ local ChatFrame_RemoveAllMessageGroups = ChatFrame_RemoveAllMessageGroups;
 local ChatFrame_AddChannel = ChatFrame_AddChannel;
 local ChatFrame_RemoveChannel = ChatFrame_RemoveChannel;
 local ChangeChatColor = ChangeChatColor;
-local ToggleChatColorNamesByClassGroup = ToggleChatColorNamesByClassGroup;
 local FCF_ResetChatWindows = FCF_ResetChatWindows;
 local FCF_SetLocked = FCF_SetLocked;
 local FCF_DockFrame, FCF_UnDockFrame = FCF_DockFrame, FCF_UnDockFrame;
