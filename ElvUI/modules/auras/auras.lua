@@ -328,7 +328,7 @@ function A:UpdateHeader(header)
 	repeat
 		local aura, _ = freshTable();
 		aura.name, _, aura.icon, aura.count, aura.duration, aura.timeLeft, aura.caster = UnitAura("player", i, filter);
-		print(aura.name, _, aura.icon, aura.count, aura.duration, aura.timeLeft)
+		-- print(aura.name, _, aura.icon, aura.count, aura.duration, aura.timeLeft)
 		if(aura.name) then
 			aura.filter = filter;
 			aura.index = i;
