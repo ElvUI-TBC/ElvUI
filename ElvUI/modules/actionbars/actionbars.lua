@@ -85,8 +85,6 @@ function AB:BonusBarVisibility(visibilityUpdate, condition)
 	end
 	condition = condition.." "..visibilityUpdate
 
-	print("Bonus bar visibility - "..condition)
-
 	return condition
 end
 
