@@ -19,6 +19,7 @@ AB["handledbuttons"] = {}
 
 function AB:CreateActionBars()
 	self:CreateBar1()
+	self:CreateBonusBar()
 	self:CreateBar2()
 	self:CreateBar3()
 	self:CreateBar4()
@@ -34,6 +35,7 @@ end
 
 function AB:PositionAndSizeBar()
 	self:PositionAndSizeBar1()
+    self:PositionAndSizeBonusBar()
 	self:PositionAndSizeBar2()
 	self:PositionAndSizeBar3()
 	self:PositionAndSizeBar4()
@@ -320,6 +322,8 @@ function AB:Initialize()
 	self:SecureHook("ActionButton_Update")
 	self:SecureHook("PetActionBar_Update", "UpdatePet")
 	self:SecureHook("ActionButton_UpdateHotkeys")
+
+	self:UpdateBonusBar()
 end
 
 E:RegisterModule(AB:GetName())
