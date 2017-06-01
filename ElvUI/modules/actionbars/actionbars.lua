@@ -68,6 +68,28 @@ function AB:GetPage(bar, defaultPage, condition)
 	return condition
 end
 
+function AB:BonusBarVisibility(visibilityUpdate, condition)
+	local visibility = self.db["bonusBar"]["visibility"][E.myclass]
+	local visibilityGeneral = self.db["bonusBar"]["visibilityGeneral"]
+
+	if not condition then condition = "" end
+	if not visibilityGeneral then visibilityGeneral = "" end
+	if not visibility then visibility = "" end
+
+	if visibilityGeneral then
+		condition = condition.." "..visibilityGeneral
+	end
+
+	if visibility then
+		condition = condition.." "..visibility
+	end
+	condition = condition.." "..visibilityUpdate
+
+	print("Bonus bar visibility - "..condition)
+
+	return condition
+end
+
 function AB:StyleButton(button, noBackdrop)
 	local name = button:GetName()
 	local icon = _G[name.."Icon"]
@@ -323,7 +345,6 @@ function AB:Initialize()
 	self:SecureHook("PetActionBar_Update", "UpdatePet")
 	self:SecureHook("ActionButton_UpdateHotkeys")
 
-	self:UpdateBonusBar()
 end
 
 E:RegisterModule(AB:GetName())
