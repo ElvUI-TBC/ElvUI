@@ -141,8 +141,10 @@ function AB:PositionAndSizeBar1()
 		end
 
 		bar:Show()
-		RegisterStateDriver(bar, "visibility", self.db["bar1"].visibility)
+		RegisterStateDriver(bar, "visibility", self:BonusBarVisibility("hide;show", self.db["bar1"].visibility) )
 		RegisterStateDriver(bar, "page", self:GetPage("bar1", 1, condition))
+		bar:SetAttribute("statemap-visibility", "$input")
+		bar:SetAttribute("state", bar:GetAttribute("state-visibility"))
 
 		if not bar.initialized then
 			bar.initialized = true

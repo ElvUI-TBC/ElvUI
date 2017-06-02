@@ -139,7 +139,16 @@ function AB:PositionAndSizeBonusBar()
 			bar:SetAlpha(self.db["bar1"].alpha)
 		end
 
-		bar:Hide()
+		bar:Show()
+
+		RegisterStateDriver(bar, "visibility", self:BonusBarVisibility("show;hide", condition) )
+		bar:SetAttribute("statemap-visibility", "$input")
+		bar:SetAttribute("state", bar:GetAttribute("state-visibility"))
+
+		RegisterStateDriver(BonusActionBarFrame, "visibility", self:BonusBarVisibility("show;hide", condition) )
+		BonusActionBarFrame:SetAttribute("statemap-visibility", "$input")
+		BonusActionBarFrame:SetAttribute("state", bar:GetAttribute("state-visibility"))
+
 		if not bar.initialized then
 			bar.initialized = true
 			AB:PositionAndSizeBonusBar()
@@ -150,30 +159,10 @@ function AB:PositionAndSizeBonusBar()
 		bar:Hide()
 	end
 
-	AB:UpdateBonusBar()
 end
 
 function AB:UpdateBonusBar()
-
-  local offset = GetBonusBarOffset()
-  
-  
-  if self.db["bar1"].enabled then
-    if ( offset > 0 ) then
-		ElvUI_Bar1:Hide()
-      	ElvUI_BonusBar:Show();
-		BonusActionBarFrame:Show();
-	else
-      	ElvUI_Bar1:Show()
-      	ElvUI_BonusBar:Hide();
-		BonusActionBarFrame:Hide();
-	end
-  else
-	  ElvUI_Bar1:Hide()
-	  ElvUI_BonusBar:Hide();
-	  BonusActionBarFrame:Hide();
-  end
-  
+	bar:SetPoint(_G["ElvUI_Bar1"]:GetPoint())
 end
 
 function AB:CreateBonusBar()
@@ -184,4 +173,5 @@ function AB:CreateBonusBar()
   	self:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "UpdateBonusBar")
 
 	self:PositionAndSizeBonusBar()
+	AB:UpdateBonusBar()
 end

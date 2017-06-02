@@ -2602,12 +2602,22 @@ P["actionbar"] = {
 		["Scale"] = 1,
 		["xOffset"] = 1,
 		["yOffset"] = 1,
-		["buttonsPerRow"] = 10,
+		["buttonsPerRow"] = 8,
 		["alpha"] = 1,
 		["mouseover"] = false
 	},
 
 	["globalFadeAlpha"] = 0,
+
+	["bonusBar"] = {
+		["visibility"] = {
+			["DRUID"] = "[bonusbar:1] [bonusbar:2] [bonusbar:3] [bonusbar:4]",
+			["WARRIOR"] = "[bonusbar:1] [bonusbar:2] [bonusbar:3]",
+			["PRIEST"] = "[bonusbar:1]",
+			["ROGUE"] = "[bonusbar:1] [form:2]",
+		},
+		["visibilityGeneral"] = "[bonusbar:5]",
+	},
 
 	["bar1"] = {
 		["enabled"] = true,
