@@ -9,48 +9,50 @@ local tinsert = table.insert;
 local floor, ceil = math.floor, math.ceil;
 local len, sub, find, format, gsub = string.len, string.sub, string.find, string.format, string.gsub;
 
-local CreateFrame = CreateFrame;
-local GetContainerNumSlots = GetContainerNumSlots;
-local GetContainerItemInfo = GetContainerItemInfo;
-local SetItemButtonDesaturated = SetItemButtonDesaturated;
-local GetContainerItemInfo = GetContainerItemInfo;
-local IsBagOpen, IsOptionFrameOpen = IsBagOpen, IsOptionFrameOpen
-local CloseBag, CloseBackpack, CloseBankFrame = CloseBag, CloseBackpack, CloseBankFrame
-local ToggleFrame = ToggleFrame;
-local GetNumBankSlots = GetNumBankSlots;
-local PlaySound = PlaySound;
-local GetCurrentGuildBankTab = GetCurrentGuildBankTab;
-local GetGuildBankTabInfo = GetGuildBankTabInfo;
-local GetGuildBankItemLink = GetGuildBankItemLink;
-local GetContainerItemLink = GetContainerItemLink;
-local GetItemInfo = GetItemInfo;
-local GetItemQualityColor = GetItemQualityColor;
-local GetContainerItemCooldown = GetContainerItemCooldown;
-local SetItemButtonCount = SetItemButtonCount;
-local SetItemButtonTexture = SetItemButtonTexture;
-local SetItemButtonTextureVertexColor = SetItemButtonTextureVertexColor;
-local CooldownFrame_SetTimer = CooldownFrame_SetTimer;
 local BankFrameItemButton_Update = BankFrameItemButton_Update;
 local BankFrameItemButton_UpdateLocked = BankFrameItemButton_UpdateLocked;
-local UpdateSlot = UpdateSlot;
-local GetContainerNumFreeSlots = GetContainerNumFreeSlots;
-local IsModifiedClick = IsModifiedClick;
-local GetMoney = GetMoney;
-local PickupContainerItem = PickupContainerItem;
+local CloseBag, CloseBackpack, CloseBankFrame = CloseBag, CloseBackpack, CloseBankFrame
+local CooldownFrame_SetTimer = CooldownFrame_SetTimer;
+local CreateFrame = CreateFrame;
 local DeleteCursorItem = DeleteCursorItem;
-local UseContainerItem = UseContainerItem;
-local PickupMerchantItem = PickupMerchantItem;
-local IsControlKeyDown = IsControlKeyDown;
+local GetContainerItemCooldown = GetContainerItemCooldown;
+local GetContainerItemInfo = GetContainerItemInfo;
+local GetContainerItemInfo = GetContainerItemInfo;
+local GetContainerItemLink = GetContainerItemLink;
+local GetContainerNumFreeSlots = GetContainerNumFreeSlots;
+local GetContainerNumSlots = GetContainerNumSlots;
+local GetCurrentGuildBankTab = GetCurrentGuildBankTab;
+local GetGuildBankItemLink = GetGuildBankItemLink;
+local GetGuildBankTabInfo = GetGuildBankTabInfo;
+local GetItemInfo = GetItemInfo;
+local GetItemQualityColor = GetItemQualityColor;
 local GetKeyRingSize = GetKeyRingSize;
-local SEARCH = SEARCH;
+local GetMoney = GetMoney;
+local GetNumBankSlots = GetNumBankSlots;
+local IsBagOpen, IsOptionFrameOpen = IsBagOpen, IsOptionFrameOpen
+local IsControlKeyDown = IsControlKeyDown;
+local IsModifiedClick = IsModifiedClick;
+local PickupContainerItem = PickupContainerItem;
+local PickupMerchantItem = PickupMerchantItem;
+local PlaySound = PlaySound;
+local SetItemButtonCount = SetItemButtonCount;
+local SetItemButtonDesaturated = SetItemButtonDesaturated;
+local SetItemButtonTexture = SetItemButtonTexture;
+local SetItemButtonTextureVertexColor = SetItemButtonTextureVertexColor;
+local ToggleFrame = ToggleFrame;
+local UpdateSlot = UpdateSlot;
+local UseContainerItem = UseContainerItem;
+
+local BANK_CONTAINER = BANK_CONTAINER
+local CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y = CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y;
+local CONTAINER_SCALE = CONTAINER_SCALE;
+local CONTAINER_SPACING, VISIBLE_CONTAINER_SPACING = CONTAINER_SPACING, VISIBLE_CONTAINER_SPACING;
+local CONTAINER_WIDTH = CONTAINER_WIDTH;
 local KEYRING_CONTAINER = KEYRING_CONTAINER;
-local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES;
 local MAX_CONTAINER_ITEMS = MAX_CONTAINER_ITEMS;
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES;
-local CONTAINER_SCALE = CONTAINER_SCALE;
-local CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y = CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y;
-local CONTAINER_WIDTH = CONTAINER_WIDTH;
-local CONTAINER_SPACING, VISIBLE_CONTAINER_SPACING = CONTAINER_SPACING, VISIBLE_CONTAINER_SPACING;
+local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES;
+local SEARCH = SEARCH;
 
 local SEARCH_STRING = ""
 
@@ -346,13 +348,15 @@ end
 
 function B:UpdateCooldowns()
 	for _, bagID in ipairs(self.BagIDs) do
-		for slotID = 1, GetContainerNumSlots(bagID) do
-			local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
-			-- CooldownFrame_SetTimer(self.Bags[bagID][slotID].cooldown, start, duration, enable)
-			if (duration > 0 and enable == 0) then
-				SetItemButtonTextureVertexColor(self.Bags[bagID][slotID], 0.4, 0.4, 0.4);
-			else
-				SetItemButtonTextureVertexColor(self.Bags[bagID][slotID], 1, 1, 1);
+		if bagID ~= BANK_CONTAINER then
+			for slotID = 1, GetContainerNumSlots(bagID) do
+				local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
+				CooldownFrame_SetTimer(self.Bags[bagID][slotID].cooldown, start, duration, enable)
+				if (duration > 0 and enable == 0) then
+					SetItemButtonTextureVertexColor(self.Bags[bagID][slotID], 0.4, 0.4, 0.4);
+				else
+					SetItemButtonTextureVertexColor(self.Bags[bagID][slotID], 1, 1, 1);
+				end
 			end
 		end
 	end
