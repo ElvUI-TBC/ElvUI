@@ -125,8 +125,9 @@ local function OnSizeChanged(self, width, height)                               
 	self.obj.editBox:SetWidth(width)
 end
 
-local function OnTextChanged(self, userInput)                                    -- EditBox
-	if userInput then
+local function OnTextChanged(self)                                               -- EditBox
+--	if self.obj.editBox:GetText() ~= "" and self.obj.editBox.text ~= self.obj.editBox:GetText() then
+	if self.obj.editBox.text ~= self.obj.editBox:GetText() then
 		self = self.obj
 		self:Fire("OnTextChanged", self.editBox:GetText())
 		self.button:Enable()
@@ -138,6 +139,7 @@ local function OnTextSet(self)                                                  
 	self:SetCursorPosition(self:GetNumLetters())
 	self:SetCursorPosition(0)
 	self.obj.button:Disable()
+	self.obj.editBox.text = self.obj.editBox:GetText()
 end
 
 local function OnVerticalScroll(self, offset)                                    -- ScrollFrame

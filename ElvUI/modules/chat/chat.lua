@@ -1688,8 +1688,7 @@ function CH:Initialize()
 	editBox:Height(200)
 	editBox:SetScript("OnEscapePressed", function() CopyChatFrame:Hide() end)
 	scrollArea:SetScrollChild(editBox)
-	CopyChatFrameEditBox:SetScript("OnTextChanged", function(_, userInput)
-		if userInput then return end
+	CopyChatFrameEditBox:SetScript("OnTextChanged", function()
 		local scrollBar = CopyChatScrollFrameScrollBar
 		local _, max = scrollBar:GetMinMaxValues()
 		for i = 1, max do

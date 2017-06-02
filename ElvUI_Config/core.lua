@@ -282,11 +282,9 @@ local function ExportImport_Open(mode)
 		frame:AddChild(exportButton);
 
 		box.editBox:SetScript("OnChar", function() box:SetText(exportString); box.editBox:HighlightText(); end);
-		box.editBox:SetScript("OnTextChanged", function(self, userInput)
-			if(userInput) then
-				box:SetText(exportString);
-				box.editBox:HighlightText();
-			end
+		box.editBox:SetScript("OnTextChanged", function(self)
+			box:SetText(exportString);
+			box.editBox:HighlightText();
 		end);
 	elseif(mode == "import") then
 		frame:SetTitle(L["Import Profile"]);
