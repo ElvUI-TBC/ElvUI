@@ -17,7 +17,7 @@ local NUM_SHAPESHIFT_SLOTS = NUM_SHAPESHIFT_SLOTS
 
 local bar = CreateFrame("Frame", "ElvUI_StanceBar", E.UIParent, "SecureStateHeaderTemplate")
 
-function AB:UPDATE_SHAPESHIFT_COOLDOWN()
+function AB:SPELL_UPDATE_COOLDOWN()
 	local numForms = GetNumShapeshiftForms()
 	local start, duration, enable, cooldown
 	for i = 1, NUM_SHAPESHIFT_SLOTS do
@@ -28,7 +28,7 @@ function AB:UPDATE_SHAPESHIFT_COOLDOWN()
 		end
 	end
 
-	self:StyleShapeShift("UPDATE_SHAPESHIFT_COOLDOWN")
+	self:StyleShapeShift("SPELL_UPDATE_COOLDOWN")
 end
 
 function AB:StyleShapeShift()
@@ -301,9 +301,9 @@ function AB:CreateBarShapeShift()
 	self:HookScript(bar, "OnLeave", "Bar_OnLeave")
 
 	self:RegisterEvent("UPDATE_SHAPESHIFT_FORMS", "AdjustMaxStanceButtons")
-	self:RegisterEvent("UPDATE_SHAPESHIFT_COOLDOWN")
-	self:RegisterEvent("UPDATE_SHAPESHIFT_USABLE", "StyleShapeShift")
-	self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", "StyleShapeShift")
+	self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+	self:RegisterEvent("SPELL_UPDATE_USABLE", "StyleShapeShift")
+	self:RegisterEvent("PLAYER_AURAS_CHANGED", "StyleShapeShift")
 	self:RegisterEvent("ACTIONBAR_PAGE_CHANGED", "StyleShapeShift")
 
 	E:CreateMover(bar, "ShiftAB", L["Stance Bar"], nil, -3, nil, "ALL,ACTIONBARS")
