@@ -20,15 +20,18 @@ local NUM_PET_ACTION_SLOTS = NUM_PET_ACTION_SLOTS
 
 local bar = CreateFrame("Frame", "ElvUI_BarPet", E.UIParent, "SecureStateHeaderTemplate")
 
-function AB:UpdatePet()
+function AB:UpdatePet(event, unit)
+	if ((event == "UNIT_FLAGS" or event == "UNIT_AURA") and unit ~= "pet") then return; end
+	if (event == "UNIT_PET" and unit ~= "player") then return; end
+
 	local petActionButton, petActionName, petActionIcon, petAutoCastableTexture, petAutoCastModel
 	local petActionsUsable = GetPetActionsUsable()
 	for i = 1, NUM_PET_ACTION_SLOTS, 1 do
 		local buttonName = "PetActionButton"..i
-		local petActionButton = _G[buttonName]
-		local petActionIcon = _G[buttonName.."Icon"]
-		local petAutoCastableTexture = _G[buttonName.."AutoCastable"]
-		local petAutoCastModel = _G[buttonName.."AutoCast"]
+		petActionButton = _G[buttonName]
+		petActionIcon = _G[buttonName.."Icon"]
+		petAutoCastableTexture = _G[buttonName.."AutoCastable"]
+		petAutoCastModel = _G[buttonName.."AutoCast"]
 		local name, subtext, texture, isToken, isActive, autoCastAllowed, autoCastEnabled = GetPetActionInfo(i)
 
 		if not isToken then
@@ -277,6 +280,13 @@ function AB:CreateBarPet()
 
 	PetActionBarFrame.showgrid = 1
 	PetActionBar_ShowGrid()
+
+	self:HookScript(bar, "OnEnter", "Bar_OnEnter");
+	self:HookScript(bar, "OnLeave", "Bar_OnLeave");
+	for i = 1, NUM_PET_ACTION_SLOTS do
+		self:HookScript(_G["PetActionButton" .. i], "OnEnter", "Button_OnEnter");
+		self:HookScript(_G["PetActionButton" .. i], "OnLeave", "Button_OnLeave");
+	end
 
 	self:RegisterEvent("SPELLS_CHANGED", "UpdatePet")
 	self:RegisterEvent("PLAYER_CONTROL_GAINED", "UpdatePet")
