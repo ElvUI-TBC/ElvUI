@@ -35,7 +35,7 @@ end
 
 function AB:PositionAndSizeBar()
 	self:PositionAndSizeBar1()
-    self:PositionAndSizeBonusBar()
+	self:PositionAndSizeBonusBar()
 	self:PositionAndSizeBar2()
 	self:PositionAndSizeBar3()
 	self:PositionAndSizeBar4()
