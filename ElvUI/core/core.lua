@@ -914,19 +914,17 @@ function E:InitializeInitialModules()
 		local module = self:GetModule(module, true);
 		if(module and module.Initialize) then
 			local _, catch = pcall(module.Initialize, module);
-		--	if(catch and GetCVar("scriptErrors") == 1) then
-		--		ScriptErrorsFrame_OnError(catch, false);
-			if(catch) then
-				print(catch)
+			if(catch and GetCVar("scriptErrors") == 1) then
+				ScriptErrorsFrame_OnError(catch, false);
 			end
 		end
 	end
 end
 
 function E:RefreshModulesDB()
-	local UF = self:GetModule("UnitFrames");
-	twipe(UF.db);
-	UF.db = self.db.unitframe;
+--	local UF = self:GetModule("UnitFrames");
+--	twipe(UF.db);
+--	UF.db = self.db.unitframe;
 end
 
 function E:InitializeModules()
@@ -934,10 +932,8 @@ function E:InitializeModules()
 		local module = self:GetModule(module);
 		if(module.Initialize) then
 			local _, catch = pcall(module.Initialize, module);
-		--	if(catch and GetCVar("scriptErrors") == 1) then
-		--		ScriptErrorsFrame_OnError(catch, false);
-			if(catch) then
-				print(catch)
+			if(catch and GetCVar("scriptErrors") == 1) then
+				ScriptErrorsFrame_OnError(catch, false);
 			end
 		end
 	end

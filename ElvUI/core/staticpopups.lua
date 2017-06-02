@@ -13,8 +13,6 @@ local MoneyFrame_Update = MoneyFrame_Update;
 local SetCVar, DisableAddOn = SetCVar, DisableAddOn;
 local ReloadUI, PlaySound, StopMusic = ReloadUI, PlaySound, StopMusic;
 local StaticPopup_Resize = StaticPopup_Resize;
-local AutoCompleteEditBox_OnEnterPressed = AutoCompleteEditBox_OnEnterPressed;
-local AutoCompleteEditBox_OnTextChanged = AutoCompleteEditBox_OnTextChanged;
 local ChatEdit_FocusActiveWindow = ChatEdit_FocusActiveWindow;
 local STATICPOPUP_TEXTURE_ALERT = STATICPOPUP_TEXTURE_ALERT;
 local STATICPOPUP_TEXTURE_ALERTGEAR = STATICPOPUP_TEXTURE_ALERTGEAR;
@@ -591,11 +589,9 @@ function E:StaticPopup_EditBoxOnEnterPressed()
 		which = parent:GetParent().which;
 		dialog = parent:GetParent();
 	end
-	if(not self.autoCompleteParams or not AutoCompleteEditBox_OnEnterPressed(self)) then
-		EditBoxOnEnterPressed = E.PopupDialogs[which].EditBoxOnEnterPressed;
-		if(EditBoxOnEnterPressed) then
-			EditBoxOnEnterPressed(self, dialog.data);
-		end
+	EditBoxOnEnterPressed = E.PopupDialogs[which].EditBoxOnEnterPressed;
+	if(EditBoxOnEnterPressed) then
+		EditBoxOnEnterPressed(self, dialog.data);
 	end
 end
 
@@ -607,11 +603,9 @@ function E:StaticPopup_EditBoxOnEscapePressed()
 end
 
 function E:StaticPopup_EditBoxOnTextChanged(userInput)
-	if(not self.autoCompleteParams or not AutoCompleteEditBox_OnTextChanged(self, userInput)) then
-		local EditBoxOnTextChanged = E.PopupDialogs[self:GetParent().which].EditBoxOnTextChanged;
-		if(EditBoxOnTextChanged) then
-			EditBoxOnTextChanged(self, self:GetParent().data);
-		end
+	local EditBoxOnTextChanged = E.PopupDialogs[self:GetParent().which].EditBoxOnTextChanged;
+	if(EditBoxOnTextChanged) then
+		EditBoxOnTextChanged(self, self:GetParent().data);
 	end
 end
 
@@ -918,12 +912,6 @@ function E:StaticPopup_Show(which, text_arg1, text_arg2, data)
 		dialog.startDelay = nil;
 		button1:Enable();
 	end
-
-	editBox.autoCompleteParams = info.autoCompleteParams;
-	editBox.autoCompleteRegex = info.autoCompleteRegex;
-	editBox.autoCompleteFormatRegex = info.autoCompleteFormatRegex;
-
-	editBox.addHighlightedText = true;
 
 	E:StaticPopup_SetUpPosition(dialog);
 	dialog:Show();
