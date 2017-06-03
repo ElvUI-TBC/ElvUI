@@ -973,7 +973,9 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				end
 			end
 
-			if (strlen(arg3) > 0) and (arg3 ~= "Universal") and (arg3 ~= self.defaultLanguage) then
+			local defaultLanguage = GetDefaultLanguage()
+
+			if (strlen(arg3) > 0) and (arg3 ~= "Universal") and (arg3 ~= defaultLanguage) then
 				local languageHeader = "["..arg3.."] ";
 				if showLink and (strlen(arg2) > 0) then
 					body = format(_G["CHAT_"..type.."_GET"]..languageHeader..arg1, pflag.."|Hplayer:"..arg2..":"..arg11.."|h".."["..arg2.."]".."|h");
