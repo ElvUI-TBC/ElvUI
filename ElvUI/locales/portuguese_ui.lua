@@ -321,6 +321,7 @@ L["Count"] = "Contar"
 L["Item Level:"] = true;
 L["Talent Specialization:"] = true;
 L["Targeted By:"] = "Sendo Alvo de:"
+L["Vendor"] = true;
 
 --Tutorials
 L["A raid marker feature is available by pressing Escape -> Keybinds scroll to the bottom under ElvUI and setting a keybind for the raid marker."] = "A opção Marcas de Raide está disponivel pressionando Escape -> Teclas de Atalho, rolando tudo para o fundo debaixo de ElvUI e definindo uma tecla de atalho para o Raid Marker."
