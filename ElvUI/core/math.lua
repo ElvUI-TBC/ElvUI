@@ -326,9 +326,9 @@ end
 local COLOR_COPPER = "|cffeda55f";
 local COLOR_SILVER = "|cffc7c7cf";
 local COLOR_GOLD = "|cffffd700";
-local ICON_COPPER = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-CopperIcon:12:12|t";
-local ICON_SILVER = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-SilverIcon:12:12|t";
-local ICON_GOLD = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-GoldIcon:12:12|t";
+local ICON_COPPER = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-CopperIcon:16:16|t";
+local ICON_SILVER = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-SilverIcon:16:16|t";
+local ICON_GOLD = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-GoldIcon:16:16|t";
 
 function E:FormatMoney(amount, style, textonly)
 	local coppername = textonly and L.copperabbrev or ICON_COPPER;

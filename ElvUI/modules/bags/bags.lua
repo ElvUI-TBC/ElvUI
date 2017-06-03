@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI);
 local B = E:NewModule("Bags", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0");
 local Search = LibStub("LibItemSearch-1.2");
-local Price = LibStub("ItemPrice-1.1");
+local LIP = LibStub("ItemPrice-1.1");
 
 local _G = _G;
 local type, ipairs, pairs, unpack, select, assert = type, ipairs, pairs, unpack, select, assert;
@@ -55,9 +55,6 @@ local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES;
 local SEARCH = SEARCH;
 
 local SEARCH_STRING = ""
-
-local hooks = {}
-hooks.GetSellValue = GetSellValue
 
 B.ProfessionColors = {
 	[0x0008] = {224/255, 187/255, 74/255}, -- Leatherworking
@@ -726,20 +723,6 @@ function B:UpdateGoldText()
 	self.BagFrame.goldText:SetText(E:FormatMoney(GetMoney(), E.db["bags"].moneyFormat, not E.db["bags"].moneyCoins));
 end
 
-function GetSellValue(id, _)
-	if type(id) == "string" then
-		if not id:find("item:") then
-			_, id = GetItemInfo(id)
-
-			if not id then return end
-		end
-
-		id = tonumber(id:match("item:(%d+)"))
-	end
-
-	return type(id) == "number" and (Price:GetPriceById(id) or (hooks.GetSellValue and hooks.GetSellValue(id)))
-end
-
 function B:GetGraysValue()
 	local c = 0;
 
@@ -747,7 +730,7 @@ function B:GetGraysValue()
 	    for s = 0, GetContainerNumSlots(b) do
 	        local l = GetContainerItemLink(b, s)
 	        if l and find(l,"ff9d9d9d") then
-	        	local p = GetSellValue(l) * select(2, GetContainerItemInfo(b, s))
+	        	local p = LIP:GetSellValue(l) * select(2, GetContainerItemInfo(b, s))
 	        	if(select(3, GetItemInfo(l)) == 0 and p > 0) then
 	            	c = c + p;
 	            end
@@ -767,10 +750,10 @@ function B:VendorGrays(delete, _, getValue)
 	local c = 0
 	local count = 0
 	for b = 0, NUM_BAG_FRAMES do
-		for s = 1,GetContainerNumSlots(b) do
+		for s = 1, GetContainerNumSlots(b) do
 	        local l = GetContainerItemLink(b, s)
 	        if l and find(l,"ff9d9d9d") then
-	        	local p = GetSellValue(l) * select(2, GetContainerItemInfo(b, s))
+	        	local p = LIP:GetSellValue(l) * select(2, GetContainerItemInfo(b, s))
 
 				if delete then
 					if find(l,"ff9d9d9d") then

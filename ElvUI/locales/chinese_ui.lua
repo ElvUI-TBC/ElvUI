@@ -321,7 +321,6 @@ L["Count"] = "计数"
 L["Item Level:"] = "物品等级:"
 L["Talent Specialization:"] = "天赋专精:"
 L["Targeted By:"] = "同目标的有:"
-L["Vendor"] = true;
 
 --Tutorials
 L["A raid marker feature is available by pressing Escape -> Keybinds scroll to the bottom under ElvUI and setting a keybind for the raid marker."] = "你可以通过按ESC键 -> 按键设置, 滚动到ElvUI设置下方设置一个快速标记的快捷键."

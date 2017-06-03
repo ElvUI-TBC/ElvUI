@@ -321,7 +321,6 @@ L["Count"] = "Contador"
 L["Item Level:"] = "Nivel de Objeto:"
 L["Talent Specialization:"] = "Especialización de Talentos:"
 L["Targeted By:"] = "Objetivo De:"
-L["Vendor"] = true;
 
 --Tutorials
 L["A raid marker feature is available by pressing Escape -> Keybinds scroll to the bottom under ElvUI and setting a keybind for the raid marker."] = "La opción de marcador de banda está disponible pulsando Escape -> Asignar teclas -> Recorrer hacia abajo hasta ElvUI y establecer la tecla para el marcador de banda."
