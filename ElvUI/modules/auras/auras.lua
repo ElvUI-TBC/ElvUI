@@ -119,6 +119,7 @@ function A:BuffButton_UpdateAnchors(buttonName, index, filter)
 		end
 		buff:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
 
+		buff:ClearAllPoints()
 		if index == 1 then
 			buff:SetPoint("BOTTOMRIGHT", AurasHolder, "BOTTOMRIGHT", 0, 0)
 		else
