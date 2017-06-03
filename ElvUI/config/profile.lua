@@ -2414,6 +2414,11 @@ P["auras"] = {
 	["font"] = "Homespun",
 	["fontSize"] = 10,
 	["fontOutline"] = "MONOCHROMEOUTLINE",
+	["countYOffset"] = 0,
+	["countXOffset"] = 0,
+	["timeYOffset"] = 0,
+	["timeXOffset"] = 0,
+
 	["size"] = 30,
 	["perRow"] = 14,
 	["spacing"] = 6,

@@ -4,7 +4,7 @@ local A = E:GetModule("Auras")
 E.Options.args.auras = {
 	type = "group",
 	name = L["Auras"],
-	childGroups = "select",
+	childGroups = "tab",
 	get = function(info) return E.db.auras[ info[#info] ] end,
 	set = function(info, value) E.db.auras[ info[#info] ] = value; end,
 	args = {
@@ -24,10 +24,14 @@ E.Options.args.auras = {
 			order = 3,
 			type = "group",
 			name = L["General"],
-			guiInline = true,
 			get = function(info) return E.db.auras[ info[#info] ] end,
 			set = function(info, value) E.db.auras[ info[#info] ] = value; A:BuffFrame_Update(); end,
 			args = {
+				header = {
+					order = 0,
+					type = "header",
+					name = L["General"]
+				},
 				size = {
 					order = 1,
 					type = "range",
@@ -62,10 +66,14 @@ E.Options.args.auras = {
 			order = 4,
 			type = "group",
 			name = L["Font"],
-			guiInline = true,
 			get = function(info) return E.db.auras[ info[#info] ] end,
 			set = function(info, value) E.db.auras[ info[#info] ] = value; A:BuffFrame_Update(); end,
 			args = {
+				header = {
+					order = 0,
+					type = "header",
+					name = L["Font"]
+				},
 				font = {
 					type = "select", dialogControl = "LSM30_Font",
 					order = 4,
@@ -90,6 +98,30 @@ E.Options.args.auras = {
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE",
 					},
+				},
+				timeXOffset = {
+					order = 5,
+					type = "range",
+					name = L["Time xOffset"],
+					min = -60, max = 60, step = 1
+				},
+				timeYOffset = {
+					order = 6,
+					type = "range",
+					name = L["Time yOffset"],
+					min = -60, max = 60, step = 1
+				},
+				countXOffset = {
+					order = 7,
+					type = "range",
+					name = L["Count xOffset"],
+					min = -60, max = 60, step = 1
+				},
+				countYOffset = {
+					order = 8,
+					name = L["Count yOffset"],
+					type = "range",
+					min = -60, max = 60, step = 1
 				},
 			},
 		},

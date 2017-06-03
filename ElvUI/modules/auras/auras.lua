@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(ElvUI)
-local A = E:NewModule("Auras", "AceHook-3.0", "AceEvent-3.0");
+local A = E:NewModule("Auras", "AceHook-3.0", "AceEvent-3.0")
 
 local mainhand, offhand
 
@@ -7,61 +7,67 @@ function A:BuffFrame_Update()
 	BUFF_ACTUAL_DISPLAY = 0;
 	for i = 1, BUFF_MAX_DISPLAY do
 		if BuffButton_Update("BuffButton", i, "HELPFUL") then
-			BUFF_ACTUAL_DISPLAY = BUFF_ACTUAL_DISPLAY + 1;
+			BUFF_ACTUAL_DISPLAY = BUFF_ACTUAL_DISPLAY + 1
 			self:StyleBuffs("BuffButton", i)
 		end
 	end
 
 	for i = 1, DEBUFF_MAX_DISPLAY do
 		if BuffButton_Update("DebuffButton", i, "HARMFUL") then
-			DEBUFF_ACTUAL_DISPLAY = DEBUFF_ACTUAL_DISPLAY + 1;
+			DEBUFF_ACTUAL_DISPLAY = DEBUFF_ACTUAL_DISPLAY + 1
 			self:StyleBuffs("DebuffButton", i)
 		end
 	end
 end
 
-function A:StyleBuffs(buttonName, index, debuff)
-	local buff = _G[buttonName..index]
+function A:StyleBuffs(buttonName, index)
+	local font = E.LSM:Fetch("font", self.db.font)
+
+	local button = _G[buttonName..index]
 	local icon = _G[buttonName..index.."Icon"]
 	local border = _G[buttonName..index.."Border"]
 	local duration = _G[buttonName..index.."Duration"]
 	local count = _G[buttonName..index.."Count"]
-	local font = E.LSM:Fetch("font", self.db.font)
-	if icon then
-		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:SetDrawLayer("OVERLAY")
-		icon:SetInside(buff)
 
-		buff:Size(self.db.size)
-		buff:SetTemplate("Default")
+	button:Size(self.db.size)
+	button:SetTemplate("Default")
 
-		duration:ClearAllPoints()
-		duration:Point("BOTTOM", 0, -13)
-		duration:SetDrawLayer("OVERLAY")
-		duration:FontTemplate(font, self.db.fontSize, self.db.fontOutline)
+	icon:SetDrawLayer("BORDER")
+	icon:SetInside(button)
+	icon:SetTexCoord(unpack(E.TexCoords))
 
-		count:ClearAllPoints()
-		count:Point("TOPLEFT", 1, -2)
-		count:SetDrawLayer("OVERLAY")
-		count:FontTemplate(font, self.db.fontSize, self.db.fontOutline)
+	duration:ClearAllPoints()
+	duration:Point("TOP", button, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset)
+	duration:SetDrawLayer("OVERLAY")
+	duration:FontTemplate(font, self.db.fontSize, self.db.fontOutline)
 
-		if buff.SetHighlightTexture and not buff.highlightr then
-			local highlight = buff:CreateTexture(nil, "HIGHLIGHT")
-			highlight:SetTexture(1, 1, 1, 0.3)
-			highlight:SetAllPoints(icon)
+	count:ClearAllPoints()
+	count:Point("BOTTOMRIGHT", -1 + self.db.countXOffset, 1 + self.db.countYOffset)
+	count:SetDrawLayer("OVERLAY")
+	count:FontTemplate(font, self.db.fontSize, self.db.fontOutline)
 
-			buff.highlightr = highlight
-			buff:SetHighlightTexture(highlight)
-		end
+	if button.SetHighlightTexture and not button.highlightr then
+		local highlight = button:CreateTexture(nil, "HIGHLIGHT")
+		highlight:SetTexture(1, 1, 1, 0.3)
+		highlight:SetAllPoints(icon)
+
+		button.highlightr = highlight
+		button:SetHighlightTexture(highlight)
 	end
+
 	if border then border:Hide() end
 end
 
-function A:BuffButton_OnUpdate(buff)
+function A:BuffButton_OnUpdate()
 	local buffIndex = this:GetID();
-	local timeLeft = GetPlayerBuffTimeLeft(buffIndex);
+	local timeLeft = GetPlayerBuffTimeLeft(buffIndex)
+
+	local timerValue, formatID;
+	timerValue, formatID, self.nextUpdate = E:GetTimeInfo(timeLeft, A.db.fadeThreshold);
+	_G[this:GetName().."Duration"]:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatID], E.TimeFormats[formatID][1]), timerValue)
+
 	if timeLeft < self.db.fadeThreshold then
-		this:SetAlpha(BuffFrame.BuffAlphaValue);
+		this:SetAlpha(BuffFrame.BuffAlphaValue)
 	else
 		this:SetAlpha(1.0);
 	end
