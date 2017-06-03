@@ -150,7 +150,6 @@ local specialChatIcons = {
 }
 
 CH.Keywords = {};
-CH.ClassNames = {};
 
 local numScrollMessages
 local function ChatFrame_OnMouseScroll(frame, delta)
@@ -1211,19 +1210,6 @@ function CH:CheckKeyword(message)
 					self.SoundPlayed = true
 					self.SoundTimer = CH:ScheduleTimer("ThrottleSound", 1)
 				end
-			end
-		end
-
-		if self.db.classColorMentionsChat then
-			tempWord = word:gsub("^%p-([^%p]+)([%-]?[^%p]-)%p-$","%1%2")
-			lowerCaseWord = tempWord:lower()
-
-			classMatch = CH.ClassNames[lowerCaseWord] or CH.ClassNames[tempWord]
-			wordMatch = (CH.ClassNames[lowerCaseWord] and lowerCaseWord) or (CH.ClassNames[tempWord] and tempWord:lower())
-
-			if(wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch]) then
-				classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
-				word = word:gsub(tempWord:gsub("%-","%%-"), format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, tempWord))
 			end
 		end
 

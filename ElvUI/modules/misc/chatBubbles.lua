@@ -21,36 +21,6 @@ function M:UpdateBubbleBorder()
 			self.borderright:SetTexture(r, g, b);
 		end
 	end
-
-	if E.private.chat.enable and E.private.general.classColorMentionsSpeech then
-		local classColorTable, lowerCaseWord, isFirstWord, rebuiltString, tempWord, wordMatch, classMatch
-		local text = self.text:GetText()
-		if text and text:match("[^%s]+") then
-			for word in text:gmatch("[^%s]+") do
-				tempWord = word:gsub("^%p-([^%p]+)([%-]?[^%p]-)%p-$","%1%2")
-				lowerCaseWord = tempWord:lower()
-
-				classMatch = CH.ClassNames[lowerCaseWord] or CH.ClassNames[tempWord]
-				wordMatch = (CH.ClassNames[lowerCaseWord] and lowerCaseWord) or (CH.ClassNames[tempWord] and tempWord:lower())
-
-				if(wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch]) then
-					classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
-					word = word:gsub(tempWord:gsub("%-","%%-"), format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, tempWord))
-				end
-
-				if not isFirstWord then
-					rebuiltString = word
-					isFirstWord = true
-				else
-					rebuiltString = format("%s %s", rebuiltString, word)
-				end
-			end
-
-			if rebuiltString ~= nil then
-				self.text:SetText(rebuiltString)
-			end
-		end
-	end
 end
 
 function M:SkinBubble(frame)
