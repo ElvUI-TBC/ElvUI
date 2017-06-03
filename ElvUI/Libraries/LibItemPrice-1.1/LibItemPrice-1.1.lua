@@ -13,9 +13,11 @@ License: LGPL v2.1
 local Lib = LibStub:NewLibrary("ItemPrice-1.1", "$Revision: 79224 $")
 if not Lib then return end
 
-local _G = getfenv()
+local _G = _G
 local type, tonumber = type, tonumber
 local match = string.match
+
+local GetItemInfo = GetItemInfo
 
 local price_count, get
 
