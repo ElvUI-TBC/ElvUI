@@ -18,6 +18,23 @@ function A:BuffFrame_Update()
 			self:StyleBuffs("DebuffButton", i)
 		end
 	end
+
+	self:TempEnchant_Update()
+end
+
+function A:TempEnchant_Update()
+	TemporaryEnchantFrame:ClearAllPoints()
+	TemporaryEnchantFrame:SetPoint("TOPRIGHT", AurasHolder, "TOPRIGHT", 0, 0)
+
+	TempEnchant1:ClearAllPoints()
+	TempEnchant2:ClearAllPoints()
+	TempEnchant1:Point("TOPRIGHT", AurasHolder, "TOPRIGHT")
+	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -self.db.spacing, 0)
+
+	for i = 1, 2 do
+		self:StyleBuffs("TempEnchant", i)
+		_G["TempEnchant"..i]:SetBackdropBorderColor(137/255, 0, 191/255)
+	end
 end
 
 function A:StyleBuffs(buttonName, index)
@@ -132,10 +149,6 @@ function A:BuffButton_UpdateAnchors(buttonName, index, filter)
 			buff:Show()
 		end
 	end
-
-	for i = 1, 2 do
-		_G["TempEnchant"..i]:SetBackdropBorderColor(137/255, 0, 191/255)
-	end
 end
 
 function A:Update_WeaponEnchantInfo()
@@ -156,29 +169,10 @@ function A:Initialize()
 	self:SecureHook("BuffButton_OnUpdate")
 	self:SecureHook("BuffButton_UpdateAnchors")
 
-	TemporaryEnchantFrame:ClearAllPoints()
-	TemporaryEnchantFrame:SetPoint("TOPRIGHT", AurasHolder, "TOPRIGHT", 0, 0)
-
-	TempEnchant1:ClearAllPoints()
-	TempEnchant2:ClearAllPoints()
-	TempEnchant1:Point("TOPRIGHT", AurasHolder, "TOPRIGHT")
-	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -self.db.spacing, 0)
-
-	for i = 1, 2 do
-		_G["TempEnchant"..i]:Size(self.db.size)
-		_G["TempEnchant"..i]:SetTemplate("Default")
-		_G["TempEnchant"..i.."Border"]:Hide()
-		_G["TempEnchant"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
-		_G["TempEnchant"..i.."Icon"]:SetDrawLayer("OVERLAY")
-		_G["TempEnchant"..i.."Icon"]:SetInside(_G["TempEnchant"..i])
-		_G["TempEnchant"..i.."Duration"]:ClearAllPoints()
-		_G["TempEnchant"..i.."Duration"]:Point("BOTTOM", 0, -13)
-		_G["TempEnchant"..i.."Duration"]:SetDrawLayer("OVERLAY")
-		_G["TempEnchant"..i.."Duration"]:FontTemplate(E.LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
-	end
-
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "Update_WeaponEnchantInfo")
 	self:RegisterEvent("PLAYER_EVENTERING_WORLD", "Update_WeaponEnchantInfo")
+
+	self:BuffFrame_Update()
 end
 
 E:RegisterModule(A:GetName())
