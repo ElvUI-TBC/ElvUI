@@ -1239,12 +1239,11 @@ function CH:AddLines(lines, ...)
 	end
 end
 
-function CH:ChatEdit_OnEnterPressed(editBox)
-	local type = editBox:GetAttribute("chatType");
-	local chatFrame = editBox:GetParent();
-	if not chatFrame.isTemporary and ChatTypeInfo[type].sticky == 1 then
+function CH:ChatEdit_OnEnterPressed()
+	local type = this:GetAttribute("chatType");
+	if ChatTypeInfo[type].sticky == 1 then
 		if not self.db.sticky then type = "SAY"; end
-		editBox:SetAttribute("chatType", type);
+		this:SetAttribute("chatType", type);
 	end
 end
 
@@ -1463,7 +1462,7 @@ function CH:Initialize()
 
 	self:UpdateFading()
 	E.Chat = self
-	-- self:SecureHook("ChatEdit_OnEnterPressed")
+	self:SecureHook("ChatEdit_OnEnterPressed")
 	ChatFrameMenuButton:Kill()
 
 	if(WIM) then
