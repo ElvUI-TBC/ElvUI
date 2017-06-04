@@ -171,7 +171,7 @@ function B:SetSearch(query)
 	for _, bagFrame in pairs(self.BagFrames) do
 		for _, bagID in ipairs(bagFrame.BagIDs) do
 			for slotID = 1, GetContainerNumSlots(bagID) do
-				local _, _, _, _, _, _, link = GetContainerItemInfo(bagID, slotID);
+				local link = GetContainerItemLink(bagID, slotID)
 				local button = bagFrame.Bags[bagID][slotID];
 				local success, result = pcall(Search.Matches, Search, link, query);
 				if(empty or (success and result)) then
