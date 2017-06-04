@@ -79,7 +79,7 @@ local eventHandlers = {
 	end,
 	-- when we enter the world and guildframe is not available then
 	-- load guild frame, update guild message and guild xp
-	["PLAYER_ENTERING_WORLD"] = function (self)
+	["PLAYER_LOGIN"] = function (self)
 		if not GuildFrame and IsInGuild() then
 			GuildRoster()
 		end
@@ -234,4 +234,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext("Guild", {"PLAYER_ENTERING_WORLD", "CHAT_MSG_SYSTEM", "GUILD_ROSTER_UPDATE", "PLAYER_GUILD_UPDATE", "GUILD_MOTD"}, OnEvent, nil, OnClick, OnEnter)
+DT:RegisterDatatext("Guild", {"PLAYER_LOGIN", "CHAT_MSG_SYSTEM", "GUILD_ROSTER_UPDATE", "PLAYER_GUILD_UPDATE", "GUILD_MOTD"}, OnEvent, nil, OnClick, OnEnter)

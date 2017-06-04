@@ -184,6 +184,10 @@ function DT:AssignPanelToDataText(panel, data)
 
 	if(data["events"]) then
 		for _, event in pairs(data["events"]) do
+			-- random error 132
+			if event == "PLAYER_ENTERING_WORLD" then 
+				event = "PLAYER_LOGIN"
+			end
 			panel:RegisterEvent(event);
 		end
 	end
@@ -293,11 +297,11 @@ function DT:RegisterDatatext(name, events, eventFunc, updateFunc, clickFunc, onE
 
 	DT.RegisteredDataTexts[name]["name"] = name;
 
-	if(type(events) ~= "table" and events ~= nil) then
-		error("Events must be registered as a table.");
-	else
+	if(events and type(events) == "table") then
 		DT.RegisteredDataTexts[name]["events"] = events;
 		DT.RegisteredDataTexts[name]["eventFunc"] = eventFunc;
+	elseif(event and type(events) ~= "table") then
+		error("Events must be registered as a table.");
 	end
 
 	if(updateFunc and type(updateFunc) == "function") then

@@ -18,7 +18,7 @@ local lastPanel;
 local function OnEvent(self, event)
 	lastPanel = self;
 
-	if(event == "PLAYER_ENTERING_WORLD") then
+	if(event == "PLAYER_LOGIN") then
 		for i = 1, GetNumAddOns() do
 			local name, _, _, enabled = GetAddOnInfo(i);
 			if(enabled and find(name, "ElvUI") and not (name == "ElvUI")) then
@@ -65,4 +65,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true;
 
-DT:RegisterDatatext("ElvUI Config", {"PLAYER_ENTERING_WORLD"}, OnEvent, nil, OnClick, OnEnter);
+DT:RegisterDatatext("ElvUI Config", {"PLAYER_LOGIN"}, OnEvent, nil, OnClick, OnEnter);
