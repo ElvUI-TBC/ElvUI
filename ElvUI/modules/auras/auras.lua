@@ -76,6 +76,8 @@ function A:StyleBuffs(buttonName, index)
 end
 
 function A:BuffButton_OnUpdate()
+	if this.untilCancelled == 1 then return end
+
 	local buffIndex = this:GetID();
 	local timeLeft = GetPlayerBuffTimeLeft(buffIndex)
 
@@ -157,8 +159,7 @@ end
 
 function A:Initialize()
 	self.db = E.db.auras
-
-	self.btnspace = E.db.auras.spacing
+	if E.private.auras.enable ~= true then return end
 
 	local holder = CreateFrame("Frame", "AurasHolder", E.UIParent)
 	holder:Point("TOPRIGHT", Minimap, "TOPLEFT", -(E.PixelMode and 3 or 8), 2)
