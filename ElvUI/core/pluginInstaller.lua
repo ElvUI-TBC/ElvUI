@@ -446,10 +446,10 @@ function PI:RunInstall()
 	end
 	if #(self.Installs) > 1 then
 		f.pending:Show()
-		E:Flash(f.pending, 0.53, true)
+--		E:Flash(f.pending, 0.53, true)
 	else
 		f.pending:Hide()
-		E:StopFlash(f.pending)
+--		E:StopFlash(f.pending)
 	end
 end
 

@@ -1,17 +1,13 @@
 local E, L, V, P, G = unpack(ElvUI);
 local DT = E:GetModule("DataTexts");
 
-local format, join = string.format, string.join;
+local join = string.join;
 
 local GetContainerNumFreeSlots = GetContainerNumFreeSlots;
 local GetContainerNumSlots = GetContainerNumSlots;
-local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo;
 
-local CURRENCY = CURRENCY;
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS;
-local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS;
 
-local currencyString = "|T%s:14:14:0:0:64:64:4:60:4:60|t %s";
 local displayString = "";
 local lastPanel;
 
@@ -28,20 +24,6 @@ end
 
 local function OnClick()
 	OpenAllBags();
-end
-
-local function OnEnter(self)
---	DT:SetupTooltip(self);
---
---	for i = 1, MAX_WATCHED_TOKENS do
---		local name, count, _, icon = GetBackpackCurrencyInfo(i);
---		if(name and i == 1) then
---			DT.tooltip:AddLine(CURRENCY .. ":");
---		end
---		if(name and count) then DT.tooltip:AddDoubleLine(currencyString:format(icon, name), count, 1, 1, 1); end
---	end
---
---	DT.tooltip:Show();
 end
 
 local function ValueColorUpdate(hex)
