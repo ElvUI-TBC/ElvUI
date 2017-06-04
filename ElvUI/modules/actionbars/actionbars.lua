@@ -249,6 +249,8 @@ function AB:PositionAndSizeBar(barName)
 		if barName == "bar1" and self["handledBars"]["bar6"] then
 			self:PositionAndSizeBar("bar6")
 		end
+	else
+		bar:Point(_G["ElvUI_Bar1"]:GetPoint())
 	end
 end
 

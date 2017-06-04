@@ -3,10 +3,6 @@ local AB = E:GetModule("ActionBars")
 
 local split = string.split
 
-function AB:UpdateBonusBar()
-	ElvUI_BonusBar:Point(_G["ElvUI_Bar1"]:GetPoint())
-end
-
 function AB:CreateBonusBar()
 	local bar = CreateFrame("Frame", "ElvUI_BonusBar", E.UIParent, "SecureStateHeaderTemplate")
 	local point, anchor, attachTo, x, y = split(",", self["barDefaults"]["bar1"].position)
@@ -34,7 +30,4 @@ function AB:CreateBonusBar()
 
 	self["handledBars"]["bar6"] = bar
 	self:PositionAndSizeBar("bar6")
-
-	self:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "UpdateBonusBar")
-	self:UpdateBonusBar()
 end
