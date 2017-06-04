@@ -72,15 +72,16 @@ function S:LoadMerchantSkin()
 	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function()
 		local numMerchantItems = GetMerchantNumItems()
 		local index
-		local itemButton, itemName
+		local itemButton, itemName, itemLink
 		for i = 1, BUYBACK_ITEMS_PER_PAGE do
 			index = (((MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE) + i)
 			itemButton = _G["MerchantItem" .. i .. "ItemButton"]
 			itemName = _G["MerchantItem" .. i .. "Name"]
 
 			if(index <= numMerchantItems) then
-				if(itemButton.link) then
-					local _, _, quality = GetItemInfo(itemButton.link)
+				itemLink = GetMerchantItemLink(index)
+				if(itemLink) then
+					local _, _, quality = GetItemInfo(itemLink)
 					local r, g, b = GetItemQualityColor(quality)
 
 					itemName:SetTextColor(r, g, b)
