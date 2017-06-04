@@ -289,13 +289,6 @@ function AB:CreateBarShapeShift()
 	bar.backdrop:SetAllPoints()
 	bar:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -4)
 	bar.buttons = {}
-	bar:SetAttribute("_onstate-show", [[
-		if newstate == "hide" then
-			self:Hide()
-		else
-			self:Show()
-		end
-	]])
 
 	self:HookScript(bar, "OnEnter", "Bar_OnEnter")
 	self:HookScript(bar, "OnLeave", "Bar_OnLeave")

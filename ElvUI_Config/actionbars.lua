@@ -19,7 +19,7 @@ local function BuildABConfig()
 			guiInline = false,
 			disabled = function() return not E.private.actionbar.enable; end,
 			get = function(info) return E.db.actionbar["bar" .. i][ info[#info] ]; end,
-			set = function(info, value) E.db.actionbar["bar" .. i][ info[#info] ] = value; AB:PositionAndSizeBar("bar" .. i); AB:UpdateBonusBar(); end,
+			set = function(info, value) E.db.actionbar["bar" .. i][ info[#info] ] = value; AB:PositionAndSizeBar("bar" .. i); end,
 			args = {
 				enabled = {
 					order = 1,
