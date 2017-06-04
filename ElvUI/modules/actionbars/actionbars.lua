@@ -212,6 +212,10 @@ function AB:PositionAndSizeBar(barName)
 				RegisterStateDriver(bar, "page", page)
 			else
 				RegisterStateDriver(bar, "visibility", self:BonusBarVisibility("show;hide", self.db[barName].visibility))
+
+				RegisterStateDriver(BonusActionBarFrame, "visibility", self:BonusBarVisibility("show;hide", self.db[barName].visibility))
+				BonusActionBarFrame:SetAttribute("statemap-visibility", "$input")
+				BonusActionBarFrame:SetAttribute("state", bar:GetAttribute("state-visibility"))
 			end
 
 			bar:SetAttribute("statemap-visibility", "$input")
