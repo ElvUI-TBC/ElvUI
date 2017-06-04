@@ -1031,13 +1031,13 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 end
 
 function CH:ChatFrame_OnEvent(event, ...)
-	if ( ChatFrame_ConfigEventHandler(self, event, ...) ) then
+	if ChatFrame_ConfigEventHandler(event, ...) then
 		return;
 	end
-	if ( ChatFrame_SystemEventHandler(self, event, ...) ) then
+	if ChatFrame_SystemEventHandler(event, ...) then
 		return
 	end
-	if ( CH.ChatFrame_MessageEventHandler(self, event, ...) ) then
+	if CH.ChatFrame_MessageEventHandler(self, event, ...) then
 		return
 	end
 end
