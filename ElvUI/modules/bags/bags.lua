@@ -833,7 +833,6 @@ function B:ContructContainerFrame(name, isBank)
 	end
 
 	f:SetMovable(true)
-	f:SetClampedToScreen(true)
 	f:RegisterForDrag("LeftButton", "RightButton");
 	f:RegisterForClicks("AnyUp");
 	f:SetScript("OnDragStart", function(self) if(IsShiftKeyDown()) then self:StartMoving(); end end);
