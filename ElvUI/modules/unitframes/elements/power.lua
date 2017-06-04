@@ -203,13 +203,12 @@ function UF:Configure_Power(frame)
 	end
 end
 
-local tokens = {[0] = "MANA", "RAGE", "FOCUS", "ENERGY"}
 function UF:PostUpdatePower(unit, min, max)
 	local parent = self:GetParent();
 
 	if(parent.isForced) then
 		local pType = random(0, 3);
-		local color = ElvUF["colors"].power[tokens[pType]];
+		local color = ElvUF["colors"].power[pType];
 		min = random(1, max);
 		self:SetValue(min);
 
