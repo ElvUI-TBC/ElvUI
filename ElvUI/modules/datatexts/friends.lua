@@ -54,7 +54,7 @@ local menuList = {
 	}
 };
 
-local function inviteClick(self, name)
+local function inviteClick(name)
 	menuFrame:Hide();
 
 	if(type(name) ~= "number") then
@@ -62,7 +62,7 @@ local function inviteClick(self, name)
 	end
 end
 
-local function whisperClick(self, name)
+local function whisperClick(name)
 	menuFrame:Hide();
 
 	SetItemRef("player:" .. name, ("|Hplayer:%1$s|h[%1$s]|h"):format(name), "LeftButton");

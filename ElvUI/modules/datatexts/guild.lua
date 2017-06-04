@@ -60,6 +60,7 @@ local function BuildGuildTable()
 
 	local totalMembers = GetNumGuildMembers()
 	for i = 1, totalMembers do
+	--	name, rank, rankIndex, level, class, zone, note, officernote, online, status, classFileName = GetGuildRosterInfo(guildIndex)
 		name, rank, _, level, _, zone, note, officernote, connected, status, class = GetGuildRosterInfo(i)
 
 		if connected then
@@ -122,12 +123,12 @@ local menuList = {
 	{ text = CHAT_MSG_WHISPER_INFORM, hasArrow = true, notCheckable=true,}
 }
 
-local function inviteClick(_, playerName)
+local function inviteClick(playerName)
 	menuFrame:Hide()
 	InviteUnit(playerName)
 end
 
-local function whisperClick(_, playerName)
+local function whisperClick(playerName)
 	menuFrame:Hide()
 	SetItemRef("player:"..playerName, ("|Hplayer:%1$s|h[%1$s]|h"):format(playerName), "LeftButton")
 end
