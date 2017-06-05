@@ -773,7 +773,6 @@ function E:StaticPopup_Show(which, text_arg1, text_arg2, data)
 
 		if(info.maxLetters) then
 			editBox:SetMaxLetters(info.maxLetters);
-			editBox:SetCountInvisibleLetters(info.countInvisibleLetters);
 		end
 		if(info.maxBytes) then
 			editBox:SetMaxBytes(info.maxBytes);
@@ -972,7 +971,10 @@ function E:Contruct_StaticPopups()
 
 		E.StaticPopupFrames[index]:SetTemplate("Transparent");
 
+		E.StaticPopupFrames[index].editBox = _G[name .. "EditBox"]
+
 		for i = 1, 3 do
+			E.StaticPopupFrames[index]["button"..i] = _G[name .. "Button" .. i]
 			S:HandleButton(_G[name .. "Button" .. i]);
 		end
 
