@@ -975,11 +975,6 @@ function ElvUF:DisableBlizzard(unit)
 
 	if((unit == "player") and E.private["unitframe"]["disabledBlizzardFrames"].player) then
 		HandleFrame(PlayerFrame);
-
-		PlayerFrame:RegisterEvent("UNIT_ENTERING_VEHICLE");
-		PlayerFrame:RegisterEvent("UNIT_ENTERED_VEHICLE");
-		PlayerFrame:RegisterEvent("UNIT_EXITING_VEHICLE");
-		PlayerFrame:RegisterEvent("UNIT_EXITED_VEHICLE");
 	elseif((unit == "pet") and E.private["unitframe"]["disabledBlizzardFrames"].player) then
 		HandleFrame(PetFrame)
 	elseif((unit == "target") and E.private["unitframe"]["disabledBlizzardFrames"].target) then

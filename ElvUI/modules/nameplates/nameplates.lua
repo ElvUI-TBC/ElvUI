@@ -591,7 +591,7 @@ function mod:UNIT_AURA(_, unit)
 end
 
 function mod:PLAYER_COMBO_POINTS(_, unit)
-	if unit == "player" or unit == "vehicle" then
+	if unit == "player" then
 		self:ForEachPlate("UpdateElement_CPoints")
 	end
 end

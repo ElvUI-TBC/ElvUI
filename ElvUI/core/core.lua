@@ -9,7 +9,6 @@ local floor = floor;
 local format, find, match, strrep, len, sub, gsub = string.format, string.find, string.match, strrep, string.len, string.sub, string.gsub;
 
 local CreateFrame = CreateFrame;
-local GetActiveTalentGroup = GetActiveTalentGroup;
 local GetCVar = GetCVar;
 local GetFunctionCPUUsage = GetFunctionCPUUsage;
 local GetTalentTabInfo = GetTalentTabInfo;
@@ -47,7 +46,6 @@ E["RegisteredInitialModules"] = {};
 E["valueColorUpdateFuncs"] = {};
 E.TexCoords = {.08, .92, .08, .92};
 E.FrameLocks = {};
-E.VehicleLocks = {};
 E.CreditsList = {};
 E.PixelMode = false;
 
@@ -818,60 +816,6 @@ function E:UpdateAll(ignoreInstall)
 	self:GetModule("Blizzard"):SetWatchFrameHeight();
 
 	collectgarbage("collect");
-end
-
-function E:EnterVehicleHideFrames(_, unit)
-	if(unit ~= "player") then return; end
-
-	for object in pairs(E.VehicleLocks) do
-		object:SetParent(E.HiddenFrame);
-	end
-end
-
-function E:ExitVehicleShowFrames(_, unit)
-	if(unit ~= "player") then return; end
-
-	for object, originalParent in pairs(E.VehicleLocks) do
-		object:SetParent(originalParent);
-	end
-end
-
-function E:RegisterObjectForVehicleLock(object, originalParent)
-	if(not object or not originalParent) then
-		E:Print("Error. Usage: RegisterObjectForVehicleLock(object, originalParent)");
-		return;
-	end
-
-	local object = _G[object] or object;
-	if(object.IsProtected and object:IsProtected()) then
-		E:Print("Error. Object is protected and cannot be changed in combat.");
-		return;
-	end
-
-	if(UnitHasVehicleUI("player")) then
-		object:SetParent(E.HiddenFrame);
-	end
-
-	E.VehicleLocks[object] = originalParent;
-end
-
-function E:UnregisterObjectForVehicleLock(object)
-	if(not object) then
-		E:Print("Error. Usage: UnregisterObjectForVehicleLock(object)");
-		return;
-	end
-
-	local object = _G[object] or object;
-	if(not E.VehicleLocks[object]) then
-		return;
-	end
-
-	local originalParent = E.VehicleLocks[object];
-	if(originalParent) then
-		object:SetParent(originalParent);
-	end
-
-	E.VehicleLocks[object] = nil;
 end
 
 function E:ResetAllUI()

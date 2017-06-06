@@ -247,7 +247,6 @@ L["TargetTargetTarget Frame"] = "Ziel des Ziels des Ziels Fenster"
 L["Time Manager Frame"] = true;
 L["Tooltip"] = "Tooltip"
 L["Totems"] = true;
-L["Vehicle Seat Frame"] = "Fahrzeugfenster"
 L["Watch Frame"] = true;
 L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[Ankerpunkte entriegelt. Bewege die Ankerpunkte und klicke 'sperren', wenn du fertig bist.

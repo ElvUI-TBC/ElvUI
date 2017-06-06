@@ -247,7 +247,6 @@ L["TargetTargetTarget Frame"] = "Marco del Objetivo del Objetivo del Objetivo"
 L["Time Manager Frame"] = true;
 L["Tooltip"] = "Descripción Emergente"
 L["Totems"] = true;
-L["Vehicle Seat Frame"] = "Marco del Asiento del Vehículo"
 L["Watch Frame"] = true;
 L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[Fijadores desbloqueados. Muévelos ahora y haz click en Bloquear cuando termines.

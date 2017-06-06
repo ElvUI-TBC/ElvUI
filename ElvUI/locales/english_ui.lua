@@ -247,7 +247,6 @@ L["TargetTargetTarget Frame"] = true; --Also used in UnitFrames
 L["Time Manager Frame"] = true;
 L["Tooltip"] = true;
 L["Totems"] = true;
-L["Vehicle Seat Frame"] = true;
 L["Watch Frame"] = true;
 L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[Movers unlocked. Move them now and click Lock when you are done.

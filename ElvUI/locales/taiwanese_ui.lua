@@ -247,7 +247,6 @@ L["TargetTargetTarget Frame"] = "目標的目標的目標框架"
 L["Time Manager Frame"] = true;
 L["Tooltip"] = "浮動提示"
 L["Totems"] = true;
-L["Vehicle Seat Frame"] = "載具座位框"
 L["Watch Frame"] = true;
 L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[解除框架移動鎖定. 現在可以移動它們, 移好後請點擊「鎖定」.

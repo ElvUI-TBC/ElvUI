@@ -342,7 +342,7 @@ function UF:PostUpdateAura(unit, button, index)
 	end
 
 	if(button.isDebuff) then
-		if(not isFriend and button.owner ~= "player" and button.owner ~= "vehicle") --[[and (not E.isDebuffWhiteList[name])]] then
+		if(not isFriend and button.owner ~= "player") --[[and (not E.isDebuffWhiteList[name])]] then
 			button:SetBackdropBorderColor(0.9, 0.1, 0.1);
 			button.icon:SetDesaturated((unit and not unit:find("arena%d")) and true or false);
 		else

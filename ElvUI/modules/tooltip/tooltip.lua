@@ -38,7 +38,6 @@ local UnitReaction = UnitReaction
 local UnitClassification = UnitClassification
 local UnitCreatureType = UnitCreatureType
 local UnitIsPVP = UnitIsPVP
-local UnitHasVehicleUI = UnitHasVehicleUI
 local GetNumPartyMembers = GetNumPartyMembers
 local GetNumRaidMembers = GetNumRaidMembers
 local UnitIsUnit = UnitIsUnit
