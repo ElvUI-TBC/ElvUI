@@ -211,8 +211,8 @@ local InitializeSecureMenu = function()
 		else
 			menu = "PLAYER"
 		end
---	elseif(UnitIsUnit(unit, "target")) then
---		menu = "TARGET"
+	elseif(UnitIsUnit(unit, "target")) then
+		menu = "RAID_TARGET_ICON"
 	end
 
 	if(menu) then
