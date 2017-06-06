@@ -175,6 +175,7 @@ function AB:PositionAndSizeBarPet()
 		button:ClearAllPoints()
 		button:Size(size)
 		button:SetAttribute("showgrid", 1)
+		button:Show()
 
 		if i == 1 then
 			local x, y

@@ -41,6 +41,7 @@ function AB:HandleMicroButton(button)
 	local disabled = button:GetDisabledTexture()
 
 	button:SetParent(ElvUI_MicroBar)
+	button:Show()
 
 	button:GetHighlightTexture():Kill()
 	button:HookScript("OnEnter", Button_OnEnter)
