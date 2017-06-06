@@ -216,7 +216,7 @@ E.Options.args.maps = {
 						calendar = {
 							order = 1,
 							type = "group",
-							name = L["Calendar"],
+							name = TIMEMANAGER_TOOLTIP_TITLE,
 							get = function(info) return E.db.general.minimap.icons.calendar[ info[#info] ]; end,
 							set = function(info, value) E.db.general.minimap.icons.calendar[ info[#info] ] = value; MM:UpdateSettings(); end,
 							args = {

@@ -425,6 +425,7 @@ L["The Thin Border Theme option will change the overall apperance of your UI. Us
 L["Thin Border Theme"] = "細邊框主題"
 L["Toggle Tutorials"] = "教學開關"
 L["Top Panel"] = "頂部面板"
+L["Totem Bar"] = true;
 L["Version Check"] = true;
 L["Watch Frame Height"] = true;
 L["When you go AFK display the AFK screen."] = "當你離開時顯示AFK界面"
