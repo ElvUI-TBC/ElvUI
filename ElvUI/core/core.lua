@@ -182,7 +182,7 @@ function E:GetColorTable(data)
 end
 
 function E:UpdateMedia()
-	if(not self.db["general"] or not self.private["general"]) then return; end
+	if not (self.db and self.db["general"] and self.private["general"]) then return; end
 
 	-- Fonts
 	self["media"].normFont = LSM:Fetch("font", self.db["general"].font);
