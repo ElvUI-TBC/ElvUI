@@ -72,23 +72,13 @@ local keybindFrame
 local tooltips = {
 	GameTooltip,
 	ItemRefTooltip,
-	ItemRefShoppingTooltip1,
-	ItemRefShoppingTooltip2,
-	ItemRefShoppingTooltip3,
-	AutoCompleteBox,
-	FriendsTooltip,
 	ConsolidatedBuffsTooltip,
 	ShoppingTooltip1,
 	ShoppingTooltip2,
-	ShoppingTooltip3,
 	WorldMapTooltip,
-	WorldMapCompareTooltip1,
-	WorldMapCompareTooltip2,
-	WorldMapCompareTooltip3,
 	DropDownList1MenuBackdrop,
 	DropDownList2MenuBackdrop,
-	DropDownList3MenuBackdrop,
-	BNToastFrame
+	DropDownList3MenuBackdrop
 }
 
 local classification = {

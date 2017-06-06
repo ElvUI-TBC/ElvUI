@@ -2474,7 +2474,6 @@ P["datatexts"] = {
 	["font"] = "Homespun",
 	["fontSize"] = 10,
 	["fontOutline"] = "NONE",
-	["wordWrap"] = false,
 	["panels"] = {
 		["LeftChatDataPanel"] = {
 			["left"] = "Armor",

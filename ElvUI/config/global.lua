@@ -11,7 +11,6 @@ G["general"] = {
 		["xOffset"] = 0,
 		["yOffset"] = 0
 	},
-	["animateConfig"] = true,
 	["versionCheck"] = true
 };
 

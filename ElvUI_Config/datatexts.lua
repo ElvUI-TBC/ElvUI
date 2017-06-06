@@ -157,11 +157,6 @@ E.Options.args.datatexts = {
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
 							}
-						},
-						wordWrap = {
-							order = 4,
-							type = "toggle",
-							name = L["Word Wrap"]
 						}
 					}
 				}

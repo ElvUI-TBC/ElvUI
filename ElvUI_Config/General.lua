@@ -15,26 +15,19 @@ E.Options.args.general = {
 			get = function(info) return E.global.general.versionCheck; end,
 			set = function(info, value) E.global.general.versionCheck = value; end
 		},
-		animateConfig = {
-			order = 2,
-			type = "toggle",
-			name = L["Animate Config"],
-			get = function(info) return E.global.general.animateConfig; end,
-			set = function(info, value) E.global.general.animateConfig = value; E:StaticPopup_Show("GLOBAL_RL"); end
-		},
 		spacer = {
-			order = 3,
+			order = 2,
 			type = "description",
 			name = "",
 			width = "full",
 		},
 		intro = {
-			order = 4,
+			order = 3,
 			type = "description",
 			name = L["ELVUI_DESC"],
 		},
 		general = {
-			order = 5,
+			order = 4,
 			type = "group",
 			name = L["General"],
 			args = {
@@ -192,7 +185,7 @@ E.Options.args.general = {
 			}
 		},
 		media = {
-			order = 6,
+			order = 5,
 			type = "group",
 			name = L["Media"],
 			get = function(info) return E.db.general[ info[#info] ]; end,
@@ -395,7 +388,7 @@ E.Options.args.general = {
 			}
 		},
 		totems = {
-			order = 7,
+			order = 6,
 			type = "group",
 			name = TUTORIAL_TITLE47,
 			get = function(info) return E.db.general.totems[ info[#info] ]; end,
@@ -446,7 +439,7 @@ E.Options.args.general = {
 		},
 		cooldown = {
 			type = "group",
-			order = 8,
+			order = 7,
 			name = L["Cooldown Text"],
 			get = function(info)
 				local t = E.db.cooldown[ info[#info] ];
@@ -518,7 +511,7 @@ E.Options.args.general = {
 			}
 		},
 		chatBubbles = {
-			order = 9,
+			order = 8,
 			type = "group",
 			name = L["Chat Bubbles"],
 			args = {
@@ -577,7 +570,7 @@ E.Options.args.general = {
 			}
 		},
 		watchFrame = {
-			order = 10,
+			order = 9,
 			type = "group",
 			name = L["Watch Frame"],
 			get = function(info) return E.db.general[ info[#info] ]; end,

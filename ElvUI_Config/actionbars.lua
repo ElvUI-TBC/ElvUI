@@ -50,12 +50,14 @@ local function BuildABConfig()
 					name = L["Backdrop"],
 					desc = L["Toggles the display of the actionbars backdrop."],
 				},
+--[[
 				showGrid = {
 					type = "toggle",
 					name = L["Show Empty Buttons"],
 					order = 5,
 					set = function(info, value) E.db.actionbar["bar" .. i][ info[#info] ] = value; AB:UpdateButtonSettingsForBar("bar"..i); end
 				},
+]]
 				mouseover = {
 					order = 6,
 					type = "toggle",
@@ -432,6 +434,7 @@ E.Options.args.actionbar = {
 			desc = L["Display bind names on action buttons."],
 			disabled = function() return not E.private.actionbar.enable; end
 		},
+--[[
 		keyDown = {
 			order = 6,
 			type = "toggle",
@@ -439,6 +442,7 @@ E.Options.args.actionbar = {
 			desc = L["Action button keybinds will respond on key down, rather than on key up"],
 			disabled = function() return not E.private.actionbar.enable; end
 		},
+]]
 		movementModifier = {
 			order = 7,
 			type = "select",

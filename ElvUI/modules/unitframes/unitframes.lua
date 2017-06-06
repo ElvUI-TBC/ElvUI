@@ -1090,8 +1090,6 @@ function UF:Initialize()
 		InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates:SetPoint(InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait:GetPoint());
 		InterfaceOptionsCombatPanelTargetOfTarget:SetScale(0.0001);
 		InterfaceOptionsCombatPanelTargetOfTarget:SetAlpha(0);
-		--InterfaceOptionsDisplayPanelShowAggroPercentage:SetScale(0.0001);
-		--InterfaceOptionsDisplayPanelShowAggroPercentage:SetAlpha(0);
 	end
 
 	if(E.private["unitframe"]["disabledBlizzardFrames"].party) then

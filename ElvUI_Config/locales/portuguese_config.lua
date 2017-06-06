@@ -358,7 +358,6 @@ L["TopLeftMiniPanel"] = "Minimap TopLeft (Inside)"
 L["TopMiniPanel"] = "Minimap Top (Inside)"
 L["TopRightMiniPanel"] = "Minimap TopRight (Inside)"
 L["When inside a battleground display personal scoreboard information on the main datatext bars."] = "Exibir informação do placar pessoal nos textos informativos principais quando dentro de um Campo de Batalha"
-L["Word Wrap"] = true;
 
 --Distributor
 L["Must be in group with the player if he isn't on the same server as you."] = "É necessário estar em grupo com o jogador se ele não é do mesmo reino que você."

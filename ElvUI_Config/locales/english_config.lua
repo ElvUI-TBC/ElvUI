@@ -347,7 +347,6 @@ L["TopLeftMiniPanel"] = "Minimap TopLeft (Inside)"
 L["TopMiniPanel"] = "Minimap Top (Inside)"
 L["TopRightMiniPanel"] = "Minimap TopRight (Inside)"
 L["When inside a battleground display personal scoreboard information on the main datatext bars."] = true;
-L["Word Wrap"] = true;
 
 --Distributor
 L["Must be in group with the player if he isn't on the same server as you."] = true;
