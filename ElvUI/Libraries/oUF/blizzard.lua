@@ -48,20 +48,8 @@ function oUF:DisableBlizzard(unit)
 	elseif(unit == "target") then
 		HandleFrame(TargetFrame)
 		HandleFrame(ComboFrame)
---	elseif(unit == "focus") then
---		HandleFrame(FocusFrame)
---		HandleFrame(TargetofFocusFrame)
 	elseif(unit == "targettarget") then
 		HandleFrame(TargetofTargetFrame)
---	elseif(unit:match("(boss)%d?$") == "boss") then
---		local id = unit:match("boss(%d)")
---		if(id) then
---			HandleFrame("Boss" .. id .. "TargetFrame")
---		else
---			for i = 1, 4 do
---				HandleFrame(("Boss%dTargetFrame"):format(i))
---			end
---		end
 	elseif(unit:match("(party)%d?$") == "party") then
 		local id = unit:match("party(%d)")
 		if(id) then
@@ -71,17 +59,5 @@ function oUF:DisableBlizzard(unit)
 				HandleFrame(("PartyMemberFrame%d"):format(i))
 			end
 		end
---	elseif(unit:match("(arena)%d?$") == "arena") then
---		local id = unit:match("arena(%d)")
---		if(id) then
---			HandleFrame("ArenaEnemyFrame" .. id)
---		else
---			for i = 1, 5 do
---				HandleFrame(("ArenaEnemyFrame%d"):format(i))
---			end
---		end
---
---		-- Blizzard_ArenaUI should not be loaded
---		Arena_LoadUI = function() end
 	end
 end

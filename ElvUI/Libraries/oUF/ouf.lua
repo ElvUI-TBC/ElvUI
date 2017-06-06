@@ -52,10 +52,6 @@ local updateActiveUnit = function(self, event, unit)
 		realUnit = "target"
 	end
 
-	if(modUnit == "pet" and realUnit ~= "pet") then
-		modUnit = "vehicle"
-	end
-
 	if(not UnitExists(modUnit)) then
 		if(modUnit ~= realUnit) then
 			modUnit = realUnit
@@ -245,6 +241,7 @@ local OnShow = function(self)
 	end
 end
 
+--[[
 local UpdatePet = function(self, event, unit)
 	local petUnit
 	if(unit == "target") then
@@ -260,6 +257,7 @@ local UpdatePet = function(self, event, unit)
 		return self:UpdateAllElements(event)
 	end
 end
+]]
 
 local initObject = function(unit, style, styleFunc, header, ...)
 	local num = select("#", ...)
@@ -276,29 +274,23 @@ local initObject = function(unit, style, styleFunc, header, ...)
 
 		object:RegisterEvent("PLAYER_ENTERING_WORLD", object.UpdateAllElements)
 
-		if(suffix and objectUnit and not objectUnit:match(suffix)) then
-			objectUnit = objectUnit .. suffix
-		end
+--		if(suffix and objectUnit and not objectUnit:match(suffix)) then
+--			objectUnit = objectUnit .. suffix
+--		end
 
-		if(not (suffix == "target" or objectUnit and objectUnit:match"target")) then
-			object:RegisterEvent("UNIT_ENTERED_VEHICLE", updateActiveUnit)
-			object:RegisterEvent("UNIT_EXITING_VEHICLE", updateActiveUnit)
-			object:RegisterEvent("PLAYER_ENTERING_WORLD", updateActiveUnit)
-
-			if(objectUnit ~= "player") then
-				object:RegisterEvent("UNIT_PET", UpdatePet, true)
-			end
-		end
+--		if(not (suffix == "target" or objectUnit and objectUnit:match"target")) then
+--			object:RegisterEvent("PLAYER_ENTERING_WORLD", updateActiveUnit)
+--
+--			if(objectUnit ~= "player") then
+--				object:RegisterEvent("UNIT_PET", UpdatePet, true)
+--			end
+--		end
 
 		if(not header) then
 			object.menu = togglemenu
 			object:SetAttribute("*type1", "target")
 			object:SetAttribute("*type2", "menu")
 
-		--	if(not (objectUnit:match"target" or suffix == "target")) then
-			if(not (unit:match"target" or suffix == "target")) then
-				object:SetAttribute("toggleForVehicle", true)
-			end
 
 			if(suffix == "target") then
 				enableTargetUpdate(object)
@@ -517,7 +509,6 @@ do
 				frame.menu = togglemenu
 				frame:SetAttribute("type1", "target")
 				frame:SetAttribute("type2", "menu")
-				frame:SetAttribute("toggleForVehicle", true)
 				frame.guessUnit = unit
 			end
 		end
@@ -534,7 +525,6 @@ do
 		local name = overrideName or generateName(nil, ...)
 		local header = CreateFrame("Frame", name, UIParent, template)
 
-		header:SetAttribute("template", "oUF_ClickCastUnitTemplate")
 		for i = 1, select("#", ...), 2 do
 			local att, val = select(i, ...)
 			if(not att) then break end
