@@ -118,6 +118,18 @@ local function SetupZoomReset()
 end
 hooksecurefunc(Minimap, "SetZoom", SetupZoomReset)
 
+function M:UpdateMinimapSize()
+	local zoomLevel = Minimap:GetZoom()
+
+	if zoomLevel == (Minimap:GetZoomLevels() - 1) then
+		Minimap:SetZoom(zoomLevel - 1)
+		Minimap:SetZoom(zoomLevel)
+	else
+		Minimap:SetZoom(zoomLevel + 1)
+		Minimap:SetZoom(zoomLevel)
+	end
+end
+
 function M:UpdateSettings()
 	if InCombatLockdown() then
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -129,6 +141,7 @@ function M:UpdateSettings()
 
 	if E.private.general.minimap.enable then
 		Minimap:Size(E.MinimapSize, E.MinimapSize)
+		self:UpdateMinimapSize()
 	end
 
 	if LeftMiniPanel and RightMiniPanel then
@@ -307,6 +320,8 @@ function M:Initialize()
 
 	MinimapBorder:Hide()
 	MinimapBorderTop:Hide()
+
+	MinimapToggleButton:Hide()
 
 	MinimapZoomIn:Hide()
 	MinimapZoomOut:Hide()
