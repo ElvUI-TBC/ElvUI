@@ -8,7 +8,6 @@ local strsub = strsub
 local CreateFrame = CreateFrame
 local ToggleCharacter = ToggleCharacter
 local ToggleFrame = ToggleFrame
-local ToggleAchievementFrame = ToggleAchievementFrame
 local ToggleFriendsFrame = ToggleFriendsFrame
 local IsAddOnLoaded = IsAddOnLoaded
 local ToggleHelpFrame = ToggleHelpFrame
