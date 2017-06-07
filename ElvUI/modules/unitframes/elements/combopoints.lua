@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(ElvUI);
 local UF = E:GetModule("UnitFrames");
 
 local CreateFrame = CreateFrame;
-local GetShapeshiftForm = GetShapeshiftForm;
+local GetShapeshiftFormInfo = GetShapeshiftFormInfo;
 local GetComboPoints = GetComboPoints;
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS;
 
@@ -145,8 +145,8 @@ end
 
 function UF:UpdateComboDisplay(event, unit)
 	if(unit == "pet") then return; end
-	if(event == "UPDATE_SHAPESHIFT_FORM" and GetShapeshiftForm() ~= 3) then return self.CPoints:Hide(); end
-	if(E.myclass ~= "ROGUE" and (E.myclass ~= "DRUID" or (E.myclass == "DRUID" and GetShapeshiftForm() ~= 3))) then return self.CPoints:Hide(); end
+	if(event == "UPDATE_SHAPESHIFT_FORM" and not GetShapeshiftFormInfo(3)) then return self.CPoints:Hide(); end
+	if(E.myclass ~= "ROGUE" and (E.myclass ~= "DRUID" or (E.myclass == "DRUID" and not GetShapeshiftFormInfo(3)))) then return self.CPoints:Hide(); end
 
 	local db = self.db;
 	if(not db) then return; end
