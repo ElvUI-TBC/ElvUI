@@ -1090,7 +1090,7 @@ function UF:Initialize()
 	if(E.private["unitframe"]["disabledBlizzardFrames"].party) then
 		InterfaceOptionsStatusTextPanelParty:SetScale(0.0001);
 		InterfaceOptionsStatusTextPanelParty:SetAlpha(0);
-		InterfaceOptionsFrameCategoriesButton11:SetScale(0.0001);
+--		InterfaceOptionsFrameCategoriesButton9:SetScale(0.0001);
 	end
 
 	--[[if(E.private["unitframe"]["disabledBlizzardFrames"].arena) then
