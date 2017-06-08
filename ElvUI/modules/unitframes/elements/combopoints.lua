@@ -1,10 +1,8 @@
 local E, L, V, P, G = unpack(ElvUI)
 local UF = E:GetModule("UnitFrames")
 
-local gsub = string.gsub
-
 local CreateFrame = CreateFrame
-local GetShapeshiftFormInfo = GetShapeshiftFormInfo
+local GetShapeshiftForm = GetShapeshiftForm
 local GetComboPoints = GetComboPoints
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
@@ -145,19 +143,15 @@ function UF:Configure_ComboPoints(frame)
 	end
 end
 
-function UF:UpdateComboDisplay(event, unit)
-	if(unit == "pet") then return end
-	local _, name = GetShapeshiftFormInfo(3)
-	local name = strupper(gsub(name, " ", "_"))
-	if(event == "UPDATE_SHAPESHIFT_FORM" and name ~= "CAT_FORM") then return self.CPoints:Hide() end
-	if(E.myclass ~= "ROGUE" and (E.myclass ~= "DRUID" or (E.myclass == "DRUID" and name ~= "CAT_FORM"))) then return self.CPoints:Hide() end
+function UF:UpdateComboDisplay(event)
+	if(event == "UPDATE_SHAPESHIFT_FORM" and GetShapeshiftForm() ~= 3) then return self.CPoints:Hide(); end
+	if(E.myclass ~= "ROGUE" and (E.myclass ~= "DRUID" or (E.myclass == "DRUID" and GetShapeshiftForm() ~= 3))) then return self.CPoints:Hide(); end
 
-	local db = self.db
-	if(not db) then return end
+	if not self.db then return end
 	local cpoints = self.CPoints
 	local cp = GetComboPoints("player", "target")
 
-	if(cp == 0 and db.combobar.autoHide) then
+	if(cp == 0 and self.db.combobar.autoHide) then
 		cpoints:Hide()
 		UF.ToggleResourceBar(cpoints)
 	else
