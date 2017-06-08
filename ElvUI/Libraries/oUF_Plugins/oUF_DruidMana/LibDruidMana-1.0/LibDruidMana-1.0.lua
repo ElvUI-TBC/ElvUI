@@ -11,7 +11,7 @@ License: LGPL v2.1
 if(select(2, UnitClass("player")) ~= "DRUID") then return; end
 
 local MAJOR_VERSION = "LibDruidMana-1.0"
-local MINOR_VERSION = 90000 + tonumber(("$Revision: 29 $"):match("%d+"))
+local MINOR_VERSION = 90001 + tonumber(("$Revision: 29 $"):match("%d+"))
 
 local floor = math.floor
 
