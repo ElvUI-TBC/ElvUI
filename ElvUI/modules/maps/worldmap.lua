@@ -104,6 +104,7 @@ function M:Initialize()
 		WorldMapFrame:SetScale(1)
 		WorldMapFrame:EnableKeyboard(false)
 		WorldMapFrame:EnableMouse(false)
+		WorldMapFrame:SetToplevel()
 
 		tinsert(UISpecialFrames, WorldMapFrame:GetName())
 

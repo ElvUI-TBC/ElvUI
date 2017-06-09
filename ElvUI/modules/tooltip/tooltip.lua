@@ -46,6 +46,7 @@ local GetItemCount = GetItemCount
 local UnitAura = UnitAura
 local SetTooltipMoney = SetTooltipMoney
 local GameTooltip_ClearMoney = GameTooltip_ClearMoney
+local MerchantFrame = MerchantFrame
 local TARGET = TARGET
 local DEAD = DEAD
 local FOREIGN_SERVER_LABEL = FOREIGN_SERVER_LABEL
@@ -538,13 +539,23 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 
 	if not tt.itemCleared then
 		local _, link = tt:GetItem()
+		if not link then return end
+
 		local num = GetItemCount(link)
 		local numall = GetItemCount(link, true)
 		local left = " "
 		local right = " "
 		local bankCount = " "
 
-		if link and link ~= 0 then
+--[[
+	-- Item level - Do we need it?
+		local iLvl = select(4, GetItemInfo(link))
+		if iLvl then
+			tt:AddLine(format(L["Item Level %d"], iLvl))
+		end
+--]]
+
+		if not MerchantFrame:IsShown() then
 			local value = LIP:GetSellValue(link)
 			if value and value > 0 then
 				value = num > 0 and value * num or value
@@ -552,7 +563,7 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 			end
 		end
 
-		if link ~= nil and self.db.spellID then
+		if self.db.spellID then
 			left = (("|cFFCA3C3C%s|r %s"):format(ID, link)):match(":(%w+)")
 		end
 

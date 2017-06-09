@@ -558,17 +558,17 @@ function S:LoadMiscSkin()
 	end
 
 	InterfaceOptionsFrameTab1:ClearAllPoints()
-	InterfaceOptionsFrameTab1:Point("BOTTOMLEFT",InterfaceOptionsFrameCategories,"TOPLEFT",-11,-2)
-	OptionsFrameDefaults:ClearAllPoints()
+	InterfaceOptionsFrameTab1:Point("BOTTOMLEFT", InterfaceOptionsFrameCategories, "TOPLEFT", -11, -2)
 	InterfaceOptionsFrameDefaults:ClearAllPoints()
+	InterfaceOptionsFrameDefaults:Point("TOPLEFT", InterfaceOptionsFrameCategories, "BOTTOMLEFT", -1, -5)
 	InterfaceOptionsFrameCancel:ClearAllPoints()
-	OptionsFrameDefaults:Point("TOPLEFT",OptionsFrameCategoryFrame,"BOTTOMLEFT",-1,-5)
-	InterfaceOptionsFrameDefaults:Point("TOPLEFT",InterfaceOptionsFrameCategories,"BOTTOMLEFT",-1,-5)
 	InterfaceOptionsFrameCancel:Point("TOPRIGHT",InterfaceOptionsFramePanelContainer,"BOTTOMRIGHT",0,-6)
 	InterfaceOptionsFrameCategoriesList:StripTextures()
 	S:HandleScrollBar(InterfaceOptionsFrameCategoriesListScrollBar)
 	InterfaceOptionsFrameAddOnsList:StripTextures()
 	S:HandleScrollBar(InterfaceOptionsFrameAddOnsListScrollBar)
+	OptionsFrameDefaults:ClearAllPoints()
+	OptionsFrameDefaults:Point("TOPLEFT", OptionsFrame, "BOTTOMLEFT", 15, 36)
 
 	local interfacecheckbox = {
 		"ControlsPanelStickyTargeting",

@@ -577,6 +577,7 @@ E.Options.args.actionbar = {
 			name = L["Micro Bar"],
 			get = function(info) return E.db.actionbar.microbar[ info[#info] ] end,
 			set = function(info, value) E.db.actionbar.microbar[ info[#info] ] = value; AB:UpdateMicroPositionDimensions() end,
+			disabled = function() return not E.private.actionbar.enable end,
 			args = {
 				enabled = {
 					order = 1,
