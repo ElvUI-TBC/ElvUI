@@ -679,6 +679,8 @@ E.Options.args.nameplate = {
 					order = 150,
 					type = "group",
 					name = L["Threat"],
+					-- TODO
+					hidden = true,
 					get = function(info)
 						local t = E.db.nameplates.threat[ info[#info] ];
 						local d = P.nameplates.threat[info[#info]];
