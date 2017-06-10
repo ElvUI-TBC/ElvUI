@@ -2,7 +2,8 @@
 local date = date
 local format = string.format
 local gsub = string.gsub
-local strlower = strlower
+local lower = string.lower
+local upper = string.upper
 local pairs = pairs
 --WoW API
 local GetCurrentDungeonDifficulty = GetCurrentDungeonDifficulty
@@ -297,7 +298,7 @@ function ChatHistory_GetChatType(accessID)
 end
 
 function ChatHistory_GetToken(chatType, chatTarget)
-	return strlower(chatType)..";;"..(chatTarget and strlower(chatTarget) or "")
+	return lower(chatType)..";;"..(chatTarget and lower(chatTarget) or "")
 end
 
 function FCF_OpenTemporaryWindow(chatType, chatTarget, sourceChatFrame, selectWindow)
@@ -350,7 +351,7 @@ function FCF_OpenTemporaryWindow(chatType, chatTarget, sourceChatFrame, selectWi
 		for i = 1, sourceChatFrame:GetNumMessages(accessID) do
 			local text, accessID, lineID, extraData = sourceChatFrame:GetMessageInfo(i, accessID)
 			local cType, cTarget = ChatHistory_GetChatType(extraData)
-        
+
 			local info = ChatTypeInfo[cType]
 			chatFrame:AddMessage(text, info.r, info.g, info.b, lineID, false, accessID, extraData)
 		end
@@ -558,7 +559,7 @@ function FCF_CopyChatSettings(copyTo, copyFrom)
 end
 
 local function FCFManager_GetToken(chatType, chatTarget)
-	return strlower(chatType)..(chatTarget and ";;"..strlower(chatTarget) or "")
+	return lower(chatType)..(chatTarget and ";;"..lower(chatTarget) or "")
 end
 
 function FCFManager_RegisterDedicatedFrame(chatFrame, chatType, chatTarget)
@@ -581,15 +582,15 @@ function ChatFrame_AddPrivateMessageTarget(chatFrame, chatTarget)
 	ChatFrame_RemoveExcludePrivateMessageTarget(chatFrame, chatTarget)
 
 	if chatFrame.privateMessageList then
-		chatFrame.privateMessageList[strlower(chatTarget)] = true
+		chatFrame.privateMessageList[lower(chatTarget)] = true
 	else
-		chatFrame.privateMessageList = {[strlower(chatTarget)] = true}
+		chatFrame.privateMessageList = {[lower(chatTarget)] = true}
 	end
 end
 
 function ChatFrame_RemovePrivateMessageTarget(chatFrame, chatTarget)
 	if chatFrame.privateMessageList then
-		chatFrame.privateMessageList[strlower(chatTarget)] = nil
+		chatFrame.privateMessageList[lower(chatTarget)] = nil
 	end
 end
 
@@ -597,15 +598,15 @@ function ChatFrame_ExcludePrivateMessageTarget(chatFrame, chatTarget)
 	ChatFrame_RemovePrivateMessageTarget(chatFrame, chatTarget)
 
 	if chatFrame.excludePrivateMessageList then
-		chatFrame.excludePrivateMessageList[strlower(chatTarget)] = true
+		chatFrame.excludePrivateMessageList[lower(chatTarget)] = true
 	else
-		chatFrame.excludePrivateMessageList = {[strlower(chatTarget)] = true}
+		chatFrame.excludePrivateMessageList = {[lower(chatTarget)] = true}
 	end
 end
 
 function ChatFrame_RemoveExcludePrivateMessageTarget(chatFrame, chatTarget)
 	if chatFrame.excludePrivateMessageList then
-		chatFrame.excludePrivateMessageList[strlower(chatTarget)] = nil
+		chatFrame.excludePrivateMessageList[lower(chatTarget)] = nil
 	end
 end
 

@@ -95,7 +95,6 @@ function TOTEMS:Initialize()
 	self.db = E.db.general.totems;
 
 	local bar = CreateFrame("Frame", "ElvUI_TotemBar", E.UIParent);
-	bar = CreateFrame("Frame", "ElvUI_TotemBar", E.UIParent);
 	bar:Point("TOPLEFT", LeftChatPanel, "TOPRIGHT", 14, 0);
 	self.bar = bar;
 
