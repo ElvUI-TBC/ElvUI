@@ -390,13 +390,14 @@ function UF:PostUpdateAura(unit, button, index)
 end
 
 function UF:UpdateAuraTimer(elapsed)
-	self.expiration = self.expiration - elapsed;
+	local _, _, _, _, _, duration, timeLeft = UnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
+
 	if(self.nextupdate > 0) then
 		self.nextupdate = self.nextupdate - elapsed;
 		return;
 	end
 
-	if(self.expiration <= 0) then
+	if(not timeLeft) then
 		self:SetScript("OnUpdate", nil);
 
 		if(self.text:GetFont()) then
@@ -404,10 +405,16 @@ function UF:UpdateAuraTimer(elapsed)
 		end
 
 		return;
+	else
+		if(not self:GetParent().disableCooldown) then
+			if(duration and duration > 0) then
+				self.cd:SetCooldown(GetTime() - (duration - timeLeft), duration)
+			end
+		end
 	end
 
 	local timervalue, formatid;
-	timervalue, formatid, self.nextupdate = E:GetTimeInfo(self.expiration, 4);
+	timervalue, formatid, self.nextupdate = E:GetTimeInfo(timeLeft, 4);
 	if(self.text:GetFont()) then
 		self.text:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatid], E.TimeFormats[formatid][2]), timervalue);
 	elseif(self:GetParent():GetParent().db) then

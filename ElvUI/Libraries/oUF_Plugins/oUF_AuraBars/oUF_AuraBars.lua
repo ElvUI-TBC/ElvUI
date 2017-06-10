@@ -158,7 +158,6 @@ end
 
 local function UpdateBars(auraBars)
 	local bars = auraBars.bars
-	local timenow = GetTime()
 
 	for index = 1, #bars do
 		local frame = bars[index]
@@ -170,7 +169,7 @@ local function UpdateBars(auraBars)
 			bar.spelltime:SetText()
 			bar.spark:Hide()
 		else
-			local timeleft = bar.aura.expirationTime - timenow
+			local _, _, _, _, _, _, timeleft = UnitAura(frame.unit, frame.index, frame.filter)
 			bar:SetValue(timeleft)
 			bar.spelltime:SetText(FormatTime(timeleft))
 			if auraBars.spark == true then
@@ -318,6 +317,8 @@ local function Update(self, event, unit)
 
 		local bar = frame.statusBar
 		frame.index = index
+		frame.unit = unit
+		frame.filter = helpOrHarm
 
 		-- Backup the details of the aura onto the bar, so the OnUpdate function can use it
 		bar.aura = aura
