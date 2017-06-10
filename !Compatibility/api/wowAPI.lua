@@ -1,7 +1,6 @@
 --Cache global variables
 local date = date
 local gsub = string.gsub
-local strupper = strupper
 local strlower = strlower
 --WoW API
 local GetQuestGreenRange = GetQuestGreenRange
@@ -11,6 +10,8 @@ local UnitLevel = UnitLevel
 --WoW Variables
 local TIMEMANAGER_AM = TIMEMANAGER_AM
 local TIMEMANAGER_PM = TIMEMANAGER_PM
+--Libs
+local LBC = LibStub("LibBabble-Class-3.0"):GetLookupTable()
 
 RAID_CLASS_COLORS = {
 	["WARRIOR"] = {r = 0.78, g = 0.61, b = 0.43},
@@ -97,96 +98,6 @@ CHAT_CATEGORY_LIST = {
 
 CHAT_INVERTED_CATEGORY_LIST = {}
 
-local locale = GetLocale()
-
-if locale == "enGB" or locale == "enUS" then
-	LOCALIZED_CLASS_NAMES = {
-		["WARRIOR"] = "Warrior",
-		["PALADIN"] = "Paladin",
-		["HUNTER"] = "Hunter",
-		["ROGUE"] = "Rogue",
-		["PRIEST"] = "Priest",
-		["SHAMAN"] = "Shaman",
-		["MAGE"] = "Mage",
-		["WARLOCK"] = "Warlock",
-		["DRUID"] = "Druid"
-	}
-elseif locale == "deDE" then
-	LOCALIZED_CLASS_NAMES = {
-		["WARRIOR"] = "Krieger",
-		["PALADIN"] = "Paladin",
-		["HUNTER"] = "Jäger",
-		["ROGUE"] = "Schurke",
-		["PRIEST"] = "Priester",
-		["SHAMAN"] = "Schamane",
-		["MAGE"] = "Magier",
-		["WARLOCK"] = "Hexenmeister",
-		["DRUID"] = "Druide"
-	}
-elseif locale == "esES" or locale == "esMX" then
-	LOCALIZED_CLASS_NAMES = {
-		["WARRIOR"] = "Guerrero",
-		["PALADIN"] = "Paladín",
-		["HUNTER"] = "Cazador",
-		["ROGUE"] = "Pícaro",
-		["PRIEST"] = "Sacerdote",
-		["SHAMAN"] = "Chamán",
-		["MAGE"] = "Mago",
-		["WARLOCK"] = "Brujo",
-		["DRUID"] = "Druida"
-	}
-elseif locale == "frFR" then
-	LOCALIZED_CLASS_NAMES = {
-		["WARRIOR"] = "Guerrier",
-		["PALADIN"] = "Paladin",
-		["HUNTER"] = "Chasseur",
-		["ROGUE"] = "Voleur",
-		["PRIEST"] = "Prêtre",
-		["SHAMAN"] = "Chaman",
-		["MAGE"] = "Mage",
-		["WARLOCK"] = "Démoniste",
-		["DRUID"] = "Druide"
-	}
-elseif locale == "ruRU" then
-	LOCALIZED_CLASS_NAMES = {
-		["WARRIOR"] = "Воин",
-		["PALADIN"] = "Паладин",
-		["HUNTER"] = "Охотник",
-		["ROGUE"] = "Разбойник",
-		["PRIEST"] = "Жрец",
-		["SHAMAN"] = "Шаман",
-		["MAGE"] = "Маг",
-		["WARLOCK"] = "Чернокнижник",
-		["DRUID"] = "Друид"
-	}
-elseif locale == "koKR" then
-	LOCALIZED_CLASS_NAMES = {
-		["WARRIOR"] = "전사",
-		["PALADIN"] = "성기사",
-		["HUNTER"] = "사냥꾼",
-		["ROGUE"] = "도적",
-		["PRIEST"] = "사제",
-		["SHAMAN"] = "주술사",
-		["MAGE"] = "마법사",
-		["WARLOCK"] = "흑마법사",
-		["DRUID"] = "드루이드"
-	}
-elseif locale == "zhCN" then
-	LOCALIZED_CLASS_NAMES = {
-		["WARRIOR"] = "战士",
-		["PALADIN"] = "圣骑士",
-		["HUNTER"] = "猎人",
-		["ROGUE"] = "盗贼",
-		["PRIEST"] = "牧师",
-		["SHAMAN"] = "萨满祭司",
-		["MAGE"] = "法师",
-		["WARLOCK"] = "术士",
-		["DRUID"] = "德鲁伊"
-	}
-else
-	LOCALIZED_CLASS_NAMES = {}
-end
-
 function UnitAura(unit, i, filter)
 	if filter == "HELPFUL" then
 		local name, rank, aura, count, duration, maxDuration = UnitBuff(unit, i)
@@ -223,18 +134,22 @@ function GetQuestDifficultyColor(level)
 	end
 end
 
-function FillLocalizedClassList(tab)
+function FillLocalizedClassList(tab, female)
 	if not (tab and type(tab) == "table") then return end
 
 	for _, engClass in ipairs(CLASS_SORT_ORDER) do
-		tab[engClass] = LOCALIZED_CLASS_NAMES[engClass]
+		if female then
+			tab[engClass] = LBC[engClass]
+		else
+			tab[engClass] = LBC[engClass:lower():gsub("^%l", upper)]
+		end
 	end
 
 	return true
 end
 
 FillLocalizedClassList(LOCALIZED_CLASS_NAMES_MALE)
-FillLocalizedClassList(LOCALIZED_CLASS_NAMES_FEMALE)
+FillLocalizedClassList(LOCALIZED_CLASS_NAMES_FEMALE, true)
 
 function ToggleFrame(frame)
 	if frame:IsShown() then
