@@ -1,9 +1,14 @@
 --Cache global variables
 local date = date
+local format = string.format
 local gsub = string.gsub
 local strlower = strlower
+local pairs = pairs
 --WoW API
+local GetCurrentDungeonDifficulty = GetCurrentDungeonDifficulty
 local GetQuestGreenRange = GetQuestGreenRange
+local GetRealZoneText = GetRealZoneText
+local IsInInstance = IsInInstance
 local UnitBuff = UnitBuff
 local UnitDebuff = UnitDebuff
 local UnitLevel = UnitLevel
@@ -12,6 +17,7 @@ local TIMEMANAGER_AM = TIMEMANAGER_AM
 local TIMEMANAGER_PM = TIMEMANAGER_PM
 --Libs
 local LBC = LibStub("LibBabble-Class-3.0"):GetLookupTable()
+local LBZ = LibStub("LibBabble-Zone-3.0"):GetLookupTable()
 
 RAID_CLASS_COLORS = {
 	["WARRIOR"] = {r = 0.78, g = 0.61, b = 0.43},
@@ -150,6 +156,95 @@ end
 
 FillLocalizedClassList(LOCALIZED_CLASS_NAMES_MALE)
 FillLocalizedClassList(LOCALIZED_CLASS_NAMES_FEMALE, true)
+
+local zoneInfo = {
+	-- Battlegrounds
+	[LBZ["Warsong Gulch"]] = {mapID = 443, maxPlayers = 10},
+	[LBZ["Arathi Basin"]] = {mapID = 461, maxPlayers = 15},
+	[LBZ["Alterac Valley"]] = {mapID = 401, maxPlayers = 40},
+	-- TBC
+	[LBZ["Eye of the Storm"]] = {mapID = 566, maxPlayers = 15},
+
+	-- Raids
+	[LBZ["Zul'Gurub"]] = {mapID = 309, maxPlayers = 20},
+	[LBZ["Onyxia's Lair"]] = {mapID = 249, maxPlayers = 40},
+	[LBZ["Molten Core"]] = {mapID = 409, maxPlayers = 40},
+	[LBZ["Ruins of Ahn'Qiraj"]] = {mapID = 509, maxPlayers = 20},
+	[LBZ["Temple of Ahn'Qiraj"]] = {mapID = 531, maxPlayers = 40},
+	[LBZ["Blackwing Lair"]] = {mapID = 469, maxPlayers = 40},
+--	[LBZ["Naxxramas"]] = {mapID = 533, maxPlayers = 40},
+	-- TBC
+	[LBZ["Karazhan"]] = {mapID = 532, maxPlayers = 10},
+	[LBZ["Gruul's Lair"]] = {mapID = 565, maxPlayers = 25},
+	[LBZ["Magtheridon's Lair"]] = {mapID = 544, maxPlayers = 25},
+	[LBZ["Zul'Aman"]] = {mapID = 568, maxPlayers = 10},
+	[LBZ["Serpentshrine Cavern"]] = {mapID = 548, maxPlayers = 25},
+	[LBZ["The Eye"]] = {mapID = 550, maxPlayers = 25},
+	[LBZ["Hyjal Summit"]] = {mapID = 534, maxPlayers = 25},
+	[LBZ["Black Temple"]] = {mapID = 564, maxPlayers = 25},
+	[LBZ["Sunwell Plateau"]] = {mapID = 580, maxPlayers = 25},
+}
+
+local mapByID = {}
+for mapName in pairs(zoneInfo) do
+	mapByID[zoneInfo[mapName].mapID] = mapName
+end
+
+local function GetMaxPlayersByType(instanceType, zoneName)
+	if instanceType == "none" then
+		return 40
+	elseif instanceType == "party" then
+		return 5
+	elseif instanceType == "arena" then
+		return 5
+	elseif zoneName ~= "" and zoneInfo[zoneName] then
+		if instanceType == "pvp" then
+			return zoneInfo[zoneName].maxPlayers
+		elseif instanceType == "raid" then
+			return zoneInfo[zoneName].maxPlayers
+		end
+	else
+		return 0
+	end
+end
+
+function GetInstanceInfo()
+	local inInstance, instanceType = IsInInstance()
+	if not inInstance then return end
+
+	local name = GetRealZoneText()
+
+	local difficulty = GetCurrentDungeonDifficulty()
+	local difficultyName = difficulty == 1 and DUNGEON_DIFFICULTY1 or DUNGEON_DIFFICULTY2
+	local maxPlayers = GetMaxPlayersByType(instanceType, name)
+
+	difficultyName = format("%d %s", maxPlayers, difficultyName)
+
+	return name, instanceType, difficulty, difficultyName, maxPlayers
+end
+
+function GetCurrentMapAreaID()
+	if not IsInInstance() then return end
+	local zoneName = GetRealZoneText()
+
+	if zoneName ~= "" and zoneInfo[zoneName] then
+		return zoneInfo[zoneName].mapID
+	else
+		return 0
+	end
+end
+
+function GetMapNameByID(id)
+	if not id then return end
+
+	if type(id) == "string" then
+		tonumber(id)
+	end
+
+	assert(type(id) == "number", "Bad argument #1 to `GetMapNameByID' (number expected)")
+
+	return mapByID[id] or nil
+end
 
 function ToggleFrame(frame)
 	if frame:IsShown() then

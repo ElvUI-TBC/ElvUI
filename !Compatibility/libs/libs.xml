@@ -2,4 +2,5 @@
 	<Script file="LibStub.lua"/>
 	<Script file="LibBabble-3.0.lua"/>
 	<Script file="LibBabble-Class-3.0.lua"/>
+	<Script file="LibBabble-Zone-3.0.lua"/>
 </Ui>

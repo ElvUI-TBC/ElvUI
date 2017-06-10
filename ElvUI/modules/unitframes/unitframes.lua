@@ -708,11 +708,10 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 	local db = self.db["units"][group];
 	local raidFilter = UF.db.smartRaidFilter;
 	local numGroups = db.numGroups;
-	--[[if(raidFilter and numGroups and (self[group] and not self[group].blockVisibilityChanges)) then
+	if(raidFilter and numGroups and (self[group] and not self[group].blockVisibilityChanges)) then
 		local inInstance, instanceType = IsInInstance();
 		if(inInstance and (instanceType == "raid" or instanceType == "pvp")) then
 			local _, _, _, _, maxPlayers = GetInstanceInfo();
-			print(_, _, _, _, maxPlayers)
 			local mapID = GetCurrentMapAreaID();
 			if(UF.mapIDs[mapID]) then
 				maxPlayers = UF.mapIDs[mapID];
@@ -722,7 +721,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 				numGroups = E:Round(maxPlayers/5);
 			end
 		end
-	end]]
+	end
 
 	if(not self[group]) then
 		local stringTitle = E:StringTitle(group);
