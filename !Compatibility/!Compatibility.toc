@@ -4,4 +4,5 @@
 ## Version: 1.0
 
 debugTools.lua
+libs\libs.xml
 api\api.xml

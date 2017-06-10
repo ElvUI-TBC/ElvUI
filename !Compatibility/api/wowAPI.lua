@@ -1,9 +1,6 @@
 --Cache global variables
 local date = date
-local format = string.format
-local gsub = string.gsub
-local lower = string.lower
-local upper = string.upper
+local format, gsub, lower, match, upper = string.format, string.gsub, string.lower, string.match, string.upper
 local pairs = pairs
 --WoW API
 local GetCurrentDungeonDifficulty = GetCurrentDungeonDifficulty
@@ -106,11 +103,11 @@ CHAT_CATEGORY_LIST = {
 CHAT_INVERTED_CATEGORY_LIST = {}
 
 function UnitAura(unit, i, filter)
-	if filter == "HELPFUL" then
-		local name, rank, aura, count, duration, maxDuration = UnitBuff(unit, i)
+	if match(filter, "\|*(HELPFUL)") then
+		local name, rank, aura, count, duration, maxDuration = UnitBuff(unit, i, filter)
 		return name, rank, aura, count, nil, duration, maxDuration
 	else
-		return UnitDebuff(unit, i)
+		return UnitDebuff(unit, i, filter)
 	end
 end
 
