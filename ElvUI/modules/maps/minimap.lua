@@ -379,14 +379,9 @@ function M:Initialize()
 	E.FrameLocks["FarmModeMap"] = true
 
 	FarmModeMap:SetScript("OnShow", function()
-		if(BuffsMover and not E:HasMoverBeenMoved("BuffsMover")) then
-			BuffsMover:ClearAllPoints()
-			BuffsMover:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3)
-		end
-
-		if(DebuffsMover and not E:HasMoverBeenMoved("DebuffsMover")) then
-			DebuffsMover:ClearAllPoints()
-			DebuffsMover:Point("TOPRIGHT", ElvUIPlayerBuffs, "BOTTOMRIGHT", 0, -3)
+		if(AurasMover and not E:HasMoverBeenMoved("AurasMover")) then
+			AurasMover:ClearAllPoints()
+			AurasMover:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3)
 		end
 
 		MinimapCluster:ClearAllPoints()
@@ -402,12 +397,8 @@ function M:Initialize()
 	end)
 
 	FarmModeMap:SetScript("OnHide", function()
-		if(BuffsMover and not E:HasMoverBeenMoved("BuffsMover")) then
-			E:ResetMovers(L["Player Buffs"])
-		end
-
-		if(DebuffsMover and not E:HasMoverBeenMoved("DebuffsMover")) then
-			E:ResetMovers(L["Player Debuffs"])
+		if(AurasMover and not E:HasMoverBeenMoved("AurasMover")) then
+			E:ResetMovers(L["Auras Frame"])
 		end
 
 		MinimapCluster:ClearAllPoints()
