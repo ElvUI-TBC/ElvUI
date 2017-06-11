@@ -10,6 +10,11 @@ function B:Initialize()
 	self:PositionDurabilityFrame()
 	self:PositionGMFrames()
 
+	self:RawHook("CombatConfig_Colorize_Update", function()
+		if not CHATCONFIG_SELECTED_FILTER_SETTINGS then return end
+		self.hooks.CombatConfig_Colorize_Update()
+	end, true)
+
 --	QuestLogFrame:HookScript("OnShow", function()
 --		local questFrame = QuestLogFrame:GetFrameLevel()
 --		local scrollFrame = QuestLogDetailScrollFrame:GetFrameLevel()
