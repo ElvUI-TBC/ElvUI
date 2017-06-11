@@ -34,9 +34,9 @@ end
 
 local function UpdateTooltip(self)
 	if self:GetParent().aura.filter == "HELPFUL" then
-		GameTooltip:SetUnitBuff(self.__unit, self:GetID())
+		GameTooltip:SetUnitBuff(self.__unit, self:GetParent():GetParent().index)
 	else
-		GameTooltip:SetUnitDebuff(self.__unit, self:GetID())
+		GameTooltip:SetUnitDebuff(self.__unit, self:GetParent():GetParent().index)
 	end
 end
 
