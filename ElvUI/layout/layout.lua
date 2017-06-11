@@ -308,7 +308,6 @@ function LO:CreateChatPanels()
 	rchattb:Point("TOPLEFT", rchatdp, "TOPRIGHT", -E.Border + E.Spacing*3, 0);
 	rchattb:Point("BOTTOMRIGHT", rchat, "BOTTOMRIGHT", -SPACING, SPACING)
 	rchattb:SetTemplate(E.db.datatexts.panelTransparency and "Transparent" or "Default", true)
-	rchattb:RegisterForClicks("AnyUp")
 	rchattb:SetScript("OnEnter", ChatButton_OnEnter)
 	rchattb:SetScript("OnLeave", ChatButton_OnLeave)
 	rchattb:SetScript("OnClick", ChatButton_OnClick)
