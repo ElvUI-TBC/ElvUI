@@ -80,16 +80,8 @@ function S:LoadLootRollSkin()
 		local frame = _G["GroupLootFrame" .. i]
 		frame:SetParent(UIParent)
 		frame:StripTextures()
-		frame:ClearAllPoints()
-
-		if(i == 1) then
-			frame:Point("TOP", AlertFrameHolder, "BOTTOM", 0, -4)
-		else
-			frame:Point("TOP", _G["GroupLootFrame" .. i - 1], "BOTTOM", 0, -4)
-		end
 
 		local frameName = frame:GetName()
-
 		local iconFrame = _G[frameName .. "IconFrame"]
 		iconFrame:SetTemplate("Default")
 

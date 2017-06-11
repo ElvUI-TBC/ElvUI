@@ -198,7 +198,7 @@ do
 			self.db.general.kittys = true;
 			self:CreateKittys();
 
-			self:UpdateAll();
+			self:UpdateAll(true);
 		end
 	end
 
@@ -244,7 +244,7 @@ do
 
 		self.db.tempSettings = nil;
 
-		self:UpdateAll();
+		self:UpdateAll(true);
 	end
 
 	function E:CreateKittys()
@@ -331,7 +331,7 @@ do
 		end
 
 		self.db.tempSettings = nil;
-		self:UpdateAll();
+		self:UpdateAll(true);
 	end
 
 	function E:HelloKittyToggle()
