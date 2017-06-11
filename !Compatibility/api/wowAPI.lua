@@ -232,6 +232,21 @@ function GetMapNameByID(id)
 	return mapByID[id] or nil
 end
 
+local arrow
+function GetPlayerFacing()
+	if not arrow then
+		local obj = Minimap
+		for i = 1, obj:GetNumChildren() do
+			local child = select(i, obj:GetChildren())
+			if child and child.GetModel and child:GetModel() == "interface\\minimap\\minimaparrow.m2" then
+				arrow = child
+			end
+		end
+	end
+
+	return arrow:GetFacing()
+end
+
 function ToggleFrame(frame)
 	if frame:IsShown() then
 		HideUIPanel(frame)
