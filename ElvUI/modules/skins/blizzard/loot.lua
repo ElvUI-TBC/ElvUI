@@ -78,6 +78,7 @@ function S:LoadLootRollSkin()
 
 	for i = 1, NUM_GROUP_LOOT_FRAMES do
 		local frame = _G["GroupLootFrame" .. i]
+		frame:SetParent(UIParent)
 		frame:StripTextures()
 		frame:ClearAllPoints()
 

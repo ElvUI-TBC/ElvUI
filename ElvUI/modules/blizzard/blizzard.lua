@@ -4,11 +4,13 @@ local B = E:NewModule("Blizzard", "AceEvent-3.0", "AceHook-3.0")
 E.Blizzard = B
 
 function B:Initialize()
+	self:AlertMovers()
 	self:EnhanceColorPicker()
 	self:KillBlizzard()
 	self:PositionCaptureBar()
 	self:PositionDurabilityFrame()
 	self:PositionGMFrames()
+	self:MoveWatchFrame()
 
 	self:RawHook("CombatConfig_Colorize_Update", function()
 		if not CHATCONFIG_SELECTED_FILTER_SETTINGS then return end
