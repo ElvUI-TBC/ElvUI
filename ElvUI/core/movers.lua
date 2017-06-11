@@ -225,7 +225,7 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag)
 	if postdrag ~= nil and type(postdrag) == "function" then
 		f:RegisterEvent("PLAYER_ENTERING_WORLD")
 		f:SetScript("OnEvent", function(self)
-			postdrag(f, E:GetScreenQuadrant(f))
+			E:Delay(0.05, function() postdrag(f, E:GetScreenQuadrant(f)) end)
 			self:UnregisterAllEvents()
 		end)
 	end
