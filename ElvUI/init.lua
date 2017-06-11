@@ -116,12 +116,6 @@ function AddOn:OnInitialize()
 	S:HandleButton(GameMenuButton)
 end
 
-local f = CreateFrame("Frame");
-f:RegisterEvent("PLAYER_LOGIN");
-f:SetScript("OnEvent", function()
-	AddOn:Initialize();
-end);
-
 function AddOn:PLAYER_REGEN_ENABLED()
 	self:ToggleConfig()
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED");

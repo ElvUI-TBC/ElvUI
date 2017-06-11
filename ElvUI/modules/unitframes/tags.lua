@@ -1,20 +1,13 @@
 local E, L, V, P, G = unpack(ElvUI)
-local ns = oUF
-local ElvUF = ns.oUF
-assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 local _G = _G;
 local floor = math.floor;
 local format = string.format;
 
-local GetNumPartyMembers = GetNumPartyMembers;
 local GetPVPTimer = GetPVPTimer;
-local GetThreatStatusColor = GetThreatStatusColor;
 local GetTime = GetTime;
-local GetUnitSpeed = GetUnitSpeed;
 local UnitClass = UnitClass;
 local UnitClassification = UnitClassification;
-local UnitDetailedThreatSituation = UnitDetailedThreatSituation;
 local UnitGUID = UnitGUID;
 local UnitHealth = UnitHealth;
 local UnitHealthMax = UnitHealthMax;
@@ -34,7 +27,6 @@ local UnitPowerType = UnitPowerType;
 local UnitReaction = UnitReaction;
 local DEFAULT_AFK_MESSAGE = DEFAULT_AFK_MESSAGE;
 local PVP = PVP;
-local SPELL_POWER_MANA = SPELL_POWER_MANA
 
 ------------------------------------------------------------------------
 --	Tags
@@ -234,55 +226,47 @@ end
 
 ElvUF.Tags.Events["power:current"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
 ElvUF.Tags.Methods["power:current"] = function(unit)
-	local pType = UnitPowerType(unit)
-	local min = UnitMana(unit, pType)
+	local min = UnitMana(unit)
 
-	return min == 0 and " " or E:GetFormattedText("CURRENT", min, UnitManaMax(unit, pType))
+	return min == 0 and " " or E:GetFormattedText("CURRENT", min, UnitManaMax(unit))
 end
 
 ElvUF.Tags.Events["power:current-max"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
 ElvUF.Tags.Methods["power:current-max"] = function(unit)
-	local pType = UnitPowerType(unit)
-	local min = UnitMana(unit, pType)
+	local min = UnitMana(unit)
 
-	return min == 0 and " " or E:GetFormattedText("CURRENT_MAX", min, UnitManaMax(unit, pType))
+	return min == 0 and " " or E:GetFormattedText("CURRENT_MAX", min, UnitManaMax(unit))
 end
 
 ElvUF.Tags.Events["power:current-percent"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
 ElvUF.Tags.Methods["power:current-percent"] = function(unit)
-	local pType = UnitPowerType(unit)
-	local min = UnitMana(unit, pType)
+	local min = UnitMana(unit)
 
-	return min == 0 and " " or E:GetFormattedText("CURRENT_PERCENT", min, UnitManaMax(unit, pType))
+	return min == 0 and " " or E:GetFormattedText("CURRENT_PERCENT", min, UnitManaMax(unit))
 end
 
 ElvUF.Tags.Events["power:current-max-percent"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
 ElvUF.Tags.Methods["power:current-max-percent"] = function(unit)
-	local pType = UnitPowerType(unit)
-	local min = UnitMana(unit, pType)
+	local min = UnitMana(unit)
 
-	return min == 0 and " " or E:GetFormattedText("CURRENT_MAX_PERCENT", min, UnitManaMax(unit, pType))
+	return min == 0 and " " or E:GetFormattedText("CURRENT_MAX_PERCENT", min, UnitManaMax(unit))
 end
 
 ElvUF.Tags.Events["power:percent"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
 ElvUF.Tags.Methods["power:percent"] = function(unit)
-	local pType = UnitPowerType(unit)
-	local min = UnitMana(unit, pType)
+	local min = UnitMana(unit)
 
-	return min == 0 and " " or E:GetFormattedText("PERCENT", min, UnitManaMax(unit, pType))
+	return min == 0 and " " or E:GetFormattedText("PERCENT", min, UnitManaMax(unit))
 end
 
 ElvUF.Tags.Events["power:deficit"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
 ElvUF.Tags.Methods["power:deficit"] = function(unit)
-	local pType = UnitPowerType(unit)
-
-	return E:GetFormattedText("DEFICIT", UnitMana(unit, pType), UnitManaMax(unit, pType), r, g, b)
+	return E:GetFormattedText("DEFICIT", UnitMana(unit), UnitManaMax(unit), r, g, b)
 end
 
 ElvUF.Tags.Events["power:max"] = "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_MAXRUNIC_POWER"
 ElvUF.Tags.Methods["power:max"] = function(unit)
-	local pType = UnitPowerType(unit)
-	local max = UnitManaMax(unit, pType)
+	local max = UnitManaMax(unit)
 
 	return E:GetFormattedText("CURRENT", max, max)
 end
@@ -299,47 +283,47 @@ end
 
 ElvUF.Tags.Events["mana:current"] = "UNIT_MANA UNIT_MAXMANA"
 ElvUF.Tags.Methods["mana:current"] = function(unit)
-	local min = UnitMana(unit, SPELL_POWER_MANA)
+	local min = UnitMana(unit)
 
-	return min == 0 and " " or E:GetFormattedText("CURRENT", min, UnitManaMax(unit, SPELL_POWER_MANA))
+	return min == 0 and " " or E:GetFormattedText("CURRENT", min, UnitManaMax(unit))
 end
 
 ElvUF.Tags.Events["mana:current-max"] = "UNIT_MANA UNIT_MAXMANA"
 ElvUF.Tags.Methods["mana:current-max"] = function(unit)
-	local min = UnitMana(unit, SPELL_POWER_MANA)
+	local min = UnitMana(unit)
 
-	return min == 0 and " " or E:GetFormattedText("CURRENT_MAX", min, UnitManaMax(unit, SPELL_POWER_MANA))
+	return min == 0 and " " or E:GetFormattedText("CURRENT_MAX", min, UnitManaMax(unit))
 end
 
 ElvUF.Tags.Events["mana:current-percent"] = "UNIT_MANA UNIT_MAXMANA"
 ElvUF.Tags.Methods["mana:current-percent"] = function(unit)
-	local min = UnitMana(unit, SPELL_POWER_MANA)
+	local min = UnitMana(unit)
 
-	return min == 0 and " " or E:GetFormattedText("CURRENT_PERCENT", min, UnitManaMax(unit, SPELL_POWER_MANA))
+	return min == 0 and " " or E:GetFormattedText("CURRENT_PERCENT", min, UnitManaMax(unit))
 end
 
 ElvUF.Tags.Events["mana:current-max-percent"] = "UNIT_MANA UNIT_MAXMANA"
 ElvUF.Tags.Methods["mana:current-max-percent"] = function(unit)
-	local min = UnitMana(unit, SPELL_POWER_MANA)
+	local min = UnitMana(unit)
 
-	return min == 0 and " " or E:GetFormattedText("CURRENT_MAX_PERCENT", min, UnitManaMax(unit, SPELL_POWER_MANA))
+	return min == 0 and " " or E:GetFormattedText("CURRENT_MAX_PERCENT", min, UnitManaMax(unit))
 end
 
 ElvUF.Tags.Events["mana:percent"] = "UNIT_MANA UNIT_MAXMANA"
 ElvUF.Tags.Methods["mana:percent"] = function(unit)
-	local min = UnitMana(unit, SPELL_POWER_MANA)
+	local min = UnitMana(unit)
 
-	return min == 0 and " " or E:GetFormattedText("PERCENT", min, UnitManaMax(unit, SPELL_POWER_MANA))
+	return min == 0 and " " or E:GetFormattedText("PERCENT", min, UnitManaMax(unit))
 end
 
 ElvUF.Tags.Events["mana:deficit"] = "UNIT_MANA UNIT_MAXMANA"
 ElvUF.Tags.Methods["mana:deficit"] = function(unit)
-	return E:GetFormattedText("DEFICIT", UnitMana(unit), UnitManaMax(unit, SPELL_POWER_MANA))
+	return E:GetFormattedText("DEFICIT", UnitMana(unit), UnitManaMax(unit))
 end
 
 ElvUF.Tags.Events["mana:max"] = "UNIT_MAXMANA"
 ElvUF.Tags.Methods["mana:max"] = function(unit)
-	local max = UnitManaMax(unit, SPELL_POWER_MANA)
+	local max = UnitManaMax(unit)
 
 	return E:GetFormattedText("CURRENT", max, max)
 end
@@ -462,36 +446,6 @@ ElvUF.Tags.Methods["name:long:status"] = function(unit)
 	end
 end
 
-ElvUF.Tags.Events["threat:percent"] = "UNIT_THREAT_SITUATION_UPDATE"
-ElvUF.Tags.Methods["threat:percent"] = function(unit)
-	local _, _, percent = UnitDetailedThreatSituation("player", unit)
-	if(percent and percent > 0) and (GetNumPartyMembers() or UnitExists("pet")) then
-		return format("%.0f%%", percent)
-	else
-		return ""
-	end
-end
-
-ElvUF.Tags.Events["threat:current"] = "UNIT_THREAT_SITUATION_UPDATE"
-ElvUF.Tags.Methods["threat:current"] = function(unit)
-	local _, _, percent, _, threatvalue = UnitDetailedThreatSituation("player", unit)
-	if(percent and percent > 0) and (GetNumPartyMembers() or UnitExists("pet")) then
-		return E:ShortValue(threatvalue)
-	else
-		return ""
-	end
-end
-
-ElvUF.Tags.Events["threatcolor"] = "UNIT_THREAT_SITUATION_UPDATE"
-ElvUF.Tags.Methods["threatcolor"] = function(unit)
-	local _, status = UnitDetailedThreatSituation("player", unit)
-	if (status) and (GetNumPartyMembers() > 0 or UnitExists("pet")) then
-		return Hex(GetThreatStatusColor(status))
-	else
-		return ""
-	end
-end
-
 local unitStatus = {}
 ElvUF.Tags.OnUpdateThrottle["statustimer"] = 1
 ElvUF.Tags.Methods["statustimer"] = function(unit)
@@ -543,77 +497,6 @@ ElvUF.Tags.Methods["pvptimer"] = function(unit)
 	else
 		return ""
 	end
-end
-
-local baseSpeed = 7;
-local speedText = SPEED;
-
-ElvUF.Tags.OnUpdateThrottle["speed:percent"] = 0.1;
-ElvUF.Tags.Methods["speed:percent"] = function(unit)
-	local currentSpeedInYards = GetUnitSpeed(unit);
-	local currentSpeedInPercent = (currentSpeedInYards / baseSpeed) * 100;
-
-	return format("%s: %d%%", speedText, currentSpeedInPercent);
-end
-
-ElvUF.Tags.OnUpdateThrottle["speed:percent-moving"] = 0.1;
-ElvUF.Tags.Methods["speed:percent-moving"] = function(unit)
-	local currentSpeedInYards = GetUnitSpeed(unit);
-	local currentSpeedInPercent = currentSpeedInYards > 0 and ((currentSpeedInYards / baseSpeed) * 100);
-
-	if(currentSpeedInPercent) then
-		currentSpeedInPercent = format("%s: %d%%", speedText, currentSpeedInPercent);
-	end
-
-	return currentSpeedInPercent or "";
-end
-
-ElvUF.Tags.OnUpdateThrottle["speed:percent-raw"] = 0.1;
-ElvUF.Tags.Methods["speed:percent-raw"] = function(unit)
-	local currentSpeedInYards = GetUnitSpeed(unit);
-	local currentSpeedInPercent = (currentSpeedInYards / baseSpeed) * 100;
-
-	return format("%d%%", currentSpeedInPercent);
-end
-
-ElvUF.Tags.OnUpdateThrottle["speed:percent-moving-raw"] = 0.1;
-ElvUF.Tags.Methods["speed:percent-moving-raw"] = function(unit)
-	local currentSpeedInYards = GetUnitSpeed(unit);
-	local currentSpeedInPercent = currentSpeedInYards > 0 and ((currentSpeedInYards / baseSpeed) * 100);
-
-	if(currentSpeedInPercent) then
-		currentSpeedInPercent = format("%d%%", currentSpeedInPercent);
-	end
-
-	return currentSpeedInPercent or "";
-end
-
-ElvUF.Tags.OnUpdateThrottle["speed:yardspersec"] = 0.1;
-ElvUF.Tags.Methods["speed:yardspersec"] = function(unit)
-	local currentSpeedInYards = GetUnitSpeed(unit);
-
-	return format("%s: %.1f", speedText, currentSpeedInYards);
-end
-
-ElvUF.Tags.OnUpdateThrottle["speed:yardspersec-moving"] = 0.1;
-ElvUF.Tags.Methods["speed:yardspersec-moving"] = function(unit)
-	local currentSpeedInYards = GetUnitSpeed(unit);
-
-	return currentSpeedInYards > 0 and format("%s: %.1f", speedText, currentSpeedInYards) or "";
-end
-
-ElvUF.Tags.OnUpdateThrottle["speed:yardspersec-raw"] = 0.1;
-ElvUF.Tags.Methods["speed:yardspersec-raw"] = function(unit)
-	local currentSpeedInYards = GetUnitSpeed(unit);
-
-	return format("%.1f", currentSpeedInYards);
-end
-
-ElvUF.Tags.OnUpdateThrottle["speed:yardspersec-moving-raw"] = 0.1;
-ElvUF.Tags.Methods["speed:yardspersec-moving-raw"] = function(unit)
-	local currentSpeedInYards = GetUnitSpeed(unit);
-
-	return currentSpeedInYards > 0 and format("%.1f", currentSpeedInYards) or "";
 end
 
 ElvUF.Tags.Events["classificationcolor"] = "UNIT_CLASSIFICATION_CHANGED";

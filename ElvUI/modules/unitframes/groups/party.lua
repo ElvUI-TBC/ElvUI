@@ -93,10 +93,11 @@ function UF:PartySmartVisibility(event)
 		self.blockVisibilityChanges = false;
 		return;
 	end
-	local inInstance, instanceType = IsInInstance();
+
 	if(event == "PLAYER_REGEN_ENABLED") then self:UnregisterEvent("PLAYER_REGEN_ENABLED"); end
 
 	if(not InCombatLockdown()) then
+		local inInstance, instanceType = IsInInstance();
 		if(inInstance and (instanceType == "raid" or instanceType == "pvp")) then
 			UnregisterStateDriver(self, "visibility");
 			self:Hide();
@@ -245,4 +246,4 @@ function UF:Update_PartyFrames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements");
 end
 
-UF["headerstoload"]["party"] = {nil, "ELVUI_UNITPET, ELVUI_UNITTARGET"};
+UF["headerstoload"]["party"] = {nil, "ELVUI_UNITPET, ELVUI_UNITTARGET"}
