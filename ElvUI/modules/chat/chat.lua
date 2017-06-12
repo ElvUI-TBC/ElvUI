@@ -586,7 +586,7 @@ function CH:PositionChat(override)
 end
 
 local function UpdateChatTabColor(_, r, g, b)
-	for i=1, CreatedFrames do
+	for i = 1, CreatedFrames do
 		_G["ChatFrame"..i.."TabText"]:SetTextColor(r, g, b)
 	end
 end
@@ -603,6 +603,8 @@ function CH:PrintURL(url)
 end
 
 function CH:FindURL(event, msg, ...)
+	if not (event and msg) then return end
+
 	if event == "CHAT_MSG_WHISPER" and CH.db.whisperSound ~= "None" and not CH.SoundPlayed then
 		if (msg:sub(1,3) == "OQ,") then return false, msg, ... end
 		if (CH.db.noAlertInCombat and not InCombatLockdown()) or not CH.db.noAlertInCombat then
@@ -618,7 +620,7 @@ function CH:FindURL(event, msg, ...)
 		return false, msg, ...
 	end
 
-	print(event, msg, ...)
+	--print(event, msg, ...)
 	-- http://example.com
 	local newMsg, found = gsub(msg, "(%a+)://(%S+)%s?", CH:PrintURL("%1://%2"))
 	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg)), ... end
@@ -750,13 +752,15 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 		local info = ChatTypeInfo[type]
 		local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11 = ...
 
-		local filter, newarg1 = false;
+		local filter = false
 		if chatFilters[event] then
+			local newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11
 			for _, filterFunc in next, chatFilters[event] do
-				filter, newarg1 = filterFunc(arg1)
-				arg1 = (newarg1 or arg1)
+				filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11 = filterFunc(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
 				if filter then
 					return true;
+				elseif newarg1 then
+					arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12 = newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11
 				end
 			end
 		end
@@ -1075,6 +1079,8 @@ function CH:ChatThrottleHandler(_, ...)
 end
 
 function CH:CHAT_MSG_CHANNEL(event, message, author, ...)
+	if not (event and message and author) then return end
+
 	local blockFlag = false
 	local msg = PrepareMessage(author, message)
 
@@ -1100,6 +1106,8 @@ function CH:CHAT_MSG_CHANNEL(event, message, author, ...)
 end
 
 function CH:CHAT_MSG_YELL(event, message, author, ...)
+	if not (event and message and author) then return end
+
 	local blockFlag = false
 	local msg = PrepareMessage(author, message)
 
@@ -1125,6 +1133,8 @@ function CH:CHAT_MSG_YELL(event, message, author, ...)
 end
 
 function CH:CHAT_MSG_SAY(event, message, author, ...)
+	if not (event and message and author) then return end
+
 	return CH.FindURL(self, event, message, author, ...)
 end
 
@@ -1135,7 +1145,7 @@ end
 local protectLinks = {}
 function CH:CheckKeyword(message)
 	for itemLink in message:gmatch("|%x+|Hitem:.-|h.-|h|r") do
-		protectLinks[itemLink]=itemLink:gsub("%s","|s")
+		protectLinks[itemLink] = itemLink:gsub("%s","|s")
 		for keyword, _ in pairs(CH.Keywords) do
 			if itemLink == keyword then
 				if(self.db.keywordSound ~= "None" and not self.SoundPlayed) then
@@ -1449,22 +1459,22 @@ function CH:Initialize()
 		CH:UpdateChatTabs() --It was not done in PositionChat, so do it now
 	end
 
-	--self:RegisterEvent("CHAT_MSG_BATTLEGROUND", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_BATTLEGROUND_LEADER", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_CHANNEL", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_EMOTE", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_TEXT_EMOTE", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_GUILD", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_OFFICER", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_PARTY", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_RAID", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_RAID_LEADER", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_RAID_WARNING", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_SAY", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_WHISPER", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_WHISPER_INFORM", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_SYSTEM", "SaveChatHistory")
-	--self:RegisterEvent("CHAT_MSG_YELL", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_BATTLEGROUND", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_BATTLEGROUND_LEADER", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_CHANNEL", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_EMOTE", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_TEXT_EMOTE", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_GUILD", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_OFFICER", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_PARTY", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_RAID", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_RAID_LEADER", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_RAID_WARNING", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_SAY", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_WHISPER", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_WHISPER_INFORM", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_SYSTEM", "SaveChatHistory")
+	self:RegisterEvent("CHAT_MSG_YELL", "SaveChatHistory")
 
 	--First get all pre-existing filters and copy them to our version of chatFilters using ChatFrame_GetMessageEventFilters
 	for name, _ in pairs(ChatTypeGroup) do
@@ -1486,7 +1496,7 @@ function CH:Initialize()
 	if filterFuncTable then
 		chatFilters["CHAT_MSG_CHANNEL"] = {};
 
-		for j=1, #filterFuncTable do
+		for j = 1, #filterFuncTable do
 			local filterFunc = filterFuncTable[j]
 			tinsert(chatFilters["CHAT_MSG_CHANNEL"], filterFunc);
 		end
@@ -1498,18 +1508,18 @@ function CH:Initialize()
 
 	self:SecureHook("FCF_SetWindowAlpha");
 
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", CH.CHAT_MSG_CHANNEL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", CH.CHAT_MSG_YELL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", CH.CHAT_MSG_SAY)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND_LEADER", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", CH.CHAT_MSG_CHANNEL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", CH.CHAT_MSG_YELL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", CH.CHAT_MSG_SAY)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND_LEADER", CH.FindURL)
 
 	if self.db.chatHistory then
 		self.SoundPlayed = true;
@@ -1590,7 +1600,6 @@ function CH:Initialize()
 	close:SetPoint("TOPRIGHT")
 	close:SetFrameLevel(close:GetFrameLevel() + 1)
 	close:EnableMouse(true)
-
 	S:HandleCloseButton(close)
 end
 
