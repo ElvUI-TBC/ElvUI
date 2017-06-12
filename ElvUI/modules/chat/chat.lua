@@ -448,7 +448,7 @@ function CH:UpdateAnchors()
 		end
 	end
 
-	CH:PositionChat(true);
+	--CH:PositionChat(true);
 end
 
 local function FindRightChatID()
@@ -510,7 +510,7 @@ function CH:PositionChat(override)
 	local fadeUndockedTabs = E.db["chat"].fadeUndockedTabs
 	local fadeTabsNoBackdrop = E.db["chat"].fadeTabsNoBackdrop
 
-	for i=1, CreatedFrames do
+	for i = 1, CreatedFrames do
 		local BASE_OFFSET = 57 + E.Spacing*3;
 
 		chat = _G[format("ChatFrame%d", i)]
@@ -549,28 +549,26 @@ function CH:PositionChat(override)
 				CH:SetupChatTabs(tab, false)
 			end
 		elseif not isDocked and chat:IsShown() then
-			--tab:SetParent(UIParent)
+			tab:SetParent(UIParent)
 			chat:SetParent(UIParent)
 			CH:SetupChatTabs(tab, fadeUndockedTabs and true or false)
 		else
 			if id ~= 2 then
-		--		chat:ClearAllPoints()
+				chat:ClearAllPoints()
 				if E.db.datatexts.leftChatPanel then
-		--			print(LeftChatToggleButton)
-		--			chat:Point("BOTTOMLEFT", LeftChatToggleButton, "TOPLEFT", 1, 3)
+					chat:Point("BOTTOMLEFT", LeftChatToggleButton, "TOPLEFT", 1, 3)
 				else
 					BASE_OFFSET = BASE_OFFSET - 24
-		--			print(LeftChatToggleButton)
-		--			chat:Point("BOTTOMLEFT", LeftChatToggleButton, "BOTTOMLEFT", 1, 1)
+					chat:Point("BOTTOMLEFT", LeftChatToggleButton, "BOTTOMLEFT", 1, 1)
 				end
-		--		chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET))
 
+				chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET))
 			end
 			chat:SetParent(LeftChatPanel)
 			if i > 2 then
-			--	tab:SetParent(DEFAULT_CHAT_FRAME)
+				tab:SetParent(LeftChatPanel)
 			else
-			--	tab:SetParent(LeftChatPanel)
+				tab:SetParent(LeftChatPanel)
 			end
 			if chat:IsMovable() then
 				chat:SetUserPlaced(true)
@@ -1053,7 +1051,7 @@ function CH:SetupChat()
 
 	DEFAULT_CHAT_FRAME:SetParent(LeftChatPanel)
 	self:ScheduleRepeatingTimer("PositionChat", 1)
-	self:PositionChat(true)
+--	self:PositionChat(true)
 end
 
 local function PrepareMessage(author, message)
