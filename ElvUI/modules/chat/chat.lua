@@ -1222,10 +1222,10 @@ function CH:ChatEdit_UpdateHeader(editbox)
 end
 
 function CH:ChatEdit_OnEnterPressed()
-	local type = this:GetAttribute("chatType");
+	local type = this:GetAttribute("chatType")
 	if ChatTypeInfo[type].sticky == 1 then
-		if not self.db.sticky then type = "SAY"; end
-		this:SetAttribute("chatType", type);
+		if not self.db.sticky then type = "SAY" end
+		this:SetAttribute("stickyType", type)
 	end
 end
 
