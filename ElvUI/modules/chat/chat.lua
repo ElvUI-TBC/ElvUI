@@ -430,24 +430,21 @@ function CH:SetupChatTabs(frame, hook)
 end
 
 function CH:UpdateAnchors()
-	for i = 1, NUM_CHAT_WINDOWS do
-		local frame = _G["ChatFrame"..i.."EditBox"];
-		if(not frame) then break; end
-		if(not E.db.datatexts.leftChatPanel and (self.db.panelBackdrop == "HIDEBOTH" or self.db.panelBackdrop == "RIGHT")) then
-			frame:ClearAllPoints();
-			if(E.db.chat.editBoxPosition == "BELOW_CHAT") then
-				frame:SetPoint("TOPLEFT", ChatFrame1, "BOTTOMLEFT");
-				frame:SetPoint("BOTTOMRIGHT", ChatFrame1, "BOTTOMRIGHT", 0, -LeftChatTab:GetHeight());
-			else
-				frame:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT");
-				frame:SetPoint("TOPRIGHT", ChatFrame1, "TOPRIGHT", 0, LeftChatTab:GetHeight());
-			end
+	local frame = _G["ChatFrameEditBox"];
+	if(not E.db.datatexts.leftChatPanel and (self.db.panelBackdrop == "HIDEBOTH" or self.db.panelBackdrop == "RIGHT")) then
+		frame:ClearAllPoints();
+		if(E.db.chat.editBoxPosition == "BELOW_CHAT") then
+			frame:SetPoint("TOPLEFT", ChatFrame1, "BOTTOMLEFT");
+			frame:SetPoint("BOTTOMRIGHT", ChatFrame1, "BOTTOMRIGHT", 0, -LeftChatTab:GetHeight());
 		else
-			if(E.db.datatexts.leftChatPanel and E.db.chat.editBoxPosition == "BELOW_CHAT") then
-				frame:SetAllPoints(LeftChatDataPanel);
-			else
-				frame:SetAllPoints(LeftChatTab);
-			end
+			frame:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT");
+			frame:SetPoint("TOPRIGHT", ChatFrame1, "TOPRIGHT", 0, LeftChatTab:GetHeight());
+		end
+	else
+		if(E.db.datatexts.leftChatPanel and E.db.chat.editBoxPosition == "BELOW_CHAT") then
+			frame:SetAllPoints(LeftChatDataPanel);
+		else
+			frame:SetAllPoints(LeftChatTab);
 		end
 	end
 
@@ -478,19 +475,10 @@ function CH:UpdateChatTabs()
 		local chat = _G[format("ChatFrame%d", i)]
 		local tab = _G[format("ChatFrame%sTab", i)]
 		local id = chat:GetID();
-		local point = chat:GetPoint();
 		local isDocked = chat.isDocked
 		local chatbg = format("ChatFrame%dBackground", i);
-		if id > NUM_CHAT_WINDOWS then
-			point = point or select(1, chat:GetPoint());
-			if select(2, tab:GetPoint()):GetName() ~= chatbg then
-				isDocked = true
-			else
-				isDocked = false
-			end
-		end
 
-		if chat:IsShown() and not (id > NUM_CHAT_WINDOWS) and (id == self.RightChatWindowID) then
+		if chat:IsShown() and (id == self.RightChatWindowID) then
 			if E.db.chat.panelBackdrop == "HIDEBOTH" or E.db.chat.panelBackdrop == "LEFT" then
 				CH:SetupChatTabs(tab, fadeTabsNoBackdrop and true or false)
 			else
@@ -533,16 +521,8 @@ function CH:PositionChat(override)
 		isDocked = chat.isDocked
 		tab.isDocked = chat.isDocked
 		tab.owner = chat
-		if id > NUM_CHAT_WINDOWS then
-			point = point or select(1, chat:GetPoint());
-			if select(2, tab:GetPoint()):GetName() ~= chatbg then
-				isDocked = true
-			else
-				isDocked = false
-			end
-		end
 
-		if chat:IsShown() and not (id > NUM_CHAT_WINDOWS) and id == self.RightChatWindowID then
+		if chat:IsShown() and id == self.RightChatWindowID then
 			chat:ClearAllPoints()
 
 			if E.db.datatexts.rightChatPanel then
@@ -557,7 +537,7 @@ function CH:PositionChat(override)
 				chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET) - CombatLogQuickButtonFrame_Custom:GetHeight())
 			end
 
-			--tab:SetParent(RightChatPanel)
+			tab:SetParent(RightChatPanel)
 			chat:SetParent(RightChatPanel)
 
 			if chat:IsMovable() then
@@ -573,7 +553,7 @@ function CH:PositionChat(override)
 			chat:SetParent(UIParent)
 			CH:SetupChatTabs(tab, fadeUndockedTabs and true or false)
 		else
-			if id ~= 2 and not (id > NUM_CHAT_WINDOWS) then
+			if id ~= 2 then
 		--		chat:ClearAllPoints()
 				if E.db.datatexts.leftChatPanel then
 		--			print(LeftChatToggleButton)
@@ -1037,17 +1017,10 @@ function CH:SetupChat()
 		if not frame.scriptsSet then
 			frame:SetScript("OnMouseWheel", ChatFrame_OnMouseScroll)
 			frame:EnableMouseWheel(true)
-			--THIS CAUSES LUA ERROR WHEN RESETTING CHAT TO DEFAULTS OR WHEN RUNNING FCF_ResetChatWindows()
-			-- if id > NUM_CHAT_WINDOWS then
-			--	frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
-			-- elseif id ~= 2 then
-			--	frame:SetScript("OnEvent", CH.ChatFrame_OnEvent)
-			-- end
-			--Use this instead for the time being
+
 			if id ~= 2 then
 				frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
 			end
-
 			frame.scriptsSet = true
 		end
 	end
