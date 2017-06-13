@@ -33,6 +33,8 @@ function S:LoadMiscSkin()
 		"StackSplitFrame",
 	}
 
+	ReadyCheckFrame:StripTextures()
+
 	for i = 1, #skins do
 		_G[skins[i]]:SetTemplate("Transparent")
 	end
@@ -178,13 +180,9 @@ function S:LoadMiscSkin()
 	SoundOptionsFrameOkay:Point("RIGHT",SoundOptionsFrameCancel,"LEFT",-4,0)
 	InterfaceOptionsFrameOkay:ClearAllPoints()
 	InterfaceOptionsFrameOkay:Point("RIGHT",InterfaceOptionsFrameCancel,"LEFT", -4,0)
-	ReadyCheckFrameYesButton:SetParent(ReadyCheckFrame)
-	ReadyCheckFrameNoButton:SetParent(ReadyCheckFrame)
 	ReadyCheckFrameYesButton:Point("RIGHT", ReadyCheckFrame, "CENTER", -1, 0)
 	ReadyCheckFrameNoButton:Point("LEFT", ReadyCheckFrameYesButton, "RIGHT", 3, 0)
-	ReadyCheckFrameText:SetParent(ReadyCheckFrame)
-	ReadyCheckFrameText:ClearAllPoints()
-	ReadyCheckFrameText:Point("TOP", 0, -12)
+	ReadyCheckFrameText:Point("TOP", ReadyCheckFrame, "TOP", 0, -18)
 
 	-- others
 	ZoneTextFrame:ClearAllPoints()
