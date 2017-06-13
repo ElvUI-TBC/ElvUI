@@ -26,6 +26,7 @@ lib:SetBaseTranslations {
 	Paladin = true,
 	Shaman = true,
 	Rogue = true,
+	Deathknight = "Death Knight",
 
 	WARLOCK = true,
 	WARRIOR = true,
@@ -36,6 +37,7 @@ lib:SetBaseTranslations {
 	PALADIN = true,
 	SHAMAN = true,
 	ROGUE = true,
+	DEATHKNIGHT = "Death Knight",
 }
 
 if GAME_LOCALE == "enUS" then
@@ -51,6 +53,7 @@ elseif GAME_LOCALE == "deDE" then
 		["Paladin"] = "Paladin",
 		["Shaman"] = "Schamane",
 		["Rogue"] = "Schurke",
+		["Deathknight"] = "Todesritter",
 
 		["WARLOCK"] = "Hexenmeisterin",
 		["WARRIOR"] = "Kriegerin",
@@ -61,6 +64,7 @@ elseif GAME_LOCALE == "deDE" then
 		["PALADIN"] = "Paladin",
 		["SHAMAN"] = "Schamanin",
 		["ROGUE"] = "Schurkin",
+		["DEATHKNIGHT"] = "Todesritter",
 	}
 elseif GAME_LOCALE == "frFR" then
 	lib:SetCurrentTranslations {
@@ -73,6 +77,7 @@ elseif GAME_LOCALE == "frFR" then
 		["Paladin"] = "Paladin",
 		["Shaman"] = "Chaman",
 		["Rogue"] = "Voleur",
+		["Deathknight"] = "Chevalier de la mort",
 
 		["WARLOCK"] = "Démoniste",
 		["WARRIOR"] = "Guerrière",
@@ -83,6 +88,7 @@ elseif GAME_LOCALE == "frFR" then
 		["PALADIN"] = "Paladin",
 		["SHAMAN"] = "Chamane",
 		["ROGUE"] = "Voleuse",
+		["DEATHKNIGHT"] = "Chevalier de la mort",
 	}
 elseif GAME_LOCALE == "zhCN" then
 	lib:SetCurrentTranslations {
@@ -95,6 +101,7 @@ elseif GAME_LOCALE == "zhCN" then
 		["Paladin"] = "圣骑士",
 		["Shaman"] = "萨满祭司",
 		["Rogue"] = "潜行者",
+		["Deathknight"] = "死亡骑士",
 
 		["WARLOCK"] = "术士",
 		["WARRIOR"] = "战士",
@@ -105,6 +112,7 @@ elseif GAME_LOCALE == "zhCN" then
 		["PALADIN"] = "圣骑士",
 		["SHAMAN"] = "萨满祭司",
 		["ROGUE"] = "潜行者",
+		["DEATHKNIGHT"] = "死亡骑士",
 	}
 elseif GAME_LOCALE == "zhTW" then
 	lib:SetCurrentTranslations {
@@ -117,6 +125,7 @@ elseif GAME_LOCALE == "zhTW" then
 		["Paladin"] = "聖騎士",
 		["Shaman"] = "薩滿",
 		["Rogue"] = "盜賊",
+		["Deathknight"] = "死亡騎士",
 
 		["WARLOCK"] = "術士",
 		["WARRIOR"] = "戰士",
@@ -127,6 +136,7 @@ elseif GAME_LOCALE == "zhTW" then
 		["PALADIN"] = "聖騎士",
 		["SHAMAN"] = "薩滿",
 		["ROGUE"] = "盜賊",
+		["DEATHKNIGHT"] = "死亡騎士",
 	}
 elseif GAME_LOCALE == "koKR" then
 	lib:SetCurrentTranslations {
@@ -139,6 +149,7 @@ elseif GAME_LOCALE == "koKR" then
 		["Paladin"] = "성기사",
 		["Shaman"] = "주술사",
 		["Rogue"] = "도적",
+		["Deathknight"] = "죽음의 기사",
 
 		["WARLOCK"] = "흑마법사",
 		["WARRIOR"] = "전사",
@@ -149,6 +160,7 @@ elseif GAME_LOCALE == "koKR" then
 		["PALADIN"] = "성기사",
 		["SHAMAN"] = "주술사",
 		["ROGUE"] = "도적",
+		["DEATHKNIGHT"] = "죽음의 기사",
 	}
 elseif GAME_LOCALE == "esES" then
 	lib:SetCurrentTranslations {
@@ -161,6 +173,7 @@ elseif GAME_LOCALE == "esES" then
 		["Paladin"] = "Paladín",
 		["Shaman"] = "Chamán",
 		["Rogue"] = "Pícaro",
+		["Deathknight"] = "Caballero de la muerte",
 
 		["WARLOCK"] = "Bruja",
 		["WARRIOR"] = "Guerrera",
@@ -171,6 +184,7 @@ elseif GAME_LOCALE == "esES" then
 		["PALADIN"] = "Paladín",
 		["SHAMAN"] = "Chamán",
 		["ROGUE"] = "Pícara",
+		["Deathknight"] = "Caballero de la muerte",
 	}
 elseif GAME_LOCALE == "esMX" then
 	lib:SetCurrentTranslations {
@@ -183,6 +197,7 @@ elseif GAME_LOCALE == "esMX" then
 		["Paladin"] = "Paladín",
 		["Shaman"] = "Chamán",
 		["Rogue"] = "Pícaro",
+		["Deathknight"] = "Caballero de la muerte",
 
 		["WARLOCK"] = "Bruja",
 		["WARRIOR"] = "Guerrera",
@@ -193,6 +208,7 @@ elseif GAME_LOCALE == "esMX" then
 		["PALADIN"] = "Paladín",
 		["SHAMAN"] = "Chamán",
 		["ROGUE"] = "Pícara",
+		["Deathknight"] = "Caballero de la muerte",
 	}
 elseif GAME_LOCALE == "ruRU" then
 	lib:SetCurrentTranslations {
@@ -205,6 +221,7 @@ elseif GAME_LOCALE == "ruRU" then
 		["Paladin"] = "Паладин",
 		["Shaman"] = "Шаман",
 		["Rogue"] = "Разбойник",
+		["Deathknight"] = "Рыцарь смерти",
 
 		["WARLOCK"] = "Чернокнижница",
 		["WARRIOR"] = "Воин",
@@ -215,6 +232,7 @@ elseif GAME_LOCALE == "ruRU" then
 		["PALADIN"] = "Паладин",
 		["SHAMAN"] = "Шаманка",
 		["ROGUE"] = "Разбойница",
+		["DEATHKNIGHT"] = "Рыцарь смерти",
 	}
 else
 	error(("%s: Locale %q not supported"):format(MAJOR_VERSION, GAME_LOCALE))
