@@ -30,8 +30,6 @@ local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 local DND = DND;
 
 local AFK_SPEED = 7.35;
-local DEFAULT_SPEED = 230;
-local PITCH_SPEED = 90;
 
 local ignoreKeys = {
 	LALT = true,
@@ -82,8 +80,10 @@ function AFK:SetAFK(status)
 		UIParent:Hide();
 		self.AFKMode:Show();
 
+		E.global.afkEnabled = true
+		E.global.afkCameraSpeed = GetCVar("cameraYawMoveSpeed")
+
 		SetCVar("cameraYawMoveSpeed", AFK_SPEED);
-		SetCVar("cameraPitchMoveSpeed", PITCH_SPEED);
 		MoveViewLeftStart();
 
 		if(IsInGuild()) then
@@ -114,8 +114,9 @@ function AFK:SetAFK(status)
 		self.AFKMode:Hide();
 		UIParent:Show();
 
-		SetCVar("cameraYawMoveSpeed", DEFAULT_SPEED);
-		SetCVar("cameraPitchMoveSpeed", PITCH_SPEED);
+		E.global.afkEnabled = nil
+		SetCVar("cameraYawMoveSpeed", E.global.afkCameraSpeed)
+
 		MoveViewLeftStop();
 
 		self:CancelTimer(self.timer);
@@ -207,6 +208,11 @@ local function Chat_OnMouseWheel(self, delta)
 end
 
 function AFK:Initialize()
+	if E.global.afkEnabled then
+		SetCVar("cameraYawMoveSpeed", E.global.afkCameraSpeed)
+		E.global.afkEnabled = nil
+	end
+
 	local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass];
 
 	self.AFKMode = CreateFrame("Frame", "ElvUIAFKFrame");
