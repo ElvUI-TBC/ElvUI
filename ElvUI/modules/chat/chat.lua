@@ -1231,6 +1231,36 @@ function CH:ChatEdit_OnEnterPressed()
 	end
 end
 
+function CH:SetItemRef(link, text, button)
+	if sub(link, 1, 7) == "channel" then
+		if IsModifiedClick("CHATLINK") then
+			ToggleFriendsFrame(4)
+		elseif button == "LeftButton" then
+			local chanLink = sub(link, 9)
+			local chatType, chatTarget = strsplit(":", chanLink)
+			
+			if strupper(chatType) == "CHANNEL" then
+				if GetChannelName(tonumber(chatTarget)) ~= 0 then
+					ChatFrame_OpenChat("/"..chatTarget, this)
+				end
+			else
+				ChatFrame_OpenChat("/"..chatType, this)
+			end
+		elseif button == "RightButton" then
+			local chanLink = sub(link, 9)
+			local chatType, chatTarget = strsplit(":", chanLink)
+
+			if not strupper(chatType) == "CHANNEL" and GetChannelName(tonumber(chatTarget)) == 0 then
+				ChatChannelDropDown_Show(this, strupper(chatType), chatTarget, Chat_GetColoredChatName(strupper(chatType), chatTarget))
+			end
+		end
+
+		return
+	end
+
+	return self.hooks.SetItemRef(link, text, button)
+end
+
 function CH:SetChatFont(chatFrame, fontSize)
 	if not chatFrame then
 		chatFrame = FCF_GetCurrentChatFrame()
@@ -1443,6 +1473,7 @@ function CH:Initialize()
 	E.Chat = self
 	self:SecureHook("ChatEdit_UpdateHeader")
 	self:SecureHook("ChatEdit_OnEnterPressed")
+	self:RawHook("SetItemRef", true)
 	ChatFrameMenuButton:Kill()
 
 	if(WIM) then

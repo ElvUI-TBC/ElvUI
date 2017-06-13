@@ -78,7 +78,8 @@ local tooltips = {
 	WorldMapTooltip,
 	DropDownList1MenuBackdrop,
 	DropDownList2MenuBackdrop,
-	DropDownList3MenuBackdrop
+	DropDownList3MenuBackdrop,
+	EventTraceTooltip
 }
 
 local classification = {
