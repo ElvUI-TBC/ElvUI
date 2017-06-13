@@ -1,6 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local TT = E:NewModule("Tooltip", "AceHook-3.0", "AceEvent-3.0")
 local LIP = LibStub("ItemPrice-1.1")
+local LMH = LibStub("LibMobHealth-4.0")
 
 local _G = _G
 local unpack, tonumber, select, pairs = unpack, tonumber, select, pairs
@@ -513,12 +514,20 @@ function TT:GameTooltipStatusBar_OnValueChanged(tt, value)
 
 	local _, max = tt:GetMinMaxValues()
 	if value > 0 and max == 1 then
-		tt.text:SetFormattedText("%d%%", floor(value * 100))
+		if unit then
+			tt.text:SetFormattedText("%d%%", floor(LMH:GetUnitCurrentHP(unit) * 100))
+		else
+			tt.text:SetFormattedText("%d%%", floor(value * 100))
+		end
 		tt:SetStatusBarColor(TAPPED_COLOR.r, TAPPED_COLOR.g, TAPPED_COLOR.b) --most effeciant?
 	elseif(value == 0 or (unit and UnitIsDeadOrGhost(unit))) then
 		tt.text:SetText(DEAD)
 	else
-		tt.text:SetText(E:ShortValue(value).." / "..E:ShortValue(max))
+		if unit then
+			tt.text:SetText(E:ShortValue(LMH:GetUnitCurrentHP(unit)).." / "..E:ShortValue(LMH:GetUnitMaxHP(unit)))
+		else
+			tt.text:SetText(E:ShortValue(value).." / "..E:ShortValue(max))
+		end
 	end
 end
 

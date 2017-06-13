@@ -1,5 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 
+local LMH = LibStub("LibMobHealth-4.0")
+
 local _G = _G;
 local floor = math.floor;
 local format = string.format;
@@ -9,8 +11,6 @@ local GetTime = GetTime;
 local UnitClass = UnitClass;
 local UnitClassification = UnitClassification;
 local UnitGUID = UnitGUID;
-local UnitHealth = UnitHealth;
-local UnitHealthMax = UnitHealthMax;
 local UnitIsAFK = UnitIsAFK;
 local UnitIsConnected = UnitIsConnected;
 local UnitIsDND = UnitIsDND;
@@ -47,7 +47,7 @@ ElvUF.Tags.Methods["healthcolor"] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return Hex(0.84, 0.75, 0.65)
 	else
-		local r, g, b = ElvUF.ColorGradient(UnitHealth(unit), UnitHealthMax(unit), 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
+		local r, g, b = ElvUF.ColorGradient(LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit), 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
 		return Hex(r, g, b)
 	end
 end
@@ -58,7 +58,7 @@ ElvUF.Tags.Methods["health:current"] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText("CURRENT", UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText("CURRENT", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit))
 	end
 end
 
@@ -69,7 +69,7 @@ ElvUF.Tags.Methods["health:deficit"] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText("DEFICIT", UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText("DEFICIT", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit))
 	end
 end
 
@@ -80,7 +80,7 @@ ElvUF.Tags.Methods["health:current-percent"] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText("CURRENT_PERCENT", UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText("CURRENT_PERCENT", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit))
 	end
 end
 
@@ -91,7 +91,7 @@ ElvUF.Tags.Methods["health:current-max"] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText("CURRENT_MAX", UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText("CURRENT_MAX", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit))
 	end
 end
 
@@ -102,13 +102,13 @@ ElvUF.Tags.Methods["health:current-max-percent"] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText("CURRENT_MAX_PERCENT", UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText("CURRENT_MAX_PERCENT", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit))
 	end
 end
 
 ElvUF.Tags.Events["health:max"] = "UNIT_MAXHEALTH"
 ElvUF.Tags.Methods["health:max"] = function(unit)
-	local max = UnitHealthMax(unit)
+	local max = LMH:GetUnitMaxHP(unit)
 
 	return E:GetFormattedText("CURRENT", max, max)
 end
@@ -120,44 +120,44 @@ ElvUF.Tags.Methods["health:percent"] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText("PERCENT", UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText("PERCENT", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit))
 	end
 end
 
 ElvUF.Tags.Events["health:current-nostatus"] = "UNIT_HEALTH UNIT_MAXHEALTH";
 ElvUF.Tags.Methods["health:current-nostatus"] = function(unit)
-	return E:GetFormattedText("CURRENT", UnitHealth(unit), UnitHealthMax(unit));
+	return E:GetFormattedText("CURRENT", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit));
 end
 
 ElvUF.Tags.Events["health:deficit-nostatus"] = "UNIT_HEALTH UNIT_MAXHEALTH";
 ElvUF.Tags.Methods["health:deficit-nostatus"] = function(unit)
-	return E:GetFormattedText("DEFICIT", UnitHealth(unit), UnitHealthMax(unit));
+	return E:GetFormattedText("DEFICIT", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit));
 end
 
 ElvUF.Tags.Events["health:current-percent-nostatus"] = "UNIT_HEALTH UNIT_MAXHEALTH";
 ElvUF.Tags.Methods["health:current-percent-nostatus"] = function(unit)
-	return E:GetFormattedText("CURRENT_PERCENT", UnitHealth(unit), UnitHealthMax(unit));
+	return E:GetFormattedText("CURRENT_PERCENT", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit));
 end
 
 ElvUF.Tags.Events["health:current-max-nostatus"] = "UNIT_HEALTH UNIT_MAXHEALTH";
 ElvUF.Tags.Methods["health:current-max-nostatus"] = function(unit)
-	return E:GetFormattedText("CURRENT_MAX", UnitHealth(unit), UnitHealthMax(unit));
+	return E:GetFormattedText("CURRENT_MAX", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit));
 end
 
 ElvUF.Tags.Events["health:current-max-percent-nostatus"] = "UNIT_HEALTH UNIT_MAXHEALTH";
 ElvUF.Tags.Methods["health:current-max-percent-nostatus"] = function(unit)
-	return E:GetFormattedText("CURRENT_MAX_PERCENT", UnitHealth(unit), UnitHealthMax(unit));
+	return E:GetFormattedText("CURRENT_MAX_PERCENT", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit));
 end
 
 ElvUF.Tags.Events["health:percent-nostatus"] = "UNIT_HEALTH UNIT_MAXHEALTH";
 ElvUF.Tags.Methods["health:percent-nostatus"] = function(unit)
-	return E:GetFormattedText("PERCENT", UnitHealth(unit), UnitHealthMax(unit));
+	return E:GetFormattedText("PERCENT", LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit));
 end
 
 ElvUF.Tags.Events["health:deficit-percent:name"] = "UNIT_HEALTH UNIT_MAXHEALTH";
 ElvUF.Tags.Methods["health:deficit-percent:name"] = function(unit)
-	local currentHealth = UnitHealth(unit)
-	local deficit = UnitHealthMax(unit) - currentHealth;
+	local currentHealth = LMH:GetUnitCurrentHP(unit)
+	local deficit = LMH:GetUnitMaxHP(unit) - currentHealth;
 
 	if (deficit > 0 and currentHealth > 0) then
 		return _TAGS["health:percent-nostatus"](unit);
@@ -168,8 +168,8 @@ end
 
 ElvUF.Tags.Events["health:deficit-percent:name-long"] = "UNIT_HEALTH UNIT_MAXHEALTH"
 ElvUF.Tags.Methods["health:deficit-percent:name-long"] = function(unit)
-	local currentHealth = UnitHealth(unit)
-	local deficit = UnitHealthMax(unit) - currentHealth
+	local currentHealth = LMH:GetUnitCurrentHP(unit)
+	local deficit = LMH:GetUnitMaxHP(unit) - currentHealth
 
 	if (deficit > 0 and currentHealth > 0) then
 		return _TAGS["health:percent-nostatus"](unit)
@@ -180,8 +180,8 @@ end
 
 ElvUF.Tags.Events["health:deficit-percent:name-medium"] = "UNIT_HEALTH UNIT_MAXHEALTH"
 ElvUF.Tags.Methods["health:deficit-percent:name-medium"] = function(unit)
-	local currentHealth = UnitHealth(unit)
-	local deficit = UnitHealthMax(unit) - currentHealth
+	local currentHealth = LMH:GetUnitCurrentHP(unit)
+	local deficit = LMH:GetUnitMaxHP(unit) - currentHealth
 
 	if (deficit > 0 and currentHealth > 0) then
 		return _TAGS["health:percent-nostatus"](unit)
@@ -192,8 +192,8 @@ end
 
 ElvUF.Tags.Events["health:deficit-percent:name-short"] = "UNIT_HEALTH UNIT_MAXHEALTH"
 ElvUF.Tags.Methods["health:deficit-percent:name-short"] = function(unit)
-	local currentHealth = UnitHealth(unit)
-	local deficit = UnitHealthMax(unit) - currentHealth
+	local currentHealth = LMH:GetUnitCurrentHP(unit)
+	local deficit = LMH:GetUnitMaxHP(unit) - currentHealth
 
 	if (deficit > 0 and currentHealth > 0) then
 		return _TAGS["health:percent-nostatus"](unit)
@@ -204,8 +204,8 @@ end
 
 ElvUF.Tags.Events["health:deficit-percent:name-veryshort"] = "UNIT_HEALTH UNIT_MAXHEALTH"
 ElvUF.Tags.Methods["health:deficit-percent:name-veryshort"] = function(unit)
-	local currentHealth = UnitHealth(unit)
-	local deficit = UnitHealthMax(unit) - currentHealth
+	local currentHealth = LMH:GetUnitCurrentHP(unit)
+	local deficit = LMH:GetUnitMaxHP(unit) - currentHealth
 
 	if (deficit > 0 and currentHealth > 0) then
 		return _TAGS["health:percent-nostatus"](unit)
