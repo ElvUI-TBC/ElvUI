@@ -648,7 +648,8 @@ function ItemRefTooltip:SetHyperlink(data, ...)
 	if((data):sub(1, 3) == "url") then
 		local currentLink = (data):sub(5);
 		if(not ChatFrameEditBox:IsShown()) then
-			ChatEdit_ActivateChat(ChatFrameEditBox);
+			ChatFrameEditBox:Show()
+			ChatEdit_UpdateHeader(ChatFrameEditBox)
 		end
 		ChatFrameEditBox:Insert(currentLink);
 		ChatFrameEditBox:HighlightText();
@@ -661,7 +662,8 @@ local function WIM_URLLink(link)
 	if (link):sub(1, 3) == "url" then
 		local currentLink = (link):sub(5);
 		if (not ChatFrameEditBox:IsShown()) then
-			ChatEdit_ActivateChat(ChatFrameEditBox);
+			ChatFrameEditBox:Show()
+			ChatEdit_UpdateHeader(ChatFrameEditBox)
 		end
 		ChatFrameEditBox:Insert(currentLink);
 		ChatFrameEditBox:HighlightText();
