@@ -190,30 +190,35 @@ local function GetUnitSettings(unit, name)
 						type = "header",
 						name = L["Cast Bar"]
 					},
-					hideSpellName = {
+					enable = {
 						order = 1,
+						name = L["Enable"],
+						type = "toggle",
+					},
+					hideSpellName = {
+						order = 2,
 						type = "toggle",
 						name = L["Hide Spell Name"]
 					},
 					hideTime = {
-						order = 2,
+						order = 3,
 						type = "toggle",
 						name = L["Hide Time"]
 					},
 					height = {
-						order = 3,
+						order = 4,
 						type = "range",
 						name = L["Height"],
 						min = 4, max = 20, step = 1
 					},
 					offset = {
-						order = 4,
+						order = 5,
 						type = "range",
 						name = L["Offset"],
 						min = 0, max = 30, step = 1
 					},
 					castTimeFormat = {
-						order = 5,
+						order = 6,
 						type = "select",
 						name = L["Cast Time Format"],
 						values = {
@@ -223,7 +228,7 @@ local function GetUnitSettings(unit, name)
 						}
 					},
 					channelTimeFormat = {
-						order = 6,
+						order = 7,
 						type = "select",
 						name = L["Channel Time Format"],
 						values = {
@@ -231,6 +236,13 @@ local function GetUnitSettings(unit, name)
 							["CURRENT_MAX"] = L["Current / Max"],
 							["REMAINING"] = L["Remaining"]
 						}
+					},
+					timeToHold = {
+						order = 8,
+						type = "range",
+						name = L["Time To Hold"],
+						desc = L["How many seconds the castbar should stay visible after the cast failed or was interrupted."],
+						min = 0, max = 4, step = 0.1
 					}
 				}
 			},

@@ -330,6 +330,19 @@ function mod:OnShow()
 		mod:ConfigureElement_Name(self.UnitFrame)
 	end
 
+	if(mod.db.units[unitType].castbar.enable) then
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_START")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_STOP")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_FAILED")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_DELAYED")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
+	end
+
 	mod:UpdateElement_All(self.UnitFrame)
 
 	self.UnitFrame:Show()
@@ -346,7 +359,6 @@ function mod:OnHide()
 	self.UnitFrame.Glow:Hide()
 	self.UnitFrame.HealthBar.r, self.UnitFrame.HealthBar.g, self.UnitFrame.HealthBar.b = nil, nil, nil
 	self.UnitFrame.HealthBar:Hide()
-	self.UnitFrame.oldCastBar:Hide()
 	self.UnitFrame.CastBar:Hide()
 	self.UnitFrame.Level:ClearAllPoints()
 	self.UnitFrame.Level:SetText("")
@@ -410,6 +422,7 @@ function mod:OnCreated(frame)
 
 	frame.UnitFrame = CreateFrame("Frame", nil, frame)
 	frame.UnitFrame:SetAllPoints()
+	frame.UnitFrame:SetScript("OnEvent", self.OnEvent)
 
 	frame.UnitFrame.HealthBar = self:ConstructElement_HealthBar(frame.UnitFrame)
 	frame.UnitFrame.CastBar = self:ConstructElement_CastBar(frame.UnitFrame)
@@ -429,6 +442,8 @@ function mod:OnCreated(frame)
 	self:QueueObject(Name)
 	self:QueueObject(Border)
 	self:QueueObject(Highlight)
+	CastBar:Kill()
+	CastBarIcon:SetAlpha(0)
 	BossIcon:SetAlpha(0)
 
 	frame.UnitFrame.oldHealthBar = HealthBar
@@ -448,12 +463,15 @@ function mod:OnCreated(frame)
 	frame:SetScript("OnShow", self.OnShow)
 	frame:SetScript("OnHide", self.OnHide)
 	HealthBar:SetScript("OnValueChanged", self.UpdateElement_HealthOnValueChanged)
-	CastBar:SetScript("OnShow", self.UpdateElement_CastBarOnShow)
-	CastBar:SetScript("OnHide", self.UpdateElement_CastBarOnHide)
-	CastBar:SetScript("OnValueChanged", self.UpdateElement_CastBarOnValueChanged)
 
 	self.CreatedPlates[frame] = true
 	self.VisiblePlates[frame.UnitFrame] = true
+end
+
+function mod:OnEvent(event, unit, ...)
+	if self.UnitName ~= UnitName(unit) then return end
+
+	mod:UpdateElement_Cast(self, event, unit, ...)
 end
 
 function mod:QueueObject(object)
