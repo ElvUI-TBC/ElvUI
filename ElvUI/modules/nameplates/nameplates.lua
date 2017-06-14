@@ -446,7 +446,7 @@ function mod:OnCreated(frame)
 	self:QueueObject(Border)
 	self:QueueObject(Highlight)
 	CastBar:Kill()
-	CastBarIcon:SetAlpha(0)
+	CastBarIcon:SetParent(E.HiddenFrame)
 	BossIcon:SetAlpha(0)
 
 	frame.UnitFrame.oldHealthBar = HealthBar
