@@ -754,7 +754,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 		local info = ChatTypeInfo[type]
 		local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11 = ...
 
-		local filter = false
+		--[[local filter = false
 		if chatFilters[event] then
 			local newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11
 			for _, filterFunc in next, chatFilters[event] do
@@ -763,6 +763,17 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 					return true;
 				elseif newarg1 then
 					arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12 = newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11
+				end
+			end
+		end]]
+
+		local filter, newarg1 = false
+		if chatFilters[event] then
+			for _, filterFunc in next, chatFilters[event] do
+				filter, newarg1 = filterFunc(arg1)
+				arg1 = (newarg1 or arg1)
+				if filter then
+					return true
 				end
 			end
 		end
@@ -936,7 +947,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				PlaySound("TellMessage");
 			end
 			self.tellTimer = GetTime() + GlobalStrings.CHAT_TELL_ALERT_TIME;
-			--FCF_FlashTab(self);
+			FCF_FlashTab();
 		end
 
 		return true;
@@ -1541,18 +1552,18 @@ function CH:Initialize()
 
 	self:SecureHook("FCF_SetWindowAlpha");
 
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", CH.CHAT_MSG_CHANNEL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", CH.CHAT_MSG_YELL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", CH.CHAT_MSG_SAY)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND_LEADER", CH.FindURL)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", CH.CHAT_MSG_CHANNEL)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", CH.CHAT_MSG_YELL)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", CH.CHAT_MSG_SAY)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", CH.FindURL)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CH.FindURL)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", CH.FindURL)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", CH.FindURL)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", CH.FindURL)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", CH.FindURL)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", CH.FindURL)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND", CH.FindURL)
+	--ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND_LEADER", CH.FindURL)
 
 	if self.db.chatHistory then
 		self.SoundPlayed = true;
