@@ -170,14 +170,16 @@ local function UpdateBars(auraBars)
 			bar.spark:Hide()
 		else
 			local _, _, _, _, _, _, timeleft = UnitAura(frame.unit, frame.index, frame.filter)
-			bar:SetValue(timeleft)
-			bar.spelltime:SetText(FormatTime(timeleft))
-			if auraBars.spark == true then
-				if (auraBars.scaleTime and ((auraBars.scaleTime <= 0) or (auraBars.scaleTime > 0 and timeleft < auraBars.scaleTime))) then
-					bar.spark:SetPoint("CENTER", bar, "LEFT", (timeleft / bar.aura.duration) * bar:GetWidth(), 0)
-					bar.spark:Show()
-				else
-					bar.spark:Hide()
+			if timeleft then
+				bar:SetValue(timeleft)
+				bar.spelltime:SetText(FormatTime(timeleft))
+				if auraBars.spark == true then
+					if (auraBars.scaleTime and ((auraBars.scaleTime <= 0) or (auraBars.scaleTime > 0 and timeleft < auraBars.scaleTime))) then
+						bar.spark:SetPoint("CENTER", bar, "LEFT", (timeleft / bar.aura.duration) * bar:GetWidth(), 0)
+						bar.spark:Show()
+					else
+						bar.spark:Hide()
+					end
 				end
 			end
 		end
