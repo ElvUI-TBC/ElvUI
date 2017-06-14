@@ -109,8 +109,11 @@ function mod:SetTargetFrame(frame)
 			self:ConfigureElement_Glow(frame)
 			self:ConfigureElement_Level(frame)
 			self:ConfigureElement_Name(frame)
+
 			self:UpdateElement_All(frame, true)
 		end
+
+		frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_START", "target")
 
 		frame:SetAlpha(1)
 
