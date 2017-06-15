@@ -61,7 +61,6 @@ local FACTION_BAR_COLORS = FACTION_BAR_COLORS
 local ID = ID
 
 local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
-local S_ITEM_LEVEL = ITEM_LEVEL:gsub("%%d", "(%%d+)")
 local playerGUID = UnitGUID("player")
 local targetList, inspectCache = {}, {}
 local TAPPED_COLOR = {r = .6, g = .6, b = .6}
@@ -250,33 +249,12 @@ function TT:GetAvailableTooltip()
 	if not ShoppingTooltip2:IsShown() then return ShoppingTooltip2 end
 end
 
-function TT:ScanForItemLevel(itemLink)
-	local tooltip = self:GetAvailableTooltip()
-	tooltip:SetOwner(UIParent, "ANCHOR_NONE")
-	tooltip:SetHyperlink(itemLink)
-	tooltip:Show()
-
-	local itemLevel = 0
-	for i = 2, tooltip:NumLines() do
-		local text = _G[ tooltip:GetName() .."TextLeft"..i]:GetText()
-		if text and text ~= "" then
-			local value = tonumber(text:match(S_ITEM_LEVEL))
-			if value then
-				itemLevel = value
-			end
-		end
-	end
-
-	tooltip:Hide()
-	return itemLevel
-end
-
 function TT:GetItemLvL(unit)
 	local total, item = 0, 0
 	for i = 1, #SlotName do
 		local itemLink = GetInventoryItemLink(unit, GetInventorySlotInfo(("%sSlot"):format(SlotName[i])))
-		if itemLink ~= nil then
-			local itemLevel = self:ScanForItemLevel(itemLink)
+		if itemLink then
+			local itemLevel = select(4, GetItemInfo(itemLink))
 			if itemLevel and itemLevel > 0 then
 				item = item + 1
 				total = total + itemLevel
@@ -557,13 +535,12 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 		local right = " "
 		local bankCount = " "
 
---[[
-	-- Item level - Do we need it?
-		local iLvl = select(4, GetItemInfo(link))
-		if iLvl then
-			tt:AddLine(format(L["Item Level %d"], iLvl))
+		if self.db.itemLevel then
+			local _, _, rarity, itemLevel, _, _, _, _, itemEquipLoc = GetItemInfo(link)
+			if itemLevel and rarity and rarity > 1 and itemEquipLoc and itemEquipLoc ~= "" and itemEquipLoc ~= "INVTYPE_AMMO" and itemEquipLoc ~= "INVTYPE_BAG" and itemEquipLoc ~= "INVTYPE_QUIVER" and itemEquipLoc ~= "INVTYPE_TABARD" then
+				tt:AddLine(format(L["Item Level %d"], itemLevel))
+			end
 		end
---]]
 
 		if not MerchantFrame:IsShown() then
 			local value = LIP:GetSellValue(link)

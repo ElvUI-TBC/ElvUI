@@ -2532,6 +2532,7 @@ P["tooltip"] = {
 	["inspectInfo"] = true,
 	["itemCount"] = "BAGS_ONLY",
 	["spellID"] = true,
+	["itemLevel"] = true,
 	["font"] = "PT Sans Narrow",
 	["fontOutline"] = "NONE",
 	["headerFontSize"] = 12,
