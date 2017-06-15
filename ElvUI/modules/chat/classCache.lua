@@ -3,7 +3,7 @@ local CC = E:NewModule("ChatCache", "AceEvent-3.0")
 
 local LW = LibStub:GetLibrary("LibWho-2.0")
 
-local find = string.find
+local find, upper = string.find, string.upper
 local wipe = table.wipe
 local pairs = pairs
 local select = select
@@ -14,10 +14,8 @@ local GetNumFriends = GetNumFriends
 local GetNumGuildMembers = GetNumGuildMembers
 local GetNumPartyMembers = GetNumPartyMembers
 local GetNumRaidMembers = GetNumRaidMembers
-local GetNumWhoResults = GetNumWhoResults
 local GetRealZoneText = GetRealZoneText
 local GetTime = GetTime
-local GetWhoInfo = GetWhoInfo
 local IsInGuild = IsInGuild
 local UnitClass = UnitClass
 local UnitExists = UnitExists
@@ -33,8 +31,10 @@ local GAME_LOCALE = GetLocale()
 local ENGLISH_CLASS_NAMES
 
 local function GetEnglishClassName(class)
-	if class == UNKNOWN or GAME_LOCALE == "enUS" then
+	if class == UNKNOWN then
 		return class
+	elseif GAME_LOCALE == "enUS" then
+		return upper(class)
 	end
 
 	if not ENGLISH_CLASS_NAMES then
