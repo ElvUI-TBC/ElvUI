@@ -602,9 +602,10 @@ function CH:PrintURL(url)
 	return "|cFFFFFFFF[|Hurl:"..url.."|h"..url.."|h]|r "
 end
 
-function CH:FindURL(event, msg, ...)
-	if not (event and msg) then return end
+function CH.FindURL(msg, ...)
+	if not msg then return end
 
+	local event = select(12, ...)
 	if event == "CHAT_MSG_WHISPER" and CH.db.whisperSound ~= "None" and not CH.SoundPlayed then
 		if (msg:sub(1,3) == "OQ,") then return false, msg, ... end
 		if (CH.db.noAlertInCombat and not InCombatLockdown()) or not CH.db.noAlertInCombat then
@@ -620,7 +621,6 @@ function CH:FindURL(event, msg, ...)
 		return false, msg, ...
 	end
 
-	--print(event, msg, ...)
 	-- http://example.com
 	local newMsg, found = gsub(msg, "(%a+)://(%S+)%s?", CH:PrintURL("%1://%2"))
 	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg)), ... end
@@ -1091,16 +1091,16 @@ function CH:ChatThrottleHandler(_, ...)
 	end
 end
 
-function CH:CHAT_MSG_CHANNEL(event, message, author, ...)
-	if not (event and message and author) then return end
+function CH:CHAT_MSG_CHANNEL(message, author, ...)
+	if not (message and author) then return end
 
 	local blockFlag = false
 	local msg = PrepareMessage(author, message)
 
-	if msg == nil then return CH.FindURL(self, event, message, author, ...) end
+	if msg == nil then return CH.FindURL(message, author, ...) end
 
 	-- ignore player messages
-	if author and author == UnitName("player") then return CH.FindURL(self, event, message, author, ...) end
+	if author and author == UnitName("player") then return CH.FindURL(message, author, ...) end
 	if msgList[msg] and CH.db.throttleInterval ~= 0 then
 		if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
 			blockFlag = true
@@ -1114,20 +1114,20 @@ function CH:CHAT_MSG_CHANNEL(event, message, author, ...)
 			msgTime[msg] = time()
 		end
 
-		return CH.FindURL(self, event, message, author, ...)
+		return CH.FindURL(message, author, ...)
 	end
 end
 
-function CH:CHAT_MSG_YELL(event, message, author, ...)
-	if not (event and message and author) then return end
+function CH:CHAT_MSG_YELL(message, author, ...)
+	if not (message and author) then return end
 
 	local blockFlag = false
 	local msg = PrepareMessage(author, message)
 
-	if msg == nil then return CH.FindURL(self, event, message, author, ...) end
+	if msg == nil then return CH.FindURL(message, author, ...) end
 
 	-- ignore player messages
-	if author and author == UnitName("player") then return CH.FindURL(self, event, message, author, ...) end
+	if author and author == UnitName("player") then return CH.FindURL(message, author, ...) end
 	if msgList[msg] and msgCount[msg] > 1 and CH.db.throttleInterval ~= 0 then
 		if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
 			blockFlag = true
@@ -1141,14 +1141,14 @@ function CH:CHAT_MSG_YELL(event, message, author, ...)
 			msgTime[msg] = time()
 		end
 
-		return CH.FindURL(self, event, message, author, ...)
+		return CH.FindURL(message, author, ...)
 	end
 end
 
-function CH:CHAT_MSG_SAY(event, message, author, ...)
+function CH:CHAT_MSG_SAY(message, author, ...)
 	if not (event and message and author) then return end
 
-	return CH.FindURL(self, event, message, author, ...)
+	return CH.FindURL(message, author, ...)
 end
 
 function CH:ThrottleSound()
@@ -1552,18 +1552,18 @@ function CH:Initialize()
 
 	self:SecureHook("FCF_SetWindowAlpha");
 
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", CH.CHAT_MSG_CHANNEL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", CH.CHAT_MSG_YELL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", CH.CHAT_MSG_SAY)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND", CH.FindURL)
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND_LEADER", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", CH.CHAT_MSG_CHANNEL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", CH.CHAT_MSG_YELL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", CH.CHAT_MSG_SAY)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND", CH.FindURL)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND_LEADER", CH.FindURL)
 
 	if self.db.chatHistory then
 		self.SoundPlayed = true;
