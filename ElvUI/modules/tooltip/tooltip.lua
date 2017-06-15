@@ -612,9 +612,10 @@ function TT:MODIFIER_STATE_CHANGED(_, key)
 end
 
 function TT:GameTooltip_OnTooltipSetSpell(tt)
-	local id = select(3, tt:GetSpell())
-	if not id or not self.db.spellID then return end
+	local name = tt:GetSpell()
+	if not name or not self.db.spellID then return end
 
+	local id = select(3, find(GetSpellLink(name), "|Hspell:(%d+):*|h"))
 	local displayString = ("|cFFCA3C3C%s|r %d"):format(ID, id)
 	local lines = tt:NumLines()
 	local isFound
