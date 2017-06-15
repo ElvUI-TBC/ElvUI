@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local CH = E:NewModule("Chat", "AceTimer-3.0", "AceHook-3.0", "AceEvent-3.0")
+local CC = E:GetModule("ChatCache")
 local LSM = LibStub("LibSharedMedia-3.0")
 
 local _G = _G;
@@ -1220,6 +1221,18 @@ function CH:CheckKeyword(message)
 					self.SoundPlayed = true
 					self.SoundTimer = CH:ScheduleTimer("ThrottleSound", 1)
 				end
+			end
+		end
+
+		if self.db.classColorMentionsChat and E.private.chat.classCache then
+			tempWord = word:gsub("^%p-([^%p]+)([%-]?[^%p]-)%p-$","%1%2")
+
+			classMatch = CC:GetCacheTable()[E.myrealm][tempWord]
+			wordMatch = CC:GetCacheTable()[E.myrealm][tempWord] and tempWord:lower()
+
+			if wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch] then
+				classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
+				word = word:gsub(tempWord:gsub("%-","%%-"), format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, tempWord))
 			end
 		end
 
