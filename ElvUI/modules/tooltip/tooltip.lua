@@ -589,25 +589,25 @@ function TT:MODIFIER_STATE_CHANGED(_, key)
 end
 
 function TT:GameTooltip_OnTooltipSetSpell(tt)
-	local name = tt:GetSpell()
-	if not name or not self.db.spellID then return end
+    local name, rank = tt:GetSpell()
+    local id = GetSpellLink(name, rank):match("spell:(%d+)")
+    if not id or not self.db.spellID then return end
 
-	local id = select(3, find(GetSpellLink(name), "|Hspell:(%d+):*|h"))
-	local displayString = ("|cFFCA3C3C%s|r %d"):format(ID, id)
-	local lines = tt:NumLines()
-	local isFound
-	for i = 1, lines do
-		local line = _G[("GameTooltipTextLeft%d"):format(i)]
-		if line and line:GetText() and line:GetText():find(displayString) then
-			isFound = true
-			break
-		end
-	end
+    local displayString = ("|cFFCA3C3C%s|r %d"):format(ID, id)
+    local lines = tt:NumLines()
+    local isFound
+    for i = 1, lines do
+        local line = _G[("GameTooltipTextLeft%d"):format(i)]
+        if line and line:GetText() and line:GetText():find(displayString) then
+            isFound = true
+            break
+        end
+    end
 
-	if not isFound then
-		tt:AddLine(displayString)
-		tt:Show()
-	end
+    if not isFound then
+        tt:AddLine(displayString)
+        tt:Show()
+    end
 end
 
 function TT:SetItemRef(link)
