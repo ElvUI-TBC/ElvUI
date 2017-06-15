@@ -298,7 +298,16 @@ function CH:StyleChat(frame)
 		end
 	end)
 
-	frame:SetClampRectInsets(0,0,0,0)
+	if id ~= 2 then
+		tab.text:Point("LEFT", _G[name.."TabLeft"], "RIGHT", 0, -4)
+	end
+
+	tab.flash = _G[name.."TabFlash"]
+	tab.flash:ClearAllPoints()
+	tab.flash:Point("TOPLEFT", _G[name.."TabLeft"], "TOPLEFT", -3, id == 2 and -3 or -2)
+	tab.flash:Point("BOTTOMRIGHT", _G[name.."TabRight"], "BOTTOMRIGHT", 3, id == 2 and -7 or -6)
+
+	frame:SetClampRectInsets(0, 0, 0, 0)
 	frame:SetClampedToScreen(false)
 
 	--copy chat button
