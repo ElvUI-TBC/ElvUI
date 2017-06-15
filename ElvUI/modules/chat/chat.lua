@@ -11,42 +11,43 @@ local random = math.random;
 local len, gsub, find, sub, gmatch, format, split = string.len, string.gsub, string.find, string.sub, string.gmatch, string.format, string.split;
 local strlower, strsub, strlen, strupper = strlower, strsub, strlen, strupper;
 
-local hooksecurefunc = hooksecurefunc;
-local CreateFrame = CreateFrame;
-local GetTime = GetTime;
-local UnitName = UnitName;
-local IsShiftKeyDown = IsShiftKeyDown;
-local InCombatLockdown = InCombatLockdown;
-local ChatFrame_SendTell = ChatFrame_SendTell;
-local GetChannelName = GetChannelName;
-local ToggleFrame = ToggleFrame;
-local FCF_SetChatWindowFontSize = FCF_SetChatWindowFontSize;
-local GetMouseFocus = GetMouseFocus;
-local FloatingChatFrame_Update = FloatingChatFrame_Update;
-local IsMouseButtonDown = IsMouseButtonDown;
-local PlaySoundFile = PlaySoundFile;
-local ChatFrameEditBox = ChatFrameEditBox;
-local ChatFrame_ActivateCombatMessagesChat = ChatFrame_ActivateCombatMessagesChat;
-local ShowUIPanel, HideUIPanel = ShowUIPanel, HideUIPanel;
-local BetterDate = BetterDate;
-local GetPlayerInfoByGUID = GetPlayerInfoByGUID;
-local StaticPopup_Visible = StaticPopup_Visible;
-local Chat_GetChatCategory = Chat_GetChatCategory;
-local FCFManager_ShouldSuppressMessage = FCFManager_ShouldSuppressMessage;
-local ChatHistory_GetAccessID = ChatHistory_GetAccessID;
+local BetterDate = BetterDate
+local ChatEdit_SetLastTellTarget = ChatEdit_SetLastTellTarget
+local ChatFrameEditBox = ChatFrameEditBox
+local ChatFrame_ActivateCombatMessagesChat = ChatFrame_ActivateCombatMessagesChat
+local ChatFrame_ConfigEventHandler = ChatFrame_ConfigEventHandler
+local ChatFrame_SendTell = ChatFrame_SendTell
+local ChatFrame_SystemEventHandler = ChatFrame_SystemEventHandler
+local Chat_GetChatCategory = Chat_GetChatCategory
+local CreateFrame = CreateFrame
+local FCFManager_ShouldSuppressMessage = FCFManager_ShouldSuppressMessage
+local FCFTab_UpdateAlpha = FCFTab_UpdateAlpha
+local FCF_GetCurrentChatFrame = FCF_GetCurrentChatFrame
+local FCF_SetChatWindowFontSize = FCF_SetChatWindowFontSize
+local FCF_StartAlertFlash = FCF_StartAlertFlash
+local FloatingChatFrame_OnEvent = FloatingChatFrame_OnEvent
+local FloatingChatFrame_Update = FloatingChatFrame_Update
 local GMChatFrame_IsGM = GMChatFrame_IsGM
-local ChatEdit_SetLastTellTarget = ChatEdit_SetLastTellTarget;
-local PlaySound = PlaySound;
-local FCF_StartAlertFlash = FCF_StartAlertFlash;
-local ChatFrame_ConfigEventHandler = ChatFrame_ConfigEventHandler;
-local ChatFrame_SystemEventHandler = ChatFrame_SystemEventHandler;
-local FloatingChatFrame_OnEvent = FloatingChatFrame_OnEvent;
-local FCFTab_UpdateAlpha = FCFTab_UpdateAlpha;
-local FCF_GetCurrentChatFrame = FCF_GetCurrentChatFrame;
-local GetGuildRosterMOTD = GetGuildRosterMOTD;
-local ScrollFrameTemplate_OnMouseWheel = ScrollFrameTemplate_OnMouseWheel;
-local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS;
-local DEFAULT_CHAT_FRAME = DEFAULT_CHAT_FRAME;
+local GetChannelName = GetChannelName
+local GetDefaultLanguage = GetDefaultLanguage
+local GetGuildRosterMOTD = GetGuildRosterMOTD
+local GetMouseFocus = GetMouseFocus
+local GetPlayerInfoByGUID = GetPlayerInfoByGUID
+local GetTime = GetTime
+local InCombatLockdown = InCombatLockdown
+local IsMouseButtonDown = IsMouseButtonDown
+local IsShiftKeyDown = IsShiftKeyDown
+local PlaySound = PlaySound
+local PlaySoundFile = PlaySoundFile
+local ScrollFrameTemplate_OnMouseWheel = ScrollFrameTemplate_OnMouseWheel
+local ShowUIPanel, HideUIPanel = ShowUIPanel, HideUIPanel
+local StaticPopup_Visible = StaticPopup_Visible
+local ToggleFrame = ToggleFrame
+local UnitName = UnitName
+local hooksecurefunc = hooksecurefunc
+
+local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS
+local DEFAULT_CHAT_FRAME = DEFAULT_CHAT_FRAME
 
 local GlobalStrings = {
 	["AFK"] = AFK,
@@ -149,7 +150,7 @@ local specialChatIcons = {
 
 }
 
-CH.Keywords = {};
+CH.Keywords = {}
 
 local numScrollMessages
 local function ChatFrame_OnMouseScroll(frame, delta)
@@ -291,7 +292,7 @@ function CH:StyleChat(frame)
 	tab:HookScript("OnEnter", function() tab.text:Show() end)
 	tab:HookScript("OnLeave", function() tab.text:Show() end)
 
-	tab.text:SetTextColor(unpack(E["media"].rgbvaluecolor));
+	tab.text:SetTextColor(unpack(E["media"].rgbvaluecolor))
 	hooksecurefunc(tab.text, "SetTextColor", function(self, r, g, b)
 		local rR, gG, bB = unpack(E["media"].rgbvaluecolor)
 		if r ~= rR or g ~= gG or b ~= bB then
@@ -617,7 +618,6 @@ function CH.FindURL(msg, ...)
 
 	local event = select(11, ...)
 	if event and event == "CHAT_MSG_WHISPER" and CH.db.whisperSound ~= "None" and not CH.SoundPlayed then
-		if (msg:sub(1,3) == "OQ,") then return false, msg, ... end
 		if (CH.db.noAlertInCombat and not InCombatLockdown()) or not CH.db.noAlertInCombat then
 			PlaySoundFile(LSM:Fetch("sound", CH.db.whisperSound), "Master")
 		end
@@ -797,16 +797,6 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			end
 		end
 
-		--[[local filter, newarg1 = false
-		if chatFilters[event] then
-			for _, filterFunc in next, chatFilters[event] do
-				filter, newarg1 = filterFunc(arg1)
-				arg1 = (newarg1 or arg1)
-				if filter then
-					return true
-				end
-			end
-		end]]
 		local coloredName = GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
 
 		local channelLength = strlen(arg4);
@@ -976,7 +966,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				PlaySound("TellMessage");
 			end
 			self.tellTimer = GetTime() + GlobalStrings.CHAT_TELL_ALERT_TIME;
-			FCF_FlashTab();
+			FCF_FlashTab()
 		end
 
 		return true;
@@ -1290,7 +1280,7 @@ function CH:SetItemRef(link, text, button)
 		elseif button == "LeftButton" then
 			local chanLink = sub(link, 9)
 			local chatType, chatTarget = strsplit(":", chanLink)
-			
+
 			if strupper(chatType) == "CHANNEL" then
 				if GetChannelName(tonumber(chatTarget)) ~= 0 then
 					ChatFrame_OpenChat("/"..chatTarget, this)
@@ -1298,6 +1288,7 @@ function CH:SetItemRef(link, text, button)
 			else
 				ChatFrame_OpenChat("/"..chatType, this)
 			end
+--[[	-- TODO
 		elseif button == "RightButton" then
 			local chanLink = sub(link, 9)
 			local chatType, chatTarget = strsplit(":", chanLink)
@@ -1305,6 +1296,7 @@ function CH:SetItemRef(link, text, button)
 			if not strupper(chatType) == "CHANNEL" and GetChannelName(tonumber(chatTarget)) == 0 then
 				ChatChannelDropDown_Show(this, strupper(chatType), chatTarget, Chat_GetColoredChatName(strupper(chatType), chatTarget))
 			end
+]]
 		end
 
 		return
@@ -1526,6 +1518,7 @@ function CH:Initialize()
 	self:SecureHook("ChatEdit_UpdateHeader")
 	self:SecureHook("ChatEdit_OnEnterPressed")
 	self:RawHook("SetItemRef", true)
+
 	ChatFrameMenuButton:Kill()
 
 	if(WIM) then
