@@ -228,12 +228,10 @@ function CC:UpdateAggressiveMode()
 			self:UnregisterEvent("PLAYER_TARGET_CHANGED")
 			self:UnregisterEvent("UPDATE_MOUSEOVER_UNIT")
 			self:UnregisterEvent("WORLD_MAP_UPDATE")
---			self:UnregisterEvent("CHAT_MSG_SYSTEM")
 		else
 			self:RegisterEvent("PLAYER_TARGET_CHANGED")
 			self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 			self:RegisterEvent("WORLD_MAP_UPDATE")
---			self:RegisterEvent("CHAT_MSG_SYSTEM")
 		end
 	end
 end
@@ -370,14 +368,6 @@ function CC:UPDATE_MOUSEOVER_UNIT()
 		self:CachePlayer(name, class, realm)
 	else
 		self:CachePlayer(name, class)
-	end
-end
-
-function CC:CHAT_MSG_SYSTEM(_, msg)
-	local name, class = select(3, find(msg, "^|Hplayer:%w+|h%[(%w+)%]|h: %w+ %d+ %w+ (%w+)"))
-
-	if name and class then
-		self:CachePlayer(name, GetEnglishClassName(class))
 	end
 end
 
