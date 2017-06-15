@@ -1091,7 +1091,7 @@ function CH:ChatThrottleHandler(_, ...)
 	end
 end
 
-function CH:CHAT_MSG_CHANNEL(message, author, ...)
+function CH.CHAT_MSG_CHANNEL(message, author, ...)
 	if not (message and author) then return end
 
 	local blockFlag = false
@@ -1118,7 +1118,7 @@ function CH:CHAT_MSG_CHANNEL(message, author, ...)
 	end
 end
 
-function CH:CHAT_MSG_YELL(message, author, ...)
+function CH.CHAT_MSG_YELL(message, author, ...)
 	if not (message and author) then return end
 
 	local blockFlag = false
@@ -1145,7 +1145,7 @@ function CH:CHAT_MSG_YELL(message, author, ...)
 	end
 end
 
-function CH:CHAT_MSG_SAY(message, author, ...)
+function CH.CHAT_MSG_SAY(message, author, ...)
 	if not (message and author) then return end
 
 	return CH.FindURL(message, author, ...)
