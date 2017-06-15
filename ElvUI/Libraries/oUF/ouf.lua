@@ -531,6 +531,7 @@ do
 			header:SetAttribute(att, val)
 		end
 
+		header:SetAttribute("template", "SecureUnitButtonTemplate")
 		header.style = style
 		header.styleFunction = styleProxy
 		header.initialConfigFunction = initialConfigFunction

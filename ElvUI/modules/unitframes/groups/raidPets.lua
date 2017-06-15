@@ -165,4 +165,4 @@ function UF:Update_RaidpetFrames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements");
 end
 
-UF["headerstoload"]["raidpet"] = {nil, "SecureUnitButtonTemplate", "SecureGroupPetHeaderTemplate"}
+UF["headerstoload"]["raidpet"] = true

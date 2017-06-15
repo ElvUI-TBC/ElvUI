@@ -212,4 +212,4 @@ function UF:Update_Raid40Frames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements");
 end
 
-UF["headerstoload"]["raid40"] = {nil, "SecureUnitButtonTemplate"}
+UF["headerstoload"]["raid40"] = true
