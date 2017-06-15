@@ -776,7 +776,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 					return true
 				end
 			end
-		end
+		end]]
 
 		local channelLength = strlen(arg4);
 		if (strsub(type, 1, 7) == "CHANNEL") and (type ~= "CHANNEL_LIST") and ((arg1 ~= "INVITE") or (type ~= "CHANNEL_NOTICE_USER")) then
@@ -806,7 +806,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			if (found == 0) or not info then
 				return true;
 			end
-		end]]
+		end
 
 		if type == "SYSTEM" or type == "TEXT_EMOTE" or type == "SKILL" or type == "LOOT" or type == "MONEY" or
 			 type == "OPENING" or type == "TRADESKILLS" or type == "PET_INFO" then
