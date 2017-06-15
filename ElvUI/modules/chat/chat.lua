@@ -605,8 +605,8 @@ end
 function CH.FindURL(msg, ...)
 	if not msg then return end
 
-	local event = select(12, ...)
-	if event == "CHAT_MSG_WHISPER" and CH.db.whisperSound ~= "None" and not CH.SoundPlayed then
+	local event = select(11, ...)
+	if event and event == "CHAT_MSG_WHISPER" and CH.db.whisperSound ~= "None" and not CH.SoundPlayed then
 		if (msg:sub(1,3) == "OQ,") then return false, msg, ... end
 		if (CH.db.noAlertInCombat and not InCombatLockdown()) or not CH.db.noAlertInCombat then
 			PlaySoundFile(LSM:Fetch("sound", CH.db.whisperSound), "Master")
@@ -754,20 +754,20 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 		local info = ChatTypeInfo[type]
 		local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11 = ...
 
-		--[[local filter = false
+		local filter = false
 		if chatFilters[event] then
 			local newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11
 			for _, filterFunc in next, chatFilters[event] do
-				filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11 = filterFunc(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
+				filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11 = filterFunc(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, event)
 				if filter then
 					return true;
 				elseif newarg1 then
-					arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12 = newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11
+					arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11 = newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11
 				end
 			end
-		end]]
+		end
 
-		local filter, newarg1 = false
+		--[[local filter, newarg1 = false
 		if chatFilters[event] then
 			for _, filterFunc in next, chatFilters[event] do
 				filter, newarg1 = filterFunc(arg1)
@@ -806,7 +806,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			if (found == 0) or not info then
 				return true;
 			end
-		end
+		end]]
 
 		if type == "SYSTEM" or type == "TEXT_EMOTE" or type == "SKILL" or type == "LOOT" or type == "MONEY" or
 			 type == "OPENING" or type == "TRADESKILLS" or type == "PET_INFO" then
@@ -1146,7 +1146,7 @@ function CH:CHAT_MSG_YELL(message, author, ...)
 end
 
 function CH:CHAT_MSG_SAY(message, author, ...)
-	if not (event and message and author) then return end
+	if not (message and author) then return end
 
 	return CH.FindURL(message, author, ...)
 end
