@@ -14,6 +14,10 @@ G["general"] = {
 	["versionCheck"] = true
 };
 
+G["chat"] = {
+	["classCache"] = {},
+}
+
 G["classtimer"] = {};
 
 G["nameplates"] = {};

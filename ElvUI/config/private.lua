@@ -42,6 +42,7 @@ V["auras"] = {
 
 V["chat"] = {
 	["enable"] = true,
+	["classCache"] = true,
 }
 
 V["skins"] = {

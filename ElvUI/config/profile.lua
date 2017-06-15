@@ -2471,6 +2471,9 @@ P["chat"] = {
 	["customTimeColor"] = {r = 0.7, g = 0.7, b = 0.7},
 	["numScrollMessages"] = 3,
 
+	["classCacheStoreInDB"] = true,
+	["classCacheMode"] = "NORMAL",
+
 	["tabFont"] = "PT Sans Narrow",
 	["tabFontSize"] = 12,
 	["tabFontOutline"] = "NONE",

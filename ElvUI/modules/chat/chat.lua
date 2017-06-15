@@ -757,6 +757,26 @@ function CH:ConcatenateTimeStamp(msg)
 	return msg
 end
 
+function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
+	if not E.private.chat.classCache then return arg2 end
+
+	if arg2 ~= "" then
+		local name, realm = strsplit("-", arg2)
+		local englishClass = CC:GetClassByName(name, realm)
+
+		if englishClass then
+			local classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[englishClass] or RAID_CLASS_COLORS[englishClass]
+			if not classColorTable then
+				return arg2
+			end
+
+			return format("\124cff%.2x%.2x%.2x", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255)..arg2.."\124r"
+		end
+	end
+
+	return arg2
+end
+
 function CH:ChatFrame_MessageEventHandler(event, ...)
 	if strsub(event, 1, 8) == "CHAT_MSG" then
 		local type = strsub(event, 10)
@@ -786,6 +806,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				end
 			end
 		end]]
+		local coloredName = GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
 
 		local channelLength = strlen(arg4);
 		if (strsub(type, 1, 7) == "CHANNEL") and (type ~= "CHANNEL_LIST") and ((arg1 ~= "INVITE") or (type ~= "CHANNEL_NOTICE_USER")) then
@@ -906,22 +927,20 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				end
 			end
 
-			local defaultLanguage = GetDefaultLanguage()
-
-			if (strlen(arg3) > 0) and (arg3 ~= "Universal") and (arg3 ~= defaultLanguage) then
+			if (strlen(arg3) > 0) and (arg3 ~= "Universal") and (arg3 ~= GetDefaultLanguage()) then
 				local languageHeader = "["..arg3.."] ";
 				if showLink and (strlen(arg2) > 0) then
-					body = format(_G["CHAT_"..type.."_GET"]..languageHeader..arg1, pflag.."|Hplayer:"..arg2..":"..arg11.."|h".."["..arg2.."]".."|h");
+					body = format(_G["CHAT_"..type.."_GET"]..languageHeader..arg1, pflag.."|Hplayer:"..arg2..":"..arg11.."|h".."["..coloredName.."]".."|h");
 				else
 					body = format(_G["CHAT_"..type.."_GET"]..languageHeader..arg1, pflag..arg2);
 				end
 			else
 				if showLink and (strlen(arg2) > 0) and (type ~= "EMOTE") then
-					body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag.."|Hplayer:"..arg2..":"..arg11.."|h".."["..arg2.."]".."|h");
+					body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag.."|Hplayer:"..arg2..":"..arg11.."|h".."["..coloredName.."]".."|h");
 				elseif showLink and (strlen(arg2) > 0) and (type == "EMOTE") then
-					body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag.."|Hplayer:"..arg2..":"..arg11.."|h"..arg2.."|h");
+					body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag.."|Hplayer:"..arg2..":"..arg11.."|h".."["..coloredName.."]".."|h");
 				else
-					body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag..arg2, arg2);
+					body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag..arg2);
 
 					-- Add raid boss emote message
 					if strsub(type, 1, 9) == "RAID_BOSS" then
