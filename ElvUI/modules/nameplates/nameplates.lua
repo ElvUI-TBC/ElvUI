@@ -611,10 +611,8 @@ function mod:UNIT_AURA(_, unit)
 	end
 end
 
-function mod:PLAYER_COMBO_POINTS(_, unit)
-	if unit == "player" then
-		self:ForEachPlate("UpdateElement_CPoints")
-	end
+function mod:PLAYER_COMBO_POINTS()
+	self:ForEachPlate("UpdateElement_CPoints")
 end
 
 function mod:PLAYER_REGEN_DISABLED()
