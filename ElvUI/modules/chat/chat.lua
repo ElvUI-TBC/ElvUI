@@ -761,7 +761,7 @@ end
 function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
 	if not E.private.chat.classCache then return arg2 end
 
-	if arg2 ~= "" then
+	if arg2 and arg2 ~= "" then
 		local name, realm = strsplit("-", arg2)
 		local englishClass = CC:GetClassByName(name, realm)
 
