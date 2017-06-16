@@ -3,7 +3,9 @@ local AB = E:NewModule("ActionBars", "AceHook-3.0", "AceEvent-3.0")
 local LSM = LibStub("LibSharedMedia-3.0")
 
 local _G = _G
-local gsub = string.gsub
+local pairs, unpack = pairs, unpack
+local ceil = math.ceil
+local gsub, split = string.gsub, string.split
 
 local CreateFrame = CreateFrame
 local InCombatLockdown = InCombatLockdown
@@ -23,42 +25,26 @@ AB["handledbuttons"] = {}
 
 AB["barDefaults"] = {
 	["bar1"] = {
-		["page"] = 1,
-		["conditions"] = "[bonusbar:5] 11 [bar:2] 2 [bar:3] 3 [bar:4] 4 [bar:5] 5 [bar:6] 6",
+		["name"] = "",
 		["position"] = "BOTTOM,ElvUIParent,BOTTOM,0,4"
 	},
 	["bar2"] = {
-		["page"] = 5,
-		["conditions"] = "",
+		["name"] = "MultiBarBottomRight",
 		["position"] = "BOTTOM,ElvUI_Bar1,TOP,0,2"
 	},
 	["bar3"] = {
-		["page"] = 6,
-		["conditions"] = "",
+		["name"] = "MultiBarBottomLeft",
 		["position"] = "LEFT,ElvUI_Bar1,RIGHT,4,0"
 	},
 	["bar4"] = {
-		["page"] = 4,
-		["conditions"] = "",
+		["name"] = "MultiBarLeft",
 		["position"] = "RIGHT,ElvUIParent,RIGHT,-4,0"
 	},
 	["bar5"] = {
-		["page"] = 3,
-		["conditions"] = "",
+		["name"] = "MultiBarRight",
 		["position"] = "RIGHT,ElvUI_Bar1,LEFT,-4,0"
 	}
 }
-
-function AB:CreateActionBars()
-	self:CreateBar1()
-	self:CreateBar2()
-	self:CreateBar3()
-	self:CreateBar4()
-	self:CreateBar5()
-	self:CreateBonusBar()
-	self:CreateBarPet()
-	self:CreateBarShapeShift()
-end
 
 function AB:PLAYER_REGEN_ENABLED()
 	self:UpdateButtonSettings()
@@ -66,12 +52,6 @@ function AB:PLAYER_REGEN_ENABLED()
 end
 
 function AB:PositionAndSizeBar(barName)
-	local bonusBar
-	if barName == "bar6" then
-		bonusBar = true
-		barName = "bar1"
-	end
-
 	local buttonSpacing = E:Scale(self.db[barName].buttonspacing)
 	local backdropSpacing = E:Scale((self.db[barName].backdropSpacing or self.db[barName].buttonspacing))
 	local buttonsPerRow = self.db[barName].buttonsPerRow
@@ -83,38 +63,32 @@ function AB:PositionAndSizeBar(barName)
 	local heightMult = self.db[barName].heightMult
 	local bar = self["handledBars"][barName]
 
-	if bonusBar then
-		bar = self["handledBars"]["bar6"]
-	end
-
 	bar.db = self.db[barName]
-	bar.db.position = nil
 
 	if numButtons < buttonsPerRow then
-		buttonsPerRow = numButtons
+		buttonsPerRow = numButtons;
 	end
 
 	if numColumns < 1 then
 		numColumns = 1
 	end
 
-	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + (backdropSpacing * 2) + ((self.db[barName].backdrop and E.Border or E.Spacing) * 2)
-	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + (backdropSpacing * 2) + ((self.db[barName].backdrop and E.Border or E.Spacing) * 2)
-	bar:Width(barWidth)
-	bar:Height(barHeight)
-	if not bonusBar then
-		bar.mover:Size(barWidth, barHeight)
-	end
-
-	bar.mouseover = self.db[barName].mouseover
-
-	if self.db[barName].backdrop then
+	if self.db[barName].backdrop == true then
 		bar.backdrop:Show()
 	else
 		bar.backdrop:Hide()
+		widthMult = 1
+		heightMult = 1
 	end
 
-	local horizontalGrowth, verticalGrowth
+	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult-1)) + ((self.db[barName].backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
+	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult-1)) + ((self.db[barName].backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
+	bar:Width(barWidth)
+	bar:Height(barHeight)
+
+	bar.mouseover = self.db[barName].mouseover
+
+	local horizontalGrowth, verticalGrowth;
 	if point == "TOPLEFT" or point == "TOPRIGHT" then
 		verticalGrowth = "DOWN"
 	else
@@ -133,17 +107,26 @@ function AB:PositionAndSizeBar(barName)
 		bar:SetAlpha(self.db[barName].alpha)
 	end
 
-	if self.db[barName].inheritGlobalFade then
+	if(self.db[barName].inheritGlobalFade) then
 		bar:SetParent(self.fadeParent)
 	else
 		bar:SetParent(E.UIParent)
 	end
-
 	local button, lastButton, lastColumnButton
-	local firstButtonSpacing = backdropSpacing + (self.db[barName].backdrop and E.Border or E.Spacing)
-	for i = 1, NUM_ACTIONBAR_BUTTONS do
-		button = bar.buttons[i]
-		lastButton = bar.buttons[i-1]
+	local firstButtonSpacing = (self.db[barName].backdrop == true and (E.Border + backdropSpacing) or E.Spacing)
+	local riseNumButtons = barName == "bar1" and 2 or 1
+	for i = 1, NUM_ACTIONBAR_BUTTONS * riseNumButtons do
+		if barName == "bar1" then
+			button = bar.buttons[i]
+			if i >= 13 then
+				i = i - 12
+				button = bar.buttons[i+12]
+			end
+		else
+			button = bar.buttons[i]
+		end
+
+		lastButton = bar.buttons[i - 1]
 		lastColumnButton = bar.buttons[i-buttonsPerRow]
 		button:ClearAllPoints()
 		button:Size(size)
@@ -163,25 +146,22 @@ function AB:PositionAndSizeBar(barName)
 			end
 
 			button:Point(point, bar, point, x, y)
-		elseif ((i - 1) % buttonsPerRow == 0) then
-			local x = 0
+		elseif (i - 1) % buttonsPerRow == 0 then
+			local x = 0;
 			local y = -buttonSpacing
 			local buttonPoint, anchorPoint = "TOP", "BOTTOM"
-
 			if verticalGrowth == "UP" then
 				y = buttonSpacing
 				buttonPoint = "BOTTOM"
 				anchorPoint = "TOP"
 			end
-
 			button:Point(buttonPoint, lastColumnButton, anchorPoint, x, y)
 		else
 			local x = buttonSpacing
 			local y = 0
 			local buttonPoint, anchorPoint = "LEFT", "RIGHT"
-
 			if horizontalGrowth == "LEFT" then
-				x = -buttonSpacing
+				x = -buttonSpacing;
 				buttonPoint = "RIGHT"
 				anchorPoint = "LEFT"
 			end
@@ -204,58 +184,72 @@ function AB:PositionAndSizeBar(barName)
 		end
 
 		bar:Show()
-
-		if barName == "bar1" then
-			if not bonusBar then
-				local page = self:GetPage(barName, self["barDefaults"][barName].page, self["barDefaults"][barName].conditions)
-				RegisterStateDriver(bar, "visibility", self:BonusBarVisibility("hide;show", self.db[barName].visibility))
-				RegisterStateDriver(bar, "page", page)
-			else
-				RegisterStateDriver(bar, "visibility", self:BonusBarVisibility("show;hide", self.db[barName].visibility))
-
-				RegisterStateDriver(BonusActionBarFrame, "visibility", self:BonusBarVisibility("show;hide", self.db[barName].visibility))
-				BonusActionBarFrame:SetAttribute("statemap-visibility", "$input")
-				BonusActionBarFrame:SetAttribute("state", bar:GetAttribute("state-visibility"))
-			end
-
-			bar:SetAttribute("statemap-visibility", "$input")
-			bar:SetAttribute("state", bar:GetAttribute("state-visibility"))
-		else
-			local page = self:GetPage(barName, self["barDefaults"][barName].page, self["barDefaults"][barName].conditions)
-			RegisterStateDriver(bar, "visibility", self.db[barName].visibility)
-			RegisterStateDriver(bar, "page", page)
-
-			bar:SetAttribute("statemap-page", "$input")
-			bar:SetAttribute("state", bar:GetAttribute("state-page"))
-		end
+		RegisterStateDriver(bar, "visibility", self.db[barName].visibility)
 
 		if not bar.initialized then
-			bar.initialized = true
+			bar.initialized = true;
 			AB:PositionAndSizeBar(barName)
 			return
 		end
-
-		if not bonusBar then
-			E:EnableMover(bar.mover:GetName())
-		end
+		E:EnableMover(bar.mover:GetName())
 	else
-		if not bonusBar then
-			E:DisableMover(bar.mover:GetName())
-			UnregisterStateDriver(bar, "visibility")
-		end
-
+		E:DisableMover(bar.mover:GetName())
 		bar:Hide()
+		UnregisterStateDriver(bar, "visibility")
 	end
 
-	if not bonusBar then
-		E:SetMoverSnapOffset("ElvAB_" .. bar.id, bar.db.buttonspacing / 2)
+	E:SetMoverSnapOffset("ElvAB_"..bar.id, bar.db.buttonspacing / 2)
+end
 
-		if barName == "bar1" and self["handledBars"]["bar6"] then
-			self:PositionAndSizeBar("bar6")
+function AB:CreateBar(id)
+	local bar = CreateFrame("Button", "ElvUI_Bar"..id, E.UIParent, "SecureStateHeaderTemplate")
+
+	local point, anchor, attachTo, x, y = split(",", self["barDefaults"]["bar"..id].position)
+	bar:Point(point, anchor, attachTo, x, y)
+	bar.id = id
+	bar:CreateBackdrop("Default")
+	bar:SetFrameStrata("LOW")
+
+	local offset = E.Spacing
+	bar.backdrop:SetPoint("TOPLEFT", bar, "TOPLEFT", offset, -offset)
+	bar.backdrop:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", -offset, offset)
+
+	bar.buttons = {}
+	self:HookScript(bar, "OnEnter", "Bar_OnEnter")
+	self:HookScript(bar, "OnLeave", "Bar_OnLeave")
+
+	for i = 1, NUM_ACTIONBAR_BUTTONS do
+		if id == 1 then
+			bar.buttons[i] = _G["ActionButton"..i]
+			bar.buttons[i].parent = bar
+		else
+			bar.buttons[i] = _G[self["barDefaults"]["bar"..id].name.."Button"..i]
+			bar.buttons[i].parent = bar
 		end
-	else
-		bar:Point(_G["ElvUI_Bar1"]:GetPoint())
+
+		self:HookScript(bar.buttons[i], "OnEnter", "Button_OnEnter")
+		self:HookScript(bar.buttons[i], "OnLeave", "Button_OnLeave")
 	end
+
+	if id == 1 then
+		for i = 13, 24 do
+			bar.buttons[i] = _G["BonusActionButton"..i-12]
+			bar.buttons[i].parent = bar
+
+			self:HookScript(bar.buttons[i], "OnEnter", "Button_OnEnter")
+			self:HookScript(bar.buttons[i], "OnLeave", "Button_OnLeave")
+		end
+
+		MainMenuBarArtFrame:SetParent(bar)
+		BonusActionBarFrame:SetParent(bar)
+	else
+		_G[self["barDefaults"]["bar"..id].name]:SetParent(bar)
+	end
+	
+	self["handledBars"]["bar"..id] = bar
+	E:CreateMover(bar, "ElvAB_"..id, L["Bar "]..id, nil, nil, nil, "ALL,ACTIONBARS")
+	self:PositionAndSizeBar("bar"..id)
+	return bar
 end
 
 function AB:UpdateButtonSettings()
@@ -269,36 +263,10 @@ function AB:UpdateButtonSettings()
 	end
 
 	for i = 1, 5 do
-		self:PositionAndSizeBar("bar" .. i)
+		self:PositionAndSizeBar("bar"..i)
 	end
 	self:PositionAndSizeBarPet()
 	self:PositionAndSizeBarShapeShift()
-end
-
-function AB:GetPage(bar, defaultPage, condition)
-	local page = self.db[bar]["paging"][E.myclass]
-	if not condition then condition = "" end
-	if not page then page = "" end
-	if page then
-		condition = condition.." "..page
-	end
-	condition = condition.." "..defaultPage
-	return condition
-end
-
-function AB:BonusBarVisibility(visibility, condition)
-	local page = self.db["bar1"]["paging"][E.myclass]
-	local general = "[bonusbar:5]"
-
-	if not condition then condition = "" end
-
-	if not page then
-		page = ""
-	else
-		page = gsub(page, "%[(%w+:%d+),*%w*%]%s*%d*;%s*", "[%1] ")
-	end
-
-	return format("%s %s %s %s", condition, page, general, visibility)
 end
 
 function AB:StyleButton(button, noBackdrop)
@@ -386,7 +354,7 @@ function AB:Bar_OnLeave(bar)
 end
 
 function AB:Button_OnEnter(button)
-	local bar = button:GetParent()
+	local bar = button.parent or button:GetParent()
 	if bar:GetParent() == self.fadeParent then
 		if not self.fadeParent.mouseLock then
 			E:UIFrameFadeIn(self.fadeParent, 0.2, self.fadeParent:GetAlpha(), 1)
@@ -397,7 +365,7 @@ function AB:Button_OnEnter(button)
 end
 
 function AB:Button_OnLeave(button)
-	local bar = button:GetParent()
+	local bar = button.parent or button:GetParent()
 	if bar:GetParent() == self.fadeParent then
 		if not self.fadeParent.mouseLock then
 			E:UIFrameFadeOut(self.fadeParent, 0.2, self.fadeParent:GetAlpha(), 1 - self.db.globalFadeAlpha)
@@ -435,8 +403,8 @@ function AB:DisableBlizzard()
 
 	local elements = {
 		MainMenuBar,
-		MainMenuBarArtFrame,
-		BonusActionBarFrame,
+		--MainMenuBarArtFrame,
+		--BonusActionBarFrame,
 		PossessBarFrame,
 		PetActionBarFrame,
 		ShapeshiftBarFrame,
@@ -447,10 +415,6 @@ function AB:DisableBlizzard()
 	for _, element in pairs(elements) do
 		if element:GetObjectType() == "Frame" then
 			element:UnregisterAllEvents()
-
-			if element == MainMenuBarArtFrame then
-				element:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
-			end
 		end
 
 		if element ~= MainMenuBar then
@@ -459,6 +423,18 @@ function AB:DisableBlizzard()
 		element:SetAlpha(0)
 	end
 	elements = nil
+
+	MainMenuBarArtFrame:StripTextures()
+	BonusActionBarFrame:StripTextures()
+
+	ActionBarUpButton:Kill()
+	ActionBarDownButton:Kill()
+	MainMenuBarBackpackButton:Kill()
+	CharacterBag0Slot:Kill()
+	CharacterBag1Slot:Kill()
+	CharacterBag2Slot:Kill()
+	CharacterBag3Slot:Kill()
+	KeyRingButton:Kill()
 
 	local uiManagedFrames = {
 		"MultiBarLeft",
@@ -550,9 +526,13 @@ function AB:Initialize()
 
 	self:SetupMicroBar()
 
-	self:CreateActionBars()
+	for i = 1, 5 do
+		self:CreateBar(i)
+	end
+	self:CreateBarPet()
+	self:CreateBarShapeShift()
 
-	self:UpdateButtonSettings()
+	--self:UpdateButtonSettings()
 	self:LoadKeyBinder()
 
 	self:SecureHook("ActionButton_Update")

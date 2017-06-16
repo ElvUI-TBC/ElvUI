@@ -129,6 +129,7 @@ local function BuildABConfig()
 					isPercent = true,
 					min = 0, max = 1, step = 0.01
 				},
+--[[
 				paging = {
 					order = 16,
 					type = "input",
@@ -146,6 +147,7 @@ local function BuildABConfig()
 						AB:UpdateButtonSettings();
 					end
 				},
+]]
 				visibility = {
 					type = "input",
 					order = 17,
