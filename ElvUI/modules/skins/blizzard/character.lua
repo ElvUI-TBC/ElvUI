@@ -29,7 +29,9 @@ function S:LoadCharacterSkin()
 
 	-- PaperDollFrame
 	PaperDollFrame:StripTextures()
-	S:HandleDropDownBox(PlayerTitleDropDown)
+
+	PlayerTitleDropDown:Point("TOP", CharacterLevelText, "BOTTOM", 0, -2)
+	S:HandleDropDownBox(PlayerTitleDropDown, 210)
 
 	S:HandleRotateButton(CharacterModelFrameRotateLeftButton)
 	CharacterModelFrameRotateLeftButton:ClearAllPoints()
@@ -41,6 +43,13 @@ function S:LoadCharacterSkin()
 	CharacterAttributesFrame:StripTextures()
 	S:HandleDropDownBox(PlayerStatFrameLeftDropDown)
 	S:HandleDropDownBox(PlayerStatFrameRightDropDown)
+
+	local function FixWidth(self)
+		UIDropDownMenu_SetWidth(90, self)
+	end
+
+	PlayerStatFrameLeftDropDown:HookScript("OnShow", FixWidth)
+	PlayerStatFrameRightDropDown:HookScript("OnShow", FixWidth)
 
 	CharacterResistanceFrame:CreateBackdrop("Default")
 	CharacterResistanceFrame.backdrop:SetOutside(MagicResFrame1, nil, nil, MagicResFrame5)
