@@ -403,7 +403,7 @@ function AB:DisableBlizzard()
 
 	local elements = {
 		MainMenuBar,
-		--MainMenuBarArtFrame,
+		MainMenuBarArtFrame,
 		--BonusActionBarFrame,
 		PossessBarFrame,
 		PetActionBarFrame,
