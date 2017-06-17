@@ -799,7 +799,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 
 		local coloredName = GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
 
-		local channelLength = strlen(arg4);
+		local channelLength = arg4 and strlen(arg4);
 		if (strsub(type, 1, 7) == "CHANNEL") and (type ~= "CHANNEL_LIST") and ((arg1 ~= "INVITE") or (type ~= "CHANNEL_NOTICE_USER")) then
 			if arg1 == "WRONG_PASSWORD" then
 				local staticPopup = _G[StaticPopup_Visible("CHAT_CHANNEL_PASSWORD") or ""];
