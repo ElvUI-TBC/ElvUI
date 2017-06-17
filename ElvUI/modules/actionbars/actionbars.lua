@@ -403,7 +403,7 @@ function AB:DisableBlizzard()
 
 	local elements = {
 		MainMenuBar,
-		MainMenuBarArtFrame,
+		--MainMenuBarArtFrame,
 		--BonusActionBarFrame,
 		PossessBarFrame,
 		PetActionBarFrame,
@@ -424,6 +424,7 @@ function AB:DisableBlizzard()
 	end
 	elements = nil
 
+	MainMenuBarArtFrame:UnregisterAllEvents()
 	MainMenuBarArtFrame:StripTextures()
 	BonusActionBarFrame:StripTextures()
 
