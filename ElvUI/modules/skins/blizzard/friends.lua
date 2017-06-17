@@ -13,6 +13,7 @@ local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
 
 function S:LoadFriendsSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.friends ~= true then return end
+
 	-- Friends Frame
 	FriendsFrame:StripTextures(true)
 	FriendsFrame:CreateBackdrop("Transparent")
@@ -145,6 +146,7 @@ function S:LoadFriendsSkin()
 			buttonText:SetTextColor(1.0, 1.0, 1.0)
 		end
 	end)
+
 	-- Guild Frame
 	GuildFrameColumnHeader3:ClearAllPoints()
 	GuildFrameColumnHeader3:Point("TOPLEFT", 20, -70)
@@ -235,7 +237,8 @@ function S:LoadFriendsSkin()
 	S:HandleButton(GuildFrameAddMemberButton)
 	S:HandleButton(GuildFrameControlButton)
 
-	GuildMemberDetailFrame:StripTextures() -- Member Detail Frame
+	-- Member Detail Frame
+	GuildMemberDetailFrame:StripTextures()
 	GuildMemberDetailFrame:CreateBackdrop("Transparent")
 
 	S:HandleCloseButton(GuildMemberDetailCloseButton)
@@ -252,7 +255,8 @@ function S:LoadFriendsSkin()
 	GuildMemberNoteBackground:SetTemplate("Default")
 	GuildMemberOfficerNoteBackground:SetTemplate("Default")
 
-	GuildInfoFrame:StripTextures() -- Info Frame
+	-- Info Frame
+	GuildInfoFrame:StripTextures()
 	GuildInfoFrame:CreateBackdrop("Transparent")
 	GuildInfoFrame.backdrop:Point("TOPLEFT", 3, -6)
 	GuildInfoFrame.backdrop:Point("BOTTOMRIGHT", -2, 3)
@@ -269,24 +273,52 @@ function S:LoadFriendsSkin()
 	S:HandleButton(GuildInfoGuildEventButton)
 	GuildInfoGuildEventButton:Point("RIGHT", GuildInfoSaveButton, "LEFT", -28, 0)
 
-	GuildEventLogFrame:StripTextures() -- GuildEventLog Frame
+	-- GuildEventLog Frame
+	GuildEventLogFrame:StripTextures()
 	GuildEventLogFrame:CreateBackdrop("Transparent")
-	GuildEventLogFrame.backdrop:Point("TOPLEFT", 5, -6)
-	GuildEventLogFrame.backdrop:Point("BOTTOMRIGHT", -2, 6)
+	GuildEventLogFrame.backdrop:Point("TOPLEFT", 3, -6)
+	GuildEventLogFrame.backdrop:Point("BOTTOMRIGHT", -2, 5)
 
 	GuildEventFrame:SetTemplate("Default")
 
 	S:HandleScrollBar(GuildEventLogScrollFrameScrollBar)
 	S:HandleCloseButton(GuildEventLogCloseButton)
+
+	GuildEventLogCancelButton:Point("BOTTOMRIGHT", GuildEventLogFrame, "BOTTOMRIGHT", -9, 9)
 	S:HandleButton(GuildEventLogCancelButton)
 
-	GuildControlPopupFrame:StripTextures() -- Control Frame
+	-- Control Frame
+	GuildControlPopupFrame:StripTextures()
 	GuildControlPopupFrame:CreateBackdrop("Transparent")
-	GuildControlPopupFrame.backdrop:Point("TOPLEFT", 3, -5)
+	GuildControlPopupFrame.backdrop:Point("TOPLEFT", 3, -6)
 	GuildControlPopupFrame.backdrop:Point("BOTTOMRIGHT", -27, 27)
 
 	S:HandleDropDownBox(GuildControlPopupFrameDropDown, 185)
 	GuildControlPopupFrameDropDownButton:Size(16, 16)
+
+	local function SkinPlusMinus(f, minus)
+		f:SetNormalTexture("")
+		f.SetNormalTexture = E.noop
+		f:SetPushedTexture("")
+		f.SetPushedTexture = E.noop
+		f:SetHighlightTexture("")
+		f.SetHighlightTexture = E.noop
+		f:SetDisabledTexture("")
+		f.SetDisabledTexture = E.noop
+
+		f.Text = f:CreateFontString(nil, "OVERLAY")
+		f.Text:FontTemplate(nil, 22)
+		f.Text:Point("LEFT", 5, 0)
+		if minus then
+			f.Text:SetText("-")
+		else
+			f.Text:SetText("+")
+		end
+	end
+
+	GuildControlPopupFrameAddRankButton:Point("LEFT", GuildControlPopupFrameDropDown, "RIGHT", -8, 3)
+	SkinPlusMinus(GuildControlPopupFrameAddRankButton)
+	SkinPlusMinus(GuildControlPopupFrameRemoveRankButton, true)
 
 	S:HandleEditBox(GuildControlPopupFrameEditBox)
 	GuildControlPopupFrameEditBox.backdrop:Point("TOPLEFT", 0, -5)
@@ -321,8 +353,9 @@ function S:LoadFriendsSkin()
 	GuildControlWithdrawItemsEditBox.backdrop:Point("TOPLEFT", 0, -5)
 	GuildControlWithdrawItemsEditBox.backdrop:Point("BOTTOMRIGHT", 0, 5)
 
-	S:HandleCheckBox(GuildControlPopupAcceptButton)
-	S:HandleCheckBox(GuildControlPopupFrameCancelButton)
+	S:HandleButton(GuildControlPopupAcceptButton)
+	S:HandleButton(GuildControlPopupFrameCancelButton)
+
 	-- Channel Frame
 	ChannelFrameVerticalBar:Kill()
 
@@ -354,18 +387,26 @@ function S:LoadFriendsSkin()
 
 	S:HandleButton(ChannelFrameDaughterFrameCancelButton)
 	S:HandleButton(ChannelFrameDaughterFrameOkayButton)
+
 	-- Raid Frame
 	S:HandleButton(RaidFrameConvertToRaidButton)
 	S:HandleButton(RaidFrameRaidInfoButton)
 
-	RaidInfoFrame:StripTextures(true) -- Raid Info Frame
+	-- Raid Info Frame
+	RaidInfoFrame:StripTextures(true)
 	RaidInfoFrame:SetTemplate("Transparent")
 
-	-- RaidInfoInstanceLabel:StripTextures()
-	-- RaidInfoIDLabel:StripTextures()
+	RaidInfoFrame:SetScript("OnShow", function()
+		if GetNumRaidMembers() > 0 then
+			RaidInfoFrame:Point("TOPLEFT", RaidFrame, "TOPRIGHT", -14, -12)
+		else
+			RaidInfoFrame:Point("TOPLEFT", RaidFrame, "TOPRIGHT", -34, -12)
+		end
+	end)
 
-	S:HandleCloseButton(RaidInfoCloseButton)
+	S:HandleCloseButton(RaidInfoCloseButton, RaidInfoFrame)
 
+	RaidInfoScrollFrame:StripTextures()
 	S:HandleScrollBar(RaidInfoScrollFrameScrollBar)
 end
 
