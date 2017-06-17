@@ -34,9 +34,9 @@ end
 
 local function UpdateTooltip(self)
 	if self:GetParent().aura.filter == "HELPFUL" then
-		GameTooltip:SetUnitBuff(self.__unit, self:GetParent():GetParent().index)
+		GameTooltip:SetUnitBuff(self:GetParent():GetParent().unit, self:GetParent().aura.index)
 	else
-		GameTooltip:SetUnitDebuff(self.__unit, self:GetParent():GetParent().index)
+		GameTooltip:SetUnitDebuff(self:GetParent():GetParent().unit, self:GetParent().aura.index)
 	end
 end
 
@@ -169,7 +169,7 @@ local function UpdateBars(auraBars)
 			bar.spelltime:SetText()
 			bar.spark:Hide()
 		else
-			local _, _, _, _, _, _, timeleft = UnitAura(frame.unit, frame.index, frame.filter)
+			local _, _, _, _, _, _, timeleft = UnitAura(frame.unit, bar.aura.index, frame.filter)
 			if timeleft then
 				bar:SetValue(timeleft)
 				bar.spelltime:SetText(FormatTime(timeleft))
@@ -228,6 +228,7 @@ local function Update(self, event, unit)
 			local count, debuffType, duration, expirationTime = 5, "Magic", 0, 0
 			lastAuraIndex = lastAuraIndex + 1
 			auras[lastAuraIndex] = {}
+			auras[lastAuraIndex].index = index
 			auras[lastAuraIndex].name = name
 			auras[lastAuraIndex].rank = rank
 			auras[lastAuraIndex].icon = icon
@@ -266,6 +267,7 @@ local function Update(self, event, unit)
 			if (auraBars.filter or DefaultFilter)(self, unit, name, rank, icon, count, debuffType, duration, expirationTime) then
 				lastAuraIndex = lastAuraIndex + 1
 				auras[lastAuraIndex] = {}
+				auras[lastAuraIndex].index = index
 				auras[lastAuraIndex].name = name
 				auras[lastAuraIndex].rank = rank
 				auras[lastAuraIndex].icon = icon
@@ -318,7 +320,6 @@ local function Update(self, event, unit)
 		end
 
 		local bar = frame.statusBar
-		frame.index = index
 		frame.unit = unit
 		frame.filter = helpOrHarm
 
