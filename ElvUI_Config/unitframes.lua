@@ -69,8 +69,7 @@ local auraSortValues = {
 	["TIME_REMAINING"] = L["Time Remaining"],
 	["DURATION"] = L["Duration"],
 	["NAME"] = NAME,
-	["INDEX"] = L["Index"],
-	["PLAYER"] = PLAYER
+	["INDEX"] = L["Index"]
 };
 
 local auraSortMethodValues = {
@@ -607,12 +606,6 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 	end
 
 	if(friendlyUnitOnly) then
-		config.args.filters.args.playerOnly = {
-			order = 14,
-			type = "toggle",
-			name = L["Block Non-Personal Auras"],
-			desc = L["Don't display auras that are not yours."]
-		};
 		config.args.filters.args.useBlacklist = {
 			order = 15,
 			type = "toggle",
@@ -646,37 +639,7 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 				return filters;
 			end
 		};
-		config.args.filters.args.additionalFilterAllowNonPersonal = {
-			order = 20,
-			type = "toggle",
-			name = L["Additional Filter Override"],
-			desc = L["Allow non-personal auras from additional filter when 'Block Non-Personal Auras' is enabled."]
-		};
 	else
-		config.args.filters.args.playerOnly = {
-			order = 14,
-			guiInline = true,
-			type = "group",
-			name = L["Block Non-Personal Auras"],
-			args = {
-				friendly = {
-					order = 1,
-					type = "toggle",
-					name = L["Friendly"],
-					desc = L["If the unit is friendly to you."].." "..L["Don't display auras that are not yours."],
-					get = function(info) return E.db.unitframe.units[groupName][auraType].playerOnly.friendly; end,
-					set = function(info, value) E.db.unitframe.units[groupName][auraType].playerOnly.friendly = value; updateFunc(UF, groupName, numUnits); end
-				},
-				enemy = {
-					order = 2,
-					type = "toggle",
-					name = L["Enemy"],
-					desc = L["If the unit is an enemy to you."].." "..L["Don't display auras that are not yours."],
-					get = function(info) return E.db.unitframe.units[groupName][auraType].playerOnly.enemy; end,
-					set = function(info, value) E.db.unitframe.units[groupName][auraType].playerOnly.enemy = value; updateFunc(UF, groupName, numUnits); end
-				}
-			}
-		};
 		config.args.filters.args.useBlacklist = {
 			order = 15,
 			guiInline = true,
@@ -762,12 +725,6 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 				end
 				return filters;
 			end
-		};
-		config.args.filters.args.additionalFilterAllowNonPersonal = {
-			order = 20,
-			type = "toggle",
-			name = L["Additional Filter Override"],
-			desc = L["Allow non-personal auras from additional filter when 'Block Non-Personal Auras' is enabled."]
 		};
 	end
 

@@ -246,23 +246,6 @@ local function SortAurasByDuration(a, b)
 	end
 end
 
-local function SortAurasByCaster(a, b)
-	if(a and b and a:GetParent().db) then
-		if(a:IsShown() and b:IsShown()) then
-			local sortDirection = a:GetParent().db.sortDirection;
-			local aPlayer = a.isPlayer or false;
-			local bPlayer = b.isPlayer or false;
-			if(sortDirection == "DESCENDING") then
-				return (aPlayer and not bPlayer);
-			else
-				return (not aPlayer and bPlayer);
-			end
-		elseif(a:IsShown()) then
-			return true;
-		end
-	end
-end
-
 function UF:SortAuras()
 	if(not self.db) then return; end
 
@@ -272,8 +255,6 @@ function UF:SortAuras()
 		tsort(self, SortAurasByName);
 	elseif(self.db.sortMethod == "DURATION") then
 		tsort(self, SortAurasByDuration);
-	elseif (self.db.sortMethod == "PLAYER") then
-		tsort(self, SortAurasByCaster);
 	end
 
 	return 1, #self;
@@ -384,12 +365,13 @@ function UF:PostUpdateAura(unit, button, index)
 end
 
 function UF:UpdateAuraTimer(elapsed)
+	local _, _, _, _, _, duration, timeLeft = UnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
+
 	if(self.nextupdate > 0) then
 		self.nextupdate = self.nextupdate - elapsed;
 		return;
 	end
 
-	local _, _, _, _, _, duration, timeLeft = UnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
 	if(not timeLeft) then
 		self:SetScript("OnUpdate", nil);
 
@@ -440,9 +422,7 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 	db = db[self.type];
 
 	local returnValue = true;
-	local passPlayerOnlyCheck = true;
 	local anotherFilterExists = false;
-	local playerOnlyFilter = false;
 	local isFriend = UnitIsFriend("player", unit) == 1 and true or false;
 
 	icon.name = name;
@@ -451,19 +431,6 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 	local turtleBuff = (E.global["unitframe"]["aurafilters"]["TurtleBuffs"].spells[spellID] or E.global["unitframe"]["aurafilters"]["TurtleBuffs"].spells[name]);
 	if(turtleBuff and turtleBuff.enable) then
 		icon.priority = turtleBuff.priority;
-	end
-
-	if(UF:CheckFilter(db.playerOnly, isFriend)) then
-		if(icon.isPlayer) then
-			returnValue = true;
-		else
-			returnValue = false;
-		end
-
-		if(not db.additionalFilterAllowNonPersonal) then
-			passPlayerOnlyCheck = returnValue;
-		end
-		playerOnlyFilter = true;
 	end
 
 	if(UF:CheckFilter(db.noDuration, isFriend)) then
@@ -488,7 +455,7 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 		if(whiteList and whiteList.enable) then
 			returnValue = true;
 			icon.priority = whiteList.priority;
-		elseif(not anotherFilterExists and not playerOnlyFilter) then
+		elseif(not anotherFilterExists) then
 			returnValue = false;
 		end
 
@@ -501,7 +468,7 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 		local spell = (spellList[spellID] or spellList[name]);
 
 		if(type == "Whitelist") then
-			if(spell and spell.enable and passPlayerOnlyCheck) then
+			if(spell and spell.enable) then
 				returnValue = true;
 				icon.priority = spell.priority;
 			elseif not anotherFilterExists then
