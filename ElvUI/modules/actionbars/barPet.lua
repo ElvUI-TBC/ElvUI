@@ -10,8 +10,6 @@ local GetBindingKey = GetBindingKey
 local PetHasActionBar = PetHasActionBar
 local GetPetActionInfo = GetPetActionInfo
 local IsPetAttackActive = IsPetAttackActive
-local PetActionButton_StartFlash = PetActionButton_StartFlash
-local PetActionButton_StopFlash = PetActionButton_StopFlash
 local GetPetActionsUsable = GetPetActionsUsable
 local SetDesaturation = SetDesaturation
 local PetActionBar_ShowGrid = PetActionBar_ShowGrid
@@ -49,14 +47,8 @@ function AB:UpdatePet(event, unit)
 
 		if isActive and name ~= "PET_ACTION_FOLLOW" then
 			petActionButton:SetChecked(1)
-			if IsPetAttackActive(i) then
-				PetActionButton_StartFlash(petActionButton)
-			end
 		else
 			petActionButton:SetChecked(0)
-			if IsPetAttackActive(i) then
-				PetActionButton_StopFlash(petActionButton)
-			end
 		end
 
 		if autoCastAllowed then
@@ -85,9 +77,8 @@ function AB:UpdatePet(event, unit)
 		end
 
 		if not PetHasActionBar() and texture and name ~= "PET_ACTION_FOLLOW" then
-			PetActionButton_StopFlash(petActionButton)
 			SetDesaturation(petActionIcon, 1)
-			button:SetChecked(0)
+			petActionButton:SetChecked(0)
 		end
 	end
 end
