@@ -257,6 +257,7 @@ function CH:StyleChat(frame)
 	local id = frame:GetID()
 
 	local tab = _G[name.."Tab"]
+	tab.isDocked = frame.isDocked
 
 	for i = 1, #CHAT_FRAME_TEXTURES do
 		_G[name..CHAT_FRAME_TEXTURES[i]]:Kill()
@@ -271,27 +272,21 @@ function CH:StyleChat(frame)
 	_G[name.."TabRight"]:Kill()
 	_G[name.."Tab"]:GetHighlightTexture():SetTexture(nil)
 
-	if _G[name].isDocked or _G[name]:IsVisible() then
+	if frame.isDocked or frame:IsVisible() then
 		tab:Show()
 	end
 
-	tab:SetAlpha(1)
-	UIFrameFadeRemoveFrame(tab)
 	hooksecurefunc(tab, "SetAlpha", function(t, alpha)
 		if alpha ~= 1 and (not t.isDocked or SELECTED_CHAT_FRAME:GetID() == t:GetID()) then
+			UIFrameFadeRemoveFrame(t)
 			t:SetAlpha(1)
-			UIFrameFadeRemoveFrame(t)
 		elseif alpha < 0.6 then
-			t:SetAlpha(0.6)
 			UIFrameFadeRemoveFrame(t)
+			t:SetAlpha(0.6)
 		end
 	end)
 
 	tab.text = _G[name.."TabText"]
-
-	tab:HookScript("OnEnter", function() tab.text:Show() end)
-	tab:HookScript("OnLeave", function() tab.text:Show() end)
-
 	tab.text:SetTextColor(unpack(E["media"].rgbvaluecolor))
 	hooksecurefunc(tab.text, "SetTextColor", function(self, r, g, b)
 		local rR, gG, bB = unpack(E["media"].rgbvaluecolor)
@@ -432,7 +427,7 @@ function CH:SetupChatTabs(frame, hook)
 			frame.owner.button:SetAlpha(0.35)
 		end
 	elseif GetMouseFocus() ~= frame then
-		_G[frame:GetName().."Text"]:Show()
+		_G[frame:GetName().."Text"]:Hide()
 
 		if frame.owner and frame.owner.button and GetMouseFocus() ~= frame.owner.button then
 			frame.owner.button:SetAlpha(1)
