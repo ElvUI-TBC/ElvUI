@@ -12,6 +12,8 @@ function UF:Construct_HealComm(frame)
 	ohpb:SetStatusBarTexture(E["media"].blankTex);
 	ohpb:Hide();
 
+	CreateStatusBarTexturePointer(mhpb)
+
 	return {
 		myBar = mhpb,
 		otherBar = ohpb,
@@ -25,8 +27,8 @@ function UF:Configure_HealComm(frame)
 	local c = self.db.colors.healPrediction;
 
 	if(frame.db.healPrediction) then
-		if(not frame:IsElementEnabled("HealComm4")) then
-			frame:EnableElement("HealComm4");
+		if(not frame:IsElementEnabled("HealComm3")) then
+			frame:EnableElement("HealComm3");
 		end
 
 		if(not frame.USE_PORTRAIT_OVERLAY) then
@@ -46,8 +48,8 @@ function UF:Configure_HealComm(frame)
 		healCommBar.myBar:SetStatusBarColor(c.personal.r, c.personal.g, c.personal.b, c.personal.a);
 		healCommBar.otherBar:SetStatusBarColor(c.others.r, c.others.g, c.others.b, c.others.a);
 	else
-		if(frame:IsElementEnabled("HealComm4")) then
-			frame:DisableElement("HealComm4");
+		if(frame:IsElementEnabled("HealComm3")) then
+			frame:DisableElement("HealComm3");
 		end
 	end
 end
@@ -75,12 +77,12 @@ local function UpdateFillBar(frame, previousTexture, bar, amount)
 		bar:SetHeight(totalHeight);
 	end
 
-	return bar:GetStatusBarTexture();
+	return bar.texturePointer
 end
 
 function UF:UpdateHealComm(_, myIncomingHeal, allIncomingHeal)
 	local frame = self.parent;
-	local previousTexture = frame.Health:GetStatusBarTexture();
+	local previousTexture = frame.Health.texturePointer
 
 	previousTexture = UpdateFillBar(frame, previousTexture, self.myBar, myIncomingHeal);
 	previousTexture = UpdateFillBar(frame, previousTexture, self.otherBar, allIncomingHeal);
