@@ -342,17 +342,11 @@ function UF:PostUpdateAura(unit, button, index)
 	end
 
 	if(button.isDebuff) then
-		if(not isFriend and button.owner ~= "player") --[[and (not E.isDebuffWhiteList[name])]] then
-			button:SetBackdropBorderColor(0.9, 0.1, 0.1);
-			button.icon:SetDesaturated((unit and not unit:find("arena%d")) and true or false);
+		local color = DebuffTypeColor[dtype] or DebuffTypeColor.none;
+		if((name == unstableAffliction or name == vampiricTouch) and E.myclass ~= "WARLOCK") then
+			button:SetBackdropBorderColor(0.05, 0.85, 0.94);
 		else
-			local color = DebuffTypeColor[dtype] or DebuffTypeColor.none;
-			if((name == unstableAffliction or name == vampiricTouch) and E.myclass ~= "WARLOCK") then
-				button:SetBackdropBorderColor(0.05, 0.85, 0.94);
-			else
-				button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6);
-			end
-			button.icon:SetDesaturated(false);
+			button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6);
 		end
 	end
 
@@ -390,13 +384,12 @@ function UF:PostUpdateAura(unit, button, index)
 end
 
 function UF:UpdateAuraTimer(elapsed)
-	local _, _, _, _, _, duration, timeLeft = UnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
-
 	if(self.nextupdate > 0) then
 		self.nextupdate = self.nextupdate - elapsed;
 		return;
 	end
 
+	local _, _, _, _, _, duration, timeLeft = UnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
 	if(not timeLeft) then
 		self:SetScript("OnUpdate", nil);
 
