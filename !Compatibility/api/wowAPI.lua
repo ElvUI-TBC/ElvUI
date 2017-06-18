@@ -208,7 +208,7 @@ function GetPlayerFacing()
 		end
 	end
 
-	return arrow:GetFacing()
+	return arrow and arrow:GetFacing()
 end
 
 function ToggleFrame(frame)
@@ -219,10 +219,57 @@ function ToggleFrame(frame)
 	end
 end
 
-function MainMenuMicroButton_SetPushed()
-	MainMenuMicroButton:SetButtonState("PUSHED", 1)
+local function OnOrientationChanged(self, orientation)
+	self.texturePointer.verticalOrientation = orientation == "VERTICAL"
+
+	if self.texturePointer.verticalOrientation then
+		self.texturePointer:SetPoint("BOTTOMLEFT", self)
+	else
+		self.texturePointer:SetPoint("LEFT", self)
+	end
 end
 
-function MainMenuMicroButton_SetNormal()
-	MainMenuMicroButton:SetButtonState("NORMAL")
+local function OnSizeChanged(self, width, height)
+	self.texturePointer.width = width
+	self.texturePointer.height = height
+	self.texturePointer:SetWidth(width)
+	self.texturePointer:SetHeight(height)
+end
+
+local function OnValueChanged(self, value)
+	local _, max = self:GetMinMaxValues()
+
+	if self.texturePointer.verticalOrientation then
+		self.texturePointer:SetHeight(self.texturePointer.height * (value / max))
+	else
+		self.texturePointer:SetWidth(self.texturePointer.width * (value / max))
+	end
+end
+
+function CreateStatusBarTexturePointer(statusbar)
+	assert(statusbar and type(statusbar) == "table", "Bad argument #1 to `CreateStatusBarTexturePointer' (table expected)")
+	assert(statusbar.GetObjectType and statusbar:GetObjectType() == "StatusBar", "Bad argument #1 to `CreateStatusBarTexturePointer' (statusbar object expected)")
+
+	local f = statusbar:CreateTexture()
+	f.width = statusbar:GetWidth()
+	f.height = statusbar:GetHeight()
+	f.vertical = statusbar:GetOrientation() == "VERTICAL"
+	f:SetWidth(f.width)
+	f:SetHeight(f.height)
+
+	if f.verticalOrientation then
+		f:SetPoint("BOTTOMLEFT", statusbar)
+	else
+		f:SetPoint("LEFT", statusbar)
+	end
+
+	statusbar.texturePointer = f
+
+	statusbar:SetScript("OnAttributeChanged", OnAttributeChanged)
+	statusbar:SetScript("OnSizeChanged", OnSizeChanged)
+	statusbar:SetScript("OnValueChanged", OnValueChanged)
+
+	hooksecurefunc(statusbar, "SetOrientation", OnOrientationChanged)
+
+	return f
 end
