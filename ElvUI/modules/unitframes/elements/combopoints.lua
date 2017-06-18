@@ -3,6 +3,7 @@ local UF = E:GetModule("UnitFrames")
 
 local CreateFrame = CreateFrame
 local GetShapeshiftForm = GetShapeshiftForm
+local GetShapeshiftFormInfo = GetShapeshiftFormInfo
 local GetComboPoints = GetComboPoints
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
@@ -143,9 +144,21 @@ function UF:Configure_ComboPoints(frame)
 	end
 end
 
+local function GetCatFormID()
+	if GetNumShapeshiftForms() < 6 then
+		for i = 1, GetNumShapeshiftForms() do
+			if GetShapeshiftFormInfo(i):find("Druid_CatForm") then
+				return i
+			end
+		end
+	else
+		return 3
+	end
+end
+
 function UF:UpdateComboDisplay(event)
-	if(event == "UPDATE_SHAPESHIFT_FORM" and GetShapeshiftForm() ~= 3) then return self.CPoints:Hide(); end
-	if(E.myclass ~= "ROGUE" and (E.myclass ~= "DRUID" or (E.myclass == "DRUID" and GetShapeshiftForm() ~= 3))) then return self.CPoints:Hide(); end
+	if(event == "UPDATE_SHAPESHIFT_FORM" and GetShapeshiftForm() ~= GetCatFormID()) then return self.CPoints:Hide(); end
+	if(E.myclass ~= "ROGUE" and (E.myclass ~= "DRUID" or (E.myclass == "DRUID" and GetShapeshiftForm() ~= GetCatFormID()))) then return self.CPoints:Hide(); end
 
 	if not self.db then return end
 	local cpoints = self.CPoints
