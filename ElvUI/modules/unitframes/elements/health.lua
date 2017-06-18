@@ -22,6 +22,8 @@ function UF:Construct_HealthBar(frame, bg, text, textPos)
 	health:SetFrameLevel(10);
 	health.PostUpdate = self.PostUpdateHealth;
 
+	CreateStatusBarTexturePointer(health)
+
 	if(bg) then
 		health.bg = health:CreateTexture(nil, "BORDER");
 		health.bg:SetAllPoints();
@@ -136,8 +138,8 @@ function UF:Configure_HealthBar(frame)
 		health.bg:SetParent(health);
 		health.bg:SetAllPoints();
 	else
-		health.bg:Point("BOTTOMLEFT", health:GetStatusBarTexture(), "BOTTOMRIGHT");
-		health.bg:Point("TOPRIGHT", health);
+		health.bg:Point("BOTTOMLEFT", health.texturePointer, "BOTTOMRIGHT")
+		health.bg:Point("TOPRIGHT", health)
 		health.bg:SetParent(frame.Portrait.overlay);
 	end
 

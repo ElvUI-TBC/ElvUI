@@ -15,6 +15,8 @@ function UF:Construct_PowerBar(frame, bg, text, textPos)
 
 	power.PostUpdate = self.PostUpdatePower;
 
+	CreateStatusBarTexturePointer(power)
+
 	if(bg) then
 		power.bg = power:CreateTexture(nil, "BORDER");
 		power.bg:SetAllPoints();

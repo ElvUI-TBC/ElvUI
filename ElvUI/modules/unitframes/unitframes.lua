@@ -1214,8 +1214,8 @@ end
 function UF:ToggleTransparentStatusBar(isTransparent, statusBar, backdropTex, adjustBackdropPoints, invertBackdropTex)
 	statusBar.isTransparent = isTransparent;
 
-	local statusBarTex = statusBar:GetStatusBarTexture();
-	local statusBarOrientation = statusBar:GetOrientation();
+	local statusBarTex = statusBar.texturePointer
+	local statusBarOrientation = statusBar:GetOrientation()
 	if(isTransparent) then
 		if(statusBar.backdrop) then
 			statusBar.backdrop:SetTemplate("Transparent");

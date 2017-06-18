@@ -19,6 +19,8 @@ function UF:Construct_AuraBars()
 	UF["statusbars"][bar] = true;
 	UF:Update_StatusBar(bar);
 
+	CreateStatusBarTexturePointer(bar)
+
 	UF:Configure_FontString(bar.spelltime);
 	UF:Configure_FontString(bar.spellname);
 	UF:Update_FontString(bar.spelltime);
