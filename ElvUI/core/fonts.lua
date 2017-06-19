@@ -49,38 +49,38 @@ function E:UpdateBlizzardFonts()
 	end
 
 	if(self.private.general.replaceBlizzFonts) then
-		SetFont(SystemFont,					NORMAL, self.db.general.fontSize);
-		SetFont(GameFontNormal,					NORMAL, self.db.general.fontSize);
+		SetFont(SystemFont,							NORMAL, self.db.general.fontSize);
+		SetFont(GameFontNormal,						NORMAL, self.db.general.fontSize);
 		SetFont(GameFontNormalSmall,				NORMAL, self.db.general.fontSize);
 		SetFont(GameFontNormalLarge,				NORMAL, self.db.general.fontSize);
-		SetFont(GameFontNormalHuge,				NORMAL, 20, MONOCHROME .. "OUTLINE");
+		SetFont(GameFontNormalHuge,					NORMAL, 20, MONOCHROME .. "OUTLINE");
 		SetFont(BossEmoteNormalHuge,				NORMAL, 20, MONOCHROME .. "OUTLINE");
-		SetFont(GameFontBlack,					NORMAL, self.db.general.fontSize);
-		SetFont(NumberFontNormal,				NUMBER, self.db.general.fontSize, MONOCHROME .. "OUTLINE");
+		SetFont(GameFontBlack,						NORMAL, self.db.general.fontSize);
+		SetFont(NumberFontNormal,					NUMBER, self.db.general.fontSize, MONOCHROME .. "OUTLINE");
 		SetFont(NumberFontNormalSmall,				NUMBER, self.db.general.fontSize);
 		SetFont(NumberFontNormalLarge,				NUMBER, self.db.general.fontSize);
 		SetFont(NumberFontNormalHuge,				NUMBER, self.db.general.fontSize);
-		SetFont(ChatFontNormal,					NORMAL, self.db.general.fontSize);
-		SetFont(ChatFontSmall,					NORMAL, self.db.general.fontSize);
-		SetFont(QuestTitleFont,					NORMAL, self.db.general.fontSize);
-		SetFont(QuestFont,					NORMAL, self.db.general.fontSize);
-		SetFont(QuestFontHighlight,				NORMAL, self.db.general.fontSize);
-		SetFont(ItemTextFontNormal,				NORMAL, self.db.general.fontSize);
-		SetFont(ItemTextFontNormal,				NORMAL, self.db.general.fontSize);
-		SetFont(MailTextFontNormal,				NORMAL, self.db.general.fontSize);
-		SetFont(SubSpellFont,					NORMAL, self.db.general.fontSize);
+		SetFont(ChatFontNormal,						NORMAL, self.db.general.fontSize);
+		SetFont(ChatFontSmall,						NORMAL, self.db.general.fontSize);
+		SetFont(QuestTitleFont,						NORMAL, self.db.general.fontSize);
+		SetFont(QuestFont,							NORMAL, self.db.general.fontSize);
+		SetFont(QuestFontHighlight,					NORMAL, self.db.general.fontSize);
+		SetFont(ItemTextFontNormal,					NORMAL, self.db.general.fontSize);
+		SetFont(ItemTextFontNormal,					NORMAL, self.db.general.fontSize);
+		SetFont(MailTextFontNormal,					NORMAL, self.db.general.fontSize);
+		SetFont(SubSpellFont,						NORMAL, self.db.general.fontSize);
 		SetFont(DialogButtonNormalText,				NORMAL, self.db.general.fontSize);
-		SetFont(ZoneTextFont,					NORMAL, 32, MONOCHROME .. "OUTLINE");
-		SetFont(SubZoneTextFont,				NORMAL, 25, MONOCHROME .. "OUTLINE");
-		SetFont(PVPInfoTextFont,				NORMAL, 22, MONOCHROME .. "OUTLINE");
-		SetFont(TextStatusBarText,				NORMAL, self.db.general.fontSize);
+		SetFont(ZoneTextFont,						NORMAL, 32, MONOCHROME .. "OUTLINE");
+		SetFont(SubZoneTextFont,					NORMAL, 25, MONOCHROME .. "OUTLINE");
+		SetFont(PVPInfoTextFont,					NORMAL, 22, MONOCHROME .. "OUTLINE");
+		SetFont(TextStatusBarText,					NORMAL, self.db.general.fontSize);
 		SetFont(TextStatusBarTextSmall,				NORMAL, self.db.general.fontSize);
-		SetFont(GameTooltipText,				NORMAL, self.db.general.fontSize);
+		SetFont(GameTooltipText,					NORMAL, self.db.general.fontSize);
 		SetFont(GameTooltipTextSmall,				NORMAL, self.db.general.fontSize);
 		SetFont(GameTooltipHeaderText,				NORMAL, self.db.general.fontSize);
-	--	SetFont(WorldMapTextFont,				NORMAL, self.db.general.fontSize);
+	--	SetFont(WorldMapTextFont,					NORMAL, self.db.general.fontSize);
 		SetFont(InvoiceTextFontNormal,				NORMAL, self.db.general.fontSize);
 		SetFont(InvoiceTextFontSmall,				NORMAL, self.db.general.fontSize);
-		SetFont(CombatTextFont,					COMBAT, 100, MONOCHROME .. "OUTLINE");
+		SetFont(CombatTextFont,						COMBAT, 100, MONOCHROME .. "OUTLINE");
 	end
 end
