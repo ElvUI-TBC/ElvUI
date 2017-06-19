@@ -590,6 +590,57 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general[ info[#info] ] = value; E:GetModule("Blizzard"):SetWatchFrameHeight(); end
 				}
 			}
+		},
+		threatGroup = {
+			order = 10,
+			type = "group",
+			name = L["Threat"],
+			args = {
+				threatHeader = {
+					order = 1,
+					type = "header",
+					name = L["Threat"]
+				},
+				threatLibStatus = {
+					order = 2,
+					type = "description",
+					image = function() return E:GetModule("Threat"):GetLibStatus() and READY_CHECK_READY_TEXTURE or READY_CHECK_NOT_READY_TEXTURE, 30, 26 end,
+					name = function()
+						if E:GetModule("Threat"):GetLibStatus() then
+							return L["Library Threat-2.0 found."]
+						else
+							return L["Library Threat-2.0 not found. If you want to use Threat module install Omen or separate Threat-2.0 library."]
+						end
+					end
+				},
+				threatEnable = {
+					order = 3,
+					type = "toggle",
+					name = L["Enable"],
+					get = function(info) return E.db.general.threat.enable; end,
+					set = function(info, value) E.db.general.threat.enable = value; E:GetModule("Threat"):ToggleEnable()end
+				},
+				threatPosition = {
+					order = 4,
+					type = "select",
+					name = L["Position"],
+					desc = L["Adjust the position of the threat bar to either the left or right datatext panels."],
+					values = {
+						["LEFTCHAT"] = L["Left Chat"],
+						["RIGHTCHAT"] = L["Right Chat"]
+					},
+					get = function(info) return E.db.general.threat.position; end,
+					set = function(info, value) E.db.general.threat.position = value; E:GetModule("Threat"):UpdatePosition(); end
+				},
+				threatTextSize = {
+					order = 5,
+					type = "range",
+					min = 6, max = 22, step = 1,
+					name = L["Font Size"],
+					get = function(info) return E.db.general.threat.textSize; end,
+					set = function(info, value) E.db.general.threat.textSize = value; E:GetModule("Threat"):UpdatePosition(); end
+				}
+			}
 		}
 	}
 };

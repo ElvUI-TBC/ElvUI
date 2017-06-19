@@ -70,6 +70,11 @@ P["general"] = {
 			},
 		}
 	},
+	["threat"] = {
+		["enable"] = true,
+		["position"] = "RIGHTCHAT",
+		["textSize"] = 12,
+	},
 	["totems"] = {
 		["enable"] = true,
 		["growthDirection"] = "VERTICAL",

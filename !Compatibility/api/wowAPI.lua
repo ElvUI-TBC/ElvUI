@@ -271,3 +271,38 @@ function CreateStatusBarTexturePointer(statusbar)
 
 	return f
 end
+
+local threatColors = {
+	[0] = {0.69, 0.69, 0.69},
+	[1] = {1, 1, 0.47},
+	[2] = {1, 0.6, 0},
+	[3] = {1, 0, 0}
+}
+
+function GetThreatStatusColor(statusIndex)
+	assert(statusIndex and type(statusIndex) == "number", "Usage: GetThreatStatusColor(statusIndex)")
+
+	return threatColors[statusIndex][1], threatColors[statusIndex][2], threatColors[statusIndex][3]
+end
+
+
+function GetThreatStatus(currentThreat, maxThreat)
+	assert(currentThreat and type(currentThreat) == "number" and maxThreat and type(maxThreat) == "number", "Usage: GetThreatStatus(currentThreat, maxThreat)")
+
+	if not maxThreat or maxThreat == 0 then
+		maxThreat = 0
+		maxThreat = 1
+	end
+
+	local threatPercent = currentThreat / maxThreat * 100
+
+	if threatPercent >= 100 then
+		return 3, threatPercent
+	elseif threatPercent < 100 and threatPercent >= 80 then
+		return 2, threatPercent
+	elseif threatPercent < 80 and threatPercent >= 50 then
+		return 1, threatPercent
+	else
+		return 0, threatPercent
+	end
+end
