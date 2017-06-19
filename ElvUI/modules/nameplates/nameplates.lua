@@ -291,6 +291,7 @@ function mod:OnShow()
 
 	if unitType == "ENEMY_NPC" and self.UnitFrame.UnitClass then
 		unitType = "ENEMY_PLAYER"
+		self.UnitFrame.UnitType = unitType
 	end
 
 	if not mod:CheckFilter(self.UnitFrame) then return end
