@@ -1,8 +1,11 @@
---Cache global variables
+-- Cache global variables
+local assert = assert
 local date = date
 local format, gsub, lower, match, upper = string.format, string.gsub, string.lower, string.match, string.upper
 local pairs = pairs
---WoW API
+local tonumber = tonumber
+local type = type
+-- WoW API
 local GetCurrentDungeonDifficulty = GetCurrentDungeonDifficulty
 local GetQuestGreenRange = GetQuestGreenRange
 local GetRealZoneText = GetRealZoneText
@@ -10,10 +13,10 @@ local IsInInstance = IsInInstance
 local UnitBuff = UnitBuff
 local UnitDebuff = UnitDebuff
 local UnitLevel = UnitLevel
---WoW Variables
+-- WoW Variables
 local TIMEMANAGER_AM = TIMEMANAGER_AM
 local TIMEMANAGER_PM = TIMEMANAGER_PM
---Libs
+-- Libs
 local LBC = LibStub("LibBabble-Class-3.0"):GetLookupTable()
 local LBZ = LibStub("LibBabble-Zone-3.0"):GetLookupTable()
 
@@ -55,6 +58,8 @@ QuestDifficultyColors = {
 }
 
 function UnitAura(unit, i, filter)
+	assert(unit and (type(unit) == "string" or type(unit) == "number") and i and (type(i) == "string" or type(i) == "number"), "Usage: UnitAura(\"unit\", index [, filter])")
+
 	if match(filter, "\|*(HELPFUL)") then
 		local name, rank, aura, count, duration, maxDuration = UnitBuff(unit, i, filter)
 		return name, rank, aura, count, nil, duration, maxDuration
@@ -76,7 +81,6 @@ end
 
 function GetQuestDifficultyColor(level)
 	local levelDiff = level - UnitLevel("player")
-	local color
 	if levelDiff >= 5 then
 		return QuestDifficultyColors["impossible"]
 	elseif levelDiff >= 3 then
@@ -91,7 +95,7 @@ function GetQuestDifficultyColor(level)
 end
 
 function FillLocalizedClassList(tab, female)
-	if not (tab and type(tab) == "table") then return end
+	assert(tab and type(tab) == "table", "Bad argument #1 to \"FillLocalizedClassList\" (table expected)")
 
 	for _, engClass in ipairs(CLASS_SORT_ORDER) do
 		if female then
@@ -185,15 +189,9 @@ function GetCurrentMapAreaID()
 end
 
 function GetMapNameByID(id)
-	if not id then return end
+	assert(type(id) == "string" or type(id) == "number", "Bad argument #1 to \"GetMapNameByID\" (number expected)")
 
-	if type(id) == "string" then
-		tonumber(id)
-	end
-
-	assert(type(id) == "number", "Bad argument #1 to `GetMapNameByID' (number expected)")
-
-	return mapByID[id] or nil
+	return mapByID[tonumber(id)] or nil
 end
 
 local arrow
@@ -247,8 +245,8 @@ local function OnValueChanged(self, value)
 end
 
 function CreateStatusBarTexturePointer(statusbar)
-	assert(statusbar and type(statusbar) == "table", "Bad argument #1 to `CreateStatusBarTexturePointer' (table expected)")
-	assert(statusbar.GetObjectType and statusbar:GetObjectType() == "StatusBar", "Bad argument #1 to `CreateStatusBarTexturePointer' (statusbar object expected)")
+	assert(statusbar and type(statusbar) == "table", "Bad argument #1 to \"CreateStatusBarTexturePointer\" (table expected)")
+	assert(statusbar.GetObjectType and statusbar:GetObjectType() == "StatusBar", "Bad argument #1 to \"CreateStatusBarTexturePointer\" (statusbar object expected)")
 
 	local f = statusbar:CreateTexture()
 	f.width = statusbar:GetWidth()
