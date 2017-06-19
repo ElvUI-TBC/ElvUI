@@ -249,7 +249,7 @@ function mod:UnitClass(name, type)
 	if type == "FRIENDLY_PLAYER" then
 		return select(2, UnitClass(name)) or CC:GetCacheTable()[E.myrealm][name] or nil
 	elseif type == "ENEMY_NPC" then
-		return self.PlayerClasses or CC:GetCacheTable()[E.myrealm][name] or nil
+		return self.PlayerClasses[name] or CC:GetCacheTable()[E.myrealm][name] or nil
 	end
 	return nil
 end
