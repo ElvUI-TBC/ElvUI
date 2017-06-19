@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:NewModule("NamePlates", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
+local CC
 
 local _G = _G
 local pairs, tonumber = pairs, tonumber
@@ -32,6 +33,7 @@ local RaidIconCoordinate = {
 mod.CreatedPlates = {}
 mod.VisiblePlates = {}
 mod.Healers = {}
+mod.PlayerClasses = {}
 
 function mod:CheckFilter(frame)
 	local db = E.global.nameplates["filter"][frame.UnitName]
@@ -64,15 +66,19 @@ function mod:CheckFilter(frame)
 end
 
 function mod:CheckBGHealers()
-	local name, _, damageDone, healingDone
+	local name, _, class, damageDone, healingDone
 	for i = 1, GetNumBattlefieldScores() do
-		name, _, _, _, _, _, _, _, _, _, damageDone, healingDone = GetBattlefieldScore(i)
+		name, _, _, _, _, _, _, _, _, class, damageDone, healingDone = GetBattlefieldScore(i)
 		if name then
 			name = name:match("(.+)%-.+") or name
 			if name and healingDone > (damageDone * 2) then
 				self.Healers[name] = true
 			elseif name and self.Healers[name] then
 				self.Healers[name] = nil
+			end
+
+			if name and self.PlayerClasses[name] ~= class then
+				self.PlayerClasses[name] = class
 			end
 		end
 	end
@@ -237,26 +243,19 @@ function mod:RoundColors(r, g, b)
 	return floor(r*100+.5) / 100, floor(g*100+.5) / 100, floor(b*100+.5) / 100
 end
 
-function mod:UnitClass(frame, type)
+function mod:UnitClass(name, type)
+	if not CC then CC = E:GetModule("ChatCache") end
+
 	if type == "FRIENDLY_PLAYER" then
-		if UnitInParty("player") or UnitInRaid("player") then -- FRIENDLY_PLAYER
-			local _, class = UnitClass(frame.UnitName)
-			if class then return class end
-		end
-	elseif type == "ENEMY_PLAYER" then
-		local r, g, b = self:RoundColors(frame.oldHealthBar:GetStatusBarColor())
-		for class, _ in pairs(RAID_CLASS_COLORS) do -- ENEMY_PLAYER
-			if RAID_CLASS_COLORS[class].r == r and RAID_CLASS_COLORS[class].g == g and RAID_CLASS_COLORS[class].b == b then
-				return class
-			end
-		end
+		return select(2, UnitClass(name)) or CC:GetCacheTable()[E.myrealm][name] or nil
+	elseif type == "ENEMY_NPC" then
+		return self.PlayerClasses or CC:GetCacheTable()[E.myrealm][name] or nil
 	end
+	return nil
 end
 
 function mod:UnitDetailedThreatSituation(frame)
-
-			return false
-
+	return false
 end
 
 function mod:UnitLevel(frame)
@@ -270,25 +269,15 @@ end
 
 function mod:GetUnitInfo(frame)
 	local r, g, b = mod:RoundColors(frame.oldHealthBar:GetStatusBarColor())
-
-	if r < .01 then
-		if b < .01 and g > .99 then
-			return 5, "FRIENDLY_NPC";
-		elseif b > .99 and g < .01 then
-			return 5, "FRIENDLY_PLAYER";
-		end
-	elseif r > .99 then
-		if b < .01 and g > .99 then
-			return 4, "ENEMY_NPC";
-		elseif b < .01 and g < .01 then
-			return 2, "ENEMY_NPC";
-		end
-	elseif r > .5 and r < .6 then
-		if g > .5 and g < .6 and b > .5 and b < .6 then
-			return 1, "ENEMY_NPC";
-		end
+	if r == 1 and g == 0 and b == 0 then
+		return 2, "ENEMY_NPC"
+	elseif r == 0 and g == 0 and b == 1 then
+		return 5, "FRIENDLY_PLAYER"
+	elseif r == 0 and g == 1 and b == 0 then
+		return 5, "FRIENDLY_NPC"
+	elseif r == 1 and g == 1 and b == 0 then
+		return 4, "ENEMY_NPC"
 	end
-	return 3, "ENEMY_PLAYER";
 end
 
 function mod:OnShow()
@@ -297,8 +286,12 @@ function mod:OnShow()
 	self.UnitFrame.UnitName = gsub(self.UnitFrame.oldName:GetText(), FSPAT, "")
 	local unitReaction, unitType = mod:GetUnitInfo(self.UnitFrame)
 	self.UnitFrame.UnitType = unitType
-	self.UnitFrame.UnitClass = mod:UnitClass(self.UnitFrame, unitType)
+	self.UnitFrame.UnitClass = mod:UnitClass(self.UnitFrame.UnitName, unitType)
 	self.UnitFrame.UnitReaction = unitReaction
+
+	if unitType == "ENEMY_NPC" and self.UnitFrame.UnitClass then
+		unitType = "ENEMY_PLAYER"
+	end
 
 	if not mod:CheckFilter(self.UnitFrame) then return end
 
@@ -405,17 +398,17 @@ end
 
 function mod:UpdateElement_All(frame, noTargetFrame)
 	if self.db.units[frame.UnitType].healthbar.enable or frame.isTarget then
-		mod:UpdateElement_Health(frame)
-		mod:UpdateElement_HealthColor(frame)
-		mod:UpdateElement_Auras(frame)
+		self:UpdateElement_Health(frame)
+		self:UpdateElement_HealthColor(frame)
+		self:UpdateElement_Auras(frame)
 	end
-	mod:UpdateElement_RaidIcon(frame)
-	mod:UpdateElement_HealerIcon(frame)
-	mod:UpdateElement_Name(frame)
-	mod:UpdateElement_Level(frame)
+	self:UpdateElement_RaidIcon(frame)
+	self:UpdateElement_HealerIcon(frame)
+	self:UpdateElement_Name(frame)
+	self:UpdateElement_Level(frame)
 
 	if not noTargetFrame then
-		mod:ScheduleTimer("SetTargetFrame", 0.01, frame)
+		mod:ScheduleTimer("ForEachPlate", 0.25, "SetTargetFrame")
 	end
 end
 
@@ -600,7 +593,7 @@ function mod:PLAYER_ENTERING_WORLD()
 end
 
 function mod:PLAYER_TARGET_CHANGED()
-	mod:ScheduleTimer("ForEachPlate", 0.1, "SetTargetFrame")
+	mod:ScheduleTimer("ForEachPlate", 0.25, "SetTargetFrame")
 end
 
 function mod:UNIT_AURA(_, unit)
