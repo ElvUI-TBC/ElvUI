@@ -15,7 +15,7 @@ end
 local function HookScript2(frame, scriptType, handler)
 	assert(scriptType and (type(scriptType) == "string" or type(scriptType) == "number") and handler and type(handler) == "function", format("Usage: %s:HookScript2(\"type\", function)", frame.GetName and frame:GetName() or tostring(frame)))
 
-	if pcall(frame.GetScript, frame, scriptType) then
+	if frame:GetScript(scriptType) then
 		frame:HookScript(scriptType, handler)
 	else
 		frame:SetScript(scriptType, handler)
