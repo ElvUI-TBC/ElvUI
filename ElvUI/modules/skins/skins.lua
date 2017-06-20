@@ -65,9 +65,8 @@ function S:HandleButton(f, strip)
 	if strip then f:StripTextures() end
 
 	f:SetTemplate("Default", true)
-
-	if f:GetScript("OnEnter") then f:HookScript("OnEnter", S.SetModifiedBackdrop) else f:SetScript("OnEnter", S.SetModifiedBackdrop) end
-	if f:GetScript("OnLeave") then f:HookScript("OnLeave", S.SetOriginalBackdrop) else f:SetScript("OnLeave", S.SetOriginalBackdrop) end
+	f:HookScript2("OnEnter", S.SetModifiedBackdrop)
+	f:HookScript2("OnLeave", S.SetOriginalBackdrop)
 end
 
 function S:HandleScrollBar(frame, thumbTrim)
@@ -344,8 +343,8 @@ function S:HandleCloseButton(f, point, text)
 		f:CreateBackdrop("Default", true);
 		f.backdrop:Point("TOPLEFT", 7, -8);
 		f.backdrop:Point("BOTTOMRIGHT", -8, 8);
-		if f:GetScript("OnEnter") then f:HookScript("OnEnter", S.SetModifiedBackdrop) else f:SetScript("OnEnter", S.SetModifiedBackdrop) end
-		if f:GetScript("OnLeave") then f:HookScript("OnLeave", S.SetOriginalBackdrop) else f:SetScript("OnLeave", S.SetOriginalBackdrop) end
+		f:HookScript2("OnEnter", S.SetModifiedBackdrop)
+		f:HookScript2("OnLeave", S.SetOriginalBackdrop)
 	end
 	if(not text) then text = "x"; end
 	if(not f.text) then

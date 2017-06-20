@@ -156,7 +156,7 @@ function M:SkinBubble(frame)
 		frame:SetClampedToScreen(false);
 	end
 
-	frame:SetScript("OnShow", M.UpdateBubbleBorder);
+	frame:HookScript2("OnShow", M.UpdateBubbleBorder);
 	frame:SetFrameStrata("DIALOG");
 	M.UpdateBubbleBorder(frame);
 	frame.isBubblePowered = true;
