@@ -71,7 +71,7 @@ E.DispelClasses = {
 	["SHAMAN"] = {
 		["Poison"] = true,
 		["Disease"] = true,
-		["Curse"] = true
+		["Curse"] = false
 	},
 	["PALADIN"] = {
 		["Poison"] = true,
@@ -300,7 +300,7 @@ function E:ValueFuncCall()
 end
 
 function E:UpdateFrameTemplates()
-	for frame, _ in pairs(self["frames"]) do
+	for frame in pairs(self["frames"]) do
 		if(frame and frame.template) then
 			frame:SetTemplate(frame.template, frame.glossTex);
 		else
@@ -821,10 +821,10 @@ function E:UpdateAll(ignoreInstall)
 	DataBars:EnableDisable_ExperienceBar();
 	DataBars:EnableDisable_ReputationBar();
 
-	-- local T = self:GetModule("Threat");
-	-- T.db = self.db.general.threat;
-	-- T:UpdatePosition();
-	-- T:ToggleEnable();
+	local T = self:GetModule("Threat");
+	T.db = self.db.general.threat;
+	T:UpdatePosition();
+	T:ToggleEnable();
 
 	self:GetModule("Auras").db = self.db.auras
 	self:GetModule("Tooltip").db = self.db.tooltip

@@ -264,7 +264,7 @@ function E:CreateMoverPopup()
 	end)
 
 	local align = CreateFrame("EditBox", f:GetName().."EditBox", f, "InputBoxTemplate")
-	align:SetWidth(24)
+	align:Width(24)
 	align:Height(17)
 	align:SetAutoFocus(false)
 	align:SetScript("OnEscapePressed", function(self)
@@ -350,7 +350,7 @@ function E:CreateMoverPopup()
 	header.title = title
 
 	local xOffset = CreateFrame("EditBox", nudgeFrame:GetName().."XEditBox", nudgeFrame, "InputBoxTemplate")
-	xOffset:SetWidth(50)
+	xOffset:Width(50)
 	xOffset:Height(17)
 	xOffset:SetAutoFocus(false)
 	xOffset.currentValue = 0
@@ -385,7 +385,7 @@ function E:CreateMoverPopup()
 	S:HandleEditBox(xOffset)
 
 	local yOffset = CreateFrame("EditBox", nudgeFrame:GetName().."YEditBox", nudgeFrame, "InputBoxTemplate")
-	yOffset:SetWidth(50)
+	yOffset:Width(50)
 	yOffset:Height(17)
 	yOffset:SetAutoFocus(false)
 	yOffset.currentValue = 0

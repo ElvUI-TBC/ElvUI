@@ -1366,7 +1366,6 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 							return c.r, c.g, c.b, c.a, d.r, d.g, d.b;
 						end,
 						set = function(info, r, g, b)
-							E.db.unitframe.units.raid.rdebuffs.duration.color = {};
 							local c = E.db.unitframe.units.raid.rdebuffs.duration.color;
 							c.r, c.g, c.b = r, g, b;
 							UF:CreateAndUpdateHeaderGroup("raid");
@@ -1420,7 +1419,6 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 							return c.r, c.g, c.b, c.a, d.r, d.g, d.b;
 						end,
 						set = function(info, r, g, b)
-							E.db.unitframe.units[groupName].rdebuffs.stack.color = {};
 							local c = E.db.unitframe.units[groupName].rdebuffs.stack.color;
 							c.r, c.g, c.b = r, g, b;
 							updateFunc(UF, groupName);
@@ -2005,7 +2003,6 @@ E.Options.args.unitframe = {
 								return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 							end,
 							set = function(info, r, g, b)
-								E.db.general[ info[#info] ] = {};
 								local t = E.db.unitframe.colors[ info[#info] ];
 								t.r, t.g, t.b = r, g, b;
 								UF:Update_AllFrames();
@@ -2106,7 +2103,6 @@ E.Options.args.unitframe = {
 								return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 							end,
 							set = function(info, r, g, b)
-								E.db.general[ info[#info] ] = {};
 								local t = E.db.unitframe.colors.power[ info[#info] ];
 								t.r, t.g, t.b = r, g, b;
 								UF:Update_AllFrames();
@@ -2161,7 +2157,6 @@ E.Options.args.unitframe = {
 								return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 							end,
 							set = function(info, r, g, b)
-								E.db.general[ info[#info] ] = {};
 								local t = E.db.unitframe.colors.reaction[ info[#info] ];
 								t.r, t.g, t.b = r, g, b;
 								UF:Update_AllFrames();
@@ -2296,7 +2291,6 @@ E.Options.args.unitframe = {
 										return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 									end,
 									set = function(info, r, g, b)
-										E.db.general[ info[#info] ] = {};
 										local t = E.db.unitframe.colors.auraBarDebuff;
 										t.r, t.g, t.b = r, g, b;
 										UF:Update_AllFrames();
@@ -2312,7 +2306,6 @@ E.Options.args.unitframe = {
 										return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 									end,
 									set = function(info, r, g, b)
-										E.db.general[ info[#info] ] = {};
 										local t = E.db.unitframe.colors.auraBarTurtleColor;
 										t.r, t.g, t.b = r, g, b;
 										UF:Update_AllFrames();
@@ -6245,7 +6238,6 @@ E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGrou
 		return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 	end,
 	set = function(info, r, g, b)
-		E.db.unitframe.colors.classResources[ info[#info] ] = {};
 		local t = E.db.unitframe.colors.classResources[ info[#info] ];
 		t.r, t.g, t.b = r, g, b;
 		UF:Update_AllFrames();
@@ -6271,49 +6263,11 @@ for i = 1, 5 do
 			return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 		end,
 		set = function(info, r, g, b)
-			E.db.unitframe.colors.classResources.comboPoints[i] = {};
 			local t = E.db.unitframe.colors.classResources.comboPoints[i];
 			t.r, t.g, t.b = r, g, b;
 			UF:Update_AllFrames();
 		end,
 	};
-end
-
-if(P.unitframe.colors.classResources[E.myclass]) then
-	E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args.spacer2 = {
-		order = 10,
-		name = " ",
-		type = "description",
-		width = "full"
-	};
-
-	local ORDER = 20
-	if(E.myclass == "DEATHKNIGHT") then
-		local names = {
-			[1] = L["Blood"],
-			[2] = L["Unholy"],
-			[3] = L["Frost"],
-			[4] = L["Death"]
-		};
-		for i = 1, 4 do
-			E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args["resource"..i] = {
-				type = "color",
-				name = names[i],
-				order = ORDER + i,
-				get = function(info)
-					local t = E.db.unitframe.colors.classResources.DEATHKNIGHT[i];
-					local d = P.unitframe.colors.classResources.DEATHKNIGHT[i]
-					return t.r, t.g, t.b, t.a, d.r, d.g, d.b
-				end,
-				set = function(info, r, g, b)
-					E.db.unitframe.colors.classResources.DEATHKNIGHT[i] = {};
-					local t = E.db.unitframe.colors.classResources.DEATHKNIGHT[i];
-					t.r, t.g, t.b = r, g, b;
-					UF:Update_AllFrames();
-				end,
-			};
-		end
-	end
 end
 
 function E:RefreshCustomTextsConfigs()

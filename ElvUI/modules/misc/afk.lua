@@ -245,7 +245,7 @@ function AFK:Initialize()
 	self.AFKMode.bottom:SetFrameLevel(0);
 	self.AFKMode.bottom:SetTemplate("Transparent");
 	self.AFKMode.bottom:Point("BOTTOM", self.AFKMode, "BOTTOM", 0, -E.Border);
-	self.AFKMode.bottom:SetWidth(GetScreenWidth() + (E.Border*2));
+	self.AFKMode.bottom:Width(GetScreenWidth() + (E.Border*2));
 	self.AFKMode.bottom:Height(GetScreenHeight() * 0.1);
 
 	self.AFKMode.bottom.logo = self.AFKMode:CreateTexture(nil, "OVERLAY");

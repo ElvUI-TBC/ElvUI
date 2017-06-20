@@ -128,7 +128,7 @@ local UNIT_SPELLCAST_FAILED = function(self, event, unit, spellname, _, castid)
 end
 
 local UNIT_SPELLCAST_FAILED_QUIET = function(self, event, unit, _, _, castid)
-	if (type(self.casting) == "nil") then return end
+	if (not self.casting) then return end
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
