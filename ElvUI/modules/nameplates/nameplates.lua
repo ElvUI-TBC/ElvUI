@@ -20,6 +20,7 @@ local WorldFrame = WorldFrame
 local WorldGetNumChildren, WorldGetChildren = WorldFrame.GetNumChildren, WorldFrame.GetChildren
 
 local numChildren = 0
+local isTarget = false
 local BORDER = [=[Interface\Tooltips\Nameplate-Border]=]
 local FSPAT = "%s*" .. ((_G.FOREIGN_SERVER_LABEL:gsub("^%s", "")):gsub("[%*()]", "%%%1")) .. "$"
 
@@ -97,8 +98,10 @@ function mod:SetFrameScale(frame, scale)
 end
 
 function mod:SetTargetFrame(frame)
+	if isTarget then return end
+
 	local targetExists = UnitExists("target") == 1
-	if targetExists and frame:GetParent():IsShown() and frame:GetParent():GetAlpha() == 1 and not frame.isTarget then
+	if targetExists and frame:GetParent():IsShown() and frame:GetParent():GetAlpha() == 1 then
 		if self.db.useTargetScale then
 			self:SetFrameScale(frame, (frame.CustomScale and frame.CustomScale * self.db.targetScale) or self.db.targetScale)
 		end
@@ -150,6 +153,16 @@ function mod:SetTargetFrame(frame)
 	mod:UpdateElement_HealthColor(frame)
 	mod:UpdateElement_Glow(frame)
 	mod:UpdateElement_CPoints(frame)
+
+	return frame.isTarget
+end
+
+function mod:GetNumVisiblePlates()
+	local i = 0
+	for _ in pairs(mod.VisiblePlates) do
+		i = i + 1
+	end
+	return i
 end
 
 function mod:StyleFrame(parent, noBackdrop, point)
@@ -247,9 +260,9 @@ function mod:UnitClass(name, type)
 	if not CC then CC = E:GetModule("ChatCache") end
 
 	if type == "FRIENDLY_PLAYER" then
-		return select(2, UnitClass(name)) or CC:GetCacheTable()[E.myrealm][name] or nil
+		return select(2, UnitClass(name)) or (CC:GetCacheTable() and CC:GetCacheTable()[E.myrealm] and CC:GetCacheTable()[E.myrealm][name]) or nil
 	elseif type == "ENEMY_NPC" then
-		return self.PlayerClasses[name] or CC:GetCacheTable()[E.myrealm][name] or nil
+		return (self.PlayerClasses and self.PlayerClasses[name]) or (CC:GetCacheTable() and CC:GetCacheTable()[E.myrealm] and CC:GetCacheTable()[E.myrealm][name]) or nil
 	end
 	return nil
 end
@@ -281,6 +294,7 @@ function mod:GetUnitInfo(frame)
 end
 
 function mod:OnShow()
+	isTarget = false
 	mod.VisiblePlates[self.UnitFrame] = true
 
 	self.UnitFrame.UnitName = gsub(self.UnitFrame.oldName:GetText(), FSPAT, "")
@@ -414,6 +428,7 @@ function mod:UpdateElement_All(frame, noTargetFrame)
 end
 
 function mod:OnCreated(frame)
+	isTarget = false
 	local HealthBar, CastBar = frame:GetChildren()
 	local Border, CastBarBorder, CastBarIcon, Highlight, Name, Level, BossIcon, RaidIcon = frame:GetRegions()
 
@@ -457,9 +472,9 @@ function mod:OnCreated(frame)
 
 	self.OnShow(frame)
 
-	frame:SetScript("OnShow", self.OnShow)
-	frame:SetScript("OnHide", self.OnHide)
-	HealthBar:SetScript("OnValueChanged", self.UpdateElement_HealthOnValueChanged)
+	frame:HookScript2("OnShow", self.OnShow)
+	frame:HookScript2("OnHide", self.OnHide)
+	HealthBar:HookScript2("OnValueChanged", self.UpdateElement_HealthOnValueChanged)
 
 	self.CreatedPlates[frame] = true
 	self.VisiblePlates[frame.UnitFrame] = true
@@ -498,9 +513,17 @@ function mod:OnUpdate(elapsed)
 		numChildren = count
 	end
 
+	local i = 0
 	for frame in pairs(mod.VisiblePlates) do
-		if not frame.isTarget and frame:GetParent():GetAlpha() ~= 1 then
+		i = i + 1
+
+		local isTarget = mod:SetTargetFrame(frame)
+		if not isTarget then
 			frame:GetParent():SetAlpha(1)
+		end
+
+		if i == mod:GetNumVisiblePlates() then
+			isTarget = true
 		end
 	end
 end
@@ -594,7 +617,7 @@ function mod:PLAYER_ENTERING_WORLD()
 end
 
 function mod:PLAYER_TARGET_CHANGED()
-	mod:ScheduleTimer("ForEachPlate", 0.25, "SetTargetFrame")
+	isTarget = false
 end
 
 function mod:UNIT_AURA(_, unit)
