@@ -61,4 +61,4 @@ function S:LoadDebugSkin()
 	S:HandleCloseButton(EventTraceFrameCloseButton)
 end
 
-S:AddCallbackForAddon("!DebugTools", "DebugTools", S.LoadDebugSkin)
+S:AddCallbackForAddon("!DebugTools", "SkinDebugTools", S.LoadDebugSkin)

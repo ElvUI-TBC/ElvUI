@@ -469,23 +469,24 @@ function E:IncompatibleAddOn(addon, module)
 end
 
 function E:CheckIncompatible()
-	if(E.global.ignoreIncompatible) then return; end
+	if E.global.ignoreIncompatible then return end
+
+	if IsAddOnLoaded("Prat") and E.private.chat.enable then
+		E:IncompatibleAddOn("Prat", "Chat")
+	end
+
+	if IsAddOnLoaded("Chatter") and E.private.chat.enable then
+		E:IncompatibleAddOn("Chatter", "Chat")
+	end
+
 --[[
-	if(IsAddOnLoaded("Prat-3.0") and E.private.chat.enable) then
-		E:IncompatibleAddOn("Prat-3.0", "Chat");
-	end
-
-	if(IsAddOnLoaded("Chatter") and E.private.chat.enable) then
-		E:IncompatibleAddOn("Chatter", "Chat");
-	end
-
-	if(IsAddOnLoaded("SnowfallKeyPress") and E.private.actionbar.enable) then
+	if IsAddOnLoaded("SnowfallKeyPress") and E.private.actionbar.enable then
 		E.private.actionbar.keyDown = true
-		E:IncompatibleAddOn("SnowfallKeyPress", "ActionBar");
+		E:IncompatibleAddOn("SnowfallKeyPress", "ActionBar")
 	end
 
-	if(IsAddOnLoaded("TidyPlates") and E.private.nameplates.enable) then
-		E:IncompatibleAddOn("TidyPlates", "NamePlate");
+	if IsAddOnLoaded("TidyPlates") and E.private.nameplates.enable then
+		E:IncompatibleAddOn("TidyPlates", "NamePlate")
 	end
 ]]
 end

@@ -133,4 +133,4 @@ local function LoadSkin()
 	S:SecureHook("BankFrameItemButton_Update");
 end
 
-S:AddCallback("Bags", LoadSkin)
+S:AddCallback("SkinBags", LoadSkin)

@@ -798,4 +798,4 @@ function S:LoadMiscSkin()
 
 end
 
-S:AddCallback("Misc", S.LoadMiscSkin)
+S:AddCallback("SkinMisc", S.LoadMiscSkin)

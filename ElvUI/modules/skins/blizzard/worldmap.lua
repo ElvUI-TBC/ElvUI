@@ -18,4 +18,4 @@ function S:LoadWorldMapSkin()
 	WorldMapDetailFrame:CreateBackdrop("Default")
 end
 
-S:AddCallback("WorldMap", S.LoadWorldMapSkin)
+S:AddCallback("SkinWorldMap", S.LoadWorldMapSkin)
