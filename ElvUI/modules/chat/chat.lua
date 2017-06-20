@@ -1676,4 +1676,8 @@ function CH:Initialize()
 	S:HandleCloseButton(close)
 end
 
-E:RegisterModule(CH:GetName())
+local function InitializeCallback()
+	CH:Initialize()
+end
+
+E:RegisterModule(CH:GetName(), InitializeCallback)

@@ -286,4 +286,8 @@ function AFK:Initialize()
 	self:Toggle();
 end
 
-E:RegisterModule(AFK:GetName());
+local function InitializeCallback()
+	AFK:Initialize()
+end
+
+E:RegisterModule(AFK:GetName(), InitializeCallback)

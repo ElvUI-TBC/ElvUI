@@ -177,4 +177,8 @@ function A:Initialize()
 	self:BuffFrame_Update()
 end
 
-E:RegisterModule(A:GetName())
+local function InitializeCallback()
+	A:Initialize()
+end
+
+E:RegisterModule(A:GetName(), InitializeCallback)

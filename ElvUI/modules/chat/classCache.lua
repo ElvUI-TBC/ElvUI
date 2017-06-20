@@ -436,4 +436,8 @@ function CC:Initialize()
 	end
 end
 
-E:RegisterModule(CC:GetName())
+local function InitializeCallback()
+	CC:Initialize()
+end
+
+E:RegisterModule(CC:GetName(), InitializeCallback)

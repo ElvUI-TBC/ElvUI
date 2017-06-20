@@ -195,4 +195,8 @@ function M:Initialize()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ForceCVars")
 end
 
-E:RegisterModule(M:GetName())
+local function InitializeCallback()
+	M:Initialize()
+end
+
+E:RegisterModule(M:GetName(), InitializeCallback)

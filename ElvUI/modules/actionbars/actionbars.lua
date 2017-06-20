@@ -543,4 +543,8 @@ function AB:Initialize()
 	self:SecureHook("ActionButton_UpdateHotkeys")
 end
 
-E:RegisterModule(AB:GetName())
+local function InitializeCallback()
+	AB:Initialize()
+end
+
+E:RegisterModule(AB:GetName(), InitializeCallback)

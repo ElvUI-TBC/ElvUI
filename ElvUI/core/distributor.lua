@@ -389,7 +389,6 @@ function D:Decode(dataString)
 		profileDataAsString = format("%s%s", profileDataAsString, "}");
 		profileType, profileKey = E:StringSplitMultiDelim(profileInfo, "::");
 
-
 		local profileToTable = loadstring(format("%s %s", "return", profileDataAsString));
 		if(profileToTable) then
 			message, profileData = pcall(profileToTable);
@@ -539,4 +538,8 @@ E.PopupDialogs["IMPORT_RL"] = {
 	preferredIndex = 3
 };
 
-E:RegisterModule(D:GetName())
+local function InitializeCallback()
+	D:Initialize()
+end
+
+E:RegisterModule(D:GetName(), InitializeCallback)
