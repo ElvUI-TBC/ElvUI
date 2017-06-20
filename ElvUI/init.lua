@@ -26,7 +26,6 @@ Engine[5] = AddOn.DF["global"];
 _G[AddOnName] = Engine;
 local tcopy = table.copy
 function AddOn:OnInitialize()
-	--self:GetTopCPUFunc("UnitFrames true 0 5")
 	if not ElvCharacterDB then
 		ElvCharacterDB = {};
 	end

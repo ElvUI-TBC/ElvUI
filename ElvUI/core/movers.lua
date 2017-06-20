@@ -59,7 +59,7 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag)
 	f:RegisterForDrag("LeftButton", "RightButton");
 	f:EnableMouseWheel(true);
 	f:SetMovable(true);
-	f:SetWidth(width);
+	f:Width(width);
 	f:Height(height);
 	f:SetTemplate("Transparent", nil, nil, true);
 	f:Hide();

@@ -43,7 +43,7 @@ local UNIT_MANA = function(self, event, unit, currMana, maxMana)
 
 	local min, max = currMana, maxMana
 
-	if not (min and max) then 
+	if not (min and max) then
 		min, max = LDM:GetCurrentMana(), LDM:GetMaximumMana()
 	end
 
@@ -101,7 +101,7 @@ local Enable = function(self, unit)
 		druidmana.ForceUpdate = ForceUpdate;
 
 		LDM:AddListener(function(currMana, maxMana)
-			UNIT_MANA(self, "Listener", "player", currMana, maxMana) 
+			UNIT_MANA(self, "Listener", "player", currMana, maxMana)
 		end, "oUF_DruidMana")
 
 		self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", UPDATE_VISIBILITY);

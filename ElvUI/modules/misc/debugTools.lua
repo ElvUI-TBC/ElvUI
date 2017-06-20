@@ -96,7 +96,7 @@ end
 
 function D:TaintError(event, addonName, addonFunc)
 	if GetCVar("scriptErrors") ~= "1" or E.db.general.taintLog ~= true then return end
-	
+
 	ScriptErrorsFrame_OnError(L["%s: %s tried to call the protected function '%s'."]:format(event, addonName or "<name>", addonFunc or "<func>"), false)
 end
 

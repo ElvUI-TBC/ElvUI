@@ -93,7 +93,7 @@ function mod:UpdateElement_Cast(frame, event, unit, ...)
 			frame.CastBar:Hide()
 		end
 		if (frame.CastBar.casting and event == "UNIT_SPELLCAST_STOP" and select(4, ...) == frame.CastBar.castID) or
-		     (frame.CastBar.channeling and event == "UNIT_SPELLCAST_CHANNEL_STOP") then
+		(frame.CastBar.channeling and event == "UNIT_SPELLCAST_CHANNEL_STOP") then
 			if frame.CastBar.Spark then
 				frame.CastBar.Spark:Hide()
 			end
@@ -211,7 +211,7 @@ function mod:ConfigureElement_CastBar(frame)
 	castBar.Icon:SetPoint("TOPLEFT", frame.HealthBar, "TOPRIGHT", self.db.units[frame.UnitType].castbar.offset, 0);
 	castBar.Icon:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", self.db.units[frame.UnitType].castbar.offset, 0);
 	castBar.Icon:SetWidth(self.db.units[frame.UnitType].castbar.height + self.db.units[frame.UnitType].healthbar.height + self.db.units[frame.UnitType].castbar.offset)
-	
+
 	castBar.Time:SetPoint("TOPRIGHT", castBar, "BOTTOMRIGHT", 0, -E.Border*3)
 	castBar.Name:SetPoint("TOPLEFT", castBar, "BOTTOMLEFT", 0, -E.Border*3)
 	castBar.Name:SetPoint("TOPRIGHT", castBar.Time, "TOPLEFT")

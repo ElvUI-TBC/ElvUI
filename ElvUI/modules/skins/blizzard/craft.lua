@@ -6,9 +6,9 @@ local unpack = unpack
 local find = string.find
 
 function S:LoadCraftSkin()
-    if (E.private.skins.blizzard.enable ~= true or not E.private.skins.blizzard.craft ~= true) then return end
+	if (E.private.skins.blizzard.enable ~= true or not E.private.skins.blizzard.craft ~= true) then return end
 
-    CraftFrame:CreateBackdrop("Transparent")
+	CraftFrame:CreateBackdrop("Transparent")
 	CraftFrame.backdrop:Point("TOPLEFT", 10, -11)
 	CraftFrame.backdrop:Point("BOTTOMRIGHT", -32, 74)
 

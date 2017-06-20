@@ -727,15 +727,15 @@ function B:GetGraysValue()
 	local c = 0;
 
 	for b = 0, NUM_BAG_FRAMES do
-	    for s = 0, GetContainerNumSlots(b) do
-	        local l = GetContainerItemLink(b, s)
-	        if l and find(l,"ff9d9d9d") then
-	        	local p = LIP:GetSellValue(l) * select(2, GetContainerItemInfo(b, s))
-	        	if(select(3, GetItemInfo(l)) == 0 and p > 0) then
-	            	c = c + p;
-	            end
-	        end
-	    end
+		for s = 0, GetContainerNumSlots(b) do
+			local l = GetContainerItemLink(b, s)
+			if l and find(l,"ff9d9d9d") then
+				local p = LIP:GetSellValue(l) * select(2, GetContainerItemInfo(b, s))
+				if(select(3, GetItemInfo(l)) == 0 and p > 0) then
+					c = c + p;
+				end
+			end
+		end
 	end
 
 	return c;
@@ -751,9 +751,9 @@ function B:VendorGrays(delete, _, getValue)
 	local count = 0
 	for b = 0, NUM_BAG_FRAMES do
 		for s = 1, GetContainerNumSlots(b) do
-	        local l = GetContainerItemLink(b, s)
-	        if l and find(l,"ff9d9d9d") then
-	        	local p = LIP:GetSellValue(l) * select(2, GetContainerItemInfo(b, s))
+			local l = GetContainerItemLink(b, s)
+			if l and find(l,"ff9d9d9d") then
+				local p = LIP:GetSellValue(l) * select(2, GetContainerItemInfo(b, s))
 
 				if delete then
 					if find(l,"ff9d9d9d") then

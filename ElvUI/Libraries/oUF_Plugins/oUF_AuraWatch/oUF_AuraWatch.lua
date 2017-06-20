@@ -364,7 +364,7 @@ local function setupIcons(self)
 
 			if watch.PostCreateIcon then watch:PostCreateIcon(icon, icon.spellID, name, self) end
 		else
-			DEFAULT_CHAT_FRAME:AddMessage("oUF_AuraWatch error: no spell with "..tostring(icon.spellID).." spell ID exists")
+			print("oUF_AuraWatch error: no spell with "..tostring(icon.spellID).." spell ID exists")
 		end
 	end
 end

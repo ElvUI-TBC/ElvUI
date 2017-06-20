@@ -120,7 +120,7 @@ function THREAT:Update(event, srcGuid, dstGuid)
 			self.bar.text:SetFormattedText("%s: %.0f%%", name, percent)
 			self.bar:SetValue(percent)
 		end
-		
+
 		twipe(threatList)
 	else
 		self.bar:Hide()

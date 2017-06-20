@@ -18,9 +18,7 @@ function S:LoadRaidSkin()
 	}
 
 	for _, object in pairs(StripAllTextures) do
-		if(not _G[object]) then DEFAULT_CHAT_FRAME:AddMessage(object) end
-
-		if(_G[object]) then
+		if _G[object] then
 			_G[object]:StripTextures()
 		end
 	end
@@ -35,8 +33,8 @@ function S:LoadRaidSkin()
 		S:HandleButton(_G["RaidGroupButton" .. i], true)
 	end
 
-	for i = 1,8 do
-		for j = 1,5 do
+	for i = 1, 8 do
+		for j = 1, 5 do
 			_G["RaidGroup" .. i .. "Slot" .. j]:StripTextures()
 			_G["RaidGroup" .. i .. "Slot" .. j]:SetTemplate("Transparent")
 		end
@@ -51,20 +49,20 @@ function S:LoadRaidSkin()
 
 			button:StripTextures()
 
-			if(not button.backdrop) then
+			if not button.backdrop then
 				button:CreateBackdrop("Default")
 				button.backdrop:SetOutside(icon)
 			end
 
-			if(button:GetID() == value.button) then
+			if button:GetID() == value.button then
 				button.class = index
-				if(index == "PETS") then
+				if index == "PETS" then
 					icon:SetTexture("Interface\\RaidFrame\\UI-RaidFrame-Pets")
 					icon:SetTexCoord(unpack(E.TexCoords))
-				elseif(index == "MAINTANK") then
+				elseif index == "MAINTANK" then
 					icon:SetTexture("Interface\\RaidFrame\\UI-RaidFrame-MainTank")
 					icon:SetTexCoord(unpack(E.TexCoords))
-				elseif(index == "MAINASSIST") then
+				elseif index == "MAINASSIST" then
 					icon:SetTexture("Interface\\RaidFrame\\UI-RaidFrame-MainAssist")
 					icon:SetTexCoord(unpack(E.TexCoords))
 				else

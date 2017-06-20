@@ -221,7 +221,7 @@ function SetupSecureSnippets(button)
 		elseif(kind == "spell" or kind == "item" or kind == "macro") then
 			return "clear", kind, value;
 		else
-			DEFAULT_CHAT_FRAME:AddMessage("LibActionButton-1.0: Unknown type: " .. tostring(kind));
+			print("LibActionButton-1.0: Unknown type: " .. tostring(kind));
 			return false;
 		end
 	]]);
@@ -263,7 +263,7 @@ function SetupSecureSnippets(button)
 				if(extra) then
 					value = extra;
 				else
-					DEFAULT_CHAT_FRAME:AddMessage("no spell id?", ...);
+					print("no spell id?", ...);
 				end
 			elseif(kind == "item" and value) then
 				value = format("item:%d", value);

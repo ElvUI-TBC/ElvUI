@@ -617,8 +617,8 @@ E.Options.args.general = {
 					order = 3,
 					type = "toggle",
 					name = L["Enable"],
-					get = function(info) return E.db.general.threat.enable; end,
-					set = function(info, value) E.db.general.threat.enable = value; E:GetModule("Threat"):ToggleEnable()end
+					get = function(info) return E.db.general.threat.enable end,
+					set = function(info, value) E.db.general.threat.enable = value; E:GetModule("Threat"):ToggleEnable() end
 				},
 				threatPosition = {
 					order = 4,
@@ -629,16 +629,16 @@ E.Options.args.general = {
 						["LEFTCHAT"] = L["Left Chat"],
 						["RIGHTCHAT"] = L["Right Chat"]
 					},
-					get = function(info) return E.db.general.threat.position; end,
-					set = function(info, value) E.db.general.threat.position = value; E:GetModule("Threat"):UpdatePosition(); end
+					get = function(info) return E.db.general.threat.position end,
+					set = function(info, value) E.db.general.threat.position = value; E:GetModule("Threat"):UpdatePosition() end
 				},
 				threatTextSize = {
 					order = 5,
 					type = "range",
 					min = 6, max = 22, step = 1,
 					name = L["Font Size"],
-					get = function(info) return E.db.general.threat.textSize; end,
-					set = function(info, value) E.db.general.threat.textSize = value; E:GetModule("Threat"):UpdatePosition(); end
+					get = function(info) return E.db.general.threat.textSize end,
+					set = function(info, value) E.db.general.threat.textSize = value; E:GetModule("Threat"):UpdatePosition() end
 				}
 			}
 		}

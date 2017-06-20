@@ -825,7 +825,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 		end
 
 		if type == "SYSTEM" or type == "TEXT_EMOTE" or type == "SKILL" or type == "LOOT" or type == "MONEY" or
-			 type == "OPENING" or type == "TRADESKILLS" or type == "PET_INFO" then
+			type == "OPENING" or type == "TRADESKILLS" or type == "PET_INFO" then
 			self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id);
 		elseif strsub(type,1,7) == "COMBAT_" then
 			self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id);

@@ -12,13 +12,13 @@ WatchFrameHolder:Size(150, 22)
 WatchFrameHolder:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -135, -300)
 
 function B:SetWatchFrameHeight()
-    local top = QuestWatchFrame:GetTop() or 0
-    local screenHeight = GetScreenHeight()
-    local gapFromTop = screenHeight - top
-    local maxHeight = screenHeight - gapFromTop
-    local watchFrameHeight = min(maxHeight, E.db.general.watchFrameHeight)
+	local top = QuestWatchFrame:GetTop() or 0
+	local screenHeight = GetScreenHeight()
+	local gapFromTop = screenHeight - top
+	local maxHeight = screenHeight - gapFromTop
+	local watchFrameHeight = min(maxHeight, E.db.general.watchFrameHeight)
 
-    QuestWatchFrame:Height(watchFrameHeight)
+	QuestWatchFrame:Height(watchFrameHeight)
 end
 
 function B:MoveWatchFrame()

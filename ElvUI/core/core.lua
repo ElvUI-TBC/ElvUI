@@ -47,7 +47,6 @@ E["ModuleCallbacks"] = {["CallPriority"] = {}}
 E["InitialModuleCallbacks"] = {["CallPriority"] = {}}
 E["valueColorUpdateFuncs"] = {};
 E.TexCoords = {.08, .92, .08, .92};
-E.FrameLocks = {};
 E.CreditsList = {};
 E.PixelMode = false;
 

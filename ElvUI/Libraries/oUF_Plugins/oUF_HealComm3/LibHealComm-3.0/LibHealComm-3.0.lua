@@ -1,4 +1,4 @@
-﻿local MAJOR_VERSION = "LibHealComm-3.0";
+local MAJOR_VERSION = "LibHealComm-3.0";
 local MINOR_VERSION = 90000 + tonumber(("$Revision: 3 $"):match("%d+"));
 
 local lib = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION);

@@ -85,7 +85,7 @@ E.Options.args.auras = {
 					name = L["Font Size"],
 					type = "range",
 					min = 6, max = 22, step = 1,
-				},	
+				},
 				fontOutline = {
 					order = 6,
 					name = L["Font Outline"],

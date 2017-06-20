@@ -245,7 +245,7 @@ function AB:CreateBar(id)
 	else
 		_G[self["barDefaults"]["bar"..id].name]:SetParent(bar)
 	end
-	
+
 	self["handledBars"]["bar"..id] = bar
 	E:CreateMover(bar, "ElvAB_"..id, L["Bar "]..id, nil, nil, nil, "ALL,ACTIONBARS")
 	self:PositionAndSizeBar("bar"..id)

@@ -185,7 +185,7 @@ function DT:AssignPanelToDataText(panel, data)
 	if(data["events"]) then
 		for _, event in pairs(data["events"]) do
 			-- random error 132
-			if event == "PLAYER_ENTERING_WORLD" then 
+			if event == "PLAYER_ENTERING_WORLD" then
 				event = "PLAYER_LOGIN"
 			end
 			panel:RegisterEvent(event);

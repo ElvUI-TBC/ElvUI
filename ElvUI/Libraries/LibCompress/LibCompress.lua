@@ -683,7 +683,7 @@ function LibCompress:DecompressHuffman(compressed)
 				map[cl][c] = string_char(symbol)
 				minCodeLen = cl < minCodeLen and cl or minCodeLen
 				maxCodeLen = cl > maxCodeLen and cl or maxCodeLen
-				--DEFAULT_CHAT_FRAME:AddMessage("symbol: "..string_char(symbol).."  code: "..tobinary(c, cl))
+				--print("symbol: "..string_char(symbol).."  code: "..tobinary(c, cl))
 				n = n + 1
 				state = 0 -- search for next symbol (if any)
 			end
