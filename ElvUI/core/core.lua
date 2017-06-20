@@ -38,6 +38,7 @@ E.LSM = LSM;
 
 E["media"] = {};
 E["frames"] = {};
+E["unitFrameElements"] = {};
 E["statusBars"] = {};
 E["texts"] = {};
 E["snapBars"] = {};
@@ -199,11 +200,19 @@ function E:UpdateMedia()
 		E.db["general"].bordercolor.r = classColor.r;
 		E.db["general"].bordercolor.g = classColor.g;
 		E.db["general"].bordercolor.b = classColor.b;
-	elseif(E.PixelMode) then
-		border = {r = 0, g = 0, b = 0};
 	end
 
 	self["media"].bordercolor = {border.r, border.g, border.b};
+
+	-- UnitFrame Border Color
+	border = E.db["unitframe"].colors.borderColor
+	if self:CheckClassColor(border.r, border.g, border.b) then
+		local classColor = E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass])
+		E.db["unitframe"].colors.borderColor.r = classColor.r
+		E.db["unitframe"].colors.borderColor.g = classColor.g
+		E.db["unitframe"].colors.borderColor.b = classColor.b
+	end
+	self["media"].unitframeBorderColor = {border.r, border.g, border.b}
 
 	-- Backdrop Color
 	self["media"].backdropcolor = E:GetColorTable(self.db["general"].backdropcolor);
@@ -298,16 +307,34 @@ function E:UpdateFrameTemplates()
 			self["frames"][frame] = nil;
 		end
 	end
+
+	for frame in pairs(self["unitFrameElements"]) do
+		if frame and frame.template and not frame.ignoreUpdates then
+			frame:SetTemplate(frame.template, frame.glossTex);
+		else
+			self["unitFrameElements"][frame] = nil;
+		end
+	end
 end
 
 function E:UpdateBorderColors()
-	for frame, _ in pairs(self["frames"]) do
+	for frame in pairs(self["frames"]) do
 		if(frame) then
 			if(frame.template == "Default" or frame.template == "Transparent" or frame.template == nil) then
 				frame:SetBackdropBorderColor(unpack(self["media"].bordercolor));
 			end
 		else
 			self["frames"][frame] = nil;
+		end
+	end
+
+	for frame in pairs(self["unitFrameElements"]) do
+		if frame and not frame.ignoreUpdates then
+			if frame.template == "Default" or frame.template == "Transparent" or frame.template == nil then
+				frame:SetBackdropBorderColor(unpack(self["media"].unitframeBorderColor))
+			end
+		else
+			self["unitFrameElements"][frame] = nil;
 		end
 	end
 end
@@ -326,6 +353,22 @@ function E:UpdateBackdropColors()
 			end
 		else
 			self["frames"][frame] = nil;
+		end
+	end
+
+	for frame, _ in pairs(self["unitFrameElements"]) do
+		if frame then
+			if frame.template == "Default" or frame.template == nil then
+				if frame.backdropTexture then
+					frame.backdropTexture:SetVertexColor(unpack(self["media"].backdropcolor))
+				else
+					frame:SetBackdropColor(unpack(self["media"].backdropcolor))
+				end
+			elseif frame.template == "Transparent" then
+				frame:SetBackdropColor(unpack(self["media"].backdropfadecolor))
+			end
+		else
+			self["unitFrameElements"][frame] = nil;
 		end
 	end
 end
@@ -938,7 +981,12 @@ end
 
 --DATABASE CONVERSIONS
 function E:DBConversions()
-
+	if not E.db.thinBorderColorSet then
+		if E.PixelMode then
+			E.db.general.bordercolor = {r = 0, g = 0, b = 0}
+		end
+		E.db.thinBorderColorSet = true
+	end
 end
 
 local CPU_USAGE = {};

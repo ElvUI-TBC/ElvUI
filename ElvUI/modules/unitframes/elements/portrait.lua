@@ -15,7 +15,7 @@ function UF:Construct_Portrait(frame, type)
 		portrait.backdrop = backdrop;
 	else
 		portrait = CreateFrame("PlayerModel", nil, frame);
-		portrait:CreateBackdrop("Default", nil, nil, self.thinBorders);
+		portrait:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 	end
 
 	portrait.PostUpdate = self.PortraitUpdate;
@@ -41,6 +41,9 @@ function UF:Configure_Portrait(frame, dontHide)
 		if(not frame:IsElementEnabled("Portrait")) then
 			frame:EnableElement("Portrait");
 		end
+
+		local color = E.db.unitframe.colors.borderColor
+		portrait.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
 
 		portrait:ClearAllPoints();
 		portrait.backdrop:ClearAllPoints();

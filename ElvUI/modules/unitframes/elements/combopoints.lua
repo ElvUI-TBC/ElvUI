@@ -11,7 +11,7 @@ local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
 function UF:Construct_Combobar(frame)
 	local CPoints = CreateFrame("Frame", nil, frame)
-	CPoints:CreateBackdrop("Default", nil, nil, UF.thinBorders)
+	CPoints:CreateBackdrop("Default", nil, nil, UF.thinBorders, true)
 	CPoints.Override = UF.UpdateComboDisplay
 	CPoints.origParent = frame
 

@@ -49,7 +49,7 @@ function UF:Construct_AuraIcon(button)
 	button.text:Point("CENTER", 1, 1);
 	button.text:SetJustifyH("CENTER");
 
-	button:SetTemplate("Default", nil, nil, UF.thinBorders);
+	button:SetTemplate("Default", nil, nil, UF.thinBorders, true)
 
 	button.cd.noOCC = true;
 	button.cd.noCooldownCount = true;
@@ -327,7 +327,7 @@ function UF:PostUpdateAura(unit, button, index)
 		if((name == unstableAffliction or name == vampiricTouch) and E.myclass ~= "WARLOCK") then
 			button:SetBackdropBorderColor(0.05, 0.85, 0.94);
 		else
-			button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6);
+			button:SetBackdropBorderColor(unpack(E["media"].unitframeBorderColor))
 		end
 	end
 
