@@ -111,7 +111,7 @@ function A:BuffButton_UpdateAnchors(buttonName, index, filter)
 			end
 			aboveBuff = buff
 		elseif index == 1 then
-			local mainhand, _, _, offhand = GetWeaponEnchantInfo()
+			mainhand, _, _, offhand = GetWeaponEnchantInfo()
 			if mainhand and offhand then
 				buff:SetPoint("RIGHT", TempEnchant2, "LEFT", -self.db.spacing, 0)
 			elseif (mainhand and not offhand) or (offhand and not mainhand) then
@@ -154,6 +154,7 @@ function A:BuffButton_UpdateAnchors(buttonName, index, filter)
 end
 
 function A:Update_WeaponEnchantInfo()
+	if mainhand or offhand then BuffFrame_Update() end
 	mainhand, _, _, offhand = GetWeaponEnchantInfo()
 end
 
