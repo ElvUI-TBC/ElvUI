@@ -1,10 +1,10 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:NewModule("NamePlates", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
-local CC
+local CC = E:GetModule("ClassCache")
 
 local _G = _G
 local pairs, tonumber = pairs, tonumber
-local gsub = string.gsub
+local gsub, split = string.gsub, string.split
 local twipe = table.wipe
 
 local CreateFrame = CreateFrame
@@ -23,6 +23,7 @@ local numChildren = 0
 local isTarget = false
 local BORDER = [=[Interface\Tooltips\Nameplate-Border]=]
 local FSPAT = "%s*" .. ((_G.FOREIGN_SERVER_LABEL:gsub("^%s", "")):gsub("[%*()]", "%%%1")) .. "$"
+local queryList = {}
 
 local RaidIconCoordinate = {
 	[0] = {[0] = "STAR", [0.25] = "MOON"},
@@ -31,10 +32,21 @@ local RaidIconCoordinate = {
 	[0.75] = {[0] = "TRIANGLE", [0.25] = "SKULL"}
 }
 
+local healClasses = {
+	["DRUID"] = true,
+	["HUNTER"] = false,
+	["MAGE"] = false,
+	["PALADIN"] = true,
+	["PRIEST"] = true,
+	["ROGUE"] = false,
+	["SHAMAN"] = true,
+	["WARLOCK"] = false,
+	["WARRIOR"] = false
+}
+
 mod.CreatedPlates = {}
 mod.VisiblePlates = {}
 mod.Healers = {}
-mod.PlayerClasses = {}
 
 function mod:CheckFilter(frame)
 	local db = E.global.nameplates["filter"][frame.UnitName]
@@ -67,19 +79,15 @@ function mod:CheckFilter(frame)
 end
 
 function mod:CheckBGHealers()
-	local name, _, class, damageDone, healingDone
+	local name, class, damageDone, healingDone, _
 	for i = 1, GetNumBattlefieldScores() do
 		name, _, _, _, _, _, _, _, _, class, damageDone, healingDone = GetBattlefieldScore(i)
-		if name then
+		if name and class and healClasses[class] then
 			name = name:match("(.+)%-.+") or name
 			if name and healingDone > (damageDone * 2) then
 				self.Healers[name] = true
 			elseif name and self.Healers[name] then
 				self.Healers[name] = nil
-			end
-
-			if name and self.PlayerClasses[name] ~= class then
-				self.PlayerClasses[name] = class
 			end
 		end
 	end
@@ -133,6 +141,7 @@ function mod:SetTargetFrame(frame)
 		end
 		frame.isTarget = nil
 		frame.unit = nil
+		frame.guid = nil
 		if self.db.units[frame.UnitType].healthbar.enable ~= true then
 			self:UpdateAllFrame(frame)
 		end
@@ -257,14 +266,20 @@ function mod:RoundColors(r, g, b)
 end
 
 function mod:UnitClass(name, type)
-	if not CC then CC = E:GetModule("ChatCache") end
-
-	if type == "FRIENDLY_PLAYER" then
-		return select(2, UnitClass(name)) or (CC:GetCacheTable() and CC:GetCacheTable()[E.myrealm] and CC:GetCacheTable()[E.myrealm][name]) or nil
-	elseif type == "ENEMY_NPC" then
-		return (self.PlayerClasses and self.PlayerClasses[name]) or (CC:GetCacheTable() and CC:GetCacheTable()[E.myrealm] and CC:GetCacheTable()[E.myrealm][name]) or nil
+	if E.private.general.classCache then
+		if type == "FRIENDLY_PLAYER" then
+			return select(2, UnitClass(name)) or CC:GetClassByName(split("-", name))
+		elseif type == "ENEMY_NPC" then
+			local name, realm = split("-", name)
+			return CC:GetClassByName(name, realm, true)
+		elseif type == "ENEMY_PLAYER" then
+			return CC:GetClassByName(split("-", name))
+		end
+	else
+		if type == "FRIENDLY_PLAYER" then
+			return select(2, UnitClass(name))
+		end
 	end
-	return nil
 end
 
 function mod:UnitDetailedThreatSituation(frame)
@@ -281,6 +296,24 @@ function mod:UnitLevel(frame)
 end
 
 function mod:GetUnitInfo(frame)
+	if UnitExists("target") == 1 and frame:GetParent():IsShown() and frame:GetParent():GetAlpha() == 1 then
+		if UnitIsPlayer("target") then
+			if UnitIsEnemy("target", "player") then
+				return 2, "ENEMY_PLAYER"
+			else
+				return 5, "FRIENDLY_PLAYER"
+			end
+		else
+			if UnitIsEnemy("target", "player") then
+				return 2, "ENEMY_NPC"
+			elseif UnitReaction("target", "player") then
+				return 4, "ENEMY_NPC"
+			else
+				return 5, "FRIENDLY_NPC"
+			end
+		end
+	end
+
 	local r, g, b = mod:RoundColors(frame.oldHealthBar:GetStatusBarColor())
 	if r == 1 and g == 0 and b == 0 then
 		return 2, "ENEMY_NPC"
@@ -300,8 +333,12 @@ function mod:OnShow()
 	self.UnitFrame.UnitName = gsub(self.UnitFrame.oldName:GetText(), FSPAT, "")
 	local unitReaction, unitType = mod:GetUnitInfo(self.UnitFrame)
 	self.UnitFrame.UnitType = unitType
-	self.UnitFrame.UnitClass = mod:UnitClass(self.UnitFrame.UnitName, unitType)
+	self.UnitFrame.UnitClass = mod:UnitClass(self.UnitFrame.oldName:GetText(), unitType)
 	self.UnitFrame.UnitReaction = unitReaction
+
+	if not self.UnitFrame.UnitClass then
+		queryList[self.UnitFrame.UnitName] = self.UnitFrame
+	end
 
 	if unitType == "ENEMY_NPC" and self.UnitFrame.UnitClass then
 		unitType = "ENEMY_PLAYER"
@@ -661,6 +698,24 @@ function mod:PLAYER_REGEN_ENABLED()
 	end
 end
 
+function mod:ClassCacheQueryResult(_, name, class)
+	if queryList[name] then
+		local frame = queryList[name]
+
+		if frame.UnitType == "ENEMY_NPC" then
+			frame.UnitType = "ENEMY_PLAYER"
+		end
+		frame.UnitClass = class
+
+		if self.db.units[frame.UnitType].healthbar.enable then
+			self:UpdateElement_HealthColor(frame)
+		end
+		self:UpdateElement_Name(frame)
+
+		queryList[name] = nil
+	end
+end
+
 function mod:Initialize()
 	self.db = E.db["nameplates"]
 	if E.private["nameplates"].enable ~= true then return end
@@ -676,6 +731,8 @@ function mod:Initialize()
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	self:RegisterEvent("UNIT_AURA")
 	self:RegisterEvent("PLAYER_COMBO_POINTS")
+
+	self:RegisterMessage("ClassCacheQueryResult")
 
 	E.NamePlates = self
 end

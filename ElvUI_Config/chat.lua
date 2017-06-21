@@ -1,6 +1,5 @@
 local E, L, V, P, G = unpack(ElvUI)
 local CH = E:GetModule("Chat")
-local CC = E:GetModule("ChatCache")
 
 E.Options.args.chat = {
 	type = "group",
@@ -476,19 +475,19 @@ E.Options.args.chat = {
 					order = 2,
 					type = "toggle",
 					name = L["Chat"],
-					desc = L["Use class color for the names of players when they are mentioned.\nDepends on Chat Caching module!"],
+					desc = L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"],
 					get = function(info) return E.db.chat.classColorMentionsChat end,
 					set = function(info, value) E.db.chat.classColorMentionsChat = value end,
-					disabled = function() return not (E.private.chat.enable and E.private.chat.classCache) end
+					disabled = function() return not (E.private.chat.enable and E.private.general.classCache) end
 				},
 				classColorMentionsSpeech = {
 					order = 3,
 					type = "toggle",
 					name = L["Chat Bubbles"],
-					desc = L["Use class color for the names of players when they are mentioned.\nDepends on Chat Caching module!"],
+					desc = L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"],
 					get = function(info) return E.private.general.classColorMentionsSpeech end,
 					set = function(info, value) E.private.general.classColorMentionsSpeech = value E:StaticPopup_Show("PRIVATE_RL") end,
-					disabled = function() return (E.private.general.chatBubbles == "disabled" or not (E.private.chat.enable and E.private.chat.classCache)) end
+					disabled = function() return (E.private.general.chatBubbles == "disabled" or not (E.private.chat.enable and E.private.general.classCache)) end
 				},
 				classColorMentionExcludeName = {
 					order = 4,
@@ -511,81 +510,6 @@ E.Options.args.chat = {
 						E.global.chat.classColorMentionExcludedNames[value] = nil
 						GameTooltip:Hide()
 					end
-				}
-			}
-		},
-		classCacheGroup = {
-			order = 8,
-			type = "group",
-			name = L["Class Cache"],
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Class Cache"]
-				},
-				classCacheEnable = {
-					order = 2,
-					type = "toggle",
-					name = L["Class Caching"],
-					desc = L["Enable class information caching for coloring names in chat."],
-					get = function(info) return E.private.chat.classCache end,
-					set = function(info, value)
-						E.private.chat.classCache = value
-						CC:ToggleModule()
-					end,
-					disabled = function() return not E.private.chat.enable end
-				},
-				classCacheStoreInDB = {
-					order = 3,
-					type = "toggle",
-					name = L["Store cache in DB"],
-					desc = L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."],
-					get = function(info) return E.db.chat.classCacheStoreInDB end,
-					set = function(info, value)
-						E.db.chat.classCacheStoreInDB = value
-						CC:SwitchCacheType()
-					end,
-					disabled = function() return not (E.private.chat.enable and E.private.chat.classCache) end
-				},
-				classCacheMode = {
-					order = 4,
-					type = "select",
-					name = L["Caching Mode"],
-					desc = L["Passive - request info only for unknown players after their post in the chat.\n\nNormal - request info for friends, guildies, party and raid members; + Passive mode.\n\nAggressive - request info for your friendly units on target or mouseover, request info on changing location for all players in current location; + Normal Mode."],
-					values = {
-						["PASSIVE"] = L["Passive"],
-						["NORMAL"] = L["Normal"],
-						["AGGRESSIVE"] = L["Aggressive"]
-					},
-					get = function(info) return E.db.chat.classCacheMode end,
-					set = function(info, value)
-						E.db.chat.classCacheMode = value
-						CC:UpdateCachingMode()
-					end,
-					disabled = function() return not (E.private.chat.enable and E.private.chat.classCache) end
-				},
-				forceClassCaching = {
-					order = 5,
-					type = "execute",
-					name = L["Execute force caching"],
-					desc = L["Tries to cache up to 450 players by using /who with class names."],
-					func = function() CC:ForceCachingByClass() end,
-					disabled = function() return not (E.private.chat.enable and E.private.chat.classCache) end
-				},
-				wipeCacheGlobal = {
-					order = 6,
-					type = "execute",
-					name = L["Wipe DB Cache"],
-					func = function() CC:WipeCache(true) end,
-					disabled = function() return not (E.private.chat.enable and CC:GetCacheSize(E.db.chat.classCacheStoreInDB)) end
-				},
-				wipeCacheLocal = {
-					order = 7,
-					type = "execute",
-					name = L["Wipe Session Cache"],
-					func = function() CC:WipeCache() end,
-					disabled = function() return not (E.private.chat.enable and CC:GetCacheSize(E.db.chat.classCacheStoreInDB)) end
 				}
 			}
 		}

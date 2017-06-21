@@ -988,6 +988,23 @@ function E:DBConversions()
 		end
 		E.db.thinBorderColorSet = true
 	end
+
+	if E.private.chat.classCache then
+		E.private.general.classCache = true
+		E.private.chat.classCache = nil
+	end
+	if E.db.chat.classCacheStoreInDB then
+		E.db.general.classCacheStoreInDB = true
+		E.db.chat.classCacheStoreInDB = nil
+	end
+	if E.db.chat.classCacheMode then
+		E.db.chat.classCacheMode = nil
+	end
+	if E.global.chat.classCache then
+		E.global.classCache = table.copy(E.global.chat.classCache, true)
+		wipe(E.global.chat.classCache)
+		E.global.chat.classCache = nil
+	end
 end
 
 local CPU_USAGE = {};

@@ -1,34 +1,34 @@
 local E, L, V, P, G = unpack(ElvUI)
-local CC = E:NewModule("ChatCache", "AceEvent-3.0")
+local CC = E:NewModule("ClassCache", "AceEvent-3.0")
 
 local LW = LibStub:GetLibrary("LibWho-2.0")
 
-local find, upper = string.find, string.upper
+local find, match, split, upper = string.find, string.match, string.split, string.upper
 local wipe = table.wipe
 local pairs = pairs
 local select = select
 
+local GetBattlefieldScore = GetBattlefieldScore
 local GetFriendInfo = GetFriendInfo
 local GetGuildRosterInfo = GetGuildRosterInfo
+local GetNumBattlefieldScores = GetNumBattlefieldScores
 local GetNumFriends = GetNumFriends
 local GetNumGuildMembers = GetNumGuildMembers
 local GetNumPartyMembers = GetNumPartyMembers
 local GetNumRaidMembers = GetNumRaidMembers
-local GetRealZoneText = GetRealZoneText
 local GetTime = GetTime
 local IsInGuild = IsInGuild
 local UnitClass = UnitClass
 local UnitExists = UnitExists
-local UnitIsFriend = UnitIsFriend
 local UnitIsPlayer = UnitIsPlayer
 local UnitName = UnitName
 
 local UNKNOWN = UNKNOWN
-local WHO_TAG_CLASS = WHO_TAG_CLASS
-local WHO_TAG_ZONE = WHO_TAG_ZONE
 
 local GAME_LOCALE = GetLocale()
 local ENGLISH_CLASS_NAMES
+
+local blacklist = {}
 
 local function GetEnglishClassName(class)
 	if class == UNKNOWN then
@@ -52,18 +52,23 @@ local function GetEnglishClassName(class)
 end
 
 local function WhoCallback(result)
-	if result and result.NoLocaleClass then
-		CC:CachePlayer(result.Name, result.NoLocaleClass)
+	if result then
+		if result.NoLocaleClass then
+			CC:CachePlayer(result.Name, result.NoLocaleClass)
+			CC:SendMessage("ClassCacheQueryResult", result.Name, result.NoLocaleClass)
+		else
+			blacklist[result.Name] = true
+		end
 	end
 end
 
-function CC:GetClassByName(name, realm)
+function CC:GetClassByName(name, realm, enemy)
 	if not name or name == "" then return end
 	if realm and realm == "" then return end
 
-	if self.db.classCacheStoreInDB then
+	if self.storeInDB then
 		if realm then
-			if self.cache[realm][name] then
+			if self.cache[realm] and self.cache[realm][name] then
 				return self.cache[realm][name]
 			else
 				return
@@ -75,7 +80,7 @@ function CC:GetClassByName(name, realm)
 		end
 	else
 		if realm then
-			if self.tempCache[realm][name] then
+			if self.tempCache[realm] and self.tempCache[realm][name] then
 				return self.tempCache[realm][name]
 			else
 				return
@@ -87,17 +92,24 @@ function CC:GetClassByName(name, realm)
 		end
 	end
 
-	local result = LW:UserInfo(name, {
-		queue = LW.WHOLIB_QUEUE_QUIET,
-		timeout = 0,
-		callback = function(result)
-			WhoCallback(result)
+	if not blacklist[name] then
+		if enemy and match(name, "%s+") then
+			blacklist[name] = true
+			return
 		end
-	})
+	
+		local result = LW:UserInfo(name, {
+			queue = LW.WHOLIB_QUEUE_QUIET,
+			timeout = 0,
+			callback = function(result)
+				WhoCallback(result)
+			end
+		})
 
-	if result and result.NoLocaleClass then
-		self:CachePlayer(result.Name, result.NoLocaleClass)
-		return result.NoLocaleClass
+		if result and result.NoLocaleClass then
+			self:CachePlayer(result.Name, result.NoLocaleClass)
+			return result.NoLocaleClass
+		end
 	end
 end
 
@@ -106,7 +118,7 @@ function CC:CachePlayer(name, class, realm)
 
 	if realm and realm == "" then return end
 
-	if self.db.classCacheStoreInDB then
+	if self.storeInDB then
 		if realm and not self.cache[realm] then
 			self.cache[realm] = {}
 		end
@@ -129,8 +141,8 @@ function CC:CachePlayer(name, class, realm)
 	end
 end
 
-function CC:SwitchCacheType()
-	if self.db.classCacheStoreInDB then
+function CC:SwitchCacheType(init)
+	if self.storeInDB then
 		if not self.cache[E.myrealm] then
 			self.cache[E.myrealm] = {}
 		end
@@ -139,13 +151,15 @@ function CC:SwitchCacheType()
 			self.cache[E.myrealm][E.myname] = E.myclass
 		end
 
-		for realm in pairs(self.tempCache) do
-			if not self.cache[realm] then
-				self.cache[realm] = {}
-			end
+		if not init then
+			for realm in pairs(self.tempCache) do
+				if not self.cache[realm] then
+					self.cache[realm] = {}
+				end
 
-			for name, class in pairs(self.tempCache[realm]) do
-				self.cache[realm][name] = class
+				for name, class in pairs(self.tempCache[realm]) do
+					self.cache[realm][name] = class
+				end
 			end
 		end
 	else
@@ -157,20 +171,22 @@ function CC:SwitchCacheType()
 			self.tempCache[E.myrealm][E.myname] = E.myclass
 		end
 
-		for realm in pairs(self.cache) do
-			if not self.cache[realm] then
-				self.tempCache[realm] = {}
-			end
+		if not init then
+			for realm in pairs(self.cache) do
+				if not self.cache[realm] then
+					self.tempCache[realm] = {}
+				end
 
-			for name, class in pairs(self.cache[realm]) do
-				self.tempCache[realm][name] = class
+				for name, class in pairs(self.cache[realm]) do
+					self.tempCache[realm][name] = class
+				end
 			end
 		end
 	end
 end
 
 function CC:GetCacheTable()
-	if self.db.classCacheStoreInDB then
+	if self.storeInDB then
 		return self.cache
 	else
 		return self.tempCache
@@ -178,7 +194,11 @@ function CC:GetCacheTable()
 end
 
 function CC:GetCacheSize(global)
-	if not (self.cacheCalculationTime + 30 < GetTime()) then return self.cacheSize end
+	if global and not (self.cacheDBCalculationTime + 30 < GetTime()) then
+		return self.cacheDBSize > 1, self.cacheDBSize
+	elseif not global and not (self.cacheLocalCalculationTime + 30 < GetTime()) then
+		return self.cacheLocalSize > 1, self.cacheLocalSize
+	end
 
 	local size = 0
 
@@ -188,18 +208,21 @@ function CC:GetCacheSize(global)
 				size = size + 1
 			end
 		end
+
+		self.cacheDBSize = size
+		self.cacheDBCalculationTime = GetTime()
 	else
 		for realm in pairs(self.tempCache) do
 			for name in pairs(self.tempCache[realm]) do
 				size = size + 1
 			end
 		end
+
+		cacheLocalSize = size
+		cacheLocalCalculationTime = GetTime()
 	end
 
-	self.cacheCalculationTime = GetTime()
-	self.cacheSize = size
-
-	return size > 1
+	return size > 1, size
 end
 
 function CC:WipeCache(global)
@@ -207,55 +230,60 @@ function CC:WipeCache(global)
 		for realm in pairs(self.cache) do
 			wipe(realm)
 		end
+
 		wipe(self.cache)
+		self:SwitchCacheType(true)
+		self.cacheDBCalculationTime = 0
 
 		E:Print(L["Class DB cache wiped."])
 	else
 		for realm in pairs(self.tempCache) do
 			wipe(realm)
 		end
+
 		wipe(self.tempCache)
+		self:SwitchCacheType(true)
+		self.cacheLocalCalculationTime = 0
 
 		E:Print(L["Class session cache wiped."])
-	end
-
-	self.cacheCalculationTime = 0
-end
-
-function CC:UpdateAggressiveMode()
-	if self.db.classCacheAggressiveMode then
-		if self.inInstance or self.inBattleground then
-			self:UnregisterEvent("PLAYER_TARGET_CHANGED")
-			self:UnregisterEvent("UPDATE_MOUSEOVER_UNIT")
-			self:UnregisterEvent("WORLD_MAP_UPDATE")
-		else
-			self:RegisterEvent("PLAYER_TARGET_CHANGED")
-			self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
-			self:RegisterEvent("WORLD_MAP_UPDATE")
-		end
-	end
-end
-
-function CC:UpdateCachingMode()
-	if self.db.classCacheMode == "PASSIVE" then
-		self:UnregisterAllEvents()
-	else
-		self:RegisterEvent("PLAYER_ENTERING_WORLD")
-		self:RegisterEvent("PLAYER_GUILD_UPDATE")
-
-		self:RegisterEvent("FRIENDLIST_UPDATE")
-		self:RegisterEvent("PARTY_MEMBERS_CHANGED")
-		self:RegisterEvent("RAID_ROSTER_UPDATE")
-
-		self:PLAYER_ENTERING_WORLD()
 	end
 end
 
 function CC:PLAYER_ENTERING_WORLD()
-	if self.db.classCacheMode == "AGGRESSIVE" then
-		self.inInstance = IsInInstance()
-		self.inBattleground = UnitInBattleground("player") and true or false
-		self:UpdateAggressiveMode()
+	local inInstance, instanceType = IsInInstance()
+	self.inInstance = inInstance
+
+	if instanceType == "arena" or instanceType == "pvp" then
+		self.inBattleground = true
+	else
+		self.inBattleground = false
+	end
+
+	if self.inInstance or self.inBattleground then
+		self.lastNumPlayers = 0
+
+		self:UnregisterEvent("PLAYER_TARGET_CHANGED")
+		self:UnregisterEvent("UPDATE_MOUSEOVER_UNIT")
+
+		self:UnregisterEvent("PARTY_MEMBERS_CHANGED")
+		self:UnregisterEvent("RAID_ROSTER_UPDATE")
+
+
+		self:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
+
+		if self.inBattleground then
+			self:UPDATE_BATTLEFIELD_SCORE()
+		end
+	else
+		self.lastNumPlayers = 0
+
+		self:RegisterEvent("PLAYER_TARGET_CHANGED")
+		self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+
+		self:RegisterEvent("PARTY_MEMBERS_CHANGED")
+		self:RegisterEvent("RAID_ROSTER_UPDATE")
+
+		self:UnregisterEvent("UPDATE_BATTLEFIELD_SCORE")
 	end
 
 	self:PLAYER_GUILD_UPDATE()
@@ -342,7 +370,7 @@ function CC:RAID_ROSTER_UPDATE()
 end
 
 function CC:PLAYER_TARGET_CHANGED()
-	if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") then return end
+	if not UnitExists("target") or not UnitIsPlayer("target") then return end
 
 	local _, class = UnitClass("target")
 	if not class then return end
@@ -357,7 +385,7 @@ function CC:PLAYER_TARGET_CHANGED()
 end
 
 function CC:UPDATE_MOUSEOVER_UNIT()
-	if not UnitExists("mouseover") or not UnitIsPlayer("mouseover") or not UnitIsFriend("player", "mouseover") then return end
+	if not UnitExists("mouseover") or not UnitIsPlayer("mouseover") then return end
 
 	local _, class = UnitClass("mouseover")
 	if not class then return end
@@ -371,30 +399,25 @@ function CC:UPDATE_MOUSEOVER_UNIT()
 	end
 end
 
-function CC:WORLD_MAP_UPDATE()
-	if self.inInstance or self.inBattleground then return end
+function CC:UPDATE_BATTLEFIELD_SCORE()
+	local numPlayers = GetNumBattlefieldScores() or 0
 
-	local zone = GetRealZoneText()
-	if not zone then return end
+	if self.lastNumPlayers == numPlayers then
+		return
+	elseif self.lastNumPlayers > numPlayers then
+		self.lastNumPlayers = numPlayers
+		return
+	end
 
-	LW:Who(WHO_TAG_ZONE..zone, {
-		queue = LW.WHOLIB_QUEUE_SCANNING,
-		timeout = 0,
-		callback = function(...)
-			self:WHOLIB_QUERY_RESULT("WORLD_MAP_UPDATE", ...)
+	local name, realm, class, _
+
+	for i = 1, numPlayers do
+		name, _, _, _, _, _, _, _, _, class = GetBattlefieldScore(i)
+
+		if name and class then
+			name, realm = split("-", name)
+			self:CachePlayer(name, class, realm)
 		end
-	})
-end
-
-function CC:ForceCachingByClass()
-	for _, class in pairs(LOCALIZED_CLASS_NAMES_MALE) do
-		LW:Who(WHO_TAG_CLASS..class, {
-			queue = LW.WHOLIB_QUEUE_SCANNING,
-			timeout = 0,
-			callback = function(...)
-				self:WHOLIB_QUERY_RESULT("FORCE_CLASS_CACHING", ...)
-			end
-		})
 	end
 end
 
@@ -407,14 +430,19 @@ function CC:WHOLIB_QUERY_RESULT(_, query, results, complete)
 end
 
 function CC:ToggleModule()
-	if E.private.chat.classCache then
+	if E.private.general.classCache then
 		if not self.initialized then
-			self:SwitchCacheType()
-
+			self:SwitchCacheType(true)
 			self.initialized = true
 		end
 
-		self:UpdateCachingMode()
+		self:RegisterEvent("PLAYER_ENTERING_WORLD")
+		self:RegisterEvent("PLAYER_GUILD_UPDATE")
+
+		self:RegisterEvent("FRIENDLIST_UPDATE")
+		self:RegisterEvent("PARTY_MEMBERS_CHANGED")
+		self:RegisterEvent("RAID_ROSTER_UPDATE")
+
 		LW.RegisterCallback(self, "WHOLIB_QUERY_RESULT", "WHOLIB_QUERY_RESULT")
 	else
 		self:UnregisterAllEvents()
@@ -423,15 +451,16 @@ function CC:ToggleModule()
 end
 
 function CC:Initialize()
-	self.db = E.db.chat
-	self.cache = E.global.chat.classCache
+	self.storeInDB = E.db.general.classCacheStoreInDB
+	self.cache = E.global.classCache
 
 	self.tempCache = {}
-	self.cacheCalculationTime = 0
+	self.cacheLocalCalculationTime = 0
+	self.cacheDBCalculationTime = 0
 
 	LW:SetWhoLibDebug(false)
 
-	if E.private.chat.enable and E.private.chat.classCache then
+	if E.private.general.classCache then
 		self:ToggleModule()
 	end
 end

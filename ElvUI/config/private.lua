@@ -19,6 +19,7 @@ V["general"] = {
 		["enable"] = true,
 		["hideCalendar"] = true,
 	},
+	["classCache"] = true,
 	["classColorMentionsSpeech"] = true
 }
 
@@ -42,8 +43,7 @@ V["auras"] = {
 }
 
 V["chat"] = {
-	["enable"] = true,
-	["classCache"] = true,
+	["enable"] = true
 }
 
 V["skins"] = {

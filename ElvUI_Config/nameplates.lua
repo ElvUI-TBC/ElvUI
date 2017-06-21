@@ -437,12 +437,16 @@ local function GetUnitSettings(unit, name)
 		group.args.healthGroup.args.useClassColor = {
 			order = 4,
 			type = "toggle",
-			name = L["Use Class Color"]
+			name = L["Use Class Color"],
+			desc = L["Depends on Class Caching module!"],
+			disabled = function() return not E.private.general.classCache end
 		};
 		group.args.nameGroup.args.useClassColor = {
 			order = 3,
 			type = "toggle",
-			name = L["Use Class Color"]
+			name = L["Use Class Color"],
+			desc = L["Depends on Class Caching module!"],
+			disabled = function() return not E.private.general.classCache end
 		};
 	elseif(unit == "ENEMY_NPC" or unit == "FRIENDLY_NPC") then
 		group.args.eliteIcon = {

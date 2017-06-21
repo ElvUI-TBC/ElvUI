@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local M = E:GetModule("Misc")
 local CH = E:GetModule("Chat")
-local CC = E:GetModule("ChatCache")
+local CC = E:GetModule("ClassCache")
 
 local select, unpack, type = select, unpack, type;
 local strlower = strlower;
@@ -23,7 +23,7 @@ function M:UpdateBubbleBorder()
 		end
 	end
 
-	if E.private.chat.enable and E.private.chat.classCache and E.private.general.classColorMentionsSpeech then
+	if E.private.chat.enable and E.private.general.classCache and E.private.general.classColorMentionsSpeech then
 		local classColorTable, isFirstWord, rebuiltString, tempWord, wordMatch, classMatch
 		local text = self.text:GetText()
 		if text and text:match("[^%s]+") then

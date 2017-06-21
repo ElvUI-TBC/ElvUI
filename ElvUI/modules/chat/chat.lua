@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local CH = E:NewModule("Chat", "AceTimer-3.0", "AceHook-3.0", "AceEvent-3.0")
-local CC = E:GetModule("ChatCache")
+local CC = E:GetModule("ClassCache")
 local LSM = LibStub("LibSharedMedia-3.0")
 
 local _G = _G;
@@ -754,7 +754,7 @@ function CH:ConcatenateTimeStamp(msg)
 end
 
 function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
-	if not E.private.chat.classCache then return arg2 end
+	if not E.private.general.classCache then return arg2 end
 
 	if arg2 and arg2 ~= "" then
 		local name, realm = strsplit("-", arg2)
@@ -1209,7 +1209,7 @@ function CH:CheckKeyword(message)
 			end
 		end
 
-		if self.db.classColorMentionsChat and E.private.chat.classCache then
+		if self.db.classColorMentionsChat and E.private.general.classCache then
 			tempWord = word:gsub("^%p-([^%p]+)([%-]?[^%p]-)%p-$","%1%2")
 
 			classMatch = CC:GetCacheTable()[E.myrealm][tempWord]

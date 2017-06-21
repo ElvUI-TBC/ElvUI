@@ -1,4 +1,5 @@
 local E, L, V, P, G = unpack(ElvUI);
+local CC = E:GetModule("ClassCache")
 
 E.Options.args.general = {
 	type = "group",
@@ -181,6 +182,59 @@ E.Options.args.general = {
 						["ENGLISH"] = "K, M, B",
 						["CHINESE"] = "W, Y"
 					}
+				},
+				classCacheHeader = {
+					order = 51,
+					type = "header",
+					name = L["Class Cache"]
+				},
+				classCacheEnable = {
+					order = 52,
+					type = "toggle",
+					name = L["Class Caching"],
+					desc = L["Enable class information caching for coloring names in chat and nameplates."],
+					get = function(info) return E.private.general.classCache end,
+					set = function(info, value)
+						E.private.general.classCache = value
+						CC:ToggleModule()
+					end
+				},
+				classCacheStoreInDB = {
+					order = 53,
+					type = "toggle",
+					name = L["Store cache in DB"],
+					desc = L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."],
+					get = function(info) return E.db.general.classCacheStoreInDB end,
+					set = function(info, value)
+						E.db.general.classCacheStoreInDB = value
+						CC:SwitchCacheType()
+					end,
+					disabled = function() return not E.private.general.classCache end
+				},
+				spacer = {
+					order = 54,
+					type = "description",
+					name = " "
+				},
+				wipeClassCacheGlobal = {
+					order = 55,
+					type = "execute",
+					name = L["Wipe DB Cache"],
+					func = function()
+						CC:WipeCache(true)
+						GameTooltip:Hide()
+					end,
+					disabled = function() return not CC:GetCacheSize(true) end
+				},
+				wipeClassCacheLocal = {
+					order = 56,
+					type = "execute",
+					name = L["Wipe Session Cache"],
+					func = function()
+						CC:WipeCache()
+						GameTooltip:Hide()
+					end,
+					disabled = function() return not CC:GetCacheSize() end
 				}
 			}
 		},

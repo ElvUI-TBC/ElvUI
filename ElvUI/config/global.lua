@@ -15,9 +15,10 @@ G["general"] = {
 };
 
 G["chat"] = {
-	["classCache"] = {},
 	["classColorMentionExcludedNames"] = {}
 }
+
+G["classCache"] = {}
 
 G["classtimer"] = {};
 
