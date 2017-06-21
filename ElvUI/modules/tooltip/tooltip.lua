@@ -478,6 +478,11 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 	else
 		GameTooltipStatusBar:SetStatusBarColor(0.6, 0.6, 0.6)
 	end
+
+	local _, max = GameTooltipStatusBar:GetMinMaxValues()
+	if max == 100 and GameTooltipStatusBar:GetValue() > 0 then
+		GameTooltipStatusBar.text:SetText(E:ShortValue(LMH:GetUnitCurrentHP(unit)).." / "..E:ShortValue(LMH:GetUnitMaxHP(unit)))
+	end
 end
 
 function TT:GameTooltipStatusBar_OnValueChanged(tt, value)
@@ -492,11 +497,7 @@ function TT:GameTooltipStatusBar_OnValueChanged(tt, value)
 
 	local _, max = tt:GetMinMaxValues()
 	if value > 0 and max == 1 then
-		if unit then
-			tt.text:SetFormattedText("%d%%", floor(LMH:GetUnitCurrentHP(unit) * 100))
-		else
-			tt.text:SetFormattedText("%d%%", floor(value * 100))
-		end
+		tt.text:SetFormattedText("%d%%", floor(value * 100))
 		tt:SetStatusBarColor(TAPPED_COLOR.r, TAPPED_COLOR.g, TAPPED_COLOR.b) --most effeciant?
 	elseif(value == 0 or (unit and UnitIsDeadOrGhost(unit))) then
 		tt.text:SetText(DEAD)
