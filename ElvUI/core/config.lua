@@ -143,10 +143,10 @@ function E:Grid_Create()
 	end
 end
 
-local function ConfigMode_OnClick(self)
-	selectedValue = self.value
-	E:ToggleConfigMode(false, self.value)
-	UIDropDownMenu_SetSelectedValue(ElvUIMoverPopupWindowDropDown, self.value);
+local function ConfigMode_OnClick()
+	selectedValue = this.value
+	E:ToggleConfigMode(false, this.value)
+	UIDropDownMenu_SetSelectedValue(ElvUIMoverPopupWindowDropDown, this.value);
 end
 
 local function ConfigMode_Initialize()
