@@ -1,6 +1,12 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("NamePlates")
 local LSM = LibStub("LibSharedMedia-3.0")
+local LMH = LibStub("LibMobHealth-4.0")
+
+local tonumber = tonumber
+
+local GetInstanceDifficulty = GetInstanceDifficulty
+local UnitLevel = UnitLevel
 
 function mod:UpdateElement_HealthOnValueChanged(health)
 	local frame = self:GetParent().UnitFrame
@@ -21,7 +27,7 @@ function mod:UpdateElement_HealthColor(frame)
 	local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
 	local useClassColor = mod.db.units[frame.UnitType].healthbar.useClassColor
 
-	if classColor and ((frame.UnitType == "FRIENDLY_PLAYER" and useClassColor) or (frame.UnitType == "ENEMY_PLAYER" and useClassColor)) then
+	if classColor and ((frame.UnitType == "FRIENDLY_PLAYER" and useClassColor and E.private.general.classCache) or (frame.UnitType == "ENEMY_PLAYER" and useClassColor and E.private.general.classCache)) then
 		r, g, b = classColor.r, classColor.g, classColor.b
 	elseif frame.UnitReaction == 1 then
 		r, g, b = mod.db.reactions.tapped.r, mod.db.reactions.tapped.g, mod.db.reactions.tapped.b
@@ -97,12 +103,40 @@ end
 function mod:UpdateElement_Health(frame)
 	local health = frame.oldHealthBar:GetValue()
 	local _, maxHealth = frame.oldHealthBar:GetMinMaxValues()
-	frame.HealthBar:SetMinMaxValues(0, maxHealth)
 
+	frame.HealthBar:SetMinMaxValues(0, maxHealth)
 	frame.HealthBar:SetValue(health)
 
 	if self.db.units[frame.UnitType].healthbar.text.enable then
-		frame.HealthBar.text:SetText(E:GetFormattedText(self.db.units[frame.UnitType].healthbar.text.format, health, maxHealth))
+		if maxHealth ~= 100 then
+			frame.HealthBar.text:SetText(E:GetFormattedText(self.db.units[frame.UnitType].healthbar.text.format, health, maxHealth))
+		else
+			local newMaxHealth
+
+			if frame.unit == "target" then
+				health, maxHealth = LMH:GetUnitHealth("target")
+			else
+				local level = self:UnitLevel(frame)
+				if level == "??" then
+					level = UnitLevel("player") + 3
+				end
+
+				if frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "ENEMY_PLAYER" then
+					newMaxHealth = LMH:GetMaxHP(frame.UnitName, tonumber(level), "pc")
+				elseif frame.UnitType == "FRIENDLY_NPC" or frame.UnitType == "ENEMY_NPC" then
+					newMaxHealth = LMH:GetMaxHP(frame.UnitName, tonumber(level), "npc", GetInstanceDifficulty())
+				else
+					newMaxHealth = LMH:GetMaxHP(frame.UnitName, tonumber(level))
+				end
+
+				if newMaxHealth then
+					health = newMaxHealth / 100 * health
+					maxHealth = newMaxHealth
+				end
+			end
+
+			frame.HealthBar.text:SetText(E:GetFormattedText(self.db.units[frame.UnitType].healthbar.text.format, health, maxHealth))
+		end
 	else
 		frame.HealthBar.text:SetText("")
 	end
