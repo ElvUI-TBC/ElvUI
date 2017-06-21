@@ -12,6 +12,9 @@ function S:LoadPVPSkin()
 	BattlefieldFrame.backdrop:Point("TOPLEFT", 10, -12)
 	BattlefieldFrame.backdrop:Point("BOTTOMRIGHT", -32, 73)
 
+	BattlefieldListScrollFrame:StripTextures()
+	S:HandleScrollBar(BattlefieldListScrollFrameScrollBar)
+
 	S:HandleButton(BattlefieldFrameCancelButton)
 	S:HandleButton(BattlefieldFrameJoinButton)
 	BattlefieldFrameGroupJoinButton:Point("RIGHT", BattlefieldFrameJoinButton, "LEFT", -2, 0)
@@ -48,7 +51,6 @@ function S:LoadPVPSkin()
 	S:HandleButton(PVPTeamDetailsAddTeamMember)
 
 	S:HandleNextPrevButton(PVPTeamDetailsToggleButton)
-
 end
 
 S:AddCallback("PvP", S.LoadPVPSkin)
