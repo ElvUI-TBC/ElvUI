@@ -82,6 +82,15 @@ P["general"] = {
 		["size"] = 40,
 		["spacing"] = 4,
 	},
+	["reminder"] = {
+		["enable"] = false,
+		["durations"] = true,
+		["reverse"] = true,
+		["position"] = "RIGHT",
+		["font"] = "Homespun",
+		["fontSize"] = 10,
+		["fontOutline"] = "MONOCHROMEOUTLINE"
+	},
 	["kittys"] = false
 };
 

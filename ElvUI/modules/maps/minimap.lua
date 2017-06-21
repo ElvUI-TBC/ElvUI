@@ -138,6 +138,12 @@ function M:UpdateSettings()
 	E.MinimapWidth = E.MinimapSize
 	E.MinimapHeight = E.MinimapSize
 
+	if E.db.general.reminder.enable then
+		E.RBRWidth = (E.MinimapHeight + ((E.Border - E.Spacing*3) * 5) + E.Border*2) / 6;
+	else
+		E.RBRWidth = 0;
+	end
+
 	if E.private.general.minimap.enable then
 		Minimap:Size(E.MinimapSize, E.MinimapSize)
 		self:UpdateMinimapSize()
@@ -202,7 +208,11 @@ function M:UpdateSettings()
 	end
 
 	if MMHolder then
-		MMHolder:Width((Minimap:GetWidth() + E.Border + E.Spacing*3))
+		if E.db.general.reminder.enable then
+			MMHolder:Width((Minimap:GetWidth() + (ElvUI_ReminderBuffs and (ElvUI_ReminderBuffs:GetWidth() + E.Border) or 24) + E.Spacing*3))
+		else
+			MMHolder:Width((Minimap:GetWidth() + E.Border + E.Spacing*3))
+		end
 
 		if E.db.datatexts.minimapPanels then
 			MMHolder:Height(Minimap:GetHeight() + (LeftMiniPanel and (LeftMiniPanel:GetHeight() + E.Border) or 24) + E.Spacing*3)
@@ -272,6 +282,19 @@ function M:UpdateSettings()
 		MiniMapInstanceDifficulty:Point(pos, Minimap, pos, x, y)
 		MiniMapInstanceDifficulty:SetScale(scale)
 	end
+
+	if(ElvConfigToggle) then
+		if(E.db.general.reminder.enable and E.db.datatexts.minimapPanels and E.private.general.minimap.enable) then
+			ElvConfigToggle:Show();
+			ElvConfigToggle:Width(E.RBRWidth);
+		else
+			ElvConfigToggle:Hide();
+		end
+	end
+
+	if(ElvUI_ReminderBuffs) then
+		E:GetModule("ReminderBuffs"):UpdateSettings();
+	end
 end
 
 local function MinimapPostDrag()
@@ -301,16 +324,20 @@ function M:Initialize()
 	mmholder:Height(Minimap:GetHeight() + 53)
 
 	Minimap:ClearAllPoints()
-	Minimap:Point("TOPRIGHT", mmholder, "TOPRIGHT", -E.Border, -E.Border)
+	if E.db.general.reminder.position == "LEFT" then
+		Minimap:Point("TOPRIGHT", mmholder, "TOPRIGHT", -E.Border, -E.Border);
+	else
+		Minimap:Point("TOPLEFT", mmholder, "TOPLEFT", E.Border, -E.Border);
+	end
 	Minimap:SetMaskTexture("Interface\\ChatFrame\\ChatFrameBackground")
 	Minimap:CreateBackdrop("Default")
 	Minimap:SetFrameLevel(Minimap:GetFrameLevel() + 2)
-	Minimap:SetScript("OnEnter", function(self)
+	Minimap:HookScript2("OnEnter", function(self)
 		if E.db.general.minimap.locationText ~= "MOUSEOVER" or not E.private.general.minimap.enable then return end
 		self.location:Show()
 	end)
 
-	Minimap:SetScript("OnLeave", function(self)
+	Minimap:HookScript2("OnLeave", function(self)
 		if E.db.general.minimap.locationText ~= "MOUSEOVER" or not E.private.general.minimap.enable then return end
 		self.location:Hide()
 	end)
