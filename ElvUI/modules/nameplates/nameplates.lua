@@ -702,15 +702,17 @@ function mod:ClassCacheQueryResult(_, name, class)
 	if queryList[name] then
 		local frame = queryList[name]
 
-		if frame.UnitType == "ENEMY_NPC" then
-			frame.UnitType = "ENEMY_PLAYER"
-		end
-		frame.UnitClass = class
+		if frame.UnitType then 
+			if frame.UnitType == "ENEMY_NPC" then
+				frame.UnitType = "ENEMY_PLAYER"
+			end
+			frame.UnitClass = class
 
-		if self.db.units[frame.UnitType].healthbar.enable then
-			self:UpdateElement_HealthColor(frame)
+			if self.db.units[frame.UnitType].healthbar.enable then
+				self:UpdateElement_HealthColor(frame)
+			end
+			self:UpdateElement_Name(frame)
 		end
-		self:UpdateElement_Name(frame)
 
 		queryList[name] = nil
 	end
