@@ -5,7 +5,7 @@ local LSM = LibStub("LibSharedMedia-3.0")
 local GetPlayerBuffTimeLeft = GetPlayerBuffTimeLeft
 local GetSpellInfo = GetSpellInfo
 local GetTime = GetTime
-local UnitBuff = UnitBuff
+local UnitAura = UnitAura
 
 local BUFF_MAX_DISPLAY = BUFF_MAX_DISPLAY
 
@@ -74,16 +74,19 @@ RB.CasterSpell5Buffs = {
 RB.MeleeSpell5Buffs = {
 	25392, -- Prayer of Fortitude
 	25389, -- Power Word: Fortitude
+	469, -- Commanding Shout
 }
 
 RB.CasterSpell6Buffs = {
 	27143, -- Greater Blessing of Wisdom
 	27142, -- Blessing of Wisdom
+	25569, -- Mana Spring
 }
 
 RB.MeleeSpell6Buffs = {
 	27141, -- Greater Blessing of Might
 	27140, -- Blessing of Might
+	2048, -- Battle Shout
 }
 
 function RB:CheckFilterForActiveBuff(filter)
@@ -94,7 +97,7 @@ function RB:CheckFilterForActiveBuff(filter)
 
 		if spellName then
 			for i = 1, BUFF_MAX_DISPLAY do
-				name, _, texture, _, duration, expirationTime = UnitBuff("player", i)
+				name, _, texture, _, _, duration, expirationTime = UnitAura("player", i)
 
 				if spellName == name then
 					if duration and expirationTime then
