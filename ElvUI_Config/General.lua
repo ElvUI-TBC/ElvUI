@@ -211,10 +211,26 @@ E.Options.args.general = {
 					end,
 					disabled = function() return not E.private.general.classCache end
 				},
-				spacer = {
+				classCacheRequestUnitInfo = {
 					order = 54,
-					type = "description",
-					name = " "
+					type = "select",
+					name = L["Request class info for nameplates"],
+					desc = L["Information will be requested via /who."],
+					values = {
+						["false"] = L["Disable"],
+						["friendly"] = L["Friendly only"],
+						["enemy"] = L["Enemy only"],
+						["all"] = L["All"]
+					},
+					get = function(info) return E.db.general.classCacheRequestUnitInfo or "false" end,
+					set = function(info, value)
+						if value == "false" then
+							E.db.general.classCacheRequestUnitInfo = false
+						else
+							E.db.general.classCacheRequestUnitInfo = value
+						end
+					end,
+					disabled = function() return not E.private.general.classCache end
 				},
 				wipeClassCacheGlobal = {
 					order = 55,

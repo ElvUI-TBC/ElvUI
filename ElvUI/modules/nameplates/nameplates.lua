@@ -4,6 +4,7 @@ local CC = E:GetModule("ClassCache")
 
 local _G = _G
 local pairs, tonumber = pairs, tonumber
+local select = select
 local gsub, split = string.gsub, string.split
 local twipe = table.wipe
 
@@ -268,10 +269,16 @@ end
 function mod:UnitClass(name, type)
 	if E.private.general.classCache then
 		if type == "FRIENDLY_PLAYER" then
-			return select(2, UnitClass(name)) or CC:GetClassByName(split("-", name))
+			local _, class = UnitClass(name)
+			if class then
+				return class
+			else
+				local name, realm = split("-", name)
+				return CC:GetClassByName(name, realm, "friendly")
+			end
 		elseif type == "ENEMY_NPC" then
 			local name, realm = split("-", name)
-			return CC:GetClassByName(name, realm, true)
+			return CC:GetClassByName(name, realm, "enemy")
 		elseif type == "ENEMY_PLAYER" then
 			return CC:GetClassByName(split("-", name))
 		end
@@ -611,7 +618,6 @@ function mod:SearchForFrame(guid, raidIcon, name)
 end
 
 function mod:UpdateCVars()
-	-- SetCVar("ShowClassColorInNameplate", "1")
 	SetCVar("showVKeyCastbar", "1")
 	-- SetCVar("nameplateAllowOverlap", self.db.motionType == "STACKED" and "0" or "1")
 end

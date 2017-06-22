@@ -62,11 +62,11 @@ local function WhoCallback(result)
 	end
 end
 
-function CC:GetClassByName(name, realm, enemy)
+function CC:GetClassByName(name, realm, unitInfo)
 	if not name or name == "" then return end
 	if realm and realm == "" then return end
 
-	if self.storeInDB then
+	if E.db.general.classCacheStoreInDB then
 		if realm then
 			if self.cache[realm] and self.cache[realm][name] then
 				return self.cache[realm][name]
@@ -93,7 +93,9 @@ function CC:GetClassByName(name, realm, enemy)
 	end
 
 	if not blacklist[name] then
-		if enemy and match(name, "%s+") then
+		if unitInfo and (not E.db.general.classCacheRequestUnitInfo or (E.db.general.classCacheRequestUnitInfo ~= "all" and E.db.general.classCacheRequestUnitInfo ~= unitInfo)) then
+			return
+		elseif unitInfo and match(name, "%s+") then
 			blacklist[name] = true
 			return
 		end
@@ -118,7 +120,7 @@ function CC:CachePlayer(name, class, realm)
 
 	if realm and realm == "" then return end
 
-	if self.storeInDB then
+	if E.db.general.classCacheStoreInDB then
 		if realm and not self.cache[realm] then
 			self.cache[realm] = {}
 		end
@@ -142,7 +144,7 @@ function CC:CachePlayer(name, class, realm)
 end
 
 function CC:SwitchCacheType(init)
-	if self.storeInDB then
+	if E.db.general.classCacheStoreInDB then
 		if not self.cache[E.myrealm] then
 			self.cache[E.myrealm] = {}
 		end
@@ -186,7 +188,7 @@ function CC:SwitchCacheType(init)
 end
 
 function CC:GetCacheTable()
-	if self.storeInDB then
+	if E.db.general.classCacheStoreInDB then
 		return self.cache
 	else
 		return self.tempCache
@@ -451,10 +453,9 @@ function CC:ToggleModule()
 end
 
 function CC:Initialize()
-	self.storeInDB = E.db.general.classCacheStoreInDB
 	self.cache = E.global.classCache
-
 	self.tempCache = {}
+
 	self.cacheLocalCalculationTime = 0
 	self.cacheDBCalculationTime = 0
 
