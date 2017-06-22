@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local A = E:NewModule("Auras", "AceHook-3.0", "AceEvent-3.0")
 
-local mainhand, offhand
+local mainhand, offhand, _
 
 function A:BuffFrame_Update()
 	BUFF_ACTUAL_DISPLAY = 0;
@@ -109,7 +109,6 @@ function A:BuffButton_UpdateAnchors(buttonName, index, filter)
 			else
 				buff:SetPoint("TOPRIGHT", getglobal(buttonName..(index-BUFFS_PER_ROW)), "TOPRIGHT", 0, 0)
 			end
-			aboveBuff = buff
 		elseif index == 1 then
 			mainhand, _, _, offhand = GetWeaponEnchantInfo()
 			if mainhand and offhand then

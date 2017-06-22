@@ -220,8 +220,8 @@ function CC:GetCacheSize(global)
 			end
 		end
 
-		cacheLocalSize = size
-		cacheLocalCalculationTime = GetTime()
+		self.cacheLocalSize = size
+		self.cacheLocalCalculationTime = GetTime()
 	end
 
 	return size > 1, size
