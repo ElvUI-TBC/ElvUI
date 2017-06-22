@@ -524,6 +524,7 @@ do
 		local isPetHeader = template:match("PetHeader")
 		local name = overrideName or generateName(nil, ...)
 		local header = CreateFrame("Frame", name, UIParent, template)
+		header:SetAttribute("template", "SecureUnitButtonTemplate")
 
 		for i = 1, select("#", ...), 2 do
 			local att, val = select(i, ...)
@@ -531,7 +532,6 @@ do
 			header:SetAttribute(att, val)
 		end
 
-		header:SetAttribute("template", "SecureUnitButtonTemplate")
 		header.style = style
 		header.styleFunction = styleProxy
 		header.initialConfigFunction = initialConfigFunction
