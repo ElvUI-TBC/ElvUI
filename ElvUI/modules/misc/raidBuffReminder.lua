@@ -12,91 +12,78 @@ local BUFF_MAX_DISPLAY = BUFF_MAX_DISPLAY
 E.ReminderBuffs = RB
 
 RB.Spell1Buffs = {
---	67016, -- Flask of the North (SP)
---	67017, -- Flask of the North (AP)
---	67018, -- Flask of the North (STR)
---	53755, -- Flask of the Frost Wyrm
---	53758, -- Flask of Stoneblood
---	53760, -- Flask of Endless Rage
---	54212, -- Flask of Pure Mojo
---	53752, -- Lesser Flask of Toughness (50 Resilience)
+	28521, -- Flask of Blinding Light
+	28518, -- Flask of Fortification
+	28519, -- Flask of Mighty Restoration
+	28540, -- Flask of Pure Death
+	28520, -- Flask of Relentless Assault
+	42735, -- Flask of Chromatic Wonder
+	46839, -- Shattrath Flask of Blinding Light
+	41607, -- Shattrath Flask of Fortification
+	41605, -- Shattrath Flask of Mighty Restoration
+	46837, -- Shattrath Flask of Pure Death
+	41608, -- Shattrath Flask of Relentless Assault
+	41611, -- Shattrath Flask of Supreme Power
+	17629, -- Flask of Chromatic Resistance
+	17628, -- Flask of Supreme Power
+	17626, -- Flask of the Titans
 	17627, -- Flask of Distilled Wisdom
 
-	33721, -- Spellpower Elixir
---	53746, -- Wrath Elixir
+	33721, -- Adept's Elixir
+	28509, -- Elixir of Major Mageblood
+	45373, -- Bloodberry Elixir
+	28502, -- Elixir of Major Defense
+	39627, -- Elixir of Draenic Wisdom
+	33726, -- Elixir of Mastery
+	28491, -- Elixir of Healing Power
+	39625, -- Elixir of Major Fortitude
 	28497, -- Elixir of Mighty Agility
---	53748, -- Elixir of Mighty Strength
---	60346, -- Elixir of Lightning Speed
---	60344, -- Elixir of Expertise
---	60341, -- Elixir of Deadly Strikes
---	60345, -- Elixir of Armor Piercing
---	60340, -- Elixir of Accuracy
---	53749, -- Guru's Elixir
-
---	60343, -- Elixir of Mighty Defense
---	53751, -- Elixir of Mighty Fortitude
---	53764, -- Elixir of Mighty Mageblood
---	60347, -- Elixir of Mighty Thoughts
---	53763, -- Elixir of Protection
---	53747, -- Elixir of Spirit
+	11406, -- Elixir of Demonslaying
 }
 
 RB.Spell2Buffs = {
---	57325, -- 80 AP
---	57327, -- 46 SP
---	57329, -- 40 Critical Strike Rating
---	57332, -- 40 Haste Rating
---	57334, -- 20 MP5
---	57356, -- 40 Expertise Rating
---	57358, -- 40 ARP
---	57360, -- 40 Hit Rating
---	57363, -- Tracking Humanoids
---	57365, -- 40 Spirit
---	57367, -- 40 AGI
---	57371, -- 40 STR
---	57373, -- Tracking Beasts
---	57399, -- 80 AP, 46 SP
---	59230, -- 40 Dodge Rating
---	65247, -- 20 STR
+	43706, -- +23 Spellcrit (Skullfish Soup Buff)
+	33257, -- +30 Stamina
+	33256, -- +20 Strength
+	33259, -- +40 AP
+	33261, -- +20 Agility
+	33263, -- +23 Spelldmg
+	33265, -- +8 MP5
+	33268, -- +44 Addheal
+	35272, -- +20 Stamina
+	33254, -- +20 Stamina
+	43764, -- +20 Meleehit
+	45619, -- +8 Spellresist
 }
 
 RB.Spell3Buffs = {
---	72588, -- Gift of the Wild
---	48469, -- Mark of the Wild
+	26991, -- Gift of the Wild
+	26990, -- Mark of the Wild
 }
 
 RB.Spell4Buffs = {
 	25898, -- Greater Blessing of Kings
 	20217, -- Blessing of Kings
---	72586, -- Blessing of Forgotten Kings
 }
 
 RB.CasterSpell5Buffs = {
---TEMP
-	25392, -- Prayer of Fortitude
-	25389, -- Power Word: Fortitude
---TEMP
---	61316, -- Dalaran Brilliance
---	43002, -- Arcane Brilliance
---	42995, -- Arcane Intellect
+	27127, -- Arcane Brilliance
+	27126, -- Arcane Intellect
 }
 
 RB.MeleeSpell5Buffs = {
 	25392, -- Prayer of Fortitude
 	25389, -- Power Word: Fortitude
---	72590, -- Fortitude
 }
 
 RB.CasterSpell6Buffs = {
---	48938, -- Greater Blessing of Wisdom
---	48936, -- Blessing of Wisdom
---	58777, -- Mana Spring
+	27143, -- Greater Blessing of Wisdom
+	27142, -- Blessing of Wisdom
 }
 
 RB.MeleeSpell6Buffs = {
---	48934, -- Greater Blessing of Might
---	48932, -- Blessing of Might
---	47436, -- Battle Shout
+	27141, -- Greater Blessing of Might
+	27140, -- Blessing of Might
 }
 
 function RB:CheckFilterForActiveBuff(filter)
