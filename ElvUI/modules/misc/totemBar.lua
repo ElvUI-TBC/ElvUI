@@ -25,6 +25,7 @@ function TOTEMS:Update()
 					_G["TotemFrameTotem" .. d]:ClearAllPoints();
 					_G["TotemFrameTotem" .. d]:SetParent(self.bar[i].holder);
 					_G["TotemFrameTotem" .. d]:SetAllPoints(self.bar[i].holder);
+					_G["TotemFrameTotem" .. d]:Show()
 				end
 			end
 		else
