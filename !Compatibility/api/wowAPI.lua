@@ -60,7 +60,7 @@ QuestDifficultyColors = {
 function UnitAura(unit, i, filter)
 	assert(unit and (type(unit) == "string" or type(unit) == "number") and i and (type(i) == "string" or type(i) == "number"), "Usage: UnitAura(\"unit\", index [, filter])")
 
-	if match(filter, "\|*(HELPFUL)") then
+	if not filter or match(filter, "(HELPFUL)") then
 		local name, rank, aura, count, duration, maxDuration = UnitBuff(unit, i, filter)
 		return name, rank, aura, count, nil, duration, maxDuration
 	else
