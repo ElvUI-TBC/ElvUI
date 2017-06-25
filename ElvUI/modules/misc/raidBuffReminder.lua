@@ -2,10 +2,12 @@ local E, L, V, P, G = unpack(ElvUI)
 local RB = E:NewModule("ReminderBuffs", "AceEvent-3.0")
 local LSM = LibStub("LibSharedMedia-3.0")
 
+local GetPlayerBuff = GetPlayerBuff
+local GetPlayerBuffName = GetPlayerBuffName
 local GetPlayerBuffTimeLeft = GetPlayerBuffTimeLeft
 local GetSpellInfo = GetSpellInfo
 local GetTime = GetTime
-local UnitAura = UnitAura
+local UnitBuff = UnitBuff
 
 local BUFF_MAX_DISPLAY = BUFF_MAX_DISPLAY
 
@@ -90,24 +92,21 @@ RB.MeleeSpell6Buffs = {
 }
 
 function RB:CheckFilterForActiveBuff(filter)
-	local spellName, name, texture, duration, expirationTime
+	local spellName, buffIndex, untilCancelled
 
 	for _, spellID in pairs(filter) do
 		spellName = GetSpellInfo(spellID)
 
 		if spellName then
 			for i = 1, BUFF_MAX_DISPLAY do
-				name, _, texture, _, _, duration, expirationTime = UnitAura("player", i)
+				buffIndex, untilCancelled = GetPlayerBuff(i)
 
-				if spellName == name then
-					if duration and expirationTime then
-						expirationTime = GetTime() + (expirationTime - duration) + duration
-					else
-						duration = GetPlayerBuffTimeLeft(i)
-						expirationTime = GetTime() + duration
+				if buffIndex == 0 then
+					return false
+				else
+					if spellName == GetPlayerBuffName(buffIndex) then
+						return true, buffIndex, GetPlayerBuffTexture(buffIndex), untilCancelled, GetPlayerBuffTimeLeft(buffIndex), GetPlayerBuffName(buffIndex), spellID
 					end
-
-					return true, texture, duration, expirationTime
 				end
 			end
 		end
@@ -116,50 +115,67 @@ function RB:CheckFilterForActiveBuff(filter)
 	return false
 end
 
-function RB:UpdateReminderTime(elapsed)
-	self.expiration = self.expiration - elapsed
+function RB:GetDurationForBuffName(buffName)
+	local _, name, duration
+	for i = 1, BUFF_MAX_DISPLAY do
+		name, _, _, _, duration = UnitBuff("player", i)
+		if name == buffName and duration then
+			return duration
+		end
+	end
+	return nil
+end
+
+function RB:Button_OnUpdate(elapsed)
+	local timeLeft = GetPlayerBuffTimeLeft(self.index)
 
 	if self.nextUpdate > 0 then
 		self.nextUpdate = self.nextUpdate - elapsed
 		return
 	end
 
-	if self.expiration <= 0 then
+	if timeLeft <= 0 then
 		self.timer:SetText("")
 		self:SetScript("OnUpdate", nil)
 		return
 	end
 
-	local timervalue, formatid
-	timervalue, formatid, self.nextUpdate = E:GetTimeInfo(self.expiration, 4)
-	self.timer:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatid], E.TimeFormats[formatid][1]), timervalue)
+	local timerValue, formatID
+	timerValue, formatID, self.nextUpdate = E:GetTimeInfo(timeLeft, 4)
+	self.timer:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatID], E.TimeFormats[formatID][1]), timerValue)
 end
 
-function RB:UpdateReminder()
+function RB:Update()
 	for i = 1, 6 do
-		local hasBuff, texture, duration, expirationTime = self:CheckFilterForActiveBuff(self["Spell" .. i .. "Buffs"], i)
 		local button = self.frame[i]
-		local reverseStyle = E.db.general.reminder.reverse
+		local hasBuff, index, texture, untilCancelled, timeLeft, buffName, spellID = self:CheckFilterForActiveBuff(self["Spell"..i.."Buffs"])
 
 		if hasBuff then
+			button.index = index
 			button.t:SetTexture(texture)
 
-			if (duration == 0 and expirationTime == 0) or not E.db.general.reminder.durations then
-				button.t:SetAlpha(reverseStyle and 1 or 0.3)
+			if (untilCancelled == 1 or not timeLeft) or not E.db.general.reminder.durations then
+				button.t:SetAlpha(E.db.general.reminder.reverse and 1 or 0.3)
 				button:SetScript("OnUpdate", nil)
 				button.timer:SetText(nil)
 				CooldownFrame_SetTimer(button.cd, 0, 0, 0)
 			else
-				button.expiration = expirationTime - GetTime()
 				button.nextUpdate = 0
 				button.t:SetAlpha(1)
-				CooldownFrame_SetTimer(button.cd, expirationTime - duration, duration, 1)
-				button.cd:SetReverse(reverseStyle)
-				button:SetScript("OnUpdate", self.UpdateReminderTime)
+
+				local duration = self:GetDurationForBuffName(buffName) or ElvCharacterDB.ReminderDuration[spellID]
+				if duration then
+					CooldownFrame_SetTimer(button.cd, GetTime() - (duration - timeLeft), duration, 1)
+					ElvCharacterDB.ReminderDuration[spellID] = duration
+				else
+					CooldownFrame_SetTimer(button.cd, 0, 0, 0)
+				end
+				button:SetScript("OnUpdate", self.Button_OnUpdate)
 			end
 		else
+			button.index = nil
 			CooldownFrame_SetTimer(button.cd, 0, 0, 0)
-			button.t:SetAlpha(reverseStyle and 0.3 or 1)
+			button.t:SetAlpha(E.db.general.reminder.reverse and 0.3 or 1)
 			button:SetScript("OnUpdate", nil)
 			button.timer:SetText(nil)
 			button.t:SetTexture(self.DefaultIcons[i])
@@ -176,50 +192,36 @@ function RB:CreateButton()
 	button.t:SetInside()
 	button.t:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
 
+	button.timer = button:CreateFontString(nil, "OVERLAY")
+	button.timer:SetPoint("CENTER")
+
 	button.cd = CreateFrame("Cooldown", nil, button, "CooldownFrameTemplate")
 	button.cd:SetInside()
 	button.cd.noOCC = true
 	button.cd.noCooldownCount = true
 
-	button.timer = button.cd:CreateFontString(nil, "OVERLAY")
-	button.timer:SetPoint("CENTER")
-
 	return button
 end
 
-function RB:EnableRB()
-	ElvUI_ReminderBuffs:Show()
-	self:RegisterEvent("PLAYER_AURAS_CHANGED", "UpdateReminder")
-	E.RegisterCallback(self, "RoleChanged", "UpdateSettings")
-	self:UpdateReminder()
-end
-
-function RB:DisableRB()
-	ElvUI_ReminderBuffs:Hide()
-	self:UnregisterEvent("PLAYER_AURAS_CHANGED")
-	E.UnregisterCallback(self, "RoleChanged", "UpdateSettings")
-end
-
 function RB:UpdateSettings(isCallback)
+	local font = LSM:Fetch("font", E.db.general.reminder.font)
+
 	local frame = self.frame
 	frame:Width(E.RBRWidth)
 
 	self:UpdateDefaultIcons()
 
 	for i = 1, 6 do
-		local button = frame[i]
-		button:ClearAllPoints()
-		button:SetWidth(E.RBRWidth)
-		button:SetHeight(E.RBRWidth)
+		local button = self.frame[i]
+		button:Size(E.RBRWidth)
 
+		button:ClearAllPoints()
 		if i == 1 then
 			button:Point("TOP", ElvUI_ReminderBuffs, "TOP", 0, 0)
+		elseif i == 6 then
+			button:Point("BOTTOM", ElvUI_ReminderBuffs, "BOTTOM", 0, 0)
 		else
 			button:Point("TOP", frame[i - 1], "BOTTOM", 0, E.Border - E.Spacing*3)
-		end
-
-		if i == 6 then
-			button:Point("BOTTOM", ElvUI_ReminderBuffs, "BOTTOM", 0, 0)
 		end
 
 		if E.db.general.reminder.durations then
@@ -228,18 +230,18 @@ function RB:UpdateSettings(isCallback)
 			button.cd:SetAlpha(0)
 		end
 
-		local font = LSM:Fetch("font", E.db.general.reminder.font)
 		button.timer:FontTemplate(font, E.db.general.reminder.fontSize, E.db.general.reminder.fontOutline)
+		button.cd:SetReverse(E.db.general.reminder.reverse)
 	end
 
 	if not isCallback then
 		if E.db.general.reminder.enable then
-			RB:EnableRB()
+			RB:Enable()
 		else
-			RB:DisableRB()
+			RB:Disable()
 		end
 	else
-		self:UpdateReminder()
+		self:Update()
 	end
 end
 
@@ -282,26 +284,36 @@ function RB:UpdateDefaultIcons()
 	end
 end
 
+function RB:Enable()
+	ElvUI_ReminderBuffs:Show()
+	self:RegisterEvent("PLAYER_AURAS_CHANGED", "Update")
+	E.RegisterCallback(self, "RoleChanged", "UpdateSettings")
+	self:Update()
+end
+
+function RB:Disable()
+	ElvUI_ReminderBuffs:Hide()
+	self:UnregisterEvent("PLAYER_AURAS_CHANGED")
+	E.UnregisterCallback(self, "RoleChanged", "UpdateSettings")
+end
+
 function RB:Initialize()
 	if not E.private.general.minimap.enable then return end
 
 	self.db = E.db.general.reminder
 
+	if not ElvCharacterDB.ReminderDuration then
+		ElvCharacterDB.ReminderDuration = {}
+	end
+
 	local frame = CreateFrame("Frame", "ElvUI_ReminderBuffs", Minimap)
 	frame:Width(E.RBRWidth)
-
-	if E.db.general.reminder.position == "LEFT" then
-		frame:Point("TOPRIGHT", Minimap.backdrop, "TOPLEFT", E.Border - E.Spacing*3, 0)
-		frame:Point("BOTTOMRIGHT", Minimap.backdrop, "BOTTOMLEFT", E.Border - E.Spacing*3, 0)
-	else
-		frame:Point("TOPLEFT", Minimap.backdrop, "TOPRIGHT", -E.Border + E.Spacing*3, 0)
-		frame:Point("BOTTOMLEFT", Minimap.backdrop, "BOTTOMRIGHT", -E.Border + E.Spacing*3, 0)
-	end
 	self.frame = frame
+
+	self:UpdatePosition()
 
 	for i = 1, 6 do
 		frame[i] = self:CreateButton()
-		frame[i]:SetID(i)
 	end
 
 	self:UpdateSettings()
