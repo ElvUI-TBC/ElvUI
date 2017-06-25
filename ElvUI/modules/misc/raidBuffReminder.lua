@@ -232,6 +232,11 @@ function RB:UpdateSettings(isCallback)
 
 		button.timer:FontTemplate(font, E.db.general.reminder.fontSize, E.db.general.reminder.fontOutline)
 		button.cd:SetReverse(E.db.general.reminder.reverse)
+		if E.db.general.reminder.reverse then
+			button.timer:SetParent(button)
+		else
+			button.timer:SetParent(button.cd)
+		end
 	end
 
 	if not isCallback then
