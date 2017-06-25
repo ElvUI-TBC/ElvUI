@@ -779,14 +779,14 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 		local info = ChatTypeInfo[type]
 		local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11 = ...
 
-		local filter = false
+		local filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11 = false
 		if chatFilters[event] then
-			local newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11
 			for _, filterFunc in next, chatFilters[event] do
 				filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11 = filterFunc(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, event)
+				arg1 = newarg1 or arg1
 				if filter then
 					return true;
-				elseif newarg1 then
+				elseif newarg1 and newarg2 then
 					arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11 = newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11
 				end
 			end
@@ -1479,10 +1479,6 @@ function CH:DelayGMOTD()
 end
 
 function CH:Initialize()
-	if ElvCharacterDB.ChatHistory then
-		ElvCharacterDB.ChatHistory = nil --Depreciated
-	end
-
 	self.db = E.db.chat
 
 	if E.private.chat.enable ~= true then
@@ -1551,12 +1547,12 @@ function CH:Initialize()
 
 	--First get all pre-existing filters and copy them to our version of chatFilters using ChatFrame_GetMessageEventFilters
 	for name, _ in pairs(ChatTypeGroup) do
-		for i=1, #ChatTypeGroup[name] do
+		for i = 1, #ChatTypeGroup[name] do
 			local filterFuncTable = ChatFrame_GetMessageEventFilters(ChatTypeGroup[name][i])
 			if filterFuncTable then
 				chatFilters[ChatTypeGroup[name][i]] = {};
 
-				for j=1, #filterFuncTable do
+				for j = 1, #filterFuncTable do
 					local filterFunc = filterFuncTable[j]
 					tinsert(chatFilters[ChatTypeGroup[name][i]], filterFunc);
 				end
