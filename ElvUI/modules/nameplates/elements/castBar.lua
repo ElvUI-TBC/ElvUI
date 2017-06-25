@@ -57,8 +57,7 @@ end
 
 function mod:UpdateElement_Cast(frame, event, unit, ...)
 	if self.db.units[frame.UnitType].castbar.enable ~= true then return end
-
-	--if arg1 ~= unit then return end
+	if frame.unit ~= unit then return end
 
 	if event == "UNIT_SPELLCAST_START" then
 		local name, _, _, texture, startTime, endTime, _, castID, notInterruptible = UnitCastingInfo(unit)

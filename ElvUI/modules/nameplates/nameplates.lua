@@ -303,7 +303,7 @@ function mod:UnitLevel(frame)
 end
 
 function mod:GetUnitInfo(frame)
-	if UnitExists("target") == 1 and frame:GetParent():IsShown() and frame:GetParent():GetAlpha() == 1 then
+	--[[if UnitExists("target") == 1 and frame:GetParent():IsShown() and frame:GetParent():GetAlpha() == 1 then
 		if UnitIsPlayer("target") then
 			if UnitIsEnemy("target", "player") then
 				return 2, "ENEMY_PLAYER"
@@ -313,13 +313,13 @@ function mod:GetUnitInfo(frame)
 		else
 			if UnitIsEnemy("target", "player") then
 				return 2, "ENEMY_NPC"
-			elseif UnitReaction("target", "player") then
+			elseif UnitReaction("target", "player") == 4 then
 				return 4, "ENEMY_NPC"
 			else
 				return 5, "FRIENDLY_NPC"
 			end
 		end
-	end
+	end]]
 
 	local r, g, b = mod:RoundColors(frame.oldHealthBar:GetStatusBarColor())
 	if r == 1 and g == 0 and b == 0 then
@@ -525,7 +525,7 @@ function mod:OnCreated(frame)
 end
 
 function mod:OnEvent(event, unit, ...)
-	if self.UnitName ~= UnitName(unit) then return end
+	if not self.unit then return end
 
 	mod:UpdateElement_Cast(self, event, unit, ...)
 end
