@@ -24,6 +24,7 @@ function S:LoadRaidSkin()
 	end
 
 	ReadyCheckFrame:StripTextures()
+	ReadyCheckFrame:SetTemplate("Transparent")
 
 	S:HandleButton(RaidFrameAddMemberButton)
 	S:HandleButton(RaidFrameReadyCheckButton)
