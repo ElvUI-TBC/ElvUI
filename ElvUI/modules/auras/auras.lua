@@ -162,7 +162,7 @@ function A:Initialize()
 	if E.private.auras.enable ~= true then return end
 
 	local holder = CreateFrame("Frame", "AurasHolder", E.UIParent)
-	holder:Point("TOPRIGHT", Minimap, "TOPLEFT", -(E.PixelMode and 3 or 8), 2)
+	holder:Point("TOPRIGHT", MMHolder, "TOPLEFT", -(6 + E.Border), -E.Border - E.Spacing)
 	holder:Width(456)
 	holder:Height(E.MinimapHeight)
 	E:CreateMover(holder, "AurasMover", L["Auras Frame"])
