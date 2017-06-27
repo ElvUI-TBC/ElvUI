@@ -81,9 +81,11 @@ function AFK:SetAFK(status)
 		self.AFKMode:Show();
 
 		E.global.afkEnabled = true
-		E.global.afkCameraSpeed = GetCVar("cameraYawMoveSpeed")
+		E.global.afkCameraSpeedYaw = GetCVar("cameraYawMoveSpeed")
+		E.global.afkCameraSpeedPitch = GetCVar("cameraPitchMoveSpeed")
 
 		SetCVar("cameraYawMoveSpeed", AFK_SPEED);
+		SetCVar("cameraPitchMoveSpeed", E.global.afkCameraSpeedPitch);
 		MoveViewLeftStart();
 
 		if(IsInGuild()) then
@@ -115,7 +117,8 @@ function AFK:SetAFK(status)
 		UIParent:Show();
 
 		E.global.afkEnabled = nil
-		SetCVar("cameraYawMoveSpeed", E.global.afkCameraSpeed)
+		SetCVar("cameraYawMoveSpeed", E.global.afkCameraSpeedYaw)
+		SetCVar("cameraPitchMoveSpeed", E.global.afkCameraSpeedPitch)
 
 		MoveViewLeftStop();
 
@@ -209,7 +212,8 @@ end
 
 function AFK:Initialize()
 	if E.global.afkEnabled then
-		SetCVar("cameraYawMoveSpeed", E.global.afkCameraSpeed)
+		SetCVar("cameraYawMoveSpeed", E.global.afkCameraSpeedYaw)
+		SetCVar("cameraPitchMoveSpeed", E.global.afkCameraSpeedPitch)
 		E.global.afkEnabled = nil
 	end
 
