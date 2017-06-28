@@ -426,6 +426,7 @@ function AB:DisableBlizzard()
 
 	MainMenuBarArtFrame:UnregisterAllEvents()
 	MainMenuBarArtFrame:StripTextures()
+	BonusActionBarFrame:EnableMouse(false)
 	BonusActionBarFrame:StripTextures()
 
 	ActionBarUpButton:Kill()
