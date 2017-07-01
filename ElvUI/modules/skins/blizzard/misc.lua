@@ -34,6 +34,7 @@ function S:LoadMiscSkin()
 	}
 
 	ReadyCheckFrame:StripTextures()
+	ReadyCheckPortrait:Kill()
 
 	for i = 1, #skins do
 		_G[skins[i]]:SetTemplate("Transparent")
