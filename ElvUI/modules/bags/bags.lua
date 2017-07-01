@@ -188,7 +188,7 @@ function B:SetSearch(query)
 	if(ElvUIKeyFrameItem1) then
 		local numKey = GetKeyRingSize();
 		for slotID = 1, numKey do
-			local _, _, _, _, _, _, link = GetContainerItemInfo(KEYRING_CONTAINER, slotID);
+			local link = GetContainerItemLink(KEYRING_CONTAINER, slotID)
 			local button = _G["ElvUIKeyFrameItem"..slotID];
 			local success, result = pcall(Search.Matches, Search, link, query);
 			if(empty or (success and result)) then
@@ -690,7 +690,8 @@ function B:OnEvent(event, ...)
 		local bag = ...
 		if(bag == KEYRING_CONTAINER) then
 			for slotID = 1, GetKeyRingSize() do
-				B:UpdateKeySlot(slotID);
+				B:Layout(false)
+				B:UpdateKeySlot(slotID)
 			end
 		end
 
