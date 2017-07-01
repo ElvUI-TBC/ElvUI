@@ -71,14 +71,27 @@ local function OnAnimFinished(self)
 	end
 end
 
+local recountVis
+local function RecountVisability(save)
+	if Recount and Recount.db and Recount.db.profile then
+		if save then
+			recountVis = Recount.db.profile.MainWindowVis
+		else
+			Recount.db.profile.MainWindowVis = recountVis
+		end
+	end
+end
+
 function AFK:SetAFK(status)
 	if(status and not self.isAFK) then
 		if(InspectFrame) then
 			InspectPaperDollFrame:Hide();
 		end
 
-		UIParent:Hide();
-		self.AFKMode:Show();
+		RecountVisability(true)
+		UIParent:Hide()
+		self.AFKMode:Show()
+		RecountVisability()
 
 		E.global.afkEnabled = true
 		E.global.afkCameraSpeedYaw = GetCVar("cameraYawMoveSpeed")
