@@ -150,13 +150,16 @@ local function updateText(self, elapsed)
 	if self.timeLeft then
 		self.elapsed = (self.elapsed or 0) + elapsed
 		if self.elapsed >= 0.1 then
-			if not self.first then
-				self.timeLeft = self.timeLeft - self.elapsed
-			else
-				self.timeLeft = self.timeLeft - GetTime()
-				self.first = false
-			end
+			local _, _, _, _, _, duration, remaining = UnitAura(self:GetParent():GetParent().unit, self.index)
 			if self.timeLeft > 0 then
+				if self.cd then
+					if remaining and remaining > self.timeLeft then
+						self.cd:SetCooldown(GetTime() - (duration - remaining), duration)
+						self.cd:Show()
+					end
+				end
+
+				self.timeLeft = remaining
 				if ((self.timeLeft <= self.textThreshold) or self.textThreshold == -1) then
 					local time = formatTime(self.timeLeft, self.decimalThreshold or 5)
 					self.text:SetText(time)
@@ -172,10 +175,10 @@ local function updateText(self, elapsed)
 	end
 end
 
-
 local function resetIcon(icon, frame, count, duration, remaining, index)
 	if icon.onlyShowMissing then
 		icon:Hide()
+		icon:SetScript("OnUpdate", nil)
 		icon.index = nil
 	else
 		icon:Show()
@@ -189,11 +192,8 @@ local function resetIcon(icon, frame, count, duration, remaining, index)
 			end
 		end
 
-		if icon.displayText then
-			icon.timeLeft = remaining
-			icon.first = true;
-			icon:SetScript("OnUpdate", updateText)
-		end
+		icon.timeLeft = remaining
+		icon:SetScript("OnUpdate", updateText)
 
 		if icon.count then
 			icon.count:SetText((count > 1 and count))
@@ -233,6 +233,8 @@ local function Update(frame, event, unit)
 	for key, icon in pairs(icons) do
 		if not icon.onlyShowMissing then
 			icon:Hide()
+			icon:SetScript("OnUpdate", nil)
+			icon.index = nil
 		else
 			icon:Show()
 		end
@@ -272,13 +274,11 @@ local function Update(frame, event, unit)
 end
 
 local function setupIcons(self)
-
 	local watch = self.AuraWatch
 	local icons = watch.icons
 	watch.watched = {}
 
 	for _,icon in pairs(icons) do
-
 		local name, _, image = GetSpellInfo(icon.spellID)
 
 		if name then
@@ -353,4 +353,5 @@ local function Disable(self)
 		end
 	end
 end
+
 oUF:AddElement("AuraWatch", Update, Enable, Disable)
