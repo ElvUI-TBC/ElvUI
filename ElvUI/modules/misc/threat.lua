@@ -129,7 +129,7 @@ end
 
 
 function THREAT:GetLibStatus()
-	if ThreatLib and ThreatLib:IsActive() then
+	if ThreatLib then
 		return true
 	else
 		return false
@@ -137,7 +137,7 @@ function THREAT:GetLibStatus()
 end
 
 function THREAT:ToggleEnable()
-	if not (ThreatLib and ThreatLib:IsActive()) then
+	if not ThreatLib then
 		return self.bar:Hide()
 	end
 
