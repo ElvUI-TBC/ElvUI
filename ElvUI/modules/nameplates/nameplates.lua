@@ -561,8 +561,8 @@ function mod:OnUpdate(elapsed)
 	for frame in pairs(mod.VisiblePlates) do
 		i = i + 1
 
-		local isTarget = mod:SetTargetFrame(frame)
-		if not isTarget then
+		local getTarget = mod:SetTargetFrame(frame)
+		if not getTarget then
 			frame:GetParent():SetAlpha(1)
 		end
 
