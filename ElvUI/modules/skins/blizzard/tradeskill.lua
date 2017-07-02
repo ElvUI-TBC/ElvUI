@@ -150,7 +150,9 @@ function S:LoadTradeSkillSkin()
 		nameFrame:Kill()
 	end
 
-	TradeSkillReagent1:Point("TOPLEFT", TradeSkillSkillIcon, "BOTTOMLEFT", 0, -10)
+	TradeSkillReagentLabel:Point("TOPLEFT", TradeSkillSkillIcon, "BOTTOMLEFT", 0, -10)
+
+	TradeSkillReagent1:Point("TOPLEFT", TradeSkillSkillIcon, "BOTTOMLEFT", 0, -30)
 	TradeSkillReagent3:Point("TOPLEFT", TradeSkillReagent1, "BOTTOMLEFT", 0, -3)
 	TradeSkillReagent5:Point("TOPLEFT", TradeSkillReagent3, "BOTTOMLEFT", 0, -3)
 	TradeSkillReagent7:Point("TOPLEFT", TradeSkillReagent6, "BOTTOMLEFT", 0, -3)
