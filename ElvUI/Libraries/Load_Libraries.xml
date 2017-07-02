@@ -26,4 +26,5 @@
 	<Script file="LibAnim\LibAnim.lua"/>
 	<Script file="LibActionButton-1.0\LibActionButton-1.0.lua"/>
 	<Script file="LibWho-2.0\LibWho-2.0.lua"/>
+	<Script file="FuBar2Broker\FuBar2Broker.lua"/>
 </Ui>
