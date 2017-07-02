@@ -3,11 +3,14 @@ local oUF = ns.oUF
 assert(oUF, "oUF_HealComm3 was unable to locate oUF install")
 
 local healComm = LibStub("LibHealComm-3.0")
+local LMH = LibStub("LibMobHealth-4.0")
 
 local join = string.join
 local select = select
 local GetTime = GetTime
-local UnitHealth, UnitHealthMax = UnitHealth, UnitHealthMax
+local UnitIsDead = UnitIsDead
+local UnitIsGhost = UnitIsGhost
+local UnitIsConnected = UnitIsConnected
 local UnitName = UnitName
 
 local playerName = UnitName("player")
@@ -32,10 +35,16 @@ local function Update(self, ...)
 		return
 	end
 
-	local health, maxHealth = UnitHealth(unit), UnitHealthMax(unit)
+	local health, maxHealth = LMH:GetUnitCurrentHP(unit), LMH:GetUnitMaxHP(unit)
 
 	local myIncomingHeal = 0
 	local allIncomingHeal = select(2, healComm:UnitIncomingHealGet(unit, GetTime())) or 0
+	local healModifier = healComm:UnitHealModifierGet(unit)
+
+	if healModifier ~= 1 then
+		myIncomingHeal = myIncomingHeal * healModifier
+		allIncomingHeal = allIncomingHeal * healModifier
+	end
 
 	if playerIsCasting then
 		local name, realm = UnitName(unit)
