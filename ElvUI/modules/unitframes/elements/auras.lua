@@ -327,8 +327,10 @@ function UF:PostUpdateAura(unit, button, index)
 		if((name == unstableAffliction or name == vampiricTouch) and E.myclass ~= "WARLOCK") then
 			button:SetBackdropBorderColor(0.05, 0.85, 0.94);
 		else
-			button:SetBackdropBorderColor(unpack(E["media"].unitframeBorderColor))
+			button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
 		end
+	else
+		button:SetBackdropBorderColor(unpack(E["media"].unitframeBorderColor))
 	end
 
 	local size = button:GetParent().size;

@@ -94,16 +94,14 @@ RB.MeleeSpell6Buffs = {
 function RB:CheckFilterForActiveBuff(filter)
 	local spellName, buffIndex, untilCancelled
 
-	for _, spellID in pairs(filter) do
+	for i, spellID in pairs(filter) do
 		spellName = GetSpellInfo(spellID)
 
 		if spellName then
 			for i = 1, BUFF_MAX_DISPLAY do
 				buffIndex, untilCancelled = GetPlayerBuff(i)
 
-				if buffIndex == 0 then
-					return false
-				else
+				if buffIndex ~= 0 then
 					if spellName == GetPlayerBuffName(buffIndex) then
 						return true, buffIndex, GetPlayerBuffTexture(buffIndex), untilCancelled, GetPlayerBuffTimeLeft(buffIndex), GetPlayerBuffName(buffIndex), spellID
 					end
