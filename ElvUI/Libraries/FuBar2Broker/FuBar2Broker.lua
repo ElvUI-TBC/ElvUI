@@ -2,6 +2,7 @@ local MAJOR_VERSION = "FuBarPlugin-2.0"
 local MINOR_VERSION = 999999 + 1
 
 local FuBarPlugin, oldMinor = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
+if not FuBarPlugin then return end
 
 local broker = LibStub("LibDataBroker-1.1")
 
