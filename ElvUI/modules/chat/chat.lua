@@ -32,9 +32,11 @@ local GetChannelName = GetChannelName
 local GetDefaultLanguage = GetDefaultLanguage
 local GetGuildRosterMOTD = GetGuildRosterMOTD
 local GetMouseFocus = GetMouseFocus
+local GetNumRaidMembers = GetNumRaidMembers
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID
 local GetTime = GetTime
 local InCombatLockdown = InCombatLockdown
+local IsInInstance = IsInInstance
 local IsMouseButtonDown = IsMouseButtonDown
 local IsShiftKeyDown = IsShiftKeyDown
 local PlaySound = PlaySound
@@ -147,7 +149,9 @@ local smileyKeys = {
 };
 
 local specialChatIcons = {
-
+--	["Smolderforge"] = {
+--		["Loaal"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\ElvUI_Chat_Logo:13:22|t",
+--	}
 }
 
 CH.Keywords = {}
@@ -208,6 +212,20 @@ local function ChatFrame_OnMouseScroll(frame, delta)
 			end
 		end
 	end
+end
+
+function CH:GetGroupDistribution()
+	local inInstance, kind = IsInInstance()
+	if inInstance and kind == "pvp" then
+		return "/bg "
+	end
+	if GetNumRaidMembers() > 0 then
+		return "/ra "
+	end
+	if GetNumPartyMembers() > 0 then
+		return "/p "
+	end
+	return "/s "
 end
 
 function CH:InsertEmotions(msg)
@@ -773,6 +791,18 @@ function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, a
 	return arg2
 end
 
+local function GetChatIcons(sender)
+	if specialChatIcons[PLAYER_REALM] and specialChatIcons[PLAYER_REALM][E.myname] then
+		for realm, _ in pairs(specialChatIcons) do
+			for character, texture in pairs(specialChatIcons[realm]) do
+				if sender == character or sender == character.."-"..realm then
+					return texture
+				end
+			end
+		end
+	end
+end
+
 function CH:ChatFrame_MessageEventHandler(event, ...)
 	if strsub(event, 1, 8) == "CHAT_MSG" then
 		local type = strsub(event, 10)
@@ -871,31 +901,23 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			end
 
 			-- Add AFK/DND flags
-			local pflag;
-			if strlen(arg6) > 0 then
+			local pflag = GetChatIcons(arg2)
+			if arg6 ~= "" then
 				if arg6 == "GM" then
 					--Add Blizzard Icon, this was sent by a GM
-					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz.blp:0:2:0:-3|t ";
+					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz.blp:0:2:0:-3|t "
+				elseif arg6 == "DND" or arg6 == "AFK" then
+					pflag = (pflag or "").._G["CHAT_FLAG_"..arg6]
 				else
-					pflag = _G["CHAT_FLAG_"..arg6];
+					pflag = _G["CHAT_FLAG_"..arg6]
 				end
 			else
-				if(specialChatIcons[PLAYER_REALM] == nil or (specialChatIcons[PLAYER_REALM] and specialChatIcons[PLAYER_REALM][E.myname] ~= true)) then
-					for realm, _ in pairs(specialChatIcons) do
-						for character, texture in pairs(specialChatIcons[realm]) do
-							if arg2 == character then
-								pflag = texture;
-							end
-						end
-					end
+				if pflag == true then
+					pflag = ""
 				end
-
-				if(pflag == true) then
-					pflag = nil;
-				end
-
-				pflag = pflag or "";
 			end
+
+			pflag = pflag or ""
 
 			local showLink = 1;
 			if strsub(type, 1, 7) == "MONSTER" or strsub(type, 1, 9) == "RAID_BOSS" then
@@ -1012,6 +1034,11 @@ local function OnTextChanged(self)
 				unitname = unitname .. "-" .. realm:gsub(" ", "")
 			end
 			ChatFrame_SendTell((unitname or L["Invalid Target"]), ChatFrame1)
+		end
+
+		if text:sub(1, 4) == "/gr " then
+			self:SetText(CH:GetGroupDistribution() .. text:sub(5))
+			ChatEdit_ParseText(self, 0)
 		end
 	end
 
@@ -1591,9 +1618,9 @@ function CH:Initialize()
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND_LEADER", CH.FindURL)
 
 	if self.db.chatHistory then
-		self.SoundPlayed = true;
+		self.SoundPlayed = true
 		self:DisplayChatHistory()
-		self.SoundPlayed = nil;
+		self.SoundPlayed = nil
 	end
 
 	local S = E:GetModule("Skins")
