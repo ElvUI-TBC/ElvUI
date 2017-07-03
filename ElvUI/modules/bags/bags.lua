@@ -689,8 +689,10 @@ function B:OnEvent(event, ...)
 	elseif event == "BAG_UPDATE" then
 		local bag = ...
 		if(bag == KEYRING_CONTAINER) then
-			for slotID = 1, GetKeyRingSize() do
+			if not _G["ElvUIKeyFrameItem"..GetKeyRingSize()] then
 				B:Layout(false)
+			end
+			for slotID = 1, GetKeyRingSize() do
 				B:UpdateKeySlot(slotID)
 			end
 		end
