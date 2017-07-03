@@ -231,9 +231,6 @@ function S:LoadMiscSkin()
 		end
 	end
 
-	-------------------------------------------------------------------------------
-	-- I think this is now obsolete for this version of World of Warcraft (2.4.3), technically speaking.
-	-------------------------------------------------------------------------------
 	-- mac menu/option panel, made by affli.
 	if IsMacClient() then
 		S:HandleButton(GameMenuButtonMacOptions)

@@ -771,7 +771,6 @@ function E:UpdateAll(ignoreInstall)
 	self.global = self.data.global;
 	self.db.theme = nil;
 	self.db.install_complete = nil;
-	--LibStub("LibDualSpec-1.0"):EnhanceDatabase(self.data, "ElvUI");
 
 	self:SetMoversPositions();
 	self:UpdateMedia();
@@ -1084,7 +1083,7 @@ function E:Initialize()
 	self.data.RegisterCallback(self, "OnProfileChanged", "UpdateAll");
 	self.data.RegisterCallback(self, "OnProfileCopied", "UpdateAll");
 	self.data.RegisterCallback(self, "OnProfileReset", "OnProfileReset");
---	LibStub("LibDualSpec-1.0"):EnhanceDatabase(self.data, "ElvUI");
+
 	self.charSettings = LibStub("AceDB-3.0"):New("ElvPrivateDB", self.privateVars);
 	self.private = self.charSettings.profile;
 	self.db = self.data.profile;

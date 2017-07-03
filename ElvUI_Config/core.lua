@@ -391,8 +391,6 @@ E.Options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(E.data);
 AC:RegisterOptionsTable("ElvProfiles", E.Options.args.profiles);
 E.Options.args.profiles.order = -10;
 
--- LibStub("LibDualSpec-1.0"):EnhanceOptions(E.Options.args.profiles, E.data);
-
 if(not E.Options.args.profiles.plugins) then
 	E.Options.args.profiles.plugins = {};
 end
