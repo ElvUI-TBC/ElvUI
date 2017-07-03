@@ -2,8 +2,11 @@ local E, L, V, P, G = unpack(ElvUI)
 local RB = E:NewModule("ReminderBuffs", "AceEvent-3.0")
 local LSM = LibStub("LibSharedMedia-3.0")
 
+local ipairs = ipairs
+
 local GetPlayerBuff = GetPlayerBuff
 local GetPlayerBuffName = GetPlayerBuffName
+local GetPlayerBuffTexture = GetPlayerBuffTexture
 local GetPlayerBuffTimeLeft = GetPlayerBuffTimeLeft
 local GetSpellInfo = GetSpellInfo
 local GetTime = GetTime
@@ -94,7 +97,7 @@ RB.MeleeSpell6Buffs = {
 function RB:CheckFilterForActiveBuff(filter)
 	local spellName, buffIndex, untilCancelled
 
-	for i, spellID in pairs(filter) do
+	for _, spellID in ipairs(filter) do
 		spellName = GetSpellInfo(spellID)
 
 		if spellName then

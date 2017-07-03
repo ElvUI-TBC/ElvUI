@@ -9,25 +9,26 @@ local tostring = tostring;
 local floor = math.floor;
 local format, strsub = string.format, string.sub;
 
+local CinematicFrame = CinematicFrame;
 local CreateFrame = CreateFrame;
+local GetBattlefieldStatus = GetBattlefieldStatus;
+local GetGuildInfo = GetGuildInfo;
+local GetScreenHeight = GetScreenHeight;
+local GetScreenWidth = GetScreenWidth;
 local InCombatLockdown = InCombatLockdown;
+local IsInGuild = IsInGuild;
+local IsShiftKeyDown = IsShiftKeyDown;
 local MoveViewLeftStart = MoveViewLeftStart;
 local MoveViewLeftStop = MoveViewLeftStop;
-local IsInGuild = IsInGuild;
-local GetGuildInfo = GetGuildInfo;
-local GetBattlefieldStatus = GetBattlefieldStatus;
-local MAX_BATTLEFIELD_QUEUES = MAX_BATTLEFIELD_QUEUES;
-local UnitIsAFK = UnitIsAFK;
+local Screenshot = Screenshot;
 local SetCVar = SetCVar;
-local IsShiftKeyDown = IsShiftKeyDown;
-local Chat_GetChatCategory = Chat_GetChatCategory;
-local ChatHistory_GetAccessID = ChatHistory_GetAccessID;
-local GetScreenWidth = GetScreenWidth;
-local GetScreenHeight = GetScreenHeight;
+local UnitCastingInfo = UnitCastingInfo;
 local UnitFactionGroup = UnitFactionGroup;
+local UnitIsAFK = UnitIsAFK;
+
+local MAX_BATTLEFIELD_QUEUES = MAX_BATTLEFIELD_QUEUES;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
-local DND = DND;
 
 local AFK_SPEED = 7.35;
 
