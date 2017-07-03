@@ -108,9 +108,7 @@ function B:SizeAndPositionBagBar()
 end
 
 function B:LoadBagBar()
-	if not E.private.bags.bagBar then
-		return
-	end
+	if not E.private.bags.bagBar then return end
 
 	local ElvUIBags = CreateFrame("Frame", "ElvUIBags", E.UIParent)
 	ElvUIBags:SetPoint("TOPRIGHT", RightChatPanel, "TOPLEFT", -4, 0)
@@ -132,7 +130,7 @@ function B:LoadBagBar()
 	tinsert(ElvUIBags.buttons, MainMenuBarBackpackButton)
 	self:SkinBag(MainMenuBarBackpackButton)
 
-	for i = 0, NUM_BAG_FRAMES-1 do
+	for i = 0, NUM_BAG_FRAMES - 1 do
 		local b = _G["CharacterBag"..i.."Slot"]
 		b:SetParent(ElvUIBags)
 		b.SetParent = E.dummy
@@ -143,8 +141,9 @@ function B:LoadBagBar()
 		tinsert(ElvUIBags.buttons, b)
 	end
 
-	ElvUIKeyRingButton:CreateBackdrop()
-	ElvUIKeyRingButton.backdrop:SetAllPoints()
+	ElvUIKeyRingButton:SetTemplate()
+	ElvUIKeyRingButton:StyleButton(true)
+	_G[ElvUIKeyRingButton:GetName().."IconTexture"]:SetInside()
 	ElvUIKeyRingButton:SetParent(ElvUIBags)
 	ElvUIKeyRingButton.SetParent = E.dummy
 	ElvUIKeyRingButton:HookScript("OnEnter", OnEnter)

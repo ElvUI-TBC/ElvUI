@@ -269,31 +269,18 @@ function B:UpdateCountDisplay()
 end
 
 function B:UpdateSlot(bagID, slotID)
-	if (self.Bags[bagID] and self.Bags[bagID].numSlots ~= GetContainerNumSlots(bagID)) or not self.Bags[bagID] or not self.Bags[bagID][slotID] then
-		return;
-	end
+	if (self.Bags[bagID] and self.Bags[bagID].numSlots ~= GetContainerNumSlots(bagID)) or not self.Bags[bagID] or not self.Bags[bagID][slotID] then return end
 
 	local slot, _ = self.Bags[bagID][slotID], nil;
 	local bagType = self.Bags[bagID].type;
-	local texture, count, locked = GetContainerItemInfo(bagID, slotID);
+	local texture, count, locked = GetContainerItemInfo(bagID, slotID)
 	local clink = GetContainerItemLink(bagID, slotID);
 
-	slot:Show();
-	if(slot.questIcon) then
-		slot.questIcon:Hide();
-	end
-	slot.name, slot.rarity = nil, nil;
+	slot.name, slot.rarity = nil, nil
 
-	if bagID ~= BANK_CONTAINER then
-		local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
-		CooldownFrame_SetTimer(slot.cooldown, start, duration, enable)
-		if duration > 0 and enable == 0 then
-			SetItemButtonTextureVertexColor(slot, 0.4, 0.4, 0.4);
-		else
-			SetItemButtonTextureVertexColor(slot, 1, 1, 1);
-		end
-	end
+	slot:Show()
 	slot.itemLevel:SetText("")
+
 	if(B.ProfessionColors[bagType]) then
 		slot:SetBackdropBorderColor(unpack(B.ProfessionColors[bagType]))
 	elseif(clink) then
@@ -322,6 +309,24 @@ function B:UpdateSlot(bagID, slotID)
 		end
 	else
 		slot:SetBackdropBorderColor(unpack(E.media.bordercolor));
+	end
+
+	if texture then
+		if bagID ~= BANK_CONTAINER then
+			local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
+			CooldownFrame_SetTimer(slot.cooldown, start, duration, enable)
+			if duration > 0 and enable == 0 then
+				SetItemButtonTextureVertexColor(slot, 0.4, 0.4, 0.4)
+			else
+				SetItemButtonTextureVertexColor(slot, 1, 1, 1)
+			end
+		end
+		slot.hasItem = 1
+	else
+		if bagID ~= BANK_CONTAINER then
+			slot.cooldown:Hide()
+		end
+		slot.hasItem = nil
 	end
 
 	SetItemButtonTexture(slot, texture);
@@ -629,38 +634,38 @@ function B:UpdateKeySlot(slotID)
 	local slot = _G["ElvUIKeyFrameItem"..slotID]
 	if not slot then return; end
 
-	slot:Show();
-	if(slot.questIcon) then
-		slot.questIcon:Hide();
-	end
-	slot.name, slot.rarity = nil, nil;
+	slot.name, slot.rarity = nil, nil
+	slot:Show()
 
-	local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
-	CooldownFrame_SetTimer(slot.cooldown, start, duration, enable)
-	if(duration > 0 and enable == 0) then
-		SetItemButtonTextureVertexColor(slot, 0.4, 0.4, 0.4);
-	else
-		SetItemButtonTextureVertexColor(slot, 1, 1, 1);
-	end
+	if clink then
+		local _
+		slot.name, _, slot.rarity = GetItemInfo(clink)
 
-	if(clink) then
-		local _;
-		slot.name, _, slot.rarity = GetItemInfo(clink);
+		local r, g, b
 
-		local r, g, b;
-
-		if(slot.rarity) then
-			r, g, b = GetItemQualityColor(slot.rarity);
+		if slot.rarity then
+			r, g, b = GetItemQualityColor(slot.rarity)
 		end
 
-		-- color slot according to item quality
 		if slot.rarity and slot.rarity > 1 then
-			slot:SetBackdropBorderColor(r, g, b);
+			slot:SetBackdropBorderColor(r, g, b)
 		else
-			slot:SetBackdropBorderColor(unpack(E.media.bordercolor));
+			slot:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 	else
 		slot:SetBackdropBorderColor(unpack(E.media.bordercolor));
+	end
+
+	if texture then
+		local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
+		CooldownFrame_SetTimer(slot.cooldown, start, duration, enable)
+		if duration > 0 and enable == 0 then
+			SetItemButtonTextureVertexColor(slot, 0.4, 0.4, 0.4)
+		else
+			SetItemButtonTextureVertexColor(slot, 1, 1, 1)
+		end
+	else
+		slot.cooldown:Hide()
 	end
 
 	SetItemButtonTexture(slot, texture);
