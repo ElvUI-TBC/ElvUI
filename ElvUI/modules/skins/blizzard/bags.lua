@@ -6,45 +6,46 @@ local unpack = unpack
 
 local GetItemQualityColor = GetItemQualityColor
 local GetContainerItemInfo = GetContainerItemInfo
+local BANK_CONTAINER = BANK_CONTAINER
+local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
 
 function S:ContainerFrame_Update(self)
-	local id = self:GetID();
-	local name = self:GetName();
-	local itemButton;
-	local _, quality;
+	local id = self:GetID()
+	local name = self:GetName()
+	local _, itemButton, cooldown, quality
 
 	for i = 1, self.size, 1 do
-		itemButton = _G[name.."Item"..i];
-		_, _, _, quality = GetContainerItemInfo(id, itemButton:GetID());
+		itemButton = _G[name.."Item"..i]
+		cooldown = _G[name.."Item"..i.."Cooldown"]
 
-		if(quality and quality > 1) then
-			itemButton:SetBackdropBorderColor(GetItemQualityColor(quality));
+		if cooldown then
+			E:RegisterCooldown(cooldown)
+		end
+
+		_, _, _, quality = GetContainerItemInfo(id, itemButton:GetID())
+
+		if quality and quality > 1 then
+			itemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
 		else
-			itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+			itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 		end
 	end
 end
 
 function S:BankFrameItemButton_Update(button)
-	local buttonID = button:GetID();
-	local _, _, _, quality = GetContainerItemInfo(BANK_CONTAINER, buttonID);
+	if not button.isBag then
+		local _, _, _, quality = GetContainerItemInfo(BANK_CONTAINER, button:GetID())
 
-	if(not button.isBag) then
-		if(quality and quality > 1) then
-			button:SetBackdropBorderColor(GetItemQualityColor(quality));
+		if quality and quality > 1 then
+			button:SetBackdropBorderColor(GetItemQualityColor(quality))
 		else
-			button:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+			button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 		end
 	end
 end
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true
-		or E.private.skins.blizzard.bags ~= true
-		or E.private.bags.enable)
-	then
-		return;
-	end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.bags and not E.private.bags.enable) then return end
 
 	-- ContainerFrame
 	local containerFrame, containerFrameClose;
@@ -52,11 +53,12 @@ local function LoadSkin()
 		containerFrame = _G["ContainerFrame"..i];
 		containerFrameClose = _G["ContainerFrame"..i.."CloseButton"];
 
+		containerFrame:StripTextures(true)
 		containerFrame:CreateBackdrop("Transparent");
 		containerFrame.backdrop:Point("TOPLEFT", 9, -4);
 		containerFrame.backdrop:Point("BOTTOMRIGHT", -4, 2);
 
-		containerFrame:StripTextures(true);
+		S:HandleCloseButton(containerFrameClose)
 
 		local itemButton, itemButtonIcon;
 		for k = 1, MAX_CONTAINER_ITEMS, 1 do
@@ -71,11 +73,9 @@ local function LoadSkin()
 			itemButtonIcon:SetInside();
 			itemButtonIcon:SetTexCoord(unpack(E.TexCoords));
 		end
-
-		S:HandleCloseButton(containerFrameClose);
 	end
 
-	S:SecureHook("ContainerFrame_Update");
+	S:SecureHook("ContainerFrame_Update")
 
 	-- BankFrame
 	BankFrame:CreateBackdrop("Transparent");

@@ -177,9 +177,12 @@ function S:LoadTradeSkillSkin()
 	S:HandleCloseButton(TradeSkillFrameCloseButton)
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
-		if(TradeSkillSkillIcon:GetNormalTexture()) then
+		if TradeSkillSkillIcon:GetNormalTexture() then
+			TradeSkillSkillIcon:SetAlpha(1)
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 			TradeSkillSkillIcon:GetNormalTexture():SetInside()
+		else
+			TradeSkillSkillIcon:SetAlpha(0)
 		end
 
 		local skillLink = GetTradeSkillItemLink(id)
