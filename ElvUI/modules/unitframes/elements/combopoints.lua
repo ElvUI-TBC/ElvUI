@@ -2,11 +2,8 @@ local E, L, V, P, G = unpack(ElvUI)
 local UF = E:GetModule("UnitFrames")
 
 local CreateFrame = CreateFrame
+local GetBonusBarOffset = GetBonusBarOffset
 local GetComboPoints = GetComboPoints
-local GetNumShapeshiftForms = GetNumShapeshiftForms
-local GetShapeshiftForm = GetShapeshiftForm
-local GetShapeshiftFormInfo = GetShapeshiftFormInfo
-local GetSpellInfo = GetSpellInfo
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
 function UF:Construct_Combobar(frame)
@@ -146,23 +143,10 @@ function UF:Configure_ComboPoints(frame)
 	end
 end
 
-local function GetCatFormID()
-	local name, icon, _
-	for i = 1, GetNumShapeshiftForms() do
-		_, name = GetShapeshiftFormInfo(i)
-		if name then
-			_, _, icon = GetSpellInfo(name)
-			if icon:find("Druid_CatForm") then
-				return i
-			end
-		end
-	end
-end
-
 function UF:UpdateComboDisplay(event)
 	if E.myclass ~= "ROGUE" and E.myclass ~= "DRUID" then return self.CPoints:Hide() end
-	if event == "UPDATE_SHAPESHIFT_FORM" and GetShapeshiftForm() ~= GetCatFormID() then return self.CPoints:Hide() end
-	if event ~= "PLAYER_COMBO_POINTS" and E.myclass == "DRUID" and GetShapeshiftForm() ~= GetCatFormID() then return self.CPoints:Hide() end
+	if event == "UPDATE_SHAPESHIFT_FORM" and GetBonusBarOffset() ~= 1 then return self.CPoints:Hide() end
+	if event ~= "PLAYER_COMBO_POINTS" and E.myclass == "DRUID" and GetBonusBarOffset() ~= 1 then return self.CPoints:Hide() end
 
 	if not self.db then return end
 	local cpoints = self.CPoints
