@@ -3,7 +3,6 @@ local DT = E:GetModule("DataTexts")
 
 local time = time
 local select = select
-local max = math.max
 local join = string.join
 
 local UnitGUID = UnitGUID
@@ -51,11 +50,10 @@ local function OnEvent(self, event, ...)
 		local id = select(3, ...)
 		if id == playerID or id == petID then
 			if timeStamp == 0 then timeStamp = select(1, ...) end
-			local overHeal = select(13, ...)
 			lastSegment = timeStamp
 			combatTime = select(1, ...) - timeStamp
 			lastHealAmount = select(12, ...)
-			healTotal = healTotal + max(0, lastHealAmount - overHeal)
+			healTotal = healTotal + lastHealAmount
 		end
 	elseif event == "UNIT_PET" then
 		petID = UnitGUID("pet")

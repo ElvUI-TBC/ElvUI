@@ -2,7 +2,7 @@
 	<Script file="datatexts.lua"/>
 	<Script file="system.lua"/>
 	<Script file="armor.lua"/>
-	<!--<Script file="avoidance.lua"/>-->
+	<Script file="avoidance.lua"/>
 	<Script file="bags.lua"/>
 	<Script file="combattime.lua"/>
 	<Script file="crit.lua"/>
@@ -13,7 +13,7 @@
 	<Script file="haste.lua"/>
 	<Script file="hit.lua"/>
 	<Script file="honorablekills.lua"/>
-	<!--<Script file="hps.lua"/>-->
+	<Script file="hps.lua"/>
 	<Script file="regen.lua"/>
 	<Script file="time.lua"/>
 	<Script file="gold.lua"/>
