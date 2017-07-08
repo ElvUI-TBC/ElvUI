@@ -79,6 +79,19 @@ local function RecountVisability(save)
 			recountVis = Recount.db.profile.MainWindowVis
 		else
 			Recount.db.profile.MainWindowVis = recountVis
+			RecountDB.profiles[Recount.db.keys.profile].MainWindowVis = recountVis
+		end
+	end
+end
+
+local LRC
+local function RockConfigFix()
+	if not LRC then
+		LRC = LibStub("LibRockConfig-1.0", true)
+	end
+	if LRC then
+		if LRC.base and LRC.base:IsShown() then
+			LRC.base.addonChooser:Select(LRC.base.addonChooser.value)
 		end
 	end
 end
@@ -143,6 +156,8 @@ function AFK:SetAFK(status)
 		self.AFKMode.chat:Clear();
 
 		self.isAFK = false;
+
+		RockConfigFix()
 	end
 end
 
