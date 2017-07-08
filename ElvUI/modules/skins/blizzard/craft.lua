@@ -2,11 +2,17 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local _G = _G
-local unpack = unpack
+local unpack, select = unpack, select
 local find = string.find
 
+local GetItemInfo = GetItemInfo
+local GetItemQualityColor = GetItemQualityColor
+local GetCraftItemLink = GetCraftItemLink
+local GetCraftReagentInfo = GetCraftReagentInfo
+local GetCraftReagentItemLink = GetCraftReagentItemLink
+
 function S:LoadCraftSkin()
-	if E.private.skins.blizzard.enable ~= true or not E.private.skins.blizzard.craft ~= true then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true then return end
 
 	CRAFTS_DISPLAYED = 25
 
@@ -19,7 +25,7 @@ function S:LoadCraftSkin()
 	CraftFrame.backdrop:Point("TOPLEFT", 10, -12)
 	CraftFrame.backdrop:Point("BOTTOMRIGHT", -34, 0)
 
-	CraftRankFrame:StripTextures()
+	CraftRankFrameBorder:StripTextures()
 	CraftRankFrame:Size(447, 16)
 	CraftRankFrame:ClearAllPoints()
 	CraftRankFrame:Point("TOP", 10, -45)
@@ -27,8 +33,6 @@ function S:LoadCraftSkin()
 	CraftRankFrame:SetStatusBarTexture(E["media"].normTex)
 	CraftRankFrame:SetStatusBarColor(0.13, 0.35, 0.80)
 	E:RegisterStatusBar(CraftRankFrame)
-
-	CraftRankFrameBorder:Kill()
 
 	CraftRankFrameSkillRank:ClearAllPoints()
 	CraftRankFrameSkillRank:Point("CENTER", CraftRankFrame, "CENTER", 0, 0)
@@ -123,6 +127,7 @@ function S:LoadCraftSkin()
 		local reagent = _G["CraftReagent" .. i]
 		local icon = _G["CraftReagent" .. i .. "IconTexture"]
 		local count = _G["CraftReagent" .. i .. "Count"]
+		local nameFrame = _G["CraftReagent" .. i .. "NameFrame"]
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetDrawLayer("OVERLAY")
@@ -135,13 +140,13 @@ function S:LoadCraftSkin()
 		icon:SetParent(icon.backdrop)
 		count:SetParent(icon.backdrop)
 		count:SetDrawLayer("OVERLAY")
+
+		nameFrame:Kill()
 	end
 
-	-- CraftReagentLabel:Point("TOPLEFT", CraftIcon, "BOTTOMLEFT", 0, -10)
+	CraftDescription:Point("TOPLEFT", CraftDetailScrollChildFrame, "TOPLEFT", 5, -75)
 
-	-- CraftDescription:Point("BOTTOMLEFT", CraftIcon, "BOTTOMLEFT", 65, 28)
-
-	CraftReagent1:Point("TOPLEFT", CraftIcon, "BOTTOMLEFT", 0, -30)
+	CraftReagent1:Point("TOPLEFT", CraftReagentLabel, "BOTTOMLEFT", 0, -6)
 	CraftReagent3:Point("TOPLEFT", CraftReagent1, "BOTTOMLEFT", 0, -3)
 	CraftReagent5:Point("TOPLEFT", CraftReagent3, "BOTTOMLEFT", 0, -3)
 	CraftReagent7:Point("TOPLEFT", CraftReagent6, "BOTTOMLEFT", 0, -3)
@@ -164,8 +169,8 @@ function S:LoadCraftSkin()
 		else
 			CraftIcon:SetAlpha(0)
 		end
-		--[[
-		local skillLink = GetCraftReagentItemLink(id)
+
+		local skillLink = GetCraftItemLink(id, 1)
 		if(skillLink) then
 			CraftRequirements:SetTextColor(1, 0.80, 0.10)
 			local quality = select(3, GetItemInfo(skillLink))
@@ -199,7 +204,6 @@ function S:LoadCraftSkin()
 				end
 			end
 		end
-		--]]
 	end)
 end
 
