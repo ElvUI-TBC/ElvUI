@@ -160,7 +160,6 @@ function S:LoadQuestSkin()
 			local r, g, b = _G["QuestLogObjective"..i]:GetTextColor()
 			_G["QuestLogObjective"..i]:SetTextColor(1 - r, 1 - g, 1 - b)
 		end
-
 	end)
 
 	QuestLogTimerText:SetTextColor(1, 1, 1)

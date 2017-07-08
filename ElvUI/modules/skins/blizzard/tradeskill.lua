@@ -12,7 +12,7 @@ local GetTradeSkillReagentInfo = GetTradeSkillReagentInfo
 local GetTradeSkillReagentItemLink = GetTradeSkillReagentItemLink
 
 function S:LoadTradeSkillSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true) then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true then return end
 
 	TRADE_SKILLS_DISPLAYED = 25
 
@@ -26,8 +26,6 @@ function S:LoadTradeSkillSkin()
 	TradeSkillFrame.backdrop:Point("BOTTOMRIGHT", -34, 0)
 
 	TradeSkillRankFrameBorder:StripTextures()
-
-	TradeSkillRankFrame:StripTextures()
 	TradeSkillRankFrame:Size(447, 16)
 	TradeSkillRankFrame:ClearAllPoints()
 	TradeSkillRankFrame:Point("TOP", 10, -45)
@@ -152,7 +150,7 @@ function S:LoadTradeSkillSkin()
 
 	TradeSkillReagentLabel:Point("TOPLEFT", TradeSkillSkillIcon, "BOTTOMLEFT", 0, -10)
 
-	TradeSkillReagent1:Point("TOPLEFT", TradeSkillSkillIcon, "BOTTOMLEFT", 0, -30)
+	TradeSkillReagent1:Point("TOPLEFT", TradeSkillReagentLabel, "BOTTOMLEFT", 0, -6)
 	TradeSkillReagent3:Point("TOPLEFT", TradeSkillReagent1, "BOTTOMLEFT", 0, -3)
 	TradeSkillReagent5:Point("TOPLEFT", TradeSkillReagent3, "BOTTOMLEFT", 0, -3)
 	TradeSkillReagent7:Point("TOPLEFT", TradeSkillReagent6, "BOTTOMLEFT", 0, -3)
