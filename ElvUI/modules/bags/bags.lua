@@ -1256,6 +1256,7 @@ function B:Initialize()
 	--Hook onto Blizzard Functions
 	self:SecureHook("ToggleBackpack");
 	self:SecureHook("ToggleBag", "ToggleBags");
+	self:SecureHook("OpenAllBags", "ToggleBackpack");
 	self:SecureHook("OpenBackpack", "OpenBags");
 	self:SecureHook("CloseAllBags", "CloseBags");
 	self:SecureHook("CloseBackpack", "CloseBags");
