@@ -141,8 +141,8 @@ function lib:CreateButton(id, name, header, config)
 
 	header:SetAttribute("addchild", button)
 
-	button.action = 0
 	local absid = (header.id - 1) * 12 + id
+	button.action = absid
 	button:SetAttribute("type", "action")
 	button:SetAttribute("action", absid)
 	button:SetAttribute("checkselfcast", true)
@@ -425,6 +425,13 @@ function OnEvent(frame, event, arg1, ...)
 	elseif event == "ACTIONBAR_UPDATE_USABLE" then
 		for button in next, ActiveButtons do
 			UpdateUsable(button)
+		end
+	elseif event == "ACTIONBAR_UPDATE_COOLDOWN" then
+		for button in next, ButtonRegistry do
+			UpdateCooldown(button)
+			if GameTooltip:GetOwner() == button then
+				UpdateTooltip(button)
+			end
 		end
 	elseif event == "CRAFT_SHOW" or event == "CRAFT_CLOSE" or event == "TRADE_SKILL_SHOW" or event == "TRADE_SKILL_CLOSE" then
 		ForAllButtons(UpdateButtonState, true)
