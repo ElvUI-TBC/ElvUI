@@ -45,13 +45,13 @@ function S:LoadQuestSkin()
 		S:HandleButton(_G[button])
 	end
 
-	QuestFrameAcceptButton:Point("BOTTOMLEFT", QuestFrame, 19, 71)
-	QuestFrameDeclineButton:Point("BOTTOMRIGHT", QuestFrame, -34, 71)
-	QuestLogFrameAbandonButton:Point("BOTTOMLEFT", QuestFrame, 16, 18)
-	QuestFrameExitButton:Point("BOTTOMRIGHT", QuestFrame, -07, 18)
-	QuestFramePushQuestButton:ClearAllPoints()
-	QuestFramePushQuestButton:Point("BOTTOMRIGHT", QuestFrame, "BOTTOMRIGHT", -86, 18)
-	QuestFramePushQuestButton:Width(155)
+	QuestFrameExitButton:Point("BOTTOMRIGHT", QuestLogFrame, -30, 15)
+
+	QuestLogFrameAbandonButton:Point("BOTTOMLEFT", QuestLogFrame, 17, 15)
+	QuestLogFrameAbandonButton:Width(150)
+
+	QuestFramePushQuestButton:Point("RIGHT", QuestFrameExitButton, "LEFT", -253, 0)
+	QuestFramePushQuestButton:Width(150)
 
 	for i = 1, MAX_NUM_ITEMS do
 		_G["QuestLogItem" .. i]:StripTextures()
@@ -175,19 +175,19 @@ function S:LoadQuestSkin()
 	QuestFrame.backdrop:Point("BOTTOMRIGHT", QuestFrame, "BOTTOMRIGHT", -30, 67)
 
 	QuestLogListScrollFrame:StripTextures()
+	QuestLogListScrollFrame:CreateBackdrop("Default", true)
 	QuestLogListScrollFrame:Size(300, 375)
-	QuestLogListScrollFrame:ClearAllPoints()
-	QuestLogListScrollFrame:Point("TOPLEFT", 17, -95)
 
 	QuestLogDetailScrollFrame:StripTextures()
+	QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
 	QuestLogDetailScrollFrame:Size(300, 375)
 	QuestLogDetailScrollFrame:ClearAllPoints()
-	QuestLogDetailScrollFrame:Point("TOPRIGHT", QuestLogFrame, -32, -95)
+	QuestLogDetailScrollFrame:Point("TOPRIGHT", QuestLogFrame, -32, -75)
 
+	QuestLogFrame:SetAttribute("UIPanelLayout-width", E:Scale(680))
+	QuestLogFrame:SetAttribute("UIPanelLayout-height", E:Scale(490))
+	QuestLogFrame:Size(680, 490)
 	QuestLogFrame:CreateBackdrop("Transparent")
-	QuestLogFrame:SetAttribute("UIPanelLayout-width", E:Scale(710))
-	QuestLogFrame:SetAttribute("UIPanelLayout-height", E:Scale(508))
-	QuestLogFrame:Size(710, 508)
 	QuestLogFrame.backdrop:Point("TOPLEFT", QuestLogFrame, "TOPLEFT", 10, -12)
 	QuestLogFrame.backdrop:Point("BOTTOMRIGHT", QuestLogFrame, "BOTTOMRIGHT", -1, 8)
 
