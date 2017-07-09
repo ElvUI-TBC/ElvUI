@@ -38,10 +38,8 @@ local menuList = {
 	func = function() ToggleTimeManager() end},
 	{text = PLAYER_V_PLAYER,
 	func = function() ToggleCharacter("PVPFrame") end},
-	{text = L["Looking For Group"],
-	func = function() ToggleLFGParentFrame(1) end},
-	{text = L["Looking For More"],
-	func = function() ToggleLFGParentFrame(2) end},
+	{text = L["Group Finder (LFG/LFM)"],
+	func = function() ToggleLFGParentFrame() end},
 	{text = HELP_BUTTON,
 	func = function() ToggleHelpFrame() end},
 }
