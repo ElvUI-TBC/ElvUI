@@ -21,10 +21,8 @@ local ChatFrame_SystemEventHandler = ChatFrame_SystemEventHandler
 local Chat_GetChatCategory = Chat_GetChatCategory
 local CreateFrame = CreateFrame
 local FCFManager_ShouldSuppressMessage = FCFManager_ShouldSuppressMessage
-local FCFTab_UpdateAlpha = FCFTab_UpdateAlpha
 local FCF_GetCurrentChatFrame = FCF_GetCurrentChatFrame
 local FCF_SetChatWindowFontSize = FCF_SetChatWindowFontSize
-local FCF_StartAlertFlash = FCF_StartAlertFlash
 local FloatingChatFrame_OnEvent = FloatingChatFrame_OnEvent
 local FloatingChatFrame_Update = FloatingChatFrame_Update
 local GMChatFrame_IsGM = GMChatFrame_IsGM
@@ -472,7 +470,7 @@ function CH:UpdateAnchors()
 		end
 	end
 
-	--CH:PositionChat(true);
+	CH:PositionChat(true);
 end
 
 local function FindRightChatID()
@@ -1058,8 +1056,6 @@ function CH:SetupChat()
 		local _, fontSize = GetChatWindowInfo(id)
 		self:StyleChat(frame)
 
-		--FCFTab_UpdateAlpha(frame)
-
 		frame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
 		if self.db.fontOutline ~= "NONE" then
 			frame:SetShadowColor(0, 0, 0, 0.2)
@@ -1109,7 +1105,7 @@ function CH:SetupChat()
 
 	DEFAULT_CHAT_FRAME:SetParent(LeftChatPanel)
 	self:ScheduleRepeatingTimer("PositionChat", 1)
---	self:PositionChat(true)
+	self:PositionChat(true)
 end
 
 local function PrepareMessage(author, message)

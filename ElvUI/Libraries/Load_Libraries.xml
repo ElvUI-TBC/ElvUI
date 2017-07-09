@@ -20,7 +20,6 @@
 	<Script file="LibElvUIPlugin-1.0\LibElvUIPlugin-1.0.lua"/>
 	<Include file="UTF8\UTF8.xml"/>
 	<Include file="LibItemSearch-1.2\LibItemSearch-1.2.xml"/>
-	<Script file="LibChatAnims\LibChatAnims.lua"/>
 	<Script file="LibCompress\LibCompress.lua"/>
 	<Script file="LibBase64-1.0\LibBase64-1.0.lua"/>
 	<Script file="LibAnim\LibAnim.lua"/>
