@@ -62,7 +62,7 @@ function E:UpdateBlizzardFonts()
 		SetFont(NumberFontNormalHuge,				NUMBER, self.db.general.fontSize);
 		SetFont(ChatFontNormal,						NORMAL, self.db.general.fontSize);
 		SetFont(ChatFontSmall,						NORMAL, self.db.general.fontSize);
-		SetFont(QuestTitleFont,						NORMAL, self.db.general.fontSize);
+		SetFont(QuestTitleFont,						NORMAL, self.db.general.fontSize + 8);
 		SetFont(QuestFont,							NORMAL, self.db.general.fontSize);
 		SetFont(QuestFontHighlight,					NORMAL, self.db.general.fontSize);
 		SetFont(ItemTextFontNormal,					NORMAL, self.db.general.fontSize);

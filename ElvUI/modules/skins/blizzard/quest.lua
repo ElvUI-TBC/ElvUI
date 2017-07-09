@@ -229,21 +229,23 @@ function S:LoadQuestSkin()
 		QuestProgressRequiredMoneyText:SetTextColor(1, 1, 0)
 	end)
 
-	for i = 1, QUESTS_DISPLAYED do
-		local questLogTitle = _G["QuestLogTitle" .. i]
+	-- Create the additional rows
+	local oldQuestsDisplayed = QUESTS_DISPLAYED;
+	QUESTS_DISPLAYED = QUESTS_DISPLAYED + 17;
+
+	for i = oldQuestsDisplayed + 1, QUESTS_DISPLAYED do
+
+		local questLogTitle = CreateFrame("Button", "QuestLogTitle" .. i, QuestLogFrame, "QuestLogTitleButtonTemplate")
+	    questLogTitle:SetID(i)
+	    questLogTitle:Hide()
+	    questLogTitle:ClearAllPoints()
+	    questLogTitle:Point("TOPLEFT", _G["QuestLogTitle" .. i - 1], "BOTTOMLEFT", 0, 1)
+
 		questLogTitle:SetNormalTexture("")
 		questLogTitle.SetNormalTexture = E.noop
 
 		_G["QuestLogTitle" .. i .. "Highlight"]:SetTexture("")
 		_G["QuestLogTitle" .. i .. "Highlight"].SetTexture = E.noop
-
-		-- Check this. I may be wrong in doing so.
-		-- QuestLogFrame:HookScript("OnShow", function()
-		-- 	QuestLogHighlightFrame:Width(340)
-		-- 	questLogTitle:HookScript("OnClick", function()
-		-- 		QuestLogHighlightFrame:Width(340)
-		-- 	end)
-		-- end)
 
 		questLogTitle.Text = questLogTitle:CreateFontString(nil, "OVERLAY")
 		questLogTitle.Text:FontTemplate(nil, 22)
