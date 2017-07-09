@@ -47,10 +47,10 @@ function S:LoadQuestSkin()
 
 	QuestFrameAcceptButton:Point("BOTTOMLEFT", QuestFrame, 19, 71)
 	QuestFrameDeclineButton:Point("BOTTOMRIGHT", QuestFrame, -34, 71)
-	QuestLogFrameAbandonButton:Point("BOTTOMLEFT", QuestFrame, 16, 14)
-	QuestFrameExitButton:Point("BOTTOMRIGHT", QuestFrame, -07, 14)
+	QuestLogFrameAbandonButton:Point("BOTTOMLEFT", QuestFrame, 16, 18)
+	QuestFrameExitButton:Point("BOTTOMRIGHT", QuestFrame, -07, 18)
 	QuestFramePushQuestButton:ClearAllPoints()
-	QuestFramePushQuestButton:Point("BOTTOMRIGHT", QuestFrame, "BOTTOMRIGHT", -86, 14)
+	QuestFramePushQuestButton:Point("BOTTOMRIGHT", QuestFrame, "BOTTOMRIGHT", -86, 18)
 	QuestFramePushQuestButton:Width(155)
 
 	for i = 1, MAX_NUM_ITEMS do
@@ -174,24 +174,22 @@ function S:LoadQuestSkin()
 	QuestFrame.backdrop:Point("TOPLEFT", QuestFrame, "TOPLEFT", 15, -19)
 	QuestFrame.backdrop:Point("BOTTOMRIGHT", QuestFrame, "BOTTOMRIGHT", -30, 67)
 
+	QuestLogListScrollFrame:StripTextures()
+	QuestLogListScrollFrame:Size(300, 375)
+	QuestLogListScrollFrame:ClearAllPoints()
+	QuestLogListScrollFrame:Point("TOPLEFT", 17, -95)
+
 	QuestLogDetailScrollFrame:StripTextures()
-	QuestLogDetailScrollFrame:CreateBackdrop("Transparent")
-	QuestLogDetailScrollFrame.backdrop:Point("TOPLEFT", QuestLogDetailFrame, "TOPLEFT", 0, 0)
-	QuestLogDetailScrollFrame.backdrop:Point("BOTTOMRIGHT", QuestLogDetailFrame, "BOTTOMRIGHT", 0, 0)
-	QuestLogDetailScrollFrame:Width(334)
-	QuestLogDetailScrollFrame:Height(296)
+	QuestLogDetailScrollFrame:Size(300, 375)
+	QuestLogDetailScrollFrame:ClearAllPoints()
+	QuestLogDetailScrollFrame:Point("TOPRIGHT", QuestLogFrame, -32, -95)
 
 	QuestLogFrame:CreateBackdrop("Transparent")
+	QuestLogFrame:SetAttribute("UIPanelLayout-width", E:Scale(710))
+	QuestLogFrame:SetAttribute("UIPanelLayout-height", E:Scale(508))
+	QuestLogFrame:Size(710, 508)
 	QuestLogFrame.backdrop:Point("TOPLEFT", QuestLogFrame, "TOPLEFT", 10, -12)
 	QuestLogFrame.backdrop:Point("BOTTOMRIGHT", QuestLogFrame, "BOTTOMRIGHT", -1, 8)
-
-	QuestLogListScrollFrame:Width(334)
-
-	local QuestBG = CreateFrame("Frame","QuestBG",QuestLogFrame)
-	QuestBG:CreateBackdrop("Transparent")
-	QuestBG:Point("TOPLEFT", QuestLogListScrollFrame, "TOPLEFT", 0, 0)
-	QuestBG:Width(QuestLogListScrollFrame:GetWidth())
-	QuestBG:Height(QuestLogListScrollFrame:GetHeight())
 
 	QuestLogHighlightFrame:ClearAllPoints()
 	QuestLogHighlightFrame:Width(QuestLogFrame:GetWidth() - 48)
@@ -240,12 +238,12 @@ function S:LoadQuestSkin()
 		_G["QuestLogTitle" .. i .. "Highlight"].SetTexture = E.noop
 
 		-- Check this. I may be wrong in doing so.
-		QuestLogFrame:HookScript("OnShow", function()
-			QuestLogHighlightFrame:Width(340)
-			questLogTitle:HookScript("OnClick", function()
-				QuestLogHighlightFrame:Width(340)
-			end)
-		end)
+		-- QuestLogFrame:HookScript("OnShow", function()
+		-- 	QuestLogHighlightFrame:Width(340)
+		-- 	questLogTitle:HookScript("OnClick", function()
+		-- 		QuestLogHighlightFrame:Width(340)
+		-- 	end)
+		-- end)
 
 		questLogTitle.Text = questLogTitle:CreateFontString(nil, "OVERLAY")
 		questLogTitle.Text:FontTemplate(nil, 22)
