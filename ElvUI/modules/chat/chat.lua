@@ -470,7 +470,7 @@ function CH:UpdateAnchors()
 		end
 	end
 
-	CH:PositionChat(true);
+	--CH:PositionChat(true);
 end
 
 local function FindRightChatID()
@@ -1105,7 +1105,7 @@ function CH:SetupChat()
 
 	DEFAULT_CHAT_FRAME:SetParent(LeftChatPanel)
 	self:ScheduleRepeatingTimer("PositionChat", 1)
-	self:PositionChat(true)
+	--self:PositionChat(true)
 end
 
 local function PrepareMessage(author, message)
