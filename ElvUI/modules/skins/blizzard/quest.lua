@@ -229,17 +229,18 @@ function S:LoadQuestSkin()
 		QuestProgressRequiredMoneyText:SetTextColor(1, 1, 0)
 	end)
 
-	-- Create the additional rows
-	local oldQuestsDisplayed = QUESTS_DISPLAYED;
-	QUESTS_DISPLAYED = QUESTS_DISPLAYED + 17;
+	QUESTS_DISPLAYED = 25
 
-	for i = oldQuestsDisplayed + 1, QUESTS_DISPLAYED do
-
+	for i = 7, 25 do
 		local questLogTitle = CreateFrame("Button", "QuestLogTitle" .. i, QuestLogFrame, "QuestLogTitleButtonTemplate")
-	    questLogTitle:SetID(i)
-	    questLogTitle:Hide()
-	    questLogTitle:ClearAllPoints()
-	    questLogTitle:Point("TOPLEFT", _G["QuestLogTitle" .. i - 1], "BOTTOMLEFT", 0, 1)
+
+		questLogTitle:SetID(i)
+		questLogTitle:Hide()
+		questLogTitle:Point("TOPLEFT", _G["QuestLogTitle" .. i - 1], "BOTTOMLEFT", 0, 1)
+	end
+
+	for i = 1, QUESTS_DISPLAYED do
+		local questLogTitle = _G["QuestLogTitle" .. i]
 
 		questLogTitle:SetNormalTexture("")
 		questLogTitle.SetNormalTexture = E.noop
