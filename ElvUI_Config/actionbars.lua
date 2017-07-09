@@ -1,33 +1,33 @@
-local E, L, V, P, G = unpack(ElvUI);
-local AB = E:GetModule("ActionBars");
-local group;
+local E, L, V, P, G = unpack(ElvUI)
+local AB = E:GetModule("ActionBars")
+local group
 
 local points = {
 	["TOPLEFT"] = "TOPLEFT",
 	["TOPRIGHT"] = "TOPRIGHT",
 	["BOTTOMLEFT"] = "BOTTOMLEFT",
-	["BOTTOMRIGHT"] = "BOTTOMRIGHT",
+	["BOTTOMRIGHT"] = "BOTTOMRIGHT"
 }
 
 local function BuildABConfig()
-	for i = 1, 5 do
-		local name = L["Bar "] .. i;
-		group["bar" .. i] = {
+	for i = 1, 6 do
+		local name = L["Bar "]..i
+		group["bar"..i] = {
 			order = 200,
 			name = name,
 			type = "group",
 			guiInline = false,
 			disabled = function() return not E.private.actionbar.enable; end,
-			get = function(info) return E.db.actionbar["bar" .. i][ info[#info] ]; end,
-			set = function(info, value) E.db.actionbar["bar" .. i][ info[#info] ] = value; AB:PositionAndSizeBar("bar" .. i); end,
+			get = function(info) return E.db.actionbar["bar"..i][ info[#info] ]; end,
+			set = function(info, value) E.db.actionbar["bar"..i][ info[#info] ] = value; AB:PositionAndSizeBar("bar"..i) end,
 			args = {
 				enabled = {
 					order = 1,
 					type = "toggle",
 					name = L["Enable"],
 					set = function(info, value)
-						E.db.actionbar["bar" .. i][ info[#info] ] = value;
-						AB:PositionAndSizeBar("bar" .. i);
+						E.db.actionbar["bar"..i][ info[#info] ] = value
+						AB:PositionAndSizeBar("bar"..i)
 					end
 				},
 				restorePosition = {
@@ -35,7 +35,7 @@ local function BuildABConfig()
 					type = "execute",
 					name = L["Restore Bar"],
 					desc = L["Restore the actionbars default settings"],
-					func = function() E:CopyTable(E.db.actionbar["bar" .. i], P.actionbar["bar" .. i]); E:ResetMovers(L["Bar " .. i]); AB:PositionAndSizeBar("bar" .. i); end
+					func = function() E:CopyTable(E.db.actionbar["bar"..i], P.actionbar["bar"..i]); E:ResetMovers(L["Bar "..i]); AB:PositionAndSizeBar("bar"..i); end
 				},
 				point = {
 					order = 3,
@@ -50,14 +50,12 @@ local function BuildABConfig()
 					name = L["Backdrop"],
 					desc = L["Toggles the display of the actionbars backdrop."],
 				},
---[[
 				showGrid = {
 					type = "toggle",
 					name = L["Show Empty Buttons"],
 					order = 5,
-					set = function(info, value) E.db.actionbar["bar" .. i][ info[#info] ] = value; AB:UpdateButtonSettingsForBar("bar"..i); end
+					set = function(info, value) E.db.actionbar["bar"..i][ info[#info] ] = value; AB:UpdateButtonSettingsForBar("bar"..i); end
 				},
-]]
 				mouseover = {
 					order = 6,
 					type = "toggle",
@@ -129,7 +127,6 @@ local function BuildABConfig()
 					isPercent = true,
 					min = 0, max = 1, step = 0.01
 				},
---[[
 				paging = {
 					order = 16,
 					type = "input",
@@ -137,17 +134,16 @@ local function BuildABConfig()
 					desc = L["This works like a macro, you can run different situations to get the actionbar to page differently.\n Example: [combat] 2;"],
 					width = "full",
 					multiline = true,
-					get = function(info) return E.db.actionbar["bar" .. i]["paging"][E.myclass]; end,
+					get = function(info) return E.db.actionbar["bar"..i]["paging"][E.myclass]; end,
 					set = function(info, value)
-						if(not E.db.actionbar["bar" .. i]["paging"][E.myclass]) then
-							E.db.actionbar["bar" .. i]["paging"][E.myclass] = {};
+						if not E.db.actionbar["bar"..i]["paging"][E.myclass] then
+							E.db.actionbar["bar"..i]["paging"][E.myclass] = {}
 						end
 
-						E.db.actionbar["bar" .. i]["paging"][E.myclass] = value;
-						AB:UpdateButtonSettings();
+						E.db.actionbar["bar"..i]["paging"][E.myclass] = value
+						AB:UpdateButtonSettings()
 					end
 				},
-]]
 				visibility = {
 					type = "input",
 					order = 17,
@@ -156,12 +152,22 @@ local function BuildABConfig()
 					width = "full",
 					multiline = true,
 					set = function(info, value)
-						E.db.actionbar["bar" ..i]["visibility"] = value;
-						AB:UpdateButtonSettings();
+						E.db.actionbar["bar"..i]["visibility"] = value
+						AB:UpdateButtonSettings()
 					end
 				}
 			}
 		};
+
+		if i == 6 then
+			group["bar"..i].args.enabled.set = function(info, value)
+				E.db.actionbar["bar"..i].enabled = value
+				AB:PositionAndSizeBar("bar6")
+
+				AB:UpdateBar1Paging()
+				AB:PositionAndSizeBar("bar1")
+			end
+		end
 	end
 
 	group["barPet"] = {
@@ -389,7 +395,7 @@ local function BuildABConfig()
 				desc = L["This setting will be updated upon changing stances."],
 				values = {
 					["darkenInactive"] = L["Darken Inactive"],
-					["classic"] = L["Classic"],
+					["classic"] = L["Classic"]
 				}
 			}
 		}
@@ -436,7 +442,6 @@ E.Options.args.actionbar = {
 			desc = L["Display bind names on action buttons."],
 			disabled = function() return not E.private.actionbar.enable; end
 		},
---[[
 		keyDown = {
 			order = 6,
 			type = "toggle",
@@ -444,7 +449,6 @@ E.Options.args.actionbar = {
 			desc = L["Action button keybinds will respond on key down, rather than on key up"],
 			disabled = function() return not E.private.actionbar.enable; end
 		},
-]]
 		movementModifier = {
 			order = 7,
 			type = "select",
@@ -552,7 +556,22 @@ E.Options.args.actionbar = {
 						["MONOCHROME"] = (not E.isMacClient) and "MONOCHROME" or nil,
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE",
-					}
+					},
+				},
+				fontColor = {
+					order = 7,
+					type = "color",
+					name = COLOR,
+					get = function(info)
+						local t = E.db.actionbar[ info[#info] ];
+						local d = P.actionbar[info[#info]];
+						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
+					end,
+					set = function(info, r, g, b)
+						local t = E.db.actionbar[ info[#info] ];
+						t.r, t.g, t.b = r, g, b;
+						AB:UpdateButtonSettings();
+					end
 				}
 			}
 		},

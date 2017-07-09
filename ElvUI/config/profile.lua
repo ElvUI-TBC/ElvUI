@@ -2593,6 +2593,7 @@ P["actionbar"] = {
 	["font"] = "Homespun",
 	["fontSize"] = 10,
 	["fontOutline"] = "MONOCHROMEOUTLINE",
+	["fontColor"] = {r = 1, g = 1, b = 1},
 
 	["macrotext"] = false,
 	["hotkeytext"] = true,
@@ -2601,6 +2602,9 @@ P["actionbar"] = {
 	["noPowerColor"] = {r = 0.5, g = 0.5, b = 1},
 	["usableColor"] = {r = 1, g = 1, b = 1},
 	["notUsableColor"] = {r = 0.4, g = 0.4, b = 0.4},
+
+	["keyDown"] = true,
+	["movementModifier"] = "SHIFT",
 
 	["microbar"] = {
 		["enabled"] = false,
@@ -2613,6 +2617,7 @@ P["actionbar"] = {
 	},
 
 	["globalFadeAlpha"] = 0,
+	["lockActionBars"] = true,
 
 	["bar1"] = {
 		["enabled"] = true,
@@ -2628,13 +2633,14 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
 		["paging"] = {
-			["DRUID"] = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 10; [bonusbar:3] 9; [bonusbar:4] 10;",
+			["DRUID"] = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;",
 			["WARRIOR"] = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;",
 			["PRIEST"] = "[bonusbar:1] 7;",
-			["ROGUE"] = "[bonusbar:1] 7; [form:2] 7;",
+			["ROGUE"] = "[bonusbar:1] 7; [form:3] 7;"
 		},
-		["visibility"] = "",
+		["visibility"] = ""
 	},
 	["bar2"] = {
 		["enabled"] = false,
@@ -2650,8 +2656,9 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
 		["paging"] = {},
-		["visibility"] = "",
+		["visibility"] = ""
 	},
 	["bar3"] = {
 		["enabled"] = true,
@@ -2667,8 +2674,9 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
 		["paging"] = {},
-		["visibility"] = "",
+		["visibility"] = ""
 	},
 	["bar4"] = {
 		["enabled"] = true,
@@ -2684,8 +2692,9 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
 		["paging"] = {},
-		["visibility"] = "",
+		["visibility"] = ""
 	},
 	["bar5"] = {
 		["enabled"] = true,
@@ -2701,8 +2710,27 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
 		["paging"] = {},
-		["visibility"] = "",
+		["visibility"] = ""
+	},
+	["bar6"] = {
+		["enabled"] = false,
+		["mouseover"] = false,
+		["buttons"] = 12,
+		["buttonsPerRow"] = 12,
+		["buttonsize"] = 32,
+		["buttonspacing"] = 2,
+		["backdropSpacing"] = 2,
+		["point"] = "BOTTOMLEFT",
+		["backdrop"] = false,
+		["heightMult"] = 1,
+		["widthMult"] = 1,
+		["alpha"] = 1,
+		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
+		["paging"] = {},
+		["visibility"] = ""
 	},
 	["barPet"] = {
 		["enabled"] = true,
@@ -2718,7 +2746,7 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
-		["visibility"] = "[pet,nobonusbar:5] show;hide",
+		["visibility"] = "[pet,nobonusbar:5] show;hide"
 	},
 	["barShapeShift"] = {
 		["enabled"] = true,
@@ -2736,4 +2764,4 @@ P["actionbar"] = {
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false
 	}
-};
+}
