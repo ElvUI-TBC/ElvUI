@@ -7,7 +7,7 @@ local UnitCastingInfo = UnitCastingInfo
 local UnitChannelInfo = UnitChannelInfo
 local UnitIsUnit = UnitIsUnit
 
-local tradeskillCurrent, tradeskillTotal, mergeTradeskill = 0, 0, false
+local tradeskillCastTime, tradeskillCurrent, tradeskillTotal, mergeTradeskill = 0, 0, 0, false
 
 local updateSafeZone = function(self)
 	local sz = self.SafeZone
@@ -25,12 +25,12 @@ local updateSafeZone = function(self)
 	end
 end
 
-local UNIT_SPELLCAST_SENT = function (self, event, unit, spell, rank, target, castid)
+local UNIT_SPELLCAST_SENT = function (self, event, unit, spell, rank, target)
 	local castbar = self.Castbar
 	castbar.curTarget = (target and target ~= "") and target or nil
 
 	if castbar.isTradeSkill then
-		castbar.tradeSkillCastId = castid
+		castbar.tradeSkillCastName = spell
 	end
 end
 
@@ -38,7 +38,7 @@ local UNIT_SPELLCAST_START = function(self, event, unit)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	local name, _, text, texture, startTime, endTime, isTradeSkill, castid, notInterruptible = UnitCastingInfo(unit)
+	local name, _, text, texture, startTime, endTime, isTradeSkill = UnitCastingInfo(unit)
 	if (not name) then
 		return castbar:Hide()
 	end
@@ -47,13 +47,11 @@ local UNIT_SPELLCAST_START = function(self, event, unit)
 	startTime = startTime / 1e3
 	local max = endTime - startTime
 
-	castbar.castid = castid
+	castbar.castname = name
 	castbar.duration = GetTime() - startTime
 	castbar.max = max
 	castbar.delay = 0
 	castbar.casting = true
-	castbar.interrupt = notInterruptible -- NOTE: deprecated to be removed
-	castbar.notInterruptible = notInterruptible
 	castbar.holdTime = 0
 	castbar.isTradeSkill = isTradeSkill
 
@@ -63,6 +61,7 @@ local UNIT_SPELLCAST_START = function(self, event, unit)
 
 		if (unit == "player") then
 			tradeskillCurrent = tradeskillCurrent + 1
+			tradeskillCastTime = max
 		end
 		castbar:SetValue(castbar.duration)
 	else
@@ -76,13 +75,6 @@ local UNIT_SPELLCAST_START = function(self, event, unit)
 	if (castbar.Icon) then castbar.Icon:SetTexture(texture) end
 	if (castbar.Time) then castbar.Time:SetText() end
 
-	local shield = castbar.Shield
-	if (shield and notInterruptible) then
-		shield:Show()
-	elseif (shield) then
-		shield:Hide()
-	end
-
 	local sf = castbar.SafeZone
 	if (sf) then
 		sf:ClearAllPoints()
@@ -93,23 +85,23 @@ local UNIT_SPELLCAST_START = function(self, event, unit)
 	end
 
 	if (castbar.PostCastStart) then
-		castbar:PostCastStart(unit, name, castid)
+		castbar:PostCastStart(unit, name)
 	end
 	castbar:Show()
 end
 
-local UNIT_SPELLCAST_FAILED = function(self, event, unit, spellname, _, castid)
+local UNIT_SPELLCAST_FAILED = function(self, event, unit, spellname)
 	if (type(self.casting) == "nil") then return end
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	if (castbar.castid ~= castid) and (castbar.tradeSkillCastId ~= castid) then
+	if (castbar.castname ~= spellname) and (castbar.tradeSkillCastName ~= spellname) then
 		return
 	end
 
 	if (mergeTradeskill and UnitIsUnit(unit, "player")) then
 		mergeTradeskill = false
-		castbar.tradeSkillCastId = nil
+		castbar.tradeSkillCastName = nil
 	end
 
 	local text = castbar.Text
@@ -118,41 +110,37 @@ local UNIT_SPELLCAST_FAILED = function(self, event, unit, spellname, _, castid)
 	end
 
 	castbar.casting = nil
-	castbar.interrupt = nil -- NOTE: deprecated to be removed
-	castbar.notInterruptible = nil
 	castbar.holdTime = castbar.timeToHold or 0
 
 	if (castbar.PostCastFailed) then
-		return castbar:PostCastFailed(unit, spellname, castid)
+		return castbar:PostCastFailed(unit, spellname)
 	end
 end
 
-local UNIT_SPELLCAST_FAILED_QUIET = function(self, event, unit, _, _, castid)
+local UNIT_SPELLCAST_FAILED_QUIET = function(self, event, unit, spellname)
 	if (not self.casting) then return end
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	if (castbar.castid ~= castid) and (castbar.tradeSkillCastId ~= castid) then
+	if (castbar.castname ~= spellname) and (castbar.tradeSkillCastName ~= spellname) then
 		return
 	end
 
 	if (mergeTradeskill and UnitIsUnit(unit, "player")) then
 		mergeTradeskill = false
-		castbar.tradeSkillCastId = nil
+		castbar.tradeSkillCastName = nil
 	end
 
 	castbar.casting = nil
-	castbar.interrupt = nil -- NOTE: deprecated to be removed
-	castbar.notInterruptible = nil
 	castbar:SetValue(0)
 	castbar:Hide()
 end
 
-local UNIT_SPELLCAST_INTERRUPTED = function(self, event, unit, spellname, _, castid)
+local UNIT_SPELLCAST_INTERRUPTED = function(self, event, unit, spellname)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	if (castbar.castid ~= castid) then
+	if (castbar.castname ~= spellname) then
 		return
 	end
 
@@ -166,43 +154,7 @@ local UNIT_SPELLCAST_INTERRUPTED = function(self, event, unit, spellname, _, cas
 	castbar.holdTime = castbar.timeToHold or 0
 
 	if (castbar.PostCastInterrupted) then
-		return castbar:PostCastInterrupted(unit, spellname, castid)
-	end
-end
-
-local UNIT_SPELLCAST_INTERRUPTIBLE = function(self, event, unit)
-	if (self.unit ~= unit and self.realUnit ~= unit) then return end
-
-	local castbar = self.Castbar
-
-	local shield = castbar.Shield
-	if (shield) then
-		shield:Hide()
-	end
-
-	castbar.interrupt = nil -- NOTE: deprecated to be removed
-	castbar.notInterruptible = nil
-
-	if (castbar.PostCastInterruptible) then
-		return castbar:PostCastInterruptible(unit)
-	end
-end
-
-local UNIT_SPELLCAST_NOT_INTERRUPTIBLE = function(self, event, unit)
-	if (self.unit ~= unit and self.realUnit ~= unit) then return end
-
-	local castbar = self.Castbar
-
-	local shield = castbar.Shield
-	if (shield) then
-		shield:Show()
-	end
-
-	castbar.interrupt = nil -- NOTE: deprecated to be removed
-	castbar.notInterruptible = nil
-
-	if (castbar.PostCastNotInterruptible) then
-		return castbar:PostCastNotInterruptible(unit)
+		return castbar:PostCastInterrupted(unit, spellname)
 	end
 end
 
@@ -210,7 +162,7 @@ local UNIT_SPELLCAST_DELAYED = function(self, event, unit)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	local name, _, _, _, startTime, _, _, castid = UnitCastingInfo(unit)
+	local name, _, _, _, startTime = UnitCastingInfo(unit)
 	if (not startTime or not castbar:IsShown()) then return end
 
 	local duration = GetTime() - (startTime / 1000)
@@ -222,15 +174,15 @@ local UNIT_SPELLCAST_DELAYED = function(self, event, unit)
 	castbar:SetValue(duration)
 
 	if (castbar.PostCastDelayed) then
-		return castbar:PostCastDelayed(unit, name, castid)
+		return castbar:PostCastDelayed(unit, name)
 	end
 end
 
-local UNIT_SPELLCAST_STOP = function(self, event, unit, spellname, _, castid)
+local UNIT_SPELLCAST_STOP = function(self, event, unit, spellname)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	if (castbar.castid ~= castid) then
+	if (castbar.castname ~= spellname) then
 		return
 	end
 
@@ -240,12 +192,10 @@ local UNIT_SPELLCAST_STOP = function(self, event, unit, spellname, _, castid)
 		end
 	else
 		castbar.casting = nil
-		castbar.interrupt = nil -- NOTE: deprecated to be removed
-		castbar.notInterruptible = nil
 	end
 
 	if (castbar.PostCastStop) then
-		return castbar:PostCastStop(unit, spellname, castid)
+		return castbar:PostCastStop(unit, spellname)
 	end
 end
 
@@ -253,7 +203,7 @@ local UNIT_SPELLCAST_CHANNEL_START = function(self, event, unit)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	local name, _, _, texture, startTime, endTime, _, notInterruptible = UnitChannelInfo(unit)
+	local name, _, _, texture, startTime, endTime = UnitChannelInfo(unit)
 	if (not name) then
 		return
 	end
@@ -270,15 +220,13 @@ local UNIT_SPELLCAST_CHANNEL_START = function(self, event, unit)
 	castbar.endTime = endTime
 	castbar.extraTickRatio = 0
 	castbar.channeling = true
-	castbar.interrupt = notInterruptible -- NOTE: deprecated to be removed
-	castbar.notInterruptible = notInterruptible
 	castbar.holdTime = 0
 
 	-- We have to do this, as it's possible for spell casts to never have _STOP
 	-- executed or be fully completed by the OnUpdate handler before CHANNEL_START
 	-- is called.
 	castbar.casting = nil
-	castbar.castid = nil
+	castbar.castname = nil
 
 	castbar:SetMinMaxValues(0, max)
 	castbar:SetValue(duration)
@@ -286,13 +234,6 @@ local UNIT_SPELLCAST_CHANNEL_START = function(self, event, unit)
 	if (castbar.Text) then castbar.Text:SetText(name) end
 	if (castbar.Icon) then castbar.Icon:SetTexture(texture) end
 	if (castbar.Time) then castbar.Time:SetText() end
-
-	local shield = castbar.Shield
-	if (shield and notInterruptible) then
-		shield:Show()
-	elseif (shield) then
-		shield:Hide()
-	end
 
 	local sf = castbar.SafeZone
 	if (sf) then
@@ -339,8 +280,6 @@ local UNIT_SPELLCAST_CHANNEL_STOP = function(self, event, unit, spellname)
 	local castbar = self.Castbar
 	if (castbar:IsShown()) then
 		castbar.channeling = nil
-		castbar.interrupt = nil -- NOTE: deprecated to be removed
-		castbar.notInterruptible = nil
 
 		if (castbar.PostChannelStop) then
 			return castbar:PostChannelStop(unit, spellname)
@@ -351,7 +290,7 @@ end
 local onUpdate = function(self, elapsed)
 	if (self.casting) then
 		local duration = self.duration + elapsed
-		if (duration >= self.max) then
+		if (duration >= self.max or duration >= tradeskillCastTime * 1.5) then
 			self.casting = nil
 			self:Hide()
 
@@ -418,7 +357,7 @@ local onUpdate = function(self, elapsed)
 		self.holdTime = self.holdTime - elapsed
 	else
 		self.casting = nil
-		self.castid = nil
+		self.castname = nil
 		self.channeling = nil
 
 		self:Hide()
@@ -448,8 +387,6 @@ local Enable = function(self, unit)
 			self:RegisterEvent("UNIT_SPELLCAST_FAILED_QUIET", UNIT_SPELLCAST_FAILED_QUIET)
 			self:RegisterEvent("UNIT_SPELLCAST_STOP", UNIT_SPELLCAST_STOP)
 			self:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED", UNIT_SPELLCAST_INTERRUPTED)
-		--	self:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE", UNIT_SPELLCAST_INTERRUPTIBLE)
-		--	self:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE", UNIT_SPELLCAST_NOT_INTERRUPTIBLE)
 			self:RegisterEvent("UNIT_SPELLCAST_DELAYED", UNIT_SPELLCAST_DELAYED)
 			self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START", UNIT_SPELLCAST_CHANNEL_START)
 			self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE", UNIT_SPELLCAST_CHANNEL_UPDATE)
@@ -480,11 +417,6 @@ local Enable = function(self, unit)
 			spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
 		end
 
-		local shield = castbar.Shield
-		if (shield and shield:IsObjectType("Texture") and not shield:GetTexture()) then
-			shield:SetTexture[[Interface\CastingBar\UI-CastingBar-Small-Shield]]
-		end
-
 		local sz = castbar.SafeZone
 		if (sz and sz:IsObjectType("Texture") and not sz:GetTexture()) then
 			sz:SetTexture(1, 0, 0)
@@ -507,8 +439,6 @@ local Disable = function(self)
 		self:UnregisterEvent("UNIT_SPELLCAST_FAILED_QUIET", UNIT_SPELLCAST_FAILED_QUIET)
 		self:UnregisterEvent("UNIT_SPELLCAST_STOP", UNIT_SPELLCAST_STOP)
 		self:UnregisterEvent("UNIT_SPELLCAST_INTERRUPTED", UNIT_SPELLCAST_INTERRUPTED)
-	--	self:UnregisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE", UNIT_SPELLCAST_INTERRUPTIBLE)
-	--	self:UnregisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE", UNIT_SPELLCAST_NOT_INTERRUPTIBLE)
 		self:UnregisterEvent("UNIT_SPELLCAST_DELAYED", UNIT_SPELLCAST_DELAYED)
 		self:UnregisterEvent("UNIT_SPELLCAST_CHANNEL_START", UNIT_SPELLCAST_CHANNEL_START)
 		self:UnregisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE", UNIT_SPELLCAST_CHANNEL_UPDATE)
@@ -519,6 +449,7 @@ local Disable = function(self)
 end
 
 hooksecurefunc("DoTradeSkill", function(_, num)
+	tradeskillCastTime = 0
 	tradeskillCurrent = 0
 	tradeskillTotal = tonumber(num) or 1
 	mergeTradeskill = true
