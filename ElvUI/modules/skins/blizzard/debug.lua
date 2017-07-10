@@ -11,7 +11,9 @@ function S:LoadDebugSkin()
 	ScriptErrorsFrameScrollFrameText:FontTemplate(nil, 13)
 	ScriptErrorsFrameScrollFrame:CreateBackdrop("Default")
 	ScriptErrorsFrameScrollFrame:SetFrameLevel(ScriptErrorsFrameScrollFrame:GetFrameLevel() + 2)
+
 	EventTraceFrame:SetTemplate("Transparent")
+	S:HandleSliderFrame(EventTraceFrameScroll)
 
 	local texs = {
 		"TopLeft",

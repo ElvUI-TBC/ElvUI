@@ -25,6 +25,8 @@ function S:LoadTalentSkin()
 	PlayerTalentFrameScrollFrame:CreateBackdrop("Default")
 	S:HandleScrollBar(PlayerTalentFrameScrollFrameScrollBar)
 
+	PlayerTalentFrameScrollButtonOverlay:Kill()
+
 	for i = 1, MAX_NUM_TALENTS do
 		local talent = _G["PlayerTalentFrameTalent"..i]
 		local icon = _G["PlayerTalentFrameTalent"..i.."IconTexture"]
