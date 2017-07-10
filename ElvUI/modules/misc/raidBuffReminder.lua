@@ -214,7 +214,7 @@ function RB:UpdateSettings(isCallback)
 
 	for i = 1, 6 do
 		local button = self.frame[i]
-		button:Size(E.RBRWidth)
+		button:SetSize(E.RBRWidth)
 
 		button:ClearAllPoints()
 		if i == 1 then
