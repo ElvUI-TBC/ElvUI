@@ -237,27 +237,36 @@ function S:LoadCharacterSkin()
 	SkillDetailStatusBar:SetStatusBarTexture(E.media.normTex)
 	E:RegisterStatusBar(SkillDetailStatusBar)
 
-	-- ReputationFrame
+	-- Reputation Frame
 	ReputationFrame:StripTextures()
 
 	for i = 1, NUM_FACTIONS_DISPLAYED do
 		local bar = _G["ReputationBar"..i]
 		local header = _G["ReputationHeader"..i]
+		local factionName = _G["ReputationBar"..i.."FactionName"]
+		local warCheck = _G["ReputationBar"..i.."AtWarCheck"]
 
 		bar:StripTextures()
-		bar:SetStatusBarTexture(E.media.normTex)
-		E:RegisterStatusBar(bar)
 		bar:CreateBackdrop("Default")
+		bar:SetStatusBarTexture(E.media.normTex)
+		bar:Size(108, 13)
+		E:RegisterStatusBar(bar)
+
+		factionName:Point("LEFT", bar, "LEFT", -150, 0)
+		warCheck:Point("LEFT", bar, "RIGHT", 0, 0)
 
 		header:StripTextures(true)
 		header:SetNormalTexture(nil)
 		header.SetNormalTexture = E.noop
+		header:Point("TOPLEFT", bar, "TOPLEFT", -175, 0)
 
 		header.Text = header:CreateFontString(nil, "OVERLAY")
 		header.Text:FontTemplate(nil, 22)
 		header.Text:Point("LEFT", 3, 0)
 		header.Text:SetText("+")
 	end
+
+	ReputationBar1:Point("TOPLEFT", 190, -86)
 
 	local function UpdateFaction()
 		local offset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
@@ -277,17 +286,23 @@ function S:LoadCharacterSkin()
 	end
 	hooksecurefunc("ReputationFrame_Update", UpdateFaction)
 
+	ReputationFrameStandingLabel:Point("TOPLEFT", 223, -59)
+	ReputationFrameFactionLabel:Point("TOPLEFT", 55, -59)
+
 	ReputationListScrollFrame:StripTextures()
 	S:HandleScrollBar(ReputationListScrollFrameScrollBar)
 
 	ReputationDetailFrame:StripTextures()
 	ReputationDetailFrame:SetTemplate("Transparent")
+	ReputationDetailFrame:Point("TOPLEFT", ReputationFrame, "TOPRIGHT", -31, -12)
 
 	S:HandleCloseButton(ReputationDetailCloseButton)
+	ReputationDetailCloseButton:Point("TOPRIGHT", 2, 2)
 
 	S:HandleCheckBox(ReputationDetailAtWarCheckBox)
 	S:HandleCheckBox(ReputationDetailInactiveCheckBox)
 	S:HandleCheckBox(ReputationDetailMainScreenCheckBox)
+
 	-- PVPFrame
 	PVPFrame:StripTextures()
 end
