@@ -54,32 +54,11 @@ lib.callbacks = lib.callbacks or CBH:New(lib)
 local Generic = CreateFrame("CheckButton")
 local Generic_MT = {__index = Generic}
 
-local Button = setmetatable({}, {__index = Generic})
-local Button_MT = {__index = Button}
-
-local Action = setmetatable({}, {__index = Generic})
-local Action_MT = {__index = Action}
-
-local PetAction = setmetatable({}, {__index = Generic})
-local PetAction_MT = {__index = PetAction}
-
-local Spell = setmetatable({}, {__index = Generic})
-local Spell_MT = {__index = Spell}
-
-local Item = setmetatable({}, {__index = Generic})
-local Item_MT = {__index = Item}
-
-local Macro = setmetatable({}, {__index = Generic})
-local Macro_MT = {__index = Macro}
-
-local Custom = setmetatable({}, {__index = Generic})
-local Custom_MT = {__index = Custom}
-
 local ButtonRegistry, ActiveButtons = lib.buttonRegistry, lib.activeButtons
 
 local Update, UpdateButtonState, UpdateUsable, UpdateCount, UpdateCooldown, UpdateTooltip
 local StartFlash, StopFlash, UpdateFlash, UpdateHotkeys, UpdateRangeTimer
-local ShowGrid, HideGrid, UpdateGrid, SetupSecureSnippets, WrapOnClick
+local ShowGrid, HideGrid, UpdateGrid
 
 local InitializeEventHandler, OnEvent, ForAllButtons, OnUpdate
 
@@ -421,7 +400,7 @@ function OnEvent(frame, event, arg1, ...)
 	elseif event == "PLAYER_TARGET_CHANGED" then
 		UpdateRangeTimer()
 	elseif event == "ACTIONBAR_UPDATE_STATE" then
-		ForAllButtons(UpdateButtonState)
+		ForAllButtons(UpdateButtonState, true)
 	elseif event == "ACTIONBAR_UPDATE_USABLE" then
 		for button in next, ActiveButtons do
 			UpdateUsable(button)
