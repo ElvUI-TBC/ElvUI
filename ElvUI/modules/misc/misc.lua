@@ -172,10 +172,6 @@ function M:AutoInvite(event, leaderName)
 end
 
 function M:ForceCVars()
-	if E.private.actionbar.enable and GetCVar("lockActionBars") == "0" then
-		SetCVar("lockActionBars", 1)
-	end
-
 	if E.private.general.loot then
 		if GetCVar("lootUnderMouse") == "1" then
 			E:DisableMover("LootFrameMover")
