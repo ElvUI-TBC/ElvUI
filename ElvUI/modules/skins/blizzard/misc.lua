@@ -55,6 +55,13 @@ function S:LoadMiscSkin()
 		end
 	end
 
+	for i = 1, 32 do
+		_G["ChatMenuButton"..i]:StyleButton()
+		_G["EmoteMenuButton"..i]:StyleButton()
+		_G["LanguageMenuButton"..i]:StyleButton()
+		_G["VoiceMacroMenuButton"..i]:StyleButton()
+	end
+
 	-- Static Popups
 	for i = 1, 4 do
 		local staticPopup = _G["StaticPopup"..i]
