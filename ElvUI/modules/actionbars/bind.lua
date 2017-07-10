@@ -6,20 +6,21 @@ local select, tonumber, pairs = select, tonumber, pairs
 local floor = math.floor
 local find, format = string.find, string.format
 
-local hooksecurefunc = hooksecurefunc
-local EnumerateFrames = EnumerateFrames
 local CreateFrame = CreateFrame
-local IsAddOnLoaded = IsAddOnLoaded
-local LoadBindings, SaveBindings = LoadBindings, SaveBindings
-local GetCurrentBindingSet = GetCurrentBindingSet
-local SetBinding = SetBinding
+local EnumerateFrames = EnumerateFrames
+local GameTooltip_Hide = GameTooltip_Hide
+local GameTooltip_ShowCompareItem = GameTooltip_ShowCompareItem
 local GetBindingKey = GetBindingKey
+local GetCurrentBindingSet = GetCurrentBindingSet
+local GetMacroInfo = GetMacroInfo
+local InCombatLockdown = InCombatLockdown
+local IsAddOnLoaded = IsAddOnLoaded
 local IsAltKeyDown, IsControlKeyDown = IsAltKeyDown, IsControlKeyDown
 local IsShiftKeyDown, IsModifiedClick = IsShiftKeyDown, IsModifiedClick
-local InCombatLockdown = InCombatLockdown
-local GetMacroInfo = GetMacroInfo
+local LoadBindings, SaveBindings = LoadBindings, SaveBindings
 local SecureActionButton_OnClick = SecureActionButton_OnClick
-local GameTooltip_Hide = GameTooltip_Hide
+local SetBinding = SetBinding
+local hooksecurefunc = hooksecurefunc
 local CHARACTER_SPECIFIC_KEYBINDING_TOOLTIP = CHARACTER_SPECIFIC_KEYBINDING_TOOLTIP
 local CHARACTER_SPECIFIC_KEYBINDINGS = CHARACTER_SPECIFIC_KEYBINDINGS
 
@@ -223,6 +224,20 @@ function AB:RegisterButton(b, override)
 	end
 end
 
+local elapsed = 0
+function AB:Tooltip_OnUpdate(tooltip, e)
+	elapsed = elapsed + e
+	if elapsed < .2 then return else elapsed = 0 end
+	if not tooltip.comparing and IsModifiedClick("COMPAREITEMS") then
+		GameTooltip_ShowCompareItem(tooltip)
+		tooltip.comparing = true
+	elseif tooltip.comparing and not IsModifiedClick("COMPAREITEMS") then
+		ShoppingTooltip1:Hide()
+		ShoppingTooltip2:Hide()
+		tooltip.comparing = false
+	end
+end
+
 function AB:RegisterMacro(addon)
 	if addon == "Blizzard_MacroUI" then
 		for i=1, MAX_MACROS do
@@ -252,6 +267,9 @@ function AB:LoadKeyBinder()
 	bind.texture:SetAllPoints(bind)
 	bind.texture:SetTexture(0, 0, 0, .25)
 	bind:Hide()
+
+	self:HookScript(GameTooltip, "OnUpdate", "Tooltip_OnUpdate")
+	hooksecurefunc(GameTooltip, "Hide", function() ShoppingTooltip1:Hide() ShoppingTooltip2:Hide() end)
 
 	bind:SetScript("OnEnter", function(self) local db = self.button:GetParent().db if db and db.mouseover then AB:Button_OnEnter(self.button) end end)
 	bind:SetScript("OnLeave", function(self) AB:BindHide() local db = self.button:GetParent().db if db and db.mouseover then AB:Button_OnLeave(self.button) end end)
