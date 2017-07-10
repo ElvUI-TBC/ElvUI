@@ -237,6 +237,15 @@ function S:LoadCharacterSkin()
 	SkillDetailStatusBar:SetStatusBarTexture(E.media.normTex)
 	E:RegisterStatusBar(SkillDetailStatusBar)
 
+	SkillDetailStatusBarUnlearnButton:StripTextures()
+	SkillDetailStatusBarUnlearnButton:Point("LEFT", SkillDetailStatusBarBorder, "RIGHT", -2, -5)
+	SkillDetailStatusBarUnlearnButton:Size(36)
+	
+	SkillDetailStatusBarUnlearnButton.Text = SkillDetailStatusBarUnlearnButton:CreateFontString(nil, "OVERLAY")
+	SkillDetailStatusBarUnlearnButton.Text:FontTemplate()
+	SkillDetailStatusBarUnlearnButton.Text:Point("LEFT", 7, 5)
+	SkillDetailStatusBarUnlearnButton.Text:SetText("|TInterface\\Buttons\\UI-GroupLoot-Pass-Up:34:34|t")
+
 	-- Reputation Frame
 	ReputationFrame:StripTextures()
 
@@ -254,8 +263,8 @@ function S:LoadCharacterSkin()
 
 		factionName:Point("LEFT", bar, "LEFT", -150, 0)
 
+		warCheck:StripTextures()
 		warCheck:Point("LEFT", bar, "RIGHT", 0, 0)
-		warCheck:SetAlpha(0)
 
 		warCheck.Text = warCheck:CreateFontString(nil, "OVERLAY")
 		warCheck.Text:FontTemplate()
