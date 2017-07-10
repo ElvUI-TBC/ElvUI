@@ -126,11 +126,15 @@ local function OnSizeChanged(self, width, height)                               
 end
 
 local function OnTextChanged(self)                                               -- EditBox
---	if self.obj.editBox:GetText() ~= "" and self.obj.editBox.text ~= self.obj.editBox:GetText() then
-	if self.obj.editBox.text ~= self.obj.editBox:GetText() then
-		self = self.obj
-		self:Fire("OnTextChanged", self.editBox:GetText())
+	self = self.obj
+	local value = self.editBox:GetText()
+	if (value ~= "" and value ~= self.lasttext and self.lasttext ~= "::setnil::") or self.lasttext == "::usernil::" then
+		self:Fire("OnTextChanged", value)
+		self.lasttext = value ~= "" and value or "::usernil::"
 		self.button:Enable()
+	else
+		self.button:Disable()
+		self.lasttext = value ~= "" and value or "::setnil::"
 	end
 end
 
@@ -139,7 +143,6 @@ local function OnTextSet(self)                                                  
 	self:SetCursorPosition(self:GetNumLetters())
 	self:SetCursorPosition(0)
 	self.obj.button:Disable()
-	self.obj.editBox.text = self.obj.editBox:GetText()
 end
 
 local function OnVerticalScroll(self, offset)                                    -- ScrollFrame
@@ -215,6 +218,8 @@ local methods = {
 	end,
 
 	["SetText"] = function(self, text)
+		local oldText = self.editBox:GetText()
+		self.lasttext = oldText ~= "" and oldText or "::setnil::"
 		self.editBox:SetText(text)
 	end,
 
