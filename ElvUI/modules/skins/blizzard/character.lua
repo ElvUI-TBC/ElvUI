@@ -253,7 +253,14 @@ function S:LoadCharacterSkin()
 		E:RegisterStatusBar(bar)
 
 		factionName:Point("LEFT", bar, "LEFT", -150, 0)
+
 		warCheck:Point("LEFT", bar, "RIGHT", 0, 0)
+		warCheck:SetAlpha(0)
+
+		warCheck.Text = warCheck:CreateFontString(nil, "OVERLAY")
+		warCheck.Text:FontTemplate()
+		warCheck.Text:Point("LEFT", 3, -6)
+		warCheck.Text:SetText("|TInterface\\Buttons\\UI-CheckBox-SwordCheck:45:45|t")
 
 		header:StripTextures(true)
 		header:SetNormalTexture(nil)
