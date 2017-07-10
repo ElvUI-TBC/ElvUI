@@ -47,7 +47,9 @@ function AB:StyleShapeShift()
 			texture, name, isActive, isCastable = GetShapeshiftFormInfo(i)
 
 			if self.db.barShapeShift.style == "darkenInactive" then
-				_, _, texture = GetSpellInfo(name)
+				if name then
+					_, _, texture = GetSpellInfo(name)
+				end
 			end
 
 			if not texture then
