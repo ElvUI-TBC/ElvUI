@@ -415,7 +415,9 @@ function AB:StyleButton(button, noBackdrop, useMasque)
 	end
 
 	if flash then flash:SetTexture(nil); end
-	if normal then normal:SetTexture(nil); normal:Hide(); normal:SetAlpha(0); end
+--	if button:GetParent():GetName() ~= "ElvUI_BarPet" then
+--		if normal then normal:SetTexture(nil); normal:Hide(); normal:SetAlpha(0); end
+--	end
 	if normal2 then normal2:SetTexture(nil); normal2:Hide(); normal2:SetAlpha(0); end
 
 	if border and not button.useMasque then
