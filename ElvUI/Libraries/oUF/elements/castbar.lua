@@ -290,7 +290,7 @@ end
 local onUpdate = function(self, elapsed)
 	if (self.casting) then
 		local duration = self.duration + elapsed
-		if (duration >= self.max or duration >= tradeskillCastTime * 1.5) then
+		if (duration >= self.max or (tradeskillTotal > 1 and duration >= tradeskillCastTime * 1.5)) then
 			self.casting = nil
 			self:Hide()
 
