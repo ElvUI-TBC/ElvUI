@@ -72,6 +72,7 @@ function S:LoadArenaRegistrarSkin()
 
 	S:HandleButton(PVPBannerFrameAcceptButton)
 	S:HandleButton(PVPBannerFrameCancelButton)
+	S:HandleButton(select(4, PVPBannerFrame:GetChildren())) -- PVPBannerFrameCancelButton duplicated
 
 	S:HandleCloseButton(PVPBannerFrameCloseButton)
 end

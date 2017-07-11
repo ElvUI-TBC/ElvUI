@@ -42,6 +42,10 @@ function S:LoadPVPSkin()
 	PVPTeamDetails:StripTextures()
 	PVPTeamDetails:SetTemplate("Transparent")
 
+	S:HandleNextPrevButton(PVPFrameToggleButton)
+	PVPFrameToggleButton.icon:Size(12)
+	PVPFrameToggleButton:Size(14)
+
 	S:HandleCloseButton(PVPTeamDetailsCloseButton)
 
 	for i = 1, 5 do

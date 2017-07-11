@@ -29,10 +29,8 @@ function S:LoadMacroSkin()
 
 	MacroFrameTextBackground:StripTextures()
 	MacroFrameTextBackground:CreateBackdrop("Default")
-	MacroFrameTextBackground.backdrop:Point("TOPLEFT", 6, -3)
-	MacroFrameTextBackground.backdrop:Point("BOTTOMRIGHT", -2, 3)
-
-	MacroFrameScrollFrame:CreateBackdrop()
+	MacroFrameTextBackground.backdrop:Point("TOPLEFT", 7, -3)
+	MacroFrameTextBackground.backdrop:Point("BOTTOMRIGHT", -25, 3)
 
 	S:HandleScrollBar(MacroFrameScrollFrame)
 

@@ -318,9 +318,6 @@ function S:LoadCharacterSkin()
 	S:HandleCheckBox(ReputationDetailAtWarCheckBox)
 	S:HandleCheckBox(ReputationDetailInactiveCheckBox)
 	S:HandleCheckBox(ReputationDetailMainScreenCheckBox)
-
-	-- PVPFrame
-	PVPFrame:StripTextures()
 end
 
 S:AddCallback("Character", S.LoadCharacterSkin)

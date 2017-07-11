@@ -51,24 +51,24 @@ function S:LoadBGMapSkin()
 	end)
 
 	local oldAlpha
-	BattlefieldMinimap:HookScript("OnEnter", function()
+	BattlefieldMinimap:HookScript2("OnEnter", function()
 		oldAlpha = BattlefieldMinimapOptions.opacity or 0;
 		BattlefieldMinimap_SetOpacity(0)
 	end)
 
-	BattlefieldMinimap:HookScript("OnLeave", function()
+	BattlefieldMinimap:HookScript2("OnLeave", function()
 		if oldAlpha then
 			BattlefieldMinimap_SetOpacity(oldAlpha)
 			oldAlpha = nil;
 		end
 	end)
 
-	BattlefieldMinimapCloseButton:HookScript("OnEnter", function()
+	BattlefieldMinimapCloseButton:HookScript2("OnEnter", function()
 		oldAlpha = BattlefieldMinimapOptions.opacity or 0;
 		BattlefieldMinimap_SetOpacity(0)
 	end)
 
-	BattlefieldMinimapCloseButton:HookScript("OnLeave", function()
+	BattlefieldMinimapCloseButton:HookScript2("OnLeave", function()
 		if oldAlpha then
 			BattlefieldMinimap_SetOpacity(oldAlpha)
 			oldAlpha = nil;
