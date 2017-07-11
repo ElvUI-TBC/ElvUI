@@ -1,4 +1,4 @@
-# ElvUI WotLK
+# ElvUI TBC
 This is the backported version of ElvUI for World of Warcraft 2.4.3
 <br />
 ElvUI is a full UI replacement.
