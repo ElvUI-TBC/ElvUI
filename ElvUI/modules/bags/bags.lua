@@ -1129,6 +1129,18 @@ function B:ToggleBackpack()
 	end
 end
 
+function B:OpenAllBags()
+	if IsOptionFrameOpen() then
+		return
+	end
+
+	if self.BagFrame:IsShown() then
+		self:CloseBags()
+	else
+		self:OpenBags()
+	end
+end
+
 function B:ToggleSortButtonState(isBank)
 	local button, disable;
 	if isBank and self.BankFrame then
@@ -1259,6 +1271,7 @@ function B:Initialize()
 	self:SecureHook("OpenBackpack", "OpenBags");
 	self:SecureHook("CloseAllBags", "CloseBags");
 	self:SecureHook("CloseBackpack", "CloseBags");
+	self:RawHook("OpenAllBags", "OpenAllBags", true)
 
 	self:Layout();
 
