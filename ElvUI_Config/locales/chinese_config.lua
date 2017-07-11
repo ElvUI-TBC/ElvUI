@@ -594,7 +594,6 @@ L["Profile"] = "配置文件"
 L["Table"] = "表"
 
 --Skins
-L["Achievement Frame"] = "成就"
 L["Alert Frames"] = "警报"
 L["Arena Frame"] = true;
 L["Arena Registrar"] = true;

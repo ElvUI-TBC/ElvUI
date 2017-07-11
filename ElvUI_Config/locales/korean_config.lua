@@ -645,7 +645,6 @@ L["Profile"] = true;
 L["Table"] = true;
 
 --Skins
-L["Achievement Frame"] = "업적창"
 L["Alert Frames"] = "알림 프레임"
 L["Arena Frame"] = true;
 L["Arena Registrar"] = true;
