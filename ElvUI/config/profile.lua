@@ -65,12 +65,6 @@ P["general"] = {
 				["xOffset"] = 3,
 				["yOffset"] = 0,
 			},
-			["difficulty"] = {
-				["scale"] = 1,
-				["position"] = "TOPLEFT",
-				["xOffset"] = 0,
-				["yOffset"] = 0,
-			},
 		}
 	},
 	["threat"] = {

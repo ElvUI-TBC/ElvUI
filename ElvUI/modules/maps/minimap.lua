@@ -6,17 +6,23 @@ local _G = _G
 local strsub = strsub
 
 local CreateFrame = CreateFrame
-local ToggleCharacter = ToggleCharacter
-local ToggleFrame = ToggleFrame
-local ToggleFriendsFrame = ToggleFriendsFrame
-local IsAddOnLoaded = IsAddOnLoaded
-local ToggleHelpFrame = ToggleHelpFrame
-local GetZonePVPInfo = GetZonePVPInfo
-local IsShiftKeyDown = IsShiftKeyDown
-local ToggleDropDownMenu = ToggleDropDownMenu
-local Minimap_OnClick = Minimap_OnClick
+local EasyMenu = EasyMenu
 local GetMinimapZoneText = GetMinimapZoneText
+local GetZonePVPInfo = GetZonePVPInfo
 local InCombatLockdown = InCombatLockdown
+local IsAddOnLoaded = IsAddOnLoaded
+local IsShiftKeyDown = IsShiftKeyDown
+local Minimap_OnClick = Minimap_OnClick
+local ToggleBattlefieldMinimap = ToggleBattlefieldMinimap
+local ToggleCharacter = ToggleCharacter
+local ToggleDropDownMenu = ToggleDropDownMenu
+local ToggleFriendsFrame = ToggleFriendsFrame
+local ToggleHelpFrame = ToggleHelpFrame
+local ToggleLFGParentFrame = ToggleLFGParentFrame
+local ToggleQuestLog = ToggleQuestLog
+local ToggleSpellBook = ToggleSpellBook
+local ToggleTalentFrame = ToggleTalentFrame
+local ToggleTimeManager = ToggleTimeManager
 
 local menuFrame = CreateFrame("Frame", "MinimapRightClickMenu", E.UIParent, "UIDropDownMenuTemplate")
 local menuList = {
@@ -252,13 +258,12 @@ function M:UpdateSettings()
 		MiniMapMailFrame:SetScale(scale)
 	end
 
-	if MiniMapLFGFrame then
+	if MiniMapMeetingStoneFrame then
 		local pos = E.db.general.minimap.icons.lfgEye.position or "BOTTOMRIGHT"
 		local scale = E.db.general.minimap.icons.lfgEye.scale or 1
-		MiniMapLFGFrame:ClearAllPoints()
-		MiniMapLFGFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.lfgEye.xOffset or 3, E.db.general.minimap.icons.lfgEye.yOffset or 0)
-		MiniMapLFGFrame:SetScale(scale)
-		LFDSearchStatus:SetScale(scale)
+		MiniMapMeetingStoneFrame:ClearAllPoints()
+		MiniMapMeetingStoneFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.lfgEye.xOffset or 3, E.db.general.minimap.icons.lfgEye.yOffset or 0)
+		MiniMapMeetingStoneFrame:SetScale(scale)
 	end
 
 	if MiniMapBattlefieldFrame then
@@ -269,18 +274,8 @@ function M:UpdateSettings()
 		MiniMapBattlefieldFrame:SetScale(scale)
 	end
 
-	if MiniMapInstanceDifficulty then
-		local pos = E.db.general.minimap.icons.difficulty.position or "TOPLEFT"
-		local scale = E.db.general.minimap.icons.difficulty.scale or 1
-		local x = E.db.general.minimap.icons.difficulty.xOffset or 0
-		local y = E.db.general.minimap.icons.difficulty.yOffset or 0
-		MiniMapInstanceDifficulty:ClearAllPoints()
-		MiniMapInstanceDifficulty:Point(pos, Minimap, pos, x, y)
-		MiniMapInstanceDifficulty:SetScale(scale)
-	end
-
-	if(ElvConfigToggle) then
-		if(E.db.general.reminder.enable and E.db.datatexts.minimapPanels and E.private.general.minimap.enable) then
+	if ElvConfigToggle then
+		if E.db.general.reminder.enable and E.db.datatexts.minimapPanels and E.private.general.minimap.enable then
 			ElvConfigToggle:Show()
 			ElvConfigToggle:Width(E.RBRWidth)
 		else
@@ -288,7 +283,7 @@ function M:UpdateSettings()
 		end
 	end
 
-	if(ElvUI_ReminderBuffs) then
+	if ElvUI_ReminderBuffs then
 		E:GetModule("ReminderBuffs"):UpdateSettings()
 	end
 end

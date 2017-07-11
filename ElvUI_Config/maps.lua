@@ -397,49 +397,7 @@ E.Options.args.maps = {
 									min = -50, max = 50, step = 1
 								}
 							}
-						},
-						difficulty = {
-							order = 5,
-							type = "group",
-							name = L["Instance Difficulty"],
-							get = function(info) return E.db.general.minimap.icons.difficulty[ info[#info] ]; end,
-							set = function(info, value) E.db.general.minimap.icons.difficulty[ info[#info] ] = value; MM:UpdateSettings(); end,
-							args = {
-								position = {
-									order = 1,
-									type = "select",
-									name = L["Position"],
-									values = {
-										["LEFT"] = L["Left"],
-										["RIGHT"] = L["Right"],
-										["TOP"] = L["Top"],
-										["BOTTOM"] = L["Bottom"],
-										["TOPLEFT"] = L["Top Left"],
-										["TOPRIGHT"] = L["Top Right"],
-										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"]
-									}
-								},
-								scale = {
-									order = 2,
-									type = "range",
-									name = L["Scale"],
-									min = 0.5, max = 2, step = 0.05
-								},
-								xOffset = {
-									order = 3,
-									type = "range",
-									name = L["xOffset"],
-									min = -50, max = 50, step = 1
-								},
-								yOffset = {
-									order = 4,
-									type = "range",
-									name = L["yOffset"],
-									min = -50, max = 50, step = 1
-								}
-							}
-						},
+						}
 					}
 				}
 			}
