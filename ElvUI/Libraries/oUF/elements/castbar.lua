@@ -362,6 +362,7 @@ local onUpdate = function(self, elapsed)
 		self.casting = nil
 		self.castname = nil
 		self.channeling = nil
+		tradeskillTotal = 0
 
 		self:Hide()
 	end
