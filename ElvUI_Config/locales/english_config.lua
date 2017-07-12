@@ -586,7 +586,6 @@ L["Profile"] = true;
 L["Table"] = true;
 
 --Skins
-L["Achievement Frame"] = true;
 L["Alert Frames"] = true;
 L["Arena Frame"] = true;
 L["Arena Registrar"] = true;

@@ -597,7 +597,6 @@ L["Profile"] = "Профиль"
 L["Table"] = "Таблица"
 
 --Skins
-L["Achievement Frame"] = "Достижения"
 L["Alert Frames"] = "Предупреждения"
 L["Arena Frame"] = "Арена"
 L["Arena Registrar"] = "Регистрация арены"

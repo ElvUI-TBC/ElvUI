@@ -52,7 +52,6 @@ V["skins"] = {
 	},
 	["blizzard"] = {
 		["enable"] = true,
-		["achievement"] = true,
 		["alertframes"] = true,
 		["arena"] = true,
 		["arenaregistrar"] = true,

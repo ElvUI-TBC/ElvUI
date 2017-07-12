@@ -597,7 +597,6 @@ L["Profile"] = "Profil"
 L["Table"] = "Tabelle"
 
 --Skins
-L["Achievement Frame"] = "Erfolgsfenster"
 L["Alert Frames"] = "Alarmfenster"
 L["Arena Frame"] = true;
 L["Arena Registrar"] = true;
