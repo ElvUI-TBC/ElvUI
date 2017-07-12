@@ -27,7 +27,7 @@ function S:LoadFriendsSkin()
 	end
 
 	-- Friends List Frame
-	for i = 1, 2 do
+	for i = 1, 3 do
 		local Tab = _G["FriendsFrameToggleTab"..i]
 		Tab:StripTextures()
 		Tab:CreateBackdrop("Default", true)
@@ -43,9 +43,15 @@ function S:LoadFriendsSkin()
 	S:HandleScrollBar(FriendsFrameFriendsScrollFrameScrollBar)
 
 	S:HandleButton(FriendsFrameAddFriendButton)
+	FriendsFrameAddFriendButton:Point("BOTTOMLEFT", 17, 102)
+
 	S:HandleButton(FriendsFrameSendMessageButton)
+
 	S:HandleButton(FriendsFrameRemoveFriendButton)
+	FriendsFrameRemoveFriendButton:Point("TOP", FriendsFrameAddFriendButton, "BOTTOM", 0, -2)
+
 	S:HandleButton(FriendsFrameGroupInviteButton)
+	FriendsFrameGroupInviteButton:Point("TOP", FriendsFrameSendMessageButton, "BOTTOM", 0, -2)
 
 	-- Ignore List Frame
 	for i = 1, 2 do
@@ -68,6 +74,7 @@ function S:LoadFriendsSkin()
 
 	WhoFrameColumnHeader4:ClearAllPoints()
 	WhoFrameColumnHeader4:Point("LEFT", WhoFrameColumnHeader3, "RIGHT", -2, -0)
+	WhoFrameColumnHeader4:Width(47)
 
 	WhoFrameColumnHeader1:ClearAllPoints()
 	WhoFrameColumnHeader1:Point("LEFT", WhoFrameColumnHeader4, "RIGHT", -2, -0)

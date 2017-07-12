@@ -262,6 +262,8 @@ function S:LoadCharacterSkin()
 		E:RegisterStatusBar(bar)
 
 		factionName:Point("LEFT", bar, "LEFT", -150, 0)
+		factionName:Width(140)
+		factionName.SetWidth = E.noop
 
 		warCheck:StripTextures()
 		warCheck:Point("LEFT", bar, "RIGHT", 0, 0)
