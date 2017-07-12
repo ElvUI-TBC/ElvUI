@@ -38,10 +38,10 @@ function E:UpdateBlizzardFonts()
 		InterfaceOptionsCombatTextPanelPeriodicDamage:Hide()
 		InterfaceOptionsCombatTextPanelPetDamage:Hide()
 		InterfaceOptionsCombatTextPanelHealing:Hide()
-		SetCVar("CombatLogPeriodicSpells",0)
-		SetCVar("PetMeleeDamage",0)
-		SetCVar("CombatDamage",0)
-		SetCVar("CombatHealing",0)
+		SetCVar("CombatLogPeriodicSpells", 0)
+		SetCVar("PetMeleeDamage", 0)
+		SetCVar("CombatDamage", 0)
+		SetCVar("CombatHealing", 0)
 
 		-- set an invisible font for xp, honor kill, etc
 		local INVISIBLE = [=[Interface\Addons\ElvUI\media\fonts\Invisible.ttf]=]
@@ -53,8 +53,8 @@ function E:UpdateBlizzardFonts()
 		SetFont(GameFontNormal,						NORMAL, self.db.general.fontSize);
 		SetFont(GameFontNormalSmall,				NORMAL, self.db.general.fontSize);
 		SetFont(GameFontNormalLarge,				NORMAL, self.db.general.fontSize);
-		SetFont(GameFontNormalHuge,					NORMAL, 20, MONOCHROME .. "OUTLINE");
-		SetFont(BossEmoteNormalHuge,				NORMAL, 20, MONOCHROME .. "OUTLINE");
+		SetFont(GameFontNormalHuge,					NORMAL, 25, MONOCHROME .. "OUTLINE");
+		SetFont(BossEmoteNormalHuge,				NORMAL, 25, MONOCHROME .. "OUTLINE");
 		SetFont(GameFontBlack,						NORMAL, self.db.general.fontSize);
 		SetFont(NumberFontNormal,					NUMBER, self.db.general.fontSize, MONOCHROME .. "OUTLINE");
 		SetFont(NumberFontNormalSmall,				NUMBER, self.db.general.fontSize);
