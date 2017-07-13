@@ -7,8 +7,6 @@ local find = string.find
 
 local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
-local GetQuestLogChoiceInfo = GetQuestLogChoiceInfo
-local GetQuestLogRewardsInfo = GetQuestLogRewardsInfo
 local GetQuestItemLink = GetQuestItemLink
 
 function S:LoadQuestSkin()
