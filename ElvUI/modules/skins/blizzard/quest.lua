@@ -5,10 +5,6 @@ local _G = _G
 local unpack = unpack
 local find = string.find
 
-local GetItemInfo = GetItemInfo
-local GetItemQualityColor = GetItemQualityColor
-local GetQuestItemLink = GetQuestItemLink
-
 function S:LoadQuestSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true) then return end
 
@@ -71,46 +67,6 @@ function S:LoadQuestSkin()
 		_G["QuestLogItem" .. i .. "Count"]:SetParent(_G["QuestLogItem" .. i].backdrop)
 		_G["QuestLogItem" .. i .. "Count"]:SetDrawLayer("OVERLAY")
 	end
-	hooksecurefunc("QuestLog_SetSelection", function(id)
-		local numChoices = GetNumQuestLogChoices()
-		local numRewards = GetNumQuestLogRewards()
-		local selectType = "choice"
-		if numChoices then
-			for i = 1, numChoices, 1 do
-				local name = _G["QuestLogItem" .. i .. "Name"]
-				local icon = _G["QuestLogItem" .. i]
-				local _, _, choiceCount, choiceQuality = GetQuestLogChoiceInfo(i)
-				local choiceLink = GetQuestLogItemLink(selectType, i)
-				if choiceLink and choiceQuality then
-					local quality = select(3, GetItemInfo(choiceLink))
-					if quality and quality > 1 then
-						icon.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-						name:SetTextColor(GetItemQualityColor(quality))
-					else
-						icon.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-						name:SetTextColor(1, 1, 1)
-					end
-				end
-			end
-		elseif numRewards then
-			for i = 1, numRewards, 1 do
-				local name = _G["QuestLogItem" .. i .. "Name"]
-				local icon = _G["QuestLogItem" .. i]
-				local _, _, rewardCount, rewardQuality = GetQuestLogRewardsInfo(i)
-				local rewardLink = GetQuestLogItemLink(selectType, i)
-				if rewardLink and rewardCount then
-					local quality = select(3, GetItemInfo(rewardLink))
-					if quality and quality > 1 then
-						icon.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-						name:SetTextColor(GetItemQualityColor(quality))
-					else
-						icon.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-						name:SetTextColor(1, 1, 1)
-					end
-				end
-			end
-		end
-	end)
 
 	for i = 1, 6 do
 		local button = _G["QuestDetailItem" .. i]
@@ -165,7 +121,7 @@ function S:LoadQuestSkin()
 		end
 	end);
 
-	hooksecurefunc("QuestFrameItems_Update", function()
+	hooksecurefunc("QuestFrameItems_Update", function(questState)
 		local titleTextColor = {1, 1, 0}
 		local textColor = {1, 1, 1}
 
@@ -203,6 +159,43 @@ function S:LoadQuestSkin()
 		for i = 1, MAX_OBJECTIVES do
 			local r, g, b = _G["QuestLogObjective"..i]:GetTextColor()
 			_G["QuestLogObjective"..i]:SetTextColor(1 - r, 1 - g, 1 - b)
+		end
+
+		local numQuestRewards, numQuestChoices
+		if questState == "QuestLog" then
+			numQuestRewards, numQuestChoices = GetNumQuestLogRewards(), GetNumQuestLogChoices()
+		else
+			numQuestRewards, numQuestChoices = GetNumQuestRewards(), GetNumQuestChoices()
+		end
+
+		local rewardsCount = numQuestChoices + numQuestRewards
+		if rewardsCount > 0 then
+			local questItem, itemName, itemLink, quality
+			local questItemName = questState.."Item"
+
+			for i = 1, rewardsCount do
+				questItem = _G[questItemName..i]
+				itemName = _G[questItemName..i.."Name"]
+
+				if questState == "QuestLog" then
+					itemLink = GetQuestLogItemLink(questItem.type, questItem:GetID())
+				else
+					itemLink = GetQuestItemLink(questItem.type, questItem:GetID())
+				end
+
+				if itemLink then
+					quality = select(3, GetItemInfo(itemLink))
+					if quality and quality > 1 then
+						questItem:SetBackdropBorderColor(GetItemQualityColor(quality))
+						questItem.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+						itemName:SetTextColor(GetItemQualityColor(quality))
+					else
+						questItem:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+						questItem.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+						itemName:SetTextColor(1, 1, 1)
+					end
+				end
+			end
 		end
 	end)
 
