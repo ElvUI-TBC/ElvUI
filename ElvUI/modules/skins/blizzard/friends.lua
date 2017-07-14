@@ -126,7 +126,7 @@ function S:LoadFriendsSkin()
 	S:HandleScrollBar(WhoListScrollFrameScrollBar)
 
 	S:HandleEditBox(WhoFrameEditBox)
-	WhoFrameEditBox:Point("BOTTOMLEFT", WhoFrame, "BOTTOMLEFT", 17, 108)
+	WhoFrameEditBox:Point("BOTTOMLEFT", 17, 108)
 	WhoFrameEditBox:Size(326, 18)
 
 	S:HandleButton(WhoFrameWhoButton)
@@ -333,7 +333,7 @@ function S:LoadFriendsSkin()
 	S:HandleScrollBar(GuildEventLogScrollFrameScrollBar)
 	S:HandleCloseButton(GuildEventLogCloseButton)
 
-	GuildEventLogCancelButton:Point("BOTTOMRIGHT", GuildEventLogFrame, "BOTTOMRIGHT", -9, 9)
+	GuildEventLogCancelButton:Point("BOTTOMRIGHT", -9, 9)
 	S:HandleButton(GuildEventLogCancelButton)
 
 	-- Control Frame
