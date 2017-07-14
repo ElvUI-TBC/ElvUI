@@ -946,6 +946,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				elseif showLink and (strlen(arg2) > 0) and (type == "EMOTE") then
 					body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag.."|Hplayer:"..arg2..":"..arg11.."|h".."["..coloredName.."]".."|h");
 				else
+					arg1 = arg1:gsub("%%s %%s", "%%s")
 					body = format(_G["CHAT_"..type.."_GET"]..arg1, pflag..arg2);
 
 					-- Add raid boss emote message
