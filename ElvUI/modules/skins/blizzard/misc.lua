@@ -25,10 +25,6 @@ function S:LoadMiscSkin()
 		"SoundOptionsFrameHardware",
 		"SoundOptionsFrameVolume",
 		"TicketStatusFrame",
-		"DropDownList1MenuBackdrop",
-		"DropDownList2MenuBackdrop",
-		"DropDownList1Backdrop",
-		"DropDownList2Backdrop",
 		"ReadyCheckFrame",
 		"StackSplitFrame",
 	}
@@ -488,8 +484,11 @@ function S:LoadMiscSkin()
 	--DROPDOWN MENU
 	hooksecurefunc("UIDropDownMenu_Initialize", function()
 		for i = 1, UIDROPDOWNMENU_MAXLEVELS do
-			_G["DropDownList"..i.."Backdrop"]:SetTemplate("Default", true)
-			_G["DropDownList"..i.."MenuBackdrop"]:SetTemplate("Default", true)
+			_G["DropDownList"..i.."Backdrop"]:SetTemplate("Transparent")
+			_G["DropDownList"..i.."MenuBackdrop"]:SetTemplate("Transparent")
+			for j = 1, UIDROPDOWNMENU_MAXBUTTONS do
+				_G["DropDownList"..i.."Button"..j.."Highlight"]:SetTexture(1, 1, 1, 0.3)
+			end
 		end
 	end)
 
@@ -725,7 +724,6 @@ function S:LoadMiscSkin()
 		local idropdown = _G["InterfaceOptions"..interfacedropdown[i]]
 		if idropdown then
 			S:HandleDropDownBox(idropdown)
-			DropDownList1:SetTemplate("Transparent")
 		end
 	end
 
@@ -782,7 +780,6 @@ function S:LoadMiscSkin()
 		local odropdown = _G[optiondropdown[i]]
 		if odropdown then
 			S:HandleDropDownBox(odropdown,165)
-			DropDownList1:SetTemplate("Transparent")
 		end
 	end
 
