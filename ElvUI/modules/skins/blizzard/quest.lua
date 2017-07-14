@@ -121,8 +121,38 @@ function S:LoadQuestSkin()
 		end
 	end);
 
+	local function QuestObjectiveTextColor()
+		local numObjectives = GetNumQuestLeaderBoards()
+		local objective
+		local _, type, finished;
+		local numVisibleObjectives = 0
+		for i = 1, numObjectives do
+			_, type, finished = GetQuestLogLeaderBoard(i)
+			if(type ~= "spell") then
+				numVisibleObjectives = numVisibleObjectives + 1
+				objective = _G["QuestLogObjective"..numVisibleObjectives]
+				if(finished) then
+					objective:SetTextColor(1, 0.80, 0.10)
+				else
+					objective:SetTextColor(0.6, 0.6, 0.6)
+				end
+			end
+		end
+	end
+
+	hooksecurefunc("QuestLog_UpdateQuestDetails", function()
+		local requiredMoney = GetQuestLogRequiredMoney()
+		if(requiredMoney > 0) then
+			if(requiredMoney > GetMoney()) then
+				QuestLogRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+			else
+				QuestLogRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+			end
+		end
+	end)
+
 	hooksecurefunc("QuestFrameItems_Update", function(questState)
-		local titleTextColor = {1, 1, 0}
+		local titleTextColor = {1, 0.80, 0.10}
 		local textColor = {1, 1, 1}
 
 		QuestDetailObjectiveTitleText:SetTextColor(unpack(titleTextColor))
@@ -153,13 +183,7 @@ function S:LoadQuestSkin()
 		QuestRewardSpellLearnText:SetTextColor(unpack(textColor))
 		QuestRewardText:SetTextColor(unpack(textColor))
 
-		local r, g, b = QuestLogRequiredMoneyText:GetTextColor()
-		QuestLogRequiredMoneyText:SetTextColor(1 - r, 1 - g, 1 - b)
-
-		for i = 1, MAX_OBJECTIVES do
-			local r, g, b = _G["QuestLogObjective"..i]:GetTextColor()
-			_G["QuestLogObjective"..i]:SetTextColor(1 - r, 1 - g, 1 - b)
-		end
+		QuestObjectiveTextColor()
 
 		local numQuestRewards, numQuestChoices
 		if questState == "QuestLog" then
@@ -202,7 +226,7 @@ function S:LoadQuestSkin()
 	QuestLogTimerText:SetTextColor(1, 1, 1)
 
 	QuestFrameGreetingPanel:HookScript("OnShow", function()
-		GreetingText:SetTextColor(1, 1, 0)
+		GreetingText:SetTextColor(1, 0.80, 0.10)
 		CurrentQuestsText:SetTextColor(1, 1, 1)
 		AvailableQuestsText:SetTextColor(1, 1, 1)
 	end)
@@ -260,10 +284,16 @@ function S:LoadQuestSkin()
 	end
 
 	hooksecurefunc("QuestFrameProgressItems_Update", function()
-		QuestProgressTitleText:SetTextColor(1, 1, 0)
+		QuestProgressTitleText:SetTextColor(1, 0.80, 0.10)
 		QuestProgressText:SetTextColor(1, 1, 1)
-		QuestProgressRequiredItemsText:SetTextColor(1, 1, 0)
-		QuestProgressRequiredMoneyText:SetTextColor(1, 1, 0)
+
+		QuestProgressRequiredItemsText:SetTextColor(1, 0.80, 0.10)
+
+		if GetQuestMoneyToGet() > GetMoney() then
+			QuestProgressRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+		else
+			QuestProgressRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+		end
 	end)
 
 	QUESTS_DISPLAYED = 25
