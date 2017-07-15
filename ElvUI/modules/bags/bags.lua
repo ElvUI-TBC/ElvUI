@@ -719,11 +719,6 @@ function B:OnEvent(event, ...)
 		self:UpdateCooldowns();
 	elseif event == "PLAYERBANKSLOTS_CHANGED" then
 		self:UpdateAllSlots()
-	elseif (event == "QUEST_ACCEPTED" or event == "QUEST_LOG_UPDATE") and self:IsShown() then
-		self:UpdateAllSlots()
-		for slotID = 1, GetKeyRingSize() do
-			B:UpdateKeySlot(slotID);
-		end
 	end
 end
 
@@ -821,8 +816,6 @@ function B:ContructContainerFrame(name, isBank)
 	f:RegisterEvent("BAG_UPDATE_COOLDOWN")
 	f:RegisterEvent("BAG_UPDATE");
 	f:RegisterEvent("PLAYERBANKSLOTS_CHANGED");
-	f:RegisterEvent("QUEST_ACCEPTED");
-	f:RegisterEvent("QUEST_LOG_UPDATE");
 
 	f:SetScript("OnEvent", B.OnEvent);
 	f:Hide();

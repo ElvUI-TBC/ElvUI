@@ -95,6 +95,7 @@ function S:LoadInspectSkin()
 	InspectTalentFrameCancelButton:Hide()
 
 	InspectTalentFrameTab1:Point("TOPLEFT", 70, -35)
+	InspectTalentFrameSpentPoints:Point("BOTTOMLEFT", 65, 84)
 
 	for i = 1, 3 do
 		local headerTab = _G["InspectTalentFrameTab"..i]
