@@ -244,8 +244,8 @@ function S:LoadQuestSkin()
 	QuestLogFrame:SetAttribute("UIPanelLayout-height", E:Scale(490))
 	QuestLogFrame:Size(685, 490)
 	QuestLogFrame:CreateBackdrop("Transparent")
-	QuestLogFrame.backdrop:Point("TOPLEFT", QuestLogFrame, "TOPLEFT", 10, -12)
-	QuestLogFrame.backdrop:Point("BOTTOMRIGHT", QuestLogFrame, "BOTTOMRIGHT", -1, 8)
+	QuestLogFrame.backdrop:Point("TOPLEFT", 10, -12)
+	QuestLogFrame.backdrop:Point("BOTTOMRIGHT", -1, 8)
 
 	QuestLogFrame:HookScript("OnUpdate", function()
 		if not QuestLogListScrollFrame:IsShown() then

@@ -13,6 +13,7 @@ function S:LoadTradeSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trade ~= true) then return end
 
 	TradeFrame:StripTextures(true)
+	TradeFrame:Width(400)
 	TradeFrame:CreateBackdrop("Transparent")
 	TradeFrame.backdrop:Point("TOPLEFT", 10, -11)
 	TradeFrame.backdrop:Point("BOTTOMRIGHT", -28, 48)
@@ -30,6 +31,8 @@ function S:LoadTradeSkin()
 		local playerButtonIcon = _G["TradePlayerItem" .. i .. "ItemButtonIconTexture"]
 		local recipientButton = _G["TradeRecipientItem" .. i .. "ItemButton"]
 		local recipientButtonIcon = _G["TradeRecipientItem" .. i .. "ItemButtonIconTexture"]
+		local playerNameFrame = _G["TradePlayerItem"..i.."NameFrame"]
+		local recipientNameFrame = _G["TradeRecipientItem"..i.."NameFrame"]
 
 		player:StripTextures()
 		recipient:StripTextures()
@@ -47,7 +50,21 @@ function S:LoadTradeSkin()
 
 		recipientButtonIcon:SetInside()
 		recipientButtonIcon:SetTexCoord(unpack(E.TexCoords))
+
+		playerButton.bg = CreateFrame("Frame", nil, playerButton)
+		playerButton.bg:SetTemplate("Default")
+		playerButton.bg:Point("TOPLEFT", playerButton, "TOPRIGHT", 4, 0)
+		playerButton.bg:Point("BOTTOMRIGHT", playerNameFrame, "BOTTOMRIGHT", -5, 14)
+		playerButton.bg:SetFrameLevel(playerButton:GetFrameLevel() - 4)
+
+		recipientButton.bg = CreateFrame("Frame", nil, recipientButton)
+		recipientButton.bg:SetTemplate("Default")
+		recipientButton.bg:Point("TOPLEFT", recipientButton, "TOPRIGHT", 4, 0)
+		recipientButton.bg:Point("BOTTOMRIGHT", recipientNameFrame, "BOTTOMRIGHT", -5, 14)
+		recipientButton.bg:SetFrameLevel(recipientButton:GetFrameLevel() - 4)
 	end
+
+	TradePlayerItem1:Point("TOPLEFT", 24, -104)
 
 	TradeHighlightPlayerTop:SetTexture(0, 1, 0, 0.2)
 	TradeHighlightPlayerBottom:SetTexture(0, 1, 0, 0.2)
@@ -66,6 +83,8 @@ function S:LoadTradeSkin()
 	TradeHighlightRecipientEnchantMiddle:SetTexture(0, 1, 0, 0.2)
 
 	S:HandleButton(TradeFrameTradeButton)
+	TradeFrameTradeButton:Point("BOTTOMRIGHT", -120, 55)
+
 	S:HandleButton(TradeFrameCancelButton)
 
 	hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)

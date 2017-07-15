@@ -30,6 +30,8 @@ function S:LoadCharacterSkin()
 	-- PaperDollFrame
 	PaperDollFrame:StripTextures()
 
+	CharacterModelFrame:Point("TOPLEFT", 65, -60)
+
 	PlayerTitleDropDown:Point("TOP", CharacterLevelText, "BOTTOM", 0, -2)
 	S:HandleDropDownBox(PlayerTitleDropDown, 210)
 
@@ -178,6 +180,7 @@ function S:LoadCharacterSkin()
 
 	SkillFrameExpandButtonFrame:DisableDrawLayer("BACKGROUND")
 
+	SkillFrameCollapseAllButton:Point("LEFT", SkillFrameExpandTabLeft, "RIGHT", -40, -3)
 	SkillFrameCollapseAllButton:SetNormalTexture("")
 	SkillFrameCollapseAllButton.SetNormalTexture = E.noop
 	SkillFrameCollapseAllButton:SetHighlightTexture(nil)

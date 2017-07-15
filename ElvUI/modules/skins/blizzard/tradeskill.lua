@@ -74,6 +74,9 @@ function S:LoadTradeSkillSkin()
 	TradeSkillSubClassDropDown:ClearAllPoints()
 	TradeSkillSubClassDropDown:Point("LEFT", TradeSkillInvSlotDropDown, "RIGHT", -25, 0)
 
+	TradeSkillFrameTitleText:ClearAllPoints()
+	TradeSkillFrameTitleText:Point("TOP", TradeSkillRankFrameSkillRank, "TOP", 0, 30)
+
 	for i = 9, 25 do
 		CreateFrame("Button", "TradeSkillSkill" .. i, TradeSkillFrame, "TradeSkillSkillButtonTemplate"):Point("TOPLEFT", _G["TradeSkillSkill" .. i - 1], "BOTTOMLEFT")
 	end

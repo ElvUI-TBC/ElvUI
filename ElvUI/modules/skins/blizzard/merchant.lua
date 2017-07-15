@@ -15,6 +15,8 @@ function S:LoadMerchantSkin()
 		local item = _G["MerchantItem" .. i]
 		local itemButton = _G["MerchantItem" .. i .. "ItemButton"]
 		local iconTexture = _G["MerchantItem" .. i .. "ItemButtonIconTexture"]
+		local altCurrencyTex1 = _G["MerchantItem" .. i .. "AltCurrencyFrameItem1Texture"]
+		local altCurrencyTex2 = _G["MerchantItem" .. i .. "AltCurrencyFrameItem2Texture"]
 
 		item:StripTextures(true)
 		item:CreateBackdrop("Default")
@@ -26,6 +28,9 @@ function S:LoadMerchantSkin()
 
 		iconTexture:SetTexCoord(unpack(E.TexCoords))
 		iconTexture:SetInside()
+
+		altCurrencyTex1:SetTexCoord(unpack(E.TexCoords))
+		altCurrencyTex2:SetTexCoord(unpack(E.TexCoords))
 
 		_G["MerchantItem" .. i .. "MoneyFrame"]:ClearAllPoints()
 		_G["MerchantItem" .. i .. "MoneyFrame"]:Point("BOTTOMLEFT", itemButton, "BOTTOMRIGHT", 3, 0)

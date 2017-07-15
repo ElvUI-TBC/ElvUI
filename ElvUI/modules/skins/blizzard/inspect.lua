@@ -41,19 +41,14 @@ function S:LoadInspectSkin()
 
 	for _, slot in pairs(slots) do
 		local icon = _G["Inspect"..slot.."IconTexture"]
-		local cooldown = _G["Inspect"..slot.."Cooldown"]
+		local slot = _G["Inspect"..slot]
 
-		slot = _G["Inspect"..slot]
 		slot:StripTextures()
 		slot:StyleButton(false)
 		slot:SetTemplate("Default", true, true)
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
-
-		if(cooldown) then
-			E:RegisterCooldown(cooldown)
-		end
 	end
 
 	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
@@ -79,6 +74,7 @@ function S:LoadInspectSkin()
 
 	S:HandleRotateButton(InspectModelRotateLeftButton)
 	InspectModelRotateLeftButton:Point("TOPLEFT", 3, -3)
+
 	S:HandleRotateButton(InspectModelRotateRightButton)
 	InspectModelRotateRightButton:Point("TOPLEFT", InspectModelRotateLeftButton, "TOPRIGHT", 3, 0)
 
@@ -95,11 +91,24 @@ function S:LoadInspectSkin()
 	InspectTalentFrame:StripTextures()
 
 	S:HandleCloseButton(InspectTalentFrameCloseButton)
-	S:HandleButton(InspectTalentFrameCancelButton)
 
-	InspectTalentFrameTab1:StripTextures()
-	InspectTalentFrameTab2:StripTextures()
-	InspectTalentFrameTab3:StripTextures()
+	InspectTalentFrameCancelButton:Hide()
+
+	InspectTalentFrameTab1:Point("TOPLEFT", 70, -35)
+
+	for i = 1, 3 do
+		local headerTab = _G["InspectTalentFrameTab"..i]
+
+		headerTab:StripTextures()
+		headerTab.backdrop = CreateFrame("Frame", nil, headerTab)
+		headerTab.backdrop:SetTemplate("Default", true)
+		headerTab.backdrop:SetFrameLevel(headerTab:GetFrameLevel() - 1)
+		headerTab.backdrop:Point("TOPLEFT", 3, -7)
+		headerTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+
+		headerTab:HookScript2("OnEnter", S.SetModifiedBackdrop)
+		headerTab:HookScript2("OnLeave", S.SetOriginalBackdrop)
+	end
 
 	for i = 1, MAX_NUM_TALENTS do
 		local talent = _G["InspectTalentFrameTalent"..i]
@@ -121,8 +130,9 @@ function S:LoadInspectSkin()
 
 	InspectTalentFrameScrollFrame:StripTextures()
 	InspectTalentFrameScrollFrame:CreateBackdrop("Transparent")
-	InspectTalentFrameScrollFrame.backdrop:Point("TOPLEFT", -1, 1)
-	InspectTalentFrameScrollFrame.backdrop:Point("BOTTOMRIGHT", 5, -4)
+	InspectTalentFrameScrollFrame.backdrop:Point("TOPLEFT", -1, 2)
+	InspectTalentFrameScrollFrame.backdrop:Point("BOTTOMRIGHT", 5, -2)
+
 	S:HandleScrollBar(InspectTalentFrameScrollFrameScrollBar)
 	InspectTalentFrameScrollFrameScrollBar:Point("TOPLEFT", InspectTalentFrameScrollFrame, "TOPRIGHT", 8, -19)
 end

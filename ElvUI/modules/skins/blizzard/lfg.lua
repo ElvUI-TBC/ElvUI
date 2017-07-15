@@ -69,10 +69,18 @@ function S:LoadLFGSkin()
 	S:HandleEditBox(LFGComment)
 
 	AutoJoinBackground:StripTextures()
-	S:HandleCheckBox(AutoJoinCheckButton)
 	AddMemberBackground:StripTextures()
-	S:HandleCheckBox(AutoAddMembersCheckButton)
 
+	S:HandleCheckBox(AutoJoinCheckButton)
+	AutoJoinCheckButton:Point("LEFT", -35, 0)
+
+	S:HandleCheckBox(AutoAddMembersCheckButton)
+	AutoAddMembersCheckButton:Point("LEFT", -35, 0)
+
+	for i = 1, 14 do
+		_G["LFMFrameButton"..i]:StyleButton()
+		_G["LFMFrameButton"..i.."Name"]:Point("TOPLEFT", 10, 0)
+	end
 end
 
 S:AddCallback("LFG", S.LoadLFGSkin)
