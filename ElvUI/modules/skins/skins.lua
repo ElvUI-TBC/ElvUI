@@ -262,7 +262,7 @@ function S:HandleDropDownBox(frame, width)
 
 		self:HandleNextPrevButton(button, true);
 	end
-	frame:CreateBackdrop("Transparent");
+	frame:CreateBackdrop("Default");
 	frame.backdrop:Point("TOPLEFT", 20, -2);
 	frame.backdrop:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2);
 	frame.backdrop:SetFrameLevel(frame:GetFrameLevel());
