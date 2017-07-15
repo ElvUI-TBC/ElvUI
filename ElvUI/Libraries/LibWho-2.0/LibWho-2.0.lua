@@ -898,7 +898,7 @@ function lib:WHO_LIST_UPDATE()
 end
 
 function lib:ProcessWhoResults()
-	self.Result = self.Result and {}
+	self.Result = self.Result and table.wipe(self.Result) or {}
 
 	local num
 	self.Total, num = GetNumWhoResults()
