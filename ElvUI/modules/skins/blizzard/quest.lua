@@ -263,25 +263,17 @@ function S:LoadQuestSkin()
 	QuestLogDetailScrollFrame:ClearAllPoints()
 	QuestLogDetailScrollFrame:Point("TOPRIGHT", QuestLogFrame, -32, -75)
 
-	--QuestLogTrack:StripTextures()
-	--QuestLogTrack:CreateBackdrop("Default", true)
-	--QuestLogTrack.backdrop:Point("BOTTOMRIGHT", 80, 0)
-
-	--QuestLogTrackTitle:ClearAllPoints()
-	--QuestLogTrackTitle:SetInside(QuestLogTrack.backdrop)
-
-	--QuestLogCount:SetTemplate("Transparent")
-
 	QuestLogNoQuestsText:ClearAllPoints()
 	QuestLogNoQuestsText:Point("CENTER", EmptyQuestLogFrame, "CENTER", -45, 65)
 
 	QuestLogFrameAbandonButton:Point("BOTTOMLEFT", 18, 15)
 	QuestLogFrameAbandonButton:Width(152)
 
-	QuestFramePushQuestButton:Point("RIGHT", QuestFrameExitButton, "LEFT", -252, 0)
+	QuestFramePushQuestButton:Point("RIGHT", QuestFrameExitButton, "LEFT", -229, 0)
 	QuestFramePushQuestButton:Width(152)
 
 	QuestFrameExitButton:Point("BOTTOMRIGHT", -31, 15)
+	QuestFrameExitButton:Width(100)
 
 	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
 	S:HandleScrollBar(QuestDetailScrollFrameScrollBar)
@@ -294,6 +286,49 @@ function S:LoadQuestSkin()
 	S:HandleCloseButton(QuestLogFrameCloseButton)
 	QuestLogFrameCloseButton:ClearAllPoints()
 	QuestLogFrameCloseButton:Point("TOPRIGHT", 2, -9)
+
+	QuestLogTrack:Hide()
+
+	local QuestTrack = CreateFrame("Button", "QuestTrack", QuestLogFrame, "UIPanelButtonTemplate")
+
+	S:HandleButton(QuestTrack)
+	QuestTrack:SetText(TRACK_QUEST)
+	QuestTrack:Point("BOTTOM", QuestLogFrame, "BOTTOM", 64, 15)
+	QuestTrack:Size(110, 21)
+
+    QuestTrack:HookScript2("OnClick", function()
+        if IsQuestWatched(GetQuestLogSelection()) then
+            RemoveQuestWatch(GetQuestLogSelection())
+ 
+            QuestWatch_Update()
+        else
+            if GetNumQuestLeaderBoards(GetQuestLogSelection()) == 0 then
+                UIErrorsFrame:AddMessage(QUEST_WATCH_NO_OBJECTIVES, 1.0, 0.1, 0.1, 1.0)
+                return
+            end
+ 
+            if GetNumQuestWatches() >= MAX_WATCHABLE_QUESTS then
+                UIErrorsFrame:AddMessage(format(QUEST_WATCH_TOO_MANY, MAX_WATCHABLE_QUESTS), 1.0, 0.1, 0.1, 1.0)
+                return
+            end
+ 
+            AddQuestWatch(GetQuestLogSelection())
+ 
+            QuestLog_Update()
+            QuestWatch_Update()
+        end
+ 
+        QuestLog_Update()
+    end)
+ 
+    hooksecurefunc("QuestLog_Update", function()
+        local numEntries = GetNumQuestLogEntries()
+        if numEntries == 0 then
+            QuestTrack:Disable()
+        else
+            QuestTrack:Enable()
+        end
+    end)
 
 	for i = 1, 6 do
 		local item = _G["QuestProgressItem" .. i]
