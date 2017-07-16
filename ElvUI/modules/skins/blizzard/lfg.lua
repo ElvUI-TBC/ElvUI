@@ -77,21 +77,18 @@ function S:LoadLFGSkin()
 	for i = 1, 4 do
 		_G["LFMFrameColumnHeader" .. i]:StripTextures()
 		_G["LFMFrameColumnHeader" .. i]:StyleButton()
+		_G["LFMFrameColumnHeader" .. i]:ClearAllPoints()
 	end
 
-	LFMFrameColumnHeader3:ClearAllPoints()
 	LFMFrameColumnHeader3:Point("TOPLEFT", 25, -110)
 	LFMFrameColumnHeader4:Width(32)
 
-	LFMFrameColumnHeader4:ClearAllPoints()
 	LFMFrameColumnHeader4:Point("LEFT", LFMFrameColumnHeader3, "RIGHT", -2, -0)
 	LFMFrameColumnHeader4:Width(48)
 
-	LFMFrameColumnHeader1:ClearAllPoints()
 	LFMFrameColumnHeader1:Point("LEFT", LFMFrameColumnHeader4, "RIGHT", -2, -0)
 	LFMFrameColumnHeader1:Width(105)
 
-	LFMFrameColumnHeader2:ClearAllPoints()
 	LFMFrameColumnHeader2:Point("LEFT", LFMFrameColumnHeader1, "RIGHT", -2, -0)
 	LFMFrameColumnHeader2:Width(127)
 

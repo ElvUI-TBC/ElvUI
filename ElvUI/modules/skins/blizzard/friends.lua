@@ -229,21 +229,27 @@ function S:LoadFriendsSkin()
 	end
 
 	hooksecurefunc("GuildStatus_Update", function()
-		local _, level, online, classFileName
+		local _, level, zone, online, classFileName
 		local button, buttonText, classTextColor, levelTextColor
+		local playerZone = GetRealZoneText()
 
 		if(FriendsFrame.playerStatusFrame) then
 			for i = 1, GUILDMEMBERS_TO_DISPLAY, 1 do
 				button = _G["GuildFrameButton" .. i]
-				_, _, _, level, _, _, _, _, online, _, classFileName = GetGuildRosterInfo(button.guildIndex)
+				_, _, _, level, _, zone, _, _, online, _, classFileName = GetGuildRosterInfo(button.guildIndex)
 				if classFileName then
 					if online then
 						classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName]
 						levelTextColor = GetQuestDifficultyColor(level)
+
 						buttonText = _G["GuildFrameButton" .. i .. "Name"]
 						buttonText:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b)
 						buttonText = _G["GuildFrameButton" .. i .. "Level"]
 						buttonText:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b)
+						buttonText = _G["GuildFrameButton" .. i .. "Zone"]
+						if zone == playerZone then
+							buttonText:SetTextColor(0, 1, 0)
+						end
 					end
 					button.icon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFileName]))
 				end
