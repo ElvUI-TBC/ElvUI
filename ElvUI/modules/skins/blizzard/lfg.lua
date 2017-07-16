@@ -81,7 +81,6 @@ function S:LoadLFGSkin()
 	end
 
 	LFMFrameColumnHeader3:Point("TOPLEFT", 25, -110)
-	LFMFrameColumnHeader4:Width(32)
 
 	LFMFrameColumnHeader4:Point("LEFT", LFMFrameColumnHeader3, "RIGHT", -2, -0)
 	LFMFrameColumnHeader4:Width(48)
