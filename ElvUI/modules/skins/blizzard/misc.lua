@@ -487,6 +487,7 @@ function S:LoadMiscSkin()
 			_G["DropDownList"..i.."Backdrop"]:SetTemplate("Transparent")
 			_G["DropDownList"..i.."MenuBackdrop"]:SetTemplate("Transparent")
 			for j = 1, UIDROPDOWNMENU_MAXBUTTONS do
+				_G["DropDownList"..i.."Button"..j]:SetFrameLevel(_G["DropDownList"..i.."Backdrop"]:GetFrameLevel() + 1)
 				_G["DropDownList"..i.."Button"..j.."Highlight"]:SetTexture(1, 1, 1, 0.3)
 			end
 		end
