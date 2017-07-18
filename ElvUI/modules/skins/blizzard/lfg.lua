@@ -5,7 +5,7 @@ local _G = _G
 local find = string.find
 
 function S:LoadLFGSkin()
-	if (E.private.skins.blizzard.enable ~= true or not E.private.skins.blizzard.lfg ~= true) then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.lfg ~= true then return end
 
 	LFGParentFrame:StripTextures(true)
 	LFGParentFrame:CreateBackdrop("Transparent")

@@ -34,11 +34,6 @@ E.Options.args.skins = {
 			disabled = function() return not E.private.skins.blizzard.enable end,
 			guiInline = true,
 			args = {
-				achievement = {
-					type = "toggle",
-					name = L["Achievement Frame"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
 				alertframes = {
 					type = "toggle",
 					name = L["Alert Frames"],
@@ -82,11 +77,6 @@ E.Options.args.skins = {
 				binding = {
 					type = "toggle",
 					name = L["KeyBinding Frame"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
-				calendar = {
-					type = "toggle",
-					name = L["Calendar Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				character = {
@@ -144,14 +134,9 @@ E.Options.args.skins = {
 					name = L["Inspect Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
-				lfd = {
+				lfg = {
 					type = "toggle",
-					name = L["LFD Frame"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
-				lfr = {
-					type = "toggle",
-					name = L["LFR Frame"],
+					name = L["LFG Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				loot = {
@@ -259,11 +244,6 @@ E.Options.args.skins = {
 				tutorial = {
 					type = "toggle",
 					name = L["Tutorial Frame"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
-				watchframe = {
-					type = "toggle",
-					name = L["Watch Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				worldmap = {
