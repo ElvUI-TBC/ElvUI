@@ -15,7 +15,7 @@ function S:LoadCharacterSkin()
 
 	CharacterFrame:StripTextures(true)
 	CharacterFrame:CreateBackdrop("Transparent")
-	CharacterFrame.backdrop:Point("TOPLEFT", 12, -12)
+	CharacterFrame.backdrop:Point("TOPLEFT", 10, -12)
 	CharacterFrame.backdrop:Point("BOTTOMRIGHT", -32, 76)
 
 	S:HandleCloseButton(CharacterFrameCloseButton)
