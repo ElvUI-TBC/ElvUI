@@ -98,6 +98,9 @@ function S:LoadCraftSkin()
 		end)
 	end
 
+	CraftFramePointsText:ClearAllPoints()
+	CraftFramePointsText:Point("BOTTOM", CraftFrame, "BOTTOM", 84, 13)
+
 	CraftListScrollFrame:StripTextures()
 	CraftListScrollFrame:Size(300, 405)
 	CraftListScrollFrame:ClearAllPoints()
