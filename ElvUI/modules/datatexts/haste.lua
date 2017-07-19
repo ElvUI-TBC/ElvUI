@@ -13,6 +13,7 @@ local CR_HASTE_SPELL = CR_HASTE_SPELL;
 local PAPERDOLLFRAME_TOOLTIP_FORMAT = "%s";
 local SPELL_HASTE = SPELL_HASTE;
 local SPELL_HASTE_TOOLTIP = SPELL_HASTE_TOOLTIP;
+local STAT_HASTE = STAT_HASTE
 
 local displayNumberString = "";
 local format = string.format;
@@ -72,4 +73,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true;
 
-DT:RegisterDatatext("Haste", {"UNIT_ATTACK_SPEED"}, OnEvent, nil, nil, OnEnter);
+DT:RegisterDatatext("Haste", {"UNIT_ATTACK_SPEED"}, OnEvent, nil, nil, OnEnter, nil, STAT_HASTE)

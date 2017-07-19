@@ -35,4 +35,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true;
 
-DT:RegisterDatatext("Bags", {"PLAYER_LOGIN", "BAG_UPDATE"}, OnEvent, nil, OnClick);
+DT:RegisterDatatext("Bags", {"PLAYER_LOGIN", "BAG_UPDATE"}, OnEvent, nil, OnClick, nil, nil, L["Bags"])
