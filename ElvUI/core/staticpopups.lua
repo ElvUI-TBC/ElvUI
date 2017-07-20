@@ -971,6 +971,7 @@ function E:Contruct_StaticPopups()
 
 		E.StaticPopupFrames[index]:SetTemplate("Transparent");
 
+		E.StaticPopupFrames[index].text = _G[name .. "Text"]
 		E.StaticPopupFrames[index].editBox = _G[name .. "EditBox"]
 
 		for i = 1, 3 do
