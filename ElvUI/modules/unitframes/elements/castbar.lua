@@ -96,12 +96,17 @@ end
 
 function UF:Configure_Castbar(frame)
 	if(not frame.VARIABLES_SET) then return; end
+
 	local castbar = frame.Castbar;
 	local db = frame.db;
 	castbar:Width(db.castbar.width - ((frame.BORDER+frame.SPACING)*2));
 	castbar:Height(db.castbar.height - ((frame.BORDER+frame.SPACING)*2));
 	castbar.Holder:Width(db.castbar.width);
 	castbar.Holder:Height(db.castbar.height);
+
+	local color = E.db.unitframe.colors.borderColor
+	castbar.ButtonIcon.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+
 	if(castbar.Holder:GetScript("OnSizeChanged")) then
 		castbar.Holder:GetScript("OnSizeChanged")(castbar.Holder);
 	end
