@@ -263,7 +263,7 @@ function TT:GetItemLvL(unit)
 	end
 
 	if total < 1 then
-		return
+		return 0
 	end
 
 	return floor(total / item)
