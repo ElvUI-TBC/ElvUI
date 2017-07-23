@@ -212,6 +212,7 @@ function UF:Construct_UF(frame, unit)
 		frame.SPACING = E.Spacing;
 	end
 
+	frame.HAPPINESS_WIDTH = 0
 	frame.SHADOW_SPACING = 3;
 	frame.CLASSBAR_YOFFSET = 0;
 	frame.BOTTOM_OFFSET = 0;

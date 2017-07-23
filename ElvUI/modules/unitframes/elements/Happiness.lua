@@ -76,6 +76,6 @@ function UF:PostUpdateHappiness(unit, happiness, damagePercentage)
 		UF:Configure_Happiness(frame)
 		UF:Configure_HealthBar(frame)
 		UF:Configure_Power(frame)
-		--UF:Configure_InfoPanel(frame, true)
+		UF:Configure_InfoPanel(frame, true)
 	end
 end
