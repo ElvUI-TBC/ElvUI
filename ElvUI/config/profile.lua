@@ -601,7 +601,6 @@ P["unitframe"] = {
 				["detachedWidth"] = 250,
 				["autoHide"] = false,
 				["parent"] = "FRAME",
-				["verticalOrientation"] = false,
 				["strataAndLevel"] = {
 					["useCustomStrata"] = false,
 					["frameStrata"] = "LOW",
