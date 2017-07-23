@@ -11,8 +11,11 @@ local Update = function(self, event, unit)
 
 	if(happ.PreUpdate) then happ:PreUpdate(unit) end
 
-	local happiness = GetPetHappiness()
+	local happiness, damagePercentage = GetPetHappiness()
 	local _, hunterPet = HasPetUI()
+
+	happ:SetMinMaxValues(0, 125)
+	happ:SetValue(damagePercentage)
 
 	if(not (happiness or hunterPet)) then
 		return happ:Hide()
@@ -20,15 +23,12 @@ local Update = function(self, event, unit)
 
 	happ:Show()
 
-	if(happiness == 1) then
-		--happ:SetTexCoord(0.375, 0.5625, 0, 0.359375)
-		happ:SetTexCoord(0.41, 0.53, 0.06, 0.30)
-	elseif(happiness == 2) then
-		--happ:SetTexCoord(0.1875, 0.375, 0, 0.359375)
-		happ:SetTexCoord(0.22, 0.345, 0.06, 0.30)
-	elseif(happiness == 3) then
-		--happ:SetTexCoord(0, 0.1875, 0, 0.359375)
-		happ:SetTexCoord(0.04, 0.15, 0.06, 0.30)
+	if damagePercentage == 75 then
+		happ:SetStatusBarColor(1, 0, 0)
+	elseif damagePercentage == 100 then
+		happ:SetStatusBarColor(1, 1, 0)
+	elseif damagePercentage == 125 then
+		happ:SetStatusBarColor(0, 1, 0)
 	end
 
 	if(happ.PostUpdate) then
@@ -52,8 +52,8 @@ local Enable = function(self)
 
 		self:RegisterEvent("UNIT_HAPPINESS", Path)
 
-		if(happiness:IsObjectType"Texture" and not happiness:GetTexture()) then
-			happiness:SetTexture[[Interface\PetPaperDollFrame\UI-PetHappiness]]
+		if(happiness:IsObjectType'StatusBar' and not happiness:GetStatusBarTexture()) then
+			happiness:SetStatusBarTexture[[Interface\TargetingFrame\UI-StatusBar]]
 		end
 
 		return true

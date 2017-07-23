@@ -25,7 +25,7 @@ function UF:Construct_PetFrame(frame)
 	frame.HealCommBar = self:Construct_HealComm(frame);
 	frame.AuraWatch = UF:Construct_AuraWatch(frame);
 	frame.Range = UF:Construct_Range(frame);
-	frame.Happiness = UF:Construct_HappinessIcon(frame)
+	frame.Happiness = UF:Construct_Happiness(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame);
 	frame.customTexts = {};
 
@@ -96,7 +96,7 @@ function UF:Update_PetFrame(frame, db)
 
 	UF:Configure_Range(frame);
 
-	UF:Configure_HappinessIcon(frame)
+	UF:Configure_Happiness(frame)
 
 	UF:Configure_CustomTexts(frame);
 

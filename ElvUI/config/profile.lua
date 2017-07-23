@@ -1246,12 +1246,9 @@ P["unitframe"] = {
 				["overlay"] = false,
 				["style"] = "3D"
 			},
-			["happinessIcon"] = {
+			["happiness"] = {
 				["enable"] = false,
-				["position"] = "LEFT",
-				["xOffset"] = 1,
-				["yOffset"] = 0,
-				["size"] = 36,
+				["width"] = 10,
 			},
 			["buffs"] = {
 				["enable"] = false,

@@ -3558,55 +3558,23 @@ E.Options.args.unitframe.args.pet = {
 		buffs = GetOptionsTable_Auras(true, "buffs", false, UF.CreateAndUpdateUF, "pet"),
 		debuffs = GetOptionsTable_Auras(true, "debuffs", false, UF.CreateAndUpdateUF, "pet"),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "pet"),
-		happinessIcon = {
+		happiness = {
 			order = 700,
 			type = "group",
-			name = L["Happiness Icon"],
-			get = function(info) return E.db.unitframe.units["pet"]["happinessIcon"][ info[#info] ] end,
-			set = function(info, value) E.db.unitframe.units["pet"]["happinessIcon"][ info[#info] ] = value; UF:CreateAndUpdateUF("pet") end,
+			name = L["Happiness"],
+			get = function(info) return E.db.unitframe.units["pet"]["happiness"][ info[#info] ] end,
+			set = function(info, value) E.db.unitframe.units["pet"]["happiness"][ info[#info] ] = value; UF:CreateAndUpdateUF("pet") end,
 			args = {
 				enable = {
 					order = 1,
 					type = "toggle",
 					name = L["Enable"]
 				},
-				size = {
+				width = {
 					order = 2,
 					type = "range",
 					name = L["Size"],
-					min = 20, max = 60, step = 1
-				},
-				spacer = {
-					order = 3,
-					type = "description",
-					name = " "
-				},
---				anchorPoint = {
---					order = 4,
---					type = "select",
---					name = L["Anchor Point"],
---					values = positionValues
---				},
-				position = {
-					order = 4,
-					type = "select",
-					name = L["Position"],
-					values = {
-						["LEFT"] = L["Left"],
-						["RIGHT"] = L["Right"]
-					}
-				},
-				xOffset = {
-					order = 5,
-					type = "range",
-					name = L["X-Offset"],
-					min = -100, max = 100, step = 1
-				},
-				yOffset = {
-					order = 6,
-					type = "range",
-					name = L["Y-Offset"],
-					min = -100, max = 100, step = 1
+					min = 5, max = 40, step = 1
 				}
 			}
 		}
