@@ -24,11 +24,11 @@ local Update = function(self, event, unit)
 	happ:Show()
 
 	if damagePercentage == 75 then
-		happ:SetStatusBarColor(1, 0, 0)
+		happ:SetStatusBarColor(0.8, 0.2, 0.1)
 	elseif damagePercentage == 100 then
 		happ:SetStatusBarColor(1, 1, 0)
 	elseif damagePercentage == 125 then
-		happ:SetStatusBarColor(0, 1, 0)
+		happ:SetStatusBarColor(0, 0.8, 0)
 	end
 
 	if(happ.PostUpdate) then
