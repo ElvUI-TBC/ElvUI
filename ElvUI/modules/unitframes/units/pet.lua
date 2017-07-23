@@ -99,7 +99,9 @@ function UF:Update_PetFrame(frame, db)
 
 	UF:Configure_Range(frame);
 
-	UF:Configure_Happiness(frame)
+	if E.myclass == "HUNTER" then
+		UF:Configure_Happiness(frame)
+	end
 
 	UF:Configure_CustomTexts(frame);
 
