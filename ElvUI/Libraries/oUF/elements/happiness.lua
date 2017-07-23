@@ -32,7 +32,7 @@ local Update = function(self, event, unit)
 	end
 
 	if(happ.PostUpdate) then
-		return happ:PostUpdate(unit, happiness)
+		return happ:PostUpdate(unit, happiness, damagePercentage)
 	end
 end
 
@@ -52,7 +52,7 @@ local Enable = function(self)
 
 		self:RegisterEvent("UNIT_HAPPINESS", Path)
 
-		if(happiness:IsObjectType'StatusBar' and not happiness:GetStatusBarTexture()) then
+		if(happiness:IsObjectType"StatusBar" and not happiness:GetStatusBarTexture()) then
 			happiness:SetStatusBarTexture[[Interface\TargetingFrame\UI-StatusBar]]
 		end
 

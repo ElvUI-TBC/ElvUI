@@ -59,6 +59,9 @@ function UF:Update_PetFrame(frame, db)
 		frame.USE_INFO_PANEL = not frame.USE_MINI_POWERBAR and not frame.USE_POWERBAR_OFFSET and db.infoPanel.enable;
 		frame.INFO_PANEL_HEIGHT = frame.USE_INFO_PANEL and db.infoPanel.height or 0;
 
+		frame.HAPPINESS_SHOWN = frame.Happiness and frame.Happiness:IsShown()
+		frame.HAPPINESS_WIDTH = frame.HAPPINESS_SHOWN and (db.happiness.width + (frame.BORDER*2)) or 0
+
 		frame.BOTTOM_OFFSET = UF:GetHealthBottomOffset(frame);
 
 		frame.VARIABLES_SET = true;
