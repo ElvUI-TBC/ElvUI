@@ -1248,9 +1248,8 @@ P["unitframe"] = {
 			},
 			["happinessIcon"] = {
 				["enable"] = false,
-				--["anchorPoint"] = "CENTER",
 				["position"] = "LEFT",
-				["xOffset"] = 0,
+				["xOffset"] = 1,
 				["yOffset"] = 0,
 				["size"] = 36,
 			},

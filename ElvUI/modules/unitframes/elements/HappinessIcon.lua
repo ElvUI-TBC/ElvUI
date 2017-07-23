@@ -4,9 +4,12 @@ local UF = E:GetModule("UnitFrames")
 function UF:Construct_HappinessIcon(frame)
 	local Happiness = frame.RaisedElementParent:CreateTexture(nil, "ARTWORK")
 
-	Happiness:Size(36)
-	--Happiness:Point("CENTER", frame, "CENTER")
-	Happiness:Point("RIGHT", frame, "LEFT")
+	Happiness.bg = CreateFrame("Frame", nil, frame);
+	Happiness.bg:SetTemplate("Default", nil, nil, self.thinBorders, true)
+	Happiness.bg:Point("RIGHT", frame, "LEFT")
+	Happiness.bg:Size(36)
+
+	Happiness:SetInside(Happiness.bg)
 
 	return Happiness
 end
@@ -14,20 +17,21 @@ end
 function UF:Configure_HappinessIcon(frame)
 	local Happiness = frame.Happiness
 
-	Happiness:ClearAllPoints()
-	--Happiness:Point(frame.db.happinessIcon.anchorPoint, frame.Health, frame.db.happinessIcon.anchorPoint, frame.db.happinessIcon.xOffset, frame.db.happinessIcon.yOffset)
+	Happiness.bg:ClearAllPoints()
+
 	if(frame.db.happinessIcon.position == "RIGHT") then
-		Happiness:Point("LEFT", frame, "RIGHT", frame.db.happinessIcon.xOffset, frame.db.happinessIcon.yOffset)
+		Happiness.bg:Point("LEFT", frame, "RIGHT", frame.db.happinessIcon.xOffset, frame.db.happinessIcon.yOffset)
 	else
-		Happiness:Point("RIGHT", frame, "LEFT", frame.db.happinessIcon.xOffset, frame.db.happinessIcon.yOffset)
+		Happiness.bg:Point("RIGHT", frame, "LEFT", frame.db.happinessIcon.xOffset, frame.db.happinessIcon.yOffset)
 	end
 
-	Happiness:Size(frame.db.happinessIcon.size)
+	Happiness.bg:Size(frame.db.happinessIcon.size)
 
 	if frame.db.happinessIcon.enable and not frame:IsElementEnabled("Happiness") then
 		frame:EnableElement("Happiness")
+		Happiness.bg:Show()
 	elseif not frame.db.happinessIcon.enable and frame:IsElementEnabled("Happiness") then
 		frame:DisableElement("Happiness")
-		Happiness:Hide()
+		Happiness.bg:Hide()
 	end
 end
