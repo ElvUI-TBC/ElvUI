@@ -3570,8 +3570,13 @@ E.Options.args.unitframe.args.pet = {
 					type = "toggle",
 					name = L["Enable"]
 				},
-				width = {
+				autoHide = {
 					order = 2,
+					type = "toggle",
+					name = L["Auto-Hide"],
+				},
+				width = {
+					order = 3,
 					type = "range",
 					name = L["Size"],
 					min = 5, max = 40, step = 1

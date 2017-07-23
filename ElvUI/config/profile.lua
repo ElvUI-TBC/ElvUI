@@ -1248,6 +1248,7 @@ P["unitframe"] = {
 			},
 			["happiness"] = {
 				["enable"] = false,
+				["autoHide"] = false,
 				["width"] = 10,
 			},
 			["buffs"] = {

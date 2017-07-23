@@ -54,7 +54,11 @@ function UF:PostUpdateHappiness(unit, happiness, damagePercentage)
 	local db = frame.db
 
 	if happiness and damagePercentage > 0 then
- 		self:Show()
+		if frame.db.happiness.autoHide and damagePercentage == 125 then
+			self:Hide()
+		else
+ 			self:Show()
+		end
  	else
  		self:Hide()
 	end
