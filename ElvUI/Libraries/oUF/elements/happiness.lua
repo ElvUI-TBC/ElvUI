@@ -21,11 +21,14 @@ local Update = function(self, event, unit)
 	happ:Show()
 
 	if(happiness == 1) then
-		happ:SetTexCoord(0.375, 0.5625, 0, 0.359375)
+		--happ:SetTexCoord(0.375, 0.5625, 0, 0.359375)
+		happ:SetTexCoord(0.41, 0.53, 0.06, 0.30)
 	elseif(happiness == 2) then
-		happ:SetTexCoord(0.1875, 0.375, 0, 0.359375)
+		--happ:SetTexCoord(0.1875, 0.375, 0, 0.359375)
+		happ:SetTexCoord(0.22, 0.345, 0.06, 0.30)
 	elseif(happiness == 3) then
-		happ:SetTexCoord(0, 0.1875, 0, 0.359375)
+		--happ:SetTexCoord(0, 0.1875, 0, 0.359375)
+		happ:SetTexCoord(0.04, 0.15, 0.06, 0.30)
 	end
 
 	if(happ.PostUpdate) then
