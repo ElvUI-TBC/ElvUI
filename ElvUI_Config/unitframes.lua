@@ -3564,6 +3564,7 @@ E.Options.args.unitframe.args.pet = {
 			name = L["Happiness"],
 			get = function(info) return E.db.unitframe.units["pet"]["happiness"][ info[#info] ] end,
 			set = function(info, value) E.db.unitframe.units["pet"]["happiness"][ info[#info] ] = value; UF:CreateAndUpdateUF("pet") end,
+			disabled = E.myclass ~= "HUNTER",
 			args = {
 				enable = {
 					order = 1,
