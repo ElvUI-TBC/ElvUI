@@ -14,7 +14,7 @@ local Update = function(self, event, unit)
 	local happiness, damagePercentage = GetPetHappiness()
 	local _, hunterPet = HasPetUI()
 
-	happ:SetMinMaxValues(0, 125)
+	happ:SetMinMaxValues(0, 3)
 	happ:SetValue(damagePercentage)
 
 	if(not (happiness or hunterPet)) then
@@ -25,10 +25,13 @@ local Update = function(self, event, unit)
 
 	if damagePercentage == 75 then
 		happ:SetStatusBarColor(0.8, 0.2, 0.1)
+		happ:SetValue(1)
 	elseif damagePercentage == 100 then
 		happ:SetStatusBarColor(1, 1, 0)
+		happ:SetValue(2)
 	elseif damagePercentage == 125 then
 		happ:SetStatusBarColor(0, 0.8, 0)
+		happ:SetValue(3)
 	end
 
 	if(happ.PostUpdate) then
