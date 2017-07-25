@@ -115,11 +115,6 @@ E.ClassRole = {
 	},
 	ROGUE = "Melee",
 	MAGE = "Caster",
-	DEATHKNIGHT = {
-		[1] = "Tank",
-		[2] = "Melee",
-		[3] = "Melee"
-	},
 	DRUID = {
 		[1] = "Caster",
 		[2] = "Melee",

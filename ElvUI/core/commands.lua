@@ -140,6 +140,35 @@ function E:GetCPUImpact()
 	end
 end
 
+local BLIZZARD_ADDONS = {
+	"Blizzard_AuctionUI",
+	"Blizzard_BattlefieldMinimap",
+	"Blizzard_BindingUI",
+	"Blizzard_CombatLog",
+	"Blizzard_CombatText",
+	"Blizzard_CraftUI",
+	"Blizzard_GMSurveyUI",
+	"Blizzard_GuildBankUI",
+	"Blizzard_InspectUI",
+	"Blizzard_ItemSocketingUI",
+	"Blizzard_MacroUI",
+	"Blizzard_RaidUI",
+	"Blizzard_TalentUI",
+	"Blizzard_TimeManager",
+	"Blizzard_TradeSkillUI",
+	"Blizzard_TrainerUI"
+}
+
+function E:EnableBlizzardAddOns()
+	for _, addon in pairs(BLIZZARD_ADDONS) do
+		local reason = select(5, GetAddOnInfo(addon))
+		if reason == "DISABLED" then
+			EnableAddOn(addon)
+			E:Print("The following addon was re-enabled:", addon)
+		end
+	end
+end
+
 function E:LoadCommands()
 	self:RegisterChatCommand("in", "DelayScriptCall");
 	self:RegisterChatCommand("ec", "ToggleConfig");
@@ -157,6 +186,7 @@ function E:LoadCommands()
 	self:RegisterChatCommand("enable", "EnableAddon");
 	self:RegisterChatCommand("disable", "DisableAddon");
 	self:RegisterChatCommand("farmmode", "FarmMode");
+	self:RegisterChatCommand("enableblizzard", "EnableBlizzardAddOns")
 	--self:RegisterChatCommand("aprilfools", "");
 
 	if E:GetModule("ActionBars") and E.private.actionbar.enable then

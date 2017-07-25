@@ -171,8 +171,6 @@ function UF:Update_PartyFrames(frame, db)
 		frame.POWERBAR_WIDTH = 0;
 		frame.BOTTOM_OFFSET = 0;
 
-		frame.BOTTOM_OFFSET = 0;
-
 		local childDB = db.petsGroup;
 		if(frame == _G[frame.originalParent:GetName() .. "Target"]) then
 			childDB = db.targetsGroup;
