@@ -839,7 +839,6 @@ L["InfoPanel Border"] = true;
 L["Information Panel"] = true;
 L["Inset"] = true;
 L["Inside Information Panel"] = true;
-L["Interruptable"] = true;
 L["Invert Grouping Order"] = true;
 L["JustifyH"] = true;
 L["Latency"] = true;

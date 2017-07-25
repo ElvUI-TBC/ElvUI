@@ -898,7 +898,6 @@ L["InfoPanel Border"] = true;
 L["Information Panel"] = true;
 L["Inset"] = "내부에 분리"
 L["Inside Information Panel"] = true;
-L["Interruptable"] = "차단이 가능한 기술"
 L["Invert Grouping Order"] = "역순정렬"
 L["JustifyH"] = "글자 가로 정렬방법"
 L["Latency"] = "지연 시간 표시"

@@ -850,7 +850,6 @@ L["InfoPanel Border"] = "InfoPanel Rand"
 L["Information Panel"] = true; -- no need to translate
 L["Inset"] = "Einsatz"
 L["Inside Information Panel"] = "Im Information Panel"
-L["Interruptable"] = "Unterbrechbar"
 L["Invert Grouping Order"] = "Gruppierungsreihenfolge umkehren"
 L["JustifyH"] = "RechtfertigenH"
 L["Latency"] = "Latenz"

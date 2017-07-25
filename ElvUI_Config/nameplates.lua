@@ -800,12 +800,6 @@ E.Options.args.nameplate = {
 							type = "color",
 							name = L["Cast Color"],
 							hasAlpha = false
-						},
-						castNoInterruptColor = {
-							order = 2,
-							type = "color",
-							name = L["Cast No Interrupt Color"],
-							hasAlpha = false
 						}
 					}
 				},

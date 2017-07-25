@@ -2222,7 +2222,7 @@ E.Options.args.unitframe = {
 								},
 								castColor = {
 									order = 4,
-									name = L["Interruptable"],
+									name = L["Cast Color"],
 									type = "color"
 								}
 							}
