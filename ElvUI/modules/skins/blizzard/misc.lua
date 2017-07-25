@@ -6,7 +6,6 @@ local unpack = unpack
 local find = string.find
 
 local UnitIsUnit = UnitIsUnit
-local UIDROPDOWNMENU_MAXLEVELS = UIDROPDOWNMENU_MAXLEVELS
 
 function S:LoadMiscSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.misc ~= true then return end
