@@ -25,12 +25,12 @@ local updateSafeZone = function(self)
 	end
 end
 
-local UNIT_SPELLCAST_SENT = function (self, event, unit, spell, rank, target, castid)
+local UNIT_SPELLCAST_SENT = function (self, event, unit, spell, rank, target)
 	local castbar = self.Castbar
 	castbar.curTarget = (target and target ~= "") and target or nil
 
 	if castbar.isTradeSkill then
-		castbar.tradeSkillCastId = castid
+		castbar.tradeSkillCastName = spell
 	end
 end
 
@@ -38,7 +38,7 @@ local UNIT_SPELLCAST_START = function(self, event, unit)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	local name, _, text, texture, startTime, endTime, isTradeSkill, castid = UnitCastingInfo(unit)
+	local name, _, text, texture, startTime, endTime, isTradeSkill = UnitCastingInfo(unit)
 	if (not name) then
 		return castbar:Hide()
 	end
@@ -47,7 +47,7 @@ local UNIT_SPELLCAST_START = function(self, event, unit)
 	startTime = startTime / 1e3
 	local max = endTime - startTime
 
-	castbar.castid = castid
+	castbar.castName = name
 	castbar.duration = GetTime() - startTime
 	castbar.max = max
 	castbar.delay = 0
@@ -86,23 +86,23 @@ local UNIT_SPELLCAST_START = function(self, event, unit)
 	end
 
 	if (castbar.PostCastStart) then
-		castbar:PostCastStart(unit, name, castid)
+		castbar:PostCastStart(unit, name)
 	end
 	castbar:Show()
 end
 
-local UNIT_SPELLCAST_FAILED = function(self, event, unit, spellname, _, castid)
+local UNIT_SPELLCAST_FAILED = function(self, event, unit, spellname)
 	if (type(self.casting) == "nil") then return end
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	if (castbar.castid ~= castid) and (castbar.tradeSkillCastId ~= castid) then
+	if spellname and (castbar.castName ~= spellname and castbar.tradeSkillCastName ~= spellname) then
 		return
 	end
 
 	if (mergeTradeskill and UnitIsUnit(unit, "player")) then
 		mergeTradeskill = false
-		castbar.tradeSkillCastId = nil
+		castbar.tradeSkillCastName = nil
 	end
 
 	local text = castbar.Text
@@ -114,22 +114,22 @@ local UNIT_SPELLCAST_FAILED = function(self, event, unit, spellname, _, castid)
 	castbar.holdTime = castbar.timeToHold or 0
 
 	if (castbar.PostCastFailed) then
-		return castbar:PostCastFailed(unit, spellname, castid)
+		return castbar:PostCastFailed(unit, spellname)
 	end
 end
 
-local UNIT_SPELLCAST_FAILED_QUIET = function(self, event, unit, _, _, castid)
+local UNIT_SPELLCAST_FAILED_QUIET = function(self, event, unit, spellname)
 	if (not self.casting) then return end
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	if (castbar.castid ~= castid) and (castbar.tradeSkillCastId ~= castid) then
+	if spellname and (castbar.castName ~= spellname and castbar.tradeSkillCastName ~= spellname) then
 		return
 	end
 
 	if (mergeTradeskill and UnitIsUnit(unit, "player")) then
 		mergeTradeskill = false
-		castbar.tradeSkillCastId = nil
+		castbar.tradeSkillCastName = nil
 	end
 
 	castbar.casting = nil
@@ -137,11 +137,11 @@ local UNIT_SPELLCAST_FAILED_QUIET = function(self, event, unit, _, _, castid)
 	castbar:Hide()
 end
 
-local UNIT_SPELLCAST_INTERRUPTED = function(self, event, unit, spellname, _, castid)
+local UNIT_SPELLCAST_INTERRUPTED = function(self, event, unit, spellname)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	if (castbar.castid ~= castid) then
+	if spellname and castbar.castName ~= spellname then
 		return
 	end
 
@@ -155,7 +155,7 @@ local UNIT_SPELLCAST_INTERRUPTED = function(self, event, unit, spellname, _, cas
 	castbar.holdTime = castbar.timeToHold or 0
 
 	if (castbar.PostCastInterrupted) then
-		return castbar:PostCastInterrupted(unit, spellname, castid)
+		return castbar:PostCastInterrupted(unit, spellname)
 	end
 end
 
@@ -163,7 +163,7 @@ local UNIT_SPELLCAST_DELAYED = function(self, event, unit)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	local name, _, _, _, startTime, _, _, castid = UnitCastingInfo(unit)
+	local name, _, _, _, startTime = UnitCastingInfo(unit)
 	if (not startTime or not castbar:IsShown()) then return end
 
 	local duration = GetTime() - (startTime / 1000)
@@ -175,15 +175,15 @@ local UNIT_SPELLCAST_DELAYED = function(self, event, unit)
 	castbar:SetValue(duration)
 
 	if (castbar.PostCastDelayed) then
-		return castbar:PostCastDelayed(unit, name, castid)
+		return castbar:PostCastDelayed(unit, name)
 	end
 end
 
-local UNIT_SPELLCAST_STOP = function(self, event, unit, spellname, _, castid)
+local UNIT_SPELLCAST_STOP = function(self, event, unit)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local castbar = self.Castbar
-	if (castbar.castid ~= castid) then
+	if spellname and castbar.castName ~= spellname then
 		return
 	end
 
@@ -196,7 +196,7 @@ local UNIT_SPELLCAST_STOP = function(self, event, unit, spellname, _, castid)
 	end
 
 	if (castbar.PostCastStop) then
-		return castbar:PostCastStop(unit, spellname, castid)
+		return castbar:PostCastStop(unit, spellname)
 	end
 end
 
@@ -227,7 +227,7 @@ local UNIT_SPELLCAST_CHANNEL_START = function(self, event, unit)
 	-- executed or be fully completed by the OnUpdate handler before CHANNEL_START
 	-- is called.
 	castbar.casting = nil
-	castbar.castid = nil
+	castbar.castName = nil
 
 	castbar:SetMinMaxValues(0, max)
 	castbar:SetValue(duration)
@@ -291,6 +291,7 @@ end
 local onUpdate = function(self, elapsed)
 	if (self.casting) then
 		local duration = self.duration + elapsed
+
 		if (duration >= self.max or (tradeskillTotal > 1 and duration >= (tradeskillCastDuration + tradeskillCastTime * 1.25))) then
 			self.casting = nil
 			self:Hide()
@@ -359,7 +360,7 @@ local onUpdate = function(self, elapsed)
 		self.holdTime = self.holdTime - elapsed
 	else
 		self.casting = nil
-		self.castid = nil
+		self.castName = nil
 		self.channeling = nil
 		tradeskillTotal = 0
 

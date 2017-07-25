@@ -857,7 +857,6 @@ L["Middle"] = true;
 L["Mouseover"] = true;
 L["Name"] = true; --Also used in Buffs and Debuffs
 L["Neutral"] = true;
-L["Non-Interruptable"] = true;
 L["None"] = true; --Also used in chat
 L["Not valid spell id"] = true;
 L["Num Rows"] = true;

@@ -346,7 +346,6 @@ function UF:UpdateColors()
 	unpack(E:GetColorTable(db.health))};
 
 	ElvUF.colors.castColor = E:GetColorTable(db.castColor);
-	ElvUF.colors.castNoInterrupt = E:GetColorTable(db.castNoInterrupt);
 end
 
 function UF:Update_StatusBars()

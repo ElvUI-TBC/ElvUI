@@ -916,7 +916,6 @@ L["Middle"] = true;
 L["Mouseover"] = "마우스오버 시 표시"
 L["Name"] = "이름"
 L["Neutral"] = "중립"
-L["Non-Interruptable"] = "차단할 수 없는 기술"
 L["None"] = "없음"
 L["Not valid spell id"] = "유효한 주문 ID가 아닙니다."
 L["Num Rows"] = "최대 표시 줄 개수"

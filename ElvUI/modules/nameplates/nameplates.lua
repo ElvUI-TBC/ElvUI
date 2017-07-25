@@ -394,8 +394,6 @@ function mod:OnShow()
 		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
 		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
 		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
 	end
 
 	mod:UpdateElement_All(self.UnitFrame)

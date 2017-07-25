@@ -868,7 +868,6 @@ L["Middle"] = "Центр"
 L["Mouseover"] = "При наведении"
 L["Name"] = "Имя" --Also used in Buffs and Debuffs
 L["Neutral"] = "Нейтральный"
-L["Non-Interruptable"] = "Непрерываемые"
 L["None"] = "Нет" --Also used in chat
 L["Not valid spell id"] = "Неверный ID заклинания"
 L["Num Rows"] = "Рядов"

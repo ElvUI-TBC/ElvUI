@@ -137,7 +137,6 @@ P["nameplates"] = {
 	["useTargetGlow"] = true,
 
 	["castColor"] = {r = 1, g = 208/255, b = 0},
-	["castNoInterruptColor"] = {r = 0.78, g = 0.25, b = 0.25},
 	["reactions"] = {
 		["friendlyPlayer"] = {r = 0.31, g = 0.45, b = 0.63},
 		["tapped"] = {r = 0.6, g = 0.6, b = 0.6},
@@ -425,7 +424,6 @@ P["unitframe"] = {
 		["transparentCastbar"] = false,
 		["transparentAurabars"] = false,
 		["castColor"] = {r = .31,g = .31,b = .31},
-		["castNoInterrupt"] = {r = 0.78, g = 0.25, b = 0.25},
 		["castClassColor"] = false,
 		["castReactionColor"] = false,
 

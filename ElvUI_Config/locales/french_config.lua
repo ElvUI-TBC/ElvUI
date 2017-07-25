@@ -868,7 +868,6 @@ L["Middle"] = true;
 L["Mouseover"] = "Au survol de la souris"
 L["Name"] = "Nom" --Also used in Buffs and Debuffs
 L["Neutral"] = "Neutre"
-L["Non-Interruptable"] = "Non-interruptible"
 L["None"] = "Aucun" --Also used in chat
 L["Not valid spell id"] = "ID du sort invalide"
 L["Num Rows"] = "Nombre de lignes"

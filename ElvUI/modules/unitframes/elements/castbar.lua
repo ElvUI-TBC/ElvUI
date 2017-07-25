@@ -345,10 +345,6 @@ function UF:PostCastStart(unit, name)
 		r, g, b = t[1], t[2], t[3];
 	end
 
-	if(self.interrupt and unit ~= "player" and UnitCanAttack("player", unit)) then
-		r, g, b = colors.castNoInterrupt[1], colors.castNoInterrupt[2], colors.castNoInterrupt[3];
-	end
-
 	self:SetStatusBarColor(r, g, b);
 	UF:ToggleTransparentStatusBar(UF.db.colors.transparentCastbar, self, self.bg, nil, true);
 	if(self.bg:IsShown() ) then
@@ -373,42 +369,4 @@ function UF:PostChannelUpdate(unit, name)
 	else
 		UF:HideTicks();
 	end
-end
-
-function UF:PostCastInterruptible(unit)
-	if(unit == "player") then return; end
-
-	local colors = ElvUF.colors;
-	local r, g, b = colors.castColor[1], colors.castColor[2], colors.castColor[3];
-
-	local t;
-	if(UF.db.colors.castClassColor and UnitIsPlayer(unit)) then
-		local _, class = UnitClass(unit);
-		t = ElvUF.colors.class[class];
-	elseif(UF.db.colors.castReactionColor and UnitReaction(unit, "player")) then
-		t = ElvUF.colors.reaction[UnitReaction(unit, "player")];
-	end
-
-	if(t) then
-		r, g, b = t[1], t[2], t[3];
-	end
-
-	if(self.interrupt and UnitCanAttack("player", unit)) then
-		r, g, b = colors.castNoInterrupt[1], colors.castNoInterrupt[2], colors.castNoInterrupt[3];
-	end
-
-	self:SetStatusBarColor(r, g, b);
-
-	UF:ToggleTransparentStatusBar(UF.db.colors.transparentCastbar, self, self.bg, nil, true);
-	if(self.bg:IsShown()) then
-		self.bg:SetTexture(r * 0.25, g * 0.25, b * 0.25);
-
-		local _, _, _, alpha = self.backdrop:GetBackdropColor();
-		self.backdrop:SetBackdropColor(r * 0.58, g * 0.58, b * 0.58, alpha);
-	end
-end
-
-function UF:PostCastNotInterruptible()
-	local colors = ElvUF.colors;
-	self:SetStatusBarColor(colors.castNoInterrupt[1], colors.castNoInterrupt[2], colors.castNoInterrupt[3]);
 end

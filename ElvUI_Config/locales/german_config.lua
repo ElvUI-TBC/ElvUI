@@ -868,7 +868,6 @@ L["Middle"] = "Mitte"
 L["Mouseover"] = "Mouseover"
 L["Name"] = "Name" --Also used in Buffs and Debuffs
 L["Neutral"] = "Neutral"
-L["Non-Interruptable"] = "Nicht-Unterbrechbar"
 L["None"] = "Kein" --Also used in chat
 L["Not valid spell id"] = "Keine gültige Zauber ID"
 L["Num Rows"] = "Anzahl der Reihen"

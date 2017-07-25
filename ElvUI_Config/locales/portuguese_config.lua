@@ -868,7 +868,6 @@ L["Middle"] = true;
 L["Mouseover"] = "Mouseover"
 L["Name"] = "Nome"
 L["Neutral"] = "Neutro"
-L["Non-Interruptable"] = "Não interrompível"
 L["None"] = "Nenhum"
 L["Not valid spell id"] = "Identificação (id) do feitiço não é valida"
 L["Num Rows"] = "Número de linhas"
