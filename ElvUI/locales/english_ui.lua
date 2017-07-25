@@ -100,7 +100,6 @@ L["Total CPU:"] = true;
 L["Total Memory:"] = true;
 L["Total: "] = true;
 L["Unhittable:"] = true;
-L["Wintergrasp"] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = true;
@@ -185,7 +184,6 @@ L["Your current resolution is %s, this is considered a %s resolution."] = true;
 --Misc
 L["ABOVE_THREAT_FORMAT"] = "%s: %.0f%% [%.0f%% above |cff%02x%02x%02x%s|r]"
 L["Bars"] = true; --Also used in UnitFrames
-L["Calendar"] = true;
 L["Can't Roll"] = true;
 L["Disband Group"] = true;
 L["Empty Slot"] = true;

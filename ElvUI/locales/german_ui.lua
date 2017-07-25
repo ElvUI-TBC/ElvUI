@@ -100,7 +100,6 @@ L["Total CPU:"] = "Gesamt CPU:"
 L["Total Memory:"] = "Gesamte Speichernutzung:"
 L["Total: "] = "Gesamt: "
 L["Unhittable:"] = "Unhittable:"
-L["Wintergrasp"] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s versucht die geschützte Funktion aufrufen '%s'."
@@ -185,7 +184,6 @@ L["Your current resolution is %s, this is considered a %s resolution."] = "Deine
 --Misc
 L["ABOVE_THREAT_FORMAT"] = "%s: %.0f%% [%.0f%% above |cff%02x%02x%02x%s|r]"
 L["Bars"] = "Leisten" --Also used in UnitFrames
-L["Calendar"] = "Kalender"
 L["Can't Roll"] = "Es kann nicht gewürfelt werden."
 L["Disband Group"] = "Gruppe auflösen"
 L["Empty Slot"] = "Leerer Platz"

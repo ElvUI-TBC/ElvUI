@@ -100,7 +100,6 @@ L["Total CPU:"] = "CPU佔用"
 L["Total Memory:"] = "總記憶體:"
 L["Total: "] = "合計: "
 L["Unhittable:"] = "未命中:"
-L["Wintergrasp"] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s 嘗試調用保護函數'%s'."
@@ -185,7 +184,6 @@ L["Your current resolution is %s, this is considered a %s resolution."] = "你�
 --Misc
 L["ABOVE_THREAT_FORMAT"] = "%s: %.0f%% [%.0f%% 以上 |cff%02x%02x%02x%s|r]"
 L["Bars"] = "條" --Also used in UnitFrames
-L["Calendar"] = "日曆"
 L["Can't Roll"] = "無法需求此裝備"
 L["Disband Group"] = "解散隊伍"
 L["Empty Slot"] = true;

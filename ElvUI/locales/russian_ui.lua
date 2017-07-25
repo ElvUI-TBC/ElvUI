@@ -100,7 +100,6 @@ L["Total CPU:"] = "Использование процессора:"
 L["Total Memory:"] = "Всего памяти:"
 L["Total: "] = "Всего: "
 L["Unhittable:"] = "Полная защита от ударов"
-L["Wintergrasp"] = "Озеро Ледяных Оков"
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s tried to call the protected function '%s'."
@@ -185,7 +184,6 @@ L["Your current resolution is %s, this is considered a %s resolution."] = "Ва�
 --Misc
 L["ABOVE_THREAT_FORMAT"] = "%s: %.0f%% [на %.0f%% опережаем |cff%02x%02x%02x%s|r]"
 L["Bars"] = "Полосы" --Also used in UnitFrames
-L["Calendar"] = "Календарь"
 L["Can't Roll"] = "Не могу бросить кости"
 L["Disband Group"] = "Распустить группу"
 L["Empty Slot"] = "Пустой слот"

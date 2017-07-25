@@ -100,7 +100,6 @@ L["Total CPU:"] = "전체 CPU 사용량:"
 L["Total Memory:"] = "전체 메모리:"
 L["Total: "] = "합계:"
 L["Unhittable:"] = "100% 방어행동까지"
-L["Wintergrasp"] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s 기능이 사용할 수 없는 %s 함수를 사용하려 합니다."
@@ -185,7 +184,6 @@ L["Your current resolution is %s, this is considered a %s resolution."] = "현�
 --Misc
 L["ABOVE_THREAT_FORMAT"] = "%s: %.0f%% [%.0f%% 정도 |cff%02x%02x%02x%s|r보다 많음]"
 L["Bars"] = "바"
-L["Calendar"] = "달력"
 L["Can't Roll"] = "주사위를 굴릴 수 없습니다."
 L["Disband Group"] = "그룹 해산"
 L["Empty Slot"] = true;
