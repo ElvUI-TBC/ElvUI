@@ -202,6 +202,7 @@ function GetPlayerFacing()
 			local child = select(i, obj:GetChildren())
 			if child and child.GetModel and child:GetModel() == "interface\\minimap\\minimaparrow.m2" then
 				arrow = child
+				break
 			end
 		end
 	end
@@ -263,7 +264,6 @@ function CreateStatusBarTexturePointer(statusbar)
 
 	statusbar.texturePointer = f
 
-	statusbar:SetScript("OnAttributeChanged", OnAttributeChanged)
 	statusbar:SetScript("OnSizeChanged", OnSizeChanged)
 	statusbar:SetScript("OnValueChanged", OnValueChanged)
 
