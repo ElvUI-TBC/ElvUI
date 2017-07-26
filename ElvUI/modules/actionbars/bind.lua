@@ -206,19 +206,20 @@ function AB:BindUpdate(button, spellmacro)
 	end
 end
 
-function AB:RegisterButton(b, override)
-	local shapeshift = ShapeshiftButton1:GetScript("OnClick")
-	local pet = PetActionButton1:GetScript("OnClick")
-	local button = SecureActionButton_OnClick
+local script
+local shapeshift = ShapeshiftButton1:GetScript("OnClick")
+local pet = PetActionButton1:GetScript("OnClick")
+local button = SecureActionButton_OnClick
 
-	if b.IsProtected and b.GetObjectType and b.GetScript and b:GetObjectType()=="CheckButton" and b:IsProtected() then
-		local script = b:GetScript("OnClick")
-		if script==button or override then
-			b:HookScript("OnEnter", function(b) self:BindUpdate(b) end)
-			if script==shapeshift then
-				b:HookScript("OnEnter", function(b) self:BindUpdate(b, "SHAPESHIFT") end)
-			elseif script==pet then
-				b:HookScript("OnEnter", function(b) self:BindUpdate(b, "PET") end)
+function AB:RegisterButton(b, override)
+	if b.IsProtected and b.IsObjectType and b.GetScript and b:IsObjectType("CheckButton") and b:IsProtected() then
+		script = b:GetScript("OnClick")
+		if script == button or override then
+			b:HookScript2("OnEnter", function() self:BindUpdate(b) end)
+			if script == shapeshift then
+				b:HookScript2("OnEnter", function() self:BindUpdate(b, "SHAPESHIFT") end)
+			elseif script == pet then
+				b:HookScript2("OnEnter", function() self:BindUpdate(b, "PET") end)
 			end
 		end
 	end
