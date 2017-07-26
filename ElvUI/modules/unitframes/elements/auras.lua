@@ -426,6 +426,7 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 	local returnValue = true;
 	local anotherFilterExists = false;
 	local isFriend = UnitIsFriend("player", unit) == 1 and true or false;
+	local spellID = E.spellnametoid[name]
 
 	icon.name = name;
 	icon.priority = 0;

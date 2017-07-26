@@ -185,6 +185,7 @@ function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration)
 	local anotherFilterExists = false;
 	local playerOnlyFilter = false;
 	local isFriend = UnitIsFriend("player", unit) == 1 and true or false;
+	local spellID = E.spellnametoid[name]
 
 	if(UF:CheckFilter(db.playerOnly, isFriend)) then
 		if(not db.additionalFilterAllowNonPersonal) then
