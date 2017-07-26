@@ -2604,7 +2604,6 @@ P["actionbar"] = {
 
 	["microbar"] = {
 		["enabled"] = false,
-		["Scale"] = 1,
 		["xOffset"] = 1,
 		["yOffset"] = 1,
 		["buttonsPerRow"] = 8,
