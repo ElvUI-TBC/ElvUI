@@ -1273,7 +1273,7 @@ function CH:ChatEdit_OnEnterPressed()
 	local type = this:GetAttribute("chatType")
 	if ChatTypeInfo[type].sticky == 1 then
 		if not self.db.sticky then type = "SAY" end
-		this:SetAttribute("stickyType", type)
+		this:SetAttribute("chatType", type)
 	end
 end
 

@@ -61,20 +61,30 @@ E.Options.args.tooltip = {
 					name = L["Inspect Info"],
 					desc = L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."],
 				},
-				spellID = {
+				itemPrice = {
 					order = 6,
+					type = "toggle",
+					name = L["Item Price"],
+					desc = L["Display vendor sell value on item tooltips."],
+					set = function(info, value)
+						E.db.tooltip[info[#info]] = value
+						E:GetModule("Tooltip_ItemPrice"):UpdateSettings()
+					end
+				},
+				spellID = {
+					order = 7,
 					type = "toggle",
 					name = L["Spell/Item IDs"],
 					desc = L["Display the spell or item ID when mousing over a spell or item tooltip."]
 				},
 				itemLevel = {
-					order = 7,
+					order = 8,
 					type = "toggle",
 					name = L["Item Level"],
 					desc = L["Display the item level when mousing over a item."]
 				},
 				itemCount = {
-					order = 8,
+					order = 9,
 					type = "select",
 					name = L["Item Count"],
 					desc = L["Display how many of a certain item you have in your possession."],
@@ -86,14 +96,14 @@ E.Options.args.tooltip = {
 					}
 				},
 				colorAlpha = {
-					order = 9,
+					order = 10,
 					type = "range",
 					name = OPACITY,
 					isPercent = true,
 					min = 0, max = 1, step = 0.01
 				},
 				fontGroup = {
-					order = 10,
+					order = 11,
 					type = "group",
 					guiInline = true,
 					name = L["Tooltip Font Settings"],
@@ -152,7 +162,7 @@ E.Options.args.tooltip = {
 					}
 				},
 				factionColors = {
-					order = 11,
+					order = 12,
 					type = "group",
 					name = L["Custom Faction Colors"],
 					guiInline = true,
