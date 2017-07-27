@@ -184,6 +184,10 @@ function DT:AssignPanelToDataText(panel, data)
 
 	if(data["events"]) then
 		for _, event in pairs(data["events"]) do
+			-- random error 132
+			if event == "PLAYER_ENTERING_WORLD" then
+				event = "PLAYER_LOGIN"
+			end
 			panel:RegisterEvent(event);
 		end
 	end
@@ -273,18 +277,7 @@ function DT:LoadDataTexts()
 	end
 end
 
---[[
-	DT:RegisterDatatext(name, events, eventFunc, updateFunc, clickFunc, onEnterFunc, onLeaveFunc)
-
-	name - name of the datatext (required)
-	events - must be a table with string values of event names to register
-	eventFunc - function that gets fired when an event gets triggered
-	updateFunc - onUpdate script target function
-	click - function to fire when clicking the datatext
-	onEnterFunc - function to fire OnEnter
-	onLeaveFunc - function to fire OnLeave, if not provided one will be set for you that hides the tooltip.
-]]
-function DT:RegisterDatatext(name, events, eventFunc, updateFunc, clickFunc, onEnterFunc, onLeaveFunc)
+function DT:RegisterDatatext(name, events, eventFunc, updateFunc, clickFunc, onEnterFunc, onLeaveFunc, localizedName)
 	if(name) then
 		DT.RegisteredDataTexts[name] = {};
 	else
@@ -293,11 +286,11 @@ function DT:RegisterDatatext(name, events, eventFunc, updateFunc, clickFunc, onE
 
 	DT.RegisteredDataTexts[name]["name"] = name;
 
-	if(type(events) ~= "table" and events ~= nil) then
-		error("Events must be registered as a table.");
-	else
+	if(events and type(events) == "table") then
 		DT.RegisteredDataTexts[name]["events"] = events;
 		DT.RegisteredDataTexts[name]["eventFunc"] = eventFunc;
+	elseif(event and type(events) ~= "table") then
+		error("Events must be registered as a table.");
 	end
 
 	if(updateFunc and type(updateFunc) == "function") then
@@ -315,6 +308,14 @@ function DT:RegisterDatatext(name, events, eventFunc, updateFunc, clickFunc, onE
 	if(onLeaveFunc and type(onLeaveFunc) == "function") then
 		DT.RegisteredDataTexts[name]["onLeave"] = onLeaveFunc;
 	end
+
+	if localizedName and type(localizedName) == "string" then
+		DT.RegisteredDataTexts[name]["localizedName"] = localizedName
+	end
 end
 
-E:RegisterModule(DT:GetName());
+local function InitializeCallback()
+	DT:Initialize()
+end
+
+E:RegisterModule(DT:GetName(), InitializeCallback)

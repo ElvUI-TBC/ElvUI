@@ -1,6 +1,7 @@
-local E, L, V, P, G = unpack(ElvUI);
-local M = E:GetModule("Misc");
-local CH = E:GetModule("Chat");
+local E, L, V, P, G = unpack(ElvUI)
+local M = E:GetModule("Misc")
+local CH = E:GetModule("Chat")
+local CC = E:GetModule("ClassCache")
 
 local select, unpack, type = select, unpack, type;
 local strlower = strlower;
@@ -22,16 +23,15 @@ function M:UpdateBubbleBorder()
 		end
 	end
 
-	if E.private.chat.enable and E.private.general.classColorMentionsSpeech then
-		local classColorTable, lowerCaseWord, isFirstWord, rebuiltString, tempWord, wordMatch, classMatch
+	if E.private.chat.enable and E.private.general.classCache and E.private.general.classColorMentionsSpeech then
+		local classColorTable, isFirstWord, rebuiltString, tempWord, wordMatch, classMatch
 		local text = self.text:GetText()
 		if text and text:match("[^%s]+") then
 			for word in text:gmatch("[^%s]+") do
 				tempWord = word:gsub("^%p-([^%p]+)([%-]?[^%p]-)%p-$","%1%2")
-				lowerCaseWord = tempWord:lower()
 
-				classMatch = CH.ClassNames[lowerCaseWord] or CH.ClassNames[tempWord]
-				wordMatch = (CH.ClassNames[lowerCaseWord] and lowerCaseWord) or (CH.ClassNames[tempWord] and tempWord:lower())
+				classMatch = CC:GetCacheTable()[E.myrealm][tempWord]
+				wordMatch = CC:GetCacheTable()[E.myrealm][tempWord] and tempWord:lower()
 
 				if(wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch]) then
 					classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
@@ -156,7 +156,7 @@ function M:SkinBubble(frame)
 		frame:SetClampedToScreen(false);
 	end
 
-	frame:HookScript("OnShow", M.UpdateBubbleBorder);
+	frame:HookScript2("OnShow", M.UpdateBubbleBorder);
 	frame:SetFrameStrata("DIALOG");
 	M.UpdateBubbleBorder(frame);
 	frame.isBubblePowered = true;

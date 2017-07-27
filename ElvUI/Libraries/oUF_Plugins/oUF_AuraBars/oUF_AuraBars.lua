@@ -34,9 +34,9 @@ end
 
 local function UpdateTooltip(self)
 	if self:GetParent().aura.filter == "HELPFUL" then
-		GameTooltip:SetUnitBuff(self.__unit, self:GetID())
+		GameTooltip:SetUnitBuff(self:GetParent():GetParent().unit, self:GetParent().aura.index)
 	else
-		GameTooltip:SetUnitDebuff(self.__unit, self:GetID())
+		GameTooltip:SetUnitDebuff(self:GetParent():GetParent().unit, self:GetParent().aura.index)
 	end
 end
 
@@ -158,7 +158,6 @@ end
 
 local function UpdateBars(auraBars)
 	local bars = auraBars.bars
-	local timenow = GetTime()
 
 	for index = 1, #bars do
 		local frame = bars[index]
@@ -170,15 +169,17 @@ local function UpdateBars(auraBars)
 			bar.spelltime:SetText()
 			bar.spark:Hide()
 		else
-			local timeleft = bar.aura.expirationTime - timenow
-			bar:SetValue(timeleft)
-			bar.spelltime:SetText(FormatTime(timeleft))
-			if auraBars.spark == true then
-				if (auraBars.scaleTime and ((auraBars.scaleTime <= 0) or (auraBars.scaleTime > 0 and timeleft < auraBars.scaleTime))) then
-					bar.spark:SetPoint("CENTER", bar, "LEFT", (timeleft / bar.aura.duration) * bar:GetWidth(), 0)
-					bar.spark:Show()
-				else
-					bar.spark:Hide()
+			local _, _, _, _, _, _, timeleft = UnitAura(frame.unit, bar.aura.index, frame.filter)
+			if timeleft then
+				bar:SetValue(timeleft)
+				bar.spelltime:SetText(FormatTime(timeleft))
+				if auraBars.spark == true then
+					if (auraBars.scaleTime and ((auraBars.scaleTime <= 0) or (auraBars.scaleTime > 0 and timeleft < auraBars.scaleTime))) then
+						bar.spark:SetPoint("CENTER", bar, "LEFT", (timeleft / bar.aura.duration) * bar:GetWidth(), 0)
+						bar.spark:Show()
+					else
+						bar.spark:Hide()
+					end
 				end
 			end
 		end
@@ -227,6 +228,7 @@ local function Update(self, event, unit)
 			local count, debuffType, duration, expirationTime = 5, "Magic", 0, 0
 			lastAuraIndex = lastAuraIndex + 1
 			auras[lastAuraIndex] = {}
+			auras[lastAuraIndex].index = index
 			auras[lastAuraIndex].name = name
 			auras[lastAuraIndex].rank = rank
 			auras[lastAuraIndex].icon = icon
@@ -265,6 +267,7 @@ local function Update(self, event, unit)
 			if (auraBars.filter or DefaultFilter)(self, unit, name, rank, icon, count, debuffType, duration, expirationTime) then
 				lastAuraIndex = lastAuraIndex + 1
 				auras[lastAuraIndex] = {}
+				auras[lastAuraIndex].index = index
 				auras[lastAuraIndex].name = name
 				auras[lastAuraIndex].rank = rank
 				auras[lastAuraIndex].icon = icon
@@ -317,7 +320,8 @@ local function Update(self, event, unit)
 		end
 
 		local bar = frame.statusBar
-		frame.index = index
+		frame.unit = unit
+		frame.filter = helpOrHarm
 
 		-- Backup the details of the aura onto the bar, so the OnUpdate function can use it
 		bar.aura = aura

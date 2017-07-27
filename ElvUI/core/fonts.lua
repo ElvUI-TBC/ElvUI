@@ -38,10 +38,10 @@ function E:UpdateBlizzardFonts()
 		InterfaceOptionsCombatTextPanelPeriodicDamage:Hide()
 		InterfaceOptionsCombatTextPanelPetDamage:Hide()
 		InterfaceOptionsCombatTextPanelHealing:Hide()
-		SetCVar("CombatLogPeriodicSpells",0)
-		SetCVar("PetMeleeDamage",0)
-		SetCVar("CombatDamage",0)
-		SetCVar("CombatHealing",0)
+		SetCVar("CombatLogPeriodicSpells", 0)
+		SetCVar("PetMeleeDamage", 0)
+		SetCVar("CombatDamage", 0)
+		SetCVar("CombatHealing", 0)
 
 		-- set an invisible font for xp, honor kill, etc
 		local INVISIBLE = [=[Interface\Addons\ElvUI\media\fonts\Invisible.ttf]=]
@@ -53,16 +53,16 @@ function E:UpdateBlizzardFonts()
 		SetFont(GameFontNormal,						NORMAL, self.db.general.fontSize);
 		SetFont(GameFontNormalSmall,				NORMAL, self.db.general.fontSize);
 		SetFont(GameFontNormalLarge,				NORMAL, self.db.general.fontSize);
-		SetFont(GameFontNormalHuge,					NORMAL, self.db.general.fontSize);
-		SetFont(BossEmoteNormalHuge,				NORMAL, self.db.general.fontSize);
+		SetFont(GameFontNormalHuge,					NORMAL, 25, MONOCHROME .. "OUTLINE");
+		SetFont(BossEmoteNormalHuge,				NORMAL, 25, MONOCHROME .. "OUTLINE");
 		SetFont(GameFontBlack,						NORMAL, self.db.general.fontSize);
-		SetFont(NumberFontNormal,					NUMBER, self.db.general.fontSize);
+		SetFont(NumberFontNormal,					NUMBER, self.db.general.fontSize, MONOCHROME .. "OUTLINE");
 		SetFont(NumberFontNormalSmall,				NUMBER, self.db.general.fontSize);
 		SetFont(NumberFontNormalLarge,				NUMBER, self.db.general.fontSize);
 		SetFont(NumberFontNormalHuge,				NUMBER, self.db.general.fontSize);
 		SetFont(ChatFontNormal,						NORMAL, self.db.general.fontSize);
 		SetFont(ChatFontSmall,						NORMAL, self.db.general.fontSize);
-		SetFont(QuestTitleFont,						NORMAL, self.db.general.fontSize);
+		SetFont(QuestTitleFont,						NORMAL, self.db.general.fontSize + 8);
 		SetFont(QuestFont,							NORMAL, self.db.general.fontSize);
 		SetFont(QuestFontHighlight,					NORMAL, self.db.general.fontSize);
 		SetFont(ItemTextFontNormal,					NORMAL, self.db.general.fontSize);
@@ -75,9 +75,9 @@ function E:UpdateBlizzardFonts()
 		SetFont(PVPInfoTextFont,					NORMAL, 22, MONOCHROME .. "OUTLINE");
 		SetFont(TextStatusBarText,					NORMAL, self.db.general.fontSize);
 		SetFont(TextStatusBarTextSmall,				NORMAL, self.db.general.fontSize);
-		SetFont(GameTooltipText,					NORMAL, self.db.general.fontSize);
-		SetFont(GameTooltipTextSmall,				NORMAL, self.db.general.fontSize);
-		SetFont(GameTooltipHeaderText,				NORMAL, self.db.general.fontSize);
+	--	SetFont(GameTooltipText,					NORMAL, self.db.general.fontSize);
+	--	SetFont(GameTooltipTextSmall,				NORMAL, self.db.general.fontSize);
+	--	SetFont(GameTooltipHeaderText,				NORMAL, self.db.general.fontSize);
 	--	SetFont(WorldMapTextFont,					NORMAL, self.db.general.fontSize);
 		SetFont(InvoiceTextFontNormal,				NORMAL, self.db.general.fontSize);
 		SetFont(InvoiceTextFontSmall,				NORMAL, self.db.general.fontSize);

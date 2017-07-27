@@ -19,6 +19,8 @@ function S:LoadDressingRoomSkin()
 	DressUpBackgroundBotLeft:SetDesaturated(true);
 	DressUpBackgroundBotRight:SetDesaturated(true);
 
+	DressUpFrameDescriptionText:Point("CENTER", DressUpFrameTitleText, "BOTTOM", -5, -22)
+
 	S:HandleCloseButton(DressUpFrameCloseButton);
 
 	S:HandleRotateButton(DressUpModelRotateLeftButton);

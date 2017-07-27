@@ -1,5 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="compatibility.lua"/>
+	<Script file="wowLua.lua"/>
 	<Script file="widgetAPI.lua"/>
 	<Script file="wowAPI.lua"/>
 </Ui>

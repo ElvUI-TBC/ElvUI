@@ -7,12 +7,7 @@ local join = string.join;
 local IsLoggedIn = IsLoggedIn;
 local GetMoney = GetMoney;
 local IsShiftKeyDown = IsShiftKeyDown;
-local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo;
 
-local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS;
-local CURRENCY = CURRENCY;
-
-local currencyString = "|T%s:14:14:0:0:64:64:4:60:4:60|t %s";
 local Profit = 0;
 local Spent = 0;
 local resetInfoFormatter = join("", "|cffaaaaaa", L["Reset Data: Hold Shift + Right Click"], "|r");
@@ -78,19 +73,10 @@ local function OnEnter(self)
 	DT.tooltip:AddLine(L["Server: "]);
 	DT.tooltip:AddDoubleLine(L["Total: "], E:FormatMoney(totalGold, style, textOnly), 1, 1, 1, 1, 1, 1);
 
-	--[[for i = 1, MAX_WATCHED_TOKENS do
-		local name, count, _, icon = GetBackpackCurrencyInfo(i);
-		if(name and i == 1) then
-			DT.tooltip:AddLine(" ");
-			DT.tooltip:AddLine(CURRENCY .. ":");
-		end
-		if(name and count) then DT.tooltip:AddDoubleLine(currencyString:format(icon, name), count, 1, 1, 1); end
-	end]]
-
 	DT.tooltip:AddLine(" ");
 	DT.tooltip:AddLine(resetInfoFormatter);
 
 	DT.tooltip:Show();
 end
 
-DT:RegisterDatatext("Gold", {"PLAYER_ENTERING_WORLD", "PLAYER_MONEY", "SEND_MAIL_MONEY_CHANGED", "SEND_MAIL_COD_CHANGED", "PLAYER_TRADE_MONEY", "TRADE_MONEY_CHANGED"}, OnEvent, nil, OnClick, OnEnter);
+DT:RegisterDatatext("Gold", {"PLAYER_LOGIN", "PLAYER_MONEY", "SEND_MAIL_MONEY_CHANGED", "SEND_MAIL_COD_CHANGED", "PLAYER_TRADE_MONEY", "TRADE_MONEY_CHANGED"}, OnEvent, nil, OnClick, OnEnter, nil, L["Gold"])

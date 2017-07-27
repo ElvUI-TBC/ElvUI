@@ -1,6 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local TT = E:NewModule("Tooltip", "AceHook-3.0", "AceEvent-3.0")
-local Value = LibStub("ItemPrice-1.1")
+local LIP = LibStub("ItemPrice-1.1")
+local LMH = LibStub("LibMobHealth-4.0")
 
 local _G = _G
 local unpack, tonumber, select, pairs = unpack, tonumber, select, pairs
@@ -38,7 +39,6 @@ local UnitReaction = UnitReaction
 local UnitClassification = UnitClassification
 local UnitCreatureType = UnitCreatureType
 local UnitIsPVP = UnitIsPVP
-local UnitHasVehicleUI = UnitHasVehicleUI
 local GetNumPartyMembers = GetNumPartyMembers
 local GetNumRaidMembers = GetNumRaidMembers
 local UnitIsUnit = UnitIsUnit
@@ -47,6 +47,7 @@ local GetItemCount = GetItemCount
 local UnitAura = UnitAura
 local SetTooltipMoney = SetTooltipMoney
 local GameTooltip_ClearMoney = GameTooltip_ClearMoney
+local MerchantFrame = MerchantFrame
 local TARGET = TARGET
 local DEAD = DEAD
 local FOREIGN_SERVER_LABEL = FOREIGN_SERVER_LABEL
@@ -60,7 +61,6 @@ local FACTION_BAR_COLORS = FACTION_BAR_COLORS
 local ID = ID
 
 local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
-local S_ITEM_LEVEL = ITEM_LEVEL:gsub("%%d", "(%%d+)")
 local playerGUID = UnitGUID("player")
 local targetList, inspectCache = {}, {}
 local TAPPED_COLOR = {r = .6, g = .6, b = .6}
@@ -72,23 +72,14 @@ local keybindFrame
 local tooltips = {
 	GameTooltip,
 	ItemRefTooltip,
-	ItemRefShoppingTooltip1,
-	ItemRefShoppingTooltip2,
-	ItemRefShoppingTooltip3,
-	AutoCompleteBox,
-	FriendsTooltip,
 	ConsolidatedBuffsTooltip,
 	ShoppingTooltip1,
 	ShoppingTooltip2,
-	ShoppingTooltip3,
 	WorldMapTooltip,
-	WorldMapCompareTooltip1,
-	WorldMapCompareTooltip2,
-	WorldMapCompareTooltip3,
 	DropDownList1MenuBackdrop,
 	DropDownList2MenuBackdrop,
 	DropDownList3MenuBackdrop,
-	BNToastFrame
+	EventTraceTooltip
 }
 
 local classification = {
@@ -258,33 +249,12 @@ function TT:GetAvailableTooltip()
 	if not ShoppingTooltip2:IsShown() then return ShoppingTooltip2 end
 end
 
-function TT:ScanForItemLevel(itemLink)
-	local tooltip = self:GetAvailableTooltip()
-	tooltip:SetOwner(UIParent, "ANCHOR_NONE")
-	tooltip:SetHyperlink(itemLink)
-	tooltip:Show()
-
-	local itemLevel = 0
-	for i = 2, tooltip:NumLines() do
-		local text = _G[ tooltip:GetName() .."TextLeft"..i]:GetText()
-		if text and text ~= "" then
-			local value = tonumber(text:match(S_ITEM_LEVEL))
-			if value then
-				itemLevel = value
-			end
-		end
-	end
-
-	tooltip:Hide()
-	return itemLevel
-end
-
 function TT:GetItemLvL(unit)
 	local total, item = 0, 0
 	for i = 1, #SlotName do
 		local itemLink = GetInventoryItemLink(unit, GetInventorySlotInfo(("%sSlot"):format(SlotName[i])))
-		if itemLink ~= nil then
-			local itemLevel = self:ScanForItemLevel(itemLink)
+		if itemLink then
+			local itemLevel = select(4, GetItemInfo(itemLink))
 			if itemLevel and itemLevel > 0 then
 				item = item + 1
 				total = total + itemLevel
@@ -293,7 +263,7 @@ function TT:GetItemLvL(unit)
 	end
 
 	if total < 1 then
-		return
+		return 0
 	end
 
 	return floor(total / item)
@@ -508,6 +478,11 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 	else
 		GameTooltipStatusBar:SetStatusBarColor(0.6, 0.6, 0.6)
 	end
+
+	local _, max = GameTooltipStatusBar:GetMinMaxValues()
+	if max == 100 and GameTooltipStatusBar:GetValue() > 0 then
+		GameTooltipStatusBar.text:SetText(E:ShortValue(LMH:GetUnitCurrentHP(unit)).." / "..E:ShortValue(LMH:GetUnitMaxHP(unit)))
+	end
 end
 
 function TT:GameTooltipStatusBar_OnValueChanged(tt, value)
@@ -527,7 +502,11 @@ function TT:GameTooltipStatusBar_OnValueChanged(tt, value)
 	elseif(value == 0 or (unit and UnitIsDeadOrGhost(unit))) then
 		tt.text:SetText(DEAD)
 	else
-		tt.text:SetText(E:ShortValue(value).." / "..E:ShortValue(max))
+		if unit then
+			tt.text:SetText(E:ShortValue(LMH:GetUnitCurrentHP(unit)).." / "..E:ShortValue(LMH:GetUnitMaxHP(unit)))
+		else
+			tt.text:SetText(E:ShortValue(value).." / "..E:ShortValue(max))
+		end
 	end
 end
 
@@ -537,7 +516,7 @@ end
 
 function TT:GameTooltip_OnTooltipSetItem(tt)
 	local ownerName = tt:GetOwner() and tt:GetOwner().GetName and tt:GetOwner():GetName()
-	if (self.db.visibility and self.db.visibility.bags ~= 'NONE' and ownerName and (find(ownerName, "ElvUI_Container") or find(ownerName, "ElvUI_BankContainer"))) then
+	if (self.db.visibility and self.db.visibility.bags ~= "NONE" and ownerName and (find(ownerName, "ElvUI_Container") or find(ownerName, "ElvUI_BankContainer"))) then
 		local modifier = self.db.visibility.bags
 
 		if modifier == "ALL" or not ((modifier == "SHIFT" and IsShiftKeyDown()) or (modifier == "CTRL" and IsControlKeyDown()) or (modifier == "ALT" and IsAltKeyDown())) then
@@ -549,13 +528,30 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 
 	if not tt.itemCleared then
 		local _, link = tt:GetItem()
+		if not link then return end
+
 		local num = GetItemCount(link)
 		local numall = GetItemCount(link, true)
 		local left = " "
 		local right = " "
 		local bankCount = " "
 
-		if link ~= nil and self.db.spellID then
+		if self.db.itemLevel then
+			local _, _, rarity, itemLevel, _, _, _, _, itemEquipLoc = GetItemInfo(link)
+			if itemLevel and rarity and rarity > 1 and itemEquipLoc and itemEquipLoc ~= "" and itemEquipLoc ~= "INVTYPE_AMMO" and itemEquipLoc ~= "INVTYPE_BAG" and itemEquipLoc ~= "INVTYPE_QUIVER" and itemEquipLoc ~= "INVTYPE_TABARD" then
+				tt:AddLine(format(L["Item Level %d"], itemLevel))
+			end
+		end
+
+		if not MerchantFrame:IsShown() then
+			local value = LIP:GetSellValue(link)
+			if value and value > 0 then
+				value = num > 0 and value * num or value
+				tt:AddDoubleLine(SALE_PRICE_COLON, E:FormatMoney(value, "BLIZZARD", false), nil, nil, nil, 1, 1, 1)
+			end
+		end
+
+		if self.db.spellID then
 			left = (("|cFFCA3C3C%s|r %s"):format(ID, link)):match(":(%w+)")
 		end
 
@@ -571,13 +567,6 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 		if left ~= " " or right ~= " " then
 			tt:AddLine(" ")
 			tt:AddDoubleLine(left, right)
-		end
-
-		if link and link ~= 0 then
-			local value = GetSellValue(link)
-			if value and value > 0 then
-				tt:AddDoubleLine("|cffffd700Vendor|r", E:FormatMoney(value * num, "BLIZZARD", false), 1, 1, 1, 1, 1, 1)
-			end
 		end
 
 		if bankCount ~= " " then
@@ -601,7 +590,10 @@ function TT:MODIFIER_STATE_CHANGED(_, key)
 end
 
 function TT:GameTooltip_OnTooltipSetSpell(tt)
-	local id = select(3, tt:GetSpell())
+	local name, rank = tt:GetSpell()
+
+	local id = GetSpellLink(name, rank)
+	id = id and id:match("spell:(%d+)")
 	if not id or not self.db.spellID then return end
 
 	local displayString = ("|cFFCA3C3C%s|r %d"):format(ID, id)
@@ -732,4 +724,8 @@ function TT:Initialize()
 	keybindFrame = ElvUI_KeyBinder
 end
 
-E:RegisterModule(TT:GetName())
+local function InitializeCallback()
+	TT:Initialize()
+end
+
+E:RegisterModule(TT:GetName(), InitializeCallback)

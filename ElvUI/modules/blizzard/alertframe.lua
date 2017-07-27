@@ -14,73 +14,73 @@ AlertFrameHolder:SetPoint("TOP", E.UIParent, "TOP", 0, -18);
 local POSITION, ANCHOR_POINT, YOFFSET = "TOP", "BOTTOM", -10
 
 function E:PostAlertMove()
-    local _, y = AlertFrameMover:GetCenter();
-    local screenHeight = E.UIParent:GetTop();
-    if y > (screenHeight / 2) then
-        POSITION = "TOP";
-        ANCHOR_POINT = "BOTTOM";
-        YOFFSET = -10;
-        AlertFrameMover:SetText(AlertFrameMover.textString .. " [Grow Down]");
-    else
-        POSITION = "BOTTOM";
-        ANCHOR_POINT = "TOP";
-        YOFFSET = 10;
-        AlertFrameMover:SetText(AlertFrameMover.textString .. " [Grow Up]");
-    end
+	local _, y = AlertFrameMover:GetCenter();
+	local screenHeight = E.UIParent:GetTop();
+	if y > (screenHeight / 2) then
+		POSITION = "TOP";
+		ANCHOR_POINT = "BOTTOM";
+		YOFFSET = -10;
+		AlertFrameMover:SetText(AlertFrameMover.textString .. " [Grow Down]");
+	else
+		POSITION = "BOTTOM";
+		ANCHOR_POINT = "TOP";
+		YOFFSET = 10;
+		AlertFrameMover:SetText(AlertFrameMover.textString .. " [Grow Up]");
+	end
 
-    local rollBars = E:GetModule("Misc").RollBars;
-    if E.private.general.lootRoll then
-        local lastframe, lastShownFrame;
-        for i, frame in pairs(rollBars) do
-            frame:ClearAllPoints();
-            if i ~= 1 then
-                if POSITION == "TOP" then
-                    frame:Point("TOP", lastframe, "BOTTOM", 0, -4);
-                else
-                    frame:Point("BOTTOM", lastframe, "TOP", 0, 4);
-                end
-            else
-                if POSITION == "TOP" then
-                    frame:Point("TOP", AlertFrameHolder, "BOTTOM", 0, -4);
-                else
-                    frame:Point("BOTTOM", AlertFrameHolder, "TOP", 0, 4);
-                end
-            end
-            lastframe = frame;
+	local rollBars = E:GetModule("Misc").RollBars;
+	if E.private.general.lootRoll then
+		local lastframe, lastShownFrame;
+		for i, frame in pairs(rollBars) do
+			frame:ClearAllPoints();
+			if i ~= 1 then
+				if POSITION == "TOP" then
+					frame:Point("TOP", lastframe, "BOTTOM", 0, -4);
+				else
+					frame:Point("BOTTOM", lastframe, "TOP", 0, 4);
+				end
+			else
+				if POSITION == "TOP" then
+					frame:Point("TOP", AlertFrameHolder, "BOTTOM", 0, -4);
+				else
+					frame:Point("BOTTOM", AlertFrameHolder, "TOP", 0, 4);
+				end
+			end
+			lastframe = frame;
 
-            if frame:IsShown() then
-                lastShownFrame = frame;
-            end
-        end
-    elseif(E.private.skins.blizzard.enable and E.private.skins.blizzard.lootRoll) then
-        local lastframe, lastShownFrame;
-        for i = 1, NUM_GROUP_LOOT_FRAMES do
-            local frame = _G["GroupLootFrame" .. i];
-            if(frame) then
-                frame:ClearAllPoints();
-                if i ~= 1 then
-                    if POSITION == "TOP" then
-                        frame:Point("TOP", lastframe, "BOTTOM", 0, -4);
-                    else
-                        frame:Point("BOTTOM", lastframe, "TOP", 0, 4);
-                    end
-                else
-                    if POSITION == "TOP" then
-                        frame:Point("TOP", AlertFrameHolder, "BOTTOM", 0, -4);
-                    else
-                        frame:Point("BOTTOM", AlertFrameHolder, "TOP", 0, 4);
-                    end
-                end
-                lastframe = frame;
+			if frame:IsShown() then
+				lastShownFrame = frame;
+			end
+		end
+	elseif(E.private.skins.blizzard.enable and E.private.skins.blizzard.lootRoll) then
+		local lastframe, lastShownFrame;
+		for i = 1, NUM_GROUP_LOOT_FRAMES do
+			local frame = _G["GroupLootFrame" .. i];
+			if(frame) then
+				frame:ClearAllPoints();
+				if i ~= 1 then
+					if POSITION == "TOP" then
+						frame:Point("TOP", lastframe, "BOTTOM", 0, -4);
+					else
+						frame:Point("BOTTOM", lastframe, "TOP", 0, 4);
+					end
+				else
+					if POSITION == "TOP" then
+						frame:Point("TOP", AlertFrameHolder, "BOTTOM", 0, -4);
+					else
+						frame:Point("BOTTOM", AlertFrameHolder, "TOP", 0, 4);
+					end
+				end
+				lastframe = frame;
 
-                if frame:IsShown() then
-                    lastShownFrame = frame;
-                end
-            end
-        end
-    end
+				if frame:IsShown() then
+					lastShownFrame = frame;
+				end
+			end
+		end
+	end
 end
 
 function B:AlertMovers()
-    E:CreateMover(AlertFrameHolder, "AlertFrameMover", L["Loot / Alert Frames"], nil, nil, E.PostAlertMove);
+	E:CreateMover(AlertFrameHolder, "AlertFrameMover", L["Loot / Alert Frames"], nil, nil, E.PostAlertMove);
 end

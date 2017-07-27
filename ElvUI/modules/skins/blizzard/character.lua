@@ -15,7 +15,7 @@ function S:LoadCharacterSkin()
 
 	CharacterFrame:StripTextures(true)
 	CharacterFrame:CreateBackdrop("Transparent")
-	CharacterFrame.backdrop:Point("TOPLEFT", 12, -12)
+	CharacterFrame.backdrop:Point("TOPLEFT", 10, -12)
 	CharacterFrame.backdrop:Point("BOTTOMRIGHT", -32, 76)
 
 	S:HandleCloseButton(CharacterFrameCloseButton)
@@ -29,7 +29,11 @@ function S:LoadCharacterSkin()
 
 	-- PaperDollFrame
 	PaperDollFrame:StripTextures()
-	S:HandleDropDownBox(PlayerTitleDropDown)
+
+	CharacterModelFrame:Point("TOPLEFT", 65, -60)
+
+	PlayerTitleDropDown:Point("TOP", CharacterLevelText, "BOTTOM", 0, -2)
+	S:HandleDropDownBox(PlayerTitleDropDown, 210)
 
 	S:HandleRotateButton(CharacterModelFrameRotateLeftButton)
 	CharacterModelFrameRotateLeftButton:ClearAllPoints()
@@ -41,6 +45,13 @@ function S:LoadCharacterSkin()
 	CharacterAttributesFrame:StripTextures()
 	S:HandleDropDownBox(PlayerStatFrameLeftDropDown)
 	S:HandleDropDownBox(PlayerStatFrameRightDropDown)
+
+	local function FixWidth(self)
+		UIDropDownMenu_SetWidth(90, self)
+	end
+
+	PlayerStatFrameLeftDropDown:HookScript("OnShow", FixWidth)
+	PlayerStatFrameRightDropDown:HookScript("OnShow", FixWidth)
 
 	CharacterResistanceFrame:CreateBackdrop("Default")
 	CharacterResistanceFrame.backdrop:SetOutside(MagicResFrame1, nil, nil, MagicResFrame5)
@@ -169,6 +180,7 @@ function S:LoadCharacterSkin()
 
 	SkillFrameExpandButtonFrame:DisableDrawLayer("BACKGROUND")
 
+	SkillFrameCollapseAllButton:Point("LEFT", SkillFrameExpandTabLeft, "RIGHT", -40, -3)
 	SkillFrameCollapseAllButton:SetNormalTexture("")
 	SkillFrameCollapseAllButton.SetNormalTexture = E.noop
 	SkillFrameCollapseAllButton:SetHighlightTexture(nil)
@@ -228,27 +240,54 @@ function S:LoadCharacterSkin()
 	SkillDetailStatusBar:SetStatusBarTexture(E.media.normTex)
 	E:RegisterStatusBar(SkillDetailStatusBar)
 
-	-- ReputationFrame
+	SkillDetailStatusBarUnlearnButton:StripTextures()
+	SkillDetailStatusBarUnlearnButton:Point("LEFT", SkillDetailStatusBarBorder, "RIGHT", -2, -5)
+	SkillDetailStatusBarUnlearnButton:Size(36)
+	
+	SkillDetailStatusBarUnlearnButton.Text = SkillDetailStatusBarUnlearnButton:CreateFontString(nil, "OVERLAY")
+	SkillDetailStatusBarUnlearnButton.Text:FontTemplate()
+	SkillDetailStatusBarUnlearnButton.Text:Point("LEFT", 7, 5)
+	SkillDetailStatusBarUnlearnButton.Text:SetText("|TInterface\\Buttons\\UI-GroupLoot-Pass-Up:34:34|t")
+
+	-- Reputation Frame
 	ReputationFrame:StripTextures()
 
 	for i = 1, NUM_FACTIONS_DISPLAYED do
 		local bar = _G["ReputationBar"..i]
 		local header = _G["ReputationHeader"..i]
+		local factionName = _G["ReputationBar"..i.."FactionName"]
+		local warCheck = _G["ReputationBar"..i.."AtWarCheck"]
 
 		bar:StripTextures()
-		bar:SetStatusBarTexture(E.media.normTex)
-		E:RegisterStatusBar(bar)
 		bar:CreateBackdrop("Default")
+		bar:SetStatusBarTexture(E.media.normTex)
+		bar:Size(108, 13)
+		E:RegisterStatusBar(bar)
+
+		factionName:Point("LEFT", bar, "LEFT", -150, 0)
+		factionName:Width(140)
+		factionName.SetWidth = E.noop
+
+		warCheck:StripTextures()
+		warCheck:Point("LEFT", bar, "RIGHT", 0, 0)
+
+		warCheck.Text = warCheck:CreateFontString(nil, "OVERLAY")
+		warCheck.Text:FontTemplate()
+		warCheck.Text:Point("LEFT", 3, -6)
+		warCheck.Text:SetText("|TInterface\\Buttons\\UI-CheckBox-SwordCheck:45:45|t")
 
 		header:StripTextures(true)
 		header:SetNormalTexture(nil)
 		header.SetNormalTexture = E.noop
+		header:Point("TOPLEFT", bar, "TOPLEFT", -175, 0)
 
 		header.Text = header:CreateFontString(nil, "OVERLAY")
 		header.Text:FontTemplate(nil, 22)
 		header.Text:Point("LEFT", 3, 0)
 		header.Text:SetText("+")
 	end
+
+	ReputationBar1:Point("TOPLEFT", 190, -86)
 
 	local function UpdateFaction()
 		local offset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
@@ -268,19 +307,22 @@ function S:LoadCharacterSkin()
 	end
 	hooksecurefunc("ReputationFrame_Update", UpdateFaction)
 
+	ReputationFrameStandingLabel:Point("TOPLEFT", 223, -59)
+	ReputationFrameFactionLabel:Point("TOPLEFT", 55, -59)
+
 	ReputationListScrollFrame:StripTextures()
 	S:HandleScrollBar(ReputationListScrollFrameScrollBar)
 
 	ReputationDetailFrame:StripTextures()
 	ReputationDetailFrame:SetTemplate("Transparent")
+	ReputationDetailFrame:Point("TOPLEFT", ReputationFrame, "TOPRIGHT", -31, -12)
 
 	S:HandleCloseButton(ReputationDetailCloseButton)
+	ReputationDetailCloseButton:Point("TOPRIGHT", 2, 2)
 
 	S:HandleCheckBox(ReputationDetailAtWarCheckBox)
 	S:HandleCheckBox(ReputationDetailInactiveCheckBox)
 	S:HandleCheckBox(ReputationDetailMainScreenCheckBox)
-	-- PVPFrame
-	PVPFrame:StripTextures()
 end
 
 S:AddCallback("Character", S.LoadCharacterSkin)

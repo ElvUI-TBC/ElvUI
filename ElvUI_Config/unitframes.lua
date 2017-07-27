@@ -69,8 +69,7 @@ local auraSortValues = {
 	["TIME_REMAINING"] = L["Time Remaining"],
 	["DURATION"] = L["Duration"],
 	["NAME"] = NAME,
-	["INDEX"] = L["Index"],
-	["PLAYER"] = PLAYER
+	["INDEX"] = L["Index"]
 };
 
 local auraSortMethodValues = {
@@ -607,12 +606,6 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 	end
 
 	if(friendlyUnitOnly) then
-		config.args.filters.args.playerOnly = {
-			order = 14,
-			type = "toggle",
-			name = L["Block Non-Personal Auras"],
-			desc = L["Don't display auras that are not yours."]
-		};
 		config.args.filters.args.useBlacklist = {
 			order = 15,
 			type = "toggle",
@@ -646,37 +639,7 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 				return filters;
 			end
 		};
-		config.args.filters.args.additionalFilterAllowNonPersonal = {
-			order = 20,
-			type = "toggle",
-			name = L["Additional Filter Override"],
-			desc = L["Allow non-personal auras from additional filter when 'Block Non-Personal Auras' is enabled."]
-		};
 	else
-		config.args.filters.args.playerOnly = {
-			order = 14,
-			guiInline = true,
-			type = "group",
-			name = L["Block Non-Personal Auras"],
-			args = {
-				friendly = {
-					order = 1,
-					type = "toggle",
-					name = L["Friendly"],
-					desc = L["If the unit is friendly to you."].." "..L["Don't display auras that are not yours."],
-					get = function(info) return E.db.unitframe.units[groupName][auraType].playerOnly.friendly; end,
-					set = function(info, value) E.db.unitframe.units[groupName][auraType].playerOnly.friendly = value; updateFunc(UF, groupName, numUnits); end
-				},
-				enemy = {
-					order = 2,
-					type = "toggle",
-					name = L["Enemy"],
-					desc = L["If the unit is an enemy to you."].." "..L["Don't display auras that are not yours."],
-					get = function(info) return E.db.unitframe.units[groupName][auraType].playerOnly.enemy; end,
-					set = function(info, value) E.db.unitframe.units[groupName][auraType].playerOnly.enemy = value; updateFunc(UF, groupName, numUnits); end
-				}
-			}
-		};
 		config.args.filters.args.useBlacklist = {
 			order = 15,
 			guiInline = true,
@@ -762,12 +725,6 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 				end
 				return filters;
 			end
-		};
-		config.args.filters.args.additionalFilterAllowNonPersonal = {
-			order = 20,
-			type = "toggle",
-			name = L["Additional Filter Override"],
-			desc = L["Allow non-personal auras from additional filter when 'Block Non-Personal Auras' is enabled."]
 		};
 	end
 
@@ -1409,7 +1366,6 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 							return c.r, c.g, c.b, c.a, d.r, d.g, d.b;
 						end,
 						set = function(info, r, g, b)
-							E.db.unitframe.units.raid.rdebuffs.duration.color = {};
 							local c = E.db.unitframe.units.raid.rdebuffs.duration.color;
 							c.r, c.g, c.b = r, g, b;
 							UF:CreateAndUpdateHeaderGroup("raid");
@@ -1463,7 +1419,6 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 							return c.r, c.g, c.b, c.a, d.r, d.g, d.b;
 						end,
 						set = function(info, r, g, b)
-							E.db.unitframe.units[groupName].rdebuffs.stack.color = {};
 							local c = E.db.unitframe.units[groupName].rdebuffs.stack.color;
 							c.r, c.g, c.b = r, g, b;
 							updateFunc(UF, groupName);
@@ -2013,6 +1968,30 @@ E.Options.args.unitframe = {
 					get = function(info) return E.db.unitframe.colors[ info[#info] ]; end,
 					set = function(info, value) E.db.unitframe.colors[ info[#info] ] = value; UF:Update_AllFrames(); end,
 					args = {
+						generalGroup = {
+							order = 1,
+							type = "group",
+							guiInline = true,
+							name = L["General"],
+							args = {
+								borderColor = {
+									order = 1,
+									type = "color",
+									name = L["Border Color"],
+									get = function(info)
+										local t = E.db.unitframe.colors.borderColor
+										local d = P.unitframe.colors.borderColor
+										return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+									end,
+									set = function(info, r, g, b)
+										local t = E.db.unitframe.colors.borderColor
+										t.r, t.g, t.b = r, g, b
+										E:UpdateMedia()
+										E:UpdateBorderColors()
+									end,
+								},
+							},
+						},
 						healthGroup = {
 							order = 7,
 							type = "group",
@@ -2024,7 +2003,6 @@ E.Options.args.unitframe = {
 								return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 							end,
 							set = function(info, r, g, b)
-								E.db.general[ info[#info] ] = {};
 								local t = E.db.unitframe.colors[ info[#info] ];
 								t.r, t.g, t.b = r, g, b;
 								UF:Update_AllFrames();
@@ -2125,7 +2103,6 @@ E.Options.args.unitframe = {
 								return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 							end,
 							set = function(info, r, g, b)
-								E.db.general[ info[#info] ] = {};
 								local t = E.db.unitframe.colors.power[ info[#info] ];
 								t.r, t.g, t.b = r, g, b;
 								UF:Update_AllFrames();
@@ -2180,7 +2157,6 @@ E.Options.args.unitframe = {
 								return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 							end,
 							set = function(info, r, g, b)
-								E.db.general[ info[#info] ] = {};
 								local t = E.db.unitframe.colors.reaction[ info[#info] ];
 								t.r, t.g, t.b = r, g, b;
 								UF:Update_AllFrames();
@@ -2246,12 +2222,7 @@ E.Options.args.unitframe = {
 								},
 								castColor = {
 									order = 4,
-									name = L["Interruptable"],
-									type = "color"
-								},
-								castNoInterrupt = {
-									order = 5,
-									name = L["Non-Interruptable"],
+									name = L["Cast Color"],
 									type = "color"
 								}
 							}
@@ -2315,7 +2286,6 @@ E.Options.args.unitframe = {
 										return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 									end,
 									set = function(info, r, g, b)
-										E.db.general[ info[#info] ] = {};
 										local t = E.db.unitframe.colors.auraBarDebuff;
 										t.r, t.g, t.b = r, g, b;
 										UF:Update_AllFrames();
@@ -2331,7 +2301,6 @@ E.Options.args.unitframe = {
 										return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 									end,
 									set = function(info, r, g, b)
-										E.db.general[ info[#info] ] = {};
 										local t = E.db.unitframe.colors.auraBarTurtleColor;
 										t.r, t.g, t.b = r, g, b;
 										UF:Update_AllFrames();
@@ -2569,32 +2538,17 @@ E.Options.args.unitframe.args.player = {
 					type = "toggle",
 					order = 5,
 					name = L["Detach From Frame"],
-					set = function(info, value)
-						if value == true then
-							E.Options.args.unitframe.args.player.args.classbar.args.height.max = 300
-						else
-							E.Options.args.unitframe.args.player.args.classbar.args.height.max = 30
-						end
-						E.db.unitframe.units["player"]["classbar"][ info[#info] ] = value;
-						UF:CreateAndUpdateUF("player")
-					end,
-				},
-				verticalOrientation = {
-					order = 6,
-					type = "toggle",
-					name = L["Vertical Orientation"],
-					disabled = function() return not E.db.unitframe.units["player"]["classbar"].detachFromFrame end,
 				},
 				detachedWidth = {
 					type = "range",
-					order = 7,
+					order = 6,
 					name = L["Detached Width"],
 					disabled = function() return not E.db.unitframe.units["player"]["classbar"].detachFromFrame; end,
 					min = ((E.db.unitframe.thinBorders or E.PixelMode) and 3 or 7), max = 800, step = 1,
 				},
 				parent = {
 					type = "select",
-					order = 8,
+					order = 7,
 					name = L["Parent"],
 					desc = L["Choose UIPARENT to prevent it from hiding with the unitframe."],
 					disabled = function() return not E.db.unitframe.units["player"]["classbar"].detachFromFrame; end,
@@ -3598,7 +3552,33 @@ E.Options.args.unitframe.args.pet = {
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "pet"),
 		buffs = GetOptionsTable_Auras(true, "buffs", false, UF.CreateAndUpdateUF, "pet"),
 		debuffs = GetOptionsTable_Auras(true, "debuffs", false, UF.CreateAndUpdateUF, "pet"),
-		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "pet")
+		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "pet"),
+		happiness = {
+			order = 700,
+			type = "group",
+			name = L["Happiness"],
+			get = function(info) return E.db.unitframe.units["pet"]["happiness"][ info[#info] ] end,
+			set = function(info, value) E.db.unitframe.units["pet"]["happiness"][ info[#info] ] = value; UF:CreateAndUpdateUF("pet") end,
+			disabled = E.myclass ~= "HUNTER",
+			args = {
+				enable = {
+					order = 1,
+					type = "toggle",
+					name = L["Enable"]
+				},
+				autoHide = {
+					order = 2,
+					type = "toggle",
+					name = L["Auto-Hide"],
+				},
+				width = {
+					order = 3,
+					type = "range",
+					name = L["Size"],
+					min = 5, max = 40, step = 1
+				}
+			}
+		}
 	}
 };
 
@@ -6264,7 +6244,6 @@ E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGrou
 		return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 	end,
 	set = function(info, r, g, b)
-		E.db.unitframe.colors.classResources[ info[#info] ] = {};
 		local t = E.db.unitframe.colors.classResources[ info[#info] ];
 		t.r, t.g, t.b = r, g, b;
 		UF:Update_AllFrames();
@@ -6290,49 +6269,11 @@ for i = 1, 5 do
 			return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 		end,
 		set = function(info, r, g, b)
-			E.db.unitframe.colors.classResources.comboPoints[i] = {};
 			local t = E.db.unitframe.colors.classResources.comboPoints[i];
 			t.r, t.g, t.b = r, g, b;
 			UF:Update_AllFrames();
 		end,
 	};
-end
-
-if(P.unitframe.colors.classResources[E.myclass]) then
-	E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args.spacer2 = {
-		order = 10,
-		name = " ",
-		type = "description",
-		width = "full"
-	};
-
-	local ORDER = 20
-	if(E.myclass == "DEATHKNIGHT") then
-		local names = {
-			[1] = L["Blood"],
-			[2] = L["Unholy"],
-			[3] = L["Frost"],
-			[4] = L["Death"]
-		};
-		for i = 1, 4 do
-			E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args["resource"..i] = {
-				type = "color",
-				name = names[i],
-				order = ORDER + i,
-				get = function(info)
-					local t = E.db.unitframe.colors.classResources.DEATHKNIGHT[i];
-					local d = P.unitframe.colors.classResources.DEATHKNIGHT[i]
-					return t.r, t.g, t.b, t.a, d.r, d.g, d.b
-				end,
-				set = function(info, r, g, b)
-					E.db.unitframe.colors.classResources.DEATHKNIGHT[i] = {};
-					local t = E.db.unitframe.colors.classResources.DEATHKNIGHT[i];
-					t.r, t.g, t.b = r, g, b;
-					UF:Update_AllFrames();
-				end,
-			};
-		end
-	end
 end
 
 function E:RefreshCustomTextsConfigs()

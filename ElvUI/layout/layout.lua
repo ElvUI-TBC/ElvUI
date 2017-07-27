@@ -308,7 +308,6 @@ function LO:CreateChatPanels()
 	rchattb:Point("TOPLEFT", rchatdp, "TOPRIGHT", -E.Border + E.Spacing*3, 0);
 	rchattb:Point("BOTTOMRIGHT", rchat, "BOTTOMRIGHT", -SPACING, SPACING)
 	rchattb:SetTemplate(E.db.datatexts.panelTransparency and "Transparent" or "Default", true)
-	rchattb:RegisterForClicks("AnyUp")
 	rchattb:SetScript("OnEnter", ChatButton_OnEnter)
 	rchattb:SetScript("OnLeave", ChatButton_OnLeave)
 	rchattb:SetScript("OnClick", ChatButton_OnClick)
@@ -353,6 +352,44 @@ function LO:CreateMinimapPanels()
 		RightMiniPanel:Hide()
 	end
 
+
+	local configtoggle = CreateFrame("Button", "ElvConfigToggle", Minimap)
+	if(E.db.general.reminder.position == "LEFT") then
+		configtoggle:Point("TOPRIGHT", lminipanel, "TOPLEFT", (E.PixelMode and 1 or -1), 0);
+		configtoggle:Point("BOTTOMRIGHT", lminipanel, "BOTTOMLEFT", (E.PixelMode and 1 or -1), 0);
+	else
+		configtoggle:Point("TOPLEFT", rminipanel, "TOPRIGHT", (E.PixelMode and -1 or 1), 0);
+		configtoggle:Point("BOTTOMLEFT", rminipanel, "BOTTOMRIGHT", (E.PixelMode and -1 or 1), 0);
+	end
+	configtoggle:RegisterForClicks("AnyUp")
+	configtoggle:Width(E.RBRWidth)
+	configtoggle:SetTemplate(E.db.datatexts.panelTransparency and "Transparent" or "Default", true)
+	configtoggle.text = configtoggle:CreateFontString(nil, "OVERLAY")
+	configtoggle.text:FontTemplate(E.LSM:Fetch("font", E.db.datatexts.font), E.db.datatexts.fontSize, E.db.datatexts.fontOutline)
+	configtoggle.text:SetText("C")
+	configtoggle.text:SetPoint("CENTER")
+	configtoggle.text:SetJustifyH("CENTER")
+	configtoggle:SetScript("OnClick", function(_, btn)
+		if btn == "LeftButton" then
+			E:ToggleConfig()
+		else
+			E:BGStats()
+		end
+	end)
+	configtoggle:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 0, -4)
+		GameTooltip:ClearLines()
+		GameTooltip:AddDoubleLine(L["Left Click:"], L["Toggle Configuration"], 1, 1, 1)
+
+		if E.db.datatexts.battleground then
+			GameTooltip:AddDoubleLine(L["Right Click:"], L["Show BG Texts"], 1, 1, 1)
+		end
+		GameTooltip:Show()
+	end)
+	configtoggle:SetScript("OnLeave", function()
+		GameTooltip:Hide()
+	end)
+
 	local f = CreateFrame("Frame", "BottomMiniPanel", Minimap);
 	f:SetPoint("BOTTOM", Minimap, "BOTTOM");
 	f:Width(75);
@@ -390,4 +427,8 @@ function LO:CreateMinimapPanels()
 	E:GetModule("DataTexts"):RegisterPanel(f, 1, "ANCHOR_BOTTOMRIGHT", 0, -10);
 end
 
-E:RegisterModule(LO:GetName())
+local function InitializeCallback()
+	LO:Initialize()
+end
+
+E:RegisterModule(LO:GetName(), InitializeCallback)

@@ -65,9 +65,8 @@ function S:HandleButton(f, strip)
 	if strip then f:StripTextures() end
 
 	f:SetTemplate("Default", true)
-
-	if f:GetScript("OnEnter") then f:HookScript("OnEnter", S.SetModifiedBackdrop) else f:SetScript("OnEnter", S.SetModifiedBackdrop) end
-	if f:GetScript("OnLeave") then f:HookScript("OnLeave", S.SetOriginalBackdrop) else f:SetScript("OnLeave", S.SetOriginalBackdrop) end
+	f:HookScript2("OnEnter", S.SetModifiedBackdrop)
+	f:HookScript2("OnLeave", S.SetOriginalBackdrop)
 end
 
 function S:HandleScrollBar(frame, thumbTrim)
@@ -263,7 +262,7 @@ function S:HandleDropDownBox(frame, width)
 
 		self:HandleNextPrevButton(button, true);
 	end
-	frame:CreateBackdrop("Transparent");
+	frame:CreateBackdrop("Default");
 	frame.backdrop:Point("TOPLEFT", 20, -2);
 	frame.backdrop:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2);
 	frame.backdrop:SetFrameLevel(frame:GetFrameLevel());
@@ -344,8 +343,8 @@ function S:HandleCloseButton(f, point, text)
 		f:CreateBackdrop("Default", true);
 		f.backdrop:Point("TOPLEFT", 7, -8);
 		f.backdrop:Point("BOTTOMRIGHT", -8, 8);
-		if f:GetScript("OnEnter") then f:HookScript("OnEnter", S.SetModifiedBackdrop) else f:SetScript("OnEnter", S.SetModifiedBackdrop) end
-		if f:GetScript("OnLeave") then f:HookScript("OnLeave", S.SetOriginalBackdrop) else f:SetScript("OnLeave", S.SetOriginalBackdrop) end
+		f:HookScript2("OnEnter", S.SetModifiedBackdrop)
+		f:HookScript2("OnLeave", S.SetOriginalBackdrop)
 	end
 	if(not text) then text = "x"; end
 	if(not f.text) then
@@ -496,9 +495,9 @@ function S:AddCallbackForAddon(addonName, eventName, loadFunc, forceLoad, bypass
 		self.addonCallbacks[addonName] = {["CallPriority"] = {}};
 	end
 
-	if(self.addonCallbacks[addonName][eventName]) then
+	if self.addonCallbacks[addonName][eventName] or E.ModuleCallbacks[eventName] or E.InitialModuleCallbacks[eventName] then
 		--Don't allow a registered callback to be overwritten
-		E:Print("Invalid argument #2 to S:AddCallbackForAddon (event name is already registered, please use a unique event name)");
+		E:Print("Invalid argument #2 to S:AddCallbackForAddon (event name:", eventName, "is already registered, please use a unique event name)")
 		return;
 	end
 
@@ -525,9 +524,9 @@ function S:AddCallback(eventName, loadFunc)
 		return;
 	end
 
-	if(self.nonAddonCallbacks[eventName]) then
+	if self.nonAddonCallbacks[eventName] or E.ModuleCallbacks[eventName] or E.InitialModuleCallbacks[eventName] then
 		--Don't allow a registered callback to be overwritten
-		E:Print("Invalid argument #1 to S:AddCallback (event name is already registered, please use a unique event name)");
+		E:Print("Invalid argument #1 to S:AddCallback (event name:", eventName, "is already registered, please use a unique event name)")
 		return;
 	end
 
@@ -564,7 +563,7 @@ function S:Initialize()
 		if(IsAddOnLoaded(addon)) then
 			self.addonsToLoad[addon] = nil;
 			local _, catch = pcall(loadFunc);
-			if(catch and GetCVarBool("scriptErrors") == true) then
+			if(catch and GetCVar("scriptErrors") == "1") then
 				ScriptErrorsFrame_OnError(catch, false);
 			end
 		end
@@ -572,7 +571,7 @@ function S:Initialize()
 
 	for _, loadFunc in pairs(self.nonAddonsToLoad) do
 		local _, catch = pcall(loadFunc)
-		if(catch and GetCVarBool("scriptErrors") == true) then
+		if(catch and GetCVar("scriptErrors") == "1") then
 			ScriptErrorsFrame_OnError(catch, false);
 		end
 	end
@@ -581,4 +580,8 @@ end
 
 S:RegisterEvent("ADDON_LOADED");
 
-E:RegisterModule(S:GetName());
+local function InitializeCallback()
+	S:Initialize()
+end
+
+E:RegisterModule(S:GetName(), InitializeCallback)

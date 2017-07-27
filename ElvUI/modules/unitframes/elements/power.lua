@@ -15,6 +15,8 @@ function UF:Construct_PowerBar(frame, bg, text, textPos)
 
 	power.PostUpdate = self.PostUpdatePower;
 
+	CreateStatusBarTexturePointer(power)
+
 	if(bg) then
 		power.bg = power:CreateTexture(nil, "BORDER");
 		power.bg:SetAllPoints();
@@ -121,13 +123,13 @@ function UF:Configure_Power(frame)
 			power:SetFrameLevel(50);
 		elseif(frame.USE_POWERBAR_OFFSET) then
 			if(frame.ORIENTATION == "LEFT") then
-				power:Point("TOPRIGHT", frame.Health, "TOPRIGHT", frame.POWERBAR_OFFSET, -frame.POWERBAR_OFFSET);
+				power:Point("TOPRIGHT", frame.Health, "TOPRIGHT", frame.POWERBAR_OFFSET + frame.HAPPINESS_WIDTH, -frame.POWERBAR_OFFSET)
 				power:Point("BOTTOMLEFT", frame.Health, "BOTTOMLEFT", frame.POWERBAR_OFFSET, -frame.POWERBAR_OFFSET);
 			elseif(frame.ORIENTATION == "MIDDLE") then
 				power:Point("TOPLEFT", frame, "TOPLEFT", frame.BORDER + frame.SPACING, -frame.POWERBAR_OFFSET -frame.CLASSBAR_YOFFSET);
 				power:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -frame.BORDER - frame.SPACING, frame.BORDER);
 			else
-				power:Point("TOPLEFT", frame.Health, "TOPLEFT", -frame.POWERBAR_OFFSET, -frame.POWERBAR_OFFSET);
+				power:Point("TOPLEFT", frame.Health, "TOPLEFT", -frame.POWERBAR_OFFSET - frame.HAPPINESS_WIDTH, -frame.POWERBAR_OFFSET)
 				power:Point("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", -frame.POWERBAR_OFFSET, -frame.POWERBAR_OFFSET);
 			end
 			power:SetFrameLevel(frame.Health:GetFrameLevel() -5);
@@ -141,13 +143,13 @@ function UF:Configure_Power(frame)
 
 			if(frame.ORIENTATION == "LEFT") then
 				power:Width(frame.POWERBAR_WIDTH - frame.BORDER*2);
-				power:Point("RIGHT", frame, "BOTTOMRIGHT", -(frame.BORDER*2 + 4), ((frame.POWERBAR_HEIGHT-frame.BORDER)/2));
+				power:Point("RIGHT", frame, "BOTTOMRIGHT", -(frame.BORDER*2 + 4) -frame.HAPPINESS_WIDTH, ((frame.POWERBAR_HEIGHT-frame.BORDER)/2))
 			elseif(frame.ORIENTATION == "RIGHT") then
 				power:Width(frame.POWERBAR_WIDTH - frame.BORDER*2);
-				power:Point("LEFT", frame, "BOTTOMLEFT", (frame.BORDER*2 + 4), ((frame.POWERBAR_HEIGHT-frame.BORDER)/2));
+				power:Point("LEFT", frame, "BOTTOMLEFT", (frame.BORDER*2 + 4) +frame.HAPPINESS_WIDTH, ((frame.POWERBAR_HEIGHT-frame.BORDER)/2))
 			else
 				power:Point("LEFT", frame, "BOTTOMLEFT", (frame.BORDER*2 + 4), ((frame.POWERBAR_HEIGHT-frame.BORDER)/2));
-				power:Point("RIGHT", frame, "BOTTOMRIGHT", -(frame.BORDER*2 + 4), ((frame.POWERBAR_HEIGHT-frame.BORDER)/2));
+				power:Point("RIGHT", frame, "BOTTOMRIGHT", -(frame.BORDER*2 + 4) -frame.HAPPINESS_WIDTH, ((frame.POWERBAR_HEIGHT-frame.BORDER)/2))
 			end
 
 			power:SetFrameLevel(50);
@@ -161,7 +163,7 @@ function UF:Configure_Power(frame)
 
 		if(not frame.POWERBAR_DETACHED) then
 			if(power.Holder and power.Holder.mover) then
-				power.Holder.mover:SetScale(0.000001);
+				power.Holder.mover:SetScale(0.0001);
 				power.Holder.mover:SetAlpha(0);
 			end
 		end
@@ -178,10 +180,8 @@ function UF:Configure_Power(frame)
 		end
 
 		if(frame.POWERBAR_DETACHED and db.power.parent == "UIPARENT") then
-			E.FrameLocks[power] = true;
 			power:SetParent(E.UIParent);
 		else
-			E.FrameLocks[power] = nil;
 			power:SetParent(frame);
 		end
 	elseif(frame:IsElementEnabled("Power")) then
@@ -203,13 +203,12 @@ function UF:Configure_Power(frame)
 	end
 end
 
-local tokens = {[0] = "MANA", "RAGE", "FOCUS", "ENERGY"}
 function UF:PostUpdatePower(unit, min, max)
 	local parent = self:GetParent();
 
 	if(parent.isForced) then
 		local pType = random(0, 3);
-		local color = ElvUF["colors"].power[tokens[pType]];
+		local color = ElvUF["colors"].power[pType];
 		min = random(1, max);
 		self:SetValue(min);
 

@@ -30,7 +30,7 @@ local GetAngle = function(unit1, unit2)
 	if(x1 <= 0 and y1 <= 0) then return nil; end
 	local x2, y2 = GetPlayerMapPosition(unit2)
 	if(x2 <= 0 and y2 <= 0) then return nil; end
-	return -pi2 - atan2(y2 - y1, x2 - x1);
+	return -pi2 - GetPlayerFacing() - atan2(y2 - y1, x2 - x1);
 end
 
 local minThrottle = 0.02

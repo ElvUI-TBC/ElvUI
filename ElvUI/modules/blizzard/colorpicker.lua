@@ -173,7 +173,7 @@ function B:EnhanceColorPicker()
 	-- add copy button to the ColorPickerFrame
 	local b = CreateFrame("Button", "ColorPPCopy", ColorPickerFrame, "UIPanelButtonTemplate")
 	S:HandleButton(b)
-	b:SetText(CALENDAR_COPY_EVENT)
+	b:SetText(L["Copy"])
 	b:SetWidth(60)
 	b:SetHeight(22)
 	b:SetPoint("TOPLEFT", "ColorSwatch", "BOTTOMLEFT", 0, -5)
@@ -214,7 +214,7 @@ function B:EnhanceColorPicker()
 
 	-- add paste button to the ColorPickerFrame
 	b = CreateFrame("Button", "ColorPPPaste", ColorPickerFrame, "UIPanelButtonTemplate")
-	b:SetText(CALENDAR_PASTE_EVENT)
+	b:SetText(L["Paste"])
 	S:HandleButton(b)
 	b:Width(60)
 	b:Height(22)

@@ -14,7 +14,6 @@ function UF:Construct_AuraWatch(frame)
 	auras:SetInside(frame.Health);
 	auras.presentAlpha = 1;
 	auras.missingAlpha = 0;
-	auras.strictMatching = true;
 	auras.icons = {};
 
 	return auras;
@@ -118,7 +117,6 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 				icon.name = name;
 				icon.image = image;
 				icon.spellID = buffs[i].id;
-				icon.anyUnit = buffs[i].anyUnit;
 				icon.style = buffs[i].style;
 				icon.onlyShowMissing = buffs[i].onlyShowMissing;
 				icon.presentAlpha = icon.onlyShowMissing and 0 or 1;

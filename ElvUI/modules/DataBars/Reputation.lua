@@ -25,12 +25,6 @@ function mod:UpdateReputation(event)
 	elseif (not self.db.reputation.hideInCombat or not InCombatLockdown()) then
 		bar:Show();
 
-		if(self.db.reputation.hideInVehicle) then
-			E:RegisterObjectForVehicleLock(bar, E.UIParent);
-		else
-			E:UnregisterObjectForVehicleLock(bar);
-		end
-
 		local text = "";
 		local textFormat = self.db.reputation.textFormat;
 		local color = FACTION_BAR_COLORS[reaction] or backupColor;

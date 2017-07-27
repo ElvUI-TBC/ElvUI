@@ -12,7 +12,7 @@ local GetTradeSkillReagentInfo = GetTradeSkillReagentInfo
 local GetTradeSkillReagentItemLink = GetTradeSkillReagentItemLink
 
 function S:LoadTradeSkillSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true) then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true then return end
 
 	TRADE_SKILLS_DISPLAYED = 25
 
@@ -26,8 +26,6 @@ function S:LoadTradeSkillSkin()
 	TradeSkillFrame.backdrop:Point("BOTTOMRIGHT", -34, 0)
 
 	TradeSkillRankFrameBorder:StripTextures()
-
-	TradeSkillRankFrame:StripTextures()
 	TradeSkillRankFrame:Size(447, 16)
 	TradeSkillRankFrame:ClearAllPoints()
 	TradeSkillRankFrame:Point("TOP", 10, -45)
@@ -75,6 +73,9 @@ function S:LoadTradeSkillSkin()
 	S:HandleDropDownBox(TradeSkillSubClassDropDown, 140)
 	TradeSkillSubClassDropDown:ClearAllPoints()
 	TradeSkillSubClassDropDown:Point("LEFT", TradeSkillInvSlotDropDown, "RIGHT", -25, 0)
+
+	TradeSkillFrameTitleText:ClearAllPoints()
+	TradeSkillFrameTitleText:Point("TOP", TradeSkillRankFrameSkillRank, "TOP", 0, 30)
 
 	for i = 9, 25 do
 		CreateFrame("Button", "TradeSkillSkill" .. i, TradeSkillFrame, "TradeSkillSkillButtonTemplate"):Point("TOPLEFT", _G["TradeSkillSkill" .. i - 1], "BOTTOMLEFT")
@@ -150,7 +151,9 @@ function S:LoadTradeSkillSkin()
 		nameFrame:Kill()
 	end
 
-	TradeSkillReagent1:Point("TOPLEFT", TradeSkillSkillIcon, "BOTTOMLEFT", 0, -10)
+	TradeSkillReagentLabel:Point("TOPLEFT", TradeSkillSkillIcon, "BOTTOMLEFT", 0, -10)
+
+	TradeSkillReagent1:Point("TOPLEFT", TradeSkillReagentLabel, "BOTTOMLEFT", 0, -6)
 	TradeSkillReagent3:Point("TOPLEFT", TradeSkillReagent1, "BOTTOMLEFT", 0, -3)
 	TradeSkillReagent5:Point("TOPLEFT", TradeSkillReagent3, "BOTTOMLEFT", 0, -3)
 	TradeSkillReagent7:Point("TOPLEFT", TradeSkillReagent6, "BOTTOMLEFT", 0, -3)
@@ -175,9 +178,12 @@ function S:LoadTradeSkillSkin()
 	S:HandleCloseButton(TradeSkillFrameCloseButton)
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
-		if(TradeSkillSkillIcon:GetNormalTexture()) then
+		if TradeSkillSkillIcon:GetNormalTexture() then
+			TradeSkillSkillIcon:SetAlpha(1)
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 			TradeSkillSkillIcon:GetNormalTexture():SetInside()
+		else
+			TradeSkillSkillIcon:SetAlpha(0)
 		end
 
 		local skillLink = GetTradeSkillItemLink(id)

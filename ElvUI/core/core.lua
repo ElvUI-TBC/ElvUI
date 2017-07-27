@@ -9,7 +9,6 @@ local floor = floor;
 local format, find, match, strrep, len, sub, gsub = string.format, string.find, string.match, strrep, string.len, string.sub, string.gsub;
 
 local CreateFrame = CreateFrame;
-local GetActiveTalentGroup = GetActiveTalentGroup;
 local GetCVar = GetCVar;
 local GetFunctionCPUUsage = GetFunctionCPUUsage;
 local GetTalentTabInfo = GetTalentTabInfo;
@@ -39,15 +38,16 @@ E.LSM = LSM;
 
 E["media"] = {};
 E["frames"] = {};
+E["unitFrameElements"] = {};
 E["statusBars"] = {};
 E["texts"] = {};
 E["snapBars"] = {};
 E["RegisteredModules"] = {};
 E["RegisteredInitialModules"] = {};
+E["ModuleCallbacks"] = {["CallPriority"] = {}}
+E["InitialModuleCallbacks"] = {["CallPriority"] = {}}
 E["valueColorUpdateFuncs"] = {};
 E.TexCoords = {.08, .92, .08, .92};
-E.FrameLocks = {};
-E.VehicleLocks = {};
 E.CreditsList = {};
 E.PixelMode = false;
 
@@ -71,7 +71,7 @@ E.DispelClasses = {
 	["SHAMAN"] = {
 		["Poison"] = true,
 		["Disease"] = true,
-		["Curse"] = true
+		["Curse"] = false
 	},
 	["PALADIN"] = {
 		["Poison"] = true,
@@ -115,11 +115,6 @@ E.ClassRole = {
 	},
 	ROGUE = "Melee",
 	MAGE = "Caster",
-	DEATHKNIGHT = {
-		[1] = "Tank",
-		[2] = "Melee",
-		[3] = "Melee"
-	},
 	DRUID = {
 		[1] = "Caster",
 		[2] = "Melee",
@@ -182,7 +177,7 @@ function E:GetColorTable(data)
 end
 
 function E:UpdateMedia()
-	if(not self.db["general"] or not self.private["general"]) then return; end
+	if not (self.db and self.db["general"] and self.private["general"]) then return; end
 
 	-- Fonts
 	self["media"].normFont = LSM:Fetch("font", self.db["general"].font);
@@ -200,11 +195,19 @@ function E:UpdateMedia()
 		E.db["general"].bordercolor.r = classColor.r;
 		E.db["general"].bordercolor.g = classColor.g;
 		E.db["general"].bordercolor.b = classColor.b;
-	elseif(E.PixelMode) then
-		border = {r = 0, g = 0, b = 0};
 	end
 
 	self["media"].bordercolor = {border.r, border.g, border.b};
+
+	-- UnitFrame Border Color
+	border = E.db["unitframe"].colors.borderColor
+	if self:CheckClassColor(border.r, border.g, border.b) then
+		local classColor = E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass])
+		E.db["unitframe"].colors.borderColor.r = classColor.r
+		E.db["unitframe"].colors.borderColor.g = classColor.g
+		E.db["unitframe"].colors.borderColor.b = classColor.b
+	end
+	self["media"].unitframeBorderColor = {border.r, border.g, border.b}
 
 	-- Backdrop Color
 	self["media"].backdropcolor = E:GetColorTable(self.db["general"].backdropcolor);
@@ -292,23 +295,41 @@ function E:ValueFuncCall()
 end
 
 function E:UpdateFrameTemplates()
-	for frame, _ in pairs(self["frames"]) do
+	for frame in pairs(self["frames"]) do
 		if(frame and frame.template) then
 			frame:SetTemplate(frame.template, frame.glossTex);
 		else
 			self["frames"][frame] = nil;
 		end
 	end
+
+	for frame in pairs(self["unitFrameElements"]) do
+		if frame and frame.template and not frame.ignoreUpdates then
+			frame:SetTemplate(frame.template, frame.glossTex);
+		else
+			self["unitFrameElements"][frame] = nil;
+		end
+	end
 end
 
 function E:UpdateBorderColors()
-	for frame, _ in pairs(self["frames"]) do
+	for frame in pairs(self["frames"]) do
 		if(frame) then
 			if(frame.template == "Default" or frame.template == "Transparent" or frame.template == nil) then
 				frame:SetBackdropBorderColor(unpack(self["media"].bordercolor));
 			end
 		else
 			self["frames"][frame] = nil;
+		end
+	end
+
+	for frame in pairs(self["unitFrameElements"]) do
+		if frame and not frame.ignoreUpdates then
+			if frame.template == "Default" or frame.template == "Transparent" or frame.template == nil then
+				frame:SetBackdropBorderColor(unpack(self["media"].unitframeBorderColor))
+			end
+		else
+			self["unitFrameElements"][frame] = nil;
 		end
 	end
 end
@@ -327,6 +348,22 @@ function E:UpdateBackdropColors()
 			end
 		else
 			self["frames"][frame] = nil;
+		end
+	end
+
+	for frame, _ in pairs(self["unitFrameElements"]) do
+		if frame then
+			if frame.template == "Default" or frame.template == nil then
+				if frame.backdropTexture then
+					frame.backdropTexture:SetVertexColor(unpack(self["media"].backdropcolor))
+				else
+					frame:SetBackdropColor(unpack(self["media"].backdropcolor))
+				end
+			elseif frame.template == "Transparent" then
+				frame:SetBackdropColor(unpack(self["media"].backdropfadecolor))
+			end
+		else
+			self["unitFrameElements"][frame] = nil;
 		end
 	end
 end
@@ -427,25 +464,25 @@ function E:IncompatibleAddOn(addon, module)
 end
 
 function E:CheckIncompatible()
-	if(E.global.ignoreIncompatible) then return; end
+	if E.global.ignoreIncompatible then return end
+
 --[[
-	if(IsAddOnLoaded("Prat-3.0") and E.private.chat.enable) then
-		E:IncompatibleAddOn("Prat-3.0", "Chat");
-	end
-
-	if(IsAddOnLoaded("Chatter") and E.private.chat.enable) then
-		E:IncompatibleAddOn("Chatter", "Chat");
-	end
-
-	if(IsAddOnLoaded("SnowfallKeyPress") and E.private.actionbar.enable) then
+	if IsAddOnLoaded("SnowfallKeyPress") and E.private.actionbar.enable then
 		E.private.actionbar.keyDown = true
-		E:IncompatibleAddOn("SnowfallKeyPress", "ActionBar");
-	end
-
-	if(IsAddOnLoaded("TidyPlates") and E.private.nameplates.enable) then
-		E:IncompatibleAddOn("TidyPlates", "NamePlate");
+		E:IncompatibleAddOn("SnowfallKeyPress", "ActionBar")
 	end
 ]]
+
+	if IsAddOnLoaded("Chatter") and E.private.chat.enable then
+		E:IncompatibleAddOn("Chatter", "Chat")
+	end
+	if IsAddOnLoaded("Prat") and E.private.chat.enable then
+		E:IncompatibleAddOn("Prat", "Chat")
+	end
+
+	if IsAddOnLoaded("Aloft") and E.private.nameplates.enable then
+		E:IncompatibleAddOn("Aloft", "NamePlate")
+	end
 end
 
 function E:IsFoolsDay()
@@ -728,7 +765,6 @@ function E:UpdateAll(ignoreInstall)
 	self.global = self.data.global;
 	self.db.theme = nil;
 	self.db.install_complete = nil;
-	--LibStub("LibDualSpec-1.0"):EnhanceDatabase(self.data, "ElvUI");
 
 	self:SetMoversPositions();
 	self:UpdateMedia();
@@ -778,10 +814,10 @@ function E:UpdateAll(ignoreInstall)
 	DataBars:EnableDisable_ExperienceBar();
 	DataBars:EnableDisable_ReputationBar();
 
-	-- local T = self:GetModule("Threat");
-	-- T.db = self.db.general.threat;
-	-- T:UpdatePosition();
-	-- T:ToggleEnable();
+	local T = self:GetModule("Threat");
+	T.db = self.db.general.threat;
+	T:UpdatePosition();
+	T:ToggleEnable();
 
 	self:GetModule("Auras").db = self.db.auras
 	self:GetModule("Tooltip").db = self.db.tooltip
@@ -794,10 +830,8 @@ function E:UpdateAll(ignoreInstall)
 		E:GetModule("Auras"):UpdateHeader(ElvUIPlayerDebuffs);
 	end
 
-	if(self.private.install_complete == nil or (self.private.install_complete and type(self.private.install_complete) == "boolean") or (self.private.install_complete and type(tonumber(self.private.install_complete)) == "number" and tonumber(self.private.install_complete) <= 3.83)) then
-		if(not ignoreInstall) then
-			self:Install();
-		end
+	if not (self.private.install_complete or ignoreInstall) then
+		self:Install()
 	end
 
 	self:GetModule("Minimap"):UpdateSettings();
@@ -818,60 +852,6 @@ function E:UpdateAll(ignoreInstall)
 	self:GetModule("Blizzard"):SetWatchFrameHeight();
 
 	collectgarbage("collect");
-end
-
-function E:EnterVehicleHideFrames(_, unit)
-	if(unit ~= "player") then return; end
-
-	for object in pairs(E.VehicleLocks) do
-		object:SetParent(E.HiddenFrame);
-	end
-end
-
-function E:ExitVehicleShowFrames(_, unit)
-	if(unit ~= "player") then return; end
-
-	for object, originalParent in pairs(E.VehicleLocks) do
-		object:SetParent(originalParent);
-	end
-end
-
-function E:RegisterObjectForVehicleLock(object, originalParent)
-	if(not object or not originalParent) then
-		E:Print("Error. Usage: RegisterObjectForVehicleLock(object, originalParent)");
-		return;
-	end
-
-	local object = _G[object] or object;
-	if(object.IsProtected and object:IsProtected()) then
-		E:Print("Error. Object is protected and cannot be changed in combat.");
-		return;
-	end
-
-	if(UnitHasVehicleUI("player")) then
-		object:SetParent(E.HiddenFrame);
-	end
-
-	E.VehicleLocks[object] = originalParent;
-end
-
-function E:UnregisterObjectForVehicleLock(object)
-	if(not object) then
-		E:Print("Error. Usage: UnregisterObjectForVehicleLock(object)");
-		return;
-	end
-
-	local object = _G[object] or object;
-	if(not E.VehicleLocks[object]) then
-		return;
-	end
-
-	local originalParent = E.VehicleLocks[object];
-	if(originalParent) then
-		object:SetParent(originalParent);
-	end
-
-	E.VehicleLocks[object] = nil;
 end
 
 function E:ResetAllUI()
@@ -897,24 +877,70 @@ function E:ResetUI(...)
 	self:ResetMovers(...);
 end
 
-function E:RegisterModule(name)
-	if(self.initialized) then
-		self:GetModule(name):Initialize();
+function E:RegisterModule(name, loadFunc)
+	--New method using callbacks
+	if (loadFunc and type(loadFunc) == "function") then
+		if self.initialized then
+			loadFunc()
+		else
+			if self.ModuleCallbacks[name] then
+				--Don't allow a registered module name to be overwritten
+				E:Print("Invalid argument #1 to E:RegisterModule (module name:", name, "is already registered, please use a unique name)")
+				return
+			end
+
+			--Add module name to registry
+			self.ModuleCallbacks[name] = true
+			self.ModuleCallbacks["CallPriority"][#self.ModuleCallbacks["CallPriority"] + 1] = name
+
+			--Register loadFunc to be called when event is fired
+			E:RegisterCallback(name, loadFunc, E:GetModule(name))
+		end
+	--Old deprecated initialize method
 	else
-		self["RegisteredModules"][#self["RegisteredModules"] + 1] = name;
+		if self.initialized then
+			self:GetModule(name):Initialize()
+		else
+			self["RegisteredModules"][#self["RegisteredModules"] + 1] = name
+		end
 	end
 end
 
-function E:RegisterInitialModule(name)
-	self["RegisteredInitialModules"][#self["RegisteredInitialModules"] + 1] = name;
+function E:RegisterInitialModule(name, loadFunc)
+	--New method using callbacks
+	if (loadFunc and type(loadFunc) == "function") then
+		if self.InitialModuleCallbacks[name] then
+			--Don't allow a registered module name to be overwritten
+			E:Print("Invalid argument #1 to E:RegisterInitialModule (module name:", name, "is already registered, please use a unique name)")
+			return
+		end
+
+		--Add module name to registry
+		self.InitialModuleCallbacks[name] = true
+		self.InitialModuleCallbacks["CallPriority"][#self.InitialModuleCallbacks["CallPriority"] + 1] = name
+
+		--Register loadFunc to be called when event is fired
+		E:RegisterCallback(name, loadFunc, E:GetModule(name))
+	--Old deprecated initialize method
+	else
+		self["RegisteredInitialModules"][#self["RegisteredInitialModules"] + 1] = name;
+	end
 end
 
 function E:InitializeInitialModules()
+	--Fire callbacks for any module using the new system
+	for index, moduleName in ipairs(self.InitialModuleCallbacks["CallPriority"]) do
+		self.InitialModuleCallbacks[moduleName] = nil
+		self.InitialModuleCallbacks["CallPriority"][index] = nil
+		E.callbacks:Fire(moduleName)
+	end
+
+	--Old deprecated initialize method, we keep it for any plugins that may need it
 	for _, module in pairs(E["RegisteredInitialModules"]) do
 		local module = self:GetModule(module, true);
 		if(module and module.Initialize) then
 			local _, catch = pcall(module.Initialize, module);
-			if(catch and GetCVar("scriptErrors") == 1) then
+			if(catch and GetCVar("scriptErrors") == "1") then
 				ScriptErrorsFrame_OnError(catch, false);
 			end
 		end
@@ -922,17 +948,25 @@ function E:InitializeInitialModules()
 end
 
 function E:RefreshModulesDB()
---	local UF = self:GetModule("UnitFrames");
---	twipe(UF.db);
---	UF.db = self.db.unitframe;
+	local UF = self:GetModule("UnitFrames");
+	twipe(UF.db);
+	UF.db = self.db.unitframe;
 end
 
 function E:InitializeModules()
+	--Fire callbacks for any module using the new system
+	for index, moduleName in ipairs(self.ModuleCallbacks["CallPriority"]) do
+		self.ModuleCallbacks[moduleName] = nil
+		self.ModuleCallbacks["CallPriority"][index] = nil
+		E.callbacks:Fire(moduleName)
+	end
+
+	--Old deprecated initialize method, we keep it for any plugins that may need it
 	for _, module in pairs(E["RegisteredModules"]) do
 		local module = self:GetModule(module);
 		if(module.Initialize) then
 			local _, catch = pcall(module.Initialize, module);
-			if(catch and GetCVar("scriptErrors") == 1) then
+			if(catch and GetCVar("scriptErrors") == "1") then
 				ScriptErrorsFrame_OnError(catch, false);
 			end
 		end
@@ -1021,7 +1055,7 @@ function E:Initialize()
 	self.data.RegisterCallback(self, "OnProfileChanged", "UpdateAll");
 	self.data.RegisterCallback(self, "OnProfileCopied", "UpdateAll");
 	self.data.RegisterCallback(self, "OnProfileReset", "OnProfileReset");
---	LibStub("LibDualSpec-1.0"):EnhanceDatabase(self.data, "ElvUI");
+
 	self.charSettings = LibStub("AceDB-3.0"):New("ElvPrivateDB", self.privateVars);
 	self.private = self.charSettings.profile;
 	self.db = self.data.profile;

@@ -49,12 +49,12 @@ UF["classMaxResourceBar"] = {
 };
 
 UF["mapIDs"] = {
-	[444] = 10,
-	[541] = 40,
-	[513] = 15,
-	[402] = 40,
-	[462] = 15,
-	[483] = 15
+--	[444] = 10,
+--	[541] = 40,
+--	[513] = 15,
+--	[402] = 40,
+--	[462] = 15,
+--	[483] = 15
 };
 
 UF["headerGroupBy"] = {
@@ -212,6 +212,7 @@ function UF:Construct_UF(frame, unit)
 		frame.SPACING = E.Spacing;
 	end
 
+	frame.HAPPINESS_WIDTH = 0
 	frame.SHADOW_SPACING = 3;
 	frame.CLASSBAR_YOFFSET = 0;
 	frame.BOTTOM_OFFSET = 0;
@@ -345,7 +346,6 @@ function UF:UpdateColors()
 	unpack(E:GetColorTable(db.health))};
 
 	ElvUF.colors.castColor = E:GetColorTable(db.castColor);
-	ElvUF.colors.castNoInterrupt = E:GetColorTable(db.castNoInterrupt);
 end
 
 function UF:Update_StatusBars()
@@ -712,7 +712,6 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 		local inInstance, instanceType = IsInInstance();
 		if(inInstance and (instanceType == "raid" or instanceType == "pvp")) then
 			local _, _, _, _, maxPlayers = GetInstanceInfo();
-			print(_, _, _, _, maxPlayers)
 			local mapID = GetCurrentMapAreaID();
 			if(UF.mapIDs[mapID]) then
 				maxPlayers = UF.mapIDs[mapID];
@@ -975,11 +974,6 @@ function ElvUF:DisableBlizzard(unit)
 
 	if((unit == "player") and E.private["unitframe"]["disabledBlizzardFrames"].player) then
 		HandleFrame(PlayerFrame);
-
-		PlayerFrame:RegisterEvent("UNIT_ENTERING_VEHICLE");
-		PlayerFrame:RegisterEvent("UNIT_ENTERED_VEHICLE");
-		PlayerFrame:RegisterEvent("UNIT_EXITING_VEHICLE");
-		PlayerFrame:RegisterEvent("UNIT_EXITED_VEHICLE");
 	elseif((unit == "pet") and E.private["unitframe"]["disabledBlizzardFrames"].player) then
 		HandleFrame(PetFrame)
 	elseif((unit == "target") and E.private["unitframe"]["disabledBlizzardFrames"].target) then
@@ -1090,14 +1084,12 @@ function UF:Initialize()
 		InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates:SetPoint(InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait:GetPoint());
 		InterfaceOptionsCombatPanelTargetOfTarget:SetScale(0.0001);
 		InterfaceOptionsCombatPanelTargetOfTarget:SetAlpha(0);
-		--InterfaceOptionsDisplayPanelShowAggroPercentage:SetScale(0.0001);
-		--InterfaceOptionsDisplayPanelShowAggroPercentage:SetAlpha(0);
 	end
 
 	if(E.private["unitframe"]["disabledBlizzardFrames"].party) then
 		InterfaceOptionsStatusTextPanelParty:SetScale(0.0001);
 		InterfaceOptionsStatusTextPanelParty:SetAlpha(0);
-		InterfaceOptionsFrameCategoriesButton11:SetScale(0.0001);
+--		InterfaceOptionsFrameCategoriesButton9:SetScale(0.0001);
 	end
 
 	--[[if(E.private["unitframe"]["disabledBlizzardFrames"].arena) then
@@ -1222,14 +1214,14 @@ end
 function UF:ToggleTransparentStatusBar(isTransparent, statusBar, backdropTex, adjustBackdropPoints, invertBackdropTex)
 	statusBar.isTransparent = isTransparent;
 
-	local statusBarTex = statusBar:GetStatusBarTexture();
-	local statusBarOrientation = statusBar:GetOrientation();
+	local statusBarTex = statusBar.texturePointer
+	local statusBarOrientation = statusBar:GetOrientation()
 	if(isTransparent) then
 		if(statusBar.backdrop) then
-			statusBar.backdrop:SetTemplate("Transparent");
+			statusBar.backdrop:SetTemplate("Transparent", nil, nil, nil, true);
 			statusBar.backdrop.ignoreUpdates = true;
 		elseif(statusBar:GetParent().template) then
-			statusBar:GetParent():SetTemplate("Transparent");
+			statusBar:GetParent():SetTemplate("Transparent", nil, nil, nil, true);
 			statusBar:GetParent().ignoreUpdates = true;
 		end
 
@@ -1259,10 +1251,10 @@ function UF:ToggleTransparentStatusBar(isTransparent, statusBar, backdropTex, ad
 		end
 	else
 		if(statusBar.backdrop) then
-			statusBar.backdrop:SetTemplate("Default", nil, nil, not statusBar.PostCastStart and self.thinBorders);
+			statusBar.backdrop:SetTemplate("Default", nil, nil, not statusBar.PostCastStart and self.thinBorders, true);
 			statusBar.backdrop.ignoreUpdates = nil;
 		elseif(statusBar:GetParent().template) then
-			statusBar:GetParent():SetTemplate("Default", nil, nil, self.thinBorders);
+			statusBar:GetParent():SetTemplate("Default", nil, nil, self.thinBorders, true);
 			statusBar:GetParent().ignoreUpdates = nil;
 		end
 
@@ -1282,4 +1274,8 @@ function UF:ToggleTransparentStatusBar(isTransparent, statusBar, backdropTex, ad
 	end
 end
 
-E:RegisterInitialModule(UF:GetName());
+local function InitializeCallback()
+	UF:Initialize()
+end
+
+E:RegisterInitialModule(UF:GetName(), InitializeCallback)

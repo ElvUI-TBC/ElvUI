@@ -15,6 +15,8 @@ function S:LoadMerchantSkin()
 		local item = _G["MerchantItem" .. i]
 		local itemButton = _G["MerchantItem" .. i .. "ItemButton"]
 		local iconTexture = _G["MerchantItem" .. i .. "ItemButtonIconTexture"]
+		local altCurrencyTex1 = _G["MerchantItem" .. i .. "AltCurrencyFrameItem1Texture"]
+		local altCurrencyTex2 = _G["MerchantItem" .. i .. "AltCurrencyFrameItem2Texture"]
 
 		item:StripTextures(true)
 		item:CreateBackdrop("Default")
@@ -26,6 +28,9 @@ function S:LoadMerchantSkin()
 
 		iconTexture:SetTexCoord(unpack(E.TexCoords))
 		iconTexture:SetInside()
+
+		altCurrencyTex1:SetTexCoord(unpack(E.TexCoords))
+		altCurrencyTex2:SetTexCoord(unpack(E.TexCoords))
 
 		_G["MerchantItem" .. i .. "MoneyFrame"]:ClearAllPoints()
 		_G["MerchantItem" .. i .. "MoneyFrame"]:Point("BOTTOMLEFT", itemButton, "BOTTOMRIGHT", 3, 0)
@@ -72,15 +77,16 @@ function S:LoadMerchantSkin()
 	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function()
 		local numMerchantItems = GetMerchantNumItems()
 		local index
-		local itemButton, itemName
+		local itemButton, itemName, itemLink
 		for i = 1, BUYBACK_ITEMS_PER_PAGE do
 			index = (((MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE) + i)
 			itemButton = _G["MerchantItem" .. i .. "ItemButton"]
 			itemName = _G["MerchantItem" .. i .. "Name"]
 
 			if(index <= numMerchantItems) then
-				if(itemButton.link) then
-					local _, _, quality = GetItemInfo(itemButton.link)
+				itemLink = GetMerchantItemLink(index)
+				if(itemLink) then
+					local _, _, quality = GetItemInfo(itemLink)
 					local r, g, b = GetItemQualityColor(quality)
 
 					itemName:SetTextColor(r, g, b)

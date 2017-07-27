@@ -29,10 +29,11 @@ function S:LoadHelpSkin()
 
 	HelpFrame:StripTextures()
 	HelpFrame:CreateBackdrop("Transparent")
-	HelpFrame.backdrop:Point("TOPLEFT", 6, -6)
+	HelpFrame.backdrop:Point("TOPLEFT", 6, -2)
 	HelpFrame.backdrop:Point("BOTTOMRIGHT", -45, 14)
 
 	S:HandleCloseButton(HelpFrameCloseButton)
+	HelpFrameCloseButton:Point("TOPRIGHT", -42, 0)
 
 	for i = 1, #knowFrameButtons do
 		local knowButton = _G["KnowledgeBaseFrame" .. knowFrameButtons[i]]
@@ -83,8 +84,10 @@ function S:LoadHelpSkin()
 
 	S:HandleDropDownBox(KnowledgeBaseFrameCategoryDropDown)
 	KnowledgeBaseFrameCategoryDropDown:Point("TOPLEFT", "KnowledgeBaseFrameEditBox", "TOPRIGHT", -14, -3)
+
 	S:HandleDropDownBox(KnowledgeBaseFrameSubCategoryDropDown)
 	KnowledgeBaseFrameSubCategoryDropDown:Point("TOPLEFT", "KnowledgeBaseFrameCategoryDropDown","TOPRIGHT", -24, 0)
+
 	KnowledgeBaseFrameSearchButton:Point("TOPLEFT", "KnowledgeBaseFrameSubCategoryDropDown","TOPRIGHT", -4, -2)
 
 	S:HandleNextPrevButton(KnowledgeBaseArticleListFrameNextButton)

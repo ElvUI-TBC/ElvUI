@@ -15,7 +15,7 @@ function _ERRORMESSAGE_NEW(message)
 	LoadAddOn("!DebugTools")
 	local loaded = IsAddOnLoaded("!DebugTools")
 
-	if (GetCVar("scriptErrors")) then
+	if (GetCVar("scriptErrors") == "1") then
 		if (not loaded or DEBUG_DEBUGTOOLS) then
 			ScriptErrors_Message:SetText(message)
 			ScriptErrors:Show()

@@ -9,30 +9,28 @@ local tostring = tostring;
 local floor = math.floor;
 local format, strsub = string.format, string.sub;
 
+local CinematicFrame = CinematicFrame;
 local CreateFrame = CreateFrame;
+local GetBattlefieldStatus = GetBattlefieldStatus;
+local GetGuildInfo = GetGuildInfo;
+local GetScreenHeight = GetScreenHeight;
+local GetScreenWidth = GetScreenWidth;
 local InCombatLockdown = InCombatLockdown;
+local IsInGuild = IsInGuild;
+local IsShiftKeyDown = IsShiftKeyDown;
 local MoveViewLeftStart = MoveViewLeftStart;
 local MoveViewLeftStop = MoveViewLeftStop;
-local IsInGuild = IsInGuild;
-local GetGuildInfo = GetGuildInfo;
-local GetBattlefieldStatus = GetBattlefieldStatus;
-local MAX_BATTLEFIELD_QUEUES = MAX_BATTLEFIELD_QUEUES;
-local UnitIsAFK = UnitIsAFK;
+local Screenshot = Screenshot;
 local SetCVar = SetCVar;
-local IsShiftKeyDown = IsShiftKeyDown;
-local GetColoredName = GetColoredName;
-local Chat_GetChatCategory = Chat_GetChatCategory;
-local ChatHistory_GetAccessID = ChatHistory_GetAccessID;
-local GetScreenWidth = GetScreenWidth;
-local GetScreenHeight = GetScreenHeight;
+local UnitCastingInfo = UnitCastingInfo;
 local UnitFactionGroup = UnitFactionGroup;
+local UnitIsAFK = UnitIsAFK;
+
+local MAX_BATTLEFIELD_QUEUES = MAX_BATTLEFIELD_QUEUES;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
-local DND = DND;
 
 local AFK_SPEED = 7.35;
-local DEFAULT_SPEED = 230;
-local PITCH_SPEED = 90;
 
 local ignoreKeys = {
 	LALT = true,
@@ -74,17 +72,47 @@ local function OnAnimFinished(self)
 	end
 end
 
+local recountVis
+local function RecountVisability(save)
+	if Recount and Recount.db and Recount.db.profile then
+		if save then
+			recountVis = Recount.db.profile.MainWindowVis
+		else
+			Recount.db.profile.MainWindowVis = recountVis
+			RecountDB.profiles[Recount.db.keys.profile].MainWindowVis = recountVis
+		end
+	end
+end
+
+local LRC
+local function RockConfigFix()
+	if not LRC then
+		LRC = LibStub("LibRockConfig-1.0", true)
+	end
+	if LRC then
+		if LRC.base and LRC.base:IsShown() then
+			LRC.base.addonChooser:Select(LRC.base.addonChooser.value)
+		end
+	end
+end
+
 function AFK:SetAFK(status)
 	if(status and not self.isAFK) then
 		if(InspectFrame) then
 			InspectPaperDollFrame:Hide();
 		end
 
-		UIParent:Hide();
-		self.AFKMode:Show();
+		RecountVisability(true)
+		UIParent:Hide()
+		self.AFKMode:Show()
+		RecountVisability()
+
+		E.global.afkEnabled = true
+		E.global.afkCameraSpeedYaw = GetCVar("cameraYawMoveSpeed")
+		E.global.afkCameraSpeedPitch = GetCVar("cameraPitchMoveSpeed")
 
 		SetCVar("cameraYawMoveSpeed", AFK_SPEED);
-		SetCVar("cameraPitchMoveSpeed", PITCH_SPEED);
+		SetCVar("cameraPitchMoveSpeed", E.global.afkCameraSpeedPitch);
 		MoveViewLeftStart();
 
 		if(IsInGuild()) then
@@ -115,8 +143,10 @@ function AFK:SetAFK(status)
 		self.AFKMode:Hide();
 		UIParent:Show();
 
-		SetCVar("cameraYawMoveSpeed", DEFAULT_SPEED);
-		SetCVar("cameraPitchMoveSpeed", PITCH_SPEED);
+		E.global.afkEnabled = nil
+		SetCVar("cameraYawMoveSpeed", E.global.afkCameraSpeedYaw)
+		SetCVar("cameraPitchMoveSpeed", E.global.afkCameraSpeedPitch)
+
 		MoveViewLeftStop();
 
 		self:CancelTimer(self.timer);
@@ -126,6 +156,8 @@ function AFK:SetAFK(status)
 		self.AFKMode.chat:Clear();
 
 		self.isAFK = false;
+
+		RockConfigFix()
 	end
 end
 
@@ -207,48 +239,13 @@ local function Chat_OnMouseWheel(self, delta)
 	end
 end
 
---[[
-local function Chat_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13)
-	local coloredName = GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
-	local type = strsub(event, 10);
-	local info = ChatTypeInfo[type];
-
-	local chatGroup = Chat_GetChatCategory(type);
-	local chatTarget, body;
-	if(chatGroup == "BN_CONVERSATION") then
-		chatTarget = tostring(arg8);
-	elseif(chatGroup == "WHISPER" or chatGroup == "BN_WHISPER") then
-		if(not(strsub(arg2, 1, 2) == "|K")) then
-			chatTarget = arg2:upper()
-		else
-			chatTarget = arg2;
-		end
-	end
-
-	local playerLink
-	if(type ~= "BN_WHISPER" and type ~= "BN_CONVERSATION") then
-		playerLink = "|Hplayer:"..arg2..":"..arg11..":"..chatGroup..(chatTarget and ":"..chatTarget or "").."|h";
-	else
-		playerLink = "|HBNplayer:"..arg2..":"..arg13..":"..arg11..":"..chatGroup..(chatTarget and ":"..chatTarget or "").."|h";
-	end
-
-	body = format(_G["CHAT_"..type.."_GET"]..arg1, playerLink.."["..coloredName.."]".."|h");
-
-	local accessID = ChatHistory_GetAccessID(chatGroup, chatTarget);
-	local typeID = ChatHistory_GetAccessID(type, chatTarget, arg12 == "" and arg13 or arg12);
-	if CH.db.shortChannels then
-		body = body:gsub("|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel);
-		body = body:gsub("^(.-|h) "..L["whispers"], "%1");
-		body = body:gsub("<"..AFKString..">", "[|cffFF0000"..L["AFK"].."|r] ");
-		body = body:gsub("<"..DND..">", "[|cffE7E716"..L["DND"].."|r] ");
-		body = body:gsub("%[BN_CONVERSATION:", "%[".."");
-	end
-
-	self:AddMessage(CH:ConcatenateTimeStamp(body), info.r, info.g, info.b, info.id, false, accessID, typeID);
-end
-]]
-
 function AFK:Initialize()
+	if E.global.afkEnabled then
+		SetCVar("cameraYawMoveSpeed", E.global.afkCameraSpeedYaw)
+		SetCVar("cameraPitchMoveSpeed", E.global.afkCameraSpeedPitch)
+		E.global.afkEnabled = nil
+	end
+
 	local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass];
 
 	self.AFKMode = CreateFrame("Frame", "ElvUIAFKFrame");
@@ -281,7 +278,7 @@ function AFK:Initialize()
 	self.AFKMode.bottom:SetFrameLevel(0);
 	self.AFKMode.bottom:SetTemplate("Transparent");
 	self.AFKMode.bottom:Point("BOTTOM", self.AFKMode, "BOTTOM", 0, -E.Border);
-	self.AFKMode.bottom:SetWidth(GetScreenWidth() + (E.Border*2));
+	self.AFKMode.bottom:Width(GetScreenWidth() + (E.Border*2));
 	self.AFKMode.bottom:Height(GetScreenHeight() * 0.1);
 
 	self.AFKMode.bottom.logo = self.AFKMode:CreateTexture(nil, "OVERLAY");
@@ -322,4 +319,8 @@ function AFK:Initialize()
 	self:Toggle();
 end
 
-E:RegisterModule(AFK:GetName());
+local function InitializeCallback()
+	AFK:Initialize()
+end
+
+E:RegisterModule(AFK:GetName(), InitializeCallback)

@@ -6,7 +6,6 @@ local unpack = unpack
 local find = string.find
 
 local UnitIsUnit = UnitIsUnit
-local UIDROPDOWNMENU_MAXLEVELS = UIDROPDOWNMENU_MAXLEVELS
 
 function S:LoadMiscSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.misc ~= true then return end
@@ -25,13 +24,12 @@ function S:LoadMiscSkin()
 		"SoundOptionsFrameHardware",
 		"SoundOptionsFrameVolume",
 		"TicketStatusFrame",
-		"DropDownList1MenuBackdrop",
-		"DropDownList2MenuBackdrop",
-		"DropDownList1Backdrop",
-		"DropDownList2Backdrop",
 		"ReadyCheckFrame",
 		"StackSplitFrame",
 	}
+
+	ReadyCheckFrame:StripTextures()
+	ReadyCheckPortrait:Kill()
 
 	for i = 1, #skins do
 		_G[skins[i]]:SetTemplate("Transparent")
@@ -50,6 +48,13 @@ function S:LoadMiscSkin()
 		else
 			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Transparent", true) self:SetBackdropColor(unpack(E["media"].backdropfadecolor)) end)
 		end
+	end
+
+	for i = 1, 32 do
+		_G["ChatMenuButton"..i]:StyleButton()
+		_G["EmoteMenuButton"..i]:StyleButton()
+		_G["LanguageMenuButton"..i]:StyleButton()
+		_G["VoiceMacroMenuButton"..i]:StyleButton()
 	end
 
 	-- Static Popups
@@ -178,13 +183,9 @@ function S:LoadMiscSkin()
 	SoundOptionsFrameOkay:Point("RIGHT",SoundOptionsFrameCancel,"LEFT",-4,0)
 	InterfaceOptionsFrameOkay:ClearAllPoints()
 	InterfaceOptionsFrameOkay:Point("RIGHT",InterfaceOptionsFrameCancel,"LEFT", -4,0)
-	ReadyCheckFrameYesButton:SetParent(ReadyCheckFrame)
-	ReadyCheckFrameNoButton:SetParent(ReadyCheckFrame)
 	ReadyCheckFrameYesButton:Point("RIGHT", ReadyCheckFrame, "CENTER", -1, 0)
 	ReadyCheckFrameNoButton:Point("LEFT", ReadyCheckFrameYesButton, "RIGHT", 3, 0)
-	ReadyCheckFrameText:SetParent(ReadyCheckFrame)
-	ReadyCheckFrameText:ClearAllPoints()
-	ReadyCheckFrameText:Point("TOP", 0, -12)
+	ReadyCheckFrameText:Point("TOP", ReadyCheckFrame, "TOP", 0, -18)
 
 	-- others
 	ZoneTextFrame:ClearAllPoints()
@@ -232,9 +233,6 @@ function S:LoadMiscSkin()
 		end
 	end
 
-	-------------------------------------------------------------------------------
-	-- I think this is now obsolete for this version of World of Warcraft (2.4.3), technically speaking.
-	-------------------------------------------------------------------------------
 	-- mac menu/option panel, made by affli.
 	if IsMacClient() then
 		S:HandleButton(GameMenuButtonMacOptions)
@@ -485,8 +483,12 @@ function S:LoadMiscSkin()
 	--DROPDOWN MENU
 	hooksecurefunc("UIDropDownMenu_Initialize", function()
 		for i = 1, UIDROPDOWNMENU_MAXLEVELS do
-			_G["DropDownList"..i.."Backdrop"]:SetTemplate("Default", true)
-			_G["DropDownList"..i.."MenuBackdrop"]:SetTemplate("Default", true)
+			_G["DropDownList"..i.."Backdrop"]:SetTemplate("Transparent")
+			_G["DropDownList"..i.."MenuBackdrop"]:SetTemplate("Transparent")
+			for j = 1, UIDROPDOWNMENU_MAXBUTTONS do
+				_G["DropDownList"..i.."Button"..j]:SetFrameLevel(_G["DropDownList"..i.."Backdrop"]:GetFrameLevel() + 1)
+				_G["DropDownList"..i.."Button"..j.."Highlight"]:SetTexture(1, 1, 1, 0.3)
+			end
 		end
 	end)
 
@@ -558,17 +560,17 @@ function S:LoadMiscSkin()
 	end
 
 	InterfaceOptionsFrameTab1:ClearAllPoints()
-	InterfaceOptionsFrameTab1:Point("BOTTOMLEFT",InterfaceOptionsFrameCategories,"TOPLEFT",-11,-2)
-	OptionsFrameDefaults:ClearAllPoints()
+	InterfaceOptionsFrameTab1:Point("BOTTOMLEFT", InterfaceOptionsFrameCategories, "TOPLEFT", -11, -2)
 	InterfaceOptionsFrameDefaults:ClearAllPoints()
+	InterfaceOptionsFrameDefaults:Point("TOPLEFT", InterfaceOptionsFrameCategories, "BOTTOMLEFT", -1, -5)
 	InterfaceOptionsFrameCancel:ClearAllPoints()
-	OptionsFrameDefaults:Point("TOPLEFT",OptionsFrameCategoryFrame,"BOTTOMLEFT",-1,-5)
-	InterfaceOptionsFrameDefaults:Point("TOPLEFT",InterfaceOptionsFrameCategories,"BOTTOMLEFT",-1,-5)
 	InterfaceOptionsFrameCancel:Point("TOPRIGHT",InterfaceOptionsFramePanelContainer,"BOTTOMRIGHT",0,-6)
 	InterfaceOptionsFrameCategoriesList:StripTextures()
 	S:HandleScrollBar(InterfaceOptionsFrameCategoriesListScrollBar)
 	InterfaceOptionsFrameAddOnsList:StripTextures()
 	S:HandleScrollBar(InterfaceOptionsFrameAddOnsListScrollBar)
+	OptionsFrameDefaults:ClearAllPoints()
+	OptionsFrameDefaults:Point("TOPLEFT", OptionsFrame, "BOTTOMLEFT", 15, 36)
 
 	local interfacecheckbox = {
 		"ControlsPanelStickyTargeting",
@@ -722,7 +724,6 @@ function S:LoadMiscSkin()
 		local idropdown = _G["InterfaceOptions"..interfacedropdown[i]]
 		if idropdown then
 			S:HandleDropDownBox(idropdown)
-			DropDownList1:SetTemplate("Transparent")
 		end
 	end
 
@@ -779,7 +780,6 @@ function S:LoadMiscSkin()
 		local odropdown = _G[optiondropdown[i]]
 		if odropdown then
 			S:HandleDropDownBox(odropdown,165)
-			DropDownList1:SetTemplate("Transparent")
 		end
 	end
 
@@ -800,4 +800,4 @@ function S:LoadMiscSkin()
 
 end
 
-S:AddCallback("Misc", S.LoadMiscSkin)
+S:AddCallback("SkinMisc", S.LoadMiscSkin)

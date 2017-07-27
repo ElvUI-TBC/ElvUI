@@ -3,5 +3,6 @@
 ## Notes: Compatibility functions for TBC
 ## Version: 1.0
 
-api\api.xml
 debugTools.lua
+libs\libs.xml
+api\api.xml

@@ -18,10 +18,10 @@ do
 		SetCVar("Sound_EnableAllSound", self.oldEnableAllSound);
 		SetCVar("Sound_EnableMusic", self.oldEnableMusic);
 
-		self:StopShakeHorizontal(ElvUI_StaticPopup1)
+--		self:StopShakeHorizontal(ElvUI_StaticPopup1)
 		for _, object in pairs(self["massiveShakeObjects"]) do
 			if(object) then
-				self:StopShake(object);
+--				self:StopShake(object);
 			end
 		end
 
@@ -41,7 +41,7 @@ do
 
 		for _, object in pairs(self["massiveShakeObjects"]) do
 			if(object and object:IsShown()) then
-				self:Shake(object);
+--				self:Shake(object);
 			end
 		end
 
@@ -52,7 +52,7 @@ do
 	function E:BeginHarlemShake()
 		DoEmote("Dance");
 		ElvUI_StaticPopup1Button1:Disable();
-		self:ShakeHorizontal(ElvUI_StaticPopup1);
+--		self:ShakeHorizontal(ElvUI_StaticPopup1);
 		self.oldEnableAllSound = GetCVar("Sound_EnableAllSound");
 		self.oldEnableMusic = GetCVar("Sound_EnableMusic");
 
@@ -198,7 +198,7 @@ do
 			self.db.general.kittys = true;
 			self:CreateKittys();
 
-			self:UpdateAll();
+			self:UpdateAll(true);
 		end
 	end
 
@@ -244,7 +244,7 @@ do
 
 		self.db.tempSettings = nil;
 
-		self:UpdateAll();
+		self:UpdateAll(true);
 	end
 
 	function E:CreateKittys()
@@ -331,7 +331,7 @@ do
 		end
 
 		self.db.tempSettings = nil;
-		self:UpdateAll();
+		self:UpdateAll(true);
 	end
 
 	function E:HelloKittyToggle()

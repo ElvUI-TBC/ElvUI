@@ -26,7 +26,6 @@ Engine[5] = AddOn.DF["global"];
 _G[AddOnName] = Engine;
 local tcopy = table.copy
 function AddOn:OnInitialize()
-	--self:GetTopCPUFunc("UnitFrames true 0 5")
 	if not ElvCharacterDB then
 		ElvCharacterDB = {};
 	end
@@ -115,12 +114,6 @@ function AddOn:OnInitialize()
 	local S = AddOn:GetModule("Skins")
 	S:HandleButton(GameMenuButton)
 end
-
-local f = CreateFrame("Frame");
-f:RegisterEvent("PLAYER_LOGIN");
-f:SetScript("OnEvent", function()
-	AddOn:Initialize();
-end);
 
 function AddOn:PLAYER_REGEN_ENABLED()
 	self:ToggleConfig()

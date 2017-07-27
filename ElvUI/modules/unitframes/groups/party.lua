@@ -93,10 +93,11 @@ function UF:PartySmartVisibility(event)
 		self.blockVisibilityChanges = false;
 		return;
 	end
-	local inInstance, instanceType = IsInInstance();
+
 	if(event == "PLAYER_REGEN_ENABLED") then self:UnregisterEvent("PLAYER_REGEN_ENABLED"); end
 
 	if(not InCombatLockdown()) then
+		local inInstance, instanceType = IsInInstance();
 		if(inInstance and (instanceType == "raid" or instanceType == "pvp")) then
 			UnregisterStateDriver(self, "visibility");
 			self:Hide();
@@ -144,6 +145,7 @@ function UF:Update_PartyFrames(frame, db)
 		frame.USE_PORTRAIT_OVERLAY = frame.USE_PORTRAIT and (db.portrait.overlay or frame.ORIENTATION == "MIDDLE");
 		frame.PORTRAIT_WIDTH = (frame.USE_PORTRAIT_OVERLAY or not frame.USE_PORTRAIT) and 0 or db.portrait.width;
 
+		frame.HAPPINESS_WIDTH = 0
 		frame.CLASSBAR_WIDTH = 0;
 		frame.CLASSBAR_YOFFSET = 0;
 
@@ -167,8 +169,6 @@ function UF:Update_PartyFrames(frame, db)
 
 		frame.POWERBAR_HEIGHT = 0;
 		frame.POWERBAR_WIDTH = 0;
-		frame.BOTTOM_OFFSET = 0;
-
 		frame.BOTTOM_OFFSET = 0;
 
 		local childDB = db.petsGroup;
@@ -245,4 +245,4 @@ function UF:Update_PartyFrames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements");
 end
 
-UF["headerstoload"]["party"] = {nil, "ELVUI_UNITPET, ELVUI_UNITTARGET"};
+UF["headerstoload"]["party"] = {nil, "ELVUI_UNITPET, ELVUI_UNITTARGET"}

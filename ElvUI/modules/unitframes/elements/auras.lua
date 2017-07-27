@@ -49,7 +49,7 @@ function UF:Construct_AuraIcon(button)
 	button.text:Point("CENTER", 1, 1);
 	button.text:SetJustifyH("CENTER");
 
-	button:SetTemplate("Default", nil, nil, UF.thinBorders);
+	button:SetTemplate("Default", nil, nil, UF.thinBorders, true)
 
 	button.cd.noOCC = true;
 	button.cd.noCooldownCount = true;
@@ -246,23 +246,6 @@ local function SortAurasByDuration(a, b)
 	end
 end
 
-local function SortAurasByCaster(a, b)
-	if(a and b and a:GetParent().db) then
-		if(a:IsShown() and b:IsShown()) then
-			local sortDirection = a:GetParent().db.sortDirection;
-			local aPlayer = a.isPlayer or false;
-			local bPlayer = b.isPlayer or false;
-			if(sortDirection == "DESCENDING") then
-				return (aPlayer and not bPlayer);
-			else
-				return (not aPlayer and bPlayer);
-			end
-		elseif(a:IsShown()) then
-			return true;
-		end
-	end
-end
-
 function UF:SortAuras()
 	if(not self.db) then return; end
 
@@ -272,8 +255,6 @@ function UF:SortAuras()
 		tsort(self, SortAurasByName);
 	elseif(self.db.sortMethod == "DURATION") then
 		tsort(self, SortAurasByDuration);
-	elseif (self.db.sortMethod == "PLAYER") then
-		tsort(self, SortAurasByCaster);
 	end
 
 	return 1, #self;
@@ -342,18 +323,14 @@ function UF:PostUpdateAura(unit, button, index)
 	end
 
 	if(button.isDebuff) then
-		if(not isFriend and button.owner ~= "player" and button.owner ~= "vehicle") --[[and (not E.isDebuffWhiteList[name])]] then
-			button:SetBackdropBorderColor(0.9, 0.1, 0.1);
-			button.icon:SetDesaturated((unit and not unit:find("arena%d")) and true or false);
+		local color = DebuffTypeColor[dtype] or DebuffTypeColor.none;
+		if((name == unstableAffliction or name == vampiricTouch) and E.myclass ~= "WARLOCK") then
+			button:SetBackdropBorderColor(0.05, 0.85, 0.94);
 		else
-			local color = DebuffTypeColor[dtype] or DebuffTypeColor.none;
-			if((name == unstableAffliction or name == vampiricTouch) and E.myclass ~= "WARLOCK") then
-				button:SetBackdropBorderColor(0.05, 0.85, 0.94);
-			else
-				button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6);
-			end
-			button.icon:SetDesaturated(false);
+			button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
 		end
+	else
+		button:SetBackdropBorderColor(unpack(E["media"].unitframeBorderColor))
 	end
 
 	local size = button:GetParent().size;
@@ -390,13 +367,14 @@ function UF:PostUpdateAura(unit, button, index)
 end
 
 function UF:UpdateAuraTimer(elapsed)
-	self.expiration = self.expiration - elapsed;
+	local _, _, _, _, _, duration, timeLeft = UnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
+
 	if(self.nextupdate > 0) then
 		self.nextupdate = self.nextupdate - elapsed;
 		return;
 	end
 
-	if(self.expiration <= 0) then
+	if(not timeLeft) then
 		self:SetScript("OnUpdate", nil);
 
 		if(self.text:GetFont()) then
@@ -404,10 +382,16 @@ function UF:UpdateAuraTimer(elapsed)
 		end
 
 		return;
+	else
+		if(not self:GetParent().disableCooldown) then
+			if(duration and duration > 0) then
+				self.cd:SetCooldown(GetTime() - (duration - timeLeft), duration)
+			end
+		end
 	end
 
 	local timervalue, formatid;
-	timervalue, formatid, self.nextupdate = E:GetTimeInfo(self.expiration, 4);
+	timervalue, formatid, self.nextupdate = E:GetTimeInfo(timeLeft, 4);
 	if(self.text:GetFont()) then
 		self.text:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatid], E.TimeFormats[formatid][2]), timervalue);
 	elseif(self:GetParent():GetParent().db) then
@@ -440,9 +424,7 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 	db = db[self.type];
 
 	local returnValue = true;
-	local passPlayerOnlyCheck = true;
 	local anotherFilterExists = false;
-	local playerOnlyFilter = false;
 	local isFriend = UnitIsFriend("player", unit) == 1 and true or false;
 
 	icon.name = name;
@@ -451,19 +433,6 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 	local turtleBuff = (E.global["unitframe"]["aurafilters"]["TurtleBuffs"].spells[spellID] or E.global["unitframe"]["aurafilters"]["TurtleBuffs"].spells[name]);
 	if(turtleBuff and turtleBuff.enable) then
 		icon.priority = turtleBuff.priority;
-	end
-
-	if(UF:CheckFilter(db.playerOnly, isFriend)) then
-		if(icon.isPlayer) then
-			returnValue = true;
-		else
-			returnValue = false;
-		end
-
-		if(not db.additionalFilterAllowNonPersonal) then
-			passPlayerOnlyCheck = returnValue;
-		end
-		playerOnlyFilter = true;
 	end
 
 	if(UF:CheckFilter(db.noDuration, isFriend)) then
@@ -488,7 +457,7 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 		if(whiteList and whiteList.enable) then
 			returnValue = true;
 			icon.priority = whiteList.priority;
-		elseif(not anotherFilterExists and not playerOnlyFilter) then
+		elseif(not anotherFilterExists) then
 			returnValue = false;
 		end
 
@@ -501,7 +470,7 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 		local spell = (spellList[spellID] or spellList[name]);
 
 		if(type == "Whitelist") then
-			if(spell and spell.enable and passPlayerOnlyCheck) then
+			if(spell and spell.enable) then
 				returnValue = true;
 				icon.priority = spell.priority;
 			elseif not anotherFilterExists then

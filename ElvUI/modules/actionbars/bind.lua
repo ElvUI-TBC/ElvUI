@@ -6,20 +6,21 @@ local select, tonumber, pairs = select, tonumber, pairs
 local floor = math.floor
 local find, format = string.find, string.format
 
-local hooksecurefunc = hooksecurefunc
-local EnumerateFrames = EnumerateFrames
 local CreateFrame = CreateFrame
-local IsAddOnLoaded = IsAddOnLoaded
-local LoadBindings, SaveBindings = LoadBindings, SaveBindings
-local GetCurrentBindingSet = GetCurrentBindingSet
-local SetBinding = SetBinding
+local EnumerateFrames = EnumerateFrames
+local GameTooltip_Hide = GameTooltip_Hide
+local GameTooltip_ShowCompareItem = GameTooltip_ShowCompareItem
 local GetBindingKey = GetBindingKey
+local GetCurrentBindingSet = GetCurrentBindingSet
+local GetMacroInfo = GetMacroInfo
+local InCombatLockdown = InCombatLockdown
+local IsAddOnLoaded = IsAddOnLoaded
 local IsAltKeyDown, IsControlKeyDown = IsAltKeyDown, IsControlKeyDown
 local IsShiftKeyDown, IsModifiedClick = IsShiftKeyDown, IsModifiedClick
-local InCombatLockdown = InCombatLockdown
-local GetMacroInfo = GetMacroInfo
+local LoadBindings, SaveBindings = LoadBindings, SaveBindings
 local SecureActionButton_OnClick = SecureActionButton_OnClick
-local GameTooltip_Hide = GameTooltip_Hide
+local SetBinding = SetBinding
+local hooksecurefunc = hooksecurefunc
 local CHARACTER_SPECIFIC_KEYBINDING_TOOLTIP = CHARACTER_SPECIFIC_KEYBINDING_TOOLTIP
 local CHARACTER_SPECIFIC_KEYBINDINGS = CHARACTER_SPECIFIC_KEYBINDINGS
 
@@ -60,7 +61,7 @@ function AB:BindListener(key)
 		end
 		E:Print(format(L["All keybindings cleared for |cff00ff00%s|r."], bind.button.name))
 		self:BindUpdate(bind.button, bind.spellmacro)
-		if bind.spellmacro~="MACRO" then GameTooltip:Hide() end
+		if bind.spellmacro ~= "MACRO" then GameTooltip:Hide() end
 		return
 	end
 
@@ -90,7 +91,7 @@ function AB:BindListener(key)
 	end
 	E:Print(alt..ctrl..shift..key..L[" |cff00ff00bound to |r"]..bind.button.name..".")
 	self:BindUpdate(bind.button, bind.spellmacro)
-	if bind.spellmacro~="MACRO" then GameTooltip:Hide() end
+	if bind.spellmacro ~= "MACRO" then GameTooltip:Hide() end
 end
 
 function AB:BindUpdate(button, spellmacro)
@@ -112,7 +113,7 @@ function AB:BindUpdate(button, spellmacro)
 	if spellmacro == "MACRO" then
 		bind.button.id = bind.button:GetID()
 
-		if floor(.5+select(2,MacroFrameTab1Text:GetTextColor())*10)/10==.8 then bind.button.id = bind.button.id + MAX_MACROS end
+		if floor(.5 + select(2, MacroFrameTab1Text:GetTextColor()) * 10) / 10 == .8 then bind.button.id = bind.button.id + MAX_MACROS end
 
 		bind.button.name = GetMacroInfo(bind.button.id)
 
@@ -121,25 +122,25 @@ function AB:BindUpdate(button, spellmacro)
 		GameTooltip:AddLine(bind.button.name, 1, 1, 1)
 
 		bind.button.bindings = {GetBindingKey(spellmacro.." "..bind.button.name)}
-			if #bind.button.bindings == 0 then
-				GameTooltip:AddLine(L["No bindings set."], .6, .6, .6)
-			else
-				GameTooltip:AddDoubleLine(L["Binding"], L["Key"], .6, .6, .6, .6, .6, .6)
-				for i = 1, #bind.button.bindings do
-					GameTooltip:AddDoubleLine(L["Binding"]..i, bind.button.bindings[i], 1, 1, 1)
-				end
+		if #bind.button.bindings == 0 then
+			GameTooltip:AddLine(L["No bindings set."], .6, .6, .6)
+		else
+			GameTooltip:AddDoubleLine(L["Binding"], L["Key"], .6, .6, .6, .6, .6, .6)
+			for i = 1, #bind.button.bindings do
+				GameTooltip:AddDoubleLine(L["Binding"]..i, bind.button.bindings[i], 1, 1, 1)
 			end
+		end
 		GameTooltip:Show()
-	elseif spellmacro=="SHAPESHIFT" or spellmacro=="PET" then
+	elseif spellmacro == "SHAPESHIFT" or spellmacro == "PET" then
 		bind.button.id = tonumber(button:GetID())
 		bind.button.name = button:GetName()
 
 		if not bind.button.name then return end
 
-		if not bind.button.id or bind.button.id < 1 or bind.button.id > (spellmacro=="SHAPESHIFT" and 10 or 12) then
+		if not bind.button.id or bind.button.id < 1 or bind.button.id > (spellmacro == "SHAPESHIFT" and 10 or 12) then
 			bind.button.bindstring = "CLICK "..bind.button.name..":LeftButton"
 		else
-			bind.button.bindstring = (spellmacro=="SHAPESHIFT" and "SHAPESHIFTBUTTON" or "BONUSACTIONBUTTON")..bind.button.id
+			bind.button.bindstring = (spellmacro == "SHAPESHIFT" and "SHAPESHIFTBUTTON" or "BONUSACTIONBUTTON")..bind.button.id
 		end
 
 		GameTooltip:AddLine(L["Trigger"])
@@ -205,35 +206,50 @@ function AB:BindUpdate(button, spellmacro)
 	end
 end
 
-function AB:RegisterButton(b, override)
-	local shapeshift = ShapeshiftButton1:GetScript("OnClick")
-	local pet = PetActionButton1:GetScript("OnClick")
-	local button = SecureActionButton_OnClick
+local script
+local shapeshift = ShapeshiftButton1:GetScript("OnClick")
+local pet = PetActionButton1:GetScript("OnClick")
+local button = SecureActionButton_OnClick
 
-	if b.IsProtected and b.GetObjectType and b.GetScript and b:GetObjectType()=="CheckButton" and b:IsProtected() then
-		local script = b:GetScript("OnClick")
-		if script==button or override then
-			b:HookScript("OnEnter", function(b) self:BindUpdate(b) end)
-			if script==shapeshift then
-				b:HookScript("OnEnter", function(b) self:BindUpdate(b, "SHAPESHIFT") end)
-			elseif script==pet then
-				b:HookScript("OnEnter", function(b) self:BindUpdate(b, "PET") end)
+function AB:RegisterButton(b, override)
+	if b.IsProtected and b.IsObjectType and b.GetScript and b:IsObjectType("CheckButton") and b:IsProtected() then
+		script = b:GetScript("OnClick")
+		if script == button or override then
+			b:HookScript2("OnEnter", function() self:BindUpdate(b) end)
+			if script == shapeshift then
+				b:HookScript2("OnEnter", function() self:BindUpdate(b, "SHAPESHIFT") end)
+			elseif script == pet then
+				b:HookScript2("OnEnter", function() self:BindUpdate(b, "PET") end)
 			end
 		end
 	end
 end
 
+local elapsed = 0
+function AB:Tooltip_OnUpdate(tooltip, e)
+	elapsed = elapsed + e
+	if elapsed < .2 then return else elapsed = 0 end
+	if not tooltip.comparing and IsModifiedClick("COMPAREITEMS") then
+		GameTooltip_ShowCompareItem(tooltip)
+		tooltip.comparing = true
+	elseif tooltip.comparing and not IsModifiedClick("COMPAREITEMS") then
+		ShoppingTooltip1:Hide()
+		ShoppingTooltip2:Hide()
+		tooltip.comparing = false
+	end
+end
+
 function AB:RegisterMacro(addon)
 	if addon == "Blizzard_MacroUI" then
-		for i=1, MAX_MACROS do
+		for i = 1, MAX_MACROS do
 			local b = _G["MacroButton"..i]
-			b:HookScript("OnEnter", function(b) AB:BindUpdate(b, "MACRO") end)
+			b:HookScript2("OnEnter", function() AB:BindUpdate(b, "MACRO") end)
 		end
 	end
 end
 
 function AB:ChangeBindingProfile()
-	if (ElvUIBindPopupWindowCheckButton:GetChecked()) then
+	if ElvUIBindPopupWindowCheckButton:GetChecked() then
 		LoadBindings(2)
 		SaveBindings(2)
 	else
@@ -253,11 +269,14 @@ function AB:LoadKeyBinder()
 	bind.texture:SetTexture(0, 0, 0, .25)
 	bind:Hide()
 
+	self:HookScript(GameTooltip, "OnUpdate", "Tooltip_OnUpdate")
+	hooksecurefunc(GameTooltip, "Hide", function() ShoppingTooltip1:Hide() ShoppingTooltip2:Hide() end)
+
 	bind:SetScript("OnEnter", function(self) local db = self.button:GetParent().db if db and db.mouseover then AB:Button_OnEnter(self.button) end end)
 	bind:SetScript("OnLeave", function(self) AB:BindHide() local db = self.button:GetParent().db if db and db.mouseover then AB:Button_OnLeave(self.button) end end)
 	bind:SetScript("OnKeyUp", function(_, key) self:BindListener(key) end)
 	bind:SetScript("OnMouseUp", function(_, key) self:BindListener(key) end)
-	bind:SetScript("OnMouseWheel", function(_, delta) if delta>0 then self:BindListener("MOUSEWHEELUP") else self:BindListener("MOUSEWHEELDOWN") end end)
+	bind:SetScript("OnMouseWheel", function(_, delta) if delta > 0 then self:BindListener("MOUSEWHEELUP") else self:BindListener("MOUSEWHEELDOWN") end end)
 
 	local b = EnumerateFrames()
 	while b do
@@ -335,7 +354,7 @@ function AB:LoadKeyBinder()
 	perCharCheck:SetScript("OnLeave", GameTooltip_Hide)
 
 	local save = CreateFrame("Button", f:GetName().."SaveButton", f, "OptionsButtonTemplate")
-	_G[save:GetName() .. "Text"]:SetText(L["Save"])
+	_G[save:GetName().."Text"]:SetText(L["Save"])
 	save:Width(150)
 	save:SetScript("OnClick", function()
 		AB:DeactivateBindMode(true)
@@ -343,7 +362,7 @@ function AB:LoadKeyBinder()
 
 	local discard = CreateFrame("Button", f:GetName().."DiscardButton", f, "OptionsButtonTemplate")
 	discard:Width(150)
-	_G[discard:GetName() .. "Text"]:SetText(L["Discard"])
+	_G[discard:GetName().."Text"]:SetText(L["Discard"])
 
 	discard:SetScript("OnClick", function()
 		AB:DeactivateBindMode(false)

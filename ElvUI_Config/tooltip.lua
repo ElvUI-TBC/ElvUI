@@ -67,8 +67,14 @@ E.Options.args.tooltip = {
 					name = L["Spell/Item IDs"],
 					desc = L["Display the spell or item ID when mousing over a spell or item tooltip."]
 				},
-				itemCount = {
+				itemLevel = {
 					order = 7,
+					type = "toggle",
+					name = L["Item Level"],
+					desc = L["Display the item level when mousing over a item."]
+				},
+				itemCount = {
+					order = 8,
 					type = "select",
 					name = L["Item Count"],
 					desc = L["Display how many of a certain item you have in your possession."],
@@ -80,14 +86,14 @@ E.Options.args.tooltip = {
 					}
 				},
 				colorAlpha = {
-					order = 8,
+					order = 9,
 					type = "range",
 					name = OPACITY,
 					isPercent = true,
 					min = 0, max = 1, step = 0.01
 				},
 				fontGroup = {
-					order = 8,
+					order = 10,
 					type = "group",
 					guiInline = true,
 					name = L["Tooltip Font Settings"],
@@ -146,7 +152,7 @@ E.Options.args.tooltip = {
 					}
 				},
 				factionColors = {
-					order = 9,
+					order = 11,
 					type = "group",
 					name = L["Custom Faction Colors"],
 					guiInline = true,
@@ -165,7 +171,6 @@ E.Options.args.tooltip = {
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 					end,
 					set = function(info, r, g, b)
-						E.db.tooltip.factionColors[ info[#info] ] = {};
 						local t = E.db.tooltip.factionColors[ info[#info] ];
 						t.r, t.g, t.b = r, g, b;
 					end
@@ -282,7 +287,7 @@ E.Options.args.tooltip = {
 					order = 5,
 					type = "range",
 					name = L["Font Size"],
-					min = 6, max = 500, step = 1,
+					min = 4, max = 33, step = 1,
 					set = function(info, value)
 						E.db.tooltip.healthBar.fontSize = value;
 						GameTooltipStatusBar.text:FontTemplate(E.LSM:Fetch("font", E.db.tooltip.healthBar.font), E.db.tooltip.healthBar.fontSize, E.db.tooltip.healthBar.fontOutline);

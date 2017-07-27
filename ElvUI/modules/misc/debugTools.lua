@@ -75,15 +75,19 @@ function D:ScriptErrorsFrame_UpdateButtons()
 end
 
 function D:ScriptErrorsFrame_OnError(_, keepHidden)
-	if keepHidden or self.MessagePrinted or not InCombatLockdown() or GetCVar("scriptErrors") ~= 1 then return; end
+	if keepHidden or self.MessagePrinted or not InCombatLockdown() or GetCVar("scriptErrors") ~= "1" then return end
 
 	E:Print(L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."])
-	self.MessagePrinted = true;
+	self.MessagePrinted = true
 end
 
 function D:PLAYER_REGEN_ENABLED()
 	ScriptErrorsFrame:SetParent(UIParent)
-	self.MessagePrinted = nil;
+
+	if self.MessagePrinted then
+		ScriptErrorsFrame:Show()
+		self.MessagePrinted = nil
+	end
 end
 
 function D:PLAYER_REGEN_DISABLED()
@@ -91,7 +95,8 @@ function D:PLAYER_REGEN_DISABLED()
 end
 
 function D:TaintError(event, addonName, addonFunc)
-	if GetCVar("scriptErrors") ~= 1 or E.db.general.taintLog ~= true then return end
+	if GetCVar("scriptErrors") ~= "1" or E.db.general.taintLog ~= true then return end
+
 	ScriptErrorsFrame_OnError(L["%s: %s tried to call the protected function '%s'."]:format(event, addonName or "<name>", addonFunc or "<func>"), false)
 end
 
@@ -119,4 +124,8 @@ function D:Initialize()
 	self:RegisterEvent("ADDON_ACTION_FORBIDDEN", "TaintError")
 end
 
-E:RegisterModule(D:GetName())
+local function InitializeCallback()
+	D:Initialize()
+end
+
+E:RegisterModule(D:GetName(), InitializeCallback)

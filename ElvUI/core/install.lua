@@ -157,7 +157,11 @@ function E:SetupTheme(theme, noDisplayMsg)
 
 	--Set colors
 	if theme == "classic" then
-		E.db.general.bordercolor = E:GetColor(.31, .31, .31)
+		if E.PixelMode then
+			E.db.general.bordercolor = E:GetColor(0, 0, 0)
+		else
+			E.db.general.bordercolor = E:GetColor(.31, .31, .31)
+		end
 		E.db.general.backdropcolor = E:GetColor(.1, .1, .1)
 		E.db.general.backdropfadecolor = E:GetColor(.06, .06, .06, .8)
 
@@ -167,14 +171,22 @@ function E:SetupTheme(theme, noDisplayMsg)
 		E.db.unitframe.colors.castColor = E:GetColor(.31, .31, .31)
 		E.db.unitframe.colors.castClassColor = false
 	elseif theme == "class" then
-		E.db.general.bordercolor = E:GetColor(.31, .31, .31)
+		if E.PixelMode then
+			E.db.general.bordercolor = E:GetColor(0, 0, 0)
+		else
+			E.db.general.bordercolor = E:GetColor(.31, .31, .31)
+		end
 		E.db.general.backdropcolor = E:GetColor(.1, .1, .1)
 		E.db.general.backdropfadecolor = E:GetColor(.06, .06, .06, .8)
 		E.db.unitframe.colors.auraBarBuff = E:GetColor(classColor.r, classColor.b, classColor.g)
 		E.db.unitframe.colors.healthclass = true
 		E.db.unitframe.colors.castClassColor = true
 	else
-		E.db.general.bordercolor = E:GetColor(.1, .1, .1)
+		if E.PixelMode then
+			E.db.general.bordercolor = E:GetColor(0, 0, 0)
+		else
+			E.db.general.bordercolor = E:GetColor(.1, .1, .1)
+		end
 		E.db.general.backdropcolor = E:GetColor(.1, .1, .1)
 		E.db.general.backdropfadecolor = E:GetColor(.054, .054, .054, .8)
 		E.db.unitframe.colors.auraBarBuff = E:GetColor(.1, .1, .1)
@@ -384,8 +396,12 @@ function E:SetupLayout(layout, noDataReset)
 
 			E.db.unitframe.units.party.health.frequentUpdates = true
 			E.db.unitframe.units.raid.health.frequentUpdates = true
-
 			E.db.unitframe.units.raid40.health.frequentUpdates = true
+
+			E.db.unitframe.units.party.healPrediction = true
+			E.db.unitframe.units.raid.healPrediction = true
+			E.db.unitframe.units.raid40.healPrediction = true
+
 			E.db.unitframe.units.player.castbar.insideInfoPanel = false;
 			E.db.actionbar.bar2.enabled = true
 			if not E.db.lowresolutionset then

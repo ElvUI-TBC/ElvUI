@@ -24,15 +24,20 @@ local LOCALIZED_CLASS_NAMES_FEMALE = LOCALIZED_CLASS_NAMES_FEMALE;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 
-local playersOnline = 0
+local function GetNumberFriends()
+	local numFriends = GetNumFriends()
+	local onlineFriends = 0
+	local _, online
 
-local numberOfFriends = GetNumFriends()
-local name, level, class, zone, online, status, note
-for i = 1, numberOfFriends, 1 do
-	name, level, class, zone, online, status, note = GetFriendInfo(i)
-	if online then
-		playersOnline = playersOnline + 1
+	for i = 1, numFriends do
+		_, _, _, _, online = GetFriendInfo(i)
+
+		if online then
+			onlineFriends = onlineFriends + 1
+		end
 	end
+
+	return numFriends, onlineFriends
 end
 
 local menuFrame = CreateFrame("Frame", "FriendDatatextRightClickMenu", E.UIParent, "UIDropDownMenuTemplate");
@@ -49,7 +54,7 @@ local menuList = {
 	}
 };
 
-local function inviteClick(self, name)
+local function inviteClick(name)
 	menuFrame:Hide();
 
 	if(type(name) ~= "number") then
@@ -57,7 +62,7 @@ local function inviteClick(self, name)
 	end
 end
 
-local function whisperClick(self, name)
+local function whisperClick(name)
 	menuFrame:Hide();
 
 	SetItemRef("player:" .. name, ("|Hplayer:%1$s|h[%1$s]|h"):format(name), "LeftButton");
@@ -104,7 +109,7 @@ local function BuildFriendTable(total)
 end
 
 local function OnEvent(self, event, ...)
-	local onlineFriends = playersOnline
+	local _, onlineFriends = GetNumberFriends()
 
 	if(event == "CHAT_MSG_SYSTEM") then
 		local message = select(1, ...);
@@ -117,7 +122,7 @@ local function OnEvent(self, event, ...)
 	lastPanel = self;
 end
 
-local function OnClick(self, btn)
+local function OnClick(_, btn)
 	DT.tooltip:Hide();
 
 	if(btn == "RightButton") then
@@ -152,8 +157,7 @@ end
 local function OnEnter(self)
 	DT:SetupTooltip(self);
 
-	local numberOfFriends = numberOfFriends;
-	local onlineFriends = playersOnline;
+	local numberOfFriends, onlineFriends = GetNumberFriends();
 	if(onlineFriends == 0) then return; end
 
 	if(not dataValid) then
@@ -192,4 +196,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true;
 
-DT:RegisterDatatext("Friends", {"PLAYER_ENTERING_WORLD", "FRIENDLIST_UPDATE", "CHAT_MSG_SYSTEM"}, OnEvent, nil, OnClick, OnEnter);
+DT:RegisterDatatext("Friends", {"PLAYER_LOGIN", "FRIENDLIST_UPDATE", "CHAT_MSG_SYSTEM"}, OnEvent, nil, OnClick, OnEnter, nil, L["Friends"])

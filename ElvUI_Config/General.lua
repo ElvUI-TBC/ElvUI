@@ -1,4 +1,5 @@
 local E, L, V, P, G = unpack(ElvUI);
+local CC = E:GetModule("ClassCache")
 
 E.Options.args.general = {
 	type = "group",
@@ -15,26 +16,19 @@ E.Options.args.general = {
 			get = function(info) return E.global.general.versionCheck; end,
 			set = function(info, value) E.global.general.versionCheck = value; end
 		},
-		animateConfig = {
-			order = 2,
-			type = "toggle",
-			name = L["Animate Config"],
-			get = function(info) return E.global.general.animateConfig; end,
-			set = function(info, value) E.global.general.animateConfig = value; E:StaticPopup_Show("GLOBAL_RL"); end
-		},
 		spacer = {
-			order = 3,
+			order = 2,
 			type = "description",
 			name = "",
 			width = "full",
 		},
 		intro = {
-			order = 4,
+			order = 3,
 			type = "description",
 			name = L["ELVUI_DESC"],
 		},
 		general = {
-			order = 5,
+			order = 4,
 			type = "group",
 			name = L["General"],
 			args = {
@@ -188,11 +182,80 @@ E.Options.args.general = {
 						["ENGLISH"] = "K, M, B",
 						["CHINESE"] = "W, Y"
 					}
+				},
+				classCacheHeader = {
+					order = 51,
+					type = "header",
+					name = L["Class Cache"]
+				},
+				classCacheEnable = {
+					order = 52,
+					type = "toggle",
+					name = L["Class Caching"],
+					desc = L["Enable class information caching for coloring names in chat and nameplates."],
+					get = function(info) return E.private.general.classCache end,
+					set = function(info, value)
+						E.private.general.classCache = value
+						CC:ToggleModule()
+					end
+				},
+				classCacheStoreInDB = {
+					order = 53,
+					type = "toggle",
+					name = L["Store cache in DB"],
+					desc = L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."],
+					get = function(info) return E.db.general.classCacheStoreInDB end,
+					set = function(info, value)
+						E.db.general.classCacheStoreInDB = value
+						CC:SwitchCacheType()
+					end,
+					disabled = function() return not E.private.general.classCache end
+				},
+				classCacheRequestUnitInfo = {
+					order = 54,
+					type = "select",
+					name = L["Request class info for nameplates"],
+					desc = L["Information will be requested via /who."],
+					values = {
+						["false"] = L["Disable"],
+						["friendly"] = L["Friendly only"],
+						["enemy"] = L["Enemy only"],
+						["all"] = L["All"]
+					},
+					get = function(info) return E.db.general.classCacheRequestUnitInfo or "false" end,
+					set = function(info, value)
+						if value == "false" then
+							E.db.general.classCacheRequestUnitInfo = false
+						else
+							E.db.general.classCacheRequestUnitInfo = value
+						end
+					end,
+					disabled = function() return not E.private.general.classCache end
+				},
+				wipeClassCacheGlobal = {
+					order = 55,
+					type = "execute",
+					name = L["Wipe DB Cache"],
+					func = function()
+						CC:WipeCache(true)
+						GameTooltip:Hide()
+					end,
+					disabled = function() return not CC:GetCacheSize(true) end
+				},
+				wipeClassCacheLocal = {
+					order = 56,
+					type = "execute",
+					name = L["Wipe Session Cache"],
+					func = function()
+						CC:WipeCache()
+						GameTooltip:Hide()
+					end,
+					disabled = function() return not CC:GetCacheSize() end
 				}
 			}
 		},
 		media = {
-			order = 6,
+			order = 5,
 			type = "group",
 			name = L["Media"],
 			get = function(info) return E.db.general[ info[#info] ]; end,
@@ -320,7 +383,7 @@ E.Options.args.general = {
 					type = "color",
 					order = 15,
 					name = L["Border Color"],
-					desc = L["Main border color of the UI. |cffFF0000This is disabled if you are using the Thin Border Theme.|r"],
+					desc = L["Main border color of the UI."],
 					hasAlpha = false,
 					get = function(info)
 						local t = E.db.general[ info[#info] ];
@@ -328,13 +391,11 @@ E.Options.args.general = {
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 					end,
 					set = function(info, r, g, b)
-						E.db.general[ info[#info] ] = {};
 						local t = E.db.general[ info[#info] ];
 						t.r, t.g, t.b = r, g, b;
 						E:UpdateMedia();
 						E:UpdateBorderColors();
 					end,
-					disabled = function() return E.PixelMode; end
 				},
 				backdropcolor = {
 					type = "color",
@@ -348,7 +409,6 @@ E.Options.args.general = {
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 					end,
 					set = function(info, r, g, b)
-						E.db.general[ info[#info] ] = {};
 						local t = E.db.general[ info[#info] ];
 						t.r, t.g, t.b = r, g, b;
 						E:UpdateMedia();
@@ -367,7 +427,6 @@ E.Options.args.general = {
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b, d.a;
 					end,
 					set = function(info, r, g, b, a)
-						E.db.general[ info[#info] ] = {};
 						local t = E.db.general[ info[#info] ];
 						t.r, t.g, t.b, t.a = r, g, b, a;
 						E:UpdateMedia();
@@ -386,7 +445,6 @@ E.Options.args.general = {
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 					end,
 					set = function(info, r, g, b, a)
-						E.db.general[ info[#info] ] = {};
 						local t = E.db.general[ info[#info] ];
 						t.r, t.g, t.b, t.a = r, g, b, a;
 						E:UpdateMedia();
@@ -395,16 +453,16 @@ E.Options.args.general = {
 			}
 		},
 		totems = {
-			order = 7,
+			order = 6,
 			type = "group",
-			name = TUTORIAL_TITLE47,
+			name = L["Totem Bar"],
 			get = function(info) return E.db.general.totems[ info[#info] ]; end,
 			set = function(info, value) E.db.general.totems[ info[#info] ] = value; E:GetModule("Totems"):PositionAndSize(); end,
 			args = {
 				header = {
 					order = 1,
 					type = "header",
-					name = TUTORIAL_TITLE47
+					name = L["Totem Bar"]
 				},
 				enable = {
 					order = 2,
@@ -446,7 +504,7 @@ E.Options.args.general = {
 		},
 		cooldown = {
 			type = "group",
-			order = 8,
+			order = 7,
 			name = L["Cooldown Text"],
 			get = function(info)
 				local t = E.db.cooldown[ info[#info] ];
@@ -518,7 +576,7 @@ E.Options.args.general = {
 			}
 		},
 		chatBubbles = {
-			order = 9,
+			order = 8,
 			type = "group",
 			name = L["Chat Bubbles"],
 			args = {
@@ -577,7 +635,7 @@ E.Options.args.general = {
 			}
 		},
 		watchFrame = {
-			order = 10,
+			order = 9,
 			type = "group",
 			name = L["Watch Frame"],
 			get = function(info) return E.db.general[ info[#info] ]; end,
@@ -595,6 +653,57 @@ E.Options.args.general = {
 					desc = L["Height of the watch tracker. Increase size to be able to see more objectives."],
 					min = 400, max = E.screenheight, step = 1,
 					set = function(info, value) E.db.general[ info[#info] ] = value; E:GetModule("Blizzard"):SetWatchFrameHeight(); end
+				}
+			}
+		},
+		threatGroup = {
+			order = 10,
+			type = "group",
+			name = L["Threat"],
+			args = {
+				threatHeader = {
+					order = 1,
+					type = "header",
+					name = L["Threat"]
+				},
+				threatLibStatus = {
+					order = 2,
+					type = "description",
+					image = function() return E:GetModule("Threat"):GetLibStatus() and READY_CHECK_READY_TEXTURE or READY_CHECK_NOT_READY_TEXTURE, 30, 26 end,
+					name = function()
+						if E:GetModule("Threat"):GetLibStatus() then
+							return L["Library Threat-2.0 found."]
+						else
+							return L["Library Threat-2.0 not found. If you want to use Threat module install Omen or separate Threat-2.0 library."]
+						end
+					end
+				},
+				threatEnable = {
+					order = 3,
+					type = "toggle",
+					name = L["Enable"],
+					get = function(info) return E.db.general.threat.enable end,
+					set = function(info, value) E.db.general.threat.enable = value; E:GetModule("Threat"):ToggleEnable() end
+				},
+				threatPosition = {
+					order = 4,
+					type = "select",
+					name = L["Position"],
+					desc = L["Adjust the position of the threat bar to either the left or right datatext panels."],
+					values = {
+						["LEFTCHAT"] = L["Left Chat"],
+						["RIGHTCHAT"] = L["Right Chat"]
+					},
+					get = function(info) return E.db.general.threat.position end,
+					set = function(info, value) E.db.general.threat.position = value; E:GetModule("Threat"):UpdatePosition() end
+				},
+				threatTextSize = {
+					order = 5,
+					type = "range",
+					min = 6, max = 22, step = 1,
+					name = L["Font Size"],
+					get = function(info) return E.db.general.threat.textSize end,
+					set = function(info, value) E.db.general.threat.textSize = value; E:GetModule("Threat"):UpdatePosition() end
 				}
 			}
 		}

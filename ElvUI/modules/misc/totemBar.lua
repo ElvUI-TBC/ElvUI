@@ -25,6 +25,7 @@ function TOTEMS:Update()
 					_G["TotemFrameTotem" .. d]:ClearAllPoints();
 					_G["TotemFrameTotem" .. d]:SetParent(self.bar[i].holder);
 					_G["TotemFrameTotem" .. d]:SetAllPoints(self.bar[i].holder);
+					_G["TotemFrameTotem" .. d]:Show()
 				end
 			end
 		else
@@ -95,7 +96,6 @@ function TOTEMS:Initialize()
 	self.db = E.db.general.totems;
 
 	local bar = CreateFrame("Frame", "ElvUI_TotemBar", E.UIParent);
-	bar = CreateFrame("Frame", "ElvUI_TotemBar", E.UIParent);
 	bar:Point("TOPLEFT", LeftChatPanel, "TOPRIGHT", 14, 0);
 	self.bar = bar;
 
@@ -126,4 +126,8 @@ function TOTEMS:Initialize()
 	self:ToggleEnable();
 end
 
-E:RegisterModule(TOTEMS:GetName());
+local function InitializeCallback()
+	TOTEMS:Initialize()
+end
+
+E:RegisterModule(TOTEMS:GetName(), InitializeCallback)

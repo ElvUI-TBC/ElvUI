@@ -7,9 +7,12 @@ function S:LoadWorldMapSkin()
 	WorldMapFrame:StripTextures()
 	WorldMapPositioningGuide:CreateBackdrop("Transparent")
 
-	S:HandleDropDownBox(WorldMapContinentDropDown)
-	S:HandleDropDownBox(WorldMapZoneDropDown)
-	S:HandleDropDownBox(WorldMapZoneMinimapDropDown)
+	S:HandleDropDownBox(WorldMapZoneMinimapDropDown, 190)
+	S:HandleDropDownBox(WorldMapContinentDropDown, 170)
+	S:HandleDropDownBox(WorldMapZoneDropDown, 170)
+
+	WorldMapZoneDropDown:Point("LEFT", WorldMapContinentDropDown, "RIGHT", -24, 0)
+	WorldMapZoomOutButton:Point("LEFT", WorldMapZoneDropDown, "RIGHT", -4, 3)
 
 	S:HandleButton(WorldMapZoomOutButton)
 
@@ -18,4 +21,4 @@ function S:LoadWorldMapSkin()
 	WorldMapDetailFrame:CreateBackdrop("Default")
 end
 
-S:AddCallback("WorldMap", S.LoadWorldMapSkin)
+S:AddCallback("SkinWorldMap", S.LoadWorldMapSkin)

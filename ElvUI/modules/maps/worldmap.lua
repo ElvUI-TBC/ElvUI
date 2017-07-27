@@ -36,8 +36,8 @@ end
 function M:UpdateCoords()
 	if not WorldMapFrame:IsShown() then return end
 	local x, y = GetPlayerMapPosition("player")
-	x = E:Round(100 * x, 2)
-	y = E:Round(100 * y, 2)
+	x = x and E:Round(100 * x, 2) or 0
+ 	y = y and E:Round(100 * y, 2) or 0
 
 	if x ~= 0 and y ~= 0 then
 		CoordsHolder.playerCoords:SetText(PLAYER..":   "..format("%.2f, %.2f", x, y))
@@ -104,6 +104,7 @@ function M:Initialize()
 		WorldMapFrame:SetScale(1)
 		WorldMapFrame:EnableKeyboard(false)
 		WorldMapFrame:EnableMouse(false)
+		WorldMapFrame:SetToplevel()
 
 		tinsert(UISpecialFrames, WorldMapFrame:GetName())
 
@@ -125,4 +126,8 @@ function M:Initialize()
 	end
 end
 
-E:RegisterInitialModule(M:GetName())
+local function InitializeCallback()
+	M:Initialize()
+end
+
+E:RegisterInitialModule(M:GetName(), InitializeCallback)

@@ -226,7 +226,7 @@ function hook(self, obj, method, handler, script, secure, raw, forceSecure, usag
 			if not secure then
 				obj:SetScript(method, uid)
 			else
-				obj:HookScript(method, uid)
+				obj:HookScript2(method, uid)
 			end
 		else
 			if not secure then

@@ -21,10 +21,13 @@ P["general"] = {
 	["fontSize"] = 12,
 	["font"] = "PT Sans Narrow",
 
-	["bordercolor"] = { r = 0.1, g = 0.1, b = 0.1 },
-	["backdropcolor"] = { r = 0.1, g = 0.1, b = 0.1 },
-	["backdropfadecolor"] = { r = .06, g = .06, b = .06, a = 0.8 },
-	["valuecolor"] = { r = 23/255, g = 132/255, b = 209/255 },
+	["bordercolor"] = {r = 0.1, g = 0.1, b = 0.1},
+	["backdropcolor"] = {r = 0.1, g = 0.1, b = 0.1},
+	["backdropfadecolor"] = {r = .06, g = .06, b = .06, a = 0.8},
+	["valuecolor"] = {r = 23/255, g = 132/255, b = 209/255},
+
+	["classCacheStoreInDB"] = true,
+	["classCacheRequestUnitInfo"] = false,
 
 	["minimap"] = {
 		["size"] = 176,
@@ -62,13 +65,12 @@ P["general"] = {
 				["xOffset"] = 3,
 				["yOffset"] = 0,
 			},
-			["difficulty"] = {
-				["scale"] = 1,
-				["position"] = "TOPLEFT",
-				["xOffset"] = 0,
-				["yOffset"] = 0,
-			},
 		}
+	},
+	["threat"] = {
+		["enable"] = true,
+		["position"] = "RIGHTCHAT",
+		["textSize"] = 12,
 	},
 	["totems"] = {
 		["enable"] = true,
@@ -76,6 +78,15 @@ P["general"] = {
 		["sortDirection"] = "ASCENDING",
 		["size"] = 40,
 		["spacing"] = 4,
+	},
+	["reminder"] = {
+		["enable"] = false,
+		["durations"] = true,
+		["reverse"] = true,
+		["position"] = "RIGHT",
+		["font"] = "Homespun",
+		["fontSize"] = 10,
+		["fontOutline"] = "MONOCHROMEOUTLINE"
 	},
 	["kittys"] = false
 };
@@ -92,7 +103,6 @@ P["databars"] = {
 		["mouseover"] = false,
 		["orientation"] = "VERTICAL",
 		["hideAtMaxLevel"] = true,
-		["hideInVehicle"] = false,
 		["hideInCombat"] = false
 	},
 	["reputation"] = {
@@ -105,7 +115,6 @@ P["databars"] = {
 		["textOutline"] = "MONOCHROMEOUTLINE",
 		["mouseover"] = false,
 		["orientation"] = "VERTICAL",
-		["hideInVehicle"] = false,
 		["hideInCombat"] = false
 	}
 };
@@ -128,9 +137,8 @@ P["nameplates"] = {
 	["useTargetGlow"] = true,
 
 	["castColor"] = {r = 1, g = 208/255, b = 0},
-	["castNoInterruptColor"] = {r = 0.78, g = 0.25, b = 0.25},
 	["reactions"] = {
-	["friendlyPlayer"] = {r = 0.31, g = 0.45, b = 0.63},
+		["friendlyPlayer"] = {r = 0.31, g = 0.45, b = 0.63},
 		["tapped"] = {r = 0.6, g = 0.6, b = 0.6},
 		["good"] = {r = 75/255, g = 175/255, b = 76/255},
 		["neutral"] = {r = 218/255, g = 197/255, b = 92/255},
@@ -164,12 +172,14 @@ P["nameplates"] = {
 			["showName"] = true,
 			["showLevel"] = false,
 			["castbar"] = {
+				["enable"] = true,
 				["height"] = 8,
+				["offset"] = 1,
 				["hideSpellName"] = false,
 				["hideTime"] = false,
-				["offset"] = 1,
 				["castTimeFormat"] = "CURRENT",
-				["channelTimeFormat"] = "CURRENT"
+				["channelTimeFormat"] = "CURRENT",
+				["timeToHold"] = 0
 			},
 			["buffs"] = {
 				["enable"] = true,
@@ -210,12 +220,14 @@ P["nameplates"] = {
 			["showName"] = true,
 			["showLevel"] = true,
 			["castbar"] = {
+				["enable"] = true,
 				["height"] = 8,
+				["offset"] = 1,
 				["hideSpellName"] = false,
 				["hideTime"] = false,
-				["offset"] = 1,
 				["castTimeFormat"] = "CURRENT",
-				["channelTimeFormat"] = "CURRENT"
+				["channelTimeFormat"] = "CURRENT",
+				["timeToHold"] = 0
 			},
 			["buffs"] = {
 				["enable"] = true,
@@ -255,12 +267,14 @@ P["nameplates"] = {
 			["showName"] = true,
 			["showLevel"] = true,
 			["castbar"] = {
+				["enable"] = true,
 				["height"] = 8,
+				["offset"] = 1,
 				["hideSpellName"] = false,
 				["hideTime"] = false,
-				["offset"] = 1,
 				["castTimeFormat"] = "CURRENT",
 				["channelTimeFormat"] = "CURRENT",
+				["timeToHold"] = 0
 			},
 			["buffs"] = {
 				["enable"] = true,
@@ -304,12 +318,14 @@ P["nameplates"] = {
 			["showName"] = true,
 			["showLevel"] = true,
 			["castbar"] = {
+				["enable"] = true,
 				["height"] = 8,
+				["offset"] = 1,
 				["hideSpellName"] = false,
 				["hideTime"] = false,
-				["offset"] = 1,
 				["castTimeFormat"] = "CURRENT",
-				["channelTimeFormat"] = "CURRENT"
+				["channelTimeFormat"] = "CURRENT",
+				["timeToHold"] = 0
 			},
 			["buffs"] = {
 				["enable"] = true,
@@ -392,6 +408,7 @@ P["unitframe"] = {
 	["auraBlacklistModifier"] = "SHIFT",
 	["thinBorders"] = false,
 	["colors"] = {
+		["borderColor"] = {r = 0, g = 0, b = 0},
 		["healthclass"] = false,
 		["forcehealthreaction"] = false,
 		["powerclass"] = false,
@@ -406,21 +423,20 @@ P["unitframe"] = {
 		["transparentPower"] = false,
 		["transparentCastbar"] = false,
 		["transparentAurabars"] = false,
-		["castColor"] = { r = .31,g = .31,b = .31 },
-		["castNoInterrupt"] = { r = 0.78, g = 0.25, b = 0.25 },
+		["castColor"] = {r = .31,g = .31,b = .31},
 		["castClassColor"] = false,
 		["castReactionColor"] = false,
 
-		["health"] = { r = .31,g = .31,b = .31 },
-		["health_backdrop"] = { r = .8,g = .01,b = .01 },
-		["health_backdrop_dead"] = { r = .8,g = .01,b = .01 },
-		["tapped"] = { r = 0.55, g = 0.57, b = 0.61},
-		["disconnected"] = { r = 0.84, g = 0.75, b = 0.65},
-		["auraBarBuff"] = { r = .31,g = .31,b = .31 },
+		["health"] = {r = .31,g = .31,b = .31},
+		["health_backdrop"] = {r = .8,g = .01,b = .01},
+		["health_backdrop_dead"] = {r = .8,g = .01,b = .01},
+		["tapped"] = {r = 0.55, g = 0.57, b = 0.61},
+		["disconnected"] = {r = 0.84, g = 0.75, b = 0.65},
+		["auraBarBuff"] = {r = .31,g = .31,b = .31},
 		["auraBarDebuff"] = {r = 0.8, g = 0.1, b = 0.1},
 		["healPrediction"] = {
-			["personal"] = { r = 0, g = 1, b = 0.5, a = 0.25 },
-			["others"] = { r = 0, g = 1, b = 0, a = 0.25 },
+			["personal"] = {r = 0, g = 1, b = 0.5, a = 0.25},
+			["others"] = {r = 0, g = 1, b = 0, a = 0.25},
 		},
 		["power"] = {
 			["MANA"] = {r = 0.31, g = 0.45, b = 0.63},
@@ -429,9 +445,9 @@ P["unitframe"] = {
 			["ENERGY"] = {r = 0.65, g = 0.63, b = 0.35}
 		},
 		["reaction"] = {
-			["BAD"] = { r = 0.78, g = 0.25, b = 0.25 },
-			["NEUTRAL"] = { r = 218/255, g = 197/255, b = 92/255 },
-			["GOOD"] = { r = 75/255, g = 175/255, b = 76/255 }
+			["BAD"] = {r = 0.78, g = 0.25, b = 0.25},
+			["NEUTRAL"] = {r = 218/255, g = 197/255, b = 92/255},
+			["GOOD"] = {r = 75/255, g = 175/255, b = 76/255}
 		},
 		["classResources"] = {
 			["bgColor"] = {r = 0.1,g = 0.1,b = 0.1, a = 1},
@@ -583,7 +599,6 @@ P["unitframe"] = {
 				["detachedWidth"] = 250,
 				["autoHide"] = false,
 				["parent"] = "FRAME",
-				["verticalOrientation"] = false,
 				["strataAndLevel"] = {
 					["useCustomStrata"] = false,
 					["frameStrata"] = "LOW",
@@ -1228,6 +1243,11 @@ P["unitframe"] = {
 				["width"] = 45,
 				["overlay"] = false,
 				["style"] = "3D"
+			},
+			["happiness"] = {
+				["enable"] = false,
+				["autoHide"] = false,
+				["width"] = 10,
 			},
 			["buffs"] = {
 				["enable"] = false,
@@ -2419,29 +2439,10 @@ P["auras"] = {
 	["timeYOffset"] = 0,
 	["timeXOffset"] = 0,
 
+	["size"] = 30,
+	["perRow"] = 14,
+	["spacing"] = 6,
 	["fadeThreshold"] = 5,
-	["buffs"] = {
-		["growthDirection"] = "LEFT_DOWN",
-		["wrapAfter"] = 12,
-		["maxWraps"] = 3,
-		["horizontalSpacing"] = 6,
-		["verticalSpacing"] = 16,
-		["sortMethod"] = "TIME",
-		["sortDir"] = "-",
-		["seperateOwn"] = 1,
-		["size"] = 32
-	},
-	["debuffs"] = {
-		["growthDirection"] = "LEFT_DOWN",
-		["wrapAfter"] = 12,
-		["maxWraps"] = 1,
-		["horizontalSpacing"] = 6,
-		["verticalSpacing"] = 16,
-		["sortMethod"] = "TIME",
-		["sortDir"] = "-",
-		["seperateOwn"] = 1,
-		["size"] = 32
-	},
 }
 
 P["chat"] = {
@@ -2493,7 +2494,6 @@ P["datatexts"] = {
 	["font"] = "Homespun",
 	["fontSize"] = 10,
 	["fontOutline"] = "NONE",
-	["wordWrap"] = false,
 	["panels"] = {
 		["LeftChatDataPanel"] = {
 			["left"] = "Armor",
@@ -2542,6 +2542,7 @@ P["tooltip"] = {
 	["inspectInfo"] = true,
 	["itemCount"] = "BAGS_ONLY",
 	["spellID"] = true,
+	["itemLevel"] = true,
 	["font"] = "PT Sans Narrow",
 	["fontOutline"] = "NONE",
 	["headerFontSize"] = 12,
@@ -2564,30 +2565,31 @@ P["tooltip"] = {
 	},
 	["useCustomFactionColors"] = false,
 	["factionColors"] = {
-		["1"] = { r = 0.8, g = 0.3, b = 0.22 },
-		["2"] = { r = 0.8, g = 0.3, b = 0.22 },
-		["3"] = { r = 0.75, g = 0.27, b = 0 },
-		["4"] = { r = 0.9, g = 0.7, b = 0 },
-		["5"] = { r = 0, g = 0.6, b = 0.1 },
-		["6"] = { r = 0, g = 0.6, b = 0.1 },
-		["7"] = { r = 0, g = 0.6, b = 0.1 },
-		["8"] = { r = 0, g = 0.6, b = 0.1 }
+		["1"] = {r = 0.8, g = 0.3, b = 0.22},
+		["2"] = {r = 0.8, g = 0.3, b = 0.22},
+		["3"] = {r = 0.75, g = 0.27, b = 0},
+		["4"] = {r = 0.9, g = 0.7, b = 0},
+		["5"] = {r = 0, g = 0.6, b = 0.1},
+		["6"] = {r = 0, g = 0.6, b = 0.1},
+		["7"] = {r = 0, g = 0.6, b = 0.1},
+		["8"] = {r = 0, g = 0.6, b = 0.1}
 	}
 };
 
 P["cooldown"] = {
 	threshold = 3,
-	expiringColor = { r = 1, g = 0, b = 0 },
-	secondsColor = { r = 1, g = 1, b = 0 },
-	minutesColor = { r = 1, g = 1, b = 1 },
-	hoursColor = { r = 0.4, g = 1, b = 1 },
-	daysColor = { r = 0.4, g = 0.4, b = 1 },
+	expiringColor = {r = 1, g = 0, b = 0},
+	secondsColor = {r = 1, g = 1, b = 0},
+	minutesColor = {r = 1, g = 1, b = 1},
+	hoursColor = {r = 0.4, g = 1, b = 1},
+	daysColor = {r = 0.4, g = 0.4, b = 1},
 }
 
 P["actionbar"] = {
 	["font"] = "Homespun",
 	["fontSize"] = 10,
 	["fontOutline"] = "MONOCHROMEOUTLINE",
+	["fontColor"] = {r = 1, g = 1, b = 1},
 
 	["macrotext"] = false,
 	["hotkeytext"] = true,
@@ -2597,9 +2599,11 @@ P["actionbar"] = {
 	["usableColor"] = {r = 1, g = 1, b = 1},
 	["notUsableColor"] = {r = 0.4, g = 0.4, b = 0.4},
 
+	["keyDown"] = true,
+	["movementModifier"] = "SHIFT",
+
 	["microbar"] = {
 		["enabled"] = false,
-		["Scale"] = 1,
 		["xOffset"] = 1,
 		["yOffset"] = 1,
 		["buttonsPerRow"] = 8,
@@ -2608,16 +2612,7 @@ P["actionbar"] = {
 	},
 
 	["globalFadeAlpha"] = 0,
-
-	["bonusBar"] = {
-		["visibility"] = {
-			["DRUID"] = "[bonusbar:1] [bonusbar:2] [bonusbar:3] [bonusbar:4]",
-			["WARRIOR"] = "[bonusbar:1] [bonusbar:2] [bonusbar:3]",
-			["PRIEST"] = "[bonusbar:1]",
-			["ROGUE"] = "[bonusbar:1] [form:2]",
-		},
-		["visibilityGeneral"] = "[bonusbar:5]",
-	},
+	["lockActionBars"] = true,
 
 	["bar1"] = {
 		["enabled"] = true,
@@ -2633,13 +2628,14 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
 		["paging"] = {
-			["DRUID"] = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;",
+			["DRUID"] = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 10; [bonusbar:3] 9; [bonusbar:4] 10;",
 			["WARRIOR"] = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;",
 			["PRIEST"] = "[bonusbar:1] 7;",
-			["ROGUE"] = "[bonusbar:1] 7; [form:3] 7;",
+			["ROGUE"] = "[bonusbar:1] 7;"
 		},
-		["visibility"] = "",
+		["visibility"] = ""
 	},
 	["bar2"] = {
 		["enabled"] = false,
@@ -2655,8 +2651,9 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
 		["paging"] = {},
-		["visibility"] = "",
+		["visibility"] = ""
 	},
 	["bar3"] = {
 		["enabled"] = true,
@@ -2672,8 +2669,9 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
 		["paging"] = {},
-		["visibility"] = "",
+		["visibility"] = ""
 	},
 	["bar4"] = {
 		["enabled"] = true,
@@ -2689,8 +2687,9 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
 		["paging"] = {},
-		["visibility"] = "",
+		["visibility"] = ""
 	},
 	["bar5"] = {
 		["enabled"] = true,
@@ -2706,8 +2705,27 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
 		["paging"] = {},
-		["visibility"] = "",
+		["visibility"] = ""
+	},
+	["bar6"] = {
+		["enabled"] = false,
+		["mouseover"] = false,
+		["buttons"] = 12,
+		["buttonsPerRow"] = 12,
+		["buttonsize"] = 32,
+		["buttonspacing"] = 2,
+		["backdropSpacing"] = 2,
+		["point"] = "BOTTOMLEFT",
+		["backdrop"] = false,
+		["heightMult"] = 1,
+		["widthMult"] = 1,
+		["alpha"] = 1,
+		["inheritGlobalFade"] = false,
+		["showGrid"] = true,
+		["paging"] = {},
+		["visibility"] = ""
 	},
 	["barPet"] = {
 		["enabled"] = true,
@@ -2723,7 +2741,7 @@ P["actionbar"] = {
 		["widthMult"] = 1,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
-		["visibility"] = "[pet,nobonusbar:5] show;hide",
+		["visibility"] = "[pet,nobonusbar:5] show;hide"
 	},
 	["barShapeShift"] = {
 		["enabled"] = true,
@@ -2741,4 +2759,4 @@ P["actionbar"] = {
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false
 	}
-};
+}

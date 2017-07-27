@@ -60,6 +60,7 @@ local function BuildGuildTable()
 
 	local totalMembers = GetNumGuildMembers()
 	for i = 1, totalMembers do
+	--	name, rank, rankIndex, level, class, zone, note, officernote, online, status, classFileName = GetGuildRosterInfo(guildIndex)
 		name, rank, _, level, _, zone, note, officernote, connected, status, class = GetGuildRosterInfo(i)
 
 		if connected then
@@ -73,18 +74,18 @@ local function UpdateGuildMessage()
 end
 
 local eventHandlers = {
-	["CHAT_MSG_SYSTEM"] = function(self)
+	["CHAT_MSG_SYSTEM"] = function()
 		GuildRoster()
 	end,
 	-- when we enter the world and guildframe is not available then
 	-- load guild frame, update guild message and guild xp
-	["PLAYER_ENTERING_WORLD"] = function (self)
+	["PLAYER_LOGIN"] = function()
 		if not GuildFrame and IsInGuild() then
 			GuildRoster()
 		end
 	end,
 	-- Guild Roster updated, so rebuild the guild table
-	["GUILD_ROSTER_UPDATE"] = function (self)
+	["GUILD_ROSTER_UPDATE"] = function(self)
 		GuildRoster()
 		BuildGuildTable()
 		UpdateGuildMessage()
@@ -92,11 +93,11 @@ local eventHandlers = {
 			self:GetScript("OnEnter")(self, nil, true)
 		end
 	end,
-	["PLAYER_GUILD_UPDATE"] = function (self)
+	["PLAYER_GUILD_UPDATE"] = function ()
 		GuildRoster()
 	end,
 	-- our guild message of the day changed
-	["GUILD_MOTD"] = function (self, arg1)
+	["GUILD_MOTD"] = function(_, arg1)
 		guildMotD = arg1
 	end,
 	["ELVUI_FORCE_RUN"] = function() end,
@@ -122,12 +123,12 @@ local menuList = {
 	{ text = CHAT_MSG_WHISPER_INFORM, hasArrow = true, notCheckable=true,}
 }
 
-local function inviteClick(_, playerName)
+local function inviteClick(playerName)
 	menuFrame:Hide()
 	InviteUnit(playerName)
 end
 
-local function whisperClick(_, playerName)
+local function whisperClick(playerName)
 	menuFrame:Hide()
 	SetItemRef("player:"..playerName, ("|Hplayer:%1$s|h[%1$s]|h"):format(playerName), "LeftButton")
 end
@@ -233,4 +234,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext("Guild", {"PLAYER_ENTERING_WORLD", "CHAT_MSG_SYSTEM", "GUILD_ROSTER_UPDATE", "PLAYER_GUILD_UPDATE", "GUILD_MOTD"}, OnEvent, nil, OnClick, OnEnter)
+DT:RegisterDatatext("Guild", {"PLAYER_LOGIN", "CHAT_MSG_SYSTEM", "GUILD_ROSTER_UPDATE", "PLAYER_GUILD_UPDATE", "GUILD_MOTD"}, OnEvent, nil, OnClick, OnEnter, nil, GUILD)

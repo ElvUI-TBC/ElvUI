@@ -198,11 +198,9 @@ function M:LOOT_OPENED(_, autoloot)
 		lootFrame:Point("TOPLEFT", UIParent, "BOTTOMLEFT", x - 40, y + 20)
 		lootFrame:GetCenter()
 		lootFrame:Raise()
-		E:DisableMover("LootFrameMover");
 	else
 		lootFrame:ClearAllPoints()
 		lootFrame:SetPoint("TOPLEFT", lootFrameHolder, "TOPLEFT")
-		E:EnableMover("LootFrameMover");
 	end
 
 	local m, w, t = 0, 0, lootFrame.title:GetStringWidth()
@@ -275,6 +273,7 @@ end
 
 function M:LoadLoot()
 	if not E.private.general.loot then return end
+
 	lootFrameHolder = CreateFrame("Frame", "ElvLootFrameHolder", E.UIParent)
 	lootFrameHolder:Point("TOPLEFT", 36, -195)
 	lootFrameHolder:Size(150, 22)
@@ -304,27 +303,23 @@ function M:LoadLoot()
 
 	E:CreateMover(lootFrameHolder, "LootFrameMover", L["Loot Frame"])
 
-	if(GetCVar("lootUnderMouse") == "1") then
-		E:DisableMover("LootFrameMover");
-	end
-
 	-- Fuzz
 	LootFrame:UnregisterAllEvents()
 	tinsert(UISpecialFrames, "ElvLootFrame")
 
-	function _G.GroupLootDropDown_GiveLoot(self)
+	function _G.GroupLootDropDown_GiveLoot()
 		if(sq >= MASTER_LOOT_THREHOLD) then
-			local dialog = StaticPopup_Show("CONFIRM_LOOT_DISTRIBUTION", ITEM_QUALITY_COLORS[sq].hex..sn..FONT_COLOR_CODE_CLOSE, self:GetText())
+			local dialog = StaticPopup_Show("CONFIRM_LOOT_DISTRIBUTION", ITEM_QUALITY_COLORS[sq].hex..sn..FONT_COLOR_CODE_CLOSE, this:GetText())
 			if (dialog) then
-				dialog.data = self.value
+				dialog.data = this.value
 			end
 		else
-			GiveMasterLoot(ss, self.value)
+			GiveMasterLoot(ss, this.value)
 		end
 		CloseDropDownMenus()
 	end
 
-	E.PopupDialogs["CONFIRM_LOOT_DISTRIBUTION"].OnAccept = function(self, data)
+	E.PopupDialogs["CONFIRM_LOOT_DISTRIBUTION"].OnAccept = function(data)
 		GiveMasterLoot(ss, data);
 	end
 	StaticPopupDialogs["CONFIRM_LOOT_DISTRIBUTION"].preferredIndex = 3;

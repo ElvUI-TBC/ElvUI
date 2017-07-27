@@ -15,7 +15,7 @@ function S:LoadTalentSkin()
 
 	S:HandleCloseButton(PlayerTalentFrameCloseButton)
 
-	S:HandleButton(PlayerTalentFrameCancelButton)
+	PlayerTalentFrameCancelButton:Kill()
 
 	for i = 1, 5 do
 		S:HandleTab(_G["PlayerTalentFrameTab"..i])
@@ -23,7 +23,16 @@ function S:LoadTalentSkin()
 
 	PlayerTalentFrameScrollFrame:StripTextures()
 	PlayerTalentFrameScrollFrame:CreateBackdrop("Default")
+	PlayerTalentFrameScrollFrame.backdrop:Point("TOPLEFT", -1, 2)
+	PlayerTalentFrameScrollFrame.backdrop:Point("BOTTOMRIGHT", 6, -2)
+
 	S:HandleScrollBar(PlayerTalentFrameScrollFrameScrollBar)
+	PlayerTalentFrameScrollFrameScrollBar:Point("TOPLEFT", PlayerTalentFrameScrollFrame, "TOPRIGHT", 10, -16)
+
+	PlayerTalentFrameScrollButtonOverlay:Hide()
+
+	PlayerTalentFrameSpentPoints:Point("TOP", 0, -42)
+	PlayerTalentFrameTalentPointsText:Point("BOTTOMRIGHT", PlayerTalentFrame, "BOTTOMLEFT", 220, 84)
 
 	for i = 1, MAX_NUM_TALENTS do
 		local talent = _G["PlayerTalentFrameTalent"..i]

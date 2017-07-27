@@ -4,9 +4,7 @@ local oUF = ns.oUF
 local GetComboPoints = GetComboPoints
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
-local Update = function(self, event, unit)
-	if(unit == "pet") then return end
-
+local Update = function(self, event)
 	local cpoints = self.CPoints
 	if(cpoints.PreUpdate) then
 		cpoints:PreUpdate()

@@ -2,7 +2,7 @@
 	<Script file="arena.lua"/>
 	<Script file="arenaregistrar.lua"/>
 	<Script file="auctionhouse.lua"/>
-	<!--<Script file="bags.lua"/>-->
+	<Script file="bags.lua"/>
 	<Script file="bgmap.lua"/>
 	<Script file="bgscore.lua"/>
 	<Script file="binding.lua"/>
@@ -40,6 +40,5 @@
 	<Script file="tradeskill.lua"/>
 	<Script file="trainer.lua"/>
 	<Script file="tutorial.lua"/>
-	<Script file="watchframe.lua"/>
 	<Script file="worldmap.lua"/>
 </Ui>

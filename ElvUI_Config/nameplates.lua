@@ -190,30 +190,35 @@ local function GetUnitSettings(unit, name)
 						type = "header",
 						name = L["Cast Bar"]
 					},
-					hideSpellName = {
+					enable = {
 						order = 1,
+						name = L["Enable"],
+						type = "toggle",
+					},
+					hideSpellName = {
+						order = 2,
 						type = "toggle",
 						name = L["Hide Spell Name"]
 					},
 					hideTime = {
-						order = 2,
+						order = 3,
 						type = "toggle",
 						name = L["Hide Time"]
 					},
 					height = {
-						order = 3,
+						order = 4,
 						type = "range",
 						name = L["Height"],
 						min = 4, max = 20, step = 1
 					},
 					offset = {
-						order = 4,
+						order = 5,
 						type = "range",
 						name = L["Offset"],
 						min = 0, max = 30, step = 1
 					},
 					castTimeFormat = {
-						order = 5,
+						order = 6,
 						type = "select",
 						name = L["Cast Time Format"],
 						values = {
@@ -223,7 +228,7 @@ local function GetUnitSettings(unit, name)
 						}
 					},
 					channelTimeFormat = {
-						order = 6,
+						order = 7,
 						type = "select",
 						name = L["Channel Time Format"],
 						values = {
@@ -231,6 +236,13 @@ local function GetUnitSettings(unit, name)
 							["CURRENT_MAX"] = L["Current / Max"],
 							["REMAINING"] = L["Remaining"]
 						}
+					},
+					timeToHold = {
+						order = 8,
+						type = "range",
+						name = L["Time To Hold"],
+						desc = L["How many seconds the castbar should stay visible after the cast failed or was interrupted."],
+						min = 0, max = 4, step = 0.1
 					}
 				}
 			},
@@ -425,12 +437,16 @@ local function GetUnitSettings(unit, name)
 		group.args.healthGroup.args.useClassColor = {
 			order = 4,
 			type = "toggle",
-			name = L["Use Class Color"]
+			name = L["Use Class Color"],
+			desc = L["Depends on Class Caching module!"],
+			disabled = function() return not E.private.general.classCache end
 		};
 		group.args.nameGroup.args.useClassColor = {
 			order = 3,
 			type = "toggle",
-			name = L["Use Class Color"]
+			name = L["Use Class Color"],
+			desc = L["Depends on Class Caching module!"],
+			disabled = function() return not E.private.general.classCache end
 		};
 	elseif(unit == "ENEMY_NPC" or unit == "FRIENDLY_NPC") then
 		group.args.eliteIcon = {
@@ -566,16 +582,18 @@ E.Options.args.nameplate = {
 							name = L["StatusBar Texture"],
 							values = AceGUIWidgetLSMlists.statusbar,
 						},
-						-- motionType = {
-						-- 	type = "select",
-						-- 	order = 1,
-						-- 	name = L["Nameplate Motion Type"],
-						-- 	desc = L["Set to either stack nameplates vertically or allow them to overlap."],
-						-- 	values = {
-						-- 		["STACKED"] = L["Stacking Nameplates"],
-						-- 		["OVERLAP"] = L["Overlapping Nameplates"],
-						-- 	},
-						-- },
+--[[
+						motionType = {
+							type = "select",
+							order = 1,
+							name = L["Nameplate Motion Type"],
+							desc = L["Set to either stack nameplates vertically or allow them to overlap."],
+							values = {
+								["STACKED"] = L["Stacking Nameplates"],
+								["OVERLAP"] = L["Overlapping Nameplates"],
+							},
+						},
+]]
 						useTargetGlow = {
 							order = 2,
 							type = "toggle",
@@ -679,13 +697,14 @@ E.Options.args.nameplate = {
 					order = 150,
 					type = "group",
 					name = L["Threat"],
+					-- TODO
+					hidden = true,
 					get = function(info)
 						local t = E.db.nameplates.threat[ info[#info] ];
 						local d = P.nameplates.threat[info[#info]];
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 					end,
 					set = function(info, r, g, b)
-						E.db.nameplates[ info[#info] ] = {};
 						local t = E.db.nameplates.threat[ info[#info] ];
 						t.r, t.g, t.b = r, g, b;
 					end,
@@ -771,7 +790,6 @@ E.Options.args.nameplate = {
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 					end,
 					set = function(info, r, g, b)
-						E.db.nameplates[ info[#info] ] = {};
 						local t = E.db.nameplates[ info[#info] ];
 						t.r, t.g, t.b = r, g, b;
 						NP:ForEachPlate("ConfigureElement_CastBar");
@@ -781,12 +799,6 @@ E.Options.args.nameplate = {
 							order = 1,
 							type = "color",
 							name = L["Cast Color"],
-							hasAlpha = false
-						},
-						castNoInterruptColor = {
-							order = 2,
-							type = "color",
-							name = L["Cast No Interrupt Color"],
 							hasAlpha = false
 						}
 					}
@@ -801,7 +813,6 @@ E.Options.args.nameplate = {
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 					end,
 					set = function(info, r, g, b)
-						E.db.nameplates.reactions[ info[#info] ] = {};
 						local t = E.db.nameplates.reactions[ info[#info] ];
 						t.r, t.g, t.b = r, g, b;
 						NP:ConfigureAll();

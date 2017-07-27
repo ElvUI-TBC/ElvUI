@@ -1,9 +1,11 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:NewModule("NamePlates", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
+local CC = E:GetModule("ClassCache")
 
 local _G = _G
 local pairs, tonumber = pairs, tonumber
-local gsub = string.gsub
+local select = select
+local gsub, split = string.gsub, string.split
 local twipe = table.wipe
 
 local CreateFrame = CreateFrame
@@ -19,14 +21,28 @@ local WorldFrame = WorldFrame
 local WorldGetNumChildren, WorldGetChildren = WorldFrame.GetNumChildren, WorldFrame.GetChildren
 
 local numChildren = 0
+local isTarget = false
 local BORDER = [=[Interface\Tooltips\Nameplate-Border]=]
 local FSPAT = "%s*" .. ((_G.FOREIGN_SERVER_LABEL:gsub("^%s", "")):gsub("[%*()]", "%%%1")) .. "$"
+local queryList = {}
 
 local RaidIconCoordinate = {
 	[0] = {[0] = "STAR", [0.25] = "MOON"},
 	[0.25] = {[0] = "CIRCLE", [0.25] = "SQUARE"},
 	[0.5] = {[0] = "DIAMOND", [0.25] = "CROSS"},
 	[0.75] = {[0] = "TRIANGLE", [0.25] = "SKULL"}
+}
+
+local healClasses = {
+	["DRUID"] = true,
+	["HUNTER"] = false,
+	["MAGE"] = false,
+	["PALADIN"] = true,
+	["PRIEST"] = true,
+	["ROGUE"] = false,
+	["SHAMAN"] = true,
+	["WARLOCK"] = false,
+	["WARRIOR"] = false
 }
 
 mod.CreatedPlates = {}
@@ -64,10 +80,10 @@ function mod:CheckFilter(frame)
 end
 
 function mod:CheckBGHealers()
-	local name, _, damageDone, healingDone
+	local name, class, damageDone, healingDone, _
 	for i = 1, GetNumBattlefieldScores() do
-		name, _, _, _, _, _, _, _, _, _, damageDone, healingDone = GetBattlefieldScore(i)
-		if name then
+		name, _, _, _, _, _, _, _, _, class, damageDone, healingDone = GetBattlefieldScore(i)
+		if name and class and healClasses[class] then
 			name = name:match("(.+)%-.+") or name
 			if name and healingDone > (damageDone * 2) then
 				self.Healers[name] = true
@@ -91,8 +107,10 @@ function mod:SetFrameScale(frame, scale)
 end
 
 function mod:SetTargetFrame(frame)
+	if isTarget then return end
+
 	local targetExists = UnitExists("target") == 1
-	if targetExists and frame:GetParent():IsShown() and frame:GetParent():GetAlpha() == 1 and not frame.isTarget then
+	if targetExists and frame:GetParent():IsShown() and frame:GetParent():GetAlpha() == 1 then
 		if self.db.useTargetScale then
 			self:SetFrameScale(frame, (frame.CustomScale and frame.CustomScale * self.db.targetScale) or self.db.targetScale)
 		end
@@ -109,8 +127,11 @@ function mod:SetTargetFrame(frame)
 			self:ConfigureElement_Glow(frame)
 			self:ConfigureElement_Level(frame)
 			self:ConfigureElement_Name(frame)
+
 			self:UpdateElement_All(frame, true)
 		end
+
+		frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_START", "target")
 
 		frame:SetAlpha(1)
 
@@ -121,6 +142,7 @@ function mod:SetTargetFrame(frame)
 		end
 		frame.isTarget = nil
 		frame.unit = nil
+		frame.guid = nil
 		if self.db.units[frame.UnitType].healthbar.enable ~= true then
 			self:UpdateAllFrame(frame)
 		end
@@ -141,6 +163,16 @@ function mod:SetTargetFrame(frame)
 	mod:UpdateElement_HealthColor(frame)
 	mod:UpdateElement_Glow(frame)
 	mod:UpdateElement_CPoints(frame)
+
+	return frame.isTarget
+end
+
+function mod:GetNumVisiblePlates()
+	local i = 0
+	for _ in pairs(mod.VisiblePlates) do
+		i = i + 1
+	end
+	return i
 end
 
 function mod:StyleFrame(parent, noBackdrop, point)
@@ -234,26 +266,31 @@ function mod:RoundColors(r, g, b)
 	return floor(r*100+.5) / 100, floor(g*100+.5) / 100, floor(b*100+.5) / 100
 end
 
-function mod:UnitClass(frame, type)
-	if type == "FRIENDLY_PLAYER" then
-		if UnitInParty("player") or UnitInRaid("player") then -- FRIENDLY_PLAYER
-			local _, class = UnitClass(frame.UnitName)
-			if class then return class end
-		end
-	elseif type == "ENEMY_PLAYER" then
-		local r, g, b = self:RoundColors(frame.oldHealthBar:GetStatusBarColor())
-		for class, _ in pairs(RAID_CLASS_COLORS) do -- ENEMY_PLAYER
-			if RAID_CLASS_COLORS[class].r == r and RAID_CLASS_COLORS[class].g == g and RAID_CLASS_COLORS[class].b == b then
+function mod:UnitClass(name, type)
+	if E.private.general.classCache then
+		if type == "FRIENDLY_PLAYER" then
+			local _, class = UnitClass(name)
+			if class then
 				return class
+			else
+				local name, realm = split("-", name)
+				return CC:GetClassByName(name, realm, "friendly")
 			end
+		elseif type == "ENEMY_NPC" then
+			local name, realm = split("-", name)
+			return CC:GetClassByName(name, realm, "enemy")
+		elseif type == "ENEMY_PLAYER" then
+			return CC:GetClassByName(split("-", name))
+		end
+	else
+		if type == "FRIENDLY_PLAYER" then
+			return select(2, UnitClass(name))
 		end
 	end
 end
 
 function mod:UnitDetailedThreatSituation(frame)
-
-			return false
-
+	return false
 end
 
 function mod:UnitLevel(frame)
@@ -266,36 +303,54 @@ function mod:UnitLevel(frame)
 end
 
 function mod:GetUnitInfo(frame)
-	local r, g, b = mod:RoundColors(frame.oldHealthBar:GetStatusBarColor())
+	--[[if UnitExists("target") == 1 and frame:GetParent():IsShown() and frame:GetParent():GetAlpha() == 1 then
+		if UnitIsPlayer("target") then
+			if UnitIsEnemy("target", "player") then
+				return 2, "ENEMY_PLAYER"
+			else
+				return 5, "FRIENDLY_PLAYER"
+			end
+		else
+			if UnitIsEnemy("target", "player") then
+				return 2, "ENEMY_NPC"
+			elseif UnitReaction("target", "player") == 4 then
+				return 4, "ENEMY_NPC"
+			else
+				return 5, "FRIENDLY_NPC"
+			end
+		end
+	end]]
 
-	if r < .01 then
-		if b < .01 and g > .99 then
-			return 5, "FRIENDLY_NPC";
-		elseif b > .99 and g < .01 then
-			return 5, "FRIENDLY_PLAYER";
-		end
-	elseif r > .99 then
-		if b < .01 and g > .99 then
-			return 4, "ENEMY_NPC";
-		elseif b < .01 and g < .01 then
-			return 2, "ENEMY_NPC";
-		end
-	elseif r > .5 and r < .6 then
-		if g > .5 and g < .6 and b > .5 and b < .6 then
-			return 1, "ENEMY_NPC";
-		end
+	local r, g, b = mod:RoundColors(frame.oldHealthBar:GetStatusBarColor())
+	if r == 1 and g == 0 and b == 0 then
+		return 2, "ENEMY_NPC"
+	elseif r == 0 and g == 0 and b == 1 then
+		return 5, "FRIENDLY_PLAYER"
+	elseif r == 0 and g == 1 and b == 0 then
+		return 5, "FRIENDLY_NPC"
+	elseif r == 1 and g == 1 and b == 0 then
+		return 4, "ENEMY_NPC"
 	end
-	return 3, "ENEMY_PLAYER";
 end
 
 function mod:OnShow()
+	isTarget = false
 	mod.VisiblePlates[self.UnitFrame] = true
 
 	self.UnitFrame.UnitName = gsub(self.UnitFrame.oldName:GetText(), FSPAT, "")
 	local unitReaction, unitType = mod:GetUnitInfo(self.UnitFrame)
 	self.UnitFrame.UnitType = unitType
-	self.UnitFrame.UnitClass = mod:UnitClass(self.UnitFrame, unitType)
+	self.UnitFrame.UnitClass = mod:UnitClass(self.UnitFrame.oldName:GetText(), unitType)
 	self.UnitFrame.UnitReaction = unitReaction
+
+	if not self.UnitFrame.UnitClass then
+		queryList[self.UnitFrame.UnitName] = self.UnitFrame
+	end
+
+	if unitType == "ENEMY_NPC" and self.UnitFrame.UnitClass then
+		unitType = "ENEMY_PLAYER"
+		self.UnitFrame.UnitType = unitType
+	end
 
 	if not mod:CheckFilter(self.UnitFrame) then return end
 
@@ -330,6 +385,17 @@ function mod:OnShow()
 		mod:ConfigureElement_Name(self.UnitFrame)
 	end
 
+	if(mod.db.units[unitType].castbar.enable) then
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_START")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_STOP")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_FAILED")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_DELAYED")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
+		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
+	end
+
 	mod:UpdateElement_All(self.UnitFrame)
 
 	self.UnitFrame:Show()
@@ -346,7 +412,6 @@ function mod:OnHide()
 	self.UnitFrame.Glow:Hide()
 	self.UnitFrame.HealthBar.r, self.UnitFrame.HealthBar.g, self.UnitFrame.HealthBar.b = nil, nil, nil
 	self.UnitFrame.HealthBar:Hide()
-	self.UnitFrame.oldCastBar:Hide()
 	self.UnitFrame.CastBar:Hide()
 	self.UnitFrame.Level:ClearAllPoints()
 	self.UnitFrame.Level:SetText("")
@@ -390,26 +455,28 @@ end
 
 function mod:UpdateElement_All(frame, noTargetFrame)
 	if self.db.units[frame.UnitType].healthbar.enable or frame.isTarget then
-		mod:UpdateElement_Health(frame)
-		mod:UpdateElement_HealthColor(frame)
-		mod:UpdateElement_Auras(frame)
+		self:UpdateElement_Health(frame)
+		self:UpdateElement_HealthColor(frame)
+		self:UpdateElement_Auras(frame)
 	end
-	mod:UpdateElement_RaidIcon(frame)
-	mod:UpdateElement_HealerIcon(frame)
-	mod:UpdateElement_Name(frame)
-	mod:UpdateElement_Level(frame)
+	self:UpdateElement_RaidIcon(frame)
+	self:UpdateElement_HealerIcon(frame)
+	self:UpdateElement_Name(frame)
+	self:UpdateElement_Level(frame)
 
 	if not noTargetFrame then
-		mod:ScheduleTimer("SetTargetFrame", 0.01, frame)
+		mod:ScheduleTimer("ForEachPlate", 0.25, "SetTargetFrame")
 	end
 end
 
 function mod:OnCreated(frame)
+	isTarget = false
 	local HealthBar, CastBar = frame:GetChildren()
 	local Border, CastBarBorder, CastBarIcon, Highlight, Name, Level, BossIcon, RaidIcon = frame:GetRegions()
 
 	frame.UnitFrame = CreateFrame("Frame", nil, frame)
 	frame.UnitFrame:SetAllPoints()
+	frame.UnitFrame:SetScript("OnEvent", self.OnEvent)
 
 	frame.UnitFrame.HealthBar = self:ConstructElement_HealthBar(frame.UnitFrame)
 	frame.UnitFrame.CastBar = self:ConstructElement_CastBar(frame.UnitFrame)
@@ -429,6 +496,8 @@ function mod:OnCreated(frame)
 	self:QueueObject(Name)
 	self:QueueObject(Border)
 	self:QueueObject(Highlight)
+	CastBar:Kill()
+	CastBarIcon:SetParent(E.HiddenFrame)
 	BossIcon:SetAlpha(0)
 
 	frame.UnitFrame.oldHealthBar = HealthBar
@@ -445,15 +514,18 @@ function mod:OnCreated(frame)
 
 	self.OnShow(frame)
 
-	frame:SetScript("OnShow", self.OnShow)
-	frame:SetScript("OnHide", self.OnHide)
-	HealthBar:SetScript("OnValueChanged", self.UpdateElement_HealthOnValueChanged)
-	CastBar:SetScript("OnShow", self.UpdateElement_CastBarOnShow)
-	CastBar:SetScript("OnHide", self.UpdateElement_CastBarOnHide)
-	CastBar:SetScript("OnValueChanged", self.UpdateElement_CastBarOnValueChanged)
+	frame:HookScript2("OnShow", self.OnShow)
+	frame:HookScript2("OnHide", self.OnHide)
+	HealthBar:HookScript2("OnValueChanged", self.UpdateElement_HealthOnValueChanged)
 
 	self.CreatedPlates[frame] = true
 	self.VisiblePlates[frame.UnitFrame] = true
+end
+
+function mod:OnEvent(event, unit, ...)
+	if not self.unit then return end
+
+	mod:UpdateElement_Cast(self, event, unit, ...)
 end
 
 function mod:QueueObject(object)
@@ -483,9 +555,17 @@ function mod:OnUpdate(elapsed)
 		numChildren = count
 	end
 
+	local i = 0
 	for frame in pairs(mod.VisiblePlates) do
-		if not frame.isTarget and frame:GetParent():GetAlpha() ~= 1 then
+		i = i + 1
+
+		local getTarget = mod:SetTargetFrame(frame)
+		if not getTarget then
 			frame:GetParent():SetAlpha(1)
+		end
+
+		if i == mod:GetNumVisiblePlates() then
+			isTarget = true
 		end
 	end
 end
@@ -536,7 +616,6 @@ function mod:SearchForFrame(guid, raidIcon, name)
 end
 
 function mod:UpdateCVars()
-	-- SetCVar("ShowClassColorInNameplate", "1")
 	SetCVar("showVKeyCastbar", "1")
 	-- SetCVar("nameplateAllowOverlap", self.db.motionType == "STACKED" and "0" or "1")
 end
@@ -579,7 +658,7 @@ function mod:PLAYER_ENTERING_WORLD()
 end
 
 function mod:PLAYER_TARGET_CHANGED()
-	mod:ScheduleTimer("ForEachPlate", 0.1, "SetTargetFrame")
+	isTarget = false
 end
 
 function mod:UNIT_AURA(_, unit)
@@ -590,10 +669,8 @@ function mod:UNIT_AURA(_, unit)
 	end
 end
 
-function mod:PLAYER_COMBO_POINTS(_, unit)
-	if unit == "player" or unit == "vehicle" then
-		self:ForEachPlate("UpdateElement_CPoints")
-	end
+function mod:PLAYER_COMBO_POINTS()
+	self:ForEachPlate("UpdateElement_CPoints")
 end
 
 function mod:PLAYER_REGEN_DISABLED()
@@ -625,6 +702,26 @@ function mod:PLAYER_REGEN_ENABLED()
 	end
 end
 
+function mod:ClassCacheQueryResult(_, name, class)
+	if queryList[name] then
+		local frame = queryList[name]
+
+		if frame.UnitType then 
+			if frame.UnitType == "ENEMY_NPC" then
+				frame.UnitType = "ENEMY_PLAYER"
+			end
+			frame.UnitClass = class
+
+			if self.db.units[frame.UnitType].healthbar.enable then
+				self:UpdateElement_HealthColor(frame)
+			end
+			self:UpdateElement_Name(frame)
+		end
+
+		queryList[name] = nil
+	end
+end
+
 function mod:Initialize()
 	self.db = E.db["nameplates"]
 	if E.private["nameplates"].enable ~= true then return end
@@ -641,7 +738,13 @@ function mod:Initialize()
 	self:RegisterEvent("UNIT_AURA")
 	self:RegisterEvent("PLAYER_COMBO_POINTS")
 
+	self:RegisterMessage("ClassCacheQueryResult")
+
 	E.NamePlates = self
 end
 
-E:RegisterModule(mod:GetName())
+local function InitializeCallback()
+	mod:Initialize()
+end
+
+E:RegisterModule(mod:GetName(), InitializeCallback)

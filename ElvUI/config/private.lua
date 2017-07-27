@@ -19,6 +19,7 @@ V["general"] = {
 		["enable"] = true,
 		["hideCalendar"] = true,
 	},
+	["classCache"] = true,
 	["classColorMentionsSpeech"] = true
 }
 
@@ -42,7 +43,7 @@ V["auras"] = {
 }
 
 V["chat"] = {
-	["enable"] = true,
+	["enable"] = true
 }
 
 V["skins"] = {
@@ -51,7 +52,6 @@ V["skins"] = {
 	},
 	["blizzard"] = {
 		["enable"] = true,
-		["achievement"] = true,
 		["alertframes"] = true,
 		["arena"] = true,
 		["arenaregistrar"] = true,
@@ -74,8 +74,7 @@ V["skins"] = {
 		["guildregistrar"] = true,
 		["help"] = true,
 		["inspect"] = true,
-		["lfd"] = true,
-		["lfr"] = true,
+		["lfg"] = true,
 		["loot"] = true,
 		["lootRoll"] = true,
 		["macro"] = true,

@@ -3,7 +3,6 @@ local AB = E:GetModule("ActionBars")
 
 local _G = _G
 local ceil = math.ceil
-local lower = string.lower
 
 local CreateFrame = CreateFrame
 local GetShapeshiftForm = GetShapeshiftForm
@@ -47,7 +46,9 @@ function AB:StyleShapeShift()
 			texture, name, isActive, isCastable = GetShapeshiftFormInfo(i)
 
 			if self.db.barShapeShift.style == "darkenInactive" then
-				_, _, texture = GetSpellInfo(name)
+				if name then
+					_, _, texture = GetSpellInfo(name)
+				end
 			end
 
 			if not texture then
@@ -147,7 +148,7 @@ function AB:PositionAndSizeBarShapeShift()
 		bar:SetAlpha(bar.db.alpha)
 		E:EnableMover(bar.mover:GetName())
 	else
-		bar:SetScale(0.000001)
+		bar:SetScale(0.0001)
 		bar:SetAlpha(0)
 		E:DisableMover(bar.mover:GetName())
 	end
@@ -224,7 +225,7 @@ function AB:PositionAndSizeBarShapeShift()
 		end
 
 		if i > numButtons then
-			button:SetScale(0.000001)
+			button:SetScale(0.0001)
 			button:SetAlpha(0)
 		else
 			button:SetScale(1)
@@ -289,13 +290,6 @@ function AB:CreateBarShapeShift()
 	bar.backdrop:SetAllPoints()
 	bar:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -4)
 	bar.buttons = {}
-	bar:SetAttribute("_onstate-show", [[
-		if newstate == "hide" then
-			self:Hide()
-		else
-			self:Show()
-		end
-	]])
 
 	self:HookScript(bar, "OnEnter", "Bar_OnEnter")
 	self:HookScript(bar, "OnLeave", "Bar_OnLeave")

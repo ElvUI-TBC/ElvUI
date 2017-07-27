@@ -3,6 +3,8 @@ if(select(2, UnitClass("player")) ~= "DRUID") then return; end
 local ns = oUF
 local oUF = ns.oUF
 
+local LDM = LibStub("LibDruidMana-1.0")
+
 local UnitMana, UnitManaMax = UnitMana, UnitManaMax
 local UnitIsPlayer = UnitIsPlayer
 local UnitPlayerControlled = UnitPlayerControlled
@@ -29,7 +31,7 @@ local UPDATE_VISIBILITY = function(self, event)
 	end
 end
 
-local UNIT_MANA = function(self, event, unit, powerType)
+local UNIT_MANA = function(self, event, unit, currMana, maxMana)
 	if(self.unit ~= unit) then return; end
 	local druidmana = self.DruidAltMana;
 
@@ -39,14 +41,18 @@ local UNIT_MANA = function(self, event, unit, powerType)
 		druidmana:PreUpdate(unit);
 	end
 
-	local min, max = UnitMana("player", 0), UnitManaMax("player", 0);
+	local min, max = currMana, maxMana
+
+	if not (min and max) then
+		min, max = LDM:GetCurrentMana(), LDM:GetMaximumMana()
+	end
 
 	druidmana.ManaBar:SetMinMaxValues(0, max);
 	druidmana.ManaBar:SetValue(min);
 
 	local r, g, b, t;
 	if(druidmana.colorPower) then
-		t = self.colors.power["MANA"];
+		t = self.colors.power[0];
 	elseif(druidmana.colorClass and UnitIsPlayer(unit)) or
 		(druidmana.colorClassNPC and not UnitIsPlayer(unit)) or
 		(druidmana.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
@@ -94,8 +100,10 @@ local Enable = function(self, unit)
 		druidmana.__owner = self;
 		druidmana.ForceUpdate = ForceUpdate;
 
-		self:RegisterEvent("UNIT_MANA", UNIT_MANA);
-		self:RegisterEvent("UNIT_MAXMANA", UNIT_MANA);
+		LDM:AddListener(function(currMana, maxMana)
+			UNIT_MANA(self, "Listener", "player", currMana, maxMana)
+		end, "oUF_DruidMana")
+
 		self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", UPDATE_VISIBILITY);
 
 		return true;
@@ -105,8 +113,8 @@ end
 local Disable = function(self)
 	local druidmana = self.DruidAltMana;
 	if(druidmana) then
-		self:UnregisterEvent("UNIT_MANA", UNIT_MANA);
-		self:UnregisterEvent("UNIT_MAXMANA", UNIT_MANA);
+		LDM:RemoveListener("oUF_DruidMana")
+
 		self:UnregisterEvent("UPDATE_SHAPESHIFT_FORM", UPDATE_VISIBILITY);
 	end
 end

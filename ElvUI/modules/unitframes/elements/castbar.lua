@@ -33,6 +33,8 @@ function UF:Construct_Castbar(frame, moverName)
 	castbar:SetFrameLevel(frame.RaisedElementParent:GetFrameLevel() + 30);
 	self["statusbars"][castbar] = true;
 
+	CreateStatusBarTexturePointer(castbar)
+
 	castbar.CustomDelayText = self.CustomCastDelayText
 	castbar.CustomTimeText = self.CustomTimeText
 	castbar.PostCastStart = self.PostCastStart
@@ -42,7 +44,7 @@ function UF:Construct_Castbar(frame, moverName)
 	castbar.PostCastNotInterruptible = self.PostCastNotInterruptible
 
 	castbar:SetClampedToScreen(true);
-	castbar:CreateBackdrop("Default", nil, nil, self.thinBorders);
+	castbar:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 
 	castbar.Time = castbar:CreateFontString(nil, "OVERLAY");
 	self:Configure_FontString(castbar.Time);
@@ -69,7 +71,7 @@ function UF:Construct_Castbar(frame, moverName)
 
 	local button = CreateFrame("Frame", nil, castbar);
 	local holder = CreateFrame("Frame", nil, castbar);
-	button:SetTemplate("Default", nil, nil, self.thinBorders);
+	button:SetTemplate("Default", nil, nil, self.thinBorders, true)
 
 	castbar.Holder = holder;
 
@@ -94,12 +96,17 @@ end
 
 function UF:Configure_Castbar(frame)
 	if(not frame.VARIABLES_SET) then return; end
+
 	local castbar = frame.Castbar;
 	local db = frame.db;
 	castbar:Width(db.castbar.width - ((frame.BORDER+frame.SPACING)*2));
 	castbar:Height(db.castbar.height - ((frame.BORDER+frame.SPACING)*2));
 	castbar.Holder:Width(db.castbar.width);
 	castbar.Holder:Height(db.castbar.height);
+
+	local color = E.db.unitframe.colors.borderColor
+	castbar.ButtonIcon.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+
 	if(castbar.Holder:GetScript("OnSizeChanged")) then
 		castbar.Holder:GetScript("OnSizeChanged")(castbar.Holder);
 	end
@@ -338,10 +345,6 @@ function UF:PostCastStart(unit, name)
 		r, g, b = t[1], t[2], t[3];
 	end
 
-	if(self.interrupt and unit ~= "player" and UnitCanAttack("player", unit)) then
-		r, g, b = colors.castNoInterrupt[1], colors.castNoInterrupt[2], colors.castNoInterrupt[3];
-	end
-
 	self:SetStatusBarColor(r, g, b);
 	UF:ToggleTransparentStatusBar(UF.db.colors.transparentCastbar, self, self.bg, nil, true);
 	if(self.bg:IsShown() ) then
@@ -366,42 +369,4 @@ function UF:PostChannelUpdate(unit, name)
 	else
 		UF:HideTicks();
 	end
-end
-
-function UF:PostCastInterruptible(unit)
-	if(unit == "player") then return; end
-
-	local colors = ElvUF.colors;
-	local r, g, b = colors.castColor[1], colors.castColor[2], colors.castColor[3];
-
-	local t;
-	if(UF.db.colors.castClassColor and UnitIsPlayer(unit)) then
-		local _, class = UnitClass(unit);
-		t = ElvUF.colors.class[class];
-	elseif(UF.db.colors.castReactionColor and UnitReaction(unit, "player")) then
-		t = ElvUF.colors.reaction[UnitReaction(unit, "player")];
-	end
-
-	if(t) then
-		r, g, b = t[1], t[2], t[3];
-	end
-
-	if(self.interrupt and UnitCanAttack("player", unit)) then
-		r, g, b = colors.castNoInterrupt[1], colors.castNoInterrupt[2], colors.castNoInterrupt[3];
-	end
-
-	self:SetStatusBarColor(r, g, b);
-
-	UF:ToggleTransparentStatusBar(UF.db.colors.transparentCastbar, self, self.bg, nil, true);
-	if(self.bg:IsShown()) then
-		self.bg:SetTexture(r * 0.25, g * 0.25, b * 0.25);
-
-		local _, _, _, alpha = self.backdrop:GetBackdropColor();
-		self.backdrop:SetBackdropColor(r * 0.58, g * 0.58, b * 0.58, alpha);
-	end
-end
-
-function UF:PostCastNotInterruptible()
-	local colors = ElvUF.colors;
-	self:SetStatusBarColor(colors.castNoInterrupt[1], colors.castNoInterrupt[2], colors.castNoInterrupt[3]);
 end

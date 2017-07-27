@@ -17,6 +17,7 @@ function S:LoadTrainerSkin()
 	ClassTrainerExpandButtonFrame:StripTextures()
 
 	S:HandleDropDownBox(ClassTrainerFrameFilterDropDown)
+	ClassTrainerFrameFilterDropDown:Point("TOPRIGHT", -40, -64)
 
 	ClassTrainerListScrollFrame:StripTextures()
 	S:HandleScrollBar(ClassTrainerListScrollFrameScrollBar)

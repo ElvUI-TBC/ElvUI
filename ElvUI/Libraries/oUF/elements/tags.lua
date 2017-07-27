@@ -5,6 +5,8 @@
 local ns = oUF
 local oUF = ns.oUF
 
+local LMH = LibStub("LibMobHealth-4.0")
+
 local _G = _G
 local unpack = unpack
 local format = string.format
@@ -22,8 +24,6 @@ local UnitClassification = UnitClassification
 local UnitCreatureFamily = UnitCreatureFamily
 local UnitCreatureType = UnitCreatureType
 local UnitFactionGroup = UnitFactionGroup
-local UnitHealth = UnitHealth
-local UnitHealthMax = UnitHealthMax
 local UnitIsConnected = UnitIsConnected
 local UnitIsDead = UnitIsDead
 local UnitIsGhost = UnitIsGhost
@@ -96,7 +96,7 @@ local tagStrings = {
 	end]],
 
 	["missinghp"] = [[function(u)
-		local current = UnitHealthMax(u) - UnitHealth(u)
+		local current = LMH:GetUnitMaxHP(u) - LMH:GetUnitCurrentHP(u)
 		if(current > 0) then
 			return current
 		end
@@ -120,11 +120,11 @@ local tagStrings = {
 	end]],
 
 	["perhp"] = [[function(u)
-		local m = UnitHealthMax(u)
+		local m = LMH:GetUnitMaxHP(u)
 		if(m == 0) then
 			return 0
 		else
-			return math.floor(UnitHealth(u)/m*100+.5)
+			return math.floor(LMH:GetUnitCurrentHP(u)/m*100+.5)
 		end
 	end]],
 
@@ -313,9 +313,9 @@ local tagStrings = {
 
 local tags = setmetatable(
 	{
-		curhp = UnitHealth,
+		curhp = function(unit) return LMH:GetUnitCurrentHP(unit) end,
 		curpp = UnitMana,
-		maxhp = UnitHealthMax,
+		maxhp = function(unit) return LMH:GetUnitMaxHP(unit) end,
 		maxpp = UnitManaMax,
 		class = UnitClass,
 		faction = UnitFactionGroup,
@@ -619,7 +619,7 @@ local Tag = function(self, fs, tagstr)
 			else
 				numTags = -1
 				func = function(self)
-					return self:SetFormattedText('[invalid tag]')
+					return self:SetText(bracket)
 				end
 			end
 		end

@@ -6,18 +6,23 @@ local _G = _G
 local strsub = strsub
 
 local CreateFrame = CreateFrame
-local ToggleCharacter = ToggleCharacter
-local ToggleFrame = ToggleFrame
-local ToggleAchievementFrame = ToggleAchievementFrame
-local ToggleFriendsFrame = ToggleFriendsFrame
-local IsAddOnLoaded = IsAddOnLoaded
-local ToggleHelpFrame = ToggleHelpFrame
-local GetZonePVPInfo = GetZonePVPInfo
-local IsShiftKeyDown = IsShiftKeyDown
-local ToggleDropDownMenu = ToggleDropDownMenu
-local Minimap_OnClick = Minimap_OnClick
+local EasyMenu = EasyMenu
 local GetMinimapZoneText = GetMinimapZoneText
+local GetZonePVPInfo = GetZonePVPInfo
 local InCombatLockdown = InCombatLockdown
+local IsAddOnLoaded = IsAddOnLoaded
+local IsShiftKeyDown = IsShiftKeyDown
+local Minimap_OnClick = Minimap_OnClick
+local ToggleBattlefieldMinimap = ToggleBattlefieldMinimap
+local ToggleCharacter = ToggleCharacter
+local ToggleDropDownMenu = ToggleDropDownMenu
+local ToggleFriendsFrame = ToggleFriendsFrame
+local ToggleHelpFrame = ToggleHelpFrame
+local ToggleLFGParentFrame = ToggleLFGParentFrame
+local ToggleQuestLog = ToggleQuestLog
+local ToggleSpellBook = ToggleSpellBook
+local ToggleTalentFrame = ToggleTalentFrame
+local ToggleTimeManager = ToggleTimeManager
 
 local menuFrame = CreateFrame("Frame", "MinimapRightClickMenu", E.UIParent, "UIDropDownMenuTemplate")
 local menuList = {
@@ -33,14 +38,14 @@ local menuList = {
 	func = function() ToggleFriendsFrame() end},
 	{text = L["Farm Mode"],
 	func = FarmMode},
+	{text = BATTLEFIELD_MINIMAP,
+	func = function() ToggleBattlefieldMinimap() end},
 	{text = TIMEMANAGER_TITLE,
 	func = function() ToggleTimeManager() end},
 	{text = PLAYER_V_PLAYER,
 	func = function() ToggleCharacter("PVPFrame") end},
-	{text = L["Looking For Group"],
-	func = function() ToggleLFGParentFrame(1) end},
-	{text = L["Looking For More"],
-	func = function() ToggleLFGParentFrame(2) end},
+	{text = L["Group Finder (LFG/LFM)"],
+	func = function() ToggleLFGParentFrame() end},
 	{text = HELP_BUTTON,
 	func = function() ToggleHelpFrame() end},
 }
@@ -118,6 +123,18 @@ local function SetupZoomReset()
 end
 hooksecurefunc(Minimap, "SetZoom", SetupZoomReset)
 
+function M:UpdateMinimapSize()
+	local zoomLevel = Minimap:GetZoom()
+
+	if zoomLevel == (Minimap:GetZoomLevels() - 1) then
+		Minimap:SetZoom(zoomLevel - 1)
+		Minimap:SetZoom(zoomLevel)
+	else
+		Minimap:SetZoom(zoomLevel + 1)
+		Minimap:SetZoom(zoomLevel)
+	end
+end
+
 function M:UpdateSettings()
 	if InCombatLockdown() then
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -127,8 +144,15 @@ function M:UpdateSettings()
 	E.MinimapWidth = E.MinimapSize
 	E.MinimapHeight = E.MinimapSize
 
+	if E.db.general.reminder.enable then
+		E.RBRWidth = (E.MinimapHeight + ((E.Border - E.Spacing*3) * 5) + E.Border*2) / 6
+	else
+		E.RBRWidth = 0
+	end
+
 	if E.private.general.minimap.enable then
 		Minimap:Size(E.MinimapSize, E.MinimapSize)
+		self:UpdateMinimapSize()
 	end
 
 	if LeftMiniPanel and RightMiniPanel then
@@ -190,7 +214,7 @@ function M:UpdateSettings()
 	end
 
 	if MMHolder then
-		MMHolder:Width((Minimap:GetWidth() + E.Border + E.Spacing*3))
+		MMHolder:Width((Minimap:GetWidth() + E.Border + E.Spacing*3) + E.RBRWidth)
 
 		if E.db.datatexts.minimapPanels then
 			MMHolder:Height(Minimap:GetHeight() + (LeftMiniPanel and (LeftMiniPanel:GetHeight() + E.Border) or 24) + E.Spacing*3)
@@ -234,13 +258,12 @@ function M:UpdateSettings()
 		MiniMapMailFrame:SetScale(scale)
 	end
 
-	if MiniMapLFGFrame then
+	if MiniMapMeetingStoneFrame then
 		local pos = E.db.general.minimap.icons.lfgEye.position or "BOTTOMRIGHT"
 		local scale = E.db.general.minimap.icons.lfgEye.scale or 1
-		MiniMapLFGFrame:ClearAllPoints()
-		MiniMapLFGFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.lfgEye.xOffset or 3, E.db.general.minimap.icons.lfgEye.yOffset or 0)
-		MiniMapLFGFrame:SetScale(scale)
-		LFDSearchStatus:SetScale(scale)
+		MiniMapMeetingStoneFrame:ClearAllPoints()
+		MiniMapMeetingStoneFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.lfgEye.xOffset or 3, E.db.general.minimap.icons.lfgEye.yOffset or 0)
+		MiniMapMeetingStoneFrame:SetScale(scale)
 	end
 
 	if MiniMapBattlefieldFrame then
@@ -251,15 +274,25 @@ function M:UpdateSettings()
 		MiniMapBattlefieldFrame:SetScale(scale)
 	end
 
-	if MiniMapInstanceDifficulty then
-		local pos = E.db.general.minimap.icons.difficulty.position or "TOPLEFT"
-		local scale = E.db.general.minimap.icons.difficulty.scale or 1
-		local x = E.db.general.minimap.icons.difficulty.xOffset or 0
-		local y = E.db.general.minimap.icons.difficulty.yOffset or 0
-		MiniMapInstanceDifficulty:ClearAllPoints()
-		MiniMapInstanceDifficulty:Point(pos, Minimap, pos, x, y)
-		MiniMapInstanceDifficulty:SetScale(scale)
+	if ElvConfigToggle then
+		if E.db.general.reminder.enable and E.db.datatexts.minimapPanels and E.private.general.minimap.enable then
+			ElvConfigToggle:Show()
+			ElvConfigToggle:Width(E.RBRWidth)
+		else
+			ElvConfigToggle:Hide()
+		end
 	end
+
+	if ElvUI_ReminderBuffs then
+		E:GetModule("ReminderBuffs"):UpdateSettings()
+	end
+end
+
+local function MinimapPostDrag()
+	MinimapCluster:ClearAllPoints()
+	MinimapCluster:SetAllPoints(Minimap)
+	MinimapBackdrop:ClearAllPoints()
+	MinimapBackdrop:SetAllPoints(Minimap)
 end
 
 function M:Initialize()
@@ -278,20 +311,23 @@ function M:Initialize()
 
 	local mmholder = CreateFrame("Frame", "MMHolder", Minimap)
 	mmholder:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3)
-	mmholder:Width(Minimap:GetWidth() + 29)
+	mmholder:Width((Minimap:GetWidth() + 29) + E.RBRWidth)
 	mmholder:Height(Minimap:GetHeight() + 53)
-
 	Minimap:ClearAllPoints()
-	Minimap:Point("TOPRIGHT", mmholder, "TOPRIGHT", -E.Border, -E.Border)
+	if E.db.general.reminder.position == "LEFT" then
+		Minimap:Point("TOPRIGHT", mmholder, "TOPRIGHT", -E.Border, -E.Border)
+	else
+		Minimap:Point("TOPLEFT", mmholder, "TOPLEFT", E.Border, -E.Border)
+	end
 	Minimap:SetMaskTexture("Interface\\ChatFrame\\ChatFrameBackground")
 	Minimap:CreateBackdrop("Default")
 	Minimap:SetFrameLevel(Minimap:GetFrameLevel() + 2)
-	Minimap:SetScript("OnEnter", function(self)
+	Minimap:HookScript2("OnEnter", function(self)
 		if E.db.general.minimap.locationText ~= "MOUSEOVER" or not E.private.general.minimap.enable then return end
 		self.location:Show()
 	end)
 
-	Minimap:SetScript("OnLeave", function(self)
+	Minimap:HookScript2("OnLeave", function(self)
 		if E.db.general.minimap.locationText ~= "MOUSEOVER" or not E.private.general.minimap.enable then return end
 		self.location:Hide()
 	end)
@@ -307,6 +343,8 @@ function M:Initialize()
 
 	MinimapBorder:Hide()
 	MinimapBorderTop:Hide()
+
+	MinimapToggleButton:Hide()
 
 	MinimapZoomIn:Hide()
 	MinimapZoomOut:Hide()
@@ -330,7 +368,7 @@ function M:Initialize()
 		TimeManagerClockButton:Kill()
 	end
 
-	E:CreateMover(MMHolder, "MinimapMover", L["Minimap"])
+	E:CreateMover(MMHolder, "MinimapMover", L["Minimap"], nil, nil, MinimapPostDrag)
 
 	Minimap:EnableMouseWheel(true)
 	Minimap:SetScript("OnMouseWheel", M.Minimap_OnMouseWheel)
@@ -341,11 +379,6 @@ function M:Initialize()
 	self:RegisterEvent("ZONE_CHANGED_INDOORS", "Update_ZoneText")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "Update_ZoneText")
 	self:RegisterEvent("ADDON_LOADED")
-
-	MinimapCluster:ClearAllPoints()
-	MinimapCluster:SetAllPoints(Minimap)
-	MinimapBackdrop:ClearAllPoints()
-	MinimapBackdrop:SetAllPoints(Minimap)
 
 	local fm = CreateFrame("Minimap", "FarmModeMap", E.UIParent)
 	fm:Size(E.db.farmSize)
@@ -360,17 +393,11 @@ function M:Initialize()
 	fm:SetScript("OnDragStart", function(self) self:StartMoving() end)
 	fm:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
 	fm:Hide()
-	E.FrameLocks["FarmModeMap"] = true
 
 	FarmModeMap:SetScript("OnShow", function()
-		if(BuffsMover and not E:HasMoverBeenMoved("BuffsMover")) then
-			BuffsMover:ClearAllPoints()
-			BuffsMover:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3)
-		end
-
-		if(DebuffsMover and not E:HasMoverBeenMoved("DebuffsMover")) then
-			DebuffsMover:ClearAllPoints()
-			DebuffsMover:Point("TOPRIGHT", ElvUIPlayerBuffs, "BOTTOMRIGHT", 0, -3)
+		if(AurasMover and not E:HasMoverBeenMoved("AurasMover")) then
+			AurasMover:ClearAllPoints()
+			AurasMover:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3)
 		end
 
 		MinimapCluster:ClearAllPoints()
@@ -386,12 +413,8 @@ function M:Initialize()
 	end)
 
 	FarmModeMap:SetScript("OnHide", function()
-		if(BuffsMover and not E:HasMoverBeenMoved("BuffsMover")) then
-			E:ResetMovers(L["Player Buffs"])
-		end
-
-		if(DebuffsMover and not E:HasMoverBeenMoved("DebuffsMover")) then
-			E:ResetMovers(L["Player Debuffs"])
+		if(AurasMover and not E:HasMoverBeenMoved("AurasMover")) then
+			E:ResetMovers(L["Auras Frame"])
 		end
 
 		MinimapCluster:ClearAllPoints()
@@ -413,4 +436,8 @@ function M:Initialize()
 	end)
 end
 
-E:RegisterModule(M:GetName())
+local function InitializeCallback()
+	M:Initialize()
+end
+
+E:RegisterInitialModule(M:GetName(), InitializeCallback)

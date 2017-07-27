@@ -4,7 +4,6 @@ E.Misc = M;
 
 local CanGuildBankRepair = CanGuildBankRepair
 local CanMerchantRepair = CanMerchantRepair
-local GetCoinTextureString = GetCoinTextureString
 local GetFriendInfo = GetFriendInfo
 local GetGuildBankWithdrawMoney = GetGuildBankWithdrawMoney
 local GetGuildRosterInfo = GetGuildRosterInfo
@@ -94,9 +93,9 @@ function M:MERCHANT_SHOW()
 			RepairAllItems(autoRepair == "GUILD")
 
 			if autoRepair == "GUILD" then
-				E:Print(L["Your items have been repaired using guild bank funds for: "]..GetCoinTextureString(cost, 12))
+				E:Print(L["Your items have been repaired using guild bank funds for: "]..E:FormatMoney(cost))
 			else
-				E:Print(L["Your items have been repaired for: "]..GetCoinTextureString(cost, 12))
+				E:Print(L["Your items have been repaired for: "]..E:FormatMoney(cost))
 			end
 		else
 			E:Print(L["You don't have enough money to repair."])
@@ -137,7 +136,6 @@ function M:AutoInvite(event, leaderName)
 	if not E.db.general.autoAcceptInvite then return; end
 
 	if event == "PARTY_INVITE_REQUEST" then
-		if MiniMapLFGFrame:IsShown() then return end -- Prevent losing que inside LFD if someone invites you to group
 		if GetNumPartyMembers() > 0 or GetNumRaidMembers() > 0 then return end
 		hideStatic = true
 
@@ -174,8 +172,12 @@ function M:AutoInvite(event, leaderName)
 end
 
 function M:ForceCVars()
-	if not GetCVar("lockActionBars") and E.private.actionbar.enable then
-		SetCVar("lockActionBars", 1)
+	if E.private.general.loot then
+		if GetCVar("lootUnderMouse") == "1" then
+			E:DisableMover("LootFrameMover")
+		else
+			E:EnableMover("LootFrameMover")
+		end
 	end
 end
 
@@ -197,4 +199,8 @@ function M:Initialize()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ForceCVars")
 end
 
-E:RegisterModule(M:GetName())
+local function InitializeCallback()
+	M:Initialize()
+end
+
+E:RegisterModule(M:GetName(), InitializeCallback)

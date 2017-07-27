@@ -108,7 +108,6 @@ E.Options.args.bags = {
 								return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 							end,
 							set = function(info, r, g, b)
-								E.db.bags[ info[#info] ] = {};
 								local t = E.db.bags[ info[#info] ];
 								t.r, t.g, t.b = r, g, b;
 								B:UpdateCountDisplay();
@@ -286,8 +285,7 @@ E.Options.args.bags = {
 					type = "range",
 					name = L["Backdrop Spacing"],
 					desc = L["The spacing between the backdrop and the buttons."],
-					min = 0, max = 10, step = 1,
-					disabled = function() return not E.private.actionbar.enable end
+					min = 0, max = 10, step = 1
 				},
 				sortDirection = {
 					order = 7,
@@ -315,6 +313,7 @@ E.Options.args.bags = {
 			order = 6,
 			type = "group",
 			name = L["Bag Sorting"],
+			disabled = function() return not E.bags end,
 			args = {
 				header = {
 					order = 0,

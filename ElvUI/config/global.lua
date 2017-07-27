@@ -11,9 +11,14 @@ G["general"] = {
 		["xOffset"] = 0,
 		["yOffset"] = 0
 	},
-	["animateConfig"] = true,
 	["versionCheck"] = true
 };
+
+G["chat"] = {
+	["classColorMentionExcludedNames"] = {}
+}
+
+G["classCache"] = {}
 
 G["classtimer"] = {};
 
@@ -22,10 +27,6 @@ G["nameplates"] = {};
 G["unitframe"] = {
 	["aurafilters"] = {},
 	["buffwatch"] = {}
-};
-
-G["chat"] = {
-	["classColorMentionExcludedNames"] = {},
 };
 
 G["bags"] = {

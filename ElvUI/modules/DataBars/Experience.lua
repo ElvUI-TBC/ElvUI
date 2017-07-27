@@ -33,12 +33,6 @@ function mod:UpdateExperience(event)
 		E:EnableMover(self.expBar.mover:GetName())
 		bar:Show()
 
-		if(self.db.experience.hideInVehicle) then
-			E:RegisterObjectForVehicleLock(bar, E.UIParent)
-		else
-			E:UnregisterObjectForVehicleLock(bar)
-		end
-
 		local cur, max = self:GetXP("player")
 		if(max <= 0) then max = 1 end
 		bar.statusBar:SetMinMaxValues(0, max)
