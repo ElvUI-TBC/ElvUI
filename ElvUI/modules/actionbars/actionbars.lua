@@ -6,7 +6,6 @@ local pairs, select, unpack = pairs, select, unpack
 local ceil = math.ceil
 local format, gsub, split = string.format, string.gsub, string.split
 
-local hooksecurefunc = hooksecurefunc
 local CreateFrame = CreateFrame
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
@@ -22,7 +21,6 @@ local SetCVar = SetCVar
 local SetModifiedClick = SetModifiedClick
 local RegisterStateDriver = RegisterStateDriver
 local UnregisterStateDriver = UnregisterStateDriver
-local GameTooltip_Hide = GameTooltip_Hide
 local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS
 
 local LAB = LibStub("LibActionButton-1.0")
@@ -370,7 +368,7 @@ function AB:UpdateButtonSettings()
 
 	self:UpdatePetBindings()
 	self:UpdateStanceBindings()
-	for barName, bar in pairs(self["handledBars"]) do
+	for _, bar in pairs(self["handledBars"]) do
 		self:UpdateButtonConfig(bar, bar.bindButtons)
 	end
 
@@ -401,7 +399,7 @@ function AB:StyleButton(button, noBackdrop, useMasque)
 	local hotkey = _G[name.."HotKey"]
 	local border = _G[name.."Border"]
 	local macroName = _G[name.."Name"]
-	local normal = _G[name.."NormalTexture"]
+--	local normal = _G[name.."NormalTexture"]
 	local normal2 = button:GetNormalTexture()
 	local buttonCooldown = _G[name.."Cooldown"]
 	local color = self.db.fontColor

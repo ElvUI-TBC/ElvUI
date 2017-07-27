@@ -9,7 +9,6 @@ local RegisterStateDriver = RegisterStateDriver
 local GetBindingKey = GetBindingKey
 local PetHasActionBar = PetHasActionBar
 local GetPetActionInfo = GetPetActionInfo
-local IsPetAttackActive = IsPetAttackActive
 local GetPetActionsUsable = GetPetActionsUsable
 local SetDesaturation = SetDesaturation
 local PetActionBar_ShowGrid = PetActionBar_ShowGrid
