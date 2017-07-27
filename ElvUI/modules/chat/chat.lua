@@ -1270,11 +1270,7 @@ function CH:ChatEdit_UpdateHeader(editbox)
 end
 
 function CH:ChatEdit_OnEnterPressed()
-	local type = this:GetAttribute("chatType")
-	if ChatTypeInfo[type].sticky == 1 then
-		if not self.db.sticky then type = "SAY" end
-		this:SetAttribute("stickyType", type)
-	end
+	
 end
 
 function CH:SetItemRef(link, text, button)
@@ -1691,6 +1687,10 @@ function CH:Initialize()
 	close:SetFrameLevel(close:GetFrameLevel() + 1)
 	close:EnableMouse(true)
 	S:HandleCloseButton(close)
+	
+	for k,v in pairs(E.db.chat.sticky) do
+		ChatTypeInfo[k].sticky = v
+	end
 end
 
 local function InitializeCallback()
