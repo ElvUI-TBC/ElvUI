@@ -122,7 +122,7 @@ local function OnEvent(self, event, ...)
 	lastPanel = self;
 end
 
-local function OnClick(self, btn)
+local function OnClick(_, btn)
 	DT.tooltip:Hide();
 
 	if(btn == "RightButton") then

@@ -74,18 +74,18 @@ local function UpdateGuildMessage()
 end
 
 local eventHandlers = {
-	["CHAT_MSG_SYSTEM"] = function(self)
+	["CHAT_MSG_SYSTEM"] = function()
 		GuildRoster()
 	end,
 	-- when we enter the world and guildframe is not available then
 	-- load guild frame, update guild message and guild xp
-	["PLAYER_LOGIN"] = function (self)
+	["PLAYER_LOGIN"] = function()
 		if not GuildFrame and IsInGuild() then
 			GuildRoster()
 		end
 	end,
 	-- Guild Roster updated, so rebuild the guild table
-	["GUILD_ROSTER_UPDATE"] = function (self)
+	["GUILD_ROSTER_UPDATE"] = function(self)
 		GuildRoster()
 		BuildGuildTable()
 		UpdateGuildMessage()
@@ -93,11 +93,11 @@ local eventHandlers = {
 			self:GetScript("OnEnter")(self, nil, true)
 		end
 	end,
-	["PLAYER_GUILD_UPDATE"] = function (self)
+	["PLAYER_GUILD_UPDATE"] = function ()
 		GuildRoster()
 	end,
 	-- our guild message of the day changed
-	["GUILD_MOTD"] = function (self, arg1)
+	["GUILD_MOTD"] = function(_, arg1)
 		guildMotD = arg1
 	end,
 	["ELVUI_FORCE_RUN"] = function() end,
