@@ -975,9 +975,7 @@ end
 
 --DATABASE CONVERSIONS
 function E:DBConversions()
-	if E.db.thinBorderColorSet then
-		E.db.thinBorderColorSet = nil
-	end
+
 end
 
 local CPU_USAGE = {};
