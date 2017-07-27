@@ -72,7 +72,7 @@ local lastPanel;
 local levelNameString = "|cff%02x%02x%02x%d|r |cff%02x%02x%02x%s|r";
 local levelNameClassString = "|cff%02x%02x%02x%d|r %s%s%s";
 local worldOfWarcraftString = WORLD_OF_WARCRAFT;
-local totalOnlineString = join("", L["Online"], ": %s/%s");
+local totalOnlineString = join("", GUILD_ONLINE_LABEL, ": %s/%s");
 local tthead = {r = 0.4, g = 0.78, b = 1};
 local activezone, inactivezone = {r = 0.3, g = 1.0, b = 0.3}, {r = 0.65, g = 0.65, b = 0.65};
 local displayString = "";

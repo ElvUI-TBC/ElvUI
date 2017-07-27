@@ -220,7 +220,7 @@ E.Options.args.general = {
 						["false"] = L["Disable"],
 						["friendly"] = L["Friendly only"],
 						["enemy"] = L["Enemy only"],
-						["all"] = L["All"]
+						["all"] = ALL
 					},
 					get = function(info) return E.db.general.classCacheRequestUnitInfo or "false" end,
 					set = function(info, value)
