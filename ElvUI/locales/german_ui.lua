@@ -7,7 +7,7 @@ if not L then return end
 L["INCOMPATIBLE_ADDON"] = "Das Addon %s ist nicht mit dem ElvUI %s Modul kompatibel. Bitte deaktiviere entweder das Addon oder deaktiviere das ElvUI Modul."
 
 --*_MSG locales
-L["LOGIN_MSG"] = "Willkommen zu %sElvUI|r Version %s%s|r, Tippe /ec um das Konfigurationsmenü aufzurufen. Für technische Hilfe, besuche das Supportforum unter https://github.com/ElvUI-TBC/ElvUI"
+L["LOGIN_MSG"] = "Willkommen zu %sElvUI|r Version %s%s|r, Tippe /ec, um das Konfigurationsmenü aufzurufen. Für technische Hilfe besuche das Supportforum unter https://github.com/ElvUI-TBC/ElvUI"
 
 --ActionBars
 L["Binding"] = "Belegung"
@@ -31,14 +31,14 @@ L["Trigger"] = "Auslöser"
 
 --Bags
 L["Bank"] = true;
-L["Hold Control + Right Click:"] = "Halte Steuerung + Rechtsklick:"
+L["Hold Control + Right Click:"] = "Halte Strg + Rechtsklick:"
 L["Hold Shift + Drag:"] = "Halte Shift + Ziehen:"
 L["Purchase Bags"] = "Taschen kaufen"
 L["Reset Position"] = "Position zurücksetzen"
 L["Sort Bags"] = "Taschen sortieren"
 L["Temporary Move"] = "Temporäres Bewegen"
 L["Toggle Bags"] = "Taschen umschalten"
-L["Toggle Key"] = true;
+L["Toggle Key"] = "Schlüssel umschalten"
 L["Vendor Grays"] = "Graue Gegenstände verkaufen"
 
 --Chat
@@ -60,55 +60,56 @@ L["yells"] = "schreien"
 
 --DataTexts
 L["(Hold Shift) Memory Usage"] = "(Shift gedrückt) Speichernutzung"
-L["Avoidance Breakdown"] = "Vermeidung Aufgliederung"
+L["Avoidance Breakdown"] = "Vermeidungsanalyse"
 L["Character: "] = "Charakter: "
 L["Chest"] = "Brust"
 L["Combat"] = "Kampf"
-L["Combat Time"] = "Kampf Zeit"
-L["Coords"] = true;
+L["Combat Time"] = "Kampfdauer"
+L["Coords"] = "Koordinaten"
 L["copperabbrev"] = "|cffeda55fc|r" --Also used in Bags
 L["Deficit:"] = "Defizit:"
 L["DPS"] = "DPS"
-L["Durability"] = true;
+L["Durability"] = "Haltbarkeit"
 L["Earned:"] = "Verdient:"
 L["Friends List"] = "Freundesliste"
 L["Friends"] = "Freunde" --Also in Skins
 L["Gold"] = true;
 L["goldabbrev"] = "|cffffd700g|r" --Also used in gold datatext
-L["Haste"] = true;
-L["Hit"] = "Hit"
-L["Hold Shift + Right Click:"] = "Halte Umschalt + Rechts Klick:"
-L["Home Latency:"] = "Standort Latenz"
+L["Haste"] = "Tempowertung"
+L["Hit"] = "Trefferchance"
+L["Hold Shift + Right Click:"] = "Halte Shift + Rechtsklick:"
+L["Home Latency:"] = "Standort-Latenz"
 L["HP"] = "HP"
 L["HPS"] = "HPS"
 L["lvl"] = "lvl"
-L["Miss Chance"] = true;
-L["Mitigation By Level: "] = "Milderung durch Stufe:"
+L["Miss Chance"] = "Verfehlchance"
+L["Mitigation By Level: "] = "Schadesminderung per Stufe: "
 L["No Guild"] = "Keine Gilde"
 L["Profit:"] = "Gewinn:"
 L["Reload UI"] = true;
 L["Reset Data: Hold Shift + Right Click"] = "Daten zurücksetzen: Halte Shift + Rechtsklick"
-L["Right Click: Reset CPU Usage"] = true;
+L["Right Click: Reset CPU Usage"] = "Rechtsklick: CPU-Last zurücksetzen"
 L["Saved Raid(s)"] = "Gespeicherte Schlachtzüge"
 L["Server: "] = "Server: "
 L["Session:"] = "Sitzung:"
 L["silverabbrev"] = "|cffc7c7cfs|r" --Also used in Bags
 L["SP"] = "SP"
-L["Spell/Heal Power"] = true;
+L["Spell/Heal Power"] = "Schaden/Heilungsboni"
 L["Spent:"] = "Ausgegeben:"
-L["Stats For:"] = "Stats Für:"
+L["Stats For:"] = "Stats für:"
 L["System"] = true;
 L["Total CPU:"] = "Gesamt CPU:"
 L["Total Memory:"] = "Gesamte Speichernutzung:"
 L["Total: "] = "Gesamt: "
-L["Unhittable:"] = "Unhittable:"
+L["Unhittable:"] = "Chance getroffen zu werden:"
+
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s versucht die geschützte Funktion aufrufen '%s'."
 L["No locals to dump"] = "Keine Lokalisierung zum verwerfen"
 
 --Distributor
-L["%s is attempting to share his filters with you. Would you like to accept the request?"] = "%s möchte seine Filter Einstellungen mit dir teilen. Möchtest du die Anfrage annehmen?"
+L["%s is attempting to share his filters with you. Would you like to accept the request?"] = "%s möchte seine Filter-Einstellungen mit dir teilen. Möchtest du die Anfrage annehmen?"
 L["%s is attempting to share the profile %s with you. Would you like to accept the request?"] = "%s versucht das Profil %s mit dir zu teilen. Möchtest du die Anfrage annehmen?"
 L["Data From: %s"] = "Datei von: %s"
 L["Filter download complete from %s, would you like to apply changes now?"] = "Filter komplett heruntergeladen von %s, möchtest du die Änderungen nun vornehmen?"
@@ -120,7 +121,7 @@ L["Request was denied by user."] = "Die Anfrage wurde vom Benutzer abgelehnt."
 L["Your profile was successfully recieved by the player."] = "Dein Profil wurde erfolgreich von dem Spieler empfangen."
 
 --Install
-L["Aura Bars & Icons"] = "Aurenleiste & Symbole"
+L["Aura Bars & Icons"] = "Aurenleisten & Symbole"
 L["Auras Set"] = "Auren gesetzt"
 L["Auras"] = "Auren"
 L["Caster DPS"] = "Fernkampf DD"
@@ -128,7 +129,7 @@ L["Chat Set"] = "Chat gesetzt"
 L["Chat"] = "Chat"
 L["Choose a theme layout you wish to use for your initial setup."] = "Wähle ein Layout, welches du bei deinem ersten Setup verwenden möchtest."
 L["Classic"] = "Klassisch"
-L["Click the button below to resize your chat frames, unitframes, and reposition your actionbars."] = "Klicke auf die Taste unten um die Größe deiner Chatfenster, Einheitenfenster und die Umpositionierung deiner Aktionsleisten durchzuführen."
+L["Click the button below to resize your chat frames, unitframes, and reposition your actionbars."] = "Klicke auf die Taste unten, um die Größe deiner Chatfenster, Einheitenfenster und die Umpositionierung deiner Aktionsleisten durchzuführen."
 L["Config Mode:"] = "Konfigurationsmodus:"
 L["CVars Set"] = "CVars gesetzt"
 L["CVars"] = "CVars"
@@ -141,11 +142,11 @@ L["Healer"] = "Heiler"
 L["High Resolution"] = "Hohe Auflösung"
 L["high"] = "hoch"
 L["Icons Only"] = "Nur Symbole" --Also used in Bags
-L["If you have an icon or aurabar that you don't want to display simply hold down shift and right click the icon for it to disapear."] = "Wenn du ein Symbol oder eine Aurenleiste nicht angezeigt haben möchtest, dann halte Shift gedrückt und klicke mit Rechtsklick auf das Symbol um es auszublenden."
+L["If you have an icon or aurabar that you don't want to display simply hold down shift and right click the icon for it to disapear."] = "Wenn du ein Symbol oder eine Aurenleiste nicht angezeigt haben möchtest, dann halte Shift gedrückt und klicke mit Rechtsklick auf das Symbol, um es auszublenden."
 L["Importance: |cff07D400High|r"] = "Bedeutung: |cff07D400Hoch|r"
 L["Importance: |cffD3CF00Medium|r"] = "Bedeutung: |cffD3CF00Mittel|r"
 L["Importance: |cffFF0000Low|r"] = "Bedeutung: |cffD3CF00Niedrig|r"
-L["Installation Complete"] = "Installation komplett"
+L["Installation Complete"] = "Installation durchgeführt"
 L["Layout Set"] = "Layout gesetzt"
 L["Layout"] = "Layout"
 L["Lock"] = "Sperren"
@@ -153,27 +154,27 @@ L["Low Resolution"] = "Niedrige Auflösung"
 L["low"] = "niedrig"
 L["Nudge"] = "Stoß"
 L["Physical DPS"] = "Physische DPS"
-L["Please click the button below so you can setup variables and ReloadUI."] = "Bitte klicke die Taste unten um den Installationsprozess abzuschließen und das Benutzerinterface neu zu laden."
+L["Please click the button below so you can setup variables and ReloadUI."] = "Bitte klicke die Taste unten, um den Installationsprozess abzuschließen und das Benutzerinterface neu zu laden."
 L["Please click the button below to setup your CVars."] = "Klicke 'Installiere CVars' um die CVars einzurichten."
-L["Please press the continue button to go onto the next step."] = "Bitte drücke die Weiter-Taste um zum nächsten Schritt zu gelangen."
+L["Please press the continue button to go onto the next step."] = "Bitte drücke die Weiter-Taste, um zum nächsten Schritt zu gelangen."
 L["Resolution Style Set"] = "Auflösungsart gesetzt"
 L["Resolution"] = "Auflösung"
-L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bar & Icons to use both aura bars and icons, set to icons only to only see icons."] = "Wähle für die ElvUI Einheitenfenster ob das Auren-System Aurenleisten und Symbole, oder nur Symbole anzeigt."
-L["Setup Chat"] = "Chateinstellungen"
+L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bar & Icons to use both aura bars and icons, set to icons only to only see icons."] = "Wähle für die ElvUI Einheitenfenster, ob das Auren-System Aurenleisten und Symbole oder nur Symbole anzeigt."
+L["Setup Chat"] = "Chat-Einstellungen"
 L["Setup CVars"] = "Installiere CVars"
 L["Skip Process"] = "Schritt überspringen"
 L["Sticky Frames"] = "Anheftende Fenster"
 L["Tank"] = "Tank"
-L["The chat windows function the same as Blizzard standard chat windows, you can right click the tabs and drag them around, rename, etc. Please click the button below to setup your chat windows."] = "Die Chatfensterfunktionen sind die gleichen, wie die Chatfenster von Blizzard. Du kannst auf die Tabs rechtsklicken und sie z.B. neu zu positionieren, umzubenennen, etc. Bitte klicke den Button unten um das Chatfenster einzurichten."
-L["The in-game configuration menu can be accessed by typing the /ec command or by clicking the 'C' button on the minimap. Press the button below if you wish to skip the installation process."] = "Das ElvUI-Konfigurationsmenü kannst du entweder mit /ec oder durch das Anklicken der 'C' Taste an der Minimap aufrufen. Drücke 'Schritt überspringen' um zum nächsten Schritt zu gelangen."
+L["The chat windows function the same as Blizzard standard chat windows, you can right click the tabs and drag them around, rename, etc. Please click the button below to setup your chat windows."] = "Die Chatfensterfunktionen sind die gleichen, wie die Chatfenster von Blizzard. Du kannst auf die Tabs rechtsklicken und sie z.B. neu positionieren, umbenennen, etc. Bitte klicke den Button unten, um das Chatfenster einzurichten."
+L["The in-game configuration menu can be accessed by typing the /ec command or by clicking the 'C' button on the minimap. Press the button below if you wish to skip the installation process."] = "Das ElvUI-Konfigurationsmenü kannst du entweder mit /ec oder durch das Anklicken des 'C' Symbols an der Minimap aufrufen. Drücke 'Schritt überspringen', um zum nächsten Schritt zu gelangen."
 L["Theme Set"] = "Thema gesetzt"
 L["Theme Setup"] = "Thema Setup"
 L["This install process will help you learn some of the features in ElvUI has to offer and also prepare your user interface for usage."] = "Dieser Installationsprozess wird dir helfen, die Funktionen von ElvUI für deine Benutzeroberfläche besser kennenzulernen."
-L["This is completely optional."] = "Das ist komplett Optional."
-L["This part of the installation process sets up your chat windows names, positions and colors."] = "Dieser Abschnitt der Installation stellt die Chat Fenster Namen, Positionen und Farben ein."
+L["This is completely optional."] = "Das ist komplett optional."
+L["This part of the installation process sets up your chat windows names, positions and colors."] = "Dieser Abschnitt der Installation stellt die Chatfenster-Namen, -Positionen und -Farben ein."
 L["This part of the installation process sets up your World of Warcraft default options it is recommended you should do this step for everything to behave properly."] = "Dieser Installationsprozess richtet alle wichtigen Cvars deines World of Warcrafts ein, um eine problemlose Nutzung zu ermöglichen."
-L["This resolution doesn't require that you change settings for the UI to fit on your screen."] = "Diese Auflösung benötigt keine Änderungen um mit der Benutzeroberfläche zu funktionieren."
-L["This resolution requires that you change some settings to get everything to fit on your screen."] = "Diese Auflösung benötigt Änderungen um mit der Benutzeroberfläche zu funktionieren."
+L["This resolution doesn't require that you change settings for the UI to fit on your screen."] = "Diese Auflösung benötigt keine Änderungen, um mit der Benutzeroberfläche zu funktionieren."
+L["This resolution requires that you change some settings to get everything to fit on your screen."] = "Diese Auflösung benötigt Änderungen, um mit der Benutzeroberfläche zu funktionieren."
 L["This will change the layout of your unitframes and actionbars."] = "Dies wird das Layout der Einheitenfenster und Aktionsleisten ändern."
 L["Trade"] = "Handel"
 L["Welcome to ElvUI version %s!"] = "Willkommen bei ElvUI Version %s!"
@@ -202,7 +203,7 @@ L["Show BG Texts"] = "Zeige Schlachtfeldtexte" --layout\layout.lua
 L["Toggle Chat Frame"] = "Chatfenster an-/ausschalten" --layout\layout.lua
 L["Toggle Configuration"] = "Konfiguration umschalten" --layout\layout.lua
 L["XP:"] = "EP:"
-L["You don't have permission to mark targets."] = "Du hast keine Rechte um ein Ziel zu markieren."
+L["You don't have permission to mark targets."] = "Du hast keine Rechte ein Ziel zu markieren."
 
 --Movers
 L["Arena Frames"] = "Arena Fenster" --Also used in UnitFrames
@@ -249,11 +250,11 @@ L["Target Frame"] = "Zielfenster" --Also used in UnitFrames
 L["Target Powerbar"] = "Ziel Kraftleiste"
 L["TargetTarget Frame"] = "Ziel des Ziels Fenster" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Ziel des Ziels des Ziels Fenster"
-L["Time Manager Frame"] = true;
+L["Time Manager Frame"] = "Zeitmanager-Fenster"
 L["Tooltip"] = "Tooltip"
 L["Totems"] = true;
 L["Watch Frame"] = true;
-L["Weapons"] = true;
+L["Weapons"] = "Waffen"
 L["DESC_MOVERCONFIG"] = [=[Ankerpunkte entriegelt. Bewege die Ankerpunkte und klicke 'sperren', wenn du fertig bist.
 
 Options:
@@ -285,7 +286,7 @@ L["Vendored gray items for:"] = "Graue Gegenstände verkauft für:"
 L["You don't have enough money to repair."] = "Du hast nicht genügend Gold für die Reparatur."
 L["You must be at a vendor."] = "Du musst bei einem Händler sein."
 L["Your items have been repaired for: "] = "Deine Gegenstände wurden repariert für: "
-L["Your items have been repaired using guild bank funds for: "] = "Deine Gegenstände wurden repariert. Die Gildenbank kostete das: "
+L["Your items have been repaired using guild bank funds for: "] = "Deine Gegenstände wurden repariert. Der Gildenbank kostete das: "
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "|cFFE30000Lua Fehler erhalten. Du kannst die Fehlermeldung ansehen, wenn du den Kampf verlässt."
 
 --Static Popups
@@ -294,7 +295,7 @@ L["Are you sure you want to apply this font to all ElvUI elements?"] = "Bist du 
 L["Are you sure you want to delete all your gray items?"] = "Bist du sicher, dass du alle grauen Gegenstände löschen willst?"
 L["Are you sure you want to disband the group?"] = "Bist du dir sicher, dass du die Gruppe auflösen willst?"
 L["Are you sure you want to reset all the settings on this profile?"] = "Bist du dir sicher dass du alle Einstellungen dieses Profils zurücksetzen willst?"
-L["Are you sure you want to reset every mover back to it's default position?"] = "Bist du dir sicher, dass du jeden Beweger an die Standard-Position zurücksetzen möchtest?"
+L["Are you sure you want to reset every mover back to it's default position?"] = "Bist du dir sicher, dass du jeden Anker an die Standard-Position zurücksetzen möchtest?"
 L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = "Aufgrund der großen Verwirrung, die durch das neue Auren-System verursacht wurde, habe ich einen neuen Schritt zum Installationsprozess hinzugefügt. Dieser ist optional. Wenn du deine Auren so eingestellt lassen willst, wie sie sind, gehe einfach zum letzten Schritt und klicke auf fertig um nicht erneut aufgefordert zu werden. Wirst du, aus welchen Grund auch immer, öfter aufgefordert, starte bitte dein Spiel neu"
 L["Can't buy anymore slots!"] = "Kann keine Slots mehr kaufen"
 L["Disable Warning"] = "Deaktiviere Warnung"
