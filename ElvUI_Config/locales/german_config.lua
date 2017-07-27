@@ -311,7 +311,7 @@ Bitte beachten:
 
 Zum Beispiel: Interface\AddOns\ElvUI\media\textures\copy
 
-Für die meisten Anwender ist es allerdings einfacher, eine tga-Datei in ihrem WoW-Ordner abzulegen. Anschließend kann man den Namen der Datei hier eingeben.]=]
+Für die meisten Anwender ist es allerdings einfacher, eine tga-Datei in dem WoW-Ordner abzulegen. Anschließend kann man den Namen der Datei hier eingeben.]=]
 
 --Credits
 L["Coding:"] = "Programmierung:"
