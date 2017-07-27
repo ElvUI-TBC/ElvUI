@@ -2540,6 +2540,7 @@ P["tooltip"] = {
 	["playerTitles"] = true,
 	["guildRanks"] = true,
 	["inspectInfo"] = true,
+	["itemPrice"] = true,
 	["itemCount"] = "BAGS_ONLY",
 	["spellID"] = true,
 	["itemLevel"] = true,
