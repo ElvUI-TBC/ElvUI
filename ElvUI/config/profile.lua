@@ -2455,7 +2455,7 @@ P["chat"] = {
 	["fade"] = true,
 	["font"] = "PT Sans Narrow",
 	["fontOutline"] = "NONE",
-	["sticky"] = true,
+	["sticky"] = { SAY=1; WHISPER=0; EMOTE=0; CHANNEL=0; PARTY=1; BATTLEGROUND=1; GUILD=1; OFFICER=0; YELL=0; RAID=1; RAID_WARNING=0; },
 	["emotionIcons"] = true,
 	["keywordSound"] = "None",
 	["whisperSound"] = "ElvUI Aska",

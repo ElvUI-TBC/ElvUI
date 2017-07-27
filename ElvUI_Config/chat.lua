@@ -58,11 +58,17 @@ E.Options.args.chat = {
 				},
 				sticky = {
 					order = 4,
-					type = "toggle",
+					type = "multiselect",
 					name = L["Sticky Chat"],
-					desc = L["When opening the Chat Editbox to type a message having this option set means it will retain the last channel you spoke in. If this option is turned off opening the Chat Editbox should always default to the SAY channel."],
-					set = function(info, value)
-						E.db.chat[ info[#info] ] = value;
+					desc = L["After sending a message to a Sticky chat, that chat will be pre-selected for your next chat message. E.g. if you make Guild chat Sticky, you only have to type /g once."],
+					values = { SAY="Say"; WHISPER="Whisper"; EMOTE="Emote"; CHANNEL="Channels"; PARTY="Party"; BATTLEGROUND="Battleground"; GUILD="Guild"; OFFICER="Officer"; YELL="Yell"; RAID="Raid"; RAID_WARNING="Raid Warning"; },
+					set = function(info, key, value)
+						if value == true then value = 1 else value = 0 end
+						E.db.chat.sticky[key] = value
+						ChatTypeInfo[key].sticky = value
+					end,
+					get = function(info, key)
+						return E.db.chat.sticky[key] == 1
 					end
 				},
 				fade = {
