@@ -27,7 +27,7 @@ P["general"] = {
 	["valuecolor"] = {r = 23/255, g = 132/255, b = 209/255},
 
 	["classCacheStoreInDB"] = true,
-	["classCacheRequestUnitInfo"] = false,
+	["classCacheRequestInfo"] = false,
 
 	["minimap"] = {
 		["size"] = 176,

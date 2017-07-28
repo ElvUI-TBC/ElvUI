@@ -274,13 +274,8 @@ function mod:UnitClass(name, type)
 				return class
 			else
 				local name, realm = split("-", name)
-				return CC:GetClassByName(name, realm, "friendly")
+				return CC:GetClassByName(name, realm)
 			end
-		elseif type == "ENEMY_NPC" then
-			local name, realm = split("-", name)
-			return CC:GetClassByName(name, realm, "enemy")
-		elseif type == "ENEMY_PLAYER" then
-			return CC:GetClassByName(split("-", name))
 		end
 	else
 		if type == "FRIENDLY_PLAYER" then

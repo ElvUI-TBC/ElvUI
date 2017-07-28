@@ -3,7 +3,7 @@ local CC = E:NewModule("ClassCache", "AceEvent-3.0")
 
 local LW = LibStub:GetLibrary("LibWho-2.0")
 
-local find, match, split, upper = string.find, string.match, string.split, string.upper
+local find, split, upper = string.find, string.split, string.upper
 local wipe = table.wipe
 local pairs = pairs
 local select = select
@@ -27,8 +27,6 @@ local UNKNOWN = UNKNOWN
 
 local GAME_LOCALE = GetLocale()
 local ENGLISH_CLASS_NAMES
-
-local blacklist = {}
 
 local function GetEnglishClassName(class)
 	if class == UNKNOWN then
@@ -56,13 +54,11 @@ local function WhoCallback(result)
 		if result.NoLocaleClass then
 			CC:CachePlayer(result.Name, result.NoLocaleClass)
 			CC:SendMessage("ClassCacheQueryResult", result.Name, result.NoLocaleClass)
-		else
-			blacklist[result.Name] = true
 		end
 	end
 end
 
-function CC:GetClassByName(name, realm, unitInfo)
+function CC:GetClassByName(name, realm)
 	if not name or name == "" then return end
 	if realm and realm == "" then return end
 
@@ -92,14 +88,7 @@ function CC:GetClassByName(name, realm, unitInfo)
 		end
 	end
 
-	if not blacklist[name] then
-		if unitInfo and (not E.db.general.classCacheRequestUnitInfo or (E.db.general.classCacheRequestUnitInfo ~= "all" and E.db.general.classCacheRequestUnitInfo ~= unitInfo)) then
-			return
-		elseif unitInfo and match(name, "%s+") then
-			blacklist[name] = true
-			return
-		end
-	
+	if E.db.general.classCacheRequestInfo then
 		local result = LW:UserInfo(name, {
 			queue = LW.WHOLIB_QUEUE_QUIET,
 			timeout = 0,

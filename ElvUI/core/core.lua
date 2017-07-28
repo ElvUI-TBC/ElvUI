@@ -975,7 +975,10 @@ end
 
 --DATABASE CONVERSIONS
 function E:DBConversions()
-
+	if E.db.general.classCacheRequestUnitInfo then
+		E.db.general.classCacheRequestUnitInfo = nil
+		E.db.general.classCacheRequestInfo = true
+	end
 end
 
 local CPU_USAGE = {};

@@ -211,24 +211,14 @@ E.Options.args.general = {
 					end,
 					disabled = function() return not E.private.general.classCache end
 				},
-				classCacheRequestUnitInfo = {
+				classCacheRequestInfo = {
 					order = 54,
-					type = "select",
+					type = "toggle",
 					name = L["Request class info for nameplates"],
 					desc = L["Information will be requested via /who."],
-					values = {
-						["false"] = L["Disable"],
-						["friendly"] = L["Friendly only"],
-						["enemy"] = L["Enemy only"],
-						["all"] = ALL
-					},
-					get = function(info) return E.db.general.classCacheRequestUnitInfo or "false" end,
+					get = function(info) return E.db.general.classCacheRequestInfo end,
 					set = function(info, value)
-						if value == "false" then
-							E.db.general.classCacheRequestUnitInfo = false
-						else
-							E.db.general.classCacheRequestUnitInfo = value
-						end
+						E.db.general.classCacheRequestInfo = value
 					end,
 					disabled = function() return not E.private.general.classCache end
 				},
