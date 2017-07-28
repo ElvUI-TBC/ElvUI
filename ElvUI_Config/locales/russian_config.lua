@@ -321,14 +321,11 @@ Or for most users it would be easier to simply put a tga file into your WoW fold
 
 --Class Cache
 L["Class Cache"] = true;
-L["Class Caching"] = true;
-L["Enable class information caching for coloring names in chat and nameplates."] = true;
-L["Enemy only"] = true;
-L["Friendly only"] = true;
+L["Enable class caching to colorize names in chat and nameplates."] = true;
 L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true;
-L["Information will be requested via /who."] = true;
-L["Request class info for nameplates"] = true;
+L["Request info for class cache"] = true;
 L["Store cache in DB"] = true;
+L["Use LibWho to cache class info"] = true;
 L["Wipe DB Cache"] = true;
 L["Wipe Session Cache"] = true;
 
