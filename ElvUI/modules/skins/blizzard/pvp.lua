@@ -50,6 +50,12 @@ function S:LoadPVPSkin()
 
 	for i = 1, 5 do
 		_G["PVPTeamDetailsFrameColumnHeader" .. i]:StripTextures()
+		_G["PVPTeamDetailsFrameColumnHeader" .. i]:StyleButton()
+	end
+
+	for i = 1, 10 do
+		_G["PVPTeamDetailsButton"..i]:Width(335)
+		_G["PVPTeamDetailsButton"..i]:StyleButton()
 	end
 
 	S:HandleButton(PVPTeamDetailsAddTeamMember)
