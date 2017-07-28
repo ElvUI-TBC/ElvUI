@@ -589,8 +589,13 @@ E.Options.args.general = {
 						["disabled"] = L["Disabled"]
 					}
 				},
-				font = {
+				spacer = {
 					order = 3,
+					type = "description",
+					name = ""
+				},
+				font = {
+					order = 4,
 					type = "select",
 					name = L["Font"],
 					dialogControl = "LSM30_Font",
@@ -600,7 +605,7 @@ E.Options.args.general = {
 					disabled = function() return E.private.general.chatBubbles == "disabled"; end
 				},
 				fontSize = {
-					order = 4,
+					order = 5,
 					type = "range",
 					name = L["Font Size"],
 					get = function(info) return E.private.general.chatBubbleFontSize; end,
@@ -609,7 +614,7 @@ E.Options.args.general = {
 					disabled = function() return E.private.general.chatBubbles == "disabled"; end
 				},
 				fontOutline = {
-					order = 5,
+					order = 6,
 					type = "select",
 					name = L["Font Outline"],
 					get = function(info) return E.private.general.chatBubbleFontOutline end,

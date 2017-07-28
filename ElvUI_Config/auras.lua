@@ -59,12 +59,85 @@ E.Options.args.auras = {
 					name = L["Fade Threshold"],
 					desc = L["Threshold before text changes red, goes into decimal form, and the icon will fade. Set to -1 to disable."],
 					min = -1, max = 30, step = 1,
+				}
+			}
+		},
+		font = {
+			order = 4,
+			type = "group",
+			name = L["Font"],
+			get = function(info) return E.db.auras[ info[#info] ] end,
+			set = function(info, value) E.db.auras[ info[#info] ] = value; A:BuffFrame_Update(); end,
+			args = {
+				header = {
+					order = 0,
+					type = "header",
+					name = L["Font"]
 				},
-			},
+				timeXOffset = {
+					order = 1,
+					type = "range",
+					name = L["Time xOffset"],
+					min = -60, max = 60, step = 1
+				},
+				timeYOffset = {
+					order = 2,
+					type = "range",
+					name = L["Time yOffset"],
+					min = -60, max = 60, step = 1
+				},
+				spacer = {
+					order = 3,
+					type = "description",
+					name = ""
+				},
+				countXOffset = {
+					order = 4,
+					type = "range",
+					name = L["Count xOffset"],
+					min = -60, max = 60, step = 1
+				},
+				countYOffset = {
+					order = 5,
+					name = L["Count yOffset"],
+					type = "range",
+					min = -60, max = 60, step = 1
+				},
+				spacer2 = {
+					order = 6,
+					type = "description",
+					name = ""
+				},
+				font = {
+					order = 7,
+					type = "select", dialogControl = "LSM30_Font",
+					name = L["Font"],
+					values = AceGUIWidgetLSMlists.font
+				},
+				fontSize = {
+					order = 8,
+					name = L["Font Size"],
+					type = "range",
+					min = 6, max = 22, step = 1
+				},
+				fontOutline = {
+					order = 9,
+					name = L["Font Outline"],
+					desc = L["Set the font outline."],
+					type = "select",
+					values = {
+						["NONE"] = L["None"],
+						["OUTLINE"] = "OUTLINE",
+						["MONOCHROME"] = "MONOCHROME",
+						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
+						["THICKOUTLINE"] = "THICKOUTLINE"
+					}
+				}
+			}
 		},
 		reminder = {
 			type = "group",
-			order = 4,
+			order = 5,
 			name = L["Reminder"],
 			get = function(info) return E.db.general.reminder[ info[#info] ] end,
 			set = function(info, value) E.db.general.reminder[ info[#info] ] = value; E:GetModule("ReminderBuffs"):UpdateSettings(); end,
@@ -142,74 +215,11 @@ E.Options.args.auras = {
 								["MONOCHROME"] = (not E.isMacClient) and "MONOCHROME" or nil,
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
-							},
-						},
-					},
-				},
-			},
-		},
-		font = {
-			order = 5,
-			type = "group",
-			name = L["Font"],
-			get = function(info) return E.db.auras[ info[#info] ] end,
-			set = function(info, value) E.db.auras[ info[#info] ] = value; A:BuffFrame_Update(); end,
-			args = {
-				header = {
-					order = 0,
-					type = "header",
-					name = L["Font"]
-				},
-				font = {
-					type = "select", dialogControl = "LSM30_Font",
-					order = 4,
-					name = L["Font"],
-					values = AceGUIWidgetLSMlists.font,
-				},
-				fontSize = {
-					order = 5,
-					name = L["Font Size"],
-					type = "range",
-					min = 6, max = 22, step = 1,
-				},
-				fontOutline = {
-					order = 6,
-					name = L["Font Outline"],
-					desc = L["Set the font outline."],
-					type = "select",
-					values = {
-						["NONE"] = L["None"],
-						["OUTLINE"] = "OUTLINE",
-						["MONOCHROME"] = "MONOCHROME",
-						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
-						["THICKOUTLINE"] = "THICKOUTLINE",
-					},
-				},
-				timeXOffset = {
-					order = 5,
-					type = "range",
-					name = L["Time xOffset"],
-					min = -60, max = 60, step = 1
-				},
-				timeYOffset = {
-					order = 6,
-					type = "range",
-					name = L["Time yOffset"],
-					min = -60, max = 60, step = 1
-				},
-				countXOffset = {
-					order = 7,
-					type = "range",
-					name = L["Count xOffset"],
-					min = -60, max = 60, step = 1
-				},
-				countYOffset = {
-					order = 8,
-					name = L["Count yOffset"],
-					type = "range",
-					min = -60, max = 60, step = 1
-				},
-			},
-		},
-	},
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
