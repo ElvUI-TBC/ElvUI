@@ -51,6 +51,9 @@ E.TexCoords = {.08, .92, .08, .92}
 E.CreditsList = {}
 E.PixelMode = false
 
+-- TBC spell id filter fix
+E.spellnametoid = {}
+
 E.InversePoints = {
 	TOP = "BOTTOM",
 	BOTTOM = "TOP",
@@ -1103,6 +1106,18 @@ function E:Initialize()
 	self:RefreshModulesDB()
 	collectgarbage("collect")
 
+	-- hackfix for filters with spell ids
+	for _,filter in pairs(self.global.unitframe["aurafilters"]) do
+		for spell,_ in pairs(filter["spells"]) do
+			if type(spell) == "number" then
+				local name = GetSpellInfo(spell)
+				if name then
+					self.spellnametoid[name] = spell
+				end
+			end
+		end
+	end
+	
 	if(self.db.general.loginmessage) then
 		print(select(2, E:GetModule("Chat").FindURL(format(L["LOGIN_MSG"], self["media"].hexvaluecolor, self["media"].hexvaluecolor, self.version)))..".");
 	end

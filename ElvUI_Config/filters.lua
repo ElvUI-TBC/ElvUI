@@ -9,6 +9,17 @@ local tonumber = tonumber;
 local format = string.format;
 local UNKNOWN = UNKNOWN;
 
+-- TBC spell id filter fix
+local _GetSpellInfo = GetSpellInfo
+local function GetSpellInfo(id)
+	local name = _GetSpellInfo(id)
+	if name then
+		E.spellnametoid[name] = id
+		return name
+	end
+	return nil
+end
+
 local function UpdateFilterGroup()
 	E.Options.args.filters.args.filterGroup = nil;
 	E.Options.args.filters.args.spellGroup = nil;

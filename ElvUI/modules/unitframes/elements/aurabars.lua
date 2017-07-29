@@ -183,6 +183,7 @@ function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration)
 	local returnValue = true;
 	local anotherFilterExists = false;
 	local isFriend = UnitIsFriend("player", unit) == 1 and true or false;
+	local spellID = E.spellnametoid[name]
 
 	if(UF:CheckFilter(db.noDuration, isFriend)) then
 		if(duration == 0 or not duration) then
