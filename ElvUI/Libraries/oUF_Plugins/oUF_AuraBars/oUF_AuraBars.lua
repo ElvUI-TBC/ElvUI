@@ -224,7 +224,7 @@ local function Update(self, event, unit)
 	local counter = 0
 	if(auraBars.forceShow) then
 		for index = 1, auraBars.maxBars do
-			local name, rank, icon = GetSpellInfo(36824)
+			local name, rank, icon = GetSpellInfo(26993)
 			local count, debuffType, duration, expirationTime = 5, "Magic", 0, 0
 			lastAuraIndex = lastAuraIndex + 1
 			auras[lastAuraIndex] = {}

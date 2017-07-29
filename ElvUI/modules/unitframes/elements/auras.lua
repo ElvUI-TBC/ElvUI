@@ -384,10 +384,12 @@ function UF:UpdateAuraTimer(elapsed)
 		return;
 	else
 		if(not self:GetParent().disableCooldown) then
-			if(duration and duration > 0) then
+			if timeLeft > self.expiration and duration and duration > 0 then
 				self.cd:SetCooldown(GetTime() - (duration - timeLeft), duration)
 			end
 		end
+
+		self.expiration = timeLeft
 	end
 
 	local timervalue, formatid;
