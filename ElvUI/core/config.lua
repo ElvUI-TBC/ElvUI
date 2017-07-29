@@ -1,15 +1,15 @@
-local E, L, V, P, G = unpack(ElvUI); -- Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(ElvUI)
 
-local _G = _G;
-local type, ipairs, tonumber = type, ipairs, tonumber;
-local floor = math.floor;
+local _G = _G
+local type, ipairs, tonumber = type, ipairs, tonumber
+local floor = math.floor
 
-local CreateFrame = CreateFrame;
-local IsAddOnLoaded = IsAddOnLoaded;
-local GetScreenWidth = GetScreenWidth;
-local GetScreenHeight = GetScreenHeight;
-local InCombatLockdown = InCombatLockdown;
-local RESET = RESET;
+local CreateFrame = CreateFrame
+local IsAddOnLoaded = IsAddOnLoaded
+local GetScreenWidth = GetScreenWidth
+local GetScreenHeight = GetScreenHeight
+local InCombatLockdown = InCombatLockdown
+local RESET = RESET
 
 local grid
 local selectedValue = "ALL"
@@ -36,12 +36,12 @@ E.ConfigModeLocalizedStrings = {
 
 function E:Grid_Show()
 	if(not grid) then
-		E:Grid_Create();
+		E:Grid_Create()
 	elseif(grid.boxSize ~= E.db.gridSize) then
-		grid:Hide();
-		E:Grid_Create();
+		grid:Hide()
+		E:Grid_Create()
 	else
-		grid:Show();
+		grid:Show()
 	end
 end
 
@@ -52,7 +52,7 @@ function E:Grid_Hide()
 end
 
 function E:ToggleConfigMode(override, configType)
-	if InCombatLockdown() then return; end
+	if InCombatLockdown() then return end
 	if override ~= nil and override ~= "" then E.ConfigurationMode = override end
 
 	if E.ConfigurationMode ~= true then
@@ -71,8 +71,8 @@ function E:ToggleConfigMode(override, configType)
 
 		ElvUIMoverPopupWindow:Show()
 		if(IsAddOnLoaded("ElvUI_Config")) then
-			LibStub("AceConfigDialog-3.0-ElvUI"):Close("ElvUI");
-			GameTooltip:Hide();
+			LibStub("AceConfigDialog-3.0-ElvUI"):Close("ElvUI")
+			GameTooltip:Hide()
 		end
 
 		E.ConfigurationMode = true
@@ -146,51 +146,51 @@ end
 local function ConfigMode_OnClick()
 	selectedValue = this.value
 	E:ToggleConfigMode(false, this.value)
-	UIDropDownMenu_SetSelectedValue(ElvUIMoverPopupWindowDropDown, this.value);
+	UIDropDownMenu_SetSelectedValue(ElvUIMoverPopupWindowDropDown, this.value)
 end
 
 local function ConfigMode_Initialize()
-	local info = UIDropDownMenu_CreateInfo();
-	info.func = ConfigMode_OnClick;
+	local info = UIDropDownMenu_CreateInfo()
+	info.func = ConfigMode_OnClick
 
 	for _, configMode in ipairs(E.ConfigModeLayouts) do
-		info.text = E.ConfigModeLocalizedStrings[configMode];
-		info.value = configMode;
-		UIDropDownMenu_AddButton(info);
+		info.text = E.ConfigModeLocalizedStrings[configMode]
+		info.value = configMode
+		UIDropDownMenu_AddButton(info)
 	end
 
-	UIDropDownMenu_SetSelectedValue(ElvUIMoverPopupWindowDropDown, selectedValue);
+	UIDropDownMenu_SetSelectedValue(ElvUIMoverPopupWindowDropDown, selectedValue)
 end
 
 function E:NudgeMover(nudgeX, nudgeY)
-	local mover = ElvUIMoverNudgeWindow.child;
+	local mover = ElvUIMoverNudgeWindow.child
 
-	local x, y, point = E:CalculateMoverPoints(mover, nudgeX, nudgeY);
+	local x, y, point = E:CalculateMoverPoints(mover, nudgeX, nudgeY)
 
-	mover:ClearAllPoints();
-	mover:Point(mover.positionOverride or point, E.UIParent, mover.positionOverride and "BOTTOMLEFT" or point, x, y);
-	E:SaveMoverPosition(mover.name);
+	mover:ClearAllPoints()
+	mover:Point(mover.positionOverride or point, E.UIParent, mover.positionOverride and "BOTTOMLEFT" or point, x, y)
+	E:SaveMoverPosition(mover.name)
 
-	E:UpdateNudgeFrame(mover, x, y);
+	E:UpdateNudgeFrame(mover, x, y)
 end
 
 function E:UpdateNudgeFrame(mover, x, y)
 	if not(x and y) then
-		x, y = E:CalculateMoverPoints(mover);
+		x, y = E:CalculateMoverPoints(mover)
 	end
 
-	x = E:Round(x, 0);
-	y = E:Round(y, 0);
+	x = E:Round(x, 0)
+	y = E:Round(y, 0)
 
-	ElvUIMoverNudgeWindow.xOffset:SetText(x);
-	ElvUIMoverNudgeWindow.yOffset:SetText(y);
-	ElvUIMoverNudgeWindow.xOffset.currentValue = x;
-	ElvUIMoverNudgeWindow.yOffset.currentValue = y;
-	ElvUIMoverNudgeWindowHeader.title:SetText(mover.textString);
+	ElvUIMoverNudgeWindow.xOffset:SetText(x)
+	ElvUIMoverNudgeWindow.yOffset:SetText(y)
+	ElvUIMoverNudgeWindow.xOffset.currentValue = x
+	ElvUIMoverNudgeWindow.yOffset.currentValue = y
+	ElvUIMoverNudgeWindowHeader.title:SetText(mover.textString)
 end
 
 function E:AssignFrameToNudge()
-	ElvUIMoverNudgeWindow.child = self;
+	ElvUIMoverNudgeWindow.child = self
 	E:UpdateNudgeFrame(self)
 end
 
@@ -208,7 +208,7 @@ function E:CreateMoverPopup()
 	f:SetPoint("BOTTOM", UIParent, "CENTER", 0, 100)
 	f:SetScript("OnHide", function()
 		if ElvUIMoverPopupWindowDropDown then
-			UIDropDownMenu_SetSelectedValue(ElvUIMoverPopupWindowDropDown, "ALL");
+			UIDropDownMenu_SetSelectedValue(ElvUIMoverPopupWindowDropDown, "ALL")
 		end
 	end)
 	f:Hide()
@@ -217,7 +217,7 @@ function E:CreateMoverPopup()
 
 	local header = CreateFrame("Button", nil, f)
 	header:SetTemplate("Default", true)
-	header:SetWidth(100); header:SetHeight(25)
+	header:SetWidth(100) header:SetHeight(25)
 	header:SetPoint("CENTER", f, "TOP")
 	header:SetFrameLevel(header:GetFrameLevel() + 2)
 	header:EnableMouse(true)
@@ -256,11 +256,11 @@ function E:CreateMoverPopup()
 		E:ToggleConfigMode(true)
 
 		if(IsAddOnLoaded("ElvUI_Config")) then
-			LibStub("AceConfigDialog-3.0-ElvUI"):Open("ElvUI");
+			LibStub("AceConfigDialog-3.0-ElvUI"):Open("ElvUI")
 		end
 
 		selectedValue = "ALL"
-		UIDropDownMenu_SetSelectedValue(ElvUIMoverPopupWindowDropDown, selectedValue);
+		UIDropDownMenu_SetSelectedValue(ElvUIMoverPopupWindowDropDown, selectedValue)
 	end)
 
 	local align = CreateFrame("EditBox", f:GetName().."EditBox", f, "InputBoxTemplate")
@@ -323,7 +323,7 @@ function E:CreateMoverPopup()
 	configMode.text:SetPoint("RIGHT", configMode.backdrop, "LEFT", -2, 0)
 	configMode.text:SetText(L["Config Mode:"])
 
-	UIDropDownMenu_Initialize(configMode, ConfigMode_Initialize);
+	UIDropDownMenu_Initialize(configMode, ConfigMode_Initialize)
 
 	local nudgeFrame = CreateFrame("Frame", "ElvUIMoverNudgeWindow", E.UIParent)
 	nudgeFrame:SetFrameStrata("DIALOG")
@@ -339,7 +339,7 @@ function E:CreateMoverPopup()
 
 	local header = CreateFrame("Button", "ElvUIMoverNudgeWindowHeader", nudgeFrame)
 	header:SetTemplate("Default", true)
-	header:SetWidth(100); header:SetHeight(25)
+	header:SetWidth(100) header:SetHeight(25)
 	header:SetPoint("CENTER", nudgeFrame, "TOP")
 	header:SetFrameLevel(header:GetFrameLevel() + 2)
 
@@ -359,11 +359,11 @@ function E:CreateMoverPopup()
 		self:ClearFocus()
 	end)
 	xOffset:SetScript("OnEnterPressed", function(self)
-		local num = self:GetText();
+		local num = self:GetText()
 		if(tonumber(num)) then
-			local diff = num - xOffset.currentValue;
-			xOffset.currentValue = num;
-			E:NudgeMover(diff);
+			local diff = num - xOffset.currentValue
+			xOffset.currentValue = num
+			E:NudgeMover(diff)
 		end
 		self:SetText(E:Round(xOffset.currentValue))
 		self:ClearFocus()
@@ -394,11 +394,11 @@ function E:CreateMoverPopup()
 		self:ClearFocus()
 	end)
 	yOffset:SetScript("OnEnterPressed", function(self)
-		local num = self:GetText();
+		local num = self:GetText()
 		if(tonumber(num)) then
-			local diff = num - yOffset.currentValue;
-			yOffset.currentValue = num;
-			E:NudgeMover(nil, diff);
+			local diff = num - yOffset.currentValue
+			yOffset.currentValue = num
+			E:NudgeMover(nil, diff)
 		end
 		self:SetText(E:Round(yOffset.currentValue))
 		self:ClearFocus()
@@ -425,69 +425,69 @@ function E:CreateMoverPopup()
 	resetButton:Size(100, 25)
 	resetButton:SetScript("OnClick", function()
 		if(ElvUIMoverNudgeWindow.child.textString) then
-			E:ResetMovers(ElvUIMoverNudgeWindow.child.textString);
-			E:UpdateNudgeFrame(ElvUIMoverNudgeWindow.child);
+			E:ResetMovers(ElvUIMoverNudgeWindow.child.textString)
+			E:UpdateNudgeFrame(ElvUIMoverNudgeWindow.child)
 		end
 	end)
 	S:HandleButton(resetButton)
 	-- Up Button
-	local upButton = CreateFrame("Button", nudgeFrame:GetName().."PrevButton", nudgeFrame);
-	upButton:SetSize(26, 26);
-	upButton:SetPoint("BOTTOMRIGHT", nudgeFrame, "BOTTOM", -6, 4);
+	local upButton = CreateFrame("Button", nudgeFrame:GetName().."PrevButton", nudgeFrame)
+	upButton:SetSize(26, 26)
+	upButton:SetPoint("BOTTOMRIGHT", nudgeFrame, "BOTTOM", -6, 4)
 	upButton:SetScript("OnClick", function()
-		E:NudgeMover(nil, 1);
-	end);
-	upButton.icon = upButton:CreateTexture(nil, "ARTWORK");
-	upButton.icon:SetSize(13, 13);
-	upButton.icon:SetPoint("CENTER");
-	upButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]]);
-	upButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500);
+		E:NudgeMover(nil, 1)
+	end)
+	upButton.icon = upButton:CreateTexture(nil, "ARTWORK")
+	upButton.icon:SetSize(13, 13)
+	upButton.icon:SetPoint("CENTER")
+	upButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]])
+	upButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500)
 
-	S:SquareButton_SetIcon(upButton, "UP");
-	S:HandleButton(upButton);
+	S:SquareButton_SetIcon(upButton, "UP")
+	S:HandleButton(upButton)
 	-- Down Button
-	local downButton = CreateFrame("Button", nudgeFrame:GetName().."DownButton", nudgeFrame);
-	downButton:SetSize(26, 26);
-	downButton:SetPoint("BOTTOMLEFT", nudgeFrame, "BOTTOM", 6, 4);
+	local downButton = CreateFrame("Button", nudgeFrame:GetName().."DownButton", nudgeFrame)
+	downButton:SetSize(26, 26)
+	downButton:SetPoint("BOTTOMLEFT", nudgeFrame, "BOTTOM", 6, 4)
 	downButton:SetScript("OnClick", function()
-		E:NudgeMover(nil, -1);
-	end);
-	downButton.icon = downButton:CreateTexture(nil, "ARTWORK");
-	downButton.icon:SetSize(13, 13);
-	downButton.icon:SetPoint("CENTER");
-	downButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]]);
-	downButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500);
+		E:NudgeMover(nil, -1)
+	end)
+	downButton.icon = downButton:CreateTexture(nil, "ARTWORK")
+	downButton.icon:SetSize(13, 13)
+	downButton.icon:SetPoint("CENTER")
+	downButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]])
+	downButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500)
 
-	S:SquareButton_SetIcon(downButton, "DOWN");
-	S:HandleButton(downButton);
+	S:SquareButton_SetIcon(downButton, "DOWN")
+	S:HandleButton(downButton)
 	-- Left Button
-	local leftButton = CreateFrame("Button", nudgeFrame:GetName().."LeftButton", nudgeFrame);
-	leftButton:SetSize(26, 26);
-	leftButton:SetPoint("RIGHT", upButton, "LEFT", -6, 0);
+	local leftButton = CreateFrame("Button", nudgeFrame:GetName().."LeftButton", nudgeFrame)
+	leftButton:SetSize(26, 26)
+	leftButton:SetPoint("RIGHT", upButton, "LEFT", -6, 0)
 	leftButton:SetScript("OnClick", function()
-		E:NudgeMover(-1);
-	end);
-	leftButton.icon = leftButton:CreateTexture(nil, "ARTWORK");
-	leftButton.icon:SetSize(13, 13);
-	leftButton.icon:SetPoint("CENTER");
-	leftButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]]);
-	leftButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500);
+		E:NudgeMover(-1)
+	end)
+	leftButton.icon = leftButton:CreateTexture(nil, "ARTWORK")
+	leftButton.icon:SetSize(13, 13)
+	leftButton.icon:SetPoint("CENTER")
+	leftButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]])
+	leftButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500)
 
-	S:SquareButton_SetIcon(leftButton, "LEFT");
-	S:HandleButton(leftButton);
+	S:SquareButton_SetIcon(leftButton, "LEFT")
+	S:HandleButton(leftButton)
 	-- Right Button
-	local rightButton = CreateFrame("Button", nudgeFrame:GetName().."RightButton", nudgeFrame);
-	rightButton:SetSize(26, 26);
-	rightButton:SetPoint("LEFT", downButton, "RIGHT", 6, 0);
+	local rightButton = CreateFrame("Button", nudgeFrame:GetName().."RightButton", nudgeFrame)
+	rightButton:SetSize(26, 26)
+	rightButton:SetPoint("LEFT", downButton, "RIGHT", 6, 0)
 	rightButton:SetScript("OnClick", function()
-		E:NudgeMover(1);
-	end);
-	rightButton.icon = rightButton:CreateTexture(nil, "ARTWORK");
-	rightButton.icon:SetSize(13, 13);
-	rightButton.icon:SetPoint("CENTER");
-	rightButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]]);
-	rightButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500);
+		E:NudgeMover(1)
+	end)
+	rightButton.icon = rightButton:CreateTexture(nil, "ARTWORK")
+	rightButton.icon:SetSize(13, 13)
+	rightButton.icon:SetPoint("CENTER")
+	rightButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]])
+	rightButton.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500)
 
-	S:SquareButton_SetIcon(rightButton, "RIGHT");
-	S:HandleButton(rightButton);
+	S:SquareButton_SetIcon(rightButton, "RIGHT")
+	S:HandleButton(rightButton)
 end
