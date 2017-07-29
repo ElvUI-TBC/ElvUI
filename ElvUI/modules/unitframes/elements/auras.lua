@@ -430,7 +430,7 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 	icon.name = name;
 	icon.priority = 0;
 
-	local turtleBuff = (E.global["unitframe"]["aurafilters"]["TurtleBuffs"].spells[spellID] or E.global["unitframe"]["aurafilters"]["TurtleBuffs"].spells[name]);
+	local turtleBuff = E.global["unitframe"]["aurafilters"]["TurtleBuffs"].spells[name];
 	if(turtleBuff and turtleBuff.enable) then
 		icon.priority = turtleBuff.priority;
 	end
@@ -444,7 +444,7 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 	end
 
 	if(UF:CheckFilter(db.useBlacklist, isFriend)) then
-		local blackList = (E.global["unitframe"]["aurafilters"]["Blacklist"].spells[spellID] or E.global["unitframe"]["aurafilters"]["Blacklist"].spells[name]);
+		local blackList = E.global["unitframe"]["aurafilters"]["Blacklist"].spells[name];
 		if(blackList and blackList.enable) then
 			returnValue = false;
 		end
@@ -453,7 +453,7 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 	end
 
 	if(UF:CheckFilter(db.useWhitelist, isFriend)) then
-		local whiteList = (E.global["unitframe"]["aurafilters"]["Whitelist"].spells[spellID] or E.global["unitframe"]["aurafilters"]["Whitelist"].spells[name]);
+		local whiteList = E.global["unitframe"]["aurafilters"]["Whitelist"].spells[name];
 		if(whiteList and whiteList.enable) then
 			returnValue = true;
 			icon.priority = whiteList.priority;
@@ -467,7 +467,7 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration)
 	if(db.useFilter and E.global["unitframe"]["aurafilters"][db.useFilter]) then
 		local type = E.global["unitframe"]["aurafilters"][db.useFilter].type;
 		local spellList = E.global["unitframe"]["aurafilters"][db.useFilter].spells;
-		local spell = (spellList[spellID] or spellList[name]);
+		local spell = spellList[name];
 
 		if(type == "Whitelist") then
 			if(spell and spell.enable) then

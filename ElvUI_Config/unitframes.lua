@@ -923,26 +923,26 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 		set = function(info, value) E.db.unitframe.units[groupName]["aurabar"][ info[#info] ] = value; updateFunc(UF, groupName); end,
 		args = {
 			enable = {
-				type = "toggle",
 				order = 1,
+				type = "toggle",
 				name = L["Enable"]
 			},
 			configureButton1 = {
 				order = 2,
+				type = "execute",
 				name = L["Coloring"],
 				desc = L["This opens the UnitFrames Color settings. These settings affect all unitframes."],
-				type = "execute",
 				func = function() ACD:SelectGroup("ElvUI", "unitframe", "general", "allColorsGroup", "auraBars") end
 			},
 			configureButton2 = {
 				order = 3,
-				name = L["Coloring (Specific)"],
 				type = "execute",
+				name = L["Coloring (Specific)"],
 				func = function() E:SetToFilterConfig("AuraBar Colors") end
 			},
 			anchorPoint = {
-				type = "select",
 				order = 4,
+				type = "select",
 				name = L["Anchor Point"],
 				desc = L["What point to anchor to the frame you set to attach to."],
 				values = {
@@ -951,8 +951,8 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				}
 			},
 			attachTo = {
-				type = "select",
 				order = 5,
+				type = "select",
 				name = L["Attach To"],
 				desc = L["The object you want to attach to."],
 				values = {
@@ -962,26 +962,26 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				}
 			},
 			height = {
-				type = "range",
 				order = 6,
+				type = "range",
 				name = L["Height"],
 				min = 6, max = 40, step = 1
 			},
 			maxBars = {
-				type = "range",
 				order = 7,
+				type = "range",
 				name = L["Max Bars"],
 				min = 1, max = 40, step = 1
 			},
 			sort = {
-				type = "select",
 				order = 8,
+				type = "select",
 				name = L["Sort Method"],
 				values = auraBarsSortValues
 			},
 			friendlyAuraType = {
+				order = 9,
 				type = "select",
-				order = 17,
 				name = L["Friendly Aura Type"],
 				desc = L["Set the type of auras to show when a unit is friendly."],
 				values = {
@@ -991,8 +991,8 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				}
 			},
 			enemyAuraType = {
+				order = 10,
 				type = "select",
-				order = 18,
 				name = L["Enemy Aura Type"],
 				desc = L["Set the type of auras to show when a unit is a foe."],
 				values = {
@@ -1002,7 +1002,7 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				}
 			},
 			uniformThreshold = {
-				order = 19,
+				order = 11,
 				type = "range",
 				name = L["Uniform Threshold"],
 				desc = L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."],
@@ -1023,26 +1023,20 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 	end
 
 	if(friendlyOnly) then
-		config.args.filters.args.playerOnly = {
-			order = 10,
-			type = "toggle",
-			name = L["Block Non-Personal Auras"],
-			desc = L["Don't display auras that are not yours."]
-		};
 		config.args.filters.args.useBlacklist = {
-			order = 11,
+			order = 10,
 			type = "toggle",
 			name = L["Block Blacklisted Auras"],
 			desc = L["Don't display any auras found on the 'Blacklist' filter."],
 		};
 		config.args.filters.args.useWhitelist = {
-			order = 12,
+			order = 11,
 			type = "toggle",
 			name = L["Allow Whitelisted Auras"],
 			desc = L["If no other filter options are being used then it will block anything not on the 'Whitelist' filter, otherwise it will simply add auras on the whitelist in addition to any other filter settings."]
 		};
 		config.args.filters.args.noDuration = {
-			order = 13,
+			order = 12,
 			type = "toggle",
 			name = L["Block Auras Without Duration"],
 			desc = L["Don't display auras that have no duration."]
@@ -1061,39 +1055,9 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				return filters;
 			end
 		};
-		config.args.filters.args.additionalFilterAllowNonPersonal = {
-			order = 17,
-			type = "toggle",
-			name = L["Additional Filter Override"],
-			desc = L["Allow non-personal auras from additional filter when 'Block Non-Personal Auras' is enabled."]
-		};
 	else
-		config.args.filters.args.playerOnly = {
-			order = 10,
-			guiInline = true,
-			type = "group",
-			name = L["Block Non-Personal Auras"],
-			args = {
-				friendly = {
-					order = 1,
-					type = "toggle",
-					name = L["Friendly"],
-					desc = L["If the unit is friendly to you."] .. " " .. L["Don't display auras that are not yours."],
-					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].playerOnly.friendly; end,
-					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].playerOnly.friendly = value; updateFunc(UF, groupName); end
-				},
-				enemy = {
-					order = 2,
-					type = "toggle",
-					name = L["Enemy"],
-					desc = L["If the unit is an enemy to you."] .. " " .. L["Don't display auras that are not yours."],
-					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].playerOnly.enemy; end,
-					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].playerOnly.enemy = value; updateFunc(UF, groupName); end
-				}
-			}
-		};
 		config.args.filters.args.useBlacklist = {
-			order = 11,
+			order = 10,
 			guiInline = true,
 			type = "group",
 			name = L["Block Blacklisted Auras"],
@@ -1117,7 +1081,7 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 			}
 		};
 		config.args.filters.args.useWhitelist = {
-			order = 12,
+			order = 11,
 			guiInline = true,
 			type = "group",
 			name = L["Allow Whitelisted Auras"],
@@ -1141,7 +1105,7 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 			}
 		};
 		config.args.filters.args.noDuration = {
-			order = 13,
+			order = 12,
 			guiInline = true,
 			type = "group",
 			name = L["Block Auras Without Duration"],
@@ -1178,16 +1142,10 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				return filters;
 			end
 		};
-		config.args.filters.args.additionalFilterAllowNonPersonal = {
-			order = 17,
-			type = "toggle",
-			name = L["Additional Filter Override"],
-			desc = L["Allow non-personal auras from additional filter when 'Block Non-Personal Auras' is enabled."]
-		};
 	end
 
 	config.args.filters.args.maxDuration = {
-		order = 17,
+		order = 13,
 		type = "range",
 		name = L["Maximum Duration"],
 		desc = L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."],
