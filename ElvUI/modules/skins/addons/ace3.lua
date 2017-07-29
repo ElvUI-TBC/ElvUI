@@ -96,8 +96,8 @@ local function SkinButton(f, strip, noTemplate)
 		f:SetTemplate("Default", true)
 	end
 
-	f:HookScript("OnEnter", SetModifiedBackdrop)
-	f:HookScript("OnLeave", SetOriginalBackdrop)
+	f:HookScript2("OnEnter", SetModifiedBackdrop)
+	f:HookScript2("OnLeave", SetOriginalBackdrop)
 end
 
 local function SkinNextPrevButton(...)
@@ -323,7 +323,7 @@ function S:SkinAce3()
 				for i=1, frame:GetNumChildren() do
 					local child = select(i, frame:GetChildren())
 					if child:GetObjectType() == "Button" and child:GetText() then
-						S:HandleButton(child)
+						SkinButton(child)
 					else
 						child:StripTextures()
 					end
