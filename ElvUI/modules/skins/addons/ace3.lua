@@ -323,7 +323,7 @@ function S:SkinAce3()
 				for i=1, frame:GetNumChildren() do
 					local child = select(i, frame:GetChildren())
 					if child:GetObjectType() == "Button" and child:GetText() then
-						SkinButton(child)
+						S:HandleButton(child)
 					else
 						child:StripTextures()
 					end
