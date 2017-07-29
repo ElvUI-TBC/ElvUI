@@ -23,15 +23,10 @@ addon.DebuffData = debuff_data
 
 addon.ShowDispelableDebuff = true
 addon.FilterDispellableDebuff = true
-addon.MatchBySpellName = false
 
 addon.priority = 10
 
 local function add(spell, priority, stackThreshold)
-	if(addon.MatchBySpellName and type(spell) == "number") then
-		spell = GetSpellInfo(spell)
-	end
-
 	if(spell) then
 		debuff_data[spell] = {
 			priority = (addon.priority + priority),
@@ -116,10 +111,9 @@ end
 
 local function OnUpdate(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
-	if(self.elapsed >= 0.1) then
-		local timeLeft = self.endTime - GetTime()
-		if(self.reverse) then timeLeft = abs((self.endTime - GetTime()) - self.duration) end
-		if(timeLeft > 0) then
+	if self.elapsed >= 0.1 then
+		local _, _, _, _, _, _, timeLeft = UnitAura(self.unit, self:GetID(), "HARMFUL")
+		if timeLeft > 0 then
 			local text = formatTime(timeLeft)
 			self.time:SetText(text)
 		else
@@ -130,13 +124,14 @@ local function OnUpdate(self, elapsed)
 	end
 end
 
-local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTime, spellId, stackThreshold)
+local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTime, stackThreshold, id)
 	local f = self.RaidDebuffs
 
 	if(name and (count >= stackThreshold)) then
 		f.icon:SetTexture(icon)
 		f.icon:Show()
 		f.duration = duration
+		f:SetID(id)
 
 		if(f.count) then
 			if(count and (count > 1)) then
@@ -146,12 +141,6 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 				f.count:SetText("")
 				f.count:Hide()
 			end
-		end
-
-		if(spellId and ElvUI[1].ReverseTimer[spellId]) then
-			f.reverse = true
-		else
-			f.reverse = nil
 		end
 
 		if(f.time) then
@@ -187,8 +176,8 @@ end
 local function Update(self, event, unit)
 	if(not unit or self.unit ~= unit) then return end
 
-	local _, name, icon, count, debuffType, duration, expirationTime, spellId
-	local _name, _icon, _count, _dtype, _duration, _endTime, _spellId
+	local _, name, icon, count, debuffType, duration, expirationTime
+	local _name, _icon, _count, _dtype, _duration, _endTime
 	local _priority, priority = 0, 0
 	local _stackThreshold = 0
 
@@ -201,7 +190,7 @@ local function Update(self, event, unit)
 	local i = 0
 	while(true) do
 		i = i + 1
-		name, _, icon, count, debuffType, duration, expirationTime, _, _, _, spellId = UnitAura(unit, i, "HARMFUL")
+		name, _, icon, count, debuffType, duration, expirationTime = UnitAura(unit, i, "HARMFUL")
 
 		if(not name) then break end
 
@@ -218,27 +207,26 @@ local function Update(self, event, unit)
 			end
 
 			if(priority > _priority) then
-				_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellId = priority, name, icon, count, debuffType, duration, expirationTime, spellId
+				_priority, _name, _icon, _count, _dtype, _duration, _endTime = priority, name, icon, count, debuffType, duration, expirationTime
 			end
 		end
 
-		priority = debuff_data[addon.MatchBySpellName and name or spellId] and debuff_data[addon.MatchBySpellName and name or spellId].priority
+		priority = debuff_data[name] and debuff_data[name].priority
 		if(priority and (priority > _priority)) then
-			_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellId = priority, name, icon, count, debuffType, duration, expirationTime, spellId
+			_priority, _name, _icon, _count, _dtype, _duration, _endTime = priority, name, icon, count, debuffType, duration, expirationTime
 		end
 	end
 
-	-- if(self.RaidDebuffs.forceShow) then
-	-- 	_spellId = 47540
-	-- 	_name, _, _icon = GetSpellInfo(_spellId)
-	-- 	_count, _dtype, _duration, _endTime, _stackThreshold = 5, "Magic", 0, 60, 0
-	-- end
-
-	if(_name) then
-		_stackThreshold = debuff_data[addon.MatchBySpellName and _name or _spellId] and debuff_data[addon.MatchBySpellName and _name or _spellId].stackThreshold or _stackThreshold
+	if(self.RaidDebuffs.forceShow) then
+		_name, _, _icon = GetSpellInfo(26993)
+		_count, _dtype, _duration, _endTime, _stackThreshold = 5, "Magic", 0, 60, 0
 	end
 
-	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _spellId, _stackThreshold)
+	if(_name) then
+		_stackThreshold = debuff_data[_name] and debuff_data[_name].stackThreshold or _stackThreshold
+	end
+
+	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _stackThreshold, i)
 
 	--Reset the DispellPriority
 	DispellPriority = {
