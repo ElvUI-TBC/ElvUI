@@ -80,7 +80,6 @@ do
 		["SHAMAN"] = {
 			["Poison"] = true,
 			["Disease"] = true,
-			["Curse"] = true
 		},
 		["PALADIN"] = {
 			["Poison"] = true,

@@ -71,7 +71,6 @@ E.DispelClasses = {
 	["SHAMAN"] = {
 		["Poison"] = true,
 		["Disease"] = true,
-		["Curse"] = false
 	},
 	["PALADIN"] = {
 		["Poison"] = true,

@@ -8,7 +8,7 @@ local UnitCanAssist = UnitCanAssist
 local playerClass = select(2, UnitClass("player"))
 local CanDispel = {
 	PRIEST = {Magic = true, Disease = true},
-	SHAMAN = {Poison = true, Disease = true, Curse = true},
+	SHAMAN = {Poison = true, Disease = true},
 	PALADIN = {Magic = true, Poison = true, Disease = true},
 	MAGE = {Curse = true},
 	DRUID = {Curse = true, Poison = true}
