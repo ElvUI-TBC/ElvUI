@@ -194,8 +194,10 @@ function AddOn:ToggleConfig()
 	end
 
 	if mode == "Open" then
+		ElvConfigToggle.text:SetTextColor(unpack(AddOn.media.rgbvaluecolor));
 		PlaySound("igMainMenuOpen");
 	else
+		ElvConfigToggle.text:SetTextColor(1, 1, 1);
 		PlaySound("igMainMenuClose");
 	end
 
