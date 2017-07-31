@@ -79,7 +79,7 @@ do
 		},
 		["SHAMAN"] = {
 			["Poison"] = true,
-			["Disease"] = true,
+			["Disease"] = true
 		},
 		["PALADIN"] = {
 			["Poison"] = true,
@@ -123,14 +123,14 @@ local function OnUpdate(self, elapsed)
 	end
 end
 
-local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTime, stackThreshold, id)
+local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTime, stackThreshold, index)
 	local f = self.RaidDebuffs
 
 	if(name and (count >= stackThreshold)) then
 		f.icon:SetTexture(icon)
 		f.icon:Show()
 		f.duration = duration
-		f:SetID(id)
+		f:SetID(index)
 
 		if(f.count) then
 			if(count and (count > 1)) then
@@ -176,7 +176,7 @@ local function Update(self, event, unit)
 	if(not unit or self.unit ~= unit) then return end
 
 	local _, name, icon, count, debuffType, duration, expirationTime
-	local _name, _icon, _count, _dtype, _duration, _endTime
+	local _name, _icon, _count, _dtype, _duration, _endTime, _index
 	local _priority, priority = 0, 0
 	local _stackThreshold = 0
 
@@ -206,13 +206,13 @@ local function Update(self, event, unit)
 			end
 
 			if(priority > _priority) then
-				_priority, _name, _icon, _count, _dtype, _duration, _endTime = priority, name, icon, count, debuffType, duration, expirationTime
+				_priority, _name, _icon, _count, _dtype, _duration, _endTime, _index = priority, name, icon, count, debuffType, duration, expirationTime, i
 			end
 		end
 
 		priority = debuff_data[name] and debuff_data[name].priority
 		if(priority and (priority > _priority)) then
-			_priority, _name, _icon, _count, _dtype, _duration, _endTime = priority, name, icon, count, debuffType, duration, expirationTime
+			_priority, _name, _icon, _count, _dtype, _duration, _endTime, _index = priority, name, icon, count, debuffType, duration, expirationTime, i
 		end
 	end
 
@@ -225,7 +225,7 @@ local function Update(self, event, unit)
 		_stackThreshold = debuff_data[_name] and debuff_data[_name].stackThreshold or _stackThreshold
 	end
 
-	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _stackThreshold, i)
+	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _stackThreshold, _index)
 
 	--Reset the DispellPriority
 	DispellPriority = {
