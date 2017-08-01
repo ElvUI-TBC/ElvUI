@@ -225,7 +225,7 @@ local function Update(self, event, unit)
 		_stackThreshold = debuff_data[_name] and debuff_data[_name].stackThreshold or _stackThreshold
 	end
 
-	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _stackThreshold, _index)
+	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _stackThreshold, _index or 0)
 
 	--Reset the DispellPriority
 	DispellPriority = {
