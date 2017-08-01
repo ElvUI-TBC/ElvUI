@@ -38,8 +38,27 @@ function S:LoadFriendsSkin()
 		Tab:HookScript2("OnLeave", S.SetOriginalBackdrop)
 	end
 
+	
+	local r, g, b = 0.8, 0.8, 0.8
+	local function StyleButton(f, scale)
+		f:SetHighlightTexture(nil)
+		local width, height = (f:GetWidth() * (scale or 0.5)), f:GetHeight()
+
+		local leftGrad = f:CreateTexture(nil, "HIGHLIGHT")
+		leftGrad:Size(width, height)
+		leftGrad:Point("LEFT", f, "CENTER")
+		leftGrad:SetTexture(E.media.blankTex)
+		leftGrad:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
+
+		local rightGrad = f:CreateTexture(nil, "HIGHLIGHT")
+		rightGrad:Size(width, height)
+		rightGrad:Point("RIGHT", f, "CENTER")
+		rightGrad:SetTexture(E.media.blankTex)
+		rightGrad:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
+	end
+
 	for i = 1, 10 do
-		_G["FriendsFrameFriendButton"..i]:StyleButton()
+		StyleButton(_G["FriendsFrameFriendButton"..i], 0.6)
 	end
 
 	FriendsFrameFriendsScrollFrame:StripTextures()
@@ -73,7 +92,7 @@ function S:LoadFriendsSkin()
 	S:HandleButton(FriendsFrameStopIgnoreButton)
 
 	for i = 1, 20 do
-		_G["FriendsFrameIgnoreButton"..i]:StyleButton()
+		StyleButton(_G["FriendsFrameIgnoreButton"..i])
 	end
 
 	-- Who Frame
@@ -110,7 +129,7 @@ function S:LoadFriendsSkin()
 
 		button:CreateBackdrop("Default", true)
 		button.backdrop:SetAllPoints(button.icon)
-		button:StyleButton()
+		StyleButton(button)
 
 		level:ClearAllPoints()
 		level:Point("TOPLEFT", 12, -2)
@@ -212,7 +231,7 @@ function S:LoadFriendsSkin()
 
 		button:CreateBackdrop("Default", true)
 		button.backdrop:SetAllPoints(button.icon)
-		button:StyleButton()
+		StyleButton(button)
 
 		level:ClearAllPoints()
 		level:Point("TOPLEFT", 10, -1)
@@ -223,7 +242,7 @@ function S:LoadFriendsSkin()
 
 		_G["GuildFrameButton" .. i .. "Class"]:Hide()
 
-		_G["GuildFrameGuildStatusButton" .. i]:StyleButton()
+		StyleButton(_G["GuildFrameGuildStatusButton" .. i])
 
 		_G["GuildFrameGuildStatusButton" .. i .. "Name"]:Point("TOPLEFT", 14, 0)
 	end
@@ -425,13 +444,13 @@ function S:LoadFriendsSkin()
 
 	for i = 1, MAX_DISPLAY_CHANNEL_BUTTONS do
 		_G["ChannelButton"..i]:StripTextures()
-		_G["ChannelButton"..i]:StyleButton()
+		StyleButton(_G["ChannelButton"..i], 0.55)
 
 		_G["ChannelButton"..i.."Collapsed"]:SetTextColor(1, 1, 1)
 	end
 
 	for i = 1, 22 do
-		_G["ChannelMemberButton"..i]:StyleButton()
+		StyleButton(_G["ChannelMemberButton"..i], 0.55)
 	end
 
 	ChannelRosterScrollFrame:StripTextures()
