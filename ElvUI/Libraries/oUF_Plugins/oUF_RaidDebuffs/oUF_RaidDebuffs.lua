@@ -111,7 +111,7 @@ end
 local function OnUpdate(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed >= 0.1 then
-		local _, _, _, _, _, _, timeLeft = UnitAura(self.unit, self:GetID(), "HARMFUL")
+		local _, _, _, _, _, _, timeLeft = UnitAura(self:GetParent():GetParent().unit, self:GetID(), "HARMFUL")
 		if timeLeft > 0 then
 			local text = formatTime(timeLeft)
 			self.time:SetText(text)
