@@ -21,12 +21,12 @@ function UF:Construct_PetFrame(frame)
 	frame.Castbar = self:Construct_Castbar(frame, L["Pet Castbar"]);
 	frame.Castbar.SafeZone = nil;
 	frame.Castbar.LatencyTexture:Hide();
-	frame.Threat = self:Construct_Threat(frame);
+	frame.ThreatIndicator = self:Construct_Threat(frame);
 	frame.HealCommBar = self:Construct_HealComm(frame);
 	frame.AuraWatch = UF:Construct_AuraWatch(frame);
 	frame.Range = UF:Construct_Range(frame);
 	if E.myclass == "HUNTER" then
-		frame.Happiness = UF:Construct_Happiness(frame)
+		frame.HappinessIndicator = UF:Construct_Happiness(frame)
 	end
 	frame.InfoPanel = self:Construct_InfoPanel(frame);
 	frame.customTexts = {};
@@ -61,7 +61,7 @@ function UF:Update_PetFrame(frame, db)
 		frame.USE_INFO_PANEL = not frame.USE_MINI_POWERBAR and not frame.USE_POWERBAR_OFFSET and db.infoPanel.enable;
 		frame.INFO_PANEL_HEIGHT = frame.USE_INFO_PANEL and db.infoPanel.height or 0;
 
-		frame.HAPPINESS_SHOWN = frame.Happiness and frame.Happiness:IsShown()
+		frame.HAPPINESS_SHOWN = frame.HappinessIndicator and frame.HappinessIndicator:IsShown()
 		frame.HAPPINESS_WIDTH = frame.HAPPINESS_SHOWN and (db.happiness.width + (frame.BORDER*2)) or 0
 
 		frame.BOTTOM_OFFSET = UF:GetHealthBottomOffset(frame);
