@@ -49,12 +49,10 @@ UF["classMaxResourceBar"] = {
 };
 
 UF["mapIDs"] = {
---	[444] = 10,
---	[541] = 40,
---	[513] = 15,
---	[402] = 40,
---	[462] = 15,
---	[483] = 15
+	[443] = 10, -- Warsong Gulch
+	[461] = 15, -- Arathi Basin
+	[401] = 40, -- Alterac Valley
+	[566] = 15, -- Eye of the Storm
 };
 
 UF["headerGroupBy"] = {
@@ -1003,24 +1001,7 @@ function ElvUF:DisableBlizzard(unit)
 			end
 		end
 		HandleFrame(PartyMemberBackground);
-	elseif((unit:match"(arena)%d?$" == "arena") and E.private["unitframe"]["disabledBlizzardFrames"].arena) then
-		local id = unit:match"arena(%d)";
-		if(id) then
-			HandleFrame("ArenaEnemyFrame"..id);
-			HandleFrame("ArenaEnemyFrame"..id.."PetFrame");
-		else
-			for i = 1, 5 do
-				HandleFrame(("ArenaEnemyFrame%d"):format(i));
-				HandleFrame(("ArenaEnemyFrame%dPetFrame"):format(i));
-			end
-		end
 	end
-end
-
-function UF:ADDON_LOADED(_, addon)
-	if(addon ~= "Blizzard_ArenaUI") then return; end
-	ElvUF:DisableBlizzard("arena");
-	self:UnregisterEvent("ADDON_LOADED");
 end
 
 local hasEnteredWorld = false
@@ -1033,10 +1014,6 @@ function UF:PLAYER_ENTERING_WORLD(event)
 		--We need to update headers in case we zoned into an instance
 		UF:UpdateAllHeaders();
 	end
-end
-
-function UF:UnitFrameThreatIndicator_Initialize(_, unitFrame)
-	unitFrame:UnregisterAllEvents();
 end
 
 function UF:Initialize()
@@ -1091,16 +1068,6 @@ function UF:Initialize()
 		InterfaceOptionsStatusTextPanelParty:SetAlpha(0);
 --		InterfaceOptionsFrameCategoriesButton9:SetScale(0.0001);
 	end
-
-	--[[if(E.private["unitframe"]["disabledBlizzardFrames"].arena) then
-		self:SecureHook("UnitFrameThreatIndicator_Initialize");
-
-		if(not IsAddOnLoaded("Blizzard_ArenaUI")) then
-			self:RegisterEvent("ADDON_LOADED");
-		else
-			ElvUF:DisableBlizzard("arena");
-		end
-	end]]
 
 	local ORD = ns.oUF_RaidDebuffs or oUF_RaidDebuffs;
 	if(not ORD) then return; end
