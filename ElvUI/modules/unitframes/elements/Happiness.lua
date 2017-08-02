@@ -83,7 +83,7 @@ function UF:UpdateOverride(event, unit)
 		return element:Hide()
 	end
 
-	local isShown = self:IsShown()
+	local isShown = element:IsShown()
 	local stateChanged
 
 	if (self.HAPPINESS_SHOWN and not isShown) or (not self.HAPPINESS_SHOWN and isShown) then
