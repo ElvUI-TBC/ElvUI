@@ -77,7 +77,7 @@ local UnitCastingInfo = UnitCastingInfo
 local UnitChannelInfo = UnitChannelInfo
 local UnitIsUnit = UnitIsUnit
 
-local tradeskillCurrent, tradeskillTotal, mergeTradeskill = 0, 0, false
+local tradeskillCastTime, tradeskillCastDuration, tradeskillCurrent, tradeskillTotal, mergeTradeskill = 0, 0, 0, 0, false
 
 local function updateSafeZone(self)
 	local safeZone = self.SafeZone
@@ -133,6 +133,8 @@ local function UNIT_SPELLCAST_START(self, event, unit)
 
 		if(unit == 'player') then
 			tradeskillCurrent = tradeskillCurrent + 1
+			tradeskillCastDuration = element.duration
+			tradeskillCastTime = max
 		end
 
 		element:SetValue(element.duration)
@@ -168,6 +170,7 @@ local function UNIT_SPELLCAST_START(self, event, unit)
 end
 
 local function UNIT_SPELLCAST_FAILED(self, event, unit, spellname)
+	if(not self.casting) then return end
 	if(self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
@@ -186,7 +189,6 @@ local function UNIT_SPELLCAST_FAILED(self, event, unit, spellname)
 	end
 
 	element.casting = nil
-	element.notInterruptible = nil
 	element.holdTime = element.timeToHold or 0
 
 	--[[ Callback: Castbar:PostCastFailed(unit, name)
@@ -202,6 +204,7 @@ local function UNIT_SPELLCAST_FAILED(self, event, unit, spellname)
 end
 
 local function UNIT_SPELLCAST_FAILED_QUIET(self, event, unit, spellname)
+	if(not self.casting) then return end
 	if(self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
@@ -213,7 +216,7 @@ local function UNIT_SPELLCAST_FAILED_QUIET(self, event, unit, spellname)
 		mergeTradeskill = false
 		element.tradeSkillCastName = nil
 	end
-	
+
 	element.casting = nil
 	element:SetValue(0)
 	element:Hide()
@@ -223,7 +226,7 @@ local function UNIT_SPELLCAST_INTERRUPTED(self, event, unit, spellname)
 	if(self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
-	if(element.castName ~= spellname) then
+	if(spellname and element.castName ~= spellname) then
 		return
 	end
 
@@ -285,7 +288,7 @@ local function UNIT_SPELLCAST_STOP(self, event, unit, spellname)
 
 	if(mergeTradeskill and UnitIsUnit(unit, 'player')) then
 		if(tradeskillCurrent == tradeskillTotal) then
-			mergeTradeskill = false;
+			mergeTradeskill = false
 		end
 	else
 		element.casting = nil
@@ -398,7 +401,6 @@ local function UNIT_SPELLCAST_CHANNEL_STOP(self, event, unit, spellname)
 	local element = self.Castbar
 	if(element:IsShown()) then
 		element.channeling = nil
-		element.notInterruptible = nil
 
 		--[[ Callback: Castbar:PostChannelUpdate(unit, name)
 		Called after the element has been updated after a channeled spell has been completed.
@@ -416,9 +418,10 @@ end
 local function onUpdate(self, elapsed)
 	if(self.casting) then
 		local duration = self.duration + elapsed
-		if(duration >= self.max) then
+		if(duration >= self.max or (tradeskillTotal > 1 and duration >= (tradeskillCastDuration + tradeskillCastTime * 1.25))) then
 			self.casting = nil
 			self:Hide()
+			tradeskillTotal = 0
 
 			if(self.PostCastStop) then self:PostCastStop(self.__owner.unit) end
 			return
@@ -484,6 +487,7 @@ local function onUpdate(self, elapsed)
 		self.casting = nil
 		self.castName = nil
 		self.channeling = nil
+		tradeskillTotal = 0
 
 		self:Hide()
 	end
@@ -541,7 +545,7 @@ local function Enable(self, unit)
 
 		local safeZone = element.SafeZone
 		if(safeZone and safeZone:IsObjectType('Texture') and not safeZone:GetTexture()) then
-			safeZone:SetColorTexture(1, 0, 0)
+			safeZone:SetTexture(1, 0, 0)
 		end
 
 		element:Hide()
@@ -571,6 +575,8 @@ local function Disable(self)
 end
 
 hooksecurefunc('DoTradeSkill', function(_, num)
+	tradeskillCastTime = 0
+	tradeskillCastDuration = 0
 	tradeskillCurrent = 0
 	tradeskillTotal = num or 1
 	mergeTradeskill = true
