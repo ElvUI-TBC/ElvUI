@@ -247,12 +247,6 @@ function S:LoadQuestSkin()
 	QuestLogFrame.backdrop:Point("TOPLEFT", 10, -12)
 	QuestLogFrame.backdrop:Point("BOTTOMRIGHT", -1, 8)
 
-	QuestLogFrame:HookScript("OnUpdate", function()
-		if not QuestLogListScrollFrame:IsShown() then
-			QuestLogListScrollFrame:Show()
-		end
-	end)
-
 	QuestLogListScrollFrame:StripTextures()
 	QuestLogListScrollFrame:CreateBackdrop("Default", true)
 	QuestLogListScrollFrame:Size(305, 375)
@@ -296,39 +290,41 @@ function S:LoadQuestSkin()
 	QuestTrack:Point("BOTTOM", QuestLogFrame, "BOTTOM", 64, 15)
 	QuestTrack:Size(110, 21)
 
-    QuestTrack:HookScript2("OnClick", function()
-        if IsQuestWatched(GetQuestLogSelection()) then
-            RemoveQuestWatch(GetQuestLogSelection())
- 
-            QuestWatch_Update()
-        else
-            if GetNumQuestLeaderBoards(GetQuestLogSelection()) == 0 then
-                UIErrorsFrame:AddMessage(QUEST_WATCH_NO_OBJECTIVES, 1.0, 0.1, 0.1, 1.0)
-                return
-            end
- 
-            if GetNumQuestWatches() >= MAX_WATCHABLE_QUESTS then
-                UIErrorsFrame:AddMessage(format(QUEST_WATCH_TOO_MANY, MAX_WATCHABLE_QUESTS), 1.0, 0.1, 0.1, 1.0)
-                return
-            end
- 
-            AddQuestWatch(GetQuestLogSelection())
- 
-            QuestLog_Update()
-            QuestWatch_Update()
-        end
- 
-        QuestLog_Update()
-    end)
- 
-    hooksecurefunc("QuestLog_Update", function()
-        local numEntries = GetNumQuestLogEntries()
-        if numEntries == 0 then
-            QuestTrack:Disable()
-        else
-            QuestTrack:Enable()
-        end
-    end)
+	QuestTrack:HookScript2("OnClick", function()
+		if IsQuestWatched(GetQuestLogSelection()) then
+			RemoveQuestWatch(GetQuestLogSelection())
+
+			QuestWatch_Update()
+		else
+			if GetNumQuestLeaderBoards(GetQuestLogSelection()) == 0 then
+				UIErrorsFrame:AddMessage(QUEST_WATCH_NO_OBJECTIVES, 1.0, 0.1, 0.1, 1.0)
+				return
+			end
+
+			if GetNumQuestWatches() >= MAX_WATCHABLE_QUESTS then
+				UIErrorsFrame:AddMessage(format(QUEST_WATCH_TOO_MANY, MAX_WATCHABLE_QUESTS), 1.0, 0.1, 0.1, 1.0)
+				return
+			end
+
+			AddQuestWatch(GetQuestLogSelection())
+
+			QuestLog_Update()
+			QuestWatch_Update()
+		end
+
+		QuestLog_Update()
+	end)
+
+	hooksecurefunc("QuestLog_Update", function()
+		local numEntries = GetNumQuestLogEntries()
+		if numEntries == 0 then
+			QuestTrack:Disable()
+		else
+			QuestTrack:Enable()
+		end
+
+		QuestLogListScrollFrame:Show()
+	end)
 
 	for i = 1, 6 do
 		local item = _G["QuestProgressItem" .. i]
