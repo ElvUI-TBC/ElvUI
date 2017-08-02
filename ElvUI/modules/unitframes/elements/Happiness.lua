@@ -74,25 +74,30 @@ function UF:UpdateOverride(event, unit)
 
 		element:SetValue(damagePercentage)
 
-		if not (damagePercentage == 125 or self.db.happiness.autoHide) then
+		if damagePercentage == 125 and self.db.happiness.autoHide then
+			element:Hide()
+		else
 			element:Show()
 		end
 	else
-		element:Hide()
+		return element:Hide()
 	end
 
 	local isShown = self:IsShown()
+	local stateChanged
 
 	if (self.HAPPINESS_SHOWN and not isShown) or (not self.HAPPINESS_SHOWN and isShown) then
+		stateChanged = true
+	end
+
+	self.HAPPINESS_SHOWN = isShown
+
+	if stateChanged then
 		UF:Configure_Happiness(self)
 		UF:Configure_HealthBar(self)
 		UF:Configure_Power(self)
 		UF:Configure_InfoPanel(self, true)
 	end
-
-	self.HAPPINESS_SHOWN = isShown
-	
-	if not isShown then return end
 
 	if element.PostUpdate then
 		return element:PostUpdate(unit, happiness, damagePercentage)
