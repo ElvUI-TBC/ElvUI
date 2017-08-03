@@ -28,9 +28,10 @@ A default texture will be applied if the widget is a Texture and doesn't have a 
     self.ThreatIndicator = ThreatIndicator
 --]]
 
-local _, ns = ...
+local ns = oUF
 local oUF = ns.oUF
 
+local LibBanzai = LibStub("LibBanzai-2.0")
 local GetThreatStatusColor = GetThreatStatusColor
 local UnitExists = UnitExists
 local UnitThreatSituation = UnitThreatSituation
@@ -103,14 +104,51 @@ local function ForceUpdate(element)
 	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
 end
 
+local function TLCallback(frame)
+	-- update only twice per second if update came from ThreatLib
+	if GetTime() > frame.lastTLUpdate + 0.5 then
+		Path(frame, "ThreatUpdate", frame.unit)
+		frame.lastTLUpdate = GetTime()
+	end
+end
+
+local function RegisterTLCallback(frame, event)
+	if event ~= "PLAYER_ENTERING_WORLD" then return end
+	-- check if already registered
+	if not frame.lastTLUpdate then
+		if not ThreatLib then
+			ThreatLib = LibStub("Threat-2.0", true)
+		end
+		if ThreatLib then
+			frame.lastTLUpdate = 0
+			ThreatLib.RegisterCallback(frame, "ThreatUpdated", TLCallback, frame)
+		end
+	end
+end
+
+local function RegisterUpdateCallbacks(frame)
+	-- register callback for updating threat display if the unit has gained or lost aggro
+	-- using closure for "frame" because LibBanzai can't pass arguments
+	frame.BanzaiCallback = function(aggro, name, ...)
+		if frame.unit and UnitName(frame.unit) == name then
+			Path(frame, "AggroUpdate", frame.unit)
+		end
+	end
+	LibBanzai:RegisterCallback(frame.BanzaiCallback)
+
+	-- set handlers for registering ThreatLib callback
+	-- because ThreatLib is not bundled with ElvUI
+	frame:HookScript("OnEvent", RegisterTLCallback)
+	frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+end
+
 local function Enable(self)
 	local element = self.ThreatIndicator
 	if(element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
-		self:RegisterEvent('UNIT_THREAT_SITUATION_UPDATE', Path)
-		self:RegisterEvent('UNIT_THREAT_LIST_UPDATE', Path)
+		RegisterUpdateCallbacks(self)
 
 		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\Minimap\ObjectIcons]])
@@ -126,8 +164,12 @@ local function Disable(self)
 	if(element) then
 		element:Hide()
 
-		self:UnregisterEvent('UNIT_THREAT_SITUATION_UPDATE', Path)
-		self:UnregisterEvent('UNIT_THREAT_LIST_UPDATE', Path)
+		-- unregister update callbacks
+		if ThreatLib then
+			ThreatLib.UnregisterCallback(self, "ThreatUpdated")
+			self.lastTLUpdate = nil
+		end
+		LibBanzai:UnregisterCallback(self.BanzaiCallback)
 	end
 end
 
