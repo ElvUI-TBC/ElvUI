@@ -128,13 +128,13 @@ end
 local function OnTextChanged(self)                                               -- EditBox
 	self = self.obj
 	local value = self.editBox:GetText()
-	if (value ~= "" and value ~= self.lasttext and self.lasttext ~= "::setnil::") or self.lasttext == "::usernil::" then
+	if not self.lastText or value ~= self.lastText then
 		self:Fire("OnTextChanged", value)
-		self.lasttext = value ~= "" and value or "::usernil::"
+		self.lastText = nil
 		self.button:Enable()
 	else
 		self.button:Disable()
-		self.lasttext = value ~= "" and value or "::setnil::"
+		self.lastText = value
 	end
 end
 
@@ -218,8 +218,7 @@ local methods = {
 	end,
 
 	["SetText"] = function(self, text)
-		local oldText = self.editBox:GetText()
-		self.lasttext = oldText ~= "" and oldText or "::setnil::"
+		self.lastText = text
 		self.editBox:SetText(text)
 	end,
 

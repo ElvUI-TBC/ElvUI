@@ -218,7 +218,6 @@ L["Bags"] = "Taschen" --Also in DataTexts
 L["Bank Mover (Grow Down)"] = "Bank Anker (Nach unten wachsen)"
 L["Bank Mover (Grow Up)"] = "Bank Anker (Nach oben wachsen)"
 L["Bar "] = "Leiste " --Also in ActionBars
-L["Boss Frames"] = "Boss Fenster" --Also used in UnitFrames
 L["Classbar"] = "Klassenleiste"
 L["Experience Bar"] = "Erfahrungsleiste"
 L["Focus Castbar"] = "Fokus Zauberbalken"

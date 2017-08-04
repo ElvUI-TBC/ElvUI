@@ -217,7 +217,6 @@ L["Bags"] = "Сумки" --Also in DataTexts
 L["Bank Mover (Grow Down)"] = "Банк (Рост вниз)"
 L["Bank Mover (Grow Up)"] = "Банк (Рост вверх)"
 L["Bar "] = "Панель " --Also in ActionBars
-L["Boss Frames"] = "Боссы" --Also used in UnitFrames
 L["Classbar"] = "Полоса класса"
 L["Experience Bar"] = "Полоса опыта"
 L["Focus Castbar"] = "Полоса заклинаний фокуса"

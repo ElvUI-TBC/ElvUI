@@ -1463,8 +1463,6 @@ function UF:CreateCustomTextGroup(unit, objectName)
 
 			if(unit == "party" or unit:find("raid")) then
 				UF:CreateAndUpdateHeaderGroup(unit);
-			elseif(unit == "boss") then
-				UF:CreateAndUpdateUFGroup("boss", MAX_BOSS_FRAMES);
 			elseif(unit == "arena") then
 				UF:CreateAndUpdateUFGroup("arena", 5);
 			else
@@ -1480,7 +1478,7 @@ function UF:CreateCustomTextGroup(unit, objectName)
 					E.Options.args.unitframe.args[unit].args[objectName] = nil;
 					E.db.unitframe.units[unit].customTexts[objectName] = nil;
 
-					if(unit == "boss" or unit == "arena") then
+					if(unit == "arena") then
 						for i = 1, 5 do
 							if(UF[unit .. i]) then
 								UF[unit .. i]:Tag(UF[unit .. i]["customTexts"][objectName], "");
@@ -1772,18 +1770,13 @@ E.Options.args.unitframe = {
 							name = L["Focus Frame"],
 							desc = L["Disables the focus and target of focus unitframes."]
 						},
-						boss = {
-							order = 4,
-							type = "toggle",
-							name = L["Boss Frames"]
-						},
 						arena = {
-							order = 5,
+							order = 4,
 							type = "toggle",
 							name = L["Arena Frames"]
 						},
 						party = {
-							order = 6,
+							order = 5,
 							type = "toggle",
 							name = L["Party Frames"]
 						}
@@ -3660,154 +3653,6 @@ E.Options.args.unitframe.args.pettarget = {
 	}
 };
 
-E.Options.args.unitframe.args.boss = {
-	name = L["Boss Frames"],
-	type = "group",
-	order = 1000,
-	childGroups = "select",
-	get = function(info) return E.db.unitframe.units["boss"][ info[#info] ]; end,
-	set = function(info, value) E.db.unitframe.units["boss"][ info[#info] ] = value; UF:CreateAndUpdateUFGroup("boss", MAX_BOSS_FRAMES); end,
-	disabled = function() return not E.private.unitframe.enable end,
-	args = {
-		copyFrom = {
-			order = 1,
-			type = "select",
-			name = L["Copy From"],
-			desc = L["Select a unit to copy settings from."],
-			values = {
-				["boss"] = "boss",
-				["arena"] = "arena"
-			},
-			set = function(info, value) UF:MergeUnitSettings(value, "boss"); end
-		},
-		resetSettings = {
-			order = 2,
-			type = "execute",
-			name = L["Restore Defaults"],
-			func = function(info, value) UF:ResetUnitSettings("boss"); E:ResetMovers(L["Boss Frames"]); end,
-		},
-		displayFrames = {
-			order = 3,
-			type = "execute",
-			name = L["Display Frames"],
-			desc = L["Force the frames to show, they will act as if they are the player frame."],
-			func = function() UF:ToggleForceShowGroupFrames("boss", 4) end
-		},
-		enable = {
-			order = 4,
-			type = "toggle",
-			name = L["Enable"]
-		},
-		width = {
-			order = 5,
-			type = "range",
-			name = L["Width"],
-			min = 50, max = 500, step = 1,
-			set = function(info, value)
-				if(E.db.unitframe.units["boss"].castbar.width == E.db.unitframe.units["boss"][ info[#info] ]) then
-					E.db.unitframe.units["boss"].castbar.width = value;
-				end
-
-				E.db.unitframe.units["boss"][ info[#info] ] = value;
-				UF:CreateAndUpdateUFGroup("boss", MAX_BOSS_FRAMES);
-			end
-		},
-		height = {
-			order = 6,
-			type = "range",
-			name = L["Height"],
-			min = 10, max = 250, step = 1
-		},
-		rangeCheck = {
-			order = 7,
-			type = "toggle",
-			name = L["Range Check"],
-			desc = L["Check if you are in range to cast spells on this specific unit."]
-		},
-		hideonnpc = {
-			order = 8,
-			type = "toggle",
-			name = L["Text Toggle On NPC"],
-			desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
-			get = function(info) return E.db.unitframe.units["boss"]["power"].hideonnpc end,
-			set = function(info, value) E.db.unitframe.units["boss"]["power"].hideonnpc = value; UF:CreateAndUpdateUFGroup("boss", MAX_BOSS_FRAMES); end
-		},
-		growthDirection = {
-			order = 9,
-			type = "select",
-			name = L["Growth Direction"],
-			values = {
-				["UP"] = L["Bottom to Top"],
-				["DOWN"] = L["Top to Bottom"],
-				["LEFT"] = L["Right to Left"],
-				["RIGHT"] = L["Left to Right"]
-			}
-		},
-		spacing = {
-			order = 10,
-			type = "range",
-			name = L["Spacing"],
-			min = 0, max = 400, step = 1
-		},
-		threatStyle = {
-			order = 11,
-			type = "select",
-			name = L["Threat Display Mode"],
-			values = threatValues
-		},
-		smartAuraPosition = {
-			order = 12,
-			type = "select",
-			name = L["Smart Aura Position"],
-			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
-			values = {
-				["DISABLED"] = L["Disabled"],
-				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
-				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"]
-			}
-		},
-		orientation = {
-			order = 13,
-			type = "select",
-			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame."],
-			values = {
-				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
-				["LEFT"] = L["Left"],
-				["MIDDLE"] = L["Middle"],
-				["RIGHT"] = L["Right"]
-			}
-		},
-		colorOverride = {
-			order = 15,
-			name = L["Class Color Override"],
-			desc = L["Override the default class color setting."],
-			type = "select",
-			values = {
-				["USE_DEFAULT"] = L["Use Default"],
-				["FORCE_ON"] = L["Force On"],
-				["FORCE_OFF"] = L["Force Off"]
-			}
-		},
-		targetGlow = {
-			order = 16,
-			type = "toggle",
-			name = L["Target Glow"],
-			desc = L["Show target glow indicator from this group of frames."],
-		},
-		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		name = GetOptionsTable_Name(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES)
-	}
-};
-
 E.Options.args.unitframe.args.arena = {
 	name = L["Arena Frames"],
 	type = "group",
@@ -3823,7 +3668,6 @@ E.Options.args.unitframe.args.arena = {
 			name = L["Copy From"],
 			desc = L["Select a unit to copy settings from."],
 			values = {
-				["boss"] = "boss",
 				["arena"] = "arena"
 			},
 			set = function(info, value) UF:MergeUnitSettings(value, "arena"); end
