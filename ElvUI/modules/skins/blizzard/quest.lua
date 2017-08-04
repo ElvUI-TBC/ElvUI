@@ -105,6 +105,26 @@ function S:LoadQuestSkin()
 		count:SetDrawLayer("OVERLAY")
 	end
 
+	local function QuestQualityColors(frame, text, quality, link)
+		if link and not quality then
+			quality = select(3, GetItemInfo(link))
+		end
+
+		if quality and quality > 1 then
+			if frame then
+				frame:SetBackdropBorderColor(GetItemQualityColor(quality))
+				frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+			end
+			text:SetTextColor(GetItemQualityColor(quality))
+		else
+			if frame then
+				frame:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				frame.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			end
+			text:SetTextColor(1, 1, 1)
+		end
+	end
+
 	QuestRewardItemHighlight:StripTextures()
 	QuestRewardItemHighlight:SetTemplate("Default", nil, true)
 	QuestRewardItemHighlight:SetBackdropBorderColor(1, 1, 0)
@@ -118,8 +138,11 @@ function S:LoadQuestSkin()
 
 		for i = 1, MAX_NUM_ITEMS do
 			local questItem = _G["QuestRewardItem" .. i]
+			local questName = _G["QuestRewardItem" .. i .. "Name"]
+			local link = questItem.type and GetQuestItemLink(questItem.type, questItem:GetID())
+
 			if questItem ~= this then
-				_G[questItem:GetName() .. "Name"]:SetTextColor(1, 1, 1)
+				QuestQualityColors(nil, questName, nil, link)
 			end
 		end
 	end)
@@ -199,31 +222,15 @@ function S:LoadQuestSkin()
 
 		local rewardsCount = numQuestChoices + numQuestRewards
 		if rewardsCount > 0 then
-			local questItem, itemName, itemLink, quality
+			local questItem, itemName, link
 			local questItemName = questState.."Item"
 
 			for i = 1, rewardsCount do
 				questItem = _G[questItemName..i]
 				itemName = _G[questItemName..i.."Name"]
+				link = questItem.type and (questState == "QuestLog" and GetQuestLogItemLink or GetQuestItemLink)(questItem.type, questItem:GetID())
 
-				if questState == "QuestLog" then
-					itemLink = GetQuestLogItemLink(questItem.type, questItem:GetID())
-				else
-					itemLink = GetQuestItemLink(questItem.type, questItem:GetID())
-				end
-
-				if itemLink then
-					quality = select(3, GetItemInfo(itemLink))
-					if quality and quality > 1 then
-						questItem:SetBackdropBorderColor(GetItemQualityColor(quality))
-						questItem.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-						itemName:SetTextColor(GetItemQualityColor(quality))
-					else
-						questItem:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-						questItem.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-						itemName:SetTextColor(1, 1, 1)
-					end
-				end
+				QuestQualityColors(questItem, itemName, nil, link)
 			end
 		end
 	end)
@@ -356,6 +363,14 @@ function S:LoadQuestSkin()
 			QuestProgressRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
 		else
 			QuestProgressRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+		end
+
+		for i = 1, MAX_REQUIRED_ITEMS do
+			local item = _G["QuestProgressItem"..i]
+			local name = _G["QuestProgressItem"..i.."Name"]
+			local link = item.type and GetQuestItemLink(item.type, item:GetID())
+
+			QuestQualityColors(item, name, nil, link)
 		end
 	end)
 
