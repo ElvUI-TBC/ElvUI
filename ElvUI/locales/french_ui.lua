@@ -217,7 +217,6 @@ L["Bags"] = "Sacs" --Also in DataTexts
 L["Bank Mover (Grow Down)"] = true;
 L["Bank Mover (Grow Up)"] = true;
 L["Bar "] = "Barre " --Also in ActionBars
-L["Boss Frames"] = "Cadre du Boss" --Also used in UnitFrames
 L["Classbar"] = "Barre de Classe"
 L["Experience Bar"] = "Barre d'expérience"
 L["Focus Castbar"] = "Barre d'incantation du Focus"
