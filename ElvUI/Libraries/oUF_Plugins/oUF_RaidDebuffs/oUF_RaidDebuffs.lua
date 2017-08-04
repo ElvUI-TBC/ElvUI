@@ -111,8 +111,8 @@ end
 local function OnUpdate(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed >= 0.1 then
-		local _, _, _, _, _, _, timeLeft = UnitAura(self:GetParent():GetParent().unit, self:GetID(), "HARMFUL")
-		if timeLeft > 0 then
+		local _, _, _, _, _, _, timeLeft = UnitDebuff(self:GetParent():GetParent().unit, self.index)
+		if timeLeft and timeLeft > 0 then
 			local text = formatTime(timeLeft)
 			self.time:SetText(text)
 		else
@@ -130,7 +130,10 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 		f.icon:SetTexture(icon)
 		f.icon:Show()
 		f.duration = duration
-		f:SetID(index)
+
+		if index then
+			f.index = index
+		end
 
 		if(f.count) then
 			if(count and (count > 1)) then
@@ -144,8 +147,6 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 
 		if(f.time) then
 			if(duration and (duration > 0)) then
-				f.endTime = endTime
-				f.nextUpdate = 0
 				f:SetScript("OnUpdate", OnUpdate)
 				f.time:Show()
 			else
@@ -168,6 +169,7 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 
 		f:Show()
 	else
+		f.index = nil
 		f:Hide()
 	end
 end
@@ -189,7 +191,7 @@ local function Update(self, event, unit)
 	local i = 0
 	while(true) do
 		i = i + 1
-		name, _, icon, count, debuffType, duration, expirationTime = UnitAura(unit, i, "HARMFUL")
+		name, _, icon, count, debuffType, duration, expirationTime = UnitDebuff(unit, i)
 
 		if(not name) then break end
 
@@ -225,7 +227,7 @@ local function Update(self, event, unit)
 		_stackThreshold = debuff_data[_name] and debuff_data[_name].stackThreshold or _stackThreshold
 	end
 
-	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _stackThreshold, _index or 0)
+	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _stackThreshold, _index)
 
 	--Reset the DispellPriority
 	DispellPriority = {
