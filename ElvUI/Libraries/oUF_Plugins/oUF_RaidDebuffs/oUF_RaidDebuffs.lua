@@ -172,7 +172,7 @@ local function Update(self, event, unit)
 
 	local _, name, icon, count, debuffType, duration, expirationTime
 	local _name, _icon, _count, _dtype, _duration, _endTime
-	local _priority, priority = 0, 0
+	local _priority, priority = -1, 0
 	local _stackThreshold = 0
 
 	local i = 0
