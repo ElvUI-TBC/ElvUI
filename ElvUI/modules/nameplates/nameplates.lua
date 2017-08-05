@@ -132,6 +132,7 @@ function mod:SetTargetFrame(frame)
 		end
 
 		frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_START", "target")
+		frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_CHANNEL_START", "target")
 
 		frame:SetAlpha(1)
 
