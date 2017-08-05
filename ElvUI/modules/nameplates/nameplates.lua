@@ -131,8 +131,11 @@ function mod:SetTargetFrame(frame)
 			self:UpdateElement_All(frame, true)
 		end
 
-		frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_START", "target")
-		frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_CHANNEL_START", "target")
+		if UnitCastingInfo("target") then
+			frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_START", "target")
+		elseif UnitChannelInfo("target") then
+			frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_CHANNEL_START", "target")
+		end
 
 		frame:SetAlpha(1)
 
