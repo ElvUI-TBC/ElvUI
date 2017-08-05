@@ -22,12 +22,10 @@ addon.DebuffData = debuff_data
 addon.ShowDispelableDebuff = true
 addon.FilterDispellableDebuff = true
 
-addon.priority = 10
-
 local function add(spell, priority, stackThreshold)
 	if(spell) then
 		debuff_data[spell] = {
-			priority = (addon.priority + priority),
+			priority = priority,
 			stackThreshold = (stackThreshold or 0)
 		}
 	end
@@ -186,7 +184,7 @@ local function Update(self, event, unit)
 
 		if(addon.ShowDispelableDebuff and (element.showDispellableDebuff ~= false) and debuffType) then
 			if(addon.FilterDispellableDebuff) then
-				DispellPriority[debuffType] = (DispellPriority[debuffType] or 0) + addon.priority --Make Dispell buffs on top of Boss Debuffs
+				DispellPriority[debuffType] = (DispellPriority[debuffType] or 0)
 				priority = DispellFilter[debuffType] and DispellPriority[debuffType] or 0
 				if(priority == 0) then
 					debuffType = nil
@@ -257,8 +255,9 @@ end
 local function Disable(self)
 	local element = self.RaidDebuffs
 	if(element) then
-		self:UnregisterEvent('UNIT_AURA', Update)
 		element:Hide()
+
+		self:UnregisterEvent('UNIT_AURA', Update)
 	end
 end
 
