@@ -772,6 +772,12 @@ local function UpdateFilterGroup()
 			}
 		};
 
+		--Disable and hide filter type option for default filters
+		if (E.DEFAULT_FILTER[selectedFilter]) then
+			E.Options.args.filters.args.filterGroup.args.filterType.disabled = true
+			E.Options.args.filters.args.filterGroup.args.filterType.hidden = true
+		end
+
 		if(not selectedSpell or not E.global.unitframe["aurafilters"][selectedFilter]["spells"][selectedSpell]) then
 			E.Options.args.filters.args.spellGroup = nil;
 			return;
