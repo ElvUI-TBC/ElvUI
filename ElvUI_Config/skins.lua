@@ -187,6 +187,11 @@ E.Options.args.skins = {
 					name = L["Quest Frames"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
+				questtimer = {
+					type = "toggle",
+					name = L["Quest Timer Frame"],
+					desc = L["TOGGLESKIN_DESC"]
+				},
 				raid = {
 					type = "toggle",
 					name = L["Raid Frame"],

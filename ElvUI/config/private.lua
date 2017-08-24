@@ -84,6 +84,7 @@ V["skins"] = {
 		["petition"] = true,
 		["pvp"] = true,
 		["quest"] = true,
+		["questtimer"] = true,
 		["raid"] = true,
 		["socket"] = true,
 		["spellbook"] = true,
