@@ -214,12 +214,12 @@ function M:UpdateSettings()
 	end
 
 	if MMHolder then
-		MMHolder:Width(((140 * Minimap:GetScale()) + E.Border + E.Spacing*3) + E.RBRWidth)
+		MMHolder:SetWidth(((140 * Minimap:GetScale()) + E.Border + E.Spacing*3) + E.RBRWidth)
 
 		if E.db.datatexts.minimapPanels then
-			MMHolder:Height((140 * Minimap:GetScale()) + (LeftMiniPanel and (LeftMiniPanel:GetHeight() + E.Border) or 24) + E.Spacing*3)
+			MMHolder:SetHeight((140 * Minimap:GetScale()) + (LeftMiniPanel and (LeftMiniPanel:GetHeight() + E.Border) or 24) + E.Spacing*3)
 		else
-			MMHolder:Height((140 * Minimap:GetScale()) + E.Border + E.Spacing*3)
+			MMHolder:SetHeight((140 * Minimap:GetScale()) + E.Border + E.Spacing*3)
 		end
 	end
 
@@ -311,8 +311,8 @@ function M:Initialize()
 
 	local mmholder = CreateFrame("Frame", "MMHolder", UIParent)
 	mmholder:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3)
-	mmholder:Width((140 + 29) + E.RBRWidth)
-	mmholder:Height(140 + 53)
+	mmholder:SetWidth((140 + 29) + E.RBRWidth)
+	mmholder:SetHeight(140 + 53)
 	Minimap:ClearAllPoints()
 	if E.db.general.reminder.position == "LEFT" then
 		Minimap:Point("TOPRIGHT", mmholder, "TOPRIGHT", -E.Border, -E.Border)
