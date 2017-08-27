@@ -30,7 +30,7 @@ P["general"] = {
 	["classCacheRequestInfo"] = false,
 
 	["minimap"] = {
-		["size"] = 176,
+		["size"] = 1.19,
 		["locationText"] = "MOUSEOVER",
 		["locationFontSize"] = 12,
 		["locationFontOutline"] = "OUTLINE",

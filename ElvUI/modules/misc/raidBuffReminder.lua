@@ -312,7 +312,7 @@ function RB:Initialize()
 		ElvCharacterDB.ReminderDuration = {}
 	end
 
-	local frame = CreateFrame("Frame", "ElvUI_ReminderBuffs", Minimap)
+	local frame = CreateFrame("Frame", "ElvUI_ReminderBuffs", Minimap.backdrop)
 	frame:Width(E.RBRWidth)
 	self.frame = frame
 
