@@ -992,6 +992,10 @@ function E:DBConversions()
 	for filter, filterType in pairs(E.DEFAULT_FILTER) do
 		E.global.unitframe.aurafilters[filter].type = filterType
 	end
+
+	if E.db.general.minimap.size > 3 then
+		E.db.general.minimap.size = 1.19
+	end
 end
 
 local CPU_USAGE = {}
