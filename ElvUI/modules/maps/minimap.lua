@@ -140,7 +140,7 @@ function M:UpdateSettings()
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
 	end
 
-	E.MinimapSize = E.private.general.minimap.enable and E.db.general.minimap.size or 1
+	E.MinimapSize = E.private.general.minimap.enable and E.db.general.minimap.size or 140
 	E.MinimapWidth = E.MinimapSize
 	E.MinimapHeight = E.MinimapSize
 
@@ -151,7 +151,7 @@ function M:UpdateSettings()
 	end
 
 	if E.private.general.minimap.enable then
-		Minimap:SetScale(E.db.general.minimap.size)
+		Minimap:SetScale(E.MinimapSize / 140)
 		self:UpdateMinimapSize()
 	end
 
