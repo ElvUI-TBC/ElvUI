@@ -164,7 +164,7 @@ function A:Initialize()
 	local holder = CreateFrame("Frame", "AurasHolder", E.UIParent)
 	holder:Point("TOPRIGHT", MMHolder, "TOPLEFT", -(6 + E.Border), -E.Border - E.Spacing)
 	holder:Width(456)
-	holder:Height(140 * E.MinimapHeight)
+	holder:Height(140 + E.MinimapHeight)
 	E:CreateMover(holder, "AurasMover", L["Auras Frame"])
 
 	self:SecureHook("BuffButton_OnUpdate")
