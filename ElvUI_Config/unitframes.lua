@@ -5674,7 +5674,7 @@ E.Options.args.unitframe.args.raidpet = {
 	},
 }
 
-E.Options.args.unitframe.args.tank = { -- Танки
+E.Options.args.unitframe.args.tank = {
 	name = L["Tank Frames"],
 	type = "group",
 	order = 1500,
@@ -5711,21 +5711,15 @@ E.Options.args.unitframe.args.tank = { -- Танки
 					type = "range",
 					min = 10, max = 250, step = 1,
 				},
-				verticalSpacing = {
-					order = 4,
-					type = "range",
-					name = L["Vertical Spacing"],
-					min = 0, max = 100, step = 1,
-				},
 				disableDebuffHighlight = {
-					order = 5,
+					order = 4,
 					type = "toggle",
 					name = L["Disable Debuff Highlight"],
 					desc = L["Forces Debuff Highlight to be disabled for these frames"],
 					disabled = function() return E.db.unitframe.debuffHighlighting == "NONE" end,
 				},
 				orientation = {
-					order = 6,
+					order = 5,
 					type = "select",
 					name = L["Frame Orientation"],
 					desc = L["Set the orientation of the UnitFrame."],
@@ -5737,7 +5731,7 @@ E.Options.args.unitframe.args.tank = { -- Танки
 					},
 				},
 				colorOverride = {
-					order = 7,
+					order = 6,
 					name = L["Class Color Override"],
 					desc = L["Override the default class color setting."],
 					type = "select",
@@ -5857,7 +5851,7 @@ E.Options.args.unitframe.args.tank = { -- Танки
 	},
 }
 
-E.Options.args.unitframe.args.assist = { -- Помощники
+E.Options.args.unitframe.args.assist = {
 	name = L["Assist Frames"],
 	type = "group",
 	order = 1600,
@@ -5894,21 +5888,15 @@ E.Options.args.unitframe.args.assist = { -- Помощники
 					type = "range",
 					min = 10, max = 250, step = 1,
 				},
-				verticalSpacing = {
-					order = 4,
-					type = "range",
-					name = L["Vertical Spacing"],
-					min = 0, max = 100, step = 1,
-				},
 				disableDebuffHighlight = {
-					order = 5,
+					order = 4,
 					type = "toggle",
 					name = L["Disable Debuff Highlight"],
 					desc = L["Forces Debuff Highlight to be disabled for these frames"],
 					disabled = function() return E.db.unitframe.debuffHighlighting == "NONE"; end,
 				},
 				orientation = {
-					order = 6,
+					order = 5,
 					type = "select",
 					name = L["Frame Orientation"],
 					desc = L["Set the orientation of the UnitFrame."],
@@ -5920,7 +5908,7 @@ E.Options.args.unitframe.args.assist = { -- Помощники
 					},
 				},
 				colorOverride = {
-					order = 7,
+					order = 6,
 					name = L["Class Color Override"],
 					desc = L["Override the default class color setting."],
 					type = "select",

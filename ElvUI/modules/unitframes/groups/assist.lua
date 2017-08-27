@@ -59,10 +59,9 @@ function UF:Update_AssistHeader(header, db)
 	header:SetAttribute("columnAnchorPoint", "LEFT");
 
 	UF:ClearChildPoints(header:GetChildren());
-	header:SetAttribute("yOffset", db.verticalSpacing);
 
 	local width, height = header:GetSize();
-	header.dirtyWidth, header.dirtyHeight = width, max(height, 2*db.height + db.verticalSpacing);
+	header.dirtyWidth, header.dirtyHeight = width, max(height, db.height)
 
 	if(not header.positioned) then
 		header:ClearAllPoints();
