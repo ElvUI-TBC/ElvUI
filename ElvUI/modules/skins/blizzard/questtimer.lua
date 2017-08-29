@@ -11,7 +11,7 @@ function S:LoadQuestTimerSkin()
 
 	QuestTimerHeader:Point("TOP", 1, 8)
 
-	E:CreateMover(QuestTimerFrame, "QuestTimerFrameMover", L["Quest Timer Frame"])
+	--[[E:CreateMover(QuestTimerFrame, "QuestTimerFrameMover", L["Quest Timer Frame"])
 	QuestTimerFrame:SetAllPoints(QuestTimerFrameMover)
 
 	local QuestTimerFrameHolder = CreateFrame("Frame", "QuestTimerFrameHolder", E.UIParent)
@@ -27,7 +27,7 @@ function S:LoadQuestTimerSkin()
 			QuestTimerFrame:ClearAllPoints()
 			QuestTimerFrame:SetPoint("TOP", QuestTimerFrameHolder, "TOP")
 		end
-	end)
+	end)]]
 end
 
 S:AddCallback("QuestTimer", S.LoadQuestTimerSkin)
