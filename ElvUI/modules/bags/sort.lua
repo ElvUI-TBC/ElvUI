@@ -516,8 +516,8 @@ function B.Sort(bags, sorter, invertDirection)
 	twipe(blackListQueries);
 	twipe(blackListedSlots);
 
-	buildBlacklist(B.db.ignoredItems);
-	buildBlacklist(E.global.bags.ignoredItems);
+	buildBlacklist(B.db.ignoredItems or {});
+	buildBlacklist(E.global.bags.ignoredItems or {});
 
 	for i, bag, slot in B.IterateBags(bags, nil, "both") do
 		local bagSlot = B:Encode_BagSlot(bag, slot)
@@ -597,8 +597,8 @@ function B.Fill(sourceBags, targetBags, reverse, canMove)
 	twipe(blackList);
 	twipe(blackListedSlots);
 
-	buildBlacklist(B.db.ignoredItems);
-	buildBlacklist(E.global.bags.ignoredItems);
+	buildBlacklist(B.db.ignoredItems or {});
+	buildBlacklist(E.global.bags.ignoredItems or {});
 
 	for _, bag, slot in B.IterateBags(targetBags, reverse, "deposit") do
 		local bagSlot = B:Encode_BagSlot(bag, slot)
@@ -638,15 +638,15 @@ function B.SortBags(...)
 			if bagType ~= "Normal" then
 				B.Stack(sortedBags, sortedBags, B.IsPartial)
 				B.Stack(bagCache["Normal"], sortedBags)
-				B.Fill(bagCache["Normal"], sortedBags, B.db.sortInverted)
-				B.Sort(sortedBags, nil, B.db.sortInverted)
+				B.Fill(bagCache["Normal"], sortedBags, B.db.sortInverted or true)
+				B.Sort(sortedBags, nil, B.db.sortInverted or true)
 				twipe(sortedBags)
 			end
 		end
 
 		if bagCache["Normal"] then
 			B.Stack(bagCache["Normal"], bagCache["Normal"], B.IsPartial)
-			B.Sort(bagCache["Normal"], nil, B.db.sortInverted)
+			B.Sort(bagCache["Normal"], nil, B.db.sortInverted or true)
 			twipe(bagCache["Normal"])
 		end
 		twipe(bagCache)
