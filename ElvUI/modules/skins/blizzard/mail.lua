@@ -20,7 +20,7 @@ function S:LoadMailSkin()
 	MailFrame:StripTextures(true)
 	MailFrame:CreateBackdrop("Transparent")
 	MailFrame.backdrop:Point("TOPLEFT", 10, -12)
-	MailFrame.backdrop:Point("BOTTOMRIGHT", -32, 74)
+	MailFrame.backdrop:Point("BOTTOMRIGHT", -30, 74)
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do
 		local mail = _G["MailItem"..i]
@@ -147,7 +147,7 @@ function S:LoadMailSkin()
 	OpenMailFrame:StripTextures(true)
 	OpenMailFrame:CreateBackdrop("Transparent")
 	OpenMailFrame.backdrop:Point("TOPLEFT", 12, -12)
-	OpenMailFrame.backdrop:Point("BOTTOMRIGHT", -28, 74)
+	OpenMailFrame.backdrop:Point("BOTTOMRIGHT", -34, 74)
 
 	for i = 1, ATTACHMENTS_MAX_SEND do
 		local button = _G["OpenMailAttachmentButton"..i]
