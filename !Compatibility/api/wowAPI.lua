@@ -349,16 +349,30 @@ local function GetUnitID(unit)
 end
 
 function GetProfessions()
-	-- Get localized Profession names
-	local Book, Leatherworking, Tailoring, Engineering, Blacksmithing, Cooking, Alchemy, FirstAid, Enchanting, Fishing, Jewelcrafting = GetAuctionItemSubClasses(8)
-	local Herbalism = GetSpellInfo(2366)
-	local FindHerbs = GetSpellInfo(2383)
-	local Skinning = GetSpellInfo(8613)
-	local Cooking = GetSpellInfo(2550)
-	local Poisons = GetSpellInfo(2842)
-	local Smelting = GetSpellInfo(2656)
+	-- Main Profession Localisations
+	local Alchemy = GetSpellInfo(2259)
+	local Blacksmithing = GetSpellInfo(2018)
+	local Enchanting = GetSpellInfo(7411)
+	local Engineering = GetSpellInfo(4036)
+	local Herbalism = GetSpellInfo(13614)
+	local Leatherworking = GetSpellInfo(2108)
+	local Lockpicking = GetSpellInfo(1809)
 	local Mining = GetSpellInfo(2575)
+	local Skinning = GetSpellInfo(8613)
+	local Smelting = GetSpellInfo(2656)
+	local Tailoring = GetSpellInfo(3908)
+	local Jewelcrafting = GetSpellInfo(25229)
+
+	-- Second Profession Localisations
+	local Cooking = GetSpellInfo(2550)
+	local FirstAid = GetSpellInfo(3273)
+	local Fishing = GetSpellInfo(7620)
+	local Poisons = GetSpellInfo(2842)
+
+	-- Profession Tracking Localisations
+	local FindHerbs = GetSpellInfo(2383)
 	local FindMinerals = GetSpellInfo(2580)
+	
 	local mainprof = {Alchemy, Blacksmithing, Enchanting, Engineering, Jewelcrafting, Leatherworking, Tailoring, Mining, Herbalism, Skinning}
 	local secprof = {Cooking, FirstAid, Fishing, Poisons}
 	
