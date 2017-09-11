@@ -307,3 +307,99 @@ function GetThreatStatus(currentThreat, maxThreat)
 		return 0, threatPercent
 	end
 end
+
+function IsSpellKnown(spellID, isPet)
+	if not spellID then return end
+	local _, offs, numspells;
+	local max = 0;
+	local bt = isPet and BOOKTYPE_PET or BOOKTYPE_SPELL
+	for i = MAX_SKILLLINE_TABS, 1, -1 do
+		_, _, offs, numspells = GetSpellTabInfo(i)
+		
+		if numspells > 0 then
+			max = offs + numspells
+			break
+		end
+	end
+	
+	for spellBookID = 1, max do
+		local spellName, rank = GetSpellName(spellBookID, bt)
+		if spellName and (rank == "" or rank:match("%d+")) then
+			local link = GetSpellLink(spellName, rank)
+			local ID = tonumber(link and link:gsub("|", "||"):match("spell:(%d+)"))
+			if spellID == ID then return true end
+		end
+	end
+	return false
+end
+
+function GetQuestID(index)
+  if not index then return end
+  if GetQuestLink(index) then
+    return tonumber(string.match(GetQuestLink(index), '|Hquest:(%d+):'))
+  end
+end
+
+local function GetUnitID(unit)
+  local id = UnitGUID(unit)
+  if id then
+    return (string.sub(id, 5, 5) == "3") and tonumber(string.sub(id, 6, 12), 16) or nil
+  end  
+  return nil
+end
+
+function GetProfessions()
+	-- Main Profession Localisations
+	local Alchemy = GetSpellInfo(2259)
+	local Blacksmithing = GetSpellInfo(2018)
+	local Enchanting = GetSpellInfo(7411)
+	local Engineering = GetSpellInfo(4036)
+	local Herbalism = GetSpellInfo(13614)
+	local Leatherworking = GetSpellInfo(2108)
+	local Lockpicking = GetSpellInfo(1809)
+	local Mining = GetSpellInfo(2575)
+	local Skinning = GetSpellInfo(8613)
+	local Smelting = GetSpellInfo(2656)
+	local Tailoring = GetSpellInfo(3908)
+	local Jewelcrafting = GetSpellInfo(25229)
+
+	-- Second Profession Localisations
+	local Cooking = GetSpellInfo(2550)
+	local FirstAid = GetSpellInfo(3273)
+	local Fishing = GetSpellInfo(7620)
+	local Poisons = GetSpellInfo(2842)
+
+	-- Profession Tracking Localisations
+	local FindHerbs = GetSpellInfo(2383)
+	local FindMinerals = GetSpellInfo(2580)
+	
+	local mainprof = {Alchemy, Blacksmithing, Enchanting, Engineering, Jewelcrafting, Leatherworking, Tailoring, Mining, Herbalism, Skinning}
+	local secprof = {Cooking, FirstAid, Fishing, Poisons}
+	
+	local prof1, prof2, poisons, fishing, cooking, firstAid
+	for skillIndex = 1, GetNumSkillLines() do
+		skillName = select(1, GetSkillLineInfo(skillIndex))
+		isHeader = select(2, GetSkillLineInfo(skillIndex))
+		skillRank = select(4, GetSkillLineInfo(skillIndex))
+		skillMaxRank = select(7, GetSkillLineInfo(skillIndex))
+		if isHeader == nil then
+			for key,value in pairs(mainprof) do
+				if (prof1 == nil) and (value == skillName) then
+					prof1 = skillIndex
+				elseif (prof1 ~= nil) and (value == skillName) then
+					prof2 = skillIndex
+				end
+			end
+			if skillName == Cooking then
+				cooking = skillIndex
+			elseif skillName == First_Aid then
+				firstAid = skillIndex
+			elseif skillName == Fishing then
+				fishing = skillIndex
+			elseif skillName == Poisons then
+				poisons = skillIndex
+			end
+		end
+	end
+	return prof1, prof2, poisons, fishing, cooking, firstAid
+end
