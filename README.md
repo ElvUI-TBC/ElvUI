@@ -13,6 +13,41 @@ This UI will arrange your interface to be more flexible and practical.
 <img src="https://cloud.githubusercontent.com/assets/590348/22867050/f8d4f662-f190-11e6-9acd-fc83d7827bc0.jpg" align="right" width="48.87%">
 <img src="https://cloud.githubusercontent.com/assets/590348/22944322/5d95a2b0-f301-11e6-81e3-52d1d619c850.jpg" width="48.87%">
 
+## Plugins:
+
+[ElvUI_Enhanced](https://github.com/ElvUI-TBC/ElvUI_Enhanced)
+<br />
+[ElvUI_AddOnSkins](https://github.com/ElvUI-TBC/ElvUI_AddOnSkins)
+<br />
+[ElvUI_EnhancedFriendsList](https://github.com/ElvUI-TBC/ElvUI_EnhancedFriendsList)
+<br />
+[ElvUI_ExtraActionBars](https://github.com/ElvUI-TBC/ElvUI_ExtraActionBars)
+<br />
+[ElvUI_Microbar](https://github.com/ElvUI-TBC/ElvUI_Microbar)
+<br />
+[ElvUI_MinimapButtons](https://github.com/ElvUI-TBC/ElvUI_MinimapButtons)
+<br />
+[ElvUI_CustomTweaks](https://github.com/ElvUI-TBC/ElvUI_CustomTweaks)
+<br />
+[ElvUI_RightClick](https://github.com/ElvUI-TBC/ElvUI_RightClick)
+<br />
+[ElvUI_RaidMarkers](https://github.com/ElvUI-TBC/ElvUI_RaidMarkers)
+<br />
+[ElvUI_CastBarOverlay](https://github.com/ElvUI-TBC/ElvUI_CastBarOverlay)
+<br />
+[ElvUI_BagControl](https://github.com/ElvUI-TBC/ElvUI_BagControl)
+<br />
+[ElvUI_AuraBarsMovers](https://github.com/ElvUI-TBC/ElvUI_AuraBarsMovers)
+<br />
+[ElvUI_DTBars](https://github.com/ElvUI-TBC/ElvUI_DTBars)
+<br />
+[ElvUI_DataTextColors](https://github.com/ElvUI-TBC/ElvUI_DataTextColors)
+<br />
+[ElvUI_EverySecondCounts](https://github.com/ElvUI-TBC/ElvUI_EverySecondCounts)
+<br />
+[ElvUI_LocPlus](https://github.com/ElvUI-TBC/ElvUI_LocPlus)
+
+Please Note: These plugins will not function without ElvUI installed.
 
 ## FAQ:
 
