@@ -39,9 +39,9 @@ function S:LoadFriendsSkin()
 	end
 
 	local r, g, b = 0.8, 0.8, 0.8
-	local function StyleButton(f, scale, height)
+	local function StyleButton(f, scale, scale2)
 		f:SetHighlightTexture(nil)
-		local width, height = (f:GetWidth() * (scale or 0.5)), (f:GetHeight() * (height or 0.9))
+		local width, height = (f:GetWidth() * (scale or 0.5)), (f:GetHeight() * (scale2 or 0.9))
 
 		local leftGrad = f:CreateTexture(nil, "HIGHLIGHT")
 		leftGrad:Size(width, height)
