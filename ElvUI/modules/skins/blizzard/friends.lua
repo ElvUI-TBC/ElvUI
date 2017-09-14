@@ -38,11 +38,10 @@ function S:LoadFriendsSkin()
 		Tab:HookScript2("OnLeave", S.SetOriginalBackdrop)
 	end
 
-	
 	local r, g, b = 0.8, 0.8, 0.8
-	local function StyleButton(f, scale)
+	local function StyleButton(f, scale, height)
 		f:SetHighlightTexture(nil)
-		local width, height = (f:GetWidth() * (scale or 0.5)), f:GetHeight()
+		local width, height = (f:GetWidth() * (scale or 0.5)), (f:GetHeight() * (height or 0.9))
 
 		local leftGrad = f:CreateTexture(nil, "HIGHLIGHT")
 		leftGrad:Size(width, height)
@@ -58,7 +57,7 @@ function S:LoadFriendsSkin()
 	end
 
 	for i = 1, 10 do
-		StyleButton(_G["FriendsFrameFriendButton"..i], 0.6)
+		StyleButton(_G["FriendsFrameFriendButton"..i])
 	end
 
 	FriendsFrameFriendsScrollFrame:StripTextures()
