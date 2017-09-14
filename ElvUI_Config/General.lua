@@ -164,7 +164,7 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general.raidUtility = value; E:StaticPopup_Show("PRIVATE_RL") end
 				},
 				autoScale = {
-					order = 17,
+					order = 18,
 					name = L["Auto Scale"],
 					desc = L["Automatically scale the User Interface based on your screen resolution"],
 					type = "toggle",
@@ -172,7 +172,7 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general[ info[#info] ] = value; E:StaticPopup_Show("GLOBAL_RL") end
 				},
 				minUiScale = {
-					order = 18,
+					order = 19,
 					type = "range",
 					name = L["Lowest Allowed UI Scale"],
 					min = 0.32, max = 0.64, step = 0.01,
@@ -180,7 +180,7 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general.minUiScale = value; E:StaticPopup_Show("GLOBAL_RL"); end
 				},
 				numberPrefixStyle = {
-					order = 22,
+					order = 20,
 					type = "select",
 					name = L["Number Prefix"],
 					get = function(info) return E.db.general.numberPrefixStyle; end,

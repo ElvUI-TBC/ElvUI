@@ -123,18 +123,6 @@ local function SetupZoomReset()
 end
 hooksecurefunc(Minimap, "SetZoom", SetupZoomReset)
 
-function M:UpdateMinimapSize()
-	local zoomLevel = Minimap:GetZoom()
-
-	if zoomLevel == (Minimap:GetZoomLevels() - 1) then
-		Minimap:SetZoom(zoomLevel - 1)
-		Minimap:SetZoom(zoomLevel)
-	else
-		Minimap:SetZoom(zoomLevel + 1)
-		Minimap:SetZoom(zoomLevel)
-	end
-end
-
 function M:UpdateSettings()
 	if InCombatLockdown() then
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -152,7 +140,6 @@ function M:UpdateSettings()
 
 	if E.private.general.minimap.enable then
 		Minimap:SetScale(E.MinimapSize / 140)
-		self:UpdateMinimapSize()
 	end
 
 	if LeftMiniPanel and RightMiniPanel then
@@ -406,14 +393,6 @@ function M:Initialize()
 
 		MinimapCluster:ClearAllPoints()
 		MinimapCluster:SetAllPoints(FarmModeMap)
-
-		if(IsAddOnLoaded("Routes")) then
-			LibStub("AceAddon-3.0"):GetAddon("Routes"):ReparentMinimap(FarmModeMap)
-		end
-
-		if(IsAddOnLoaded("GatherMate2")) then
-			LibStub("AceAddon-3.0"):GetAddon("GatherMate2"):GetModule("Display"):ReparentMinimapPins(FarmModeMap)
-		end
 	end)
 
 	FarmModeMap:SetScript("OnHide", function()
@@ -423,14 +402,6 @@ function M:Initialize()
 
 		MinimapCluster:ClearAllPoints()
 		MinimapCluster:SetAllPoints(Minimap)
-
-		if(IsAddOnLoaded("Routes")) then
-			LibStub("AceAddon-3.0"):GetAddon("Routes"):ReparentMinimap(Minimap)
-		end
-
-		if(IsAddOnLoaded("GatherMate2")) then
-			LibStub("AceAddon-3.0"):GetAddon("GatherMate2"):GetModule("Display"):ReparentMinimapPins(Minimap)
-		end
 	end)
 
 	UIParent:HookScript("OnShow", function()

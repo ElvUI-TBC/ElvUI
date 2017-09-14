@@ -983,11 +983,6 @@ end
 
 --DATABASE CONVERSIONS
 function E:DBConversions()
-	if E.db.general.classCacheRequestUnitInfo then
-		E.db.general.classCacheRequestUnitInfo = nil
-		E.db.general.classCacheRequestInfo = true
-	end
-
 	--Make sure default filters use the correct filter type
 	for filter, filterType in pairs(E.DEFAULT_FILTER) do
 		E.global.unitframe.aurafilters[filter].type = filterType

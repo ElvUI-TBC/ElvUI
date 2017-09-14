@@ -12,8 +12,6 @@ local ScriptErrorsFrame_OnError = ScriptErrorsFrame_OnError
 local StaticPopup_Hide = StaticPopup_Hide
 
 function D:ModifyErrorFrame()
---	ScriptErrorsFrameScrollFrameText.cursorOffset = 0
---	ScriptErrorsFrameScrollFrameText.cursorHeight = 0
 	ScriptErrorsFrameScrollFrameText:SetScript("OnEditFocusGained", nil)
 
 	hooksecurefunc("ScriptErrorsFrame_Update", function()

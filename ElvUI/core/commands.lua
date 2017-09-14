@@ -41,12 +41,12 @@ function FarmMode()
 	if(Minimap:IsShown()) then
 		UIFrameFadeOut(Minimap, 0.3);
 		UIFrameFadeIn(FarmModeMap, 0.3);
-		Minimap.fadeInfo.finishedFunc = function() Minimap:Hide(); E:GetModule("Minimap"):UpdateMinimapSize(); Minimap:SetAlpha(1); end
+		Minimap.fadeInfo.finishedFunc = function() Minimap:Hide(); Minimap.backdrop:Hide(); _G.MinimapZoomIn:Click(); _G.MinimapZoomOut:Click(); Minimap:SetAlpha(1); end
 		FarmModeMap.enabled = true;
 	else
 		UIFrameFadeOut(FarmModeMap, 0.3);
 		UIFrameFadeIn(Minimap, 0.3);
-		FarmModeMap.fadeInfo.finishedFunc = function() FarmModeMap:Hide(); E:GetModule("Minimap"):UpdateMinimapSize(); Minimap:SetAlpha(1); end
+		FarmModeMap.fadeInfo.finishedFunc = function() FarmModeMap:Hide(); Minimap.backdrop:Show(); _G.MinimapZoomIn:Click(); _G.MinimapZoomOut:Click(); Minimap:SetAlpha(1); end
 		FarmModeMap.enabled = false;
 	end
 end
