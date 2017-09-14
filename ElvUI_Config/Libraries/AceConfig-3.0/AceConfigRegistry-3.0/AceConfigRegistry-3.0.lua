@@ -90,6 +90,7 @@ local basekeys={
 	func=optmethodfalse,
 	arg={["*"]=true},
 	width=optstring,
+	buttonElvUI=optmethodbool,
 }
 
 local typedkeys={
