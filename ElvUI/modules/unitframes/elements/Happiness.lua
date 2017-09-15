@@ -7,7 +7,6 @@ function UF:Construct_Happiness(frame)
 	UF["statusbars"][HappinessIndicator] = true
 	HappinessIndicator:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 	HappinessIndicator:SetOrientation("VERTICAL")
-	HappinessIndicator:SetFrameStrata("LOW")
 	HappinessIndicator:SetMinMaxValues(0, 125)
 
 	HappinessIndicator.Override = UF.UpdateOverride
