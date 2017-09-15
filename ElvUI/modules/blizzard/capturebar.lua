@@ -18,6 +18,10 @@ function B:WorldStateAlwaysUpFrame_Update()
 	WorldStateAlwaysUpFrame:ClearAllPoints()
 	WorldStateAlwaysUpFrame:Point("CENTER", pvpHolder, "CENTER", 0, 10)
 
+	AlwaysUpFrame1:ClearAllPoints()
+	AlwaysUpFrame1:Point("CENTER", WorldStateAlwaysUpFrame, "CENTER", 0, 0)
+	AlwaysUpFrame2:Point("TOP", AlwaysUpFrame1, "BOTTOM", 0, -5)
+
 	local offset = 0
 
 	for i = 1, NUM_ALWAYS_UP_UI_FRAMES do
