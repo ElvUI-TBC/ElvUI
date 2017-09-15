@@ -89,10 +89,11 @@ function M:Minimap_OnMouseUp(btn)
 end
 
 function M:Minimap_OnMouseWheel(d)
-	if d > 0 then
-		_G.MinimapZoomIn:Click()
-	elseif d < 0 then
-		_G.MinimapZoomOut:Click()
+	local zoomLevel = Minimap:GetZoom()
+	if d > 0 and zoomLevel < 5 then
+		Minimap:SetZoom(zoomLevel + 1)
+	elseif d < 0 and zoomLevel > 0 then
+		Minimap:SetZoom(zoomLevel - 1)
 	end
 end
 
@@ -115,13 +116,21 @@ local function ResetZoom()
 	MinimapZoomOut:Disable()
 	isResetting = false
 end
-local function SetupZoomReset()
+local function SetupZoomReset(_, zoomLevel)
 	if E.db.general.minimap.resetZoom.enable and not isResetting then
 		isResetting = true
 		E:Delay(E.db.general.minimap.resetZoom.time, ResetZoom)
+	else
+		E.private.general.minimap.zoomLevel = zoomLevel
 	end
 end
 hooksecurefunc(Minimap, "SetZoom", SetupZoomReset)
+
+function M:MINIMAP_UPDATE_ZOOM()
+	if E.private.general.minimap.zoomLevel ~= Minimap:GetZoom() then
+		Minimap:SetZoom(E.private.general.minimap.zoomLevel)
+	end
+end
 
 function M:UpdateSettings()
 	if InCombatLockdown() then
@@ -369,6 +378,7 @@ function M:Initialize()
 	self:RegisterEvent("ZONE_CHANGED", "Update_ZoneText")
 	self:RegisterEvent("ZONE_CHANGED_INDOORS", "Update_ZoneText")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "Update_ZoneText")
+	self:RegisterEvent("MINIMAP_UPDATE_ZOOM")
 	self:RegisterEvent("ADDON_LOADED")
 
 	local fm = CreateFrame("Minimap", "FarmModeMap", E.UIParent)

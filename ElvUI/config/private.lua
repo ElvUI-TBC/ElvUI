@@ -18,6 +18,7 @@ V["general"] = {
 	["minimap"] = {
 		["enable"] = true,
 		["hideCalendar"] = true,
+		["zoomLevel"] = 0,
 	},
 	["classCache"] = true,
 	["classColorMentionsSpeech"] = true,
