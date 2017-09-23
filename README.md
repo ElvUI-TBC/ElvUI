@@ -46,6 +46,8 @@ This UI will arrange your interface to be more flexible and practical.
 [ElvUI_EverySecondCounts](https://github.com/ElvUI-TBC/ElvUI_EverySecondCounts)
 <br />
 [ElvUI_LocPlus](https://github.com/ElvUI-TBC/ElvUI_LocPlus)
+<br />
+[ElvUI_SwingBar](https://github.com/ElvUI-TBC/ElvUI_SwingBar)
 
 Please Note: These plugins will not function without ElvUI installed.
 
