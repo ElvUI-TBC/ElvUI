@@ -1,19 +1,19 @@
 local E, L, V, P, G = unpack(ElvUI)
 local Sticky = LibStub("LibSimpleSticky-1.0")
 
-local _G = _G;
-local type, unpack, pairs = type, unpack, pairs;
+local _G = _G
+local type, unpack, pairs = type, unpack, pairs
 local format, split, find = string.format, string.split, string.find
 
-local CreateFrame = CreateFrame;
-local InCombatLockdown = InCombatLockdown;
-local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT;
+local CreateFrame = CreateFrame
+local InCombatLockdown = InCombatLockdown
+local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT
 
 E.CreatedMovers = {}
-E.DisabledMovers = {};
+E.DisabledMovers = {}
 
 local function SizeChanged(frame)
-	if InCombatLockdown() then return; end
+	if InCombatLockdown() then return end
 
 	if frame.dirtyWidth and frame.dirtyHeight then
 		frame.mover:Size(frame.dirtyWidth, frame.dirtyHeight)
@@ -26,68 +26,69 @@ local function GetPoint(obj)
 	local point, anchor, secondaryPoint, x, y = obj:GetPoint()
 	if not anchor then anchor = ElvUIParent end
 
-	return format("%s,%s,%s,%d,%d", point, anchor:GetName(), secondaryPoint, E:Round(x), E:Round(y));
+	return format("%s,%s,%s,%d,%d", point, anchor:GetName(), secondaryPoint, E:Round(x), E:Round(y))
 end
 
 local function UpdateCoords(self)
-	local mover = self.child;
-	local x, y, _, nudgePoint, nudgeInversePoint = E:CalculateMoverPoints(mover);
+	local mover = self.child
+	local x, y, _, nudgePoint, nudgeInversePoint = E:CalculateMoverPoints(mover)
 
-	local coordX, coordY = E:GetXYOffset(nudgeInversePoint, 1);
-	ElvUIMoverNudgeWindow:ClearAllPoints();
-	ElvUIMoverNudgeWindow:Point(nudgePoint, mover, nudgeInversePoint, coordX, coordY);
-	E:UpdateNudgeFrame(mover, x, y);
+	local coordX, coordY = E:GetXYOffset(nudgeInversePoint, 1)
+	ElvUIMoverNudgeWindow:ClearAllPoints()
+	ElvUIMoverNudgeWindow:Point(nudgePoint, mover, nudgeInversePoint, coordX, coordY)
+	E:UpdateNudgeFrame(mover, x, y)
 end
 
-local isDragging = false;
+local isDragging = false
 local coordFrame = CreateFrame("Frame")
 coordFrame:SetScript("OnUpdate", UpdateCoords)
 coordFrame:Hide()
 
-local function CreateMover(parent, name, text, overlay, snapOffset, postdrag)
+local function CreateMover(parent, name, text, overlay, snapOffset, postdrag, shouldDisable)
 	if not parent then return end --If for some reason the parent isnt loaded yet
 	if E.CreatedMovers[name].Created then return end
 
 	if overlay == nil then overlay = true end
-	local point, anchor, secondaryPoint, x, y = split(",", GetPoint(parent));
+	local point, anchor, secondaryPoint, x, y = split(",", GetPoint(parent))
 
-	local width = parent.dirtyWidth or parent:GetWidth();
-	local height = parent.dirtyHeight or parent:GetHeight();
+	local width = parent.dirtyWidth or parent:GetWidth()
+	local height = parent.dirtyHeight or parent:GetHeight()
 
 	local f = CreateFrame("Button", name, E.UIParent)
 	f:SetClampedToScreen(true)
-	f:RegisterForDrag("LeftButton", "RightButton");
-	f:EnableMouseWheel(true);
-	f:SetMovable(true);
-	f:Width(width);
-	f:Height(height);
-	f:SetTemplate("Transparent", nil, nil, true);
-	f:Hide();
+	f:RegisterForDrag("LeftButton", "RightButton")
+	f:EnableMouseWheel(true)
+	f:SetMovable(true)
+	f:Width(width)
+	f:Height(height)
+	f:SetTemplate("Transparent", nil, nil, true)
+	f:Hide()
 	f.parent = parent
 	f.name = name
 	f.textString = text
 	f.postdrag = postdrag
 	f.overlay = overlay
-	f.snapOffset = snapOffset or -2;
+	f.snapOffset = snapOffset or -2
+	f.shouldDisable = shouldDisable
 
-	f:SetFrameLevel(parent:GetFrameLevel() + 1);
+	f:SetFrameLevel(parent:GetFrameLevel() + 1)
 	if(overlay == true) then
 		f:SetFrameStrata("DIALOG")
 	else
 		f:SetFrameStrata("BACKGROUND")
 	end
 
-	E.CreatedMovers[name].mover = f;
-	E["snapBars"][#E["snapBars"] + 1] = f;
+	E.CreatedMovers[name].mover = f
+	E["snapBars"][#E["snapBars"] + 1] = f
 
-	local fs = f:CreateFontString(nil, "OVERLAY");
-	fs:FontTemplate();
-	fs:SetJustifyH("CENTER");
-	fs:SetPoint("CENTER");
-	fs:SetText(text or name);
-	fs:SetTextColor(unpack(E["media"].rgbvaluecolor));
-	f:SetFontString(fs);
-	f.text = fs;
+	local fs = f:CreateFontString(nil, "OVERLAY")
+	fs:FontTemplate()
+	fs:SetJustifyH("CENTER")
+	fs:SetPoint("CENTER")
+	fs:SetText(text or name)
+	fs:SetTextColor(unpack(E["media"].rgbvaluecolor))
+	f:SetFontString(fs)
+	f.text = fs
 
 	if E.db["movers"] and E.db["movers"][name] then
 		if type(E.db["movers"][name]) == "table" then
@@ -96,14 +97,14 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag)
 			f:ClearAllPoints()
 		end
 
-		local delim;
-		local anchorString = E.db["movers"][name];
+		local delim
+		local anchorString = E.db["movers"][name]
 		if(find(anchorString, "\031")) then
-			delim = "\031";
+			delim = "\031"
 		elseif(find(anchorString, ",")) then
-			delim = ",";
+			delim = ","
 		end
-		local point, anchor, secondaryPoint, x, y = split(delim, anchorString);
+		local point, anchor, secondaryPoint, x, y = split(delim, anchorString)
 		f:Point(point, anchor, secondaryPoint, x, y)
 	else
 
@@ -120,39 +121,39 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag)
 		end
 		coordFrame.child = self
 		coordFrame:Show()
-		isDragging = true;
+		isDragging = true
 	end
 
 	local function OnDragStop(self)
 		if InCombatLockdown() then E:Print(ERR_NOT_IN_COMBAT) return end
-		isDragging = false;
+		isDragging = false
 		if E.db["general"].stickyFrames then
 			Sticky:StopMoving(self)
 		else
 			self:StopMovingOrSizing()
 		end
 
-		local x, y, point = E:CalculateMoverPoints(self);
-		self:ClearAllPoints();
-		local overridePoint;
+		local x, y, point = E:CalculateMoverPoints(self)
+		self:ClearAllPoints()
+		local overridePoint
 		if(self.positionOverride) then
 			if(self.positionOverride == "BOTTOM" or self.positionOverride == "TOP") then
-				overridePoint = "BOTTOM";
+				overridePoint = "BOTTOM"
 			else
-				overridePoint = "BOTTOMLEFT";
+				overridePoint = "BOTTOMLEFT"
 			end
 		end
 
-		self:Point(self.positionOverride or point, E.UIParent, overridePoint and overridePoint or point, x, y);
+		self:Point(self.positionOverride or point, E.UIParent, overridePoint and overridePoint or point, x, y)
 		if(self.positionOverride) then
-			self.parent:ClearAllPoints();
-			self.parent:Point(self.positionOverride, self, self.positionOverride);
+			self.parent:ClearAllPoints()
+			self.parent:Point(self.positionOverride, self, self.positionOverride)
 		end
 
 		E:SaveMoverPosition(name)
 
 		if ElvUIMoverNudgeWindow then
-			E:UpdateNudgeFrame(self, x, y);
+			E:UpdateNudgeFrame(self, x, y)
 		end
 
 		coordFrame.child = nil
@@ -176,14 +177,14 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag)
 
 	local function OnMouseDown(self, button)
 		if button == "RightButton" then
-			isDragging = false;
+			isDragging = false
 			if E.db["general"].stickyFrames then
 				Sticky:StopMoving(self)
 			else
 				self:StopMovingOrSizing()
 			end
 			if(IsControlKeyDown() and self.textString) then
-				E:ResetMovers(self.textString);
+				E:ResetMovers(self.textString)
 			elseif IsShiftKeyDown() then
 				self:Hide()
 			end
@@ -201,26 +202,26 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag)
 
 	local function OnMouseWheel(_, delta)
 		if(IsShiftKeyDown()) then
-			E:NudgeMover(delta);
+			E:NudgeMover(delta)
 		else
-			E:NudgeMover(nil, delta);
+			E:NudgeMover(nil, delta)
 		end
 	end
 
-	f:SetScript("OnDragStart", OnDragStart);
-	f:SetScript("OnMouseUp", E.AssignFrameToNudge);
-	f:SetScript("OnDragStop", OnDragStop);
-	f:SetScript("OnEnter", OnEnter);
-	f:SetScript("OnMouseDown", OnMouseDown);
-	f:SetScript("OnLeave", OnLeave);
-	f:SetScript("OnShow", OnShow);
-	f:SetScript("OnMouseWheel", OnMouseWheel);
+	f:SetScript("OnDragStart", OnDragStart)
+	f:SetScript("OnMouseUp", E.AssignFrameToNudge)
+	f:SetScript("OnDragStop", OnDragStop)
+	f:SetScript("OnEnter", OnEnter)
+	f:SetScript("OnMouseDown", OnMouseDown)
+	f:SetScript("OnLeave", OnLeave)
+	f:SetScript("OnShow", OnShow)
+	f:SetScript("OnMouseWheel", OnMouseWheel)
 
-	parent:SetScript("OnSizeChanged", SizeChanged);
-	parent.mover = f;
+	parent:SetScript("OnSizeChanged", SizeChanged)
+	parent.mover = f
 
-	parent:ClearAllPoints();
-	parent:Point(point, f, 0, 0);
+	parent:ClearAllPoints()
+	parent:Point(point, f, 0, 0)
 
 	if postdrag ~= nil and type(postdrag) == "function" then
 		f:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -230,70 +231,70 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag)
 		end)
 	end
 
-	E.CreatedMovers[name].Created = true;
+	E.CreatedMovers[name].Created = true
 end
 
 function E:CalculateMoverPoints(mover, nudgeX, nudgeY)
-	local screenWidth, screenHeight, screenCenter = E.UIParent:GetRight(), E.UIParent:GetTop(), E.UIParent:GetCenter();
-	local x, y = mover:GetCenter();
+	local screenWidth, screenHeight, screenCenter = E.UIParent:GetRight(), E.UIParent:GetTop(), E.UIParent:GetCenter()
+	local x, y = mover:GetCenter()
 
-	local LEFT = screenWidth / 3;
-	local RIGHT = screenWidth * 2 / 3;
-	local TOP = screenHeight / 2;
-	local point, nudgePoint, nudgeInversePoint;
+	local LEFT = screenWidth / 3
+	local RIGHT = screenWidth * 2 / 3
+	local TOP = screenHeight / 2
+	local point, nudgePoint, nudgeInversePoint
 
 	if(y >= TOP) then
-		point = "TOP";
-		nudgePoint = "TOP";
-		nudgeInversePoint = "BOTTOM";
-		y = -(screenHeight - mover:GetTop());
+		point = "TOP"
+		nudgePoint = "TOP"
+		nudgeInversePoint = "BOTTOM"
+		y = -(screenHeight - mover:GetTop())
 	else
-		point = "BOTTOM";
-		nudgePoint = "BOTTOM";
-		nudgeInversePoint = "TOP";
-		y = mover:GetBottom();
+		point = "BOTTOM"
+		nudgePoint = "BOTTOM"
+		nudgeInversePoint = "TOP"
+		y = mover:GetBottom()
 	end
 
 	if(x >= RIGHT) then
-		point = point .. "RIGHT";
-		nudgePoint = "RIGHT";
-		nudgeInversePoint = "LEFT";
-		x = mover:GetRight() - screenWidth;
+		point = point .. "RIGHT"
+		nudgePoint = "RIGHT"
+		nudgeInversePoint = "LEFT"
+		x = mover:GetRight() - screenWidth
 	elseif(x <= LEFT) then
-		point = point .. "LEFT";
-		nudgePoint = "LEFT";
-		nudgeInversePoint = "RIGHT";
-		x = mover:GetLeft();
+		point = point .. "LEFT"
+		nudgePoint = "LEFT"
+		nudgeInversePoint = "RIGHT"
+		x = mover:GetLeft()
 	else
-		x = x - screenCenter;
+		x = x - screenCenter
 	end
 
 	if(mover.positionOverride) then
 		if(mover.positionOverride == "TOPLEFT") then
-			x = mover:GetLeft() - E.diffGetLeft;
-			y = mover:GetTop() - E.diffGetTop;
+			x = mover:GetLeft() - E.diffGetLeft
+			y = mover:GetTop() - E.diffGetTop
 		elseif(mover.positionOverride == "TOPRIGHT") then
-			x = mover:GetRight() - E.diffGetRight;
-			y = mover:GetTop() - E.diffGetTop;
+			x = mover:GetRight() - E.diffGetRight
+			y = mover:GetTop() - E.diffGetTop
 		elseif(mover.positionOverride == "BOTTOMLEFT") then
-			x = mover:GetLeft() - E.diffGetLeft;
-			y = mover:GetBottom() - E.diffGetBottom;
+			x = mover:GetLeft() - E.diffGetLeft
+			y = mover:GetBottom() - E.diffGetBottom
 		elseif(mover.positionOverride == "BOTTOMRIGHT") then
-			x = mover:GetRight() - E.diffGetRight;
-			y = mover:GetBottom() - E.diffGetBottom;
+			x = mover:GetRight() - E.diffGetRight
+			y = mover:GetBottom() - E.diffGetBottom
 		elseif(mover.positionOverride == "BOTTOM") then
-			x = mover:GetCenter() - screenCenter;
-			y = mover:GetBottom() - E.diffGetBottom;
+			x = mover:GetCenter() - screenCenter
+			y = mover:GetBottom() - E.diffGetBottom
 		elseif(mover.positionOverride == "TOP") then
-			x = mover:GetCenter() - screenCenter;
-			y = mover:GetTop() - E.diffGetTop;
+			x = mover:GetCenter() - screenCenter
+			y = mover:GetTop() - E.diffGetTop
 		end
 	end
 
-	x = x + (nudgeX or 0);
-	y = y + (nudgeY or 0);
+	x = x + (nudgeX or 0)
+	y = y + (nudgeY or 0)
 
-	return x, y, point, nudgePoint, nudgeInversePoint;
+	return x, y, point, nudgePoint, nudgeInversePoint
 end
 
 function E:UpdatePositionOverride(name)
@@ -330,7 +331,7 @@ function E:SaveMoverDefaultPosition(name)
 	E.CreatedMovers[name]["postdrag"](_G[name], E:GetScreenQuadrant(_G[name]))
 end
 
-function E:CreateMover(parent, name, text, overlay, snapoffset, postdrag, moverTypes)
+function E:CreateMover(parent, name, text, overlay, snapoffset, postdrag, moverTypes, shouldDisable)
 	if not moverTypes then moverTypes = "ALL,GENERAL" end
 
 	if E.CreatedMovers[name] == nil then
@@ -341,6 +342,7 @@ function E:CreateMover(parent, name, text, overlay, snapoffset, postdrag, moverT
 		E.CreatedMovers[name]["postdrag"] = postdrag
 		E.CreatedMovers[name]["snapoffset"] = snapOffset
 		E.CreatedMovers[name]["point"] = GetPoint(parent)
+		E.CreatedMovers[name]["shouldDisable"] = shouldDisable
 
 		E.CreatedMovers[name]["type"] = {}
 		local types = {split(",", moverTypes)}
@@ -350,11 +352,11 @@ function E:CreateMover(parent, name, text, overlay, snapoffset, postdrag, moverT
 		end
 	end
 
-	CreateMover(parent, name, text, overlay, snapoffset, postdrag)
+	CreateMover(parent, name, text, overlay, snapoffset, postdrag, shouldDisable)
 end
 
 function E:ToggleMovers(show, moverType)
-	self.configMode = show;
+	self.configMode = show
 
 	for name, _ in pairs(E.CreatedMovers) do
 		if not show then
@@ -370,53 +372,53 @@ function E:ToggleMovers(show, moverType)
 end
 
 function E:DisableMover(name)
-	if(self.DisabledMovers[name]) then return; end
+	if(self.DisabledMovers[name]) then return end
 	if(not self.CreatedMovers[name]) then
-		error("mover doesn't exist");
+		error("mover doesn't exist")
 	end
 
-	self.DisabledMovers[name] = {};
+	self.DisabledMovers[name] = {}
 	for x, y in pairs(self.CreatedMovers[name]) do
-		self.DisabledMovers[name][x] = y;
+		self.DisabledMovers[name][x] = y
 	end
 
 	if(self.configMode) then
-		_G[name]:Hide();
+		_G[name]:Hide()
 	end
 
-	self.CreatedMovers[name] = nil;
+	self.CreatedMovers[name] = nil
 end
 
 function E:EnableMover(name)
-	if(self.CreatedMovers[name]) then return; end
+	if(self.CreatedMovers[name]) then return end
 	if(not self.DisabledMovers[name]) then
-		error("mover doesn't exist");
+		error("mover doesn't exist")
 	end
 
 	self.CreatedMovers[name] = {}
 	for x, y in pairs(self.DisabledMovers[name]) do
-		self.CreatedMovers[name][x] = y;
+		self.CreatedMovers[name][x] = y
 	end
 
 	--Commented out, as it created an issue with trying to reset a mover after having used EnableMover on it. Not sure if this code is even needed anymore.
 --[[
 	if(E.db["movers"] and E.db["movers"][name] and type(E.db["movers"][name]) == "string") then
-		self.CreatedMovers[name]["point"] = E.db["movers"][name];
+		self.CreatedMovers[name]["point"] = E.db["movers"][name]
 	end
 ]]
 
 	if(self.configMode) then
-		_G[name]:Show();
+		_G[name]:Show()
 	end
 
-	self.DisabledMovers[name] = nil;
+	self.DisabledMovers[name] = nil
 end
 
 function E:ResetMovers(arg)
 	if arg == "" or arg == nil then
 		for name, _ in pairs(E.CreatedMovers) do
 			local f = _G[name]
-			local point, anchor, secondaryPoint, x, y = split(",", E.CreatedMovers[name]["point"]);
+			local point, anchor, secondaryPoint, x, y = split(",", E.CreatedMovers[name]["point"])
 			f:ClearAllPoints()
 			f:SetPoint(point, anchor, secondaryPoint, x, y)
 
@@ -433,7 +435,7 @@ function E:ResetMovers(arg)
 				if key == "text" then
 					if arg == value then
 						local f = _G[name]
-						local point, anchor, secondaryPoint, x, y = split(",", E.CreatedMovers[name]["point"]);
+						local point, anchor, secondaryPoint, x, y = split(",", E.CreatedMovers[name]["point"])
 						f:ClearAllPoints()
 						f:SetPoint(point, anchor, secondaryPoint, x, y)
 
@@ -454,25 +456,28 @@ end
 --Profile Change
 function E:SetMoversPositions()
 	for name in pairs(E.DisabledMovers) do
-		E:EnableMover(name);
+		local shouldDisable = ((E.DisabledMovers[name].shouldDisable and E.DisabledMovers[name]["shouldDisable"]()) or false)
+		if not shouldDisable then
+			E:EnableMover(name)
+		end
 	end
 
 	for name, _ in pairs(E.CreatedMovers) do
 		local f = _G[name]
 		local point, anchor, secondaryPoint, x, y
 		if E.db["movers"] and E.db["movers"][name] and type(E.db["movers"][name]) == "string" then
-			local delim;
-			local anchorString = E.db["movers"][name];
+			local delim
+			local anchorString = E.db["movers"][name]
 			if(find(anchorString, "\031")) then
-				delim = "\031";
+				delim = "\031"
 			elseif(find(anchorString, ",")) then
-				delim = ",";
+				delim = ","
 			end
-			point, anchor, secondaryPoint, x, y = split(delim, anchorString);
+			point, anchor, secondaryPoint, x, y = split(delim, anchorString)
 			f:ClearAllPoints()
 			f:SetPoint(point, anchor, secondaryPoint, x, y)
 		elseif f then
-			point, anchor, secondaryPoint, x, y = split(",", E.CreatedMovers[name]["point"]);
+			point, anchor, secondaryPoint, x, y = split(",", E.CreatedMovers[name]["point"])
 			f:ClearAllPoints()
 			f:SetPoint(point, anchor, secondaryPoint, x, y)
 		end
