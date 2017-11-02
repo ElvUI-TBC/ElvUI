@@ -31,7 +31,7 @@ local menuList = {
 	{text = SPELLBOOK_ABILITIES_BUTTON,
 	func = function() ToggleSpellBook(BOOKTYPE_SPELL) end},
 	{text = TALENTS_BUTTON,
-	func = function() ToggleTalentFrame() end},
+	func = ToggleTalentFrame},
 	{text = QUEST_LOG,
 	func = function() ToggleQuestLog() end},
 	{text = SOCIAL_BUTTON,
@@ -39,15 +39,15 @@ local menuList = {
 	{text = L["Farm Mode"],
 	func = FarmMode},
 	{text = BATTLEFIELD_MINIMAP,
-	func = function() ToggleBattlefieldMinimap() end},
+	func = ToggleBattlefieldMinimap},
 	{text = TIMEMANAGER_TITLE,
-	func = function() ToggleTimeManager() end},
+	func = ToggleTimeManager},
 	{text = PLAYER_V_PLAYER,
 	func = function() ToggleCharacter("PVPFrame") end},
 	{text = LFG_TITLE,
 	func = function() ToggleLFGParentFrame() end},
 	{text = HELP_BUTTON,
-	func = function() ToggleHelpFrame() end},
+	func = ToggleHelpFrame},
 }
 
 function M:GetLocTextColor()

@@ -458,7 +458,7 @@ function CH:UpdateAnchors()
 		end
 	end
 
-	--CH:PositionChat(true);
+	CH:PositionChat(true);
 end
 
 local function FindRightChatID()

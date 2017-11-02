@@ -4,7 +4,7 @@ local LSM = LibStub("LibSharedMedia-3.0")
 local _G = _G
 local tonumber, pairs, ipairs, error, unpack, select, tostring = tonumber, pairs, ipairs, error, unpack, select, tostring
 local assert, print, type, collectgarbage, pcall, date = assert, print, type, collectgarbage, pcall, date
-local twipe, tinsert, tremove = table.wipe, tinsert, tremove
+local twipe, tinsert, tremove, next = table.wipe, tinsert, tremove, next
 local floor = floor
 local format, find, match, strrep, len, sub, gsub = string.format, string.find, string.match, strrep, string.len, string.sub, string.gsub
 
@@ -517,13 +517,6 @@ function E:CopyTable(currentTable, defaultTable)
 	return currentTable
 end
 
-local function IsTableEmpty(tbl)
-	for _, _ in pairs(tbl) do
-		return false
-	end
-	return true
-end
-
 function E:RemoveEmptySubTables(tbl)
 	if(type(tbl) ~= "table") then
 		E:Print("Bad argument #1 to 'RemoveEmptySubTables' (table expected)")
@@ -532,7 +525,7 @@ function E:RemoveEmptySubTables(tbl)
 
 	for k, v in pairs(tbl) do
 		if(type(v) == "table") then
-			if(IsTableEmpty(v)) then
+			if next(v) == nil then
 				tbl[k] = nil
 			else
 				self:RemoveEmptySubTables(v)
@@ -945,7 +938,7 @@ function E:InitializeInitialModules()
 
 	--Old deprecated initialize method, we keep it for any plugins that may need it
 	for _, module in pairs(E["RegisteredInitialModules"]) do
-		local module = self:GetModule(module, true)
+		module = self:GetModule(module, true)
 		if(module and module.Initialize) then
 			local _, catch = pcall(module.Initialize, module)
 			if(catch and GetCVar("scriptErrors") == "1") then
@@ -971,7 +964,7 @@ function E:InitializeModules()
 
 	--Old deprecated initialize method, we keep it for any plugins that may need it
 	for _, module in pairs(E["RegisteredModules"]) do
-		local module = self:GetModule(module)
+		module = self:GetModule(module)
 		if(module.Initialize) then
 			local _, catch = pcall(module.Initialize, module)
 			if(catch and GetCVar("scriptErrors") == "1") then
@@ -1038,7 +1031,7 @@ function E:GetTopCPUFunc(msg)
 	if(module == "all") then
 		for _, registeredModule in pairs(self["RegisteredModules"]) do
 			mod = self:GetModule(registeredModule, true) or self
-			for name, func in pairs(mod) do
+			for name in pairs(mod) do
 				if(type(mod[name]) == "function" and name ~= "GetModule") then
 					CPU_USAGE[registeredModule .. ":" .. name] = GetFunctionCPUUsage(mod[name], true)
 				end
@@ -1046,7 +1039,7 @@ function E:GetTopCPUFunc(msg)
 		end
 	else
 		mod = self:GetModule(module, true) or self
-		for name, func in pairs(mod) do
+		for name in pairs(mod) do
 			if(type(mod[name]) == "function" and name ~= "GetModule") then
 				CPU_USAGE[module .. ":" .. name] = GetFunctionCPUUsage(mod[name], true)
 			end
