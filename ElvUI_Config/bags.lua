@@ -98,8 +98,27 @@ E.Options.args.bags = {
 							values = AceGUIWidgetLSMlists.font,
 							set = function(info, value) E.db.bags.countFont = value; B:UpdateCountDisplay(); end
 						},
-						countFontColor = {
+						countFontSize = {
 							order = 2,
+							type = "range",
+							name = L["Font Size"],
+							min = 4, max = 22, step = 1,
+							set = function(info, value) E.db.bags.countFontSize = value; B:UpdateCountDisplay(); end
+						},
+						countFontOutline = {
+							order = 3,
+							type = "select",
+							name = L["Font Outline"],
+							set = function(info, value) E.db.bags.countFontOutline = value; B:UpdateCountDisplay(); end,
+							values = {
+								["NONE"] = L["None"],
+								["OUTLINE"] = "OUTLINE",
+								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
+								["THICKOUTLINE"] = "THICKOUTLINE"
+							}
+						},
+						countFontColor = {
+							order = 4,
 							type = "color",
 							name = L["Color"],
 							get = function(info)
@@ -112,25 +131,6 @@ E.Options.args.bags = {
 								t.r, t.g, t.b = r, g, b;
 								B:UpdateCountDisplay();
 							end
-						},
-						countFontSize = {
-							order = 3,
-							type = "range",
-							name = L["Font Size"],
-							min = 4, max = 22, step = 1,
-							set = function(info, value) E.db.bags.countFontSize = value; B:UpdateCountDisplay(); end
-						},
-						countFontOutline = {
-							order = 4,
-							type = "select",
-							name = L["Font Outline"],
-							set = function(info, value) E.db.bags.countFontOutline = value; B:UpdateCountDisplay(); end,
-							values = {
-								["NONE"] = L["None"],
-								["OUTLINE"] = "OUTLINE",
-								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
-								["THICKOUTLINE"] = "THICKOUTLINE"
-							}
 						}
 					}
 				},
@@ -156,8 +156,13 @@ E.Options.args.bags = {
 							disabled = function() return not E.db.bags.itemLevel; end,
 							set = function(info, value) E.db.bags.itemLevelThreshold = value; B:UpdateItemLevelDisplay(); end
 						},
-						itemLevelFont = {
+						spacer = {
 							order = 3,
+							type = "description",
+							name = ""
+						},
+						itemLevelFont = {
+							order = 4,
 							type = "select",
 							dialogControl = "LSM30_Font",
 							name = L["Font"],
@@ -166,7 +171,7 @@ E.Options.args.bags = {
 							set = function(info, value) E.db.bags.itemLevelFont = value; B:UpdateItemLevelDisplay(); end
 						},
 						itemLevelFontSize = {
-							order = 4,
+							order = 5,
 							type = "range",
 							name = L["Font Size"],
 							min = 6, max = 33, step = 1,
@@ -174,7 +179,7 @@ E.Options.args.bags = {
 							set = function(info, value) E.db.bags.itemLevelFontSize = value; B:UpdateItemLevelDisplay(); end
 						},
 						itemLevelFontOutline = {
-							order = 5,
+							order = 6,
 							type = "select",
 							name = L["Font Outline"],
 							disabled = function() return not E.db.bags.itemLevel end,
@@ -209,24 +214,29 @@ E.Options.args.bags = {
 					min = 15, max = 45, step = 1,
 					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(); end
 				},
-				bankSize = {
-					order = 2,
-					type = "range",
-					name = L["Button Size (Bank)"],
-					desc = L["The size of the individual buttons on the bank frame."],
-					min = 15, max = 45, step = 1,
-					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(true); end
-				},
 				bagWidth = {
-					order = 3,
+					order = 2,
 					type = "range",
 					name = L["Panel Width (Bags)"],
 					desc = L["Adjust the width of the bag frame."],
 					min = 150, max = 1400, step = 1,
 					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(); end
 				},
-				bankWidth = {
+				spacer = {
+					order = 3,
+					type = "description",
+					name = ""
+				},
+				bankSize = {
 					order = 4,
+					type = "range",
+					name = L["Button Size (Bank)"],
+					desc = L["The size of the individual buttons on the bank frame."],
+					min = 15, max = 45, step = 1,
+					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(true); end
+				},
+				bankWidth = {
+					order = 5,
 					type = "range",
 					name = L["Panel Width (Bank)"],
 					desc = L["Adjust the width of the bank frame."],

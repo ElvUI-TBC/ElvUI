@@ -62,9 +62,10 @@ function UnitAura(unit, i, filter)
 
 	if not filter or match(filter, "(HELPFUL)") then
 		local name, rank, aura, count, duration, maxDuration = UnitBuff(unit, i, filter)
-		return name, rank, aura, count, nil, duration, maxDuration
+		return name, rank, aura, count, nil, duration or 0, maxDuration or 0
 	else
-		return UnitDebuff(unit, i, filter)
+		local name, rank, aura, count, dType, duration, maxDuration = UnitDebuff(unit, i, filter)
+		return name, rank, aura, count, dType, duration or 0, maxDuration or 0
 	end
 end
 

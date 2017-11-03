@@ -7,11 +7,11 @@ local UnitCanAssist = UnitCanAssist
 
 local playerClass = select(2, UnitClass("player"))
 local CanDispel = {
-	PRIEST = { Magic = true, Disease = true, },
-	SHAMAN = { Poison = true, Disease = true, Curse = true, },
-	PALADIN = { Magic = true, Poison = true, Disease = true, },
-	MAGE = { Curse = true, },
-	DRUID = { Curse = true, Poison = true, }
+	PRIEST = {Magic = true, Disease = true},
+	SHAMAN = {Poison = true, Disease = true},
+	PALADIN = {Magic = true, Poison = true, Disease = true},
+	MAGE = {Curse = true},
+	DRUID = {Curse = true, Poison = true}
 }
 
 local dispellist = CanDispel[playerClass] or {}
@@ -23,10 +23,10 @@ local function GetDebuffType(unit, filter, filterTable)
 	if not unit or not UnitCanAssist("player", unit) then return nil end
 	local i = 1
 	while true do
-		local name, _, texture, _, debufftype, _, _, _, _, _, spellID = UnitAura(unit, i, "HARMFUL")
+		local name, _, texture, _, debufftype = UnitAura(unit, i, "HARMFUL")
 		if not texture then break end
 
-		local filterSpell = filterTable[spellID] or filterTable[name]
+		local filterSpell = filterTable[name]
 
 		if(filterTable and filterSpell and filterSpell.enable) then
 			return debufftype, texture, true, filterSpell.style, filterSpell.color

@@ -96,8 +96,8 @@ local function SkinButton(f, strip, noTemplate)
 		f:SetTemplate("Default", true)
 	end
 
-	f:HookScript("OnEnter", SetModifiedBackdrop)
-	f:HookScript("OnLeave", SetOriginalBackdrop)
+	f:HookScript2("OnEnter", SetModifiedBackdrop)
+	f:HookScript2("OnLeave", SetOriginalBackdrop)
 end
 
 local function SkinNextPrevButton(...)

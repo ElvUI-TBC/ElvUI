@@ -14,12 +14,15 @@ function UF:Construct_HealComm(frame)
 
 	CreateStatusBarTexturePointer(mhpb)
 
-	return {
+	local HealthPrediction = {
 		myBar = mhpb,
 		otherBar = ohpb,
 		maxOverflow = 1,
 		PostUpdate = UF.UpdateHealComm,
-	};
+	}
+	HealthPrediction.parent = frame
+
+	return HealthPrediction
 end
 
 function UF:Configure_HealComm(frame)

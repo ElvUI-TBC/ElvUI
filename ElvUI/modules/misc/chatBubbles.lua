@@ -24,14 +24,15 @@ function M:UpdateBubbleBorder()
 	end
 
 	if E.private.chat.enable and E.private.general.classCache and E.private.general.classColorMentionsSpeech then
-		local classColorTable, isFirstWord, rebuiltString, tempWord, wordMatch, classMatch
+		local classColorTable, isFirstWord, rebuiltString, lowerCaseWord, tempWord, wordMatch, classMatch
 		local text = self.text:GetText()
-		if text and text:match("[^%s]+") then
-			for word in text:gmatch("[^%s]+") do
-				tempWord = word:gsub("^%p-([^%p]+)([%-]?[^%p]-)%p-$","%1%2")
+		if text and text:match("%s-[^%s]+%s*") then
+			for word in text:gmatch("%s-[^%s]+%s*") do
+				tempWord = word:gsub("^[%s%p]-([^%s%p]+)([%-]?[^%s%p]-)[%s%p]*$","%1%2")
+				lowerCaseWord = tempWord:lower()
 
 				classMatch = CC:GetCacheTable()[E.myrealm][tempWord]
-				wordMatch = CC:GetCacheTable()[E.myrealm][tempWord] and tempWord:lower()
+				wordMatch = classMatch and lowerCaseWord
 
 				if(wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch]) then
 					classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
@@ -42,7 +43,7 @@ function M:UpdateBubbleBorder()
 					rebuiltString = word
 					isFirstWord = true
 				else
-					rebuiltString = format("%s %s", rebuiltString, word)
+					rebuiltString = format("%s%s", rebuiltString, word)
 				end
 			end
 

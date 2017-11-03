@@ -1,38 +1,27 @@
-local E, L, V, P, G, _ = unpack(ElvUI)
+local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
+--Cache global variables
+--Lua functions
 local _G = _G
+--WoW API / Variables
+local MAX_TUTORIAL_ALERTS = MAX_TUTORIAL_ALERTS
 
-function S:LoadTutorialSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tutorial ~= true then return end
 
-	for i = 1, TutorialFrame:GetNumChildren() do
-		local child = select(i, TutorialFrame:GetChildren())
-		if child.GetPushedTexture and child:GetPushedTexture() and not child:GetName() then
-			S:HandleCloseButton(child)
-			child:Point("TOPRIGHT", TutorialFrame, "TOPRIGHT", 2, 4)
-		end
-	end
-
 	for i = 1, MAX_TUTORIAL_ALERTS do
-		local TutorialFrameAlertButton = _G["TutorialFrameAlertButton"..i]
-		local TutorialFrameAlertButtonIcon = TutorialFrameAlertButton:GetNormalTexture()
+		local button = _G["TutorialFrameAlertButton"..i]
+		local icon = button:GetNormalTexture()
 
-		TutorialFrameAlertButton:StripTextures()
-		TutorialFrameAlertButton:CreateBackdrop("Default", true)
-		TutorialFrameAlertButton:Width(35)
-		TutorialFrameAlertButton:Height(45)
-		S:HandleItemButton(TutorialFrameAlertButton)
+		button:Size(35, 45)
+		button:SetTemplate("Default", true)
+		button:StyleButton(nil, true)
 
-		TutorialFrameAlertButtonIcon:SetTexture("Interface\\TutorialFrame\\TutorialFrameAlert")
-		TutorialFrameAlertButtonIcon:ClearAllPoints()
-		TutorialFrameAlertButtonIcon:Point("TOPLEFT", TutorialFrameAlertButton, "TOPLEFT", 0, 0)
-		TutorialFrameAlertButtonIcon:Point("BOTTOMRIGHT", TutorialFrameAlertButton, "BOTTOMRIGHT", 0, 0)
-		TutorialFrameAlertButtonIcon:SetTexCoord(0.07, 0.43, 0.15, 0.55)
-		-- TutorialFrameAlertButtonIcon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetInside()
+		icon:SetTexCoord(0.09, 0.40, 0.11, 0.56)
 	end
 
-	TutorialFrame:StripTextures()
 	TutorialFrame:SetTemplate("Transparent")
 
 	S:HandleCheckBox(TutorialFrameCheckButton)
@@ -40,4 +29,4 @@ function S:LoadTutorialSkin()
 	S:HandleButton(TutorialFrameOkayButton)
 end
 
-S:AddCallback("Tutorial", S.LoadTutorialSkin)
+S:AddCallback("Tutorial", LoadSkin)

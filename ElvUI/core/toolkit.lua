@@ -1,24 +1,24 @@
 local E, L, V, P, G = unpack(ElvUI)
 local LSM = LibStub("LibSharedMedia-3.0")
 
-local _G = _G;
-local unpack, type, select, getmetatable = unpack, type, select, getmetatable;
+local _G = _G
+local unpack, type, select, getmetatable = unpack, type, select, getmetatable
 
-local CreateFrame = CreateFrame;
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
+local CreateFrame = CreateFrame
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
 
 --Preload shit..
-E.mult = 1;
-local backdropr, backdropg, backdropb, backdropa, borderr, borderg, borderb = 0, 0, 0, 1, 0, 0, 0;
+E.mult = 1
+local backdropr, backdropg, backdropb, backdropa, borderr, borderg, borderb = 0, 0, 0, 1, 0, 0, 0
 
 local function GetTemplate(t, isUnitFrameElement)
 	backdropa = 1
 	if t == "ClassColor" then
 		if(CUSTOM_CLASS_COLORS) then
-			borderr, borderg, borderb = CUSTOM_CLASS_COLORS[E.myclass].r, CUSTOM_CLASS_COLORS[E.myclass].g, CUSTOM_CLASS_COLORS[E.myclass].b;
+			borderr, borderg, borderb = CUSTOM_CLASS_COLORS[E.myclass].r, CUSTOM_CLASS_COLORS[E.myclass].g, CUSTOM_CLASS_COLORS[E.myclass].b
 		else
-			borderr, borderg, borderb = RAID_CLASS_COLORS[E.myclass].r, RAID_CLASS_COLORS[E.myclass].g, RAID_CLASS_COLORS[E.myclass].b;
+			borderr, borderg, borderb = RAID_CLASS_COLORS[E.myclass].r, RAID_CLASS_COLORS[E.myclass].g, RAID_CLASS_COLORS[E.myclass].b
 		end
 
 		if t ~= "Transparent" then
@@ -44,8 +44,8 @@ local function GetTemplate(t, isUnitFrameElement)
 end
 
 local function Size(frame, width, height)
-	assert(width);
-	frame:SetSize(E:Scale(width), E:Scale(height or width));
+	assert(width)
+	frame:SetSize(E:Scale(width), E:Scale(height or width))
 end
 
 local function Width(frame, width)
@@ -54,12 +54,12 @@ end
 
 local function Height(frame, height)
 	assert(height)
-	frame:SetHeight(E:Scale(height));
+	frame:SetHeight(E:Scale(height))
 end
 
 local function Point(obj, arg1, arg2, arg3, arg4, arg5)
 	if(arg2 == nil) then
-		arg2 = obj:GetParent();
+		arg2 = obj:GetParent()
 	end
 
 	if type(arg1)=="number" then arg1 = E:Scale(arg1) end
@@ -76,7 +76,7 @@ local function SetOutside(obj, anchor, xOffset, yOffset, anchor2)
 	yOffset = yOffset or E.Border
 	anchor = anchor or obj:GetParent()
 
-	assert(anchor);
+	assert(anchor)
 	if obj:GetPoint() then
 		obj:ClearAllPoints()
 	end
@@ -90,7 +90,7 @@ local function SetInside(obj, anchor, xOffset, yOffset, anchor2)
 	yOffset = yOffset or E.Border
 	anchor = anchor or obj:GetParent()
 
-	assert(anchor);
+	assert(anchor)
 	if obj:GetPoint() then
 		obj:ClearAllPoints()
 	end
@@ -103,24 +103,24 @@ local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode, isUnit
 	GetTemplate(t, isUnitFrameElement)
 
 	if(t) then
-		f.template = t;
+		f.template = t
 	end
 
 	if(glossTex) then
-		f.glossTex = glossTex;
+		f.glossTex = glossTex
 	end
 
 	if(ignoreUpdates) then
-		f.ignoreUpdates = ignoreUpdates;
+		f.ignoreUpdates = ignoreUpdates
 	end
 
 	if(forcePixelMode) then
 		f.forcePixelMode = forcePixelMode
 	end
 
-	local bgFile = E.media.blankTex;
+	local bgFile = E.media.blankTex
 	if(glossTex) then
-		bgFile = E.media.glossTex;
+		bgFile = E.media.glossTex
 	end
 
 	if(isUnitFrameElement) then
@@ -134,14 +134,14 @@ local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode, isUnit
 				edgeFile = E["media"].blankTex,
 				tile = false, tileSize = 0, edgeSize = E.mult,
 				insets = {left = 0, right = 0, top = 0, bottom = 0}
-			});
+			})
 		else
 			f:SetBackdrop({
 				bgFile = bgFile,
 				edgeFile = E["media"].blankTex,
 				tile = false, tileSize = 0, edgeSize = E.mult,
 				insets = {left = -E.mult, right = -E.mult, top = -E.mult, bottom = -E.mult}
-			});
+			})
 		end
 
 		if not f.oborder and not f.iborder and not E.private.general.pixelPerfect and not f.forcePixelMode then
@@ -151,24 +151,24 @@ local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode, isUnit
 				edgeFile = E["media"].blankTex,
 				edgeSize = E.mult,
 				insets = {left = E.mult, right = E.mult, top = E.mult, bottom = E.mult}
-			});
+			})
 			border:SetBackdropBorderColor(0, 0, 0, 1)
 			f.iborder = border
 
 			if f.oborder then return end
-			local border = CreateFrame("Frame", nil, f)
+			border = CreateFrame("Frame", nil, f)
 			border:SetOutside(f, E.mult, E.mult)
 			border:SetFrameLevel(f:GetFrameLevel() + 1)
 			border:SetBackdrop({
 				edgeFile = E["media"].blankTex,
 				edgeSize = E.mult,
 				insets = {left = E.mult, right = E.mult, top = E.mult, bottom = E.mult}
-			});
+			})
 			border:SetBackdropBorderColor(0, 0, 0, 1)
 			f.oborder = border
 		end
 	else
-		f:SetBackdrop(nil);
+		f:SetBackdrop(nil)
 	end
 
 	f:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
@@ -184,23 +184,23 @@ local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode, isUnit
 end
 
 local function CreateBackdrop(f, t, tex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
-	if(not t) then t = "Default"; end
+	if(not t) then t = "Default" end
 
-	local b = CreateFrame("Frame", nil, f);
+	local b = CreateFrame("Frame", nil, f)
 	if(f.forcePixelMode or forcePixelMode) then
-		b:SetOutside(nil, E.mult, E.mult);
+		b:SetOutside(nil, E.mult, E.mult)
 	else
-		b:SetOutside();
+		b:SetOutside()
 	end
-	b:SetTemplate(t, tex, ignoreUpdates, forcePixelMode, isUnitFrameElement);
+	b:SetTemplate(t, tex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
 
 	if(f:GetFrameLevel() - 1 >= 0) then
-		b:SetFrameLevel(f:GetFrameLevel() - 1);
+		b:SetFrameLevel(f:GetFrameLevel() - 1)
 	else
-		b:SetFrameLevel(0);
+		b:SetFrameLevel(0)
 	end
 
-	f.backdrop = b;
+	f.backdrop = b
 end
 
 local function CreateShadow(f)
@@ -216,7 +216,7 @@ local function CreateShadow(f)
 	shadow:SetBackdrop({
 		edgeFile = LSM:Fetch("border", "ElvUI GlowBorder"), edgeSize = E:Scale(3),
 		insets = {left = E:Scale(5), right = E:Scale(5), top = E:Scale(5), bottom = E:Scale(5)}
-	});
+	})
 	shadow:SetBackdropColor(backdropr, backdropg, backdropb, 0)
 	shadow:SetBackdropBorderColor(borderr, borderg, borderb, 0.9)
 	f.shadow = shadow
@@ -278,7 +278,7 @@ end
 
 local function StyleButton(button, noHover, noPushed, noChecked)
 	if button.SetHighlightTexture and not button.hover and not noHover then
-		local hover = button:CreateTexture();
+		local hover = button:CreateTexture()
 		hover:SetTexture(1, 1, 1, 0.3)
 		hover:SetInside()
 		button.hover = hover
@@ -286,7 +286,7 @@ local function StyleButton(button, noHover, noPushed, noChecked)
 	end
 
 	if button.SetPushedTexture and not button.pushed and not noPushed then
-		local pushed = button:CreateTexture();
+		local pushed = button:CreateTexture()
 		pushed:SetTexture(0.9, 0.8, 0.1, 0.3)
 		pushed:SetInside()
 		button.pushed = pushed
@@ -294,7 +294,7 @@ local function StyleButton(button, noHover, noPushed, noChecked)
 	end
 
 	if button.SetCheckedTexture and not button.checked and not noChecked then
-		local checked = button:CreateTexture();
+		local checked = button:CreateTexture()
 		checked:SetTexture(1, 1, 1)
 		checked:SetInside()
 		checked:SetAlpha(0.3)

@@ -4,6 +4,7 @@ local L = AceLocale:NewLocale("ElvUI", "deDE")
 if not L then return end
 
 -- *_DESC locales
+L["ACTIONBARS_DESC"] = "Konfiguriere die Einstellungen für die Aktionsleisten."
 L["AURAS_DESC"] = "Konfiguriere die Symbole für die Stärkungs- und Schwächungszauber nahe der Minimap."
 L["BAGS_DESC"] = "Konfiguriere die Einstellungen für die Taschen."
 L["CHAT_DESC"] = "Anpassen der Chateinstellungen für ElvUI."
@@ -191,6 +192,7 @@ L["Top to Bottom"] = "Von oben nach unten"
 L["Use coin icons instead of colored text."] = "Benutze Währungssymbole anstatt von farbigem Text."
 
 --Buffs and Debuffs
+L["Auras Spacing"] = true;
 L["Buffs and Debuffs"] = "Stärkungs- und Schwächungszauber"
 L["Begin a new row or column after this many auras."] = "Beginne nach so vielen Stärkungszaubern eine neue Reihe oder Spalte."
 L["Count xOffset"] = "Den Versatz auf der X-Achse zählen"
@@ -213,6 +215,7 @@ L["Seperate"] = "Seperat"
 L["Set the size of the individual auras."] = "Lege die Größe der individuellen Stärkungszauber fest."
 L["Sort Method"] = "Sortiermethode"
 L["The direction the auras will grow and then the direction they will grow after they reach the wrap after limit."] = "Die Richtung, in die die Stärkungszauber wachsen und dann die Richtung, in die sie wachsen, nachdem sie den Umbruch nach dem Grenzwert erreicht haben."
+L["The spacing between auras."] = true;
 L["Threshold before text changes red, goes into decimal form, and the icon will fade. Set to -1 to disable."] = "Die Schwelle, bevor der Text rot und das Symbol verblassen wird (in Dezimalform). Setze sie auf -1 um die Schwelle zu deaktivieren."
 L["Time xOffset"] = "Zeit X-Versatz"
 L["Time yOffset"] = "Zeit Y-Versatz"
@@ -231,7 +234,9 @@ L["Attempt to create URL links inside the chat."] = "Eine Möglichkeit, um Inter
 L["Attempt to lock the left and right chat frame positions. Disabling this option will allow you to move the main chat frame anywhere you wish."] = "Fixiere das rechte und linke Chatfenster. Deaktiviere diese Option, um das Hauptchatfenster nach Belieben zu verschieben."
 L["Below Chat"] = "Unter dem Chat"
 L["Chat EditBox Position"] = "Position der Texteingabeleiste"
+L["Chat History Lines"] = true;
 L["Chat History"] = "Chatverlauf"
+L["Chat Timestamps"] = true;
 L["Class Color Mentions"] = "Erwähnung in Klassenfarbe"
 L["Custom Timestamp Color"] = "Benutzerdefinierte Zeitstempel-Farbe"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "Zeigt den Hyperlink-Tooltip beim Schweben über einem Hyperlink."
@@ -256,6 +261,7 @@ L["List of words to color in chat if found in a message. If you wish to add mult
 L["Lock Positions"] = "Positionen fixieren"
 L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."] = "Sichert den Chatverlauf der Hauptchatfenster. Wenn du dein UI neulädst oder einloggst, siehst du den Chatverlauf der letzten Sitzung."
 L["No Alert In Combat"] = "Kein Alarm im Kampf"
+L["Number of chat messages to be stores in the chat history."] = true;
 L["Number of messages you scroll for each step."] = "Anzahl der Nachrichten, die mit jeden Schritt gescrollt werden."
 L["Number of repeat characters while in combat before the chat editbox is automatically closed."] = "Anzahl der wiederholten Zeichen im Kampf, bevor das Chateingabefeld automatisch schließt."
 L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."] = "Anzahl der Sekunden, um im Chatfenster nach unten zu scrollen wenn du nicht komplett nach unten gescrollt bist."
@@ -270,6 +276,7 @@ L["Require holding the Alt key down to move cursor or cycle through messages in 
 L["Right Only"] = "Nur rechts"
 L["Right Panel Height"] = "Rechte Fensterhöhe"
 L["Right Panel Width"] = "Rechte Fensterbreite"
+L["Select the format of timestamps for chat messages."] = true;
 L["Scroll Direction"] = "Scroll-Richtung"
 L["Scroll Interval"] = "Scroll-Interval"
 L["Scroll Messages"] = "Scroll Nachrichten"
@@ -290,7 +297,7 @@ L["Toggle showing of the left and right chat panels."] = "Aktiviere den Hintergr
 L["Toggle the chat tab panel backdrop."] = "Aktiviere den Hintergrund der oberen Tableisten der Chatfenster"
 L["URL Links"] = "URL Links"
 L["Use Alt Key"] = "Benutze Alt-Taste"
-L["Use class color for the names of players when they are mentioned."] = "Benutze Klassenfarben von Spielernamen, wenn sie erwähnt werden."
+L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true;
 L["When opening the Chat Editbox to type a message having this option set means it will retain the last channel you spoke in. If this option is turned off opening the Chat Editbox should always default to the SAY channel."] = "Beim Öffnen der Texteingabeleiste wird dem Kanal beigetreten, in den zu letzt geschrieben wurde. Wenn diese Option deaktiviert ist, wird standardmäßig der SAGEN-Kanal beim Öffnen der Texteingabeleiste aufgerufen."
 L["Whisper Alert"] = "Flüster-Alarm"
 L[ [=[Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.
@@ -312,6 +319,16 @@ Bitte beachten:
 Zum Beispiel: Interface\AddOns\ElvUI\media\textures\copy
 
 Für die meisten Anwender ist es allerdings einfacher, eine tga-Datei in dem WoW-Ordner abzulegen. Anschließend kann man den Namen der Datei hier eingeben.]=]
+
+--Class Cache
+L["Class Cache"] = true;
+L["Enable class caching to colorize names in chat and nameplates."] = true;
+L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true;
+L["Request info for class cache"] = true;
+L["Store cache in DB"] = true;
+L["Use LibWho to cache class info"] = true;
+L["Wipe DB Cache"] = true;
+L["Wipe Session Cache"] = true;
 
 --Credits
 L["Coding:"] = "Programmierung:"
@@ -479,6 +496,7 @@ L["Maps"] = "Karten"
 L["Minimap Buttons"] = "Minimap Tasten"
 L["Minimap Mouseover"] = "Minimap Mouseover"
 L["Puts coordinates on the world map."] = "Platziert Koordinaten auf der Weltkarte."
+L["PvP Queue"] = true;
 L["Reset Zoom"] = "Zoom zurücksetzen"
 L["Right"] = "Rechts"
 L["Scale"] = "Skalierung"
@@ -506,7 +524,6 @@ L["Bad Transition Color"] = "Schlechte Übergangsfarbe"
 L["Base Height for the Aura Icon"] = "Grundhöhe der Auren-Symbole"
 L["Cast Bar"] = "Zauberleiste"
 L["Cast Color"] = "Zauberfarbe"
-L["Cast No Interrupt Color"] = "Nicht unterbrechbare Zauberfarbe"
 L["Cast Time Format"] = "Zauber Zeitformat"
 L["Channel Time Format"] = "Kanalisierung Zeitformat"
 L["Color Tanked"] = "Färbe angetankt"
@@ -518,6 +535,7 @@ L["Copy Settings From"] = "Kopiere Einstellungen von"
 L["Custom Color"] = "Benutzerdefinierte Farbe"
 L["Custom Scale"] = "Benutzerdefinierte Skalierung"
 L["Default Settings"] = "Standard Einstellungen"
+L["Depends on Class Caching module!"] = true;
 L["Display a healer icon over known healers inside battlegrounds or arenas."] = "Zeige auf Schlachtfeldern oder in Arenen ein Heilersymbol über Heilern an."
 L["Disable threat coloring for this plate and use the custom color."] = "Deaktiviere Bedrohungsfärbung und benutze eine benutzerdefinierte Farbe."
 L["Elite Icon"] = "Elite Symbol"
@@ -542,9 +560,10 @@ L["Healer Icon"] = "Heilersymbol"
 L["Hide Spell Name"] = "Verstecke Zaubername"
 L["Hide Time"] = "Verstecke Zeit"
 L["Hide"] = "Verstecken" --Also used in DataTexts
+L["How many seconds the castbar should stay visible after the cast failed or was interrupted."] = true;
 L["Icon Base Height"] = "Symbol Grundhöhe"
 L["Low Health Threshold"] = "Niedrige Lebensbedrohung"
-L["Make the unitframe yellow when it is below this percent of health, it will glow red when the health value is half of this value."] = "Lässt das Einheitenfenster gelb leuchten, wenn es unter diesen Prozentwert des Lebens sinkt. Es wird Rot angezeigt, wenn es die Hälfte dieses Wertes erreicht."
+L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."] = "Lässt das Einheitenfenster gelb leuchten, wenn es unter diesen Prozentwert des Lebens sinkt. Es wird Rot angezeigt, wenn es die Hälfte dieses Wertes erreicht."
 L["NamePlates"] = "Namensplaketten"
 L["Nameplate Motion Type"] = "Namensplaketten Bewegungsart"
 L["Non-Target Transparency"] = "Transparenz nicht ausgewählter Ziele"
@@ -564,6 +583,7 @@ L["Tagged NPC"] = "Ausgewählter NPC"
 L["Tanked Color"] = "Angetankte Farbe"
 L["Target Scale"] = "Ziel-Skalierung"
 L["Threat"] = "Bedrohung"
+L["Time To Hold"] = true;
 L["Toggle Off While In Combat"] = "Im Kampf ausblenden"
 L["Toggle On While In Combat"] = "Im Kampf einblenden"
 L["Use Class Color"] = "Benutze Klassenfarbe"
@@ -654,14 +674,17 @@ L["Custom Faction Colors"] = "Benutzerdefinierte Fraktionsfarben"
 L["Display guild ranks if a unit is guilded."] = "Zeige Gildenränge von Spielern, die in einer Gilde sind."
 L["Display how many of a certain item you have in your possession."] = "Zeige, wie viele sich von dem ausgewählten Gegenstand in deinem Besitz befinden."
 L["Display player titles."] = "Zeige Spielertitel."
+L["Display the item level when mousing over a item."] = true;
 L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."] = "Zeige die Spezialisierung und das Itemlevel des Spielers im Tooltip an, wird vielleicht nicht direkt aktualisiert"
 L["Display the spell or item ID when mousing over a spell or item tooltip."] = "Zeige die ID des Zaubers oder des Gegenstands an, wenn du mit der Maus über einen Zauber oder Gegenstand ziehst."
+L["Display vendor sell value on item tooltips."] = true;
 L["Guild Ranks"] = "Gildenränge"
 L["Header Font Size"] = "Kopfzeile Schriftgröße"
 L["Health Bar"] = "Lebensleiste"
 L["Hide tooltip while in combat."] = "Verstecke den Tooltip während des Kampfes."
 L["Inspect Info"] = "Informationen betrachten"
 L["Item Count"] = "Gegenstandsanzahl"
+L["Item Price"] = true;
 L["Never Hide"] = "Niemals verstecken"
 L["Player Titles"] = "Spielertitel"
 L["Should tooltip be anchored to mouse cursor"] = "Soll der Tooltip an den Mauszeiger verankert werden"
@@ -911,6 +934,7 @@ L["Range Check"] = "Entfernungcheck"
 L["Rapidly update the health, uses more memory and cpu. Only recommended for healing."] = "Schnelle Aktualisierung der Lebensleiste. Benutzt mehr Speicher und Prozessorleistung. Nur für Heiler zu empfehlen."
 L["Reaction Castbars"] = "Reaktion Zauberleiste"
 L["Reactions"] = "Reaktionen"
+L["Ready Check Icon"] = true;
 L["Remaining"] = "Verbleibend"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = "Entferne Zauber vom Filter. Benutze die Zauber ID, wenn du die ID als Teil vom Zaubernamen im Filter siehst."
 L["Remove a spell from the filter."] = "Entfernt einen Zauber aus dem Filter."
@@ -940,6 +964,7 @@ L["Show a incomming heal prediction bar on the unitframe. Also display a slightl
 L["Show Aura From Other Players"] = "Zeige Auren von anderen Spielern"
 L["Show Auras"] = "Zeige Auren"
 L["Show Dispellable Debuffs"] = "Zeige bannbare Schwächungszauber"
+L["Show target glow indicator from this group of frames."] = true;
 L["Show When Not Active"] = "Zeige, wenn nicht aktiv"
 L["Size and Positions"] = "Größe und Positionen"
 L["Size of the indicator icon."] = "Größe des Anzeigesymbole."

@@ -72,15 +72,6 @@ function B:Initialize()
 			end
 		end
 	end)
-
---	QuestLogFrame:HookScript("OnShow", function()
---		local questFrame = QuestLogFrame:GetFrameLevel()
---		local scrollFrame = QuestLogDetailScrollFrame:GetFrameLevel()
---
---		if questFrame >= scrollFrame then
---			QuestLogDetailScrollFrame:SetFrameLevel(questFrame + 1)
---		end
---	end)
 end
 
 local function InitializeCallback()

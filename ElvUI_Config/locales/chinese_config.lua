@@ -4,6 +4,7 @@ local L = AceLocale:NewLocale("ElvUI", "zhCN")
 if not L then return end
 
 -- *_DESC locales
+L["ACTIONBARS_DESC"] = "修改动作条设定"
 L["AURAS_DESC"] = "小地图旁的光环图标设置"
 L["BAGS_DESC"] = "调整ElvUI背包设置"
 L["CHAT_DESC"] = "聊天框设置"
@@ -191,6 +192,7 @@ L["Top to Bottom"] = "顶部到底部"
 L["Use coin icons instead of colored text."] = "显示硬币图标而不是颜色文字"
 
 --Buffs and Debuffs
+L["Auras Spacing"] = true;
 L["Buffs and Debuffs"] = true;
 L["Begin a new row or column after this many auras."] = "在这些光环旁开始新的行或列"
 L["Count xOffset"] = "计数X偏移"
@@ -213,6 +215,7 @@ L["Seperate"] = "光环分离"
 L["Set the size of the individual auras."] = "设置每个光环的尺寸"
 L["Sort Method"] = "排序方式"
 L["The direction the auras will grow and then the direction they will grow after they reach the wrap after limit."] = "光环图标在第一个方向摆满之后会向下一个方向继续延伸"
+L["The spacing between auras."] = true;
 L["Threshold before text changes red, goes into decimal form, and the icon will fade. Set to -1 to disable."] = "冷却时间低于此秒数后将变为红色数字以小数显示, 并且图标会渐隐. 设置为-1禁用此功能"
 L["Time xOffset"] = "时间X偏移"
 L["Time yOffset"] = "时间Y偏移"
@@ -231,7 +234,9 @@ L["Attempt to create URL links inside the chat."] = "在聊天框中创建超链
 L["Attempt to lock the left and right chat frame positions. Disabling this option will allow you to move the main chat frame anywhere you wish."] = "锁定左右聊天框架的位置.禁用此选项将允许你移动聊天框架到任意位置"
 L["Below Chat"] = "聊天框下方"
 L["Chat EditBox Position"] = "对话輸入框位置"
+L["Chat History Lines"] = true;
 L["Chat History"] = "聊天历史"
+L["Chat Timestamps"] = true;
 L["Class Color Mentions"] = "职业颜色提示"
 L["Custom Timestamp Color"] = "自定义时间戳颜色"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "鼠标悬停在链接上时显示鼠标提示"
@@ -256,6 +261,7 @@ L["List of words to color in chat if found in a message. If you wish to add mult
 L["Lock Positions"] = "锁定位置"
 L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."] = "记录对话历史,当你重载,登录和退出时会恢复你最后一次会话"
 L["No Alert In Combat"] = "战斗中不警报"
+L["Number of chat messages to be stores in the chat history."] = true;
 L["Number of messages you scroll for each step."] = "每次滚动的聊天信息数目"
 L["Number of repeat characters while in combat before the chat editbox is automatically closed."] = "当你在战斗中按下技能键时,有可能你的输入框还处于打开状态,这个功能可以在你按下技能键并且在输入框中输入下列个数字符串却没有放出技能时帮你自动关闭输入框"
 L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."] = "聊天框滚动到底部所需要的滚动时间(秒)"
@@ -270,6 +276,7 @@ L["Require holding the Alt key down to move cursor or cycle through messages in 
 L["Right Only"] = "仅显示右边"
 L["Right Panel Height"] = "右面板高度"
 L["Right Panel Width"] = "右面板宽度"
+L["Select the format of timestamps for chat messages."] = true;
 L["Scroll Direction"] = true;
 L["Scroll Interval"] = "滚动间隔"
 L["Scroll Messages"] = "滚动信息数目"
@@ -290,7 +297,7 @@ L["Toggle showing of the left and right chat panels."] = "显示/隐藏左右聊
 L["Toggle the chat tab panel backdrop."] = "显示/隐藏聊天框架标签面板背景"
 L["URL Links"] = "网址链接"
 L["Use Alt Key"] = "对话历史Alt键"
-L["Use class color for the names of players when they are mentioned."] = "当玩家名字被提及时使用职业颜色"
+L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true;
 L["When opening the Chat Editbox to type a message having this option set means it will retain the last channel you spoke in. If this option is turned off opening the Chat Editbox should always default to the SAY channel."] = "当你开始输入消息时此选项的启用将会让你保留最后一次对话的频道, 如果关闭将始终使用说话频道"
 L["Whisper Alert"] = "密语警报"
 L[ [=[Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.
@@ -312,6 +319,16 @@ Or for most users it would be easier to simply put a tga file into your WoW fold
 范例：Interface\AddOns\ElvUI\media\textures\copy
 
 对多数玩家来说, 较简易的方式是将 tga 档放入 WoW 资料夹中, 然后在此处输入档案名称.]=]
+
+--Class Cache
+L["Class Cache"] = true;
+L["Enable class caching to colorize names in chat and nameplates."] = true;
+L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true;
+L["Request info for class cache"] = true;
+L["Store cache in DB"] = true;
+L["Use LibWho to cache class info"] = true;
+L["Wipe DB Cache"] = true;
+L["Wipe Session Cache"] = true;
 
 --Credits
 L["Coding:"] = "编码:"
@@ -479,6 +496,7 @@ L["Maps"] = "地图"
 L["Minimap Buttons"] = "小地图按钮"
 L["Minimap Mouseover"] = "小地图鼠标滑过"
 L["Puts coordinates on the world map."] = "在世界地图上显示坐标"
+L["PvP Queue"] = true;
 L["Reset Zoom"] = "重置缩放"
 L["Right"] = "右"
 L["Scale"] = "缩放"
@@ -506,7 +524,6 @@ L["Bad Transition Color"] = "危险过渡颜色"
 L["Base Height for the Aura Icon"] = "光环图标基础高度"
 L["Cast Bar"] = "施法条"
 L["Cast Color"] = "施法条颜色"
-L["Cast No Interrupt Color"] = "无法打断的颜色"
 L["Cast Time Format"] = "施法时间格式"
 L["Channel Time Format"] = "引导法术时间格式"
 L["Color Tanked"] = "被坦住的颜色"
@@ -518,6 +535,7 @@ L["Copy Settings From"] = "复制设置"
 L["Custom Color"] = "自定颜色"
 L["Custom Scale"] = "自定大小比例"
 L["Default Settings"] = "默认设置"
+L["Depends on Class Caching module!"] = true;
 L["Display a healer icon over known healers inside battlegrounds or arenas."] = "战场或竞技场中, 为已确认为治疗的玩家标上补职图标"
 L["Disable threat coloring for this plate and use the custom color."] = "对特定的目标停用仇恨颜色,并使用定制颜色"
 L["Elite Icon"] = "精英标志"
@@ -542,6 +560,7 @@ L["Healer Icon"] = "治疗图标"
 L["Hide Spell Name"] = "隐藏法术名字"
 L["Hide Time"] = "隐藏时间"
 L["Hide"] = "隐藏"
+L["How many seconds the castbar should stay visible after the cast failed or was interrupted."] = true;
 L["Icon Base Height"] = "图标基础高度"
 L["Low Health Threshold"] = "低生命值阈值"
 L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."] = "姓名板在此设定值下会变黄色, 在设定值一半以下会变红色"
@@ -564,6 +583,7 @@ L["Tagged NPC"] = "标记的NPC"
 L["Tanked Color"] = "坦克颜色"
 L["Target Scale"] = "目标缩放"
 L["Threat"] = "仇恨"
+L["Time To Hold"] = true;
 L["Toggle Off While In Combat"] = "战斗时关闭"
 L["Toggle On While In Combat"] = "战斗时启用"
 L["Use Class Color"] = "使用职业颜色"
@@ -654,14 +674,17 @@ L["Custom Faction Colors"] = "自定义声望颜色"
 L["Display guild ranks if a unit is guilded."] = "当目标有公会时显示其在公会内的等级"
 L["Display how many of a certain item you have in your possession."] = "显示当前物品在你身上的数量."
 L["Display player titles."] = "显示玩家头衔"
+L["Display the item level when mousing over a item."] = true;
 L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."] = "当按住shift时展示该玩家的专精和装等,由于需要读取所以不会在指向某玩家时立即更新"
 L["Display the spell or item ID when mousing over a spell or item tooltip."] = "在鼠标提示中显示技能或物品的ID."
+L["Display vendor sell value on item tooltips."] = true;
 L["Guild Ranks"] = "公会等级"
 L["Header Font Size"] = "标题名字大小"
 L["Health Bar"] = "生命条"
 L["Hide tooltip while in combat."] = "战斗时不显示提示"
 L["Inspect Info"] = "更多信息"
 L["Item Count"] = "物品数量"
+L["Item Price"] = true;
 L["Never Hide"] = "从不隐藏"
 L["Player Titles"] = "玩家头衔"
 L["Should tooltip be anchored to mouse cursor"] = "提示锚定于鼠标"
@@ -911,6 +934,7 @@ L["Range Check"] = "距离检查"
 L["Rapidly update the health, uses more memory and cpu. Only recommended for healing."] = "实时更新生命值会占用更多的内存的和CPU, 只推荐治疗角色开启"
 L["Reaction Castbars"] = "声望施法条"
 L["Reactions"] = "声望"
+L["Ready Check Icon"] = true;
 L["Remaining"] = "剩余值"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = "从过滤器中移除一个技能. 当你看见有ID在过滤器中的技能名字时使用技能ID"
 L["Remove a spell from the filter."] = "从过滤器中移除一个技能"
@@ -940,6 +964,7 @@ L["Show a incomming heal prediction bar on the unitframe. Also display a slightl
 L["Show Aura From Other Players"] = "显示其他玩家的光环"
 L["Show Auras"] = "显示光环"
 L["Show Dispellable Debuffs"] = "显示无法驱散的debuff"
+L["Show target glow indicator from this group of frames."] = true;
 L["Show When Not Active"] = "显示当前无效的光环"
 L["Size and Positions"] = "大小和位置"
 L["Size of the indicator icon."] = "提示图标大小"

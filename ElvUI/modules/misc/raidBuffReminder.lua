@@ -257,13 +257,13 @@ function RB:UpdatePosition()
 	ElvUI_ReminderBuffs:ClearAllPoints()
 
 	if E.db.general.reminder.position == "LEFT" then
-		Minimap:Point("TOPRIGHT", MMHolder, "TOPRIGHT", -E.Border, -E.Border)
+		Minimap:Point("TOPRIGHT", MMHolder, "TOPRIGHT")
 		ElvConfigToggle:SetPoint("TOPRIGHT", LeftMiniPanel, "TOPLEFT", E.Border - E.Spacing*3, 0)
 		ElvConfigToggle:SetPoint("BOTTOMRIGHT", LeftMiniPanel, "BOTTOMLEFT", E.Border - E.Spacing*3, 0)
 		ElvUI_ReminderBuffs:SetPoint("TOPRIGHT", Minimap.backdrop, "TOPLEFT", E.Border - E.Spacing*3, 0)
 		ElvUI_ReminderBuffs:SetPoint("BOTTOMRIGHT", Minimap.backdrop, "BOTTOMLEFT", E.Border - E.Spacing*3, 0)
 	else
-		Minimap:Point("TOPLEFT", MMHolder, "TOPLEFT", E.Border, -E.Border)
+		Minimap:Point("TOPLEFT", MMHolder, "TOPLEFT")
 		ElvConfigToggle:SetPoint("TOPLEFT", RightMiniPanel, "TOPRIGHT", -E.Border + E.Spacing*3, 0)
 		ElvConfigToggle:SetPoint("BOTTOMLEFT", RightMiniPanel, "BOTTOMRIGHT", -E.Border + E.Spacing*3, 0)
 		ElvUI_ReminderBuffs:SetPoint("TOPLEFT", Minimap.backdrop, "TOPRIGHT", -E.Border + E.Spacing*3, 0)
@@ -312,7 +312,7 @@ function RB:Initialize()
 		ElvCharacterDB.ReminderDuration = {}
 	end
 
-	local frame = CreateFrame("Frame", "ElvUI_ReminderBuffs", Minimap)
+	local frame = CreateFrame("Frame", "ElvUI_ReminderBuffs", Minimap.backdrop)
 	frame:Width(E.RBRWidth)
 	self.frame = frame
 

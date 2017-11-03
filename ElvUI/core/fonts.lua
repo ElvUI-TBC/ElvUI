@@ -81,6 +81,6 @@ function E:UpdateBlizzardFonts()
 	--	SetFont(WorldMapTextFont,					NORMAL, self.db.general.fontSize);
 		SetFont(InvoiceTextFontNormal,				NORMAL, self.db.general.fontSize);
 		SetFont(InvoiceTextFontSmall,				NORMAL, self.db.general.fontSize);
-		SetFont(CombatTextFont,						COMBAT, 100, MONOCHROME .. "OUTLINE");
+		SetFont(CombatTextFont,						COMBAT, 25, MONOCHROME .. "OUTLINE");
 	end
 end

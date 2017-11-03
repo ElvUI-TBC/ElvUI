@@ -458,7 +458,7 @@ function CH:UpdateAnchors()
 		end
 	end
 
-	--CH:PositionChat(true);
+	CH:PositionChat(true);
 end
 
 local function FindRightChatID()
@@ -1201,12 +1201,11 @@ function CH:CheckKeyword(message)
 
 	local classColorTable, tempWord, rebuiltString, lowerCaseWord, wordMatch, classMatch
 	local isFirstWord = true
-	for word in message:gmatch("[^%s]+") do
-		lowerCaseWord = word:lower()
-		lowerCaseWord = lowerCaseWord:gsub("%p", "")
+	for word in message:gmatch("%s-[^%s]+%s*") do
+		tempWord = word:gsub("[%s%p]", "")
+		lowerCaseWord = tempWord:lower()
 		for keyword, _ in pairs(CH.Keywords) do
 			if lowerCaseWord == keyword:lower() then
-				local tempWord = word:gsub("%p", "")
 				word = word:gsub(tempWord, format("%s%s|r", E.media.hexvaluecolor, tempWord))
 				if self.db.keywordSound ~= "None" and not self.SoundPlayed then
 					if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
@@ -1219,10 +1218,10 @@ function CH:CheckKeyword(message)
 		end
 
 		if self.db.classColorMentionsChat and E.private.general.classCache then
-			tempWord = word:gsub("^%p-([^%p]+)([%-]?[^%p]-)%p-$","%1%2")
+			tempWord = word:gsub("^[%s%p]-([^%s%p]+)([%-]?[^%s%p]-)[%s%p]*$","%1%2")
 
 			classMatch = CC:GetCacheTable()[E.myrealm][tempWord]
-			wordMatch = CC:GetCacheTable()[E.myrealm][tempWord] and tempWord:lower()
+			wordMatch = classMatch and lowerCaseWord
 
 			if wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch] then
 				classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
@@ -1234,7 +1233,7 @@ function CH:CheckKeyword(message)
 			rebuiltString = word
 			isFirstWord = false
 		else
-			rebuiltString = format("%s %s", rebuiltString, word)
+			rebuiltString = format("%s%s", rebuiltString, word)
 		end
 	end
 

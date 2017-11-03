@@ -384,7 +384,7 @@ end
 
 function PI:Queue(addon)
 	local addonIsQueued = false
-	for k, v in pairs(self.Installs) do
+	for _, v in pairs(self.Installs) do
 		if v.Name == addon.Name then
 			addonIsQueued = true
 		end
@@ -419,7 +419,7 @@ function PI:RunInstall()
 		f.Title:SetText(db.Title or L["ElvUI Plugin Installation"])
 		f.Status:SetMinMaxValues(0, f.MaxPage)
 		f.Status.text:SetText(f.CurrentPage.." / "..f.MaxPage)
-		f.tutorialImage:SetTexture(db.tutorialImage or [[Interface\AddOns\ElvUI\media\textures\logo_elvui.tga]])
+		f.tutorialImage:SetTexture(db.tutorialImage or [[Interface\AddOns\ElvUI\media\textures\logo.tga]])
 
 		f.Pages = db.Pages
 

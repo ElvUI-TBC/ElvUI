@@ -150,7 +150,7 @@ local function updateText(self, elapsed)
 	if self.timeLeft then
 		self.elapsed = (self.elapsed or 0) + elapsed
 		if self.elapsed >= 0.1 then
-			local _, _, _, _, _, duration, remaining = UnitAura(self:GetParent():GetParent().unit, self.index)
+			local _, _, _, _, _, duration, remaining = UnitAura(self:GetParent():GetParent().unit, self.index, self.filter)
 			if self.timeLeft > 0 then
 				if self.cd then
 					if remaining and remaining > self.timeLeft then
@@ -175,14 +175,16 @@ local function updateText(self, elapsed)
 	end
 end
 
-local function resetIcon(icon, frame, count, duration, remaining, index)
+local function resetIcon(icon, frame, count, duration, remaining, index, filter)
 	if icon.onlyShowMissing then
 		icon:Hide()
 		icon:SetScript("OnUpdate", nil)
 		icon.index = nil
+		icon.filter = nil
 	else
 		icon:Show()
 		icon.index = index
+		icon.filter = filter
 		if icon.cd then
 			if duration and duration > 0 and icon.style ~= "NONE" then
 				icon.cd:SetCooldown(GetTime() - (duration - remaining), duration)
@@ -235,6 +237,7 @@ local function Update(frame, event, unit)
 			icon:Hide()
 			icon:SetScript("OnUpdate", nil)
 			icon.index = nil
+			icon.filter = nil
 		else
 			icon:Show()
 		end
@@ -254,7 +257,7 @@ local function Update(frame, event, unit)
 			icon = icons[key]
 
 			if icon then
-				resetIcon(icon, watch, count, duration, remaining, index)
+				resetIcon(icon, watch, count, duration, remaining, index, filter)
 				GUIDs[guid][key] = true
 				found[key] = true
 			end

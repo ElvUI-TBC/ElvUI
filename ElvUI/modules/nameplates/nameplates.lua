@@ -131,7 +131,11 @@ function mod:SetTargetFrame(frame)
 			self:UpdateElement_All(frame, true)
 		end
 
-		frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_START", "target")
+		if UnitCastingInfo("target") then
+			frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_START", "target")
+		elseif UnitChannelInfo("target") then
+			frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_CHANNEL_START", "target")
+		end
 
 		frame:SetAlpha(1)
 
@@ -274,13 +278,8 @@ function mod:UnitClass(name, type)
 				return class
 			else
 				local name, realm = split("-", name)
-				return CC:GetClassByName(name, realm, "friendly")
+				return CC:GetClassByName(name, realm)
 			end
-		elseif type == "ENEMY_NPC" then
-			local name, realm = split("-", name)
-			return CC:GetClassByName(name, realm, "enemy")
-		elseif type == "ENEMY_PLAYER" then
-			return CC:GetClassByName(split("-", name))
 		end
 	else
 		if type == "FRIENDLY_PLAYER" then

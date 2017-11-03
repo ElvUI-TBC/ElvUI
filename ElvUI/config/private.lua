@@ -18,9 +18,11 @@ V["general"] = {
 	["minimap"] = {
 		["enable"] = true,
 		["hideCalendar"] = true,
+		["zoomLevel"] = 0,
 	},
 	["classCache"] = true,
-	["classColorMentionsSpeech"] = true
+	["classColorMentionsSpeech"] = true,
+	["raidUtility"] = false
 }
 
 V["bags"] = {
@@ -84,6 +86,7 @@ V["skins"] = {
 		["petition"] = true,
 		["pvp"] = true,
 		["quest"] = true,
+		["questtimer"] = true,
 		["raid"] = true,
 		["socket"] = true,
 		["spellbook"] = true,
@@ -112,7 +115,6 @@ V["unitframe"] = {
 		["player"] = true,
 		["target"] = true,
 		["focus"] = true,
-		["boss"] = true,
 		["arena"] = true,
 		["party"] = true
 	}

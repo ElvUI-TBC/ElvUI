@@ -50,11 +50,28 @@ function S:LoadMiscSkin()
 		end
 	end
 
+	local r, g, b = 0.8, 0.8, 0.8
+	local function StyleButton(f)
+		local width, height = (f:GetWidth() * .6), f:GetHeight()
+
+		local leftGrad = f:CreateTexture(nil, "HIGHLIGHT")
+		leftGrad:Size(width, height)
+		leftGrad:Point("LEFT", f, "CENTER")
+		leftGrad:SetTexture(E.media.blankTex)
+		leftGrad:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
+
+		local rightGrad = f:CreateTexture(nil, "HIGHLIGHT")
+		rightGrad:Size(width, height)
+		rightGrad:Point("RIGHT", f, "CENTER")
+		rightGrad:SetTexture(E.media.blankTex)
+		rightGrad:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
+	end
+
 	for i = 1, 32 do
-		_G["ChatMenuButton"..i]:StyleButton()
-		_G["EmoteMenuButton"..i]:StyleButton()
-		_G["LanguageMenuButton"..i]:StyleButton()
-		_G["VoiceMacroMenuButton"..i]:StyleButton()
+		StyleButton(_G["ChatMenuButton"..i])
+		StyleButton(_G["EmoteMenuButton"..i])
+		StyleButton(_G["LanguageMenuButton"..i])
+		StyleButton(_G["VoiceMacroMenuButton"..i])
 	end
 
 	-- Static Popups

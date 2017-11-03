@@ -923,26 +923,26 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 		set = function(info, value) E.db.unitframe.units[groupName]["aurabar"][ info[#info] ] = value; updateFunc(UF, groupName); end,
 		args = {
 			enable = {
-				type = "toggle",
 				order = 1,
+				type = "toggle",
 				name = L["Enable"]
 			},
 			configureButton1 = {
 				order = 2,
+				type = "execute",
 				name = L["Coloring"],
 				desc = L["This opens the UnitFrames Color settings. These settings affect all unitframes."],
-				type = "execute",
 				func = function() ACD:SelectGroup("ElvUI", "unitframe", "general", "allColorsGroup", "auraBars") end
 			},
 			configureButton2 = {
 				order = 3,
-				name = L["Coloring (Specific)"],
 				type = "execute",
+				name = L["Coloring (Specific)"],
 				func = function() E:SetToFilterConfig("AuraBar Colors") end
 			},
 			anchorPoint = {
-				type = "select",
 				order = 4,
+				type = "select",
 				name = L["Anchor Point"],
 				desc = L["What point to anchor to the frame you set to attach to."],
 				values = {
@@ -951,8 +951,8 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				}
 			},
 			attachTo = {
-				type = "select",
 				order = 5,
+				type = "select",
 				name = L["Attach To"],
 				desc = L["The object you want to attach to."],
 				values = {
@@ -962,26 +962,26 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				}
 			},
 			height = {
-				type = "range",
 				order = 6,
+				type = "range",
 				name = L["Height"],
 				min = 6, max = 40, step = 1
 			},
 			maxBars = {
-				type = "range",
 				order = 7,
+				type = "range",
 				name = L["Max Bars"],
 				min = 1, max = 40, step = 1
 			},
 			sort = {
-				type = "select",
 				order = 8,
+				type = "select",
 				name = L["Sort Method"],
 				values = auraBarsSortValues
 			},
 			friendlyAuraType = {
+				order = 9,
 				type = "select",
-				order = 17,
 				name = L["Friendly Aura Type"],
 				desc = L["Set the type of auras to show when a unit is friendly."],
 				values = {
@@ -991,8 +991,8 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				}
 			},
 			enemyAuraType = {
+				order = 10,
 				type = "select",
-				order = 18,
 				name = L["Enemy Aura Type"],
 				desc = L["Set the type of auras to show when a unit is a foe."],
 				values = {
@@ -1002,11 +1002,17 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				}
 			},
 			uniformThreshold = {
-				order = 19,
+				order = 11,
 				type = "range",
 				name = L["Uniform Threshold"],
 				desc = L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."],
 				min = 0, max = 3600, step = 1
+			},
+			yOffset = {
+				order = 12,
+				type = "range",
+				name = L["yOffset"],
+				min = -1000, max = 1000, step = 1,
 			},
 			filters = {
 				name = L["Filters"],
@@ -1023,26 +1029,20 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 	end
 
 	if(friendlyOnly) then
-		config.args.filters.args.playerOnly = {
-			order = 10,
-			type = "toggle",
-			name = L["Block Non-Personal Auras"],
-			desc = L["Don't display auras that are not yours."]
-		};
 		config.args.filters.args.useBlacklist = {
-			order = 11,
+			order = 10,
 			type = "toggle",
 			name = L["Block Blacklisted Auras"],
 			desc = L["Don't display any auras found on the 'Blacklist' filter."],
 		};
 		config.args.filters.args.useWhitelist = {
-			order = 12,
+			order = 11,
 			type = "toggle",
 			name = L["Allow Whitelisted Auras"],
 			desc = L["If no other filter options are being used then it will block anything not on the 'Whitelist' filter, otherwise it will simply add auras on the whitelist in addition to any other filter settings."]
 		};
 		config.args.filters.args.noDuration = {
-			order = 13,
+			order = 12,
 			type = "toggle",
 			name = L["Block Auras Without Duration"],
 			desc = L["Don't display auras that have no duration."]
@@ -1061,39 +1061,9 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				return filters;
 			end
 		};
-		config.args.filters.args.additionalFilterAllowNonPersonal = {
-			order = 17,
-			type = "toggle",
-			name = L["Additional Filter Override"],
-			desc = L["Allow non-personal auras from additional filter when 'Block Non-Personal Auras' is enabled."]
-		};
 	else
-		config.args.filters.args.playerOnly = {
-			order = 10,
-			guiInline = true,
-			type = "group",
-			name = L["Block Non-Personal Auras"],
-			args = {
-				friendly = {
-					order = 1,
-					type = "toggle",
-					name = L["Friendly"],
-					desc = L["If the unit is friendly to you."] .. " " .. L["Don't display auras that are not yours."],
-					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].playerOnly.friendly; end,
-					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].playerOnly.friendly = value; updateFunc(UF, groupName); end
-				},
-				enemy = {
-					order = 2,
-					type = "toggle",
-					name = L["Enemy"],
-					desc = L["If the unit is an enemy to you."] .. " " .. L["Don't display auras that are not yours."],
-					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].playerOnly.enemy; end,
-					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].playerOnly.enemy = value; updateFunc(UF, groupName); end
-				}
-			}
-		};
 		config.args.filters.args.useBlacklist = {
-			order = 11,
+			order = 10,
 			guiInline = true,
 			type = "group",
 			name = L["Block Blacklisted Auras"],
@@ -1117,7 +1087,7 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 			}
 		};
 		config.args.filters.args.useWhitelist = {
-			order = 12,
+			order = 11,
 			guiInline = true,
 			type = "group",
 			name = L["Allow Whitelisted Auras"],
@@ -1141,7 +1111,7 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 			}
 		};
 		config.args.filters.args.noDuration = {
-			order = 13,
+			order = 12,
 			guiInline = true,
 			type = "group",
 			name = L["Block Auras Without Duration"],
@@ -1178,16 +1148,10 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				return filters;
 			end
 		};
-		config.args.filters.args.additionalFilterAllowNonPersonal = {
-			order = 17,
-			type = "toggle",
-			name = L["Additional Filter Override"],
-			desc = L["Allow non-personal auras from additional filter when 'Block Non-Personal Auras' is enabled."]
-		};
 	end
 
 	config.args.filters.args.maxDuration = {
-		order = 17,
+		order = 13,
 		type = "range",
 		name = L["Maximum Duration"],
 		desc = L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."],
@@ -1505,8 +1469,6 @@ function UF:CreateCustomTextGroup(unit, objectName)
 
 			if(unit == "party" or unit:find("raid")) then
 				UF:CreateAndUpdateHeaderGroup(unit);
-			elseif(unit == "boss") then
-				UF:CreateAndUpdateUFGroup("boss", MAX_BOSS_FRAMES);
 			elseif(unit == "arena") then
 				UF:CreateAndUpdateUFGroup("arena", 5);
 			else
@@ -1522,7 +1484,7 @@ function UF:CreateCustomTextGroup(unit, objectName)
 					E.Options.args.unitframe.args[unit].args[objectName] = nil;
 					E.db.unitframe.units[unit].customTexts[objectName] = nil;
 
-					if(unit == "boss" or unit == "arena") then
+					if(unit == "arena") then
 						for i = 1, 5 do
 							if(UF[unit .. i]) then
 								UF[unit .. i]:Tag(UF[unit .. i]["customTexts"][objectName], "");
@@ -1814,18 +1776,13 @@ E.Options.args.unitframe = {
 							name = L["Focus Frame"],
 							desc = L["Disables the focus and target of focus unitframes."]
 						},
-						boss = {
-							order = 4,
-							type = "toggle",
-							name = L["Boss Frames"]
-						},
 						arena = {
-							order = 5,
+							order = 4,
 							type = "toggle",
 							name = L["Arena Frames"]
 						},
 						party = {
-							order = 6,
+							order = 5,
 							type = "toggle",
 							name = L["Party Frames"]
 						}
@@ -3702,154 +3659,6 @@ E.Options.args.unitframe.args.pettarget = {
 	}
 };
 
-E.Options.args.unitframe.args.boss = {
-	name = L["Boss Frames"],
-	type = "group",
-	order = 1000,
-	childGroups = "select",
-	get = function(info) return E.db.unitframe.units["boss"][ info[#info] ]; end,
-	set = function(info, value) E.db.unitframe.units["boss"][ info[#info] ] = value; UF:CreateAndUpdateUFGroup("boss", MAX_BOSS_FRAMES); end,
-	disabled = function() return not E.private.unitframe.enable end,
-	args = {
-		copyFrom = {
-			order = 1,
-			type = "select",
-			name = L["Copy From"],
-			desc = L["Select a unit to copy settings from."],
-			values = {
-				["boss"] = "boss",
-				["arena"] = "arena"
-			},
-			set = function(info, value) UF:MergeUnitSettings(value, "boss"); end
-		},
-		resetSettings = {
-			order = 2,
-			type = "execute",
-			name = L["Restore Defaults"],
-			func = function(info, value) UF:ResetUnitSettings("boss"); E:ResetMovers(L["Boss Frames"]); end,
-		},
-		displayFrames = {
-			order = 3,
-			type = "execute",
-			name = L["Display Frames"],
-			desc = L["Force the frames to show, they will act as if they are the player frame."],
-			func = function() UF:ToggleForceShowGroupFrames("boss", 4) end
-		},
-		enable = {
-			order = 4,
-			type = "toggle",
-			name = L["Enable"]
-		},
-		width = {
-			order = 5,
-			type = "range",
-			name = L["Width"],
-			min = 50, max = 500, step = 1,
-			set = function(info, value)
-				if(E.db.unitframe.units["boss"].castbar.width == E.db.unitframe.units["boss"][ info[#info] ]) then
-					E.db.unitframe.units["boss"].castbar.width = value;
-				end
-
-				E.db.unitframe.units["boss"][ info[#info] ] = value;
-				UF:CreateAndUpdateUFGroup("boss", MAX_BOSS_FRAMES);
-			end
-		},
-		height = {
-			order = 6,
-			type = "range",
-			name = L["Height"],
-			min = 10, max = 250, step = 1
-		},
-		rangeCheck = {
-			order = 7,
-			type = "toggle",
-			name = L["Range Check"],
-			desc = L["Check if you are in range to cast spells on this specific unit."]
-		},
-		hideonnpc = {
-			order = 8,
-			type = "toggle",
-			name = L["Text Toggle On NPC"],
-			desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
-			get = function(info) return E.db.unitframe.units["boss"]["power"].hideonnpc end,
-			set = function(info, value) E.db.unitframe.units["boss"]["power"].hideonnpc = value; UF:CreateAndUpdateUFGroup("boss", MAX_BOSS_FRAMES); end
-		},
-		growthDirection = {
-			order = 9,
-			type = "select",
-			name = L["Growth Direction"],
-			values = {
-				["UP"] = L["Bottom to Top"],
-				["DOWN"] = L["Top to Bottom"],
-				["LEFT"] = L["Right to Left"],
-				["RIGHT"] = L["Left to Right"]
-			}
-		},
-		spacing = {
-			order = 10,
-			type = "range",
-			name = L["Spacing"],
-			min = 0, max = 400, step = 1
-		},
-		threatStyle = {
-			order = 11,
-			type = "select",
-			name = L["Threat Display Mode"],
-			values = threatValues
-		},
-		smartAuraPosition = {
-			order = 12,
-			type = "select",
-			name = L["Smart Aura Position"],
-			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
-			values = {
-				["DISABLED"] = L["Disabled"],
-				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
-				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"]
-			}
-		},
-		orientation = {
-			order = 13,
-			type = "select",
-			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame."],
-			values = {
-				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
-				["LEFT"] = L["Left"],
-				["MIDDLE"] = L["Middle"],
-				["RIGHT"] = L["Right"]
-			}
-		},
-		colorOverride = {
-			order = 15,
-			name = L["Class Color Override"],
-			desc = L["Override the default class color setting."],
-			type = "select",
-			values = {
-				["USE_DEFAULT"] = L["Use Default"],
-				["FORCE_ON"] = L["Force On"],
-				["FORCE_OFF"] = L["Force Off"]
-			}
-		},
-		targetGlow = {
-			order = 16,
-			type = "toggle",
-			name = L["Target Glow"],
-			desc = L["Show target glow indicator from this group of frames."],
-		},
-		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		name = GetOptionsTable_Name(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES)
-	}
-};
-
 E.Options.args.unitframe.args.arena = {
 	name = L["Arena Frames"],
 	type = "group",
@@ -3865,7 +3674,6 @@ E.Options.args.unitframe.args.arena = {
 			name = L["Copy From"],
 			desc = L["Select a unit to copy settings from."],
 			values = {
-				["boss"] = "boss",
 				["arena"] = "arena"
 			},
 			set = function(info, value) UF:MergeUnitSettings(value, "arena"); end
@@ -5866,7 +5674,7 @@ E.Options.args.unitframe.args.raidpet = {
 	},
 }
 
-E.Options.args.unitframe.args.tank = { -- Танки
+E.Options.args.unitframe.args.tank = {
 	name = L["Tank Frames"],
 	type = "group",
 	order = 1500,
@@ -5903,21 +5711,15 @@ E.Options.args.unitframe.args.tank = { -- Танки
 					type = "range",
 					min = 10, max = 250, step = 1,
 				},
-				verticalSpacing = {
-					order = 4,
-					type = "range",
-					name = L["Vertical Spacing"],
-					min = 0, max = 100, step = 1,
-				},
 				disableDebuffHighlight = {
-					order = 5,
+					order = 4,
 					type = "toggle",
 					name = L["Disable Debuff Highlight"],
 					desc = L["Forces Debuff Highlight to be disabled for these frames"],
 					disabled = function() return E.db.unitframe.debuffHighlighting == "NONE" end,
 				},
 				orientation = {
-					order = 6,
+					order = 5,
 					type = "select",
 					name = L["Frame Orientation"],
 					desc = L["Set the orientation of the UnitFrame."],
@@ -5929,7 +5731,7 @@ E.Options.args.unitframe.args.tank = { -- Танки
 					},
 				},
 				colorOverride = {
-					order = 7,
+					order = 6,
 					name = L["Class Color Override"],
 					desc = L["Override the default class color setting."],
 					type = "select",
@@ -6049,7 +5851,7 @@ E.Options.args.unitframe.args.tank = { -- Танки
 	},
 }
 
-E.Options.args.unitframe.args.assist = { -- Помощники
+E.Options.args.unitframe.args.assist = {
 	name = L["Assist Frames"],
 	type = "group",
 	order = 1600,
@@ -6086,21 +5888,15 @@ E.Options.args.unitframe.args.assist = { -- Помощники
 					type = "range",
 					min = 10, max = 250, step = 1,
 				},
-				verticalSpacing = {
-					order = 4,
-					type = "range",
-					name = L["Vertical Spacing"],
-					min = 0, max = 100, step = 1,
-				},
 				disableDebuffHighlight = {
-					order = 5,
+					order = 4,
 					type = "toggle",
 					name = L["Disable Debuff Highlight"],
 					desc = L["Forces Debuff Highlight to be disabled for these frames"],
 					disabled = function() return E.db.unitframe.debuffHighlighting == "NONE"; end,
 				},
 				orientation = {
-					order = 6,
+					order = 5,
 					type = "select",
 					name = L["Frame Orientation"],
 					desc = L["Set the orientation of the UnitFrame."],
@@ -6112,7 +5908,7 @@ E.Options.args.unitframe.args.assist = { -- Помощники
 					},
 				},
 				colorOverride = {
-					order = 7,
+					order = 6,
 					name = L["Class Color Override"],
 					desc = L["Override the default class color setting."],
 					type = "select",

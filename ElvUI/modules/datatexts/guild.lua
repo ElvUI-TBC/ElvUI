@@ -36,7 +36,7 @@ local guildMotDString = "%s |cffaaaaaa |cffffffff%s"
 local levelNameString = "|cff%02x%02x%02x%d|r |cff%02x%02x%02x%s|r %s"
 local levelNameStatusString = "|cff%02x%02x%02x%d|r %s%s "
 local nameRankString = "%s |cff999999-|cffffffff %s"
-local moreMembersOnlineString = join("", "+ %d ", L["Online"], "...")
+local moreMembersOnlineString = join("", "+ %d ", GUILD_ONLINE_LABEL, "...")
 local noteString = join("", "|cff999999   ", LABEL_NOTE, ":|r %s")
 local officerNoteString = join("", "|cff999999   ", GUILD_RANK1_DESC, ":|r %s")
 local guildTable, guildMotD = {}, ""
@@ -100,8 +100,8 @@ local eventHandlers = {
 	["GUILD_MOTD"] = function(_, arg1)
 		guildMotD = arg1
 	end,
-	["ELVUI_FORCE_RUN"] = function() end,
-	["ELVUI_COLOR_UPDATE"] = function() end,
+	["ELVUI_FORCE_RUN"] = E.noop,
+	["ELVUI_COLOR_UPDATE"] = E.noop,
 }
 
 local function OnEvent(self, event, ...)

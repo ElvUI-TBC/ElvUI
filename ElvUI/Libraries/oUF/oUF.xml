@@ -1,6 +1,4 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Cooldown name="oUF_CooldownFrameTemplate" inherits="CooldownFrameTemplate" drawEdge="true" virtual="true"/>
-
 	<Script file="init.lua"/>
 	<Script file="private.lua"/>
 	<Script file="ouf.lua"/>
@@ -12,23 +10,25 @@
 	<Script file="finalize.lua"/>
 
 	<Script file="elements\power.lua"/>
-	<Script file="elements\aura.lua"/>
+	<Script file="elements\auras.lua"/>
 	<Script file="elements\health.lua"/>
-	<Script file="elements\cpoints.lua"/>
-	<Script file="elements\ricons.lua"/>
-	<Script file="elements\leader.lua"/>
-	<Script file="elements\combat.lua"/>
-	<Script file="elements\resting.lua"/>
-	<Script file="elements\pvp.lua"/>
-	<Script file="elements\portraits.lua"/>
+	<Script file="elements\raidtargetindicator.lua"/>
+	<Script file="elements\leaderindicator.lua"/>
+	<Script file="elements\combatindicator.lua"/>
+	<Script file="elements\restingindicator.lua"/>
+	<Script file="elements\pvpindicator.lua"/>
+	<Script file="elements\portrait.lua"/>
 	<Script file="elements\range.lua"/>
 	<Script file="elements\castbar.lua"/>
 	<Script file="elements\tags.lua"/>
-	<Script file="elements\masterlooter.lua"/>
-	<Script file="elements\assistant.lua"/>
-	<Script file="elements\readycheck.lua"/>
-	<Script file="elements\happiness.lua"/>
-	<Script file="elements\raidrole.lua"/>
+	<Script file="elements\masterlooterindicator.lua"/>
+	<Script file="elements\assistantindicator.lua"/>
+	<Script file="elements\readycheckindicator.lua"/>
+	<Script file="elements\combopoints.lua"/>
+	<Script file="elements\raidroleindicator.lua"/>
+	<Script file="elements\happinessindicator.lua"/>
+
+	<Cooldown name="oUF_CooldownFrameTemplate" inherits="CooldownFrameTemplate" drawEdge="true" virtual="true"/>
 
 	<!--
 		Sub-object as a child of the parent unit frame:

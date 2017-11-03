@@ -31,23 +31,23 @@ local menuList = {
 	{text = SPELLBOOK_ABILITIES_BUTTON,
 	func = function() ToggleSpellBook(BOOKTYPE_SPELL) end},
 	{text = TALENTS_BUTTON,
-	func = function() ToggleTalentFrame() end},
-	{text = L["Quest Log"],
+	func = ToggleTalentFrame},
+	{text = QUEST_LOG,
 	func = function() ToggleQuestLog() end},
 	{text = SOCIAL_BUTTON,
 	func = function() ToggleFriendsFrame() end},
 	{text = L["Farm Mode"],
 	func = FarmMode},
 	{text = BATTLEFIELD_MINIMAP,
-	func = function() ToggleBattlefieldMinimap() end},
+	func = ToggleBattlefieldMinimap},
 	{text = TIMEMANAGER_TITLE,
-	func = function() ToggleTimeManager() end},
+	func = ToggleTimeManager},
 	{text = PLAYER_V_PLAYER,
 	func = function() ToggleCharacter("PVPFrame") end},
-	{text = L["Group Finder (LFG/LFM)"],
+	{text = LFG_TITLE,
 	func = function() ToggleLFGParentFrame() end},
 	{text = HELP_BUTTON,
-	func = function() ToggleHelpFrame() end},
+	func = ToggleHelpFrame},
 }
 
 function M:GetLocTextColor()
@@ -89,10 +89,11 @@ function M:Minimap_OnMouseUp(btn)
 end
 
 function M:Minimap_OnMouseWheel(d)
-	if d > 0 then
-		_G.MinimapZoomIn:Click()
-	elseif d < 0 then
-		_G.MinimapZoomOut:Click()
+	local zoomLevel = Minimap:GetZoom()
+	if d > 0 and zoomLevel < 5 then
+		Minimap:SetZoom(zoomLevel + 1)
+	elseif d < 0 and zoomLevel > 0 then
+		Minimap:SetZoom(zoomLevel - 1)
 	end
 end
 
@@ -115,23 +116,19 @@ local function ResetZoom()
 	MinimapZoomOut:Disable()
 	isResetting = false
 end
-local function SetupZoomReset()
+local function SetupZoomReset(_, zoomLevel)
 	if E.db.general.minimap.resetZoom.enable and not isResetting then
 		isResetting = true
 		E:Delay(E.db.general.minimap.resetZoom.time, ResetZoom)
+	else
+		E.private.general.minimap.zoomLevel = zoomLevel
 	end
 end
 hooksecurefunc(Minimap, "SetZoom", SetupZoomReset)
 
-function M:UpdateMinimapSize()
-	local zoomLevel = Minimap:GetZoom()
-
-	if zoomLevel == (Minimap:GetZoomLevels() - 1) then
-		Minimap:SetZoom(zoomLevel - 1)
-		Minimap:SetZoom(zoomLevel)
-	else
-		Minimap:SetZoom(zoomLevel + 1)
-		Minimap:SetZoom(zoomLevel)
+function M:MINIMAP_UPDATE_ZOOM()
+	if E.private.general.minimap.zoomLevel ~= Minimap:GetZoom() then
+		Minimap:SetZoom(E.private.general.minimap.zoomLevel)
 	end
 end
 
@@ -140,7 +137,7 @@ function M:UpdateSettings()
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
 	end
 
-	E.MinimapSize = E.private.general.minimap.enable and E.db.general.minimap.size or Minimap:GetWidth() + 10
+	E.MinimapSize = E.private.general.minimap.enable and E.db.general.minimap.size or 140
 	E.MinimapWidth = E.MinimapSize
 	E.MinimapHeight = E.MinimapSize
 
@@ -151,8 +148,7 @@ function M:UpdateSettings()
 	end
 
 	if E.private.general.minimap.enable then
-		Minimap:Size(E.MinimapSize, E.MinimapSize)
-		self:UpdateMinimapSize()
+		Minimap:SetScale(E.MinimapSize / 140)
 	end
 
 	if LeftMiniPanel and RightMiniPanel then
@@ -214,12 +210,12 @@ function M:UpdateSettings()
 	end
 
 	if MMHolder then
-		MMHolder:Width((Minimap:GetWidth() + E.Border + E.Spacing*3) + E.RBRWidth)
+		MMHolder:Width((E.MinimapWidth + E.Border + E.Spacing*3) + E.RBRWidth)
 
 		if E.db.datatexts.minimapPanels then
-			MMHolder:Height(Minimap:GetHeight() + (LeftMiniPanel and (LeftMiniPanel:GetHeight() + E.Border) or 24) + E.Spacing*3)
+			MMHolder:Height(E.MinimapHeight + (LeftMiniPanel and (LeftMiniPanel:GetHeight() + E.Border) or 24) + E.Spacing*3)
 		else
-			MMHolder:Height(Minimap:GetHeight() + E.Border + E.Spacing*3)
+			MMHolder:Height(E.MinimapHeight + E.Border + E.Spacing*3)
 		end
 	end
 
@@ -309,10 +305,10 @@ function M:Initialize()
 		return "SQUARE"
 	end
 
-	local mmholder = CreateFrame("Frame", "MMHolder", Minimap)
+	local mmholder = CreateFrame("Frame", "MMHolder", UIParent)
 	mmholder:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3)
-	mmholder:Width((Minimap:GetWidth() + 29) + E.RBRWidth)
-	mmholder:Height(Minimap:GetHeight() + 53)
+	mmholder:Width((E.MinimapWidth + 29) + E.RBRWidth)
+	mmholder:Height(E.MinimapHeight + 53)
 	Minimap:ClearAllPoints()
 	if E.db.general.reminder.position == "LEFT" then
 		Minimap:Point("TOPRIGHT", mmholder, "TOPRIGHT", -E.Border, -E.Border)
@@ -320,7 +316,11 @@ function M:Initialize()
 		Minimap:Point("TOPLEFT", mmholder, "TOPLEFT", E.Border, -E.Border)
 	end
 	Minimap:SetMaskTexture("Interface\\ChatFrame\\ChatFrameBackground")
-	Minimap:CreateBackdrop("Default")
+	Minimap.backdrop = CreateFrame("Frame", nil, UIParent)
+	Minimap.backdrop:SetOutside(Minimap)
+	Minimap.backdrop:SetFrameStrata(Minimap:GetFrameStrata())
+	Minimap.backdrop:SetFrameLevel(Minimap:GetFrameLevel() - 1)
+	Minimap.backdrop:SetTemplate("Default")
 	Minimap:SetFrameLevel(Minimap:GetFrameLevel() + 2)
 	Minimap:HookScript2("OnEnter", function(self)
 		if E.db.general.minimap.locationText ~= "MOUSEOVER" or not E.private.general.minimap.enable then return end
@@ -378,6 +378,7 @@ function M:Initialize()
 	self:RegisterEvent("ZONE_CHANGED", "Update_ZoneText")
 	self:RegisterEvent("ZONE_CHANGED_INDOORS", "Update_ZoneText")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "Update_ZoneText")
+	self:RegisterEvent("MINIMAP_UPDATE_ZOOM")
 	self:RegisterEvent("ADDON_LOADED")
 
 	local fm = CreateFrame("Minimap", "FarmModeMap", E.UIParent)
@@ -402,14 +403,6 @@ function M:Initialize()
 
 		MinimapCluster:ClearAllPoints()
 		MinimapCluster:SetAllPoints(FarmModeMap)
-
-		if(IsAddOnLoaded("Routes")) then
-			LibStub("AceAddon-3.0"):GetAddon("Routes"):ReparentMinimap(FarmModeMap)
-		end
-
-		if(IsAddOnLoaded("GatherMate2")) then
-			LibStub("AceAddon-3.0"):GetAddon("GatherMate2"):GetModule("Display"):ReparentMinimapPins(FarmModeMap)
-		end
 	end)
 
 	FarmModeMap:SetScript("OnHide", function()
@@ -419,14 +412,6 @@ function M:Initialize()
 
 		MinimapCluster:ClearAllPoints()
 		MinimapCluster:SetAllPoints(Minimap)
-
-		if(IsAddOnLoaded("Routes")) then
-			LibStub("AceAddon-3.0"):GetAddon("Routes"):ReparentMinimap(Minimap)
-		end
-
-		if(IsAddOnLoaded("GatherMate2")) then
-			LibStub("AceAddon-3.0"):GetAddon("GatherMate2"):GetModule("Display"):ReparentMinimapPins(Minimap)
-		end
 	end)
 
 	UIParent:HookScript("OnShow", function()

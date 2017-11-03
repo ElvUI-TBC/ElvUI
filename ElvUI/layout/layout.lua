@@ -332,13 +332,13 @@ function LO:CreateChatPanels()
 end
 
 function LO:CreateMinimapPanels()
-	local lminipanel = CreateFrame("Frame", "LeftMiniPanel", Minimap)
+	local lminipanel = CreateFrame("Frame", "LeftMiniPanel", Minimap.backdrop)
 	lminipanel:Point("TOPLEFT", Minimap, "BOTTOMLEFT", -E.Border, (E.PixelMode and 0 or -3))
 	lminipanel:Point("BOTTOMRIGHT", Minimap, "BOTTOM", -E.Spacing, -((E.PixelMode and 0 or 3) + PANEL_HEIGHT))
 	lminipanel:SetTemplate(E.db.datatexts.panelTransparency and "Transparent" or "Default", true)
 	E:GetModule("DataTexts"):RegisterPanel(lminipanel, 1, "ANCHOR_BOTTOMLEFT", lminipanel:GetWidth() * 2, -(E.PixelMode and 1 or 3))
 
-	local rminipanel = CreateFrame("Frame", "RightMiniPanel", Minimap)
+	local rminipanel = CreateFrame("Frame", "RightMiniPanel", Minimap.backdrop)
 	rminipanel:Point("TOPRIGHT", Minimap, "BOTTOMRIGHT", E.Border, (E.PixelMode and 0 or -3))
 	rminipanel:Point("BOTTOMLEFT", lminipanel, "BOTTOMRIGHT", (E.PixelMode and -1 or 1), 0)
 	rminipanel:SetTemplate(E.db.datatexts.panelTransparency and "Transparent" or "Default", true)
@@ -353,7 +353,7 @@ function LO:CreateMinimapPanels()
 	end
 
 
-	local configtoggle = CreateFrame("Button", "ElvConfigToggle", Minimap)
+	local configtoggle = CreateFrame("Button", "ElvConfigToggle", Minimap.backdrop)
 	if(E.db.general.reminder.position == "LEFT") then
 		configtoggle:Point("TOPRIGHT", lminipanel, "TOPLEFT", (E.PixelMode and 1 or -1), 0);
 		configtoggle:Point("BOTTOMRIGHT", lminipanel, "BOTTOMLEFT", (E.PixelMode and 1 or -1), 0);
@@ -390,37 +390,37 @@ function LO:CreateMinimapPanels()
 		GameTooltip:Hide()
 	end)
 
-	local f = CreateFrame("Frame", "BottomMiniPanel", Minimap);
+	local f = CreateFrame("Frame", "BottomMiniPanel", Minimap.backdrop);
 	f:SetPoint("BOTTOM", Minimap, "BOTTOM");
 	f:Width(75);
 	f:Height(20);
 	E:GetModule("DataTexts"):RegisterPanel(f, 1, "ANCHOR_BOTTOM", 0, -10);
 
-	f = CreateFrame("Frame", "TopMiniPanel", Minimap);
+	f = CreateFrame("Frame", "TopMiniPanel", Minimap.backdrop);
 	f:SetPoint("TOP", Minimap, "TOP");
 	f:Width(75);
 	f:Height(20);
 	E:GetModule("DataTexts"):RegisterPanel(f, 1, "ANCHOR_BOTTOM", 0, -10);
 
-	f = CreateFrame("Frame", "TopLeftMiniPanel", Minimap);
+	f = CreateFrame("Frame", "TopLeftMiniPanel", Minimap.backdrop);
 	f:SetPoint("TOPLEFT", Minimap, "TOPLEFT");
 	f:Width(75);
 	f:Height(20);
 	E:GetModule("DataTexts"):RegisterPanel(f, 1, "ANCHOR_BOTTOMLEFT", 0, -10);
 
-	f = CreateFrame("Frame", "TopRightMiniPanel", Minimap);
+	f = CreateFrame("Frame", "TopRightMiniPanel", Minimap.backdrop);
 	f:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT");
 	f:Width(75);
 	f:Height(20);
 	E:GetModule("DataTexts"):RegisterPanel(f, 1, "ANCHOR_BOTTOMRIGHT", 0, -10);
 
-	f = CreateFrame("Frame", "BottomLeftMiniPanel", Minimap);
+	f = CreateFrame("Frame", "BottomLeftMiniPanel", Minimap.backdrop);
 	f:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT");
 	f:Width(75);
 	f:Height(20);
 	E:GetModule("DataTexts"):RegisterPanel(f, 1, "ANCHOR_BOTTOMLEFT", 0, -10);
 
-	f = CreateFrame("Frame", "BottomRightMiniPanel", Minimap);
+	f = CreateFrame("Frame", "BottomRightMiniPanel", Minimap.backdrop);
 	f:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT");
 	f:Width(75);
 	f:Height(20);

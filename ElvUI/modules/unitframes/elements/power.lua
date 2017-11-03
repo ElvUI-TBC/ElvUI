@@ -203,14 +203,14 @@ function UF:Configure_Power(frame)
 	end
 end
 
-function UF:PostUpdatePower(unit, min, max)
+function UF:PostUpdatePower(unit, cur, max)
 	local parent = self:GetParent();
 
 	if(parent.isForced) then
 		local pType = random(0, 3);
-		local color = ElvUF["colors"].power[pType];
-		min = random(1, max);
-		self:SetValue(min);
+		local color = ElvUF["colors"].power[pType]
+		cur = random(1, max);
+		self:SetValue(cur);
 
 		if(not self.colorClass) then
 			self:SetStatusBarColor(color[1], color[2], color[3]);

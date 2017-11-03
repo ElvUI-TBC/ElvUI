@@ -4,6 +4,7 @@ local L = AceLocale:NewLocale("ElvUI", "ruRU")
 if not L then return; end
 
 -- *_DESC locales
+L["ACTIONBARS_DESC"] = "Modify the actionbar settings."
 L["AURAS_DESC"] = "Настройка иконок эффектов, находящихся у миникарты."
 L["BAGS_DESC"] = "Настройки сумок ElvUI"
 L["CHAT_DESC"] = "Настройте отображение чата ElvUI."
@@ -191,6 +192,7 @@ L["Top to Bottom"] = "Сверху вниз"
 L["Use coin icons instead of colored text."] = "Использовать иконки монет вместо окрашенного текста."
 
 --Buffs and Debuffs
+L["Auras Spacing"] = true;
 L["Buffs and Debuffs"] = "Эффекты и ауры"
 L["Begin a new row or column after this many auras."] = "Начинать новый ряд/столбец после этого количества аур."
 L["Count xOffset"] = "Отступ стаков по X"
@@ -213,6 +215,7 @@ L["Seperate"] = "Разделение"
 L["Set the size of the individual auras."] = "Устанавливает размер аур"
 L["Sort Method"] = "Метод сортировки"
 L["The direction the auras will grow and then the direction they will grow after they reach the wrap after limit."] = "Направление роста аур и сторона с которой будет добавляться новый ряд."
+L["The spacing between auras."] = true;
 L["Threshold before text changes red, goes into decimal form, and the icon will fade. Set to -1 to disable."] = "Пороговое значение, после которого цвет текста изменится на красный и начнет показывать десятые доли секунд, а иконка начнет мигать. Установите на -1 для отключения"
 L["Time xOffset"] = "Отступ времени по X"
 L["Time yOffset"] = "Отступ времени по Y"
@@ -231,7 +234,9 @@ L["Attempt to create URL links inside the chat."] = "Пытаться созда
 L["Attempt to lock the left and right chat frame positions. Disabling this option will allow you to move the main chat frame anywhere you wish."] = "Закрепляет позиции левого и правого чата к соответственным панелям. Отключение этой опции позволит перемещать чат независимо от них."
 L["Below Chat"] = "Под чатом"
 L["Chat EditBox Position"] = "Позиция поля ввода"
+L["Chat History Lines"] = true;
 L["Chat History"] = "История чата"
+L["Chat Timestamps"] = true;
 L["Class Color Mentions"] = "Упоминания цветом класса"
 L["Custom Timestamp Color"] = "Свой цвет времени"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "Отображать подсказку ссылки на при наведении на нее мыши. Действует на предметы, достижения, сохранения подземелий и тд."
@@ -256,6 +261,7 @@ L["List of words to color in chat if found in a message. If you wish to add mult
 L["Lock Positions"] = "Закрепить"
 L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."] = "Записывать содержимое основных чатов. Таким образом, после перезагрузки интерфейса или входа/выхода из игры, Вы увидите сообщения из прошлой сессии."
 L["No Alert In Combat"] = "Без оповещений в бою"
+L["Number of chat messages to be stores in the chat history."] = true;
 L["Number of messages you scroll for each step."] = "Количество сообщений, прокручивающихся за шаг."
 L["Number of repeat characters while in combat before the chat editbox is automatically closed."] = "Кол-во одинаковых символов введенных в бою, после которого поле ввода автоматически закроется."
 L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."] = "Время в секундах, через которое чат автоматически покрутится вниз до конца, если Вы не сделаете это вручную."
@@ -270,6 +276,7 @@ L["Require holding the Alt key down to move cursor or cycle through messages in 
 L["Right Only"] = "Только правый"
 L["Right Panel Height"] = "Высота правого чата"
 L["Right Panel Width"] = "Ширина правого чата"
+L["Select the format of timestamps for chat messages."] = true;
 L["Scroll Direction"] = "Направление прокрутки"
 L["Scroll Interval"] = "Интервал прокрутки"
 L["Scroll Messages"] = "Прокручивание сообщений"
@@ -290,7 +297,7 @@ L["Toggle showing of the left and right chat panels."] = "Переключить
 L["Toggle the chat tab panel backdrop."] = "Показать/скрыть фон панели под вкладками чата"
 L["URL Links"] = "Интернет-ссылки"
 L["Use Alt Key"] = "Использовать Alt"
-L["Use class color for the names of players when they are mentioned."] = "Окрашивать имена игроков цветом их класса."
+L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true;
 L["When opening the Chat Editbox to type a message having this option set means it will retain the last channel you spoke in. If this option is turned off opening the Chat Editbox should always default to the SAY channel."] = "При открытии строки ввода сообщения, если эта опция включена, будет выбран последний канал, в который Вы писали. В противном случае всегда будет установлен канал 'сказать'."
 L["Whisper Alert"] = "Звук шепота"
 L[ [=[Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.
@@ -312,6 +319,16 @@ Or for most users it would be easier to simply put a tga file into your WoW fold
 Пример: Interface\AddOns\ElvUI\media\textures\copy
 
 Для большинства пользователей будет легче просто положить tga файл в папку игры, а затем написать имя файла здесь.]=]
+
+--Class Cache
+L["Class Cache"] = true;
+L["Enable class caching to colorize names in chat and nameplates."] = true;
+L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true;
+L["Request info for class cache"] = true;
+L["Store cache in DB"] = true;
+L["Use LibWho to cache class info"] = true;
+L["Wipe DB Cache"] = true;
+L["Wipe Session Cache"] = true;
 
 --Credits
 L["Coding:"] = "Написание кода:"
@@ -479,6 +496,7 @@ L["Maps"] = "Карты"
 L["Minimap Buttons"] = "Кнопки миникарты"
 L["Minimap Mouseover"] = "При наведении мыши"
 L["Puts coordinates on the world map."] = "Добавляет координаты на карту мира."
+L["PvP Queue"] = true;
 L["Reset Zoom"] = "Сброс приближения"
 L["Right"] = "Правый"
 L["Scale"] = "Масштаб"
@@ -506,7 +524,6 @@ L["Bad Transition Color"] = "Цвет плохого перехода"
 L["Base Height for the Aura Icon"] = "Базовая высота иконок аур"
 L["Cast Bar"] = "Полоса заклинаний"
 L["Cast Color"] = "Цвет полосы заклинаний"
-L["Cast No Interrupt Color"] = "Цвет непрерываемого"
 L["Cast Time Format"] = "Формат времени заклинания"
 L["Channel Time Format"] = "Формат времени поддерживаемого"
 L["Color Tanked"] = "Окрашивать танкуемых"
@@ -518,6 +535,7 @@ L["Copy Settings From"] = "Скопировать из"
 L["Custom Color"] = "Свой цвет"
 L["Custom Scale"] = "Свой масштаб"
 L["Default Settings"] = "Умолчания"
+L["Depends on Class Caching module!"] = true;
 L["Display a healer icon over known healers inside battlegrounds or arenas."] = "Отображать иконки лекаря над известными целителями на полях боя и аренах"
 L["Disable threat coloring for this plate and use the custom color."] = "Отключить цвет угрозы для этого индикатора и использовать установленный цвет."
 L["Elite Icon"] = "Иконки элиты"
@@ -542,6 +560,7 @@ L["Healer Icon"] = "Иконки лекарей"
 L["Hide Spell Name"] = "Скрыть название заклинания"
 L["Hide Time"] = "Скрыть время"
 L["Hide"] = "Скрыть" --Also used in DataTexts
+L["How many seconds the castbar should stay visible after the cast failed or was interrupted."] = true;
 L["Icon Base Height"] = "Базовая высота иконки"
 L["Low Health Threshold"] = "Пороговое значение здоровья"
 L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."] = "Заставляет индикатор подсвечиваться желтым при установленном проценте здоровья. При достижении половины этого значения свечение станет красным."
@@ -564,6 +583,7 @@ L["Tagged NPC"] = "Чужой НИП"
 L["Tanked Color"] = "Цвет танкуемого"
 L["Target Scale"] = "Масштаб цели"
 L["Threat"] = "Угроза"
+L["Time To Hold"] = true;
 L["Toggle Off While In Combat"] = "Включать в бою"
 L["Toggle On While In Combat"] = "Отключить в бою"
 L["Use Class Color"] = "Использовать цвет класса"
@@ -654,14 +674,17 @@ L["Custom Faction Colors"] = "Свои цвета отношения"
 L["Display guild ranks if a unit is guilded."] = "Отображать ранг в гильдии."
 L["Display how many of a certain item you have in your possession."] = "Отображать количество предметов в сумках"
 L["Display player titles."] = "Отображать звания"
+L["Display the item level when mousing over a item."] = true;
 L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."] = "Показывать специализацию и уровень предметов в подсказке. Может обновиться не сразу после наведения курсора."
 L["Display the spell or item ID when mousing over a spell or item tooltip."] = "Отображать ID заклинания или предмета в подсказке при наведении мыши."
+L["Display vendor sell value on item tooltips."] = true;
 L["Guild Ranks"] = "Ранги гильдии"
 L["Header Font Size"] = "Размер шрифта заголовка"
 L["Health Bar"] = "Полоса здоровья"
 L["Hide tooltip while in combat."] = "Скрывать подсказку в бою"
 L["Inspect Info"] = "Информация осмотра"
 L["Item Count"] = "Кол-во предметов"
+L["Item Price"] = true;
 L["Never Hide"] = "Никогда не скрывать"
 L["Player Titles"] = "Звания игроков"
 L["Should tooltip be anchored to mouse cursor"] = "Привязывает подсказку к курсору мыши."
@@ -911,6 +934,7 @@ L["Range Check"] = "Проверка дистанции"
 L["Rapidly update the health, uses more memory and cpu. Only recommended for healing."] = "Более частое обновление состояния здоровья, использует больше памяти и ресурсов процессора. Рекомендуется только для целителей."
 L["Reaction Castbars"] = "Полоса заклинаний по реакции"
 L["Reactions"] = "Отношение"
+L["Ready Check Icon"] = true;
 L["Remaining"] = "Оставшееся"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = "Удалить заклинание из фильтра. Используйте ID, если в фильтре имя удаляемого заклинания содержит ID."
 L["Remove a spell from the filter."] = "Удалить заклинание из фильтра."
@@ -940,6 +964,7 @@ L["Show a incomming heal prediction bar on the unitframe. Also display a slightl
 L["Show Aura From Other Players"] = "Отображать чужие"
 L["Show Auras"] = "Показать ауры"
 L["Show Dispellable Debuffs"] = "Показывать развеиваемые дебаффы"
+L["Show target glow indicator from this group of frames."] = true;
 L["Show When Not Active"] = "Показывать при отсутствии"
 L["Size and Positions"] = "Размер и позиция"
 L["Size of the indicator icon."] = "Размер иконки индикатора"

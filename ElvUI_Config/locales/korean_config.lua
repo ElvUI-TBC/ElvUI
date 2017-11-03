@@ -4,6 +4,7 @@ local L = AceLocale:NewLocale("ElvUI", "koKR")
 if not L then return end
 
 -- *_DESC locales
+L["ACTIONBARS_DESC"] = "Modify the actionbar settings."
 L["AURAS_DESC"] = "미니맵 근처에 표시되는 버프/디버프 아이콘에 관련된 옵션들입니다."
 L["BAGS_DESC"] = "통합가방과 가방바에 관련된 옵션들입니다."
 L["CHAT_DESC"] = "채팅과 패널에 관련된 옵션들입니다."
@@ -237,6 +238,7 @@ L["Top to Bottom"] = "위에서 아래로"
 L["Use coin icons instead of colored text."] = "골드 이미지를 글자가 아닌 아이콘으로 표시합니다."
 
 --Buffs and Debuffs
+L["Auras Spacing"] = true;
 L["Buffs and Debuffs"] = "강화 및 약화 효과"
 L["Begin a new row or column after this many auras."] = "한 줄에 아이콘이 이 값보다 많으면 다음 줄에 배치합니다."
 L["Count xOffset"] = "중첩수 x 좌표"
@@ -259,6 +261,7 @@ L["Seperate"] = "시전자 구분 정렬"
 L["Set the size of the individual auras."] = "오라 아이콘의 크기를 결정합니다."
 L["Sort Method"] = "정렬 기준"
 L["The direction the auras will grow and then the direction they will grow after they reach the wrap after limit."] = "오라가 어느 방향으로 나열되고, 다음 줄을 어느 방향에 배치할지 결정합니다."
+L["The spacing between auras."] = true;
 L["Threshold before text changes red, goes into decimal form, and the icon will fade. Set to -1 to disable."] = "이 값 이하로 시간이 내려가면 시간이 소숫점 단위 초읽기 형태로 표시되며 깜박이기 시작합니다.|n|n-1로 설정하면 이 기능을 사용하지 않습니다."
 L["Time xOffset"] = "시간 x 좌표"
 L["Time yOffset"] = "시간 y 좌표"
@@ -277,7 +280,9 @@ L["Attempt to create URL links inside the chat."] = "대화 내역에 URL 주소
 L["Attempt to lock the left and right chat frame positions. Disabling this option will allow you to move the main chat frame anywhere you wish."] = "좌우측 패널에 채팅창 고정 여부를 결정합니다. 체크 해제 시 좌측에 고정된 기본 채팅창도 움직일 수 있습니다."
 L["Below Chat"] = "채팅창 아래에 배치"
 L["Chat EditBox Position"] = "대화입력창 위치"
+L["Chat History Lines"] = true;
 L["Chat History"] = "이전 채팅내역 기억"
+L["Chat Timestamps"] = true;
 L["Class Color Mentions"] = true;
 L["Custom Timestamp Color"] = true;
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "각종 링크에 커서를 갖다 댄(마우스오버) 동안에 링크에 대한 툴팁을 표시합니다."
@@ -301,6 +306,7 @@ L["List of words to color in chat if found in a message. If you wish to add mult
 L["Lock Positions"] = "패널에 채팅창 고정"
 L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."] = "애드온 리로드나 로그아웃 이전의 채팅내역을 보존하여 접속했을 때 보여줍니다."
 L["No Alert In Combat"] = true;
+L["Number of chat messages to be stores in the chat history."] = true;
 L["Number of messages you scroll for each step."] = true;
 L["Number of repeat characters while in combat before the chat editbox is automatically closed."] = true;
 L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."] = "채팅창의 스크롤이 맨 아래가 아니라면 이 값 만큼 시간이 지났을 때 맨 아래로 자동 스크롤링 됩니다."
@@ -315,6 +321,7 @@ L["Require holding the Alt key down to move cursor or cycle through messages in 
 L["Right Only"] = "우측 배경만 표시"
 L["Right Panel Height"] = "우측 패널 세로길이"
 L["Right Panel Width"] = "우측 패널 가로길이"
+L["Select the format of timestamps for chat messages."] = true;
 L["Scroll Direction"] = true;
 L["Scroll Interval"] = "자동 스크롤링 시간"
 L["Scroll Messages"] = true;
@@ -335,7 +342,7 @@ L["Toggle showing of the left and right chat panels."] = "패널의 배경 표�
 L["Toggle the chat tab panel backdrop."] = "패널 상단에 위치한 탭 부분의 표시 여부를 결정합니다."
 L["URL Links"] = "URL 주소 강조"
 L["Use Alt Key"] = true;
-L["Use class color for the names of players when they are mentioned."] = true;
+L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true;
 L["When opening the Chat Editbox to type a message having this option set means it will retain the last channel you spoke in. If this option is turned off opening the Chat Editbox should always default to the SAY channel."] = "이전에 말한 채널을 계속 유지할지 여부를 결정합니다.|n|n체크 해제 시 대화입력창을 열 때마다 일반 채널로 설정됩니다."
 L["Whisper Alert"] = "귓말이 오면 소리로 알림"
 L[ [=[Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.
@@ -360,6 +367,16 @@ Or for most users it would be easier to simply put a tga file into your WoW fold
 - 확장자는 .tga 포맷만 가능
 
 간단히는 그림을 와우 설치 폴더에 넣은후 파일명만 적으세요.]=]
+
+--Class Cache
+L["Class Cache"] = true;
+L["Enable class caching to colorize names in chat and nameplates."] = true;
+L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true;
+L["Request info for class cache"] = true;
+L["Store cache in DB"] = true;
+L["Use LibWho to cache class info"] = true;
+L["Wipe DB Cache"] = true;
+L["Wipe Session Cache"] = true;
 
 --Credits
 L["Coding:"] = "|cff2eb7e4< 개발자 >|r"
@@ -527,6 +544,7 @@ L["Maps"] = true;
 L["Minimap Buttons"] = "미니맵 버튼"
 L["Minimap Mouseover"] = "마우스오버 때만 표시"
 L["Puts coordinates on the world map."] = true;
+L["PvP Queue"] = true;
 L["Reset Zoom"] = true;
 L["Right"] = "오른쪽"
 L["Scale"] = "크기"
@@ -554,7 +572,6 @@ L["Bad Transition Color"] = true;
 L["Base Height for the Aura Icon"] = true;
 L["Cast Bar"] = "시전바"
 L["Cast Color"] = true;
-L["Cast No Interrupt Color"] = true;
 L["Cast Time Format"] = true;
 L["Channel Time Format"] = true;
 L["Color Tanked"] = true;
@@ -566,6 +583,7 @@ L["Copy Settings From"] = true;
 L["Custom Color"] = "사용자 정의 색상"
 L["Custom Scale"] = "크기 변경"
 L["Default Settings"] = true;
+L["Depends on Class Caching module!"] = true;
 L["Display a healer icon over known healers inside battlegrounds or arenas."] = "전장이나 투기장에서 유닛이 힐러인 경우 이름표에 힐러 아이콘을 표시합니다."
 L["Disable threat coloring for this plate and use the custom color."] = "필터 이름과 같은 유닛의 이름표는 특별히 생명력바 색상을 이 색상으로 표시합니다."
 L["Elite Icon"] = true;
@@ -590,6 +608,7 @@ L["Healer Icon"] = "힐러 아이콘 표시"
 L["Hide Spell Name"] = true;
 L["Hide Time"] = true;
 L["Hide"] = "숨기기" --Also used in DataTexts
+L["How many seconds the castbar should stay visible after the cast failed or was interrupted."] = true;
 L["Icon Base Height"] = true;
 L["Low Health Threshold"] = "낮은 생명력 임계점"
 L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."] = true;
@@ -612,6 +631,7 @@ L["Tagged NPC"] = "선점된 유닛"
 L["Tanked Color"] = true;
 L["Target Scale"] = true;
 L["Threat"] = "위협"
+L["Time To Hold"] = true;
 L["Toggle Off While In Combat"] = true;
 L["Toggle On While In Combat"] = true;
 L["Use Class Color"] = true;
@@ -702,14 +722,17 @@ L["Custom Faction Colors"] = "반응색 개인설정"
 L["Display guild ranks if a unit is guilded."] = "길드명과 함께 길드 등급도 표시합니다."
 L["Display how many of a certain item you have in your possession."] = "현재 툴팁으로 보고있는 아이템을 여러개 갖고 있다면 갯수를 표시합니다."
 L["Display player titles."] = "이름에 칭호도 표시합니다."
+L["Display the item level when mousing over a item."] = true;
 L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."] = "Shift를 누른 상태로 유저에게 마우스를 대면 특성과 아이템레벨도 표시합니다. 표시하는데 시간이 조금 필요합니다."
 L["Display the spell or item ID when mousing over a spell or item tooltip."] = "아이템과 주문 툴팁에 각각의 ID를 표시합니다."
+L["Display vendor sell value on item tooltips."] = true;
 L["Guild Ranks"] = "길드 내 등급 표시"
 L["Header Font Size"] = true;
 L["Health Bar"] = "생명력바"
 L["Hide tooltip while in combat."] = "전투 중에는 툴팁을 표시하지 않게 합니다."
 L["Inspect Info"] = "특성/아이템레벨 표시"
 L["Item Count"] = "아이템 갯수 표시"
+L["Item Price"] = true;
 L["Never Hide"] = "항시 표시"
 L["Player Titles"] = "칭호 표시"
 L["Should tooltip be anchored to mouse cursor"] = "마우스에 툴팁을 표시합니다.|n|n체크 해제 시 프레임 이동 모드에서 툴팁 위치에 표시됩니다."
@@ -959,6 +982,7 @@ L["Range Check"] = "거리에 따른 투명도 적용"
 L["Rapidly update the health, uses more memory and cpu. Only recommended for healing."] = "생명력 수치 업데이트를 평소보다 더 빠르게 하지만 메모리와 CPU점유율이 더 증가하는 기능입니다. 힐러일 경우에만 추천합니다."
 L["Reaction Castbars"] = true;
 L["Reactions"] = "관계"
+L["Ready Check Icon"] = true;
 L["Remaining"] = "남은 시간"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = true;
 L["Remove a spell from the filter."] = "필터에서 주문을 제거합니다."
@@ -988,6 +1012,7 @@ L["Show a incomming heal prediction bar on the unitframe. Also display a slightl
 L["Show Aura From Other Players"] = "다른 유저가 걸어준 버프도 표시"
 L["Show Auras"] = "오라아이콘 표시"
 L["Show Dispellable Debuffs"] = true;
+L["Show target glow indicator from this group of frames."] = true;
 L["Show When Not Active"] = "효과가 없을 때 표시"
 L["Size and Positions"] = "크기와 위치 관련"
 L["Size of the indicator icon."] = "표시기 아이콘 크기"

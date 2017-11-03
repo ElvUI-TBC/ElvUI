@@ -43,7 +43,6 @@ local GetNumRaidMembers = GetNumRaidMembers
 local UnitIsUnit = UnitIsUnit
 local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local GetItemCount = GetItemCount
-local UnitAura = UnitAura
 local SetTooltipMoney = SetTooltipMoney
 local GameTooltip_ClearMoney = GameTooltip_ClearMoney
 local MerchantFrame = MerchantFrame
