@@ -321,7 +321,7 @@ function M:Initialize()
 	Minimap.backdrop:SetFrameStrata(Minimap:GetFrameStrata())
 	Minimap.backdrop:SetFrameLevel(Minimap:GetFrameLevel() - 1)
 	Minimap.backdrop:SetTemplate("Default")
-	Minimap:SetFrameLevel(Minimap:GetFrameLevel() + 2)
+	Minimap:SetFrameLevel(Minimap:GetFrameLevel())
 	Minimap:HookScript2("OnEnter", function(self)
 		if E.db.general.minimap.locationText ~= "MOUSEOVER" or not E.private.general.minimap.enable then return end
 		self.location:Show()
