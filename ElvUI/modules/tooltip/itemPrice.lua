@@ -177,7 +177,7 @@ function IP:SetPrice(tt, count, item)
 	local price = LIP:GetSellValue(item)
 
 	if price and price > 0 then
-		tt:AddDoubleLine(SALE_PRICE_COLON, E:FormatMoney(count and price * count or price, "BLIZZARD", false), nil, nil, nil, 1, 1, 1)
+		tt:AddDoubleLine(SALE_PRICE_COLON, E:FormatMoney(count and price * count or price, "BLIZZARD", true), nil, nil, nil, 1, 1, 1)
 	end
 
 	if tt:IsShown() then tt:Show() end
