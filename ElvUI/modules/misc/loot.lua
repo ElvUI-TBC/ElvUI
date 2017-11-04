@@ -1,5 +1,5 @@
-local E, L, V, P, G = unpack(ElvUI);
-local M = E:GetModule("Misc");
+local E, L, V, P, G = unpack(ElvUI)
+local M = E:GetModule("Misc")
 
 local CloseLoot = CloseLoot
 local CursorOnUpdate = CursorOnUpdate
@@ -19,28 +19,28 @@ local ResetCursor = ResetCursor
 local UnitIsDead = UnitIsDead
 local UnitIsFriend = UnitIsFriend
 local UnitName = UnitName
-local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS;
-local LOOT = LOOT;
+local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
+local LOOT = LOOT
 
 local max = math.max
 local tinsert = table.insert
-local unpack, pairs = unpack, pairs;
+local unpack, pairs = unpack, pairs
 
 -- Credit Haste
 local lootFrame, lootFrameHolder
-local iconSize = 30;
+local iconSize = 30
 
-local sq, ss, sn;
+local sq, ss, sn
 local OnEnter = function(self)
-	local slot = self:GetID();
+	local slot = self:GetID()
 	if(LootSlotIsItem(slot)) then
-		GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-		GameTooltip:SetLootItem(slot);
-		CursorUpdate(self);
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+		GameTooltip:SetLootItem(slot)
+		CursorUpdate(self)
 	end
 
-	self.drop:Show();
-	self.drop:SetVertexColor(1, 1, 0);
+	self.drop:Show()
+	self.drop:SetVertexColor(1, 1, 0)
 end
 
 local OnLeave = function(self)
@@ -48,15 +48,15 @@ local OnLeave = function(self)
 		local color = ITEM_QUALITY_COLORS[self.quality]
 		self.drop:SetVertexColor(color.r, color.g, color.b)
 	else
-		self.drop:Hide();
+		self.drop:Hide()
 	end
 
-	GameTooltip:Hide();
-	ResetCursor();
+	GameTooltip:Hide()
+	ResetCursor()
 end
 
 local OnClick = function(self)
-	LootFrame.selectedQuality = self.quality;
+	LootFrame.selectedQuality = self.quality
 	LootFrame.selectedItemName = self.name:GetText()
 	LootFrame.selectedSlot = self:GetID()
 	LootFrame.selectedLootButton = self:GetName()
@@ -113,7 +113,7 @@ local function createSlot(id)
 	iconFrame:SetPoint("RIGHT", frame)
 	iconFrame:SetTemplate("Default")
 	frame.iconFrame = iconFrame
-	E["frames"][iconFrame] = nil;
+	E["frames"][iconFrame] = nil
 
 	local icon = iconFrame:CreateTexture(nil, "ARTWORK")
 	icon:SetTexCoord(unpack(E.TexCoords))
@@ -168,7 +168,7 @@ function M:OPEN_MASTER_LOOT_LIST()
 end
 
 function M:UPDATE_MASTER_LOOT_LIST()
-	UIDropDownMenu_Refresh(GroupLootDropDown);
+	UIDropDownMenu_Refresh(GroupLootDropDown)
 end
 
 function M:LOOT_OPENED(_, autoloot)
@@ -287,13 +287,13 @@ function M:LoadLoot()
 	lootFrame:SetToplevel(true)
 	lootFrame.title = lootFrame:CreateFontString(nil, "OVERLAY")
 	lootFrame.title:FontTemplate(nil, nil, "OUTLINE")
-	lootFrame.title:Point("BOTTOMLEFT", lootFrame, "TOPLEFT", 0, 1);
+	lootFrame.title:Point("BOTTOMLEFT", lootFrame, "TOPLEFT", 0, 1)
 	lootFrame.slots = {}
 	lootFrame:SetScript("OnHide", function()
 		StaticPopup_Hide("CONFIRM_LOOT_DISTRIBUTION")
 		CloseLoot()
 	end)
-	E["frames"][lootFrame] = nil;
+	E["frames"][lootFrame] = nil
 
 	self:RegisterEvent("LOOT_OPENED")
 	self:RegisterEvent("LOOT_SLOT_CLEARED")
@@ -320,7 +320,7 @@ function M:LoadLoot()
 	end
 
 	E.PopupDialogs["CONFIRM_LOOT_DISTRIBUTION"].OnAccept = function(data)
-		GiveMasterLoot(ss, data);
+		GiveMasterLoot(ss, data)
 	end
-	StaticPopupDialogs["CONFIRM_LOOT_DISTRIBUTION"].preferredIndex = 3;
+	StaticPopupDialogs["CONFIRM_LOOT_DISTRIBUTION"].preferredIndex = 3
 end

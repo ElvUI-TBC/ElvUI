@@ -98,14 +98,14 @@ function RU:Initialize()
 
 	self:CreateUtilButton("RaidUtility_ShowButton", E.UIParent, "SecureFrameTemplate", 136, 18, "TOP", E.UIParent, "TOP", -400, E.Border, RAID_CONTROL, nil)
 
-	RaidUtility_ShowButton:SetScript("OnClick", function(self)
+	RaidUtility_ShowButton:SetScript("OnClick", function()
 		if not RaidUtilityPanel:IsVisible() then
 			RaidUtilityPanel:Show()
 			PlaySound("igCharacterInfoOpen")
 		end
 	end)
 
-	RaidUtility_ShowButton:SetScript("OnMouseUp", function(self) RaidUtilityPanel.toggled = true end)
+	RaidUtility_ShowButton:SetScript("OnMouseUp", function() RaidUtilityPanel.toggled = true end)
 	RaidUtility_ShowButton:SetMovable(true)
 	RaidUtility_ShowButton:SetClampedToScreen(true)
 	RaidUtility_ShowButton:SetClampRectInsets(0, 0, -1, 1)
@@ -133,17 +133,17 @@ function RU:Initialize()
 
 	self:CreateUtilButton("RaidUtility_CloseButton", RaidUtilityPanel, "SecureFrameTemplate", 136, 18, "TOP", RaidUtilityPanel, "BOTTOM", 0, -1, CLOSE, nil)
 
-	RaidUtility_CloseButton:SetScript("OnClick", function(self)
+	RaidUtility_CloseButton:SetScript("OnClick", function()
 		if RaidUtilityPanel:IsVisible() then
 			RaidUtilityPanel:Hide()
 			PlaySound("igCharacterInfoClose")
 		end
 	end)
 
-	RaidUtility_CloseButton:SetScript("OnMouseUp", function(self) RaidUtilityPanel.toggled = false end)
+	RaidUtility_CloseButton:SetScript("OnMouseUp", function() RaidUtilityPanel.toggled = false end)
 
 	self:CreateUtilButton("DisbandRaidButton", RaidUtilityPanel, nil, RaidUtilityPanel:GetWidth() * 0.8, 18, "TOP", RaidUtilityPanel, "TOP", 0, -5, L["Disband Group"], nil)
-	DisbandRaidButton:SetScript("OnMouseUp", function(self)
+	DisbandRaidButton:SetScript("OnMouseUp", function()
 		if(CheckRaidStatus()) then
 			E:StaticPopup_Show("DISBAND_RAID")
 		end
@@ -160,14 +160,14 @@ function RU:Initialize()
 	MainAssistButton:SetAttribute("action", "toggle")
 
 	self:CreateUtilButton("ReadyCheckButton", RaidUtilityPanel, nil, RaidUtilityPanel:GetWidth() * 0.8, 18, "TOPLEFT", MainTankButton, "BOTTOMLEFT", 0, -5, READY_CHECK, nil)
-	ReadyCheckButton:SetScript("OnMouseUp", function(self)
+	ReadyCheckButton:SetScript("OnMouseUp", function()
 		if(CheckRaidStatus()) then
 			DoReadyCheck()
 		end
 	end)
 
 	self:CreateUtilButton("RaidControlButton", RaidUtilityPanel, nil, DisbandRaidButton:GetWidth(), 18, "TOPLEFT", ReadyCheckButton, "BOTTOMLEFT", 0, -5, L["Raid Menu"], nil)
-	RaidControlButton:SetScript("OnMouseUp", function(self)
+	RaidControlButton:SetScript("OnMouseUp", function()
 		if InCombatLockdown() then E:Print(ERR_NOT_IN_COMBAT) return end
 		ToggleFriendsFrame(5)
 	end)
@@ -183,7 +183,7 @@ function RU:Initialize()
 			"RaidUtility_CloseButton"
 		}
 
-		for i, button in pairs(buttons) do
+		for _, button in pairs(buttons) do
 			local f = _G[button]
 			f:HookScript2("OnEnter", ButtonEnter)
 			f:HookScript2("OnLeave", ButtonLeave)

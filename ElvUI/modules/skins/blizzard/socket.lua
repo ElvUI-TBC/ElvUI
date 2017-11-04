@@ -8,7 +8,7 @@ local GetNumSockets = GetNumSockets
 local GetSocketTypes = GetSocketTypes
 
 function S:LoadSocketSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.socket ~= true) then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.socket ~= true then return end
 
 	ItemSocketingFrame:StripTextures()
 	ItemSocketingFrame:CreateBackdrop("Transparent")

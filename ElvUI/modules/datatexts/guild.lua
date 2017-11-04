@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(ElvUI);
+local E, L, V, P, G = unpack(ElvUI)
 local DT = E:GetModule("DataTexts")
 
 local select, unpack = select, unpack
@@ -93,7 +93,7 @@ local eventHandlers = {
 			self:GetScript("OnEnter")(self, nil, true)
 		end
 	end,
-	["PLAYER_GUILD_UPDATE"] = function ()
+	["PLAYER_GUILD_UPDATE"] = function()
 		GuildRoster()
 	end,
 	-- our guild message of the day changed
