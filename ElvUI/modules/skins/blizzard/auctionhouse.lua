@@ -207,7 +207,7 @@ function S:LoadAuctionHouseSkin()
 					icon:SetBackdropBorderColor(r, g, b)
 				end
 			end)
-			hooksecurefunc(name, "Hide", function(_, r, g, b)
+			hooksecurefunc(name, "Hide", function()
 				icon:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 			end)
 		end
@@ -240,7 +240,7 @@ function S:LoadAuctionHouseSkin()
 				icon:SetBackdropBorderColor(r, g, b)
 			end
 		end)
-		hooksecurefunc(name, "Hide", function(_, r, g, b)
+		hooksecurefunc(name, "Hide", function()
 			icon:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 		end)
 
@@ -275,7 +275,7 @@ function S:LoadAuctionHouseSkin()
 				icon:SetBackdropBorderColor(r, g, b)
 			end
 		end)
-		hooksecurefunc(name, "Hide", function(_, r, g, b)
+		hooksecurefunc(name, "Hide", function()
 			icon:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 		end)
 

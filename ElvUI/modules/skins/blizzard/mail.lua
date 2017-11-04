@@ -7,8 +7,8 @@ local unpack, select = unpack, select
 local hooksecurefunc = hooksecurefunc
 local GetInboxItem = GetInboxItem
 local GetItemInfo = GetItemInfo
-local GetItemQualityColor = GetItemQualityColor;
-local GetSendMailItem = GetSendMailItem;
+local GetItemQualityColor = GetItemQualityColor
+local GetSendMailItem = GetSendMailItem
 local INBOXITEMS_TO_DISPLAY = INBOXITEMS_TO_DISPLAY
 local ATTACHMENTS_MAX_SEND = ATTACHMENTS_MAX_SEND
 local ATTACHMENTS_MAX_RECEIVE = ATTACHMENTS_MAX_RECEIVE
@@ -41,7 +41,7 @@ function S:LoadMailSkin()
 	end
 
 	hooksecurefunc("InboxFrame_Update", function()
-		local numItems, totalItems = GetInboxNumItems()
+		local numItems = GetInboxNumItems()
 		local index = ((InboxFrame.pageNum - 1) * INBOXITEMS_TO_DISPLAY) + 1
 
 		for i = 1, INBOXITEMS_TO_DISPLAY do

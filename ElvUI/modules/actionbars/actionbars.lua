@@ -207,7 +207,7 @@ function AB:PositionAndSizeBar(barName)
 		if not bar.initialized then
 			bar.initialized = true
 			self:PositionAndSizeBar(barName)
-			return;
+			return
 		end
 	else
 		bar:Hide()
@@ -270,9 +270,9 @@ function AB:ReassignBindings(event)
 
 	self:UnregisterEvent("PLAYER_REGEN_DISABLED")
 
-	if InCombatLockdown() then return; end
+	if InCombatLockdown() then return end
 	for _, bar in pairs(self["handledBars"]) do
-		if not bar then return; end
+		if not bar then return end
 
 		ClearOverrideBindings(bar)
 		for i = 1, #bar.buttons do
@@ -289,9 +289,9 @@ function AB:ReassignBindings(event)
 end
 
 function AB:RemoveBindings()
-	if InCombatLockdown() then return; end
+	if InCombatLockdown() then return end
 	for _, bar in pairs(self["handledBars"]) do
-		if not bar then return; end
+		if not bar then return end
 
 		ClearOverrideBindings(bar)
 	end
@@ -349,8 +349,8 @@ function AB:UpdateButtonSettingsForBar(barName)
 end
 
 function AB:UpdateButtonSettings()
-	if E.private.actionbar.enable ~= true then return; end
-	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED"); return; end
+	if E.private.actionbar.enable ~= true then return end
+	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
 
 	for button, _ in pairs(self["handledbuttons"]) do
 		if button then
@@ -375,8 +375,8 @@ end
 
 function AB:GetPage(bar, defaultPage, condition)
 	local page = self.db[bar]["paging"][E.myclass]
-	if not condition then condition = ""; end
-	if not page then page = ""; end
+	if not condition then condition = "" end
+	if not page then page = "" end
 	if page then
 		condition = condition.." "..page
 	end
@@ -406,11 +406,11 @@ function AB:StyleButton(button, noBackdrop, useMasque)
 		button.useMasque = useMasque
 	end
 
-	if flash then flash:SetTexture(nil); end
+	if flash then flash:SetTexture(nil) end
 --	if button:GetParent():GetName() ~= "ElvUI_BarPet" then
---		if normal then normal:SetTexture(nil); normal:Hide(); normal:SetAlpha(0); end
+--		if normal then normal:SetTexture(nil) normal:Hide() normal:SetAlpha(0) end
 --	end
-	if normal2 then normal2:SetTexture(nil); normal2:Hide(); normal2:SetAlpha(0); end
+	if normal2 then normal2:SetTexture(nil) normal2:Hide() normal2:SetAlpha(0) end
 
 	if border and not button.useMasque then
 		border:Kill()
@@ -523,7 +523,7 @@ function AB:FadeParent_OnEvent(event, unit)
 	or event == "UNIT_SPELLCAST_STOP"
 	or event == "UNIT_SPELLCAST_CHANNEL_START"
 	or event == "UNIT_SPELLCAST_CHANNEL_STOP"
-	or event == "UNIT_HEALTH") and unit ~= "player" then return; end
+	or event == "UNIT_HEALTH") and unit ~= "player" then return end
 
 	local cur, max = UnitHealth("player"), UnitHealthMax("player")
 	local cast, channel = UnitCastingInfo("player"), UnitChannelInfo("player")
@@ -606,8 +606,8 @@ function AB:DisableBlizzard()
 end
 
 function AB:UpdateButtonConfig(bar, buttonName)
-	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return; end
-	if not bar.buttonConfig then bar.buttonConfig = {hideElements = {}, colors = {}}; end
+	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
+	if not bar.buttonConfig then bar.buttonConfig = {hideElements = {}, colors = {}} end
 	bar.buttonConfig.hideElements.macro = self.db.macrotext
 	bar.buttonConfig.hideElements.hotkey = self.db.hotkeytext
 	bar.buttonConfig.showGrid = self.db["bar"..bar.id].showGrid
@@ -671,8 +671,8 @@ LAB.RegisterCallback(AB, "OnButtonUpdate", AB.LAB_ButtonUpdate)
 
 function AB:Initialize()
 	self.db = E.db.actionbar
-	if E.private.actionbar.enable ~= true then return; end
-	E.ActionBars = AB;
+	if E.private.actionbar.enable ~= true then return end
+	E.ActionBars = AB
 
 	self.LBFGroup = LBF and LBF:Group("ElvUI", "ActionBars")
 
@@ -689,7 +689,7 @@ function AB:Initialize()
 	self.fadeParent:RegisterEvent("PLAYER_FOCUS_CHANGED")
 	self.fadeParent:SetScript("OnEvent", self.FadeParent_OnEvent)
 
-	self:DisableBlizzard();
+	self:DisableBlizzard()
 
 	self:SetupMicroBar()
 
