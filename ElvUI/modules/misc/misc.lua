@@ -1,6 +1,6 @@
-local E, L, V, P, G = unpack(ElvUI);
-local M = E:NewModule("Misc", "AceEvent-3.0", "AceTimer-3.0");
-E.Misc = M;
+local E, L, V, P, G = unpack(ElvUI)
+local M = E:NewModule("Misc", "AceEvent-3.0", "AceTimer-3.0")
+E.Misc = M
 
 local CanGuildBankRepair = CanGuildBankRepair
 local CanMerchantRepair = CanMerchantRepair
@@ -22,53 +22,53 @@ local RepairAllItems = RepairAllItems
 local UninviteUnit = UninviteUnit
 local UnitInRaid = UnitInRaid
 local UnitName = UnitName
-local UIErrorsFrame = UIErrorsFrame;
-local MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS;
-local format, gsub = string.format, string.gsub;
+local UIErrorsFrame = UIErrorsFrame
+local MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS
+local format, gsub = string.format, string.gsub
 
-local interruptMsg = INTERRUPTED.." %s's \124cff71d5ff\124Hspell:%d\124h[%s]\124h\124r!";
+local interruptMsg = INTERRUPTED.." %s's \124cff71d5ff\124Hspell:%d\124h[%s]\124h\124r!"
 
 function M:ErrorFrameToggle(event)
-	if(not E.db.general.hideErrorFrame) then return; end
-	if(event == "PLAYER_REGEN_DISABLED") then
-		UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE");
+	if not E.db.general.hideErrorFrame then return end
+	if event == "PLAYER_REGEN_DISABLED" then
+		UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
 	else
-		UIErrorsFrame:RegisterEvent("UI_ERROR_MESSAGE");
+		UIErrorsFrame:RegisterEvent("UI_ERROR_MESSAGE")
 	end
 end
 
 function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceName, _, _, destName, _, _, _, _, spellID, spellName)
-	if(E.db.general.interruptAnnounce == "NONE") then return; end
-	if not (event == "SPELL_INTERRUPT" and sourceName == UnitName("player")) then return; end
+	if E.db.general.interruptAnnounce == "NONE" then return end
+	if not event == "SPELL_INTERRUPT" and sourceName == UnitName("player") then return end
 
-	local party = GetNumPartyMembers();
+	local party = GetNumPartyMembers()
 
-	if(E.db.general.interruptAnnounce == "SAY") then
-		if(party > 0) then
-			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "SAY");
+	if E.db.general.interruptAnnounce == "SAY" then
+		if party > 0 then
+			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "SAY")
 		end
 	elseif E.db.general.interruptAnnounce == "EMOTE" then
-		if(party > 0) then
+		if party > 0 then
 			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "EMOTE")
 		end
 	else
-		local raid = GetNumRaidMembers();
-		local _, instanceType = IsInInstance();
-		local battleground = instanceType == "pvp";
+		local raid = GetNumRaidMembers()
+		local _, instanceType = IsInInstance()
+		local battleground = instanceType == "pvp"
 
-		if(E.db.general.interruptAnnounce == "PARTY") then
-			if(party > 0) then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY");
+		if E.db.general.interruptAnnounce == "PARTY" then
+			if party > 0 then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY")
 			end
-		elseif(E.db.general.interruptAnnounce == "RAID") then
-			if(raid > 0) then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID");
-			elseif(party > 0) then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY");
+		elseif E.db.general.interruptAnnounce == "RAID" then
+			if raid > 0 then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID")
+			elseif party > 0 then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY")
 			end
-		elseif(E.db.general.interruptAnnounce == "RAID_ONLY") then
-			if(raid > 0) then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID");
+		elseif E.db.general.interruptAnnounce == "RAID_ONLY" then
+			if raid > 0 then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID")
 			end
 		end
 	end
@@ -83,7 +83,7 @@ function M:MERCHANT_SHOW()
 	if IsShiftKeyDown() or autoRepair == "NONE" or not CanMerchantRepair() then return end
 
 	local cost, possible = GetRepairAllCost()
-	local withdrawLimit = GetGuildBankWithdrawMoney();
+	local withdrawLimit = GetGuildBankWithdrawMoney()
 	if autoRepair == "GUILD" and (not CanGuildBankRepair() or cost > withdrawLimit) then
 		autoRepair = "PLAYER"
 	end
@@ -93,9 +93,9 @@ function M:MERCHANT_SHOW()
 			RepairAllItems(autoRepair == "GUILD")
 
 			if autoRepair == "GUILD" then
-				E:Print(L["Your items have been repaired using guild bank funds for: "]..E:FormatMoney(cost))
+				E:Print(L["Your items have been repaired using guild bank funds for: "]..E:FormatMoney(cost, "BLIZZARD", true))
 			else
-				E:Print(L["Your items have been repaired for: "]..E:FormatMoney(cost))
+				E:Print(L["Your items have been repaired for: "]..E:FormatMoney(cost, "BLIZZARD", true))
 			end
 		else
 			E:Print(L["You don't have enough money to repair."])
@@ -124,16 +124,16 @@ function M:DisbandRaidGroup()
 end
 
 function M:PVPMessageEnhancement(_, msg)
-	if(not E.db.general.enhancedPvpMessages) then return; end
-	local _, instanceType = IsInInstance();
-	if(instanceType == "pvp" or instanceType == "arena") then
-		RaidNotice_AddMessage(RaidBossEmoteFrame, msg, ChatTypeInfo["RAID_BOSS_EMOTE"]);
+	if not E.db.general.enhancedPvpMessages then return end
+	local _, instanceType = IsInInstance()
+	if instanceType == "pvp" or instanceType == "arena" then
+		RaidNotice_AddMessage(RaidBossEmoteFrame, msg, ChatTypeInfo["RAID_BOSS_EMOTE"])
 	end
 end
 
-local hideStatic = false;
+local hideStatic = false
 function M:AutoInvite(event, leaderName)
-	if not E.db.general.autoAcceptInvite then return; end
+	if not E.db.general.autoAcceptInvite then return end
 
 	if event == "PARTY_INVITE_REQUEST" then
 		if GetNumPartyMembers() > 0 or GetNumRaidMembers() > 0 then return end
@@ -143,7 +143,7 @@ function M:AutoInvite(event, leaderName)
 		local numFriends = GetNumFriends()
 		if numFriends > 0 then ShowFriends() end
 		if IsInGuild() then GuildRoster() end
-		local inGroup = false;
+		local inGroup = false
 
 		for friendIndex = 1, numFriends do
 			local friendName = gsub(GetFriendInfo(friendIndex), "-.*", "")
@@ -182,7 +182,7 @@ function M:ForceCVars()
 end
 
 function M:Initialize()
-	self:LoadRaidMarker();
+	self:LoadRaidMarker()
 	self:LoadLoot()
 	self:LoadLootRoll()
 	self:LoadChatBubbles()
