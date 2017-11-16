@@ -648,18 +648,6 @@ E.Options.args.nameplate = {
 							name = L["StatusBar Texture"],
 							values = AceGUIWidgetLSMlists.statusbar,
 						},
---[[
-						motionType = {
-							type = "select",
-							order = 1,
-							name = L["Nameplate Motion Type"],
-							desc = L["Set to either stack nameplates vertically or allow them to overlap."],
-							values = {
-								["STACKED"] = L["Stacking Nameplates"],
-								["OVERLAP"] = L["Overlapping Nameplates"],
-							},
-						},
-]]
 						useTargetGlow = {
 							order = 2,
 							type = "toggle",
@@ -725,6 +713,11 @@ E.Options.args.nameplate = {
 								E.db.nameplates[ info[#info] ] = value;
 								NP:PLAYER_REGEN_ENABLED();
 							end
+						},
+						comboPoints = {
+  							order = 12,
+							type = "toggle",
+							name = L["Combobar"]
 						}
 					}
 				},
