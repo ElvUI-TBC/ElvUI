@@ -1398,23 +1398,25 @@ end
 
 tremove(ChatTypeGroup["GUILD"], 2)
 function CH:DelayGuildMOTD()
-	local delay, delayFrame, chat = 0, CreateFrame("Frame")
-	tinsert(ChatTypeGroup["GUILD"], 2, "GUILD_MOTD")
-	delayFrame:SetScript("OnUpdate", function(df, elapsed)
-		delay = delay + elapsed
-		if delay < 5 then return end
-		local msg = GetGuildRosterMOTD()
-		for i = 1, NUM_CHAT_WINDOWS do
-			chat = _G["ChatFrame"..i]
-			if chat and chat:IsEventRegistered("CHAT_MSG_GUILD") then
-				if msg and strlen(msg) > 0 then
-					ChatFrame_SystemEventHandler(chat, "GUILD_MOTD", msg)
-				end
-				chat:RegisterEvent("GUILD_MOTD")
-			end
-		end
-		df:SetScript("OnUpdate", nil)
-	end)
+    local delay, delayFrame, chat = 0, CreateFrame("Frame")
+    tinsert(ChatTypeGroup["GUILD"], 2, "GUILD_MOTD")
+    delayFrame:SetScript("OnUpdate", function(df, elapsed)
+        delay = delay + elapsed
+        if delay < 7 then return end
+        local msg = GetGuildRosterMOTD()
+        for i = 1, NUM_CHAT_WINDOWS do
+            chat = _G["ChatFrame"..i]
+            if chat and chat:IsEventRegistered("CHAT_MSG_GUILD") then
+                if msg and strlen(msg) > 0 then
+                    local info = ChatTypeInfo["GUILD"]
+                    local string = format(GUILD_MOTD_TEMPLATE, msg)
+                    chat:AddMessage(string, info.r, info.g, info.b, info.id)
+                end
+                chat:RegisterEvent("GUILD_MOTD")
+            end
+        end
+        df:SetScript("OnUpdate", nil)
+    end)
 end
 
 function CH:SaveChatHistory(event, ...)
