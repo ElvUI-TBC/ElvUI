@@ -98,6 +98,7 @@ local function SetupChat()
 	ChatFrame_AddMessageGroup(ChatFrame1, "AFK")
 	ChatFrame_AddMessageGroup(ChatFrame1, "DND")
 	ChatFrame_AddMessageGroup(ChatFrame1, "IGNORED")
+	ChatFrame_AddMessageGroup(ChatFrame1, "CHANNEL")
 
 	ChatFrame_RemoveAllMessageGroups(ChatFrame3)
 	ChatFrame_AddMessageGroup(ChatFrame3, "COMBAT_FACTION_CHANGE")
