@@ -1387,7 +1387,7 @@ function CH:DisplayChatHistory()
 				CH.timeOverride = d[51]
 				for _, messageType in pairs(chat.messageTypeList) do
 					if gsub(strsub(d[50],10),"_INFORM","") == messageType then
-						CH.ChatFrame_MessageEventHandler(chat,d[50],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8],d[9],d[10],d[11],d[12],unpack(d,13))
+						CH.ChatFrame_MessageEventHandler(chat,d[50],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8],d[9],d[10],d[11])
 					end
 				end
 			end
