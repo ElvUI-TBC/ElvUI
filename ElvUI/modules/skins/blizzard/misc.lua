@@ -796,7 +796,7 @@ function S:LoadMiscSkin()
 	for i = 1, #optiondropdown do
 		local odropdown = _G[optiondropdown[i]]
 		if odropdown then
-			S:HandleDropDownBox(odropdown,165)
+			S:HandleDropDownBox(odropdown, i == 3 and 195 or 165)
 		end
 	end
 
