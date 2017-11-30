@@ -125,7 +125,7 @@ function S:SkinAce3()
 			SkinScrollBar(widget.scrollBar)
 			widget.scrollBar:Point("RIGHT", frame, "RIGHT", 0 -4)
 			widget.scrollBG:Point("TOPRIGHT", widget.scrollBar, "TOPLEFT", -2, 19)
-			widget.scrollBG:Point("BOTTOMLEFT", widget.button, "TOPwLEFT")
+			widget.scrollBG:Point("BOTTOMLEFT", widget.button, "TOPLEFT")
 			widget.scrollFrame:Point("BOTTOMRIGHT", widget.scrollBG, "BOTTOMRIGHT", -4, 8)
 		elseif TYPE == "CheckBox" then
 			widget.checkbg:Kill()
