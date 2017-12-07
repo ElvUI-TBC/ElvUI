@@ -1,4 +1,4 @@
-# ElvUI TBC
+# ElvUI TBC (2.4.3)
 This is the backported version of ElvUI for World of Warcraft 2.4.3
 <br />
 ElvUI is a full UI replacement.
@@ -7,49 +7,95 @@ As such, you'll only ever have to update ElvUI and not worry too much about its 
 This UI will arrange your interface to be more flexible and practical.
 
 ## Screenshots
-
-<img src="https://cloud.githubusercontent.com/assets/590348/22867052/f8d570ba-f190-11e6-9e4c-aee3adc16154.jpg" align="right" width="48.87%">
-<img src="https://cloud.githubusercontent.com/assets/590348/22867049/f8d43506-f190-11e6-9a1c-019a9a190fd7.jpg" width="48.87%">
-<img src="https://cloud.githubusercontent.com/assets/590348/22867050/f8d4f662-f190-11e6-9acd-fc83d7827bc0.jpg" align="right" width="48.87%">
-<img src="https://cloud.githubusercontent.com/assets/590348/22944322/5d95a2b0-f301-11e6-81e3-52d1d619c850.jpg" width="48.87%">
+<img src="https://cloud.githubusercontent.com/assets/590348/22867052/f8d570ba-f190-11e6-9e4c-aee3adc16154.jpg" align="right" width="48.5%">
+<img src="https://cloud.githubusercontent.com/assets/590348/22867049/f8d43506-f190-11e6-9a1c-019a9a190fd7.jpg" width="48.5%">
+<img src="https://cloud.githubusercontent.com/assets/590348/22867050/f8d4f662-f190-11e6-9acd-fc83d7827bc0.jpg" align="right" width="48.5%">
+<img src="https://cloud.githubusercontent.com/assets/590348/22944322/5d95a2b0-f301-11e6-81e3-52d1d619c850.jpg" width="48.5%">
 
 ## Plugins:
-
-[ElvUI_Enhanced](https://github.com/ElvUI-TBC/ElvUI_Enhanced)
-<br />
 [ElvUI_AddOnSkins](https://github.com/ElvUI-TBC/ElvUI_AddOnSkins)
+<br />
+[ElvUI_AuraBarsMovers](https://github.com/ElvUI-TBC/ElvUI_AuraBarsMovers)
+<br />
+[ElvUI_BagControl](https://github.com/ElvUI-TBC/ElvUI_BagControl)
+<br />
+[ElvUI_CastBarOverlay](https://github.com/ElvUI-TBC/ElvUI_CastBarOverlay)
+<br />
+[ElvUI_CustomTweaks](https://github.com/ElvUI-TBC/ElvUI_CustomTweaks)
+<br />
+[ElvUI_DataTextColors](https://github.com/ElvUI-TBC/ElvUI_DataTextColors)
+<br />
+[ElvUI_DTBars](https://github.com/ElvUI-TBC/ElvUI_DTBars)
+<br />
+[ElvUI_Enhanced](https://github.com/ElvUI-TBC/ElvUI_Enhanced)
 <br />
 [ElvUI_EnhancedFriendsList](https://github.com/ElvUI-TBC/ElvUI_EnhancedFriendsList)
 <br />
+[ElvUI_EverySecondCounts](https://github.com/ElvUI-TBC/ElvUI_EverySecondCounts)
+<br />
 [ElvUI_ExtraActionBars](https://github.com/ElvUI-TBC/ElvUI_ExtraActionBars)
+<br />
+[ElvUI_LocPlus](https://github.com/ElvUI-TBC/ElvUI_LocPlus)
 <br />
 [ElvUI_Microbar](https://github.com/ElvUI-TBC/ElvUI_Microbar)
 <br />
 [ElvUI_MinimapButtons](https://github.com/ElvUI-TBC/ElvUI_MinimapButtons)
 <br />
-[ElvUI_CustomTweaks](https://github.com/ElvUI-TBC/ElvUI_CustomTweaks)
+[ElvUI_RaidMarkers](https://github.com/ElvUI-TBC/ElvUI_RaidMarkers)
 <br />
 [ElvUI_RightClick](https://github.com/ElvUI-TBC/ElvUI_RightClick)
 <br />
-[ElvUI_RaidMarkers](https://github.com/ElvUI-TBC/ElvUI_RaidMarkers)
-<br />
-[ElvUI_CastBarOverlay](https://github.com/ElvUI-TBC/ElvUI_CastBarOverlay)
-<br />
-[ElvUI_BagControl](https://github.com/ElvUI-TBC/ElvUI_BagControl)
-<br />
-[ElvUI_AuraBarsMovers](https://github.com/ElvUI-TBC/ElvUI_AuraBarsMovers)
-<br />
-[ElvUI_DTBars](https://github.com/ElvUI-TBC/ElvUI_DTBars)
-<br />
-[ElvUI_DataTextColors](https://github.com/ElvUI-TBC/ElvUI_DataTextColors)
-<br />
-[ElvUI_EverySecondCounts](https://github.com/ElvUI-TBC/ElvUI_EverySecondCounts)
-<br />
-[ElvUI_LocPlus](https://github.com/ElvUI-TBC/ElvUI_LocPlus)
-<br />
-[ElvUI_SwingBar](https://github.com/ElvUI-TBC/ElvUI_SwingBar)
+[ElvUI_SwingBar](https://github.com/ElvUI-TBC/ElvUI_SwingBar
 
-Please Note: These plugins will not function without ElvUI installed.
+-- Please Note: These plugins will not function without ElvUI installed.
+
+## Commands
+    /ec or /elvui     Toggle the configuration GUI.
+    /rl or /reloadui  Reload the whole UI.
+    /moveui           Open the movable frames options.
+    /bgstats          Toggles Battleground datatexts to display info when inside a battleground.
+    /hellokitty       Enables the Hello Kitty theme (can be reverted by repeating the command).
+    /hellokittyfix    Fixes any colors or borders to default after using /hellokitty. Optional Use.
+    /harlemshake      Enables Harlem Shake april fools joke. (DO THE HARLEM SHAKE!)
+    /egrid            Toggles visibility of the grid for helping placement of thirdparty addons.
+    /farmmode         Toggles the Minimap Farmmode.
+    /in               The input of how many seconds you want a command to fire. 
+                          usage: /in <seconds> <command>
+                          example: /in 1.5 /say hi
+    /enable           Enable an Addon. 
+                          usage: /enable <addon>
+                          example: /enable AtlasLoot
+    /disable          Disable an Addon.
+                          usage: /disable <addon>
+                          example: /disable AtlasLoot
+    
+    ---------------------------------------------------------------------------------------------------------------
+    -- Development ------------------------------------------------------------------------------------------------
+    ---------------------------------------------------------------------------------------------------------------
+    /etrace           Toggles events window.
+    /luaerror on      Enable luaerrors.
+    /luaerror off     Disable luaerrors.
+    /cpuimpact        Toggles calculations of CPU Impact. Type /cpuimpact to get results when you are ready.
+    /cpuusage         Calculates and dumps CPU usage differences (module: all, showall: false, minCalls: 15, delay: 5).
+    /frame            Command to grab frame information when mouseing over a frame or when inputting the name.
+                          usage: /frame (when mousing over frame) or /frame <name>
+                          example: /frame WorldFrame
+    /framelist        Dumps frame level information with children and parents. Also places info into copy box.
+    /framestack       Toggles dynamic mouseover frame displaying frame name and level information.
+    /resetui          If no argument is provided it will reset all frames to their default positions. 
+                      If an argument is provided it will reset only that frame. 
+                          example: /resetui uf (resets all unitframes)
+                  
+
+## Languages
+ElvUI supports and contains language specific code for the following gameclients:
+* English (enUS)
+* Korean (koKR)
+* French (frFR)
+* German (deDE)
+* Chinese (zhCN)
+* Spanish (esES)
+* Russian (ruRU)
 
 ## FAQ:
 
