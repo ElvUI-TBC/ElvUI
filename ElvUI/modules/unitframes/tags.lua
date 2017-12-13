@@ -220,7 +220,7 @@ ElvUF.Tags.Methods["powercolor"] = function(unit)
 	if color then
 		return Hex(color[1], color[2], color[3])
 	else
-		return Hex(altR, altG, altB)
+		return Hex(unpack(ElvUF["colors"].power[0]))
 	end
 end
 
