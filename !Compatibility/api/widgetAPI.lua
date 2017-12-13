@@ -1,19 +1,21 @@
+--Cache global variables
+local assert = assert
 local format = string.format
 local type = type
-local assert, pcall = assert, pcall
 
 local function GetSize(frame)
 	return frame:GetWidth(), frame:GetHeight()
 end
 
 local function SetSize(frame, width, height)
-	assert(width)
+	assert(type(width) == "number", format("Usage: %s:SetSize(width, height)", frame.GetName and frame:GetName() or tostring(frame)))
+
 	frame:SetWidth(width)
-	frame:SetHeight(height or width)
+	frame:SetHeight(type(height) == "number" and height or width)
 end
 
 local function HookScript2(frame, scriptType, handler)
-	assert(scriptType and (type(scriptType) == "string" or type(scriptType) == "number") and handler and type(handler) == "function", format("Usage: %s:HookScript2(\"type\", function)", frame.GetName and frame:GetName() or tostring(frame)))
+	assert((type(scriptType) == "string" or type(scriptType) == "number") and type(handler) == "function", format("Usage: %s:HookScript2(\"type\", function)", frame.GetName and frame:GetName() or tostring(frame)))
 
 	if frame:GetScript(scriptType) then
 		frame:HookScript(scriptType, handler)

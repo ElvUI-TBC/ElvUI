@@ -10,8 +10,7 @@ local type = type
 local unpack = unpack
 
 function table.wipe(t)
-	if not t then return end
-	if type(t) ~= "table" then return end
+	assert(type(t) == "table", format("bad argument #1 to 'wipe' (table expected, got %s)", t and type(t) or "no value"))
 
 	for k in pairs(t) do
 		t[k] = nil
