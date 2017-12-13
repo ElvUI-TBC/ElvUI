@@ -14,6 +14,8 @@ local UnitBuff = UnitBuff
 local UnitDebuff = UnitDebuff
 local UnitLevel = UnitLevel
 --WoW Variables
+local DUNGEON_DIFFICULTY1 = DUNGEON_DIFFICULTY1
+local DUNGEON_DIFFICULTY2 = DUNGEON_DIFFICULTY2
 local TIMEMANAGER_AM = TIMEMANAGER_AM
 local TIMEMANAGER_PM = TIMEMANAGER_PM
 --Libs
@@ -281,7 +283,9 @@ local threatColors = {
 }
 
 function GetThreatStatusColor(statusIndex)
-	assert(statusIndex and type(statusIndex) == "number", "Usage: GetThreatStatusColor(statusIndex)")
+	if not (type(statusIndex) == "number" and statusIndex >= 0 and statusIndex < 4) then
+		statusIndex = 0
+	end
 
 	return threatColors[statusIndex][1], threatColors[statusIndex][2], threatColors[statusIndex][3]
 end

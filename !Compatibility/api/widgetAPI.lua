@@ -1,6 +1,7 @@
 --Cache global variables
 local assert = assert
 local format = string.format
+local tonumber = tonumber
 local type = type
 
 local function GetSize(frame)
@@ -8,7 +9,9 @@ local function GetSize(frame)
 end
 
 local function SetSize(frame, width, height)
-	assert(type(width) == "number", format("Usage: %s:SetSize(width, height)", frame.GetName and frame:GetName() or tostring(frame)))
+	width, height = tonumber(width), tonumber(height)
+
+	assert(type(width) == "number" or type(width) == "string", format("Usage: %s:SetSize(width, height)", frame.GetName and frame:GetName() or tostring(frame)))
 
 	frame:SetWidth(width)
 	frame:SetHeight(type(height) == "number" and height or width)
