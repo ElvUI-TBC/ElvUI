@@ -64,7 +64,7 @@ function oUF:DisableBlizzard(unit)
 		if(id) then
 			handleFrame('PartyMemberFrame' .. id)
 		else
-			for i = 1, 4 do
+			for i = 1, MAX_PARTY_MEMBERS do
 				handleFrame(string.format('PartyMemberFrame%d', i))
 			end
 		end
