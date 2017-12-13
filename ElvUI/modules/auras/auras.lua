@@ -129,7 +129,7 @@ function A:BuffButton_UpdateAnchors(buttonName, index, filter)
 		end
 	else
 		local color
-		local debuffType = GetPlayerBuffDispelType(buffIndex)
+		local debuffType = GetPlayerBuffDispelType(index)
 		if debuffType then
 			color = DebuffTypeColor[debuffType]
 		else

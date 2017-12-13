@@ -284,10 +284,10 @@ function DT:RegisterDatatext(name, events, eventFunc, updateFunc, clickFunc, onE
 
 	DT.RegisteredDataTexts[name]["name"] = name
 
-	if(events and type(events) == "table") then
+	if(type(events) == "table") then
 		DT.RegisteredDataTexts[name]["events"] = events
 		DT.RegisteredDataTexts[name]["eventFunc"] = eventFunc
-	elseif(event and type(events) ~= "table") then
+	elseif(events and type(events) ~= "table") then
 		error("Events must be registered as a table.")
 	end
 
