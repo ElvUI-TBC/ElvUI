@@ -45,7 +45,6 @@ local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local GetItemCount = GetItemCount
 local SetTooltipMoney = SetTooltipMoney
 local GameTooltip_ClearMoney = GameTooltip_ClearMoney
-local MerchantFrame = MerchantFrame
 local TARGET = TARGET
 local DEAD = DEAD
 local FOREIGN_SERVER_LABEL = FOREIGN_SERVER_LABEL
@@ -69,7 +68,6 @@ local keybindFrame
 local tooltips = {
 	GameTooltip,
 	ItemRefTooltip,
-	ConsolidatedBuffsTooltip,
 	ShoppingTooltip1,
 	ShoppingTooltip2,
 	WorldMapTooltip,

@@ -31,7 +31,6 @@ local GetMoney = GetMoney
 local GetNumBankSlots = GetNumBankSlots
 local IsBagOpen, IsOptionFrameOpen = IsBagOpen, IsOptionFrameOpen
 local IsControlKeyDown = IsControlKeyDown
-local IsModifiedClick = IsModifiedClick
 local PickupContainerItem = PickupContainerItem
 local PickupMerchantItem = PickupMerchantItem
 local PlaySound = PlaySound

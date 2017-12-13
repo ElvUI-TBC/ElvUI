@@ -1,7 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI);
 local UF = E:GetModule("UnitFrames");
 
-local tostring = tostring;
 local format = format;
 
 local CreateFrame = CreateFrame;

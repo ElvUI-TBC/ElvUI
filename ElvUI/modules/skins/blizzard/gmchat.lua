@@ -57,10 +57,6 @@ function S:LoadChatSkin()
 	statusFrame.backdrop:Point("TOPLEFT", 0, 1)
 	statusFrame.backdrop:Point("BOTTOMRIGHT", 0, 0)
 
-	GMChatStatusFramePulse:SetTexture("Interface\\GMChatFrame\\UI-GMStatusFrame-Pulse")
-	GMChatStatusFramePulse:Point("TOPLEFT", -25, 21)
-	GMChatStatusFramePulse:Point("BOTTOMRIGHT", 25, -19)
-
 	GMChatStatusFrame:HookScript("OnShow", function(self)
 		if (TicketStatusFrame and TicketStatusFrame:IsShown()) then
 			self:Point("TOPLEFT", TicketStatusFrame, "BOTTOMLEFT", 0, 1)

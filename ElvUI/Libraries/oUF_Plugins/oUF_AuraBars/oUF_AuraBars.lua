@@ -11,14 +11,6 @@ local CreateFrame = CreateFrame
 local UnitAura = UnitAura
 local UnitIsFriend = UnitIsFriend
 
-local function Round(number, decimalPlaces)
-	if decimalPlaces and decimalPlaces > 0 then
-		local mult = 10^decimalPlaces
-		return floor(number * mult + .5) / mult
-	end
-	return floor(num + .5)
-end
-
 local DAY, HOUR, MINUTE = 86400, 3600, 60
 local function FormatTime(s)
 	if s < MINUTE then
@@ -194,7 +186,6 @@ local sort = function(a, b)
 	local compa, compb = a.noTime and huge or a.expirationTime, b.noTime and huge or b.expirationTime
 	return compa > compb
 end
-
 
 local function Update(self, event, unit)
 	if self.unit ~= unit then return end

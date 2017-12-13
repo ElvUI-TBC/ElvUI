@@ -12,7 +12,6 @@ local format, strsub = string.format, strsub
 local CreateFrame = CreateFrame
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
-local CALENDAR_COPY_EVENT, CALENDAR_PASTE_EVENT = CALENDAR_COPY_EVENT, CALENDAR_PASTE_EVENT
 local CLASS, DEFAULT = CLASS, DEFAULT
 
 local colorBuffer = {}

@@ -5,7 +5,6 @@ local oUF = ns.oUF
 
 local LDM = LibStub("LibDruidMana-1.0")
 
-local UnitMana, UnitManaMax = UnitMana, UnitManaMax
 local UnitIsPlayer = UnitIsPlayer
 local UnitPlayerControlled = UnitPlayerControlled
 local UnitClass = UnitClass

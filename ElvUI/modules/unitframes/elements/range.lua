@@ -5,12 +5,8 @@ local SpellRange = LibStub("SpellRange-1.0")
 local _, class = UnitClass("player")
 
 local pairs, ipairs = pairs, ipairs
-local tinsert, tremove, twipe = table.insert, table.remove, table.wipe
 
 local CheckInteractDistance = CheckInteractDistance
-local GetSpellInfo = GetSpellInfo
-local IsSpellInRange = IsSpellInRange
-local IsUsableSpell = IsUsableSpell
 local UnitCanAttack = UnitCanAttack
 local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid

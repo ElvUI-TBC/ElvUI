@@ -3,7 +3,7 @@ local CC = E:NewModule("ClassCache", "AceEvent-3.0")
 
 local LW = LibStub:GetLibrary("LibWho-2.0")
 
-local find, split, upper = string.find, string.split, string.upper
+local split, upper = string.split, string.upper
 local wipe = table.wipe
 local pairs = pairs
 local select = select

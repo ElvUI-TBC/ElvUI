@@ -13,19 +13,13 @@ local find, gsub, format = string.find, string.gsub, string.format
 --WoW API / Variables
 local hooksecurefunc = hooksecurefunc
 local CreateFrame = CreateFrame
-local IsAddOnLoaded = IsAddOnLoaded
 local UnitFrame_OnEnter = UnitFrame_OnEnter
 local UnitFrame_OnLeave = UnitFrame_OnLeave
 local IsInInstance = IsInInstance
 local InCombatLockdown = InCombatLockdown
-local CompactRaidFrameManager_GetSetting = CompactRaidFrameManager_GetSetting
-local CompactRaidFrameManager_SetSetting = CompactRaidFrameManager_SetSetting
 local GetInstanceInfo = GetInstanceInfo
 local UnregisterStateDriver = UnregisterStateDriver
 local RegisterStateDriver = RegisterStateDriver
-local UnregisterAttributeDriver = UnregisterAttributeDriver
-local CompactRaidFrameManager_UpdateShown = CompactRaidFrameManager_UpdateShown
-local CompactRaidFrameContainer = CompactRaidFrameContainer
 local MAX_RAID_MEMBERS = MAX_RAID_MEMBERS
 local MAX_BOSS_FRAMES = MAX_BOSS_FRAMES
 
@@ -976,9 +970,9 @@ function ElvUF:DisableBlizzard(unit)
 	elseif(unit == "target") and E.private["unitframe"]["disabledBlizzardFrames"].target then
 		HandleFrame(TargetFrame)
 		HandleFrame(ComboFrame)
-	elseif(unit == "focus") and E.private["unitframe"]["disabledBlizzardFrames"].focus then
-		HandleFrame(FocusFrame)
-		HandleFrame(FocusFrameToT)
+--	elseif(unit == "focus") and E.private["unitframe"]["disabledBlizzardFrames"].focus then
+--		HandleFrame(FocusFrame)
+--		HandleFrame(FocusFrameToT)
 	elseif(unit == "targettarget") and E.private["unitframe"]["disabledBlizzardFrames"].target then
 		HandleFrame(TargetofTargetFrame)
 	elseif(unit:match"(boss)%d?$" == "boss") and E.private["unitframe"]["disabledBlizzardFrames"].boss then

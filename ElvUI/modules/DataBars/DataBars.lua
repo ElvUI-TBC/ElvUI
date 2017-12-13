@@ -8,7 +8,7 @@ local GetAccountExpansionLevel = GetAccountExpansionLevel;
 local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE;
 
 function mod:OnLeave()
-	if((self == ElvUI_ExperienceBar and mod.db.experience.mouseover) or (self == ElvUI_ReputationBar and mod.db.reputation.mouseover) or (self == ElvUI_HonorBar and mod.db.honor.mouseover)) then
+	if((self == ElvUI_ExperienceBar and mod.db.experience.mouseover) or (self == ElvUI_ReputationBar and mod.db.reputation.mouseover)) then
 		E:UIFrameFadeOut(self, 1, self:GetAlpha(), 0);
 	end
 	GameTooltip:Hide();

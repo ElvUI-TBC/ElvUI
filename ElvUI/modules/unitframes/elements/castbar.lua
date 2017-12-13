@@ -8,7 +8,6 @@ local CreateFrame = CreateFrame;
 local UnitIsPlayer = UnitIsPlayer;
 local UnitClass = UnitClass;
 local UnitReaction = UnitReaction;
-local UnitCanAttack = UnitCanAttack;
 
 local ns = oUF;
 local ElvUF = ns.oUF;

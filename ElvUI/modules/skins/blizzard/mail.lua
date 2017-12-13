@@ -6,12 +6,12 @@ local unpack, select = unpack, select
 
 local hooksecurefunc = hooksecurefunc
 local GetInboxItem = GetInboxItem
-local GetItemInfo = GetItemInfo
+local GetInboxItemLink = GetInboxItemLink
 local GetItemQualityColor = GetItemQualityColor
 local GetSendMailItem = GetSendMailItem
-local INBOXITEMS_TO_DISPLAY = INBOXITEMS_TO_DISPLAY
-local ATTACHMENTS_MAX_SEND = ATTACHMENTS_MAX_SEND
 local ATTACHMENTS_MAX_RECEIVE = ATTACHMENTS_MAX_RECEIVE
+local ATTACHMENTS_MAX_SEND = ATTACHMENTS_MAX_SEND
+local INBOXITEMS_TO_DISPLAY = INBOXITEMS_TO_DISPLAY
 
 function S:LoadMailSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.mail ~= true then return end

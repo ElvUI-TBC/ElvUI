@@ -70,7 +70,6 @@ local floor = math.floor
 local CreateFrame = CreateFrame
 local GetTime = GetTime
 local UnitAura = UnitAura
-local UnitIsUnit = UnitIsUnit
 
 local VISIBLE = 1
 local HIDDEN = 0

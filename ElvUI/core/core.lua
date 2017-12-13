@@ -823,14 +823,6 @@ function E:UpdateAll(ignoreInstall)
 	self:GetModule("Auras").db = self.db.auras
 	self:GetModule("Tooltip").db = self.db.tooltip
 
-	if(ElvUIPlayerBuffs) then
-		E:GetModule("Auras"):UpdateHeader(ElvUIPlayerBuffs)
-	end
-
-	if(ElvUIPlayerDebuffs) then
-		E:GetModule("Auras"):UpdateHeader(ElvUIPlayerDebuffs)
-	end
-
 	if not (self.private.install_complete or ignoreInstall) then
 		self:Install()
 	end

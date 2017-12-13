@@ -10,7 +10,6 @@ local EasyMenu = EasyMenu
 local GetMinimapZoneText = GetMinimapZoneText
 local GetZonePVPInfo = GetZonePVPInfo
 local InCombatLockdown = InCombatLockdown
-local IsAddOnLoaded = IsAddOnLoaded
 local IsShiftKeyDown = IsShiftKeyDown
 local Minimap_OnClick = Minimap_OnClick
 local ToggleBattlefieldMinimap = ToggleBattlefieldMinimap

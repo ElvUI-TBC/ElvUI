@@ -14,7 +14,6 @@ local InCombatLockdown = InCombatLockdown
 local GetItemInfo = GetItemInfo
 local GetAuctionItemClasses = GetAuctionItemClasses
 local GetAuctionItemSubClasses = GetAuctionItemSubClasses
-local GetContainerItemID = GetContainerItemID
 local GetGuildBankItemInfo = GetGuildBankItemInfo
 local GetContainerItemInfo = GetContainerItemInfo
 local GetGuildBankItemLink = GetGuildBankItemLink

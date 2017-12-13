@@ -6,7 +6,7 @@ local LSM = LibStub("LibSharedMedia-3.0")
 local _G = _G
 local time, difftime = time, difftime
 local pairs, unpack, select, tostring, next, tonumber, type, assert = pairs, unpack, select, tostring, next, tonumber, type, assert
-local tinsert, tremove, tsort, twipe, tconcat = table.insert, table.remove, table.sort, table.wipe, table.concat
+local tconcat, tinsert, tremove, twipe = table.concat, table.insert, table.remove, table.wipe
 local strmatch = strmatch
 local gsub, find, gmatch, format, split = string.gsub, string.find, string.gmatch, string.format, string.split
 local strlower, strsub, strlen, strupper = strlower, strsub, strlen, strupper
@@ -1292,7 +1292,7 @@ function CH:SetItemRef(link, text, button)
 		if IsModifiedClick("CHATLINK") then
 			ToggleFriendsFrame(4)
 		elseif button == "LeftButton" then
-			local chanLink = sub(link, 9)
+			local chanLink = strsub(link, 9)
 			local chatType, chatTarget = strsplit(":", chanLink)
 
 			if strupper(chatType) == "CHANNEL" then

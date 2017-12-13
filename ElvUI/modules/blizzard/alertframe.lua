@@ -11,20 +11,15 @@ AlertFrameHolder:SetWidth(250);
 AlertFrameHolder:SetHeight(20);
 AlertFrameHolder:SetPoint("TOP", E.UIParent, "TOP", 0, -18);
 
-local POSITION, ANCHOR_POINT, YOFFSET = "TOP", "BOTTOM", -10
-
 function E:PostAlertMove()
+	local position = "TOP"
 	local _, y = AlertFrameMover:GetCenter();
 	local screenHeight = E.UIParent:GetTop();
 	if y > (screenHeight / 2) then
-		POSITION = "TOP";
-		ANCHOR_POINT = "BOTTOM";
-		YOFFSET = -10;
+		position = "TOP";
 		AlertFrameMover:SetText(AlertFrameMover.textString .. " [Grow Down]");
 	else
-		POSITION = "BOTTOM";
-		ANCHOR_POINT = "TOP";
-		YOFFSET = 10;
+		position = "BOTTOM";
 		AlertFrameMover:SetText(AlertFrameMover.textString .. " [Grow Up]");
 	end
 
@@ -34,13 +29,13 @@ function E:PostAlertMove()
 		for i, frame in pairs(rollBars) do
 			frame:ClearAllPoints();
 			if i ~= 1 then
-				if POSITION == "TOP" then
+				if position == "TOP" then
 					frame:Point("TOP", lastframe, "BOTTOM", 0, -4);
 				else
 					frame:Point("BOTTOM", lastframe, "TOP", 0, 4);
 				end
 			else
-				if POSITION == "TOP" then
+				if position == "TOP" then
 					frame:Point("TOP", AlertFrameHolder, "BOTTOM", 0, -4);
 				else
 					frame:Point("BOTTOM", AlertFrameHolder, "TOP", 0, 4);
@@ -59,13 +54,13 @@ function E:PostAlertMove()
 			if(frame) then
 				frame:ClearAllPoints();
 				if i ~= 1 then
-					if POSITION == "TOP" then
+					if position == "TOP" then
 						frame:Point("TOP", lastframe, "BOTTOM", 0, -4);
 					else
 						frame:Point("BOTTOM", lastframe, "TOP", 0, 4);
 					end
 				else
-					if POSITION == "TOP" then
+					if position == "TOP" then
 						frame:Point("TOP", AlertFrameHolder, "BOTTOM", 0, -4);
 					else
 						frame:Point("BOTTOM", AlertFrameHolder, "TOP", 0, 4);
