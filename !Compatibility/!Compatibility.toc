@@ -3,6 +3,6 @@
 ## Notes: Compatibility functions for TBC
 ## Version: 1.0
 
-debugTools.lua
-libs\libs.xml
+errorHandler.lua
 api\api.xml
+slashCommands.lua
