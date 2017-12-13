@@ -7,12 +7,12 @@ local checked
 local function LoadDebugTools()
 	if checked then return end
 
-	local _, _, _, _, _, reason = GetAddOnInfo("!DebugTools")
+	local _, _, _, loadable, _, reason = GetAddOnInfo("!DebugTools")
 	checked = true
 
 	if reason == "MISSING" then return end
 
-	if IsAddOnLoaded("!DebugTools") then
+	if loadable then
 		LoadAddOn("!DebugTools")
 	else
 		EnableAddOn("!DebugTools")
