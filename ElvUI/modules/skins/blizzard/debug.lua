@@ -49,10 +49,17 @@ function S:LoadDebugSkin()
 	S:HandleNextPrevButton(ScriptErrorsFrame.next)
 	S:HandleButton(ScriptErrorsFrame.close)
 
-	hooksecurefunc(E:GetModule("DebugTools"), "ModifyErrorFrame", function()
+	local function SkinFirstLast()
 		S:HandleButton(ScriptErrorsFrame.firstButton)
 		S:HandleButton(ScriptErrorsFrame.lastButton)
-	end)
+	end
+
+	local DT = E:GetModule("DebugTools")
+	if DT.HideFrame then
+		SkinFirstLast()
+	else
+		hooksecurefunc(DT, "ModifyErrorFrame", SkinFirstLast)
+	end
 
 	-- TODO FIX HandleNextPrevButton button size
 	ScriptErrorsFrame.previous:Point("BOTTOM", ScriptErrorsFrame, "BOTTOM", -50, 12)
