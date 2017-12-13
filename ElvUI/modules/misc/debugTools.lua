@@ -104,13 +104,21 @@ function D:StaticPopup_Show(name)
 	end
 end
 
+function D:ADDON_LOADED(event, addon)
+	if addon == "!DebugTools" then
+		self:Initialize()
+		self:UnregisterEvent("ADDON_LOADED")
+	end
+end
+
 function D:Initialize()
+	if not IsAddOnLoaded("!DebugTools") then
+		self:RegisterEvent("ADDON_LOADED")
+		return
+	end
+
 	self.HideFrame = CreateFrame("Frame")
 	self.HideFrame:Hide()
-
-	if( not IsAddOnLoaded("Blizzard_DebugTools") ) then
-		LoadAddOn("Blizzard_DebugTools")
-	end
 
 	self:ModifyErrorFrame()
 	self:SecureHook("ScriptErrorsFrame_UpdateButtons")
