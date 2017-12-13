@@ -993,6 +993,7 @@ L["Restore Defaults"] = "기본값 복원"
 L["Right to Left"] = true;
 L["RL / ML Icons"] = "공대장/전리품담당자 아이콘"
 L["Role Icon"] = "역할 아이콘"
+L["Role"] = "역할";
 L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."] = true;
 L["Select a unit to copy settings from."] = "이 옵션에서 선택하는 유닛프레임의 설정을 복사하여 프레임에 적용합니다."
 L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."] = "위의 필터 설정에 추가적으로 이 옵션에서 선택한 필터를 적용합니다."

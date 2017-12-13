@@ -945,6 +945,7 @@ L["Restore Defaults"] = "恢复预设"
 L["Right to Left"] = "右到左"
 L["RL / ML Icons"] = "主坦克/主助理图标"
 L["Role Icon"] = "角色定位图标"
+L["Role"] = true;
 L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."] = "光环条移动前的剩余时间(秒), 设为0以禁用"
 L["Select a unit to copy settings from."] = "选择从哪单位复制"
 L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."] = "请选择一个过滤器, 若你启用的是'白名单', 则只显示'白名单'里的光环"

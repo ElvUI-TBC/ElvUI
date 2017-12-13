@@ -945,6 +945,7 @@ L["Restore Defaults"] = "Восстановить умолчания" --Also use
 L["Right to Left"] = "Справа налево"
 L["RL / ML Icons"] = "Иконки лидера/ответственного"
 L["Role Icon"] = "Иконка роли"
+L["Role"] = "Роль";
 L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."] = "Полоса начнет убывать, когда оставшееся время ауры упадет ниже этого значения в секундах. Установите на 0 для отключения."
 L["Select a unit to copy settings from."] = "Выберите юнит, установки которого Вы хотите скопировать."
 L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."] = "Выберите дополнительный фильтр для использования. Если выбраный фильтр имеет тип 'белый список' и не используется никакой другой фильтр (за исключением блокиования чужих аур), то будут блокироваться ауры вне белого списка. В противном случае будет просто добавлять ауры в белый список в дополнение к другим опциям фильтрации."

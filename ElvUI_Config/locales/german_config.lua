@@ -945,6 +945,7 @@ L["Restore Defaults"] = "Standard wiederherstellen" --Also used in General and A
 L["Right to Left"] = "Rechts nach Links"
 L["RL / ML Icons"] = "Schlachtzugsleister / Plündermeister Symbole"
 L["Role Icon"] = "Rollensymbol"
+L["Role"] = true;
 L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."] = "Verbleibende Sekunden auf der Aura bis sie sich bewegt. Auf 0 setzen zum Deaktivieren."
 L["Select a unit to copy settings from."] = "Wähle eine Einheit, um Einstellungen zu kopieren."
 L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."] = "Wähle einen Filter zum zusätzlichen Verwenden. Wenn der ausgewählte Filter in der 'Weiße Liste' ist und keine anderen Filter verwendet werden (mit Ausnahme von Blocke Nicht-Persönliche Auren), dann wird alles, was nicht auf 'Weiße Liste' steht, blockiert. Ansonsten füge einfach Auren 'Weiße Liste' zusäzlich zu den anderen Filter Einstellungen hinzu."

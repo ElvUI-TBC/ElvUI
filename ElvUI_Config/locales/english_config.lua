@@ -934,6 +934,7 @@ L["Restore Defaults"] = true; --Also used in Media and ActionBars sections
 L["Right to Left"] = true;
 L["RL / ML Icons"] = true;
 L["Role Icon"] = true;
+L["Role"] = true;
 L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."] = true;
 L["Select a unit to copy settings from."] = true;
 L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."] = true;

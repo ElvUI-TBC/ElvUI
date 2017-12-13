@@ -945,6 +945,7 @@ L["Restore Defaults"] = "Restaurar por Defecto"
 L["Right to Left"] = true;
 L["RL / ML Icons"] = "Iconos LB / MD"
 L["Role Icon"] = "Icono de Rol"
+L["Role"] = true;
 L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."] = true;
 L["Select a unit to copy settings from."] = "Selecciona una unidad desde la que copiar la configuración."
 L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."] = "Elige un filtro adicional a usar. Si el filtro seleccionado es una lista blanca y no se usan otros filtros (con la excepción de Bloquear Auras No Personales) entonces bloqueará todo lo que no esté en la lista blanca, de otra forma simplemente agregará auras a la lista blanca además de cualesquiera otro ajuste de filtros."

@@ -945,6 +945,7 @@ L["Restore Defaults"] = "恢復預設"
 L["Right to Left"] = "右到左"
 L["RL / ML Icons"] = "團隊隊長/裝備分配圖示"
 L["Role Icon"] = "角色定位圖示"
+L["Role"] = true;
 L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."] = true;
 L["Select a unit to copy settings from."] = "選擇從哪單位複制."
 L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."] = "請選擇一個過濾器, 若你啓用的是'白名單', 則只顯示'白名單'裡的光環."

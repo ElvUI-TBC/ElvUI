@@ -9,7 +9,6 @@ local SetCVar = SetCVar
 local GameTooltip = _G["GameTooltip"]
 local NONE, COLOR, COLORS = NONE, COLOR, COLORS
 local SHIFT_KEY, ALT_KEY, CTRL_KEY = SHIFT_KEY, ALT_KEY, CTRL_KEY
-local OPTION_TOOLTIP_ACTION_BUTTON_USE_KEY_DOWN = OPTION_TOOLTIP_ACTION_BUTTON_USE_KEY_DOWN
 local LOCK_ACTIONBAR_TEXT = LOCK_ACTIONBAR_TEXT
 
 local points = {
@@ -65,7 +64,7 @@ local function BuildABConfig()
 				order = 8,
 				type = "toggle",
 				name = L["Key Down"],
-				desc = OPTION_TOOLTIP_ACTION_BUTTON_USE_KEY_DOWN
+				desc = L["Action button keybinds will respond on key down, rather than on key up"]
 			},
 			lockActionBars = {
 				order = 9,

@@ -945,6 +945,7 @@ L["Restore Defaults"] = "Restaurer les paramètres par défaut" --Also used in M
 L["Right to Left"] = true;
 L["RL / ML Icons"] = "Icônes RL / ML"
 L["Role Icon"] = "Icône de rôle"
+L["Role"] = true;
 L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."] = true;
 L["Select a unit to copy settings from."] = "Sélectionnez les réglages d'un cadre à copier."
 L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."] = "Sélectionnez un filtre additionnel à utiliser. Si le filtre sélectionné est une liste blanche et qu'aucun autres filtres sont utilisés (à l'exception du bloc des Auras Non-Personnels) alors il bloquera quoi que ce soit qui n'est pas dans la liste blanche, sinon il suffira d'ajouter les auras dans la liste blanche en plus de tous les autres paramètres des filtres." -- headache
