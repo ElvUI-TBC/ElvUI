@@ -73,7 +73,7 @@ function S:LoadRaidSkin()
 		end
 	end)
 
-	local function skinPulloutFrames()
+	hooksecurefunc("RaidPullout_GetFrame", function()
 		for i = 1, NUM_RAID_PULLOUT_FRAMES do
 			local rp = _G["RaidPullout" .. i]
 			if(not rp.backdrop) then
@@ -83,13 +83,13 @@ function S:LoadRaidSkin()
 				rp.backdrop:Point("BOTTOMRIGHT", -7, 10)
 			end
 		end
-	end
-
-	hooksecurefunc("RaidPullout_GetFrame", function()
-		skinPulloutFrames()
 	end)
 
 	hooksecurefunc("RaidPullout_Update", function(pullOutFrame)
+		if not pullOutFrame then
+			pullOutFrame = this
+		end
+
 		local pfName = pullOutFrame:GetName()
 		for i = 1, pullOutFrame.numPulloutButtons do
 			local pfBName = pfName .. "Button" .. i
