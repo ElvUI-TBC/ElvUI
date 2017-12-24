@@ -23,13 +23,15 @@ function S:LoadMiscSkin()
 		"SoundOptionsFramePlayback",
 		"SoundOptionsFrameHardware",
 		"SoundOptionsFrameVolume",
-		"TicketStatusFrame",
 		"ReadyCheckFrame",
 		"StackSplitFrame",
 	}
 
 	ReadyCheckFrame:StripTextures()
 	ReadyCheckPortrait:Kill()
+
+	local ticketBG = select(2, TicketStatusFrame:GetChildren())
+	ticketBG:SetTemplate("Transparent")
 
 	for i = 1, #skins do
 		_G[skins[i]]:SetTemplate("Transparent")
