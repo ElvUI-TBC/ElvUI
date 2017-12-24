@@ -127,7 +127,7 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 		element.duration = duration
 
 		if(element.count) then
-			if(count and (count > 1)) then
+			if(count and count > 1) then
 				element.count:SetText(count)
 				element.count:Show()
 			else
@@ -137,7 +137,7 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 		end
 
 		if(element.time) then
-			if(duration and (duration > 0)) then
+			if(duration and duration > 0 and endTime) then
 				element:SetScript('OnUpdate', onUpdate)
 				element.time:Show()
 			else
@@ -147,7 +147,7 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 		end
 
 		if(element.cd) then
-			if(duration and (duration > 0)) then
+			if(duration and duration > 0 and endTime) then
 				element.cd:SetCooldown(GetTime() - (endTime - duration), duration)
 				element.cd:Show()
 			else
@@ -155,7 +155,7 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 			end
 		end
 
-		local c = DispellColor[debuffType] or ElvUI[1].media.bordercolor;
+		local c = DispellColor[debuffType] or ElvUI[1].media.bordercolor
 		element:SetBackdropBorderColor(c[1], c[2], c[3])
 
 		element:Show()
