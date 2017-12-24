@@ -10,8 +10,6 @@ local GetCurrentDungeonDifficulty = GetCurrentDungeonDifficulty
 local GetQuestGreenRange = GetQuestGreenRange
 local GetRealZoneText = GetRealZoneText
 local IsInInstance = IsInInstance
-local UnitBuff = UnitBuff
-local UnitDebuff = UnitDebuff
 local UnitLevel = UnitLevel
 --WoW Variables
 local DUNGEON_DIFFICULTY1 = DUNGEON_DIFFICULTY1
