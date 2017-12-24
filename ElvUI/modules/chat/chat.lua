@@ -511,7 +511,7 @@ function CH:UpdateChatTabs()
 end
 
 function CH:PositionChat(override)
-	if ((InCombatLockdown() and not override and self.initialMove) or (IsMouseButtonDown("LeftButton") and not override)) then return end
+	if (InCombatLockdown() and not override and self.initialMove) then return end
 	if not RightChatPanel or not LeftChatPanel then return end
 	RightChatPanel:SetSize(E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth, E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight)
 	LeftChatPanel:SetSize(E.db.chat.panelWidth, E.db.chat.panelHeight)
@@ -1070,6 +1070,11 @@ function CH:SetupChat()
 			if id ~= 2 then
 				frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
 			end
+
+			hooksecurefunc(frame, "StopMovingOrSizing", function()
+				CH:PositionChat(true)
+			end)
+
 			frame.scriptsSet = true
 		end
 	end
@@ -1101,8 +1106,9 @@ function CH:SetupChat()
 	end
 
 	DEFAULT_CHAT_FRAME:SetParent(LeftChatPanel)
-	self:ScheduleRepeatingTimer("PositionChat", 1)
-	-- self:PositionChat(true)
+
+--	self:PositionChat(true)
+	self:ScheduleTimer("PositionChat", 1)
 end
 
 local function PrepareMessage(author, message)
