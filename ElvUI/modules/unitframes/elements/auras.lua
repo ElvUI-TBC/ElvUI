@@ -350,64 +350,45 @@ function UF:PostUpdateAura(unit, button, index)
 	button.spell = name
 	button.duration = duration
 
-	if expiration and duration ~= 0 then
+	if duration ~= 0 then
 		if not button:GetScript("OnUpdate") then
-			button.expirationTime = expiration
-			button.expiration = expiration - GetTime()
 			button.nextupdate = -1
 			button:SetScript("OnUpdate", UF.UpdateAuraTimer)
 		end
-		if (button.expirationTime ~= expiration) or (button.expiration ~= (expiration - GetTime())) then
-			button.expirationTime = expiration
-			button.expiration = expiration - GetTime()
-			button.nextupdate = -1
-		end
 	end
-	if duration == 0 or expiration == 0 then
-		button.expirationTime = nil
-		button.expiration = nil
+	if duration == 0 then
 		button.priority = nil
 		button.duration = nil
 		button:SetScript("OnUpdate", nil)
-		if(button.text:GetFont()) then
+		if button.text:GetFont() then
 			button.text:SetText("")
 		end
 	end
 end
 
 function UF:UpdateAuraTimer(elapsed)
-	local _, _, _, _, _, duration, timeLeft = UnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
-
 	if self.nextupdate > 0 then
 		self.nextupdate = self.nextupdate - elapsed
 		return
 	end
 
-	if self.expiration and self.expiration <= 0 then
-		self:SetScript("OnUpdate", nil)
-
+	local _, _, _, _, _, duration, timeLeft = UnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
+	if timeLeft and timeLeft <= 0 then
 		if self.text:GetFont() then
 			self.text:SetText("")
 		end
-
 		return
 	else
-		if not self:GetParent().disableCooldown then
-			if timeLeft > self.expiration and duration and duration > 0 then
-				self.cd:SetCooldown(GetTime() - (duration - timeLeft), duration)
-			end
-		end
-
-		self.expiration = timeLeft
+		self.cd:SetCooldown(GetTime() - (duration - timeLeft), duration)
 	end
 
 	local timervalue, formatid
 	timervalue, formatid, self.nextupdate = E:GetTimeInfo(timeLeft, 4)
 	if self.text:GetFont() then
-		self.text:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatid], E.TimeFormats[formatid][2]), timervalue)
+		self.text:SetFormattedText(format("%s%s|r", E.TimeColors[formatid], E.TimeFormats[formatid][2]), timervalue)
 	elseif self:GetParent():GetParent().db then
 		self.text:FontTemplate(LSM:Fetch("font", E.db["unitframe"].font), self:GetParent():GetParent().db[self:GetParent().type].fontSize, E.db["unitframe"].fontOutline)
-		self.text:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatid], E.TimeFormats[formatid][2]), timervalue)
+		self.text:SetFormattedText(format("%s%s|r", E.TimeColors[formatid], E.TimeFormats[formatid][2]), timervalue)
 	end
 end
 
