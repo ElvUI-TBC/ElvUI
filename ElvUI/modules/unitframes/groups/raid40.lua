@@ -14,6 +14,9 @@ local RegisterStateDriver = RegisterStateDriver
 local UnregisterStateDriver = UnregisterStateDriver
 
 function UF:Construct_Raid40Frames()
+	self:SetAttribute("initial-width", UF.db["units"]["raid40"].width)
+	self:SetAttribute("initial-height", UF.db["units"]["raid40"].height)
+
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 

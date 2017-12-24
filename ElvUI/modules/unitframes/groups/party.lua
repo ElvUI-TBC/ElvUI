@@ -34,7 +34,13 @@ function UF:Construct_PartyFrames()
 		end
 
 		self.unitframeType = "party"..self.childType
+
+		--self:SetAttribute("initial-width", UF.db["units"]["party"][self.childType.."sGroup"].width)
+		--self:SetAttribute("initial-height", UF.db["units"]["party"][self.childType.."sGroup"].height)
 	else
+		self:SetAttribute("initial-width", UF.db["units"]["party"].width)
+		self:SetAttribute("initial-height", UF.db["units"]["party"].height)
+
 		self.Health = UF:Construct_HealthBar(self, true, true, "RIGHT")
 
 		self.Power = UF:Construct_PowerBar(self, true, true, "LEFT")

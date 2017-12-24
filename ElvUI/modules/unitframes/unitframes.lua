@@ -682,8 +682,6 @@ function UF:CreateHeader(parent, groupFilter, overrideName, template, groupName,
 	local db = UF.db["units"][group]
 	ElvUF:SetActiveStyle("ElvUF_"..E:StringTitle(group))
 	local header = ElvUF:SpawnHeader(overrideName, headerTemplate, nil,
-			"initial-width", db.width,
-			"initial-height", db.height,
 			"groupFilter", groupFilter,
 			"showParty", true,
 			"showRaid", true,
