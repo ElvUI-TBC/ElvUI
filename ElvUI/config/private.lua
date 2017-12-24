@@ -95,6 +95,7 @@ V["skins"] = {
 		["talent"] = true,
 		["taxi"] = true,
 		["timemanager"] = true,
+		["tooltip"] = true,
 		["trade"] = true,
 		["tradeskill"] = true,
 		["trainer"] = true,

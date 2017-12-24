@@ -65,18 +65,6 @@ local AFK_LABEL = " |cffFFFFFF[|r|cffE7E716"..L["AFK"].."|r|cffFFFFFF]|r"
 local DND_LABEL = " |cffFFFFFF[|r|cffFF0000"..L["DND"].."|r|cffFFFFFF]|r"
 local keybindFrame
 
-local tooltips = {
-	GameTooltip,
-	ItemRefTooltip,
-	ShoppingTooltip1,
-	ShoppingTooltip2,
-	WorldMapTooltip,
-	DropDownList1MenuBackdrop,
-	DropDownList2MenuBackdrop,
-	DropDownList3MenuBackdrop,
-	EventTraceTooltip
-}
-
 local classification = {
 	worldboss = format("|cffAF5050 %s|r", BOSS),
 	rareelite = format("|cffAF5050+ %s|r", ITEM_QUALITY3_DESC),
@@ -610,15 +598,17 @@ function TT:SetItemRef(link)
 end
 
 function TT:CheckBackdropColor()
-	local r, g, b = GameTooltip:GetBackdropColor()
-	r = E:Round(r, 1)
-	g = E:Round(g, 1)
-	b = E:Round(b, 1)
-	local red, green, blue = unpack(E.media.backdropfadecolor)
-	local alpha = self.db.colorAlpha
+	if not GameTooltip:IsShown() then return end
 
-	if r ~= red or g ~= green or b ~= blue then
-		GameTooltip:SetBackdropColor(red, green, blue, alpha)
+	local r, g, b = GameTooltip:GetBackdropColor()
+	if (r and g and b) then
+		r = E:Round(r, 1)
+		g = E:Round(g, 1)
+		b = E:Round(b, 1)
+		local red, green, blue = unpack(E.media.backdropfadecolor)
+		if (r ~= red or g ~= green or b ~= blue) then
+			GameTooltip:SetBackdropColor(red, green, blue, self.db.colorAlpha)
+		end
 	end
 end
 
@@ -664,16 +654,10 @@ function TT:Initialize()
 	self.db = E.db.tooltip
 
 	if E.private.tooltip.enable ~= true then return end
-	E.Tooltip = self
+	E.Tooltip = TT
 
 	GameTooltipStatusBar:Height(self.db.healthBar.height)
-	GameTooltipStatusBar:SetStatusBarTexture(E["media"].normTex)
-	E:RegisterStatusBar(GameTooltipStatusBar)
-	GameTooltipStatusBar:CreateBackdrop("Transparent")
-	GameTooltipStatusBar:SetScript("OnValueChanged", self.OnValueChanged)
-	GameTooltipStatusBar:ClearAllPoints()
-	GameTooltipStatusBar:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT", E.Border, -(E.Spacing * 3))
-	GameTooltipStatusBar:SetPoint("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", -E.Border, -(E.Spacing * 3))
+	GameTooltipStatusBar:SetScript("OnValueChanged", nil)
 	GameTooltipStatusBar.text = GameTooltipStatusBar:CreateFontString(nil, "OVERLAY")
 	GameTooltipStatusBar.text:Point("CENTER", GameTooltipStatusBar, 0, -3)
 	GameTooltipStatusBar.text:FontTemplate(E.LSM:Fetch("font", self.db.healthBar.font), self.db.healthBar.fontSize, self.db.healthBar.fontOutline)
@@ -698,16 +682,10 @@ function TT:Initialize()
 	self:HookScript(GameTooltip, "OnTooltipCleared", "GameTooltip_OnTooltipCleared")
 	self:HookScript(GameTooltip, "OnTooltipSetItem", "GameTooltip_OnTooltipSetItem")
 	self:HookScript(GameTooltip, "OnTooltipSetUnit", "GameTooltip_OnTooltipSetUnit")
-	self:HookScript(GameTooltip, "OnSizeChanged", "CheckBackdropColor")
 
 	self:HookScript(GameTooltipStatusBar, "OnValueChanged", "GameTooltipStatusBar_OnValueChanged")
 
 	self:RegisterEvent("MODIFIER_STATE_CHANGED")
-	self:RegisterEvent("CURSOR_UPDATE", "CheckBackdropColor")
-	E.Skins:HandleCloseButton(ItemRefCloseButton)
-	for _, tt in pairs(tooltips) do
-		self:HookScript(tt, "OnShow", "SetStyle")
-	end
 
 	keybindFrame = ElvUI_KeyBinder
 end

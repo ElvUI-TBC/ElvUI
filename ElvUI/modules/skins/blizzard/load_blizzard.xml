@@ -37,6 +37,7 @@
 	<Script file="talent.lua"/>
 	<Script file="taxi.lua"/>
 	<Script file="timemanager.lua"/>
+	<Script file="tooltip.lua"/>
 	<Script file="trade.lua"/>
 	<Script file="tradeskill.lua"/>
 	<Script file="trainer.lua"/>

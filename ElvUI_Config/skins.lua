@@ -232,6 +232,11 @@ E.Options.args.skins = {
 					name = L["Time Manager"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
+				tooltip = {
+					type = "toggle",
+					name = L["Tooltip"],
+					desc = L["TOGGLESKIN_DESC"],
+				},
 				trade = {
 					type = "toggle",
 					name = L["Trade Frame"],
