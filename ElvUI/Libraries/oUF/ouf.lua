@@ -569,8 +569,8 @@ do
 				end
 
 				frame.menu = togglemenu
-				frame:SetAttribute('type1', 'target')
-				frame:SetAttribute('type2', 'menu')
+				frame:SetAttribute('*type1', 'target')
+				frame:SetAttribute('*type2', 'menu')
 				frame.guessUnit = unit
 			end
 		end
@@ -605,6 +605,7 @@ do
 		local isPetHeader = template:match('PetHeader')
 		local name = overrideName or generateName(nil, ...)
 		local header = CreateFrame('Frame', name, UIParent, template)
+		header:Hide()
 
 		header:SetAttribute('template', 'SecureUnitButtonTemplate')
 		for i = 1, select('#', ...), 2 do

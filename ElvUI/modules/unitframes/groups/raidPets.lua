@@ -1,5 +1,9 @@
-local E, L, V, P, G = unpack(ElvUI)
-local UF = E:GetModule("UnitFrames")
+local E, L, V, P, G = unpack(ElvUI); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local UF = E:GetModule("UnitFrames");
+
+local ns = oUF
+local ElvUF = ns.oUF
+assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 --Cache global variables
 --Lua functions
@@ -12,11 +16,11 @@ local RegisterStateDriver = RegisterStateDriver
 local UnregisterStateDriver = UnregisterStateDriver
 
 function UF:Construct_RaidpetFrames()
-	self:SetAttribute("initial-width", UF.db["units"]["raidpet"].width)
-	self:SetAttribute("initial-height", UF.db["units"]["raidpet"].height)
-
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
+
+	self:SetAttribute("initial-width", UF.db["units"]["raidpet"].width)
+	self:SetAttribute("initial-height", UF.db["units"]["raidpet"].height)
 
 	self.RaisedElementParent = CreateFrame("Frame", nil, self)
 	self.RaisedElementParent.TextureParent = CreateFrame("Frame", nil, self.RaisedElementParent)
@@ -46,14 +50,15 @@ function UF:Construct_RaidpetFrames()
 	UF:Update_FontStrings()
 
 	self.unitframeType = "raidpet"
+
 	UF:Update_RaidpetFrames(self, UF.db["units"]["raidpet"])
 
 	return self
 end
 
---I don"t know if this function is needed or not? But the error I pm"ed you about was because of the missing OnEvent so I just added it.
+--I don"t know if this function is needed or not? But the error I pm'ed you about was because of the missing OnEvent so I just added it.
 function UF:RaidPetsSmartVisibility(event)
-	if not self.db or (self.db and not self.db.enable) or (UF.db and not UF.db.smartRaidFilter) or self.isForced then return; end
+	if not self.db or (self.db and not self.db.enable) or (UF.db and not UF.db.smartRaidFilter) or self.isForced then return end
 	if event == "PLAYER_REGEN_ENABLED" then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
 
 	if not InCombatLockdown() then
@@ -73,14 +78,14 @@ end
 function UF:Update_RaidpetHeader(header, db)
 	header.db = db
 
-	if not header.positioned then
+	if(not header.positioned) then
 		header:ClearAllPoints()
 		header:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 574)
 
 		E:CreateMover(header, header:GetName() .. "Mover", L["Raid Pet Frames"], nil, nil, nil, "ALL,RAID10,RAID25,RAID40")
 		header.positioned = true
 
-		header:RegisterEvent("PLAYER_ENTERING_WORLD")
+		header:RegisterEvent("PLAYER_LOGIN")
 		header:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 		header:SetScript("OnEvent", UF["RaidPetsSmartVisibility"])
 	end

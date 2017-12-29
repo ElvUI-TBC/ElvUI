@@ -1,5 +1,9 @@
-local E, L, V, P, G = unpack(ElvUI)
-local UF = E:GetModule("UnitFrames")
+local E, L, V, P, G = unpack(ElvUI); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local UF = E:GetModule("UnitFrames");
+
+local ns = oUF
+local ElvUF = ns.oUF
+assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 --Cache global variables
 --Lua functions
@@ -28,15 +32,17 @@ function UF:Construct_PartyFrames()
 		self.Name = UF:Construct_NameText(self)
 		self.originalParent = self:GetParent()
 
+		local childDB = UF.db["units"]["party"].petsGroup
 		self.childType = "pet"
 		if self == _G[self.originalParent:GetName().."Target"] then
+			childDB = UF.db["units"]["party"].targetsGroup
 			self.childType = "target"
 		end
 
 		self.unitframeType = "party"..self.childType
 
-		--self:SetAttribute("initial-width", UF.db["units"]["party"][self.childType.."sGroup"].width)
-		--self:SetAttribute("initial-height", UF.db["units"]["party"][self.childType.."sGroup"].height)
+		self:SetAttribute("initial-width", childDB.width)
+		self:SetAttribute("initial-height", childDB.height)
 	else
 		self:SetAttribute("initial-width", UF.db["units"]["party"].width)
 		self:SetAttribute("initial-height", UF.db["units"]["party"].height)
@@ -67,7 +73,6 @@ function UF:Construct_PartyFrames()
 		self.HealCommBar = UF:Construct_HealComm(self)
 		self.GPS = UF:Construct_GPS(self)
 		self.customTexts = {}
-
 		self.unitframeType = "party"
 	end
 
@@ -77,6 +82,7 @@ function UF:Construct_PartyFrames()
 	UF:Update_FontStrings()
 
 	UF:Update_PartyFrames(self, UF.db["units"]["party"])
+
 	return self
 end
 
@@ -129,7 +135,7 @@ function UF:Update_PartyFrames(frame, db)
 	frame:RegisterForClicks(self.db.targetOnMouseDown and "AnyDown" or "AnyUp")
 
 	do
-		if(self.thinBorders) then
+		if self.thinBorders then
 			frame.SPACING = 0
 			frame.BORDER = E.mult
 		else
@@ -194,10 +200,12 @@ function UF:Update_PartyFrames(frame, db)
 		if not InCombatLockdown() then
 			if childDB.enable then
 				frame:SetParent(frame.originalParent)
+				RegisterUnitWatch(frame)
 				frame:Size(childDB.width, childDB.height)
 				frame:ClearAllPoints()
 				frame:Point(E.InversePoints[childDB.anchorPoint], frame.originalParent, childDB.anchorPoint, childDB.xOffset, childDB.yOffset)
 			else
+				UnregisterUnitWatch(frame)
 				frame:SetParent(E.HiddenFrame)
 			end
 		end

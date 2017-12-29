@@ -1,12 +1,15 @@
-local E, L, V, P, G = unpack(ElvUI)
-local UF = E:GetModule("UnitFrames")
+local E, L, V, P, G = unpack(ElvUI); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local UF = E:GetModule("UnitFrames");
+
+local ns = oUF
+local ElvUF = ns.oUF
+assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 --Cache global variables
 --Lua functions
 local tinsert = table.insert
 --WoW API / Variables
 local CreateFrame = CreateFrame
-local GetCurrentMapAreaID = GetCurrentMapAreaID
 local GetInstanceInfo = GetInstanceInfo
 local InCombatLockdown = InCombatLockdown
 local IsInInstance = IsInInstance
@@ -14,21 +17,19 @@ local RegisterStateDriver = RegisterStateDriver
 local UnregisterStateDriver = UnregisterStateDriver
 
 function UF:Construct_Raid40Frames()
-	self:SetAttribute("initial-width", UF.db["units"]["raid40"].width)
-	self:SetAttribute("initial-height", UF.db["units"]["raid40"].height)
-
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
+
+	self:SetAttribute("initial-width", UF.db["units"]["raid40"].width)
+	self:SetAttribute("initial-height", UF.db["units"]["raid40"].height)
 
 	self.RaisedElementParent = CreateFrame("Frame", nil, self)
 	self.RaisedElementParent.TextureParent = CreateFrame("Frame", nil, self.RaisedElementParent)
 	self.RaisedElementParent:SetFrameLevel(self:GetFrameLevel() + 100)
 
 	self.Health = UF:Construct_HealthBar(self, true, true, "RIGHT")
-
 	self.Power = UF:Construct_PowerBar(self, true, true, "LEFT")
 	self.Power.frequentUpdates = false
-
 	self.Portrait3D = UF:Construct_Portrait(self, "model")
 	self.Portrait2D = UF:Construct_Portrait(self, "texture")
 
@@ -56,7 +57,9 @@ function UF:Construct_Raid40Frames()
 	UF:Update_FontStrings()
 
 	self.unitframeType = "raid40"
+
 	UF:Update_Raid40Frames(self, UF.db["units"]["raid40"])
+
 	return self
 end
 
@@ -71,21 +74,20 @@ function UF:Raid40SmartVisibility(event)
 	if not InCombatLockdown() then
 		self.isInstanceForced = nil
 		local inInstance, instanceType = IsInInstance()
-		if(inInstance and (instanceType == "raid" or instanceType == "pvp")) then
+		if inInstance and (instanceType == "raid" or instanceType == "pvp") then
 			local _, _, _, _, maxPlayers = GetInstanceInfo()
 			local mapID = GetCurrentMapAreaID()
-
 			if UF.mapIDs[mapID] then
 				maxPlayers = UF.mapIDs[mapID]
 			end
 
 			UnregisterStateDriver(self, "visibility")
 
-			if(maxPlayers == 40) then
+			if maxPlayers == 40 then
 				self:Show()
 				self.isInstanceForced = true
 				self.blockVisibilityChanges = false
-				if(ElvUF_Raid40.numGroups ~= E:Round(maxPlayers/5) and event) then
+				if ElvUF_Raid40.numGroups ~= E:Round(maxPlayers/5) and event then
 					UF:CreateAndUpdateHeaderGroup("raid40")
 				end
 			else
@@ -95,7 +97,7 @@ function UF:Raid40SmartVisibility(event)
 		elseif self.db.visibility then
 			RegisterStateDriver(self, "visibility", self.db.visibility)
 			self.blockVisibilityChanges = false
-			if(ElvUF_Raid40.numGroups ~= self.db.numGroups) then
+			if ElvUF_Raid40.numGroups ~= self.db.numGroups then
 				UF:CreateAndUpdateHeaderGroup("raid40")
 			end
 		end
@@ -108,7 +110,7 @@ end
 function UF:Update_Raid40Header(header, db)
 	header.db = db
 
-	if(not header.positioned) then
+	if not header.positioned then
 		header:ClearAllPoints()
 		header:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 195)
 
@@ -131,7 +133,7 @@ function UF:Update_Raid40Frames(frame, db)
 	frame:RegisterForClicks(self.db.targetOnMouseDown and "AnyDown" or "AnyUp")
 
 	do
-		if(self.thinBorders) then
+		if self.thinBorders then
 			frame.SPACING = 0
 			frame.BORDER = E.mult
 		else
@@ -174,6 +176,7 @@ function UF:Update_Raid40Frames(frame, db)
 	if not InCombatLockdown() then
 		frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
 	end
+
 	UF:Configure_InfoPanel(frame)
 	--Health
 	UF:Configure_HealthBar(frame)
@@ -210,7 +213,7 @@ function UF:Update_Raid40Frames(frame, db)
 	--OverHealing
 	UF:Configure_HealComm(frame)
 
-	--GPS
+	--GPS Arrow
 	UF:Configure_GPS(frame)
 
 	--Raid Roles

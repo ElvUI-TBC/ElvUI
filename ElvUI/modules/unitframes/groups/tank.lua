@@ -1,5 +1,9 @@
-local E, L, V, P, G = unpack(ElvUI)
-local UF = E:GetModule("UnitFrames")
+local E, L, V, P, G = unpack(ElvUI); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local UF = E:GetModule("UnitFrames");
+
+local ns = oUF
+local ElvUF = ns.oUF
+assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 --Cache global variables
 --Lua functions
@@ -24,6 +28,9 @@ function UF:Construct_TankFrames()
 	self.Range = UF:Construct_Range(self)
 
 	if not self.isChild then
+		self:SetAttribute("initial-width", UF.db["units"]["tank"].width)
+		self:SetAttribute("initial-height", UF.db["units"]["tank"].height)
+
 		self.Buffs = UF:Construct_Buffs(self)
 		self.Debuffs = UF:Construct_Debuffs(self)
 		self.AuraWatch = UF:Construct_AuraWatch(self)
@@ -32,14 +39,18 @@ function UF:Construct_TankFrames()
 
 		self.unitframeType = "tank"
 	else
+		self:SetAttribute("initial-width", UF.db["units"]["tank"].targetsGroup.width)
+		self:SetAttribute("initial-height", UF.db["units"]["tank"].targetsGroup.height)
+
 		self.unitframeType = "tanktarget"
 	end
 
-	UF:Update_TankFrames(self, E.db["unitframe"]["units"]["tank"])
 	UF:Update_StatusBars()
 	UF:Update_FontStrings()
 
 	self.originalParent = self:GetParent()
+
+	UF:Update_TankFrames(self, E.db["unitframe"]["units"]["tank"])
 
 	return self
 end
@@ -48,17 +59,8 @@ function UF:Update_TankHeader(header, db)
 	header:Hide()
 	header.db = db
 
-	UF:ClearChildPoints(header:GetChildren())
-
-	header:SetAttribute("startingIndex", -1)
 	RegisterStateDriver(header, "visibility", "show")
-	RegisterStateDriver(header, "visibility", "[target=raid1,exists] showhide")
-	header:SetAttribute("startingIndex", 1)
-
-	header:SetAttribute("point", "BOTTOM")
-	header:SetAttribute("columnAnchorPoint", "LEFT")
-
-	UF:ClearChildPoints(header:GetChildren())
+	RegisterStateDriver(header, "visibility", "[target=raid1,exists] show;hide")
 
 	local width, height = header:GetSize()
 	header.dirtyWidth, header.dirtyHeight = width, max(height, db.height)
@@ -81,8 +83,7 @@ function UF:Update_TankFrames(frame, db)
 
 	do
 		frame.ORIENTATION = db.orientation --allow this value to change when unitframes position changes on screen?
-
-		if(self.thinBorders) then
+		if self.thinBorders then
 			frame.SPACING = 0
 			frame.BORDER = E.mult
 		else
@@ -124,15 +125,14 @@ function UF:Update_TankFrames(frame, db)
 		if not InCombatLockdown() then
 			if childDB.enable then
 				frame:SetParent(frame.originalParent)
+				RegisterUnitWatch(frame)
 				frame:Size(childDB.width, childDB.height)
 				frame:ClearAllPoints()
 				frame:Point(E.InversePoints[childDB.anchorPoint], frame.originalParent, childDB.anchorPoint, childDB.xOffset, childDB.yOffset)
 			else
+				UnregisterUnitWatch(frame)
 				frame:SetParent(E.HiddenFrame)
 			end
-		else
-			frame:SetAttribute("initial-height", childDB.height)
-			frame:SetAttribute("initial-width", childDB.width)
 		end
 	elseif not InCombatLockdown() then
 		frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
@@ -140,6 +140,9 @@ function UF:Update_TankFrames(frame, db)
 
 	--Health
 	UF:Configure_HealthBar(frame)
+
+	--Threat
+	UF:Configure_Threat(frame)
 
 	--Name
 	do
@@ -151,9 +154,6 @@ function UF:Update_TankFrames(frame, db)
 			frame:Tag(name, "[namecolor][name:medium]")
 		end
 	end
-
-	--Threat
-	UF:Configure_Threat(frame)
 
 	--Range
 	UF:Configure_Range(frame)
