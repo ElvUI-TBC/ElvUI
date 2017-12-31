@@ -23,11 +23,11 @@ function S:LoadSpellBookSkin()
 
 		if value > 0 then
 			if currentPage > 1 then
-				SpellBookPrevPageButton_OnClick()
+				PrevPageButton_OnClick()
 			end
 		else 
 			if currentPage < maxPages then
-				SpellBookNextPageButton_OnClick()
+				NextPageButton_OnClick()
 			end
 		end
 	end)
