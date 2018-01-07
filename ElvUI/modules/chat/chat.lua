@@ -972,7 +972,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			self:AddMessage(CH:ConcatenateTimeStamp(body), info.r, info.g, info.b, info.id)
 		end
 
-		if type == "WHISPER" then
+		if not CH.SuppressFlash and type == "WHISPER" then
 			ChatEdit_SetLastTellTarget(arg2)
 			if self.tellTimer and (GetTime() > self.tellTimer) then
 				PlaySound("TellMessage")
@@ -1385,6 +1385,7 @@ function CH:DisplayChatHistory()
 	if not (data and next(data)) then return end
 
 	CH.SoundPlayed = true
+	CH.SuppressFlash = true
 	for i = 1, NUM_CHAT_WINDOWS do
 		chat = _G["ChatFrame"..i]
 		for i = 1, #data do
@@ -1400,6 +1401,7 @@ function CH:DisplayChatHistory()
 		end
 	end
 	CH.SoundPlayed = nil
+	CH.SuppressFlash = nil
 end
 
 tremove(ChatTypeGroup["GUILD"], 2)
