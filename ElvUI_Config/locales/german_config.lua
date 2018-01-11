@@ -112,6 +112,7 @@ L["Out of Range"] = "Außer Reichweite"
 L["Pick Up Action Key"] = "Aktionstaste zum Bewegen"
 L["Restore Bar"] = "Leiste zurücksetzen"
 L["Restore the actionbars default settings"] = "Wiederherstellung der vordefinierten Aktionsleisteneinstellung"
+L["RightClick Self-Cast"] = true
 L["Seconds"] = "Sekunden"
 L["Show Empty Buttons"] = "Zeige leere Tasten"
 L["The amount of buttons to display per row."] = "Anzahl der Aktionstasten in einer Reihe."

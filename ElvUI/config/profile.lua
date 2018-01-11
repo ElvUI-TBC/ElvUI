@@ -2426,6 +2426,7 @@ P["actionbar"] = {
 
 	["keyDown"] = true,
 	["movementModifier"] = "SHIFT",
+	["rightClickSelfCast"] = false,
 
 	["microbar"] = {
 		["enabled"] = false,

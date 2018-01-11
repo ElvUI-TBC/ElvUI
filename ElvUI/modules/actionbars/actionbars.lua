@@ -625,6 +625,9 @@ function AB:UpdateButtonConfig(bar, buttonName)
 		button:SetAttribute("buttonlock", self.db.lockActionBars)
 		button:SetAttribute("checkselfcast", true)
 		button:SetAttribute("checkfocuscast", true)
+		if self.db.rightClickSelfCast then
+			bar:SetAttribute("unit-S"..(bar:GetAttribute("state-page") or 0).."Right", "player")
+		end
 
 		button:UpdateConfig(bar.buttonConfig)
 	end
