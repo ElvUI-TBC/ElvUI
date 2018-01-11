@@ -43,8 +43,6 @@ This UI will arrange your interface to be more flexible and practical.
 <br />
 [ElvUI_RaidMarkers](https://github.com/ElvUI-TBC/ElvUI_RaidMarkers)
 <br />
-[ElvUI_RightClick](https://github.com/ElvUI-TBC/ElvUI_RightClick)
-<br />
 [ElvUI_SwingBar](https://github.com/ElvUI-TBC/ElvUI_SwingBar)
 
 -- Please Note: These plugins will not function without ElvUI installed.
