@@ -1,5 +1,5 @@
-# ElvUI TBC (2.4.3)
-This is the backported version of ElvUI for World of Warcraft 2.4.3
+# ElvUI - The Burning Crusade (2.4.3)
+This is the backported version of ElvUI for World of Warcraft - The Burning Crusade (2.4.3)
 <br />
 ElvUI is a full UI replacement.
 It completely replaces the default Blizzard UI at every level with a new and better interface.
