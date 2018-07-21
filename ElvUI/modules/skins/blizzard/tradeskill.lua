@@ -5,11 +5,13 @@ local _G = _G
 local unpack, select = unpack, select
 local find = string.find
 
+local CreateFrame = CreateFrame
 local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local GetTradeSkillItemLink = GetTradeSkillItemLink
 local GetTradeSkillReagentInfo = GetTradeSkillReagentInfo
 local GetTradeSkillReagentItemLink = GetTradeSkillReagentItemLink
+local hooksecurefunc = hooksecurefunc
 
 function S:LoadTradeSkillSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true then return end
@@ -25,13 +27,26 @@ function S:LoadTradeSkillSkin()
 	TradeSkillFrame.backdrop:Point("TOPLEFT", 10, -12)
 	TradeSkillFrame.backdrop:Point("BOTTOMRIGHT", -34, 0)
 
+	TradeSkillFrame.bg1 = CreateFrame("Frame", nil, TradeSkillFrame)
+	TradeSkillFrame.bg1:SetTemplate("Transparent")
+	TradeSkillFrame.bg1:Point("TOPLEFT", 14, -92)
+	TradeSkillFrame.bg1:Point("BOTTOMRIGHT", -367, 4)
+	TradeSkillFrame.bg1:SetFrameLevel(TradeSkillFrame.bg1:GetFrameLevel() - 1)
+
+	TradeSkillFrame.bg2 = CreateFrame("Frame", nil, TradeSkillFrame)
+	TradeSkillFrame.bg2:SetTemplate("Transparent")
+	TradeSkillFrame.bg2:Point("TOPLEFT", TradeSkillFrame.bg1, "TOPRIGHT", 3, 0)
+	TradeSkillFrame.bg2:Point("BOTTOMRIGHT", TradeSkillFrame, "BOTTOMRIGHT", -38, 4)
+	TradeSkillFrame.bg2:SetFrameLevel(TradeSkillFrame.bg2:GetFrameLevel() - 1)
+
 	TradeSkillRankFrameBorder:StripTextures()
 	TradeSkillRankFrame:Size(447, 16)
 	TradeSkillRankFrame:ClearAllPoints()
 	TradeSkillRankFrame:Point("TOP", 10, -45)
 	TradeSkillRankFrame:CreateBackdrop()
+	TradeSkillRankFrame:SetStatusBarColor(0.22, 0.39, 0.84)
+	TradeSkillRankFrame.SetStatusBarColor = E.noop
 	TradeSkillRankFrame:SetStatusBarTexture(E["media"].normTex)
-	TradeSkillRankFrame:SetStatusBarColor(0.13, 0.35, 0.80)
 	E:RegisterStatusBar(TradeSkillRankFrame)
 
 	TradeSkillRankFrameSkillRank:ClearAllPoints()
@@ -43,28 +58,6 @@ function S:LoadTradeSkillSkin()
 	TradeSkillFrameEditBox:ClearAllPoints()
 	TradeSkillFrameEditBox:Point("LEFT", TradeSkillFrameAvailableFilterCheckButton, "RIGHT", 100, 0)
 	S:HandleEditBox(TradeSkillFrameEditBox)
-
-	TradeSkillExpandButtonFrame:StripTextures()
-
-	TradeSkillCollapseAllButton:SetNormalTexture("")
-	TradeSkillCollapseAllButton.SetNormalTexture = E.noop
-	TradeSkillCollapseAllButton:SetHighlightTexture("")
-	TradeSkillCollapseAllButton.SetHighlightTexture = E.noop
-	TradeSkillCollapseAllButton:SetDisabledTexture("")
-	TradeSkillCollapseAllButton.SetDisabledTexture = E.noop
-
-	TradeSkillCollapseAllButton.Text = TradeSkillCollapseAllButton:CreateFontString(nil, "OVERLAY")
-	TradeSkillCollapseAllButton.Text:FontTemplate(nil, 22)
-	TradeSkillCollapseAllButton.Text:Point("LEFT", 3, 0)
-	TradeSkillCollapseAllButton.Text:SetText("+")
-
-	hooksecurefunc(TradeSkillCollapseAllButton, "SetNormalTexture", function(self, texture)
-		if(find(texture, "MinusButton")) then
-			self.Text:SetText("-")
-		else
-			self.Text:SetText("+")
-		end
-	end)
 
 	S:HandleDropDownBox(TradeSkillInvSlotDropDown, 140)
 	TradeSkillInvSlotDropDown:ClearAllPoints()
@@ -81,27 +74,52 @@ function S:LoadTradeSkillSkin()
 		CreateFrame("Button", "TradeSkillSkill" .. i, TradeSkillFrame, "TradeSkillSkillButtonTemplate"):Point("TOPLEFT", _G["TradeSkillSkill" .. i - 1], "BOTTOMLEFT")
 	end
 
+	TradeSkillExpandButtonFrame:StripTextures()
+	TradeSkillExpandButtonFrame:Point("TOPLEFT", 10, -71)
+
+	TradeSkillCollapseAllButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+	TradeSkillCollapseAllButton.SetNormalTexture = E.noop
+	TradeSkillCollapseAllButton:GetNormalTexture():Point("LEFT", 0, 2)
+	TradeSkillCollapseAllButton:GetNormalTexture():Size(15)
+
+	TradeSkillCollapseAllButton:SetHighlightTexture("")
+	TradeSkillCollapseAllButton.SetHighlightTexture = E.noop
+
+	TradeSkillCollapseAllButton:SetDisabledTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+	TradeSkillCollapseAllButton.SetDisabledTexture = E.noop
+	TradeSkillCollapseAllButton:GetDisabledTexture():Point("LEFT", 0, 2)
+	TradeSkillCollapseAllButton:GetDisabledTexture():Size(15)
+	TradeSkillCollapseAllButton:GetDisabledTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+	TradeSkillCollapseAllButton:GetDisabledTexture():SetDesaturated(true)
+
+	hooksecurefunc(TradeSkillCollapseAllButton, "SetNormalTexture", function(self, texture)
+		if find(texture, "MinusButton") then
+			self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+		else
+			self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+		end
+	end)
+
 	for i = 1, TRADE_SKILLS_DISPLAYED do
-		local skillButton = _G["TradeSkillSkill" .. i]
-		skillButton:SetNormalTexture("")
-		skillButton.SetNormalTexture = E.noop
+		local button = _G["TradeSkillSkill"..i]
+		local highlight = _G["TradeSkillSkill"..i.."Highlight"]
 
-		_G["TradeSkillSkill" .. i .. "Highlight"]:SetTexture("")
-		_G["TradeSkillSkill" .. i .. "Highlight"].SetTexture = E.noop
+		button:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		button.SetNormalTexture = E.noop
+		button:GetNormalTexture():Size(14)
+		button:GetNormalTexture():Point("LEFT", 0, 1)
 
-		skillButton.Text = skillButton:CreateFontString(nil, "OVERLAY")
-		skillButton.Text:FontTemplate(nil, 22)
-		skillButton.Text:Point("LEFT", 3, 0)
-		skillButton.Text:SetText("+")
+		highlight:SetTexture("")
+		highlight.SetTexture = E.noop
 
-		hooksecurefunc(skillButton, "SetNormalTexture", function(self, texture)
-			if(find(texture, "MinusButton")) then
-				self.Text:SetText("-")
-			elseif(find(texture, "PlusButton")) then
-				self.Text:SetText("+")
+		hooksecurefunc(button, "SetNormalTexture", function(self, texture)
+			if find(texture, "MinusButton") then
+				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+			elseif find(texture, "PlusButton") then
+				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
 			else
-				self.Text:SetText("")
-			end
+				self:GetNormalTexture():SetTexCoord(0, 0, 0, 0)
+ 			end
 		end)
 	end
 
@@ -123,40 +141,53 @@ function S:LoadTradeSkillSkin()
 	TradeSkillDetailScrollChildFrame:StripTextures()
 	TradeSkillDetailScrollChildFrame:Size(300, 150)
 
-	TradeSkillSkillName:Point("TOPLEFT", 65, -20)
+	TradeSkillSkillName:Point("TOPLEFT", 58, -3)
 
-	TradeSkillSkillIcon:Size(47)
-	TradeSkillSkillIcon:Point("TOPLEFT", 10, -20)
-	TradeSkillSkillIcon:StyleButton(nil, true)
 	TradeSkillSkillIcon:SetTemplate("Default")
+	TradeSkillSkillIcon:StyleButton(nil, true)
+	TradeSkillSkillIcon:Size(47)
+	TradeSkillSkillIcon:Point("TOPLEFT", 6, -3)
 
 	for i = 1, MAX_TRADE_SKILL_REAGENTS do
-		local reagent = _G["TradeSkillReagent" .. i]
-		local icon = _G["TradeSkillReagent" .. i .. "IconTexture"]
-		local count = _G["TradeSkillReagent" .. i .. "Count"]
-		local nameFrame = _G["TradeSkillReagent" .. i .. "NameFrame"]
+		local reagent = _G["TradeSkillReagent"..i]
+		local icon = _G["TradeSkillReagent"..i.."IconTexture"]
+		local count = _G["TradeSkillReagent"..i.."Count"]
+		local name = _G["TradeSkillReagent"..i.."Name"]
+		local nameFrame = _G["TradeSkillReagent"..i.."NameFrame"]
 
-		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:SetDrawLayer("OVERLAY")
+		reagent:SetTemplate("Default")
+		reagent:StyleButton()
+		reagent:Size(143, 40)
 
 		icon.backdrop = CreateFrame("Frame", nil, reagent)
 		icon.backdrop:SetFrameLevel(reagent:GetFrameLevel() - 1)
 		icon.backdrop:SetTemplate("Default")
 		icon.backdrop:SetOutside(icon)
 
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetDrawLayer("OVERLAY")
+		icon:Size(E.PixelMode and 38 or 32)
+		icon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
 		icon:SetParent(icon.backdrop)
+
 		count:SetParent(icon.backdrop)
 		count:SetDrawLayer("OVERLAY")
+
+		name:SetPoint("LEFT", nameFrame, "LEFT", 20, 0)
 
 		nameFrame:Kill()
 	end
 
 	TradeSkillReagentLabel:Point("TOPLEFT", TradeSkillSkillIcon, "BOTTOMLEFT", 0, -10)
 
-	TradeSkillReagent1:Point("TOPLEFT", TradeSkillReagentLabel, "BOTTOMLEFT", 0, -6)
+	TradeSkillReagent1:Point("TOPLEFT", TradeSkillReagentLabel, "BOTTOMLEFT", 1, -3)
+	TradeSkillReagent2:Point("LEFT", TradeSkillReagent1, "RIGHT", 3, 0)
 	TradeSkillReagent3:Point("TOPLEFT", TradeSkillReagent1, "BOTTOMLEFT", 0, -3)
+	TradeSkillReagent4:Point("LEFT", TradeSkillReagent3, "RIGHT", 3, 0)
 	TradeSkillReagent5:Point("TOPLEFT", TradeSkillReagent3, "BOTTOMLEFT", 0, -3)
-	TradeSkillReagent7:Point("TOPLEFT", TradeSkillReagent6, "BOTTOMLEFT", 0, -3)
+	TradeSkillReagent6:Point("LEFT", TradeSkillReagent5, "RIGHT", 3, 0)
+	TradeSkillReagent7:Point("TOPLEFT", TradeSkillReagent5, "BOTTOMLEFT", 0, -3)
+	TradeSkillReagent8:Point("LEFT", TradeSkillReagent7, "RIGHT", 3, 0)
 
 	TradeSkillCancelButton:ClearAllPoints()
 	TradeSkillCancelButton:Point("TOPRIGHT", TradeSkillDetailScrollFrame, "BOTTOMRIGHT", 23, -3)
@@ -179,18 +210,19 @@ function S:LoadTradeSkillSkin()
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
 		if TradeSkillSkillIcon:GetNormalTexture() then
+			TradeSkillReagentLabel:SetAlpha(1)
 			TradeSkillSkillIcon:SetAlpha(1)
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 			TradeSkillSkillIcon:GetNormalTexture():SetInside()
 		else
+			TradeSkillReagentLabel:SetAlpha(0)
 			TradeSkillSkillIcon:SetAlpha(0)
 		end
 
 		local skillLink = GetTradeSkillItemLink(id)
-		if(skillLink) then
-			TradeSkillRequirementLabel:SetTextColor(1, 0.80, 0.10)
+		if skillLink then
 			local quality = select(3, GetItemInfo(skillLink))
-			if(quality and quality > 1) then
+			if quality then
 				TradeSkillSkillIcon:SetBackdropBorderColor(GetItemQualityColor(quality))
 				TradeSkillSkillName:SetTextColor(GetItemQualityColor(quality))
 			else
@@ -201,21 +233,24 @@ function S:LoadTradeSkillSkin()
 
 		local numReagents = GetTradeSkillNumReagents(id)
 		for i = 1, numReagents, 1 do
-			local reagentName, reagentTexture, reagentCount, playerReagentCount = GetTradeSkillReagentInfo(id, i)
+			local _, _, reagentCount, playerReagentCount = GetTradeSkillReagentInfo(id, i)
 			local reagentLink = GetTradeSkillReagentItemLink(id, i)
+			local reagent = _G["TradeSkillReagent"..i]
 			local icon = _G["TradeSkillReagent" .. i .. "IconTexture"]
 			local name = _G["TradeSkillReagent" .. i .. "Name"]
 
-			if(reagentLink) then
+			if reagentLink then
 				local quality = select(3, GetItemInfo(reagentLink))
-				if(quality and quality > 1) then
+				if quality then
 					icon.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-					if(playerReagentCount < reagentCount) then
+					reagent:SetBackdropBorderColor(GetItemQualityColor(quality))
+					if playerReagentCount < reagentCount then
 						name:SetTextColor(0.5, 0.5, 0.5)
 					else
 						name:SetTextColor(GetItemQualityColor(quality))
 					end
 				else
+					reagent:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 					icon.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 				end
 			end

@@ -292,6 +292,11 @@ L["Your items have been repaired for: "] = "자동으로 수리하고 비용을 
 L["Your items have been repaired using guild bank funds for: "] = "길드자금으로 수리하고 비용을 지불했습니다:"
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "Lua 에러가 발생하였습니다. 전투가 끝난 후에 내역을 표시하겠습니다."
 
+--Skins
+L["Abandon"] = "포기"
+L["Share"] = "공유"
+L["Track"] = "추적"
+
 --Static Popups
 L["A setting you have changed will change an option for this character only. This setting that you have changed will be uneffected by changing user profiles. Changing this setting requires that you reload your User Interface."] = "이 설정은 캐릭터별로 따로 저장되므로|n프로필에 영향을 주지도, 받지도 않습니다.|n|n설정 적용을 위해 리로드 하시겠습니까?"
 L["Are you sure you want to apply this font to all ElvUI elements?"] = true;

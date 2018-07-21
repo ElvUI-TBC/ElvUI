@@ -292,6 +292,11 @@ L["Your items have been repaired for: "] = "Tus objetos han sido reparados por:"
 L["Your items have been repaired using guild bank funds for: "] = "Tus objetos han sido reparados con fondos del banco de hermandad por:"
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "|cFFE30000Error de Lua recibido. Podrás ver el error cuando salgas de combate."
 
+--Skins
+L["Abandon"] = "Abandonar"
+L["Share"] = "Compartir"
+L["Track"] = "Seguim."
+
 --Static Popups
 L["A setting you have changed will change an option for this character only. This setting that you have changed will be uneffected by changing user profiles. Changing this setting requires that you reload your User Interface."] = "La opción que has cambiado se aplicará sólo para este personaje. Esta opción no se verá alterada al cambiar el perfil de usuario. Cambiar esta opción requiere que recargues tu Interfaz de Usuario."
 L["Are you sure you want to apply this font to all ElvUI elements?"] = true;

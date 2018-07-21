@@ -292,6 +292,11 @@ L["Your items have been repaired for: "] = "裝備已修復，共支出："
 L["Your items have been repaired using guild bank funds for: "] = "已使用公會資金修復裝備，共支出："
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "|cFFE30000LUA錯誤已接收, 你可以在脫離戰鬥後檢查.|r"
 
+--Skins
+L["Abandon"] = "放棄"
+L["Share"] = "分享"
+L["Track"] = "追蹤"
+
 --Static Popups
 L["A setting you have changed will change an option for this character only. This setting that you have changed will be uneffected by changing user profiles. Changing this setting requires that you reload your User Interface."] = "你所做的改動只會影響到使用這個插件的本角色, 你需要重新加載介面才能使改動生效."
 L["Are you sure you want to apply this font to all ElvUI elements?"] = "你確定要將此字型應用到所有 ElvUI 元素嗎?"

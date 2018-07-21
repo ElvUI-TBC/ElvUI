@@ -30,7 +30,7 @@ function mod:ConstructElement_Highlight(frame)
 	f.texture:SetVertexColor(1, 1, 1, 0.3)
 	f.texture:Hide()
 
-	f:HookScript("OnHide", function()
+	f:HookScript2("OnHide", function()
 		frame.Name.NameOnlyGlow:Hide()
 		frame.Highlight.texture:Hide()
 	end)
