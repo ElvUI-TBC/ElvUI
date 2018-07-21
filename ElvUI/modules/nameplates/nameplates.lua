@@ -1,11 +1,11 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:NewModule("NamePlates", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
+local LSM = LibStub("LibSharedMedia-3.0")
 local CC = E:GetModule("ClassCache")
 
 local _G = _G
-local pairs, tonumber = pairs, tonumber
-local select = select
-local gsub, split = string.gsub, string.split
+local select, unpack, pairs, tonumber = select, unpack, pairs, tonumber
+local format, gsub, match, split = string.format, string.gsub, string.match, string.split
 local twipe = table.wipe
 
 local CreateFrame = CreateFrame
@@ -16,10 +16,9 @@ local UnitExists = UnitExists
 local UnitGUID = UnitGUID
 local SetCVar = SetCVar
 local WorldFrame = WorldFrame
-local WorldGetNumChildren, WorldGetChildren = WorldFrame.GetNumChildren, WorldFrame.GetChildren
+local WorldGetChildren = WorldFrame.GetChildren
 
 local numChildren = 0
-local isTarget = false
 local BORDER = [=[Interface\Tooltips\Nameplate-Border]=]
 local FSPAT = "%s*" .. ((_G.FOREIGN_SERVER_LABEL:gsub("^%s", "")):gsub("[%*()]", "%%%1")) .. "$"
 local queryList = {}
@@ -46,36 +45,6 @@ local healClasses = {
 mod.CreatedPlates = {}
 mod.VisiblePlates = {}
 mod.Healers = {}
-
-function mod:CheckFilter(frame)
-	local db = E.global.nameplates["filter"][frame.UnitName]
-	if db and db.enable then
-		if db.hide then
-			frame:Hide()
-			return
-		else
-			if not frame:IsShown() then
-				frame:Show()
-			end
-
-			if db.customColor then
-				frame.CustomColor = db.color
-				frame.HealthBar:SetStatusBarColor(db.color.r, db.color.g, db.color.b)
-			else
-				frame.CustomColor = nil
-			end
-
-			if db.customScale and db.customScale ~= 1 then
-				frame.CustomScale = db.customScale
-			else
-				frame.CustomScale = nil
-			end
-		end
-	elseif not frame:IsShown() then
-		frame:Show()
-	end
-	return true
-end
 
 function mod:CheckBGHealers()
 	local name, class, damageDone, healingDone, _
@@ -104,77 +73,145 @@ function mod:SetFrameScale(frame, scale)
 	end
 end
 
+function mod:GetPlateFrameLevel(frame)
+	local plateLevel
+	if frame.plateID then
+		plateLevel = frame.plateID*mod.levelStep
+	end
+	return plateLevel
+end
+
+function mod:SetPlateFrameLevel(frame, level, isTarget)
+	if frame and level then
+		if isTarget then
+			level = 890 --10 higher than the max calculated level of 880
+		elseif frame.FrameLevelChanged then
+			--calculate Style Filter FrameLevelChanged leveling
+			--level method: (10*(40*2)) max 800 + max 80 (40*2) = max 880
+			--highest possible should be level 880 and we add 1 to all so 881
+			local leveledCount = mod.CollectedFrameLevelCount or 1
+			level = (frame.FrameLevelChanged*(40*mod.levelStep)) + (leveledCount*mod.levelStep)
+		end
+
+		frame:SetFrameLevel(level+1)
+		frame.Glow:SetFrameLevel(frame:GetFrameLevel()-1)
+		frame.Buffs:SetFrameLevel(level+1)
+		frame.Debuffs:SetFrameLevel(level+1)
+	end
+end
+
+function mod:ResetNameplateFrameLevel(frame)
+	local isTarget = frame.isTarget --frame.isTarget is not the same here so keep this.
+	local plateLevel = mod:GetPlateFrameLevel(frame)
+	if plateLevel then
+		if frame.FrameLevelChanged then --keep how many plates we change, this is reset to 1 post-ResetNameplateFrameLevel
+			mod.CollectedFrameLevelCount = (mod.CollectedFrameLevelCount and mod.CollectedFrameLevelCount + 1) or 1
+		end
+		self:SetPlateFrameLevel(frame, plateLevel, isTarget)
+	end
+end
+
 function mod:SetTargetFrame(frame)
-	if isTarget then return end
+	if frame.isTarget then
+		if not frame.isTargetChanged then
+			frame.isTargetChanged = true
 
-	local targetExists = UnitExists("target") == 1
-	if targetExists and frame:GetParent():IsShown() and frame:GetParent():GetAlpha() == 1 then
+			mod:SetPlateFrameLevel(frame, mod:GetPlateFrameLevel(frame), true)
+
+			if self.db.useTargetScale then
+				self:SetFrameScale(frame, (frame.ThreatScale or 1) * self.db.targetScale)
+			end
+			frame.unit = "target"
+			frame.guid = UnitGUID("target")
+
+			self:RegisterEvents(frame)
+			mod:UpdateElement_AurasByUnitID("target")
+
+			if self.db.units[frame.UnitType].healthbar.enable ~= true and self.db.alwaysShowTargetHealth then
+				frame.Name:ClearAllPoints()
+				frame.Level:ClearAllPoints()
+				frame.HealthBar.r, frame.HealthBar.g, frame.HealthBar.b = nil, nil, nil
+				frame.CastBar:Hide()
+				self:ConfigureElement_HealthBar(frame)
+				self:ConfigureElement_CastBar(frame)
+				self:ConfigureElement_Glow(frame)
+				self:ConfigureElement_Highlight(frame)
+				self:ConfigureElement_Level(frame)
+				self:ConfigureElement_Name(frame)
+				self:RegisterEvents(frame)
+				self:UpdateElement_All(frame, true)
+			end
+
+			if self.hasTarget then
+				frame:SetAlpha(1)
+			end
+
+			-- TEST
+			mod:UpdateElement_Highlight(frame)
+			mod:UpdateElement_CPoints(frame)
+			mod:UpdateElement_Filters(frame, "PLAYER_TARGET_CHANGED")
+			mod:ForEachPlate("ResetNameplateFrameLevel") --keep this after `UpdateElement_Filters`
+		end
+	elseif frame.isTargetChanged then
+		frame.isTargetChanged = false
+
 		if self.db.useTargetScale then
-			self:SetFrameScale(frame, (frame.CustomScale and frame.CustomScale * self.db.targetScale) or self.db.targetScale)
+			self:SetFrameScale(frame, (frame.ThreatScale or 1))
 		end
-		frame.isTarget = true
-		frame.unit = "target"
-		frame.guid = UnitGUID("target")
-
-		if self.db.units[frame.UnitType].healthbar.enable ~= true then
-			frame.Name:ClearAllPoints()
-			frame.Level:ClearAllPoints()
-			frame.HealthBar.r, frame.HealthBar.g, frame.HealthBar.b = nil, nil, nil
-			self:ConfigureElement_HealthBar(frame)
-			self:ConfigureElement_CastBar(frame)
-			self:ConfigureElement_Glow(frame)
-			self:ConfigureElement_Level(frame)
-			self:ConfigureElement_Name(frame)
-
-			self:UpdateElement_All(frame, true)
-		end
-
-		if UnitCastingInfo("target") then
-			frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_START", "target")
-		elseif UnitChannelInfo("target") then
-			frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_CHANNEL_START", "target")
-		end
-
-		frame:SetAlpha(1)
-
-		mod:UpdateElement_AurasByUnitID("target")
-	elseif frame.isTarget then
-		if self.db.useTargetScale then
-			self:SetFrameScale(frame, frame.CustomScale or frame.ThreatScale or 1)
-		end
-		frame.isTarget = nil
 		frame.unit = nil
 		frame.guid = nil
+		frame:UnregisterAllEvents()
+		frame.CastBar:Hide()
+
 		if self.db.units[frame.UnitType].healthbar.enable ~= true then
 			self:UpdateAllFrame(frame)
 		end
 
-		if targetExists then
-			frame:SetAlpha(self.db.nonTargetTransparency)
-		else
-			frame:SetAlpha(1)
+		if not frame.AlphaChanged then
+			if self.hasTarget then
+				frame:SetAlpha(1 - self.db.nonTargetTransparency)
+			else
+				frame:SetAlpha(1)
+			end
 		end
+
+		-- TEST
+		mod:UpdateElement_CPoints(frame)
+		mod:UpdateElement_Filters(frame, "PLAYER_TARGET_CHANGED")
+		mod:ForEachPlate("ResetNameplateFrameLevel") --keep this after `UpdateElement_Filters`
+	elseif frame.oldHighlight:IsShown() then
+		if not frame.isMouseover then
+			frame.isMouseover = true
+
+			frame.unit = "mouseover"
+			frame.guid = UnitGUID("mouseover")
+
+			mod:UpdateElement_AurasByUnitID("mouseover")
+		end
+		mod:UpdateElement_Cast(frame, nil, frame.unit)
+		mod:UpdateElement_Highlight(frame)
+	elseif frame.isMouseover then
+		frame.isMouseover = nil
+
+		frame.unit = nil
+		frame.guid = nil
+		frame.CastBar:Hide()
+
+		mod:UpdateElement_Highlight(frame)
 	else
-		if targetExists then
-			frame:SetAlpha(self.db.nonTargetTransparency)
-		else
-			frame:SetAlpha(1)
+		if not frame.AlphaChanged then
+			if self.hasTarget then
+				frame:SetAlpha(1 - self.db.nonTargetTransparency)
+			else
+				frame:SetAlpha(1)
+			end
 		end
+
+		mod:UpdateElement_Filters(frame, "UNIT_AURA")
 	end
 
-	mod:UpdateElement_HealthColor(frame)
-	mod:UpdateElement_Glow(frame)
-	mod:UpdateElement_CPoints(frame)
-
-	return frame.isTarget
-end
-
-function mod:GetNumVisiblePlates()
-	local i = 0
-	for _ in pairs(mod.VisiblePlates) do
-		i = i + 1
-	end
-	return i
+	self:UpdateElement_Glow(frame)
+	self:UpdateElement_HealthColor(frame)
 end
 
 function mod:StyleFrame(parent, noBackdrop, point)
@@ -300,25 +337,8 @@ function mod:UnitLevel(frame)
 end
 
 function mod:GetUnitInfo(frame)
-	--[[if UnitExists("target") == 1 and frame:GetParent():IsShown() and frame:GetParent():GetAlpha() == 1 then
-		if UnitIsPlayer("target") then
-			if UnitIsEnemy("target", "player") then
-				return 2, "ENEMY_PLAYER"
-			else
-				return 5, "FRIENDLY_PLAYER"
-			end
-		else
-			if UnitIsEnemy("target", "player") then
-				return 2, "ENEMY_NPC"
-			elseif UnitReaction("target", "player") == 4 then
-				return 4, "ENEMY_NPC"
-			else
-				return 5, "FRIENDLY_NPC"
-			end
-		end
-	end]]
-
 	local r, g, b = mod:RoundColors(frame.oldHealthBar:GetStatusBarColor())
+
 	if r == 1 and g == 0 and b == 0 then
 		return 2, "ENEMY_NPC"
 	elseif r == 0 and g == 0 and b == 1 then
@@ -331,7 +351,6 @@ function mod:GetUnitInfo(frame)
 end
 
 function mod:OnShow()
-	isTarget = false
 	mod.VisiblePlates[self.UnitFrame] = true
 
 	self.UnitFrame.UnitName = gsub(self.UnitFrame.oldName:GetText(), FSPAT, "")
@@ -349,8 +368,6 @@ function mod:OnShow()
 		self.UnitFrame.UnitType = unitType
 	end
 
-	if not mod:CheckFilter(self.UnitFrame) then return end
-
 	if unitType == "ENEMY_PLAYER" then
 		mod:UpdateElement_HealerIcon(self.UnitFrame)
 	end
@@ -358,8 +375,8 @@ function mod:OnShow()
 	self.UnitFrame.Level:ClearAllPoints()
 	self.UnitFrame.Name:ClearAllPoints()
 
-	mod:ConfigureElement_HealthBar(self.UnitFrame)
-	if mod.db.units[unitType].healthbar.enable then
+	if mod.db.units[unitType].healthbar.enable or mod.db.alwaysShowTargetHealth then
+		mod:ConfigureElement_HealthBar(self.UnitFrame)
 		mod:ConfigureElement_CastBar(self.UnitFrame)
 		mod:ConfigureElement_Glow(self.UnitFrame)
 
@@ -374,28 +391,17 @@ function mod:OnShow()
 		end
 	end
 
-	if mod.db.units[unitType].healthbar.enable then
-		mod:ConfigureElement_Name(self.UnitFrame)
-		mod:ConfigureElement_Level(self.UnitFrame)
-	else
-		mod:ConfigureElement_Level(self.UnitFrame)
-		mod:ConfigureElement_Name(self.UnitFrame)
-	end
+	mod:ConfigureElement_Level(self.UnitFrame)
+	mod:ConfigureElement_Name(self.UnitFrame)
+	mod:ConfigureElement_Highlight(self.UnitFrame)
 
-	if(mod.db.units[unitType].castbar.enable) then
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_START")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_STOP")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_FAILED")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_DELAYED")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
-	end
-
-	mod:UpdateElement_All(self.UnitFrame)
+	mod:RegisterEvents(self.UnitFrame)
+	mod:UpdateElement_All(self.UnitFrame, nil, true)
 
 	self.UnitFrame:Show()
+
+	mod:UpdateElement_Filters(self.UnitFrame, "NAME_PLATE_UNIT_ADDED")
+	mod:ForEachPlate("ResetNameplateFrameLevel") --keep this after `UpdateElement_Filters`
 end
 
 function mod:OnHide()
@@ -405,29 +411,40 @@ function mod:OnHide()
 
 	mod:HideAuraIcons(self.UnitFrame.Buffs)
 	mod:HideAuraIcons(self.UnitFrame.Debuffs)
+	mod:ClearStyledPlate(self.UnitFrame)
+	self.UnitFrame:UnregisterAllEvents()
 	self.UnitFrame.Glow.r, self.UnitFrame.Glow.g, self.UnitFrame.Glow.b = nil, nil, nil
 	self.UnitFrame.Glow:Hide()
+	self.UnitFrame.Glow2:Hide()
+	self.UnitFrame.TopArrow:Hide()
+	self.UnitFrame.LeftArrow:Hide()
+	self.UnitFrame.RightArrow:Hide()
 	self.UnitFrame.HealthBar.r, self.UnitFrame.HealthBar.g, self.UnitFrame.HealthBar.b = nil, nil, nil
 	self.UnitFrame.HealthBar:Hide()
+	self.UnitFrame.HealthBar.currentScale = nil
 	self.UnitFrame.CastBar:Hide()
 	self.UnitFrame.Level:ClearAllPoints()
 	self.UnitFrame.Level:SetText("")
+	self.UnitFrame.Name.r, self.UnitFrame.Name.g, self.UnitFrame.Name.b = nil, nil, nil
 	self.UnitFrame.Name:ClearAllPoints()
 	self.UnitFrame.Name:SetText("")
+	self.UnitFrame.Name.NameOnlyGlow:Hide()
+	self.UnitFrame.Highlight:Hide()
 	self.UnitFrame.CPoints:Hide()
 	self.UnitFrame:Hide()
 	self.UnitFrame.isTarget = nil
-	self.UnitFrame.displayedUnit = nil
-	self.ThreatData = nil
+	self.UnitFrame.isTargetChanged = false
+	self.UnitFrame.isMouseover = nil
 	self.UnitFrame.UnitName = nil
 	self.UnitFrame.UnitType = nil
+	self.UnitFrame.UnitReaction = nil
+	self.UnitFrame.TopLevelFrame = nil
+	self.UnitFrame.TopOffset = nil
 	self.UnitFrame.ThreatScale = nil
-
+	self.UnitFrame.ActionScale = nil
 	self.UnitFrame.ThreatReaction = nil
 	self.UnitFrame.guid = nil
 	self.UnitFrame.RaidIconType = nil
-	self.UnitFrame.CustomColor = nil
-	self.UnitFrame.CustomScale = nil
 end
 
 function mod:UpdateAllFrame(frame)
@@ -438,6 +455,7 @@ end
 function mod:ConfigureAll()
 	if E.private.nameplates.enable ~= true then return end
 
+	self:StyleFilterConfigureEvents()
 	self:ForEachPlate("UpdateAllFrame")
 	self:UpdateCVars()
 end
@@ -448,47 +466,79 @@ function mod:ForEachPlate(functionToRun, ...)
 			self[functionToRun](self, frame.UnitFrame, ...)
 		end
 	end
+
+	if functionToRun == "ResetNameplateFrameLevel" then
+		mod.CollectedFrameLevelCount = 1
+	end
 end
 
-function mod:UpdateElement_All(frame, noTargetFrame)
-	if self.db.units[frame.UnitType].healthbar.enable or frame.isTarget then
-		self:UpdateElement_Health(frame)
-		self:UpdateElement_HealthColor(frame)
-		self:UpdateElement_Auras(frame)
+function mod:ForEachVisiblePlate(functionToRun, ...)
+	for frame in pairs(self.VisiblePlates) do
+		self[functionToRun](self, frame, ...)
 	end
-	self:UpdateElement_RaidIcon(frame)
-	self:UpdateElement_HealerIcon(frame)
-	self:UpdateElement_Name(frame)
-	self:UpdateElement_Level(frame)
+end
+
+function mod:UpdateElement_All(frame, noTargetFrame, filterIgnore)
+	local healthShown = (frame.UnitType and self.db.units[frame.UnitType].healthbar.enable) or (frame.isTarget and self.db.alwaysShowTargetHealth)
+
+	if healthShown then
+		mod:UpdateElement_Health(frame)
+		mod:UpdateElement_HealthColor(frame)
+		mod:UpdateElement_Cast(frame, nil, frame.unit)
+		mod:UpdateElement_Auras(frame)
+	end
+	mod:UpdateElement_RaidIcon(frame)
+	mod:UpdateElement_HealerIcon(frame)
+	mod:UpdateElement_Name(frame)
+	mod:UpdateElement_Level(frame)
+	mod:UpdateElement_Highlight(frame)
+
+	if healthShown then
+		mod:UpdateElement_Glow(frame)
+	else
+		-- make sure we hide the arrows and/or glow after disabling the healthbar
+		if frame.TopArrow and frame.TopArrow:IsShown() then frame.TopArrow:Hide() end
+		if frame.LeftArrow and frame.LeftArrow:IsShown() then frame.LeftArrow:Hide() end
+		if frame.RightArrow and frame.RightArrow:IsShown() then frame.RightArrow:Hide() end
+		if frame.Glow2 and frame.Glow2:IsShown() then frame.Glow2:Hide() end
+		if frame.Glow and frame.Glow:IsShown() then frame.Glow:Hide() end
+	end
 
 	if not noTargetFrame then
-		mod:ScheduleTimer("ForEachPlate", 0.25, "SetTargetFrame")
+		mod:SetTargetFrame(frame)
+	end
+
+	if not filterIgnore then
+		mod:UpdateElement_Filters(frame, "UpdateElement_All")
 	end
 end
 
+local plateID = 0
 function mod:OnCreated(frame)
-	isTarget = false
+	plateID = plateID + 1
 	local HealthBar, CastBar = frame:GetChildren()
 	local Border, CastBarBorder, CastBarIcon, Highlight, Name, Level, BossIcon, RaidIcon = frame:GetRegions()
 
-	frame.UnitFrame = CreateFrame("Frame", nil, frame)
-	frame.UnitFrame:SetAllPoints()
+	frame.UnitFrame = CreateFrame("Frame", format("ElvUI_NamePlate%d", plateID), frame)
+	frame.UnitFrame:SetAllPoints(frame)
 	frame.UnitFrame:SetScript("OnEvent", self.OnEvent)
+	frame.UnitFrame.plateID = plateID
 
 	frame.UnitFrame.HealthBar = self:ConstructElement_HealthBar(frame.UnitFrame)
-	frame.UnitFrame.CastBar = self:ConstructElement_CastBar(frame.UnitFrame)
 	frame.UnitFrame.Level = self:ConstructElement_Level(frame.UnitFrame)
 	frame.UnitFrame.Name = self:ConstructElement_Name(frame.UnitFrame)
+	frame.UnitFrame.CastBar = self:ConstructElement_CastBar(frame.UnitFrame)
 	frame.UnitFrame.Glow = self:ConstructElement_Glow(frame.UnitFrame)
 	frame.UnitFrame.Buffs = self:ConstructElement_Auras(frame.UnitFrame, "LEFT")
 	frame.UnitFrame.Debuffs = self:ConstructElement_Auras(frame.UnitFrame, "RIGHT")
 	frame.UnitFrame.HealerIcon = self:ConstructElement_HealerIcon(frame.UnitFrame)
 	frame.UnitFrame.CPoints = self:ConstructElement_CPoints(frame.UnitFrame)
+	frame.UnitFrame.Highlight = self:ConstructElement_Highlight(frame.UnitFrame)
 
-	self:QueueObject(CastBarBorder)
-	self:QueueObject(CastBarIcon)
 	self:QueueObject(HealthBar)
 	self:QueueObject(CastBar)
+	self:QueueObject(CastBarIcon)
+	self:QueueObject(CastBarBorder)
 	self:QueueObject(Level)
 	self:QueueObject(Name)
 	self:QueueObject(Border)
@@ -520,9 +570,37 @@ function mod:OnCreated(frame)
 end
 
 function mod:OnEvent(event, unit, ...)
-	if not self.unit then return end
+	if not unit and not self.unit then return end
+	if self.unit ~= unit then return end
 
-	mod:UpdateElement_Cast(self, event, unit, ...)
+	if event == "UPDATE_MOUSEOVER_UNIT" then
+		mod:UpdateElement_Highlight(self)
+	else
+		mod:UpdateElement_Cast(self, event, unit, ...)
+	end
+end
+
+function mod:RegisterEvents(frame)
+	if not frame.unit then return end
+
+	if self.db.units[frame.UnitType].healthbar.enable or (frame.isTarget and self.db.alwaysShowTargetHealth) then
+		if self.db.units[frame.UnitType].castbar.enable then
+			frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
+			frame:RegisterEvent("UNIT_SPELLCAST_DELAYED")
+			frame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
+			frame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
+			frame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
+			frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE")
+			frame:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
+			frame:RegisterEvent("UNIT_SPELLCAST_START")
+			frame:RegisterEvent("UNIT_SPELLCAST_STOP")
+			frame:RegisterEvent("UNIT_SPELLCAST_FAILED")
+		end
+
+		mod.OnEvent(frame, nil, frame.unit)
+	end
+
+	frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 end
 
 function mod:QueueObject(object)
@@ -539,31 +617,30 @@ function mod:QueueObject(object)
 end
 
 function mod:OnUpdate(elapsed)
-	local count = WorldGetNumChildren(WorldFrame)
+	local count = select("#", WorldGetChildren(WorldFrame))
 	if count ~= numChildren then
+		local frame, region
 		for i = numChildren + 1, count do
-			local frame = select(i, WorldGetChildren(WorldFrame))
-			local region = select(2, frame:GetRegions())
+			frame = select(i, WorldGetChildren(WorldFrame))
+			region = select(2, frame:GetRegions())
 
-			if(not mod.CreatedPlates[frame] and region and region:GetObjectType() == "Texture" and region:GetTexture() == BORDER) then
+			if not mod.CreatedPlates[frame] and region and region:GetObjectType() == "Texture" and region:GetTexture() == BORDER then
 				mod:OnCreated(frame)
 			end
 		end
 		numChildren = count
 	end
 
-	local i = 0
 	for frame in pairs(mod.VisiblePlates) do
-		i = i + 1
-
-		local getTarget = mod:SetTargetFrame(frame)
-		if not getTarget then
-			frame:GetParent():SetAlpha(1)
+		if mod.hasTarget then 
+			frame.alpha = frame:GetParent():GetAlpha()
+		else
+			frame.alpha = 1
 		end
 
-		if i == mod:GetNumVisiblePlates() then
-			isTarget = true
-		end
+		frame:GetParent():SetAlpha(1)
+
+		frame.isTarget = mod.hasTarget and frame.alpha == 1
 	end
 end
 
@@ -619,7 +696,7 @@ end
 
 local function CopySettings(from, to)
 	for setting, value in pairs(from) do
-		if type(value) == "table" then
+		if type(value) == "table" and to[setting] ~= nil then
 			CopySettings(from[setting], to[setting])
 		else
 			if to[setting] ~= nil then
@@ -643,7 +720,7 @@ function mod:PLAYER_ENTERING_WORLD()
 	self:CleanAuraLists()
 	twipe(self.Healers)
 	local inInstance, instanceType = IsInInstance()
-	if inInstance and instanceType == "pvp" and self.db.units.ENEMY_PLAYER.markHealers then
+	if inInstance and (instanceType == "pvp") and self.db.units.ENEMY_PLAYER.markHealers then
 		self.CheckHealerTimer = self:ScheduleRepeatingTimer("CheckBGHealers", 3)
 		self:CheckBGHealers()
 	else
@@ -655,7 +732,7 @@ function mod:PLAYER_ENTERING_WORLD()
 end
 
 function mod:PLAYER_TARGET_CHANGED()
-	isTarget = false
+	self.hasTarget = UnitExists("target") == 1
 end
 
 function mod:UNIT_AURA(_, unit)
@@ -672,31 +749,95 @@ end
 
 function mod:PLAYER_REGEN_DISABLED()
 	if self.db.showFriendlyCombat == "TOGGLE_ON" then
-		ShowFriendNameplates();
+		ShowFriendNameplates()
 	elseif self.db.showFriendlyCombat == "TOGGLE_OFF" then
-		HideFriendNameplates();
+		HideFriendNameplates()
 	end
 
 	if self.db.showEnemyCombat == "TOGGLE_ON" then
-		ShowNameplates();
+		ShowNameplates()
 	elseif self.db.showEnemyCombat == "TOGGLE_OFF" then
-		HideNameplates();
+		HideNameplates()
 	end
+	
+	mod:ForEachPlate("UpdateElement_Filters", "PLAYER_REGEN_DISABLED")
 end
 
 function mod:PLAYER_REGEN_ENABLED()
 	self:CleanAuraLists()
 	if self.db.showFriendlyCombat == "TOGGLE_ON" then
-		HideFriendNameplates();
+		HideFriendNameplates()
 	elseif self.db.showFriendlyCombat == "TOGGLE_OFF" then
-		ShowFriendNameplates();
+		ShowFriendNameplates()
 	end
 
 	if self.db.showEnemyCombat == "TOGGLE_ON" then
-		HideNameplates();
+		HideNameplates()
 	elseif self.db.showEnemyCombat == "TOGGLE_OFF" then
-		ShowNameplates();
+		ShowNameplates()
 	end
+	
+	mod:ForEachPlate("UpdateElement_Filters", "PLAYER_REGEN_ENABLED")
+end
+
+function mod:UNIT_HEALTH()
+	mod:ForEachPlate("UpdateElement_Filters", "UNIT_HEALTH")
+end
+
+function mod:UNIT_MANA()
+	mod:ForEachPlate("UpdateElement_Filters", "UNIT_MANA")
+end
+
+function mod:UNIT_ENERGY()
+	mod:ForEachPlate("UpdateElement_Filters", "UNIT_ENERGY")
+end
+
+function mod:UNIT_FOCUS()
+	mod:ForEachPlate("UpdateElement_Filters", "UNIT_FOCUS")
+end
+
+function mod:UNIT_RAGE()
+	mod:ForEachPlate("UpdateElement_Filters", "UNIT_RAGE")
+end
+
+function mod:SPELL_UPDATE_COOLDOWN()
+	mod:ForEachPlate("UpdateElement_Filters", "SPELL_UPDATE_COOLDOWN")
+end
+
+function mod:UpdateFonts(plate)
+	if not plate then return end
+
+	if plate.Buffs and plate.Buffs.db and plate.Buffs.db.numAuras then
+		for i = 1, plate.Buffs.db.numAuras do
+			if plate.Buffs.icons[i] and plate.Buffs.icons[i].timeLeft then
+				plate.Buffs.icons[i].timeLeft:SetFont(LSM:Fetch("font", self.db.durationFont), self.db.durationFontSize, self.db.durationFontOutline)
+			end
+			if plate.Buffs.icons[i] and plate.Buffs.icons[i].count then
+				plate.Buffs.icons[i].count:SetFont(LSM:Fetch("font", self.db.stackFont), self.db.stackFontSize, self.db.stackFontOutline)
+			end
+		end
+	end
+
+	if plate.Debuffs and plate.Debuffs.db and plate.Debuffs.db.numAuras then
+		for i = 1, plate.Debuffs.db.numAuras do
+			if plate.Debuffs.icons[i] and plate.Debuffs.icons[i].timeLeft then
+				plate.Debuffs.icons[i].timeLeft:SetFont(LSM:Fetch("font", self.db.durationFont), self.db.durationFontSize, self.db.durationFontOutline)
+			end
+			if plate.Debuffs.icons[i] and plate.Debuffs.icons[i].count then
+				plate.Debuffs.icons[i].count:SetFont(LSM:Fetch("font", self.db.stackFont), self.db.stackFontSize, self.db.stackFontOutline)
+			end
+		end
+	end
+
+	--update glow incase name font changes
+	local healthShown = (plate.UnitType and self.db.units[plate.UnitType].healthbar.enable) or (plate.isTarget and self.db.alwaysShowTargetHealth)
+	if healthShown then
+		self:UpdateElement_Glow(plate)
+	end
+end
+
+function mod:UpdatePlateFonts()
+	self:ForEachPlate("UpdateFonts")
 end
 
 function mod:ClassCacheQueryResult(_, name, class)
@@ -721,7 +862,18 @@ end
 
 function mod:Initialize()
 	self.db = E.db["nameplates"]
+
 	if E.private["nameplates"].enable ~= true then return end
+
+	self.hasTarget = false
+
+	--Add metatable to all our StyleFilters so they can grab default values if missing
+	self:StyleFilterInitializeAllFilters()
+
+	--Populate `mod.StyleFilterEvents` with events Style Filters will be using and sort the filters based on priority.
+	self:StyleFilterConfigureEvents()
+
+	self.levelStep = 2
 
 	self:UpdateCVars()
 
@@ -730,12 +882,21 @@ function mod:Initialize()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("PLAYER_REGEN_ENABLED")
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
+	self:RegisterEvent("PLAYER_LOGOUT") -- used in the StyleFilter
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
+	self:RegisterEvent("UNIT_HEALTH")
+	self:RegisterEvent("UNIT_MANA")
+	self:RegisterEvent("UNIT_ENERGY")
+	self:RegisterEvent("UNIT_FOCUS")
+	self:RegisterEvent("UNIT_RAGE")
+	self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	self:RegisterEvent("UNIT_AURA")
 	self:RegisterEvent("PLAYER_COMBO_POINTS")
 
 	self:RegisterMessage("ClassCacheQueryResult")
+
+	self:ScheduleRepeatingTimer("ForEachVisiblePlate", 0.1, "SetTargetFrame")
 
 	E.NamePlates = self
 end

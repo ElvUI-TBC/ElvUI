@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("NamePlates")
 local LSM = LibStub("LibSharedMedia-3.0")
 
-local select, unpack = select, unpack
+local unpack = unpack
 
 local CreateFrame = CreateFrame
 local GetTime = GetTime
@@ -55,9 +55,21 @@ function mod:UpdateElement_CastBarOnUpdate(elapsed)
 	end
 end
 
-function mod:UpdateElement_Cast(frame, event, unit, ...)
+function mod:UpdateElement_Cast(frame, event, unit)
 	if self.db.units[frame.UnitType].castbar.enable ~= true then return end
-	if frame.unit ~= unit then return end
+	if self.db.units[frame.UnitType].healthbar.enable ~= true and not (frame.isTarget and self.db.alwaysShowTargetHealth) then return end --Bug
+
+	if unit then
+		if not event then
+			if UnitChannelInfo(unit) then
+				event = "UNIT_SPELLCAST_CHANNEL_START"
+			elseif UnitCastingInfo(unit) then
+				event = "UNIT_SPELLCAST_START"
+			end
+		end
+	elseif frame.CastBar:IsShown() then
+		frame.CastBar:Hide()
+	end
 
 	if event == "UNIT_SPELLCAST_START" then
 		local name, _, _, texture, startTime, endTime = UnitCastingInfo(unit)
@@ -88,8 +100,7 @@ function mod:UpdateElement_Cast(frame, event, unit, ...)
 		if not frame.CastBar:IsVisible() then
 			frame.CastBar:Hide()
 		end
-		if (frame.CastBar.casting and event == "UNIT_SPELLCAST_STOP") or
-		(frame.CastBar.channeling and event == "UNIT_SPELLCAST_CHANNEL_STOP") then
+		if (frame.CastBar.casting and event == "UNIT_SPELLCAST_STOP") or (frame.CastBar.channeling and event == "UNIT_SPELLCAST_CHANNEL_STOP") then
 			if frame.CastBar.Spark then
 				frame.CastBar.Spark:Hide()
 			end
@@ -182,9 +193,17 @@ function mod:UpdateElement_Cast(frame, event, unit, ...)
 			frame.CastBar:SetValue(frame.CastBar.value)
 		end
 	end
+
+	if frame.CastBar:IsShown() then --This is so we can trigger based on Cast Name or Interruptible
+		self:UpdateElement_Filters(frame, "UpdateElement_Cast")
+	else
+		frame.CastBar.canInterrupt = nil --Only remove this when it's not shown so we can use it in style filter
+	end
 end
 
 function mod:ConfigureElement_CastBar(frame)
+	if not frame.UnitType then return end
+
 	local castBar = frame.CastBar
 
 	castBar:ClearAllPoints()
@@ -192,14 +211,20 @@ function mod:ConfigureElement_CastBar(frame)
 	castBar:SetPoint("TOPRIGHT", frame.HealthBar, "BOTTOMRIGHT", 0, -self.db.units[frame.UnitType].castbar.offset)
 	castBar:SetHeight(self.db.units[frame.UnitType].castbar.height)
 
-	castBar.Icon:SetPoint("TOPLEFT", frame.HealthBar, "TOPRIGHT", self.db.units[frame.UnitType].castbar.offset, 0);
-	castBar.Icon:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", self.db.units[frame.UnitType].castbar.offset, 0);
+	castBar.Icon:ClearAllPoints()
+	if self.db.units[frame.UnitType].castbar.iconPosition == "RIGHT" then
+		castBar.Icon:SetPoint("TOPLEFT", frame.HealthBar, "TOPRIGHT", self.db.units[frame.UnitType].castbar.offset, 0)
+		castBar.Icon:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", self.db.units[frame.UnitType].castbar.offset, 0)
+	elseif self.db.units[frame.UnitType].castbar.iconPosition == "LEFT" then
+		castBar.Icon:SetPoint("TOPRIGHT", frame.HealthBar, "TOPLEFT", -self.db.units[frame.UnitType].castbar.offset, 0)
+		castBar.Icon:SetPoint("BOTTOMRIGHT", castBar, "BOTTOMLEFT", -self.db.units[frame.UnitType].castbar.offset, 0)
+	end
 	castBar.Icon:SetWidth(self.db.units[frame.UnitType].castbar.height + self.db.units[frame.UnitType].healthbar.height + self.db.units[frame.UnitType].castbar.offset)
+	castBar.Icon.texture:SetTexCoord(unpack(E.TexCoords))
 
 	castBar.Time:SetPoint("TOPRIGHT", castBar, "BOTTOMRIGHT", 0, -E.Border*3)
 	castBar.Name:SetPoint("TOPLEFT", castBar, "BOTTOMLEFT", 0, -E.Border*3)
 	castBar.Name:SetPoint("TOPRIGHT", castBar.Time, "TOPLEFT")
-
 	castBar.Name:SetJustifyH("LEFT")
 	castBar.Name:SetJustifyV("TOP")
 	castBar.Name:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
@@ -226,22 +251,35 @@ function mod:ConfigureElement_CastBar(frame)
 end
 
 function mod:ConstructElement_CastBar(parent)
+	local function updateGlowPosition()
+		if not parent then return end
+
+		mod:UpdatePosition_Glow(parent)
+	end
+
 	local frame = CreateFrame("StatusBar", "$parentCastBar", parent)
 	self:StyleFrame(frame)
 	frame:SetScript("OnUpdate", mod.UpdateElement_CastBarOnUpdate)
+	frame:SetScript("OnShow", updateGlowPosition)
+	frame:SetScript("OnHide", updateGlowPosition)
 
 	frame.Icon = CreateFrame("Frame", nil, frame)
 	frame.Icon.texture = frame.Icon:CreateTexture(nil, "BORDER")
 	frame.Icon.texture:SetAllPoints()
-	frame.Icon.texture:SetTexCoord(unpack(E.TexCoords))
 	self:StyleFrame(frame.Icon)
 
 	frame.Name = frame:CreateFontString(nil, "OVERLAY")
+	frame.Name:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
+
 	frame.Time = frame:CreateFontString(nil, "OVERLAY")
+	frame.Time:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
+
 	frame.Spark = frame:CreateTexture(nil, "OVERLAY")
 	frame.Spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
 	frame.Spark:SetBlendMode("ADD")
 	frame.Spark:SetSize(15, 15)
+
 	frame:Hide()
+
 	return frame
 end
