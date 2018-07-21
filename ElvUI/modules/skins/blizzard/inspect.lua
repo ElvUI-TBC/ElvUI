@@ -63,7 +63,7 @@ function S:LoadInspectSkin()
 						end
 					end)
 					return
-				elseif(quality and quality > 1) then
+				elseif quality then
 					button:SetBackdropBorderColor(GetItemQualityColor(quality))
 					return
 				end

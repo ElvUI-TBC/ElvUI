@@ -98,7 +98,7 @@ function S:LoadCharacterSkin()
 			local itemId = GetInventoryItemTexture("player", slotId)
 			if itemId then
 				local rarity = GetInventoryItemQuality("player", slotId)
-				if rarity and rarity > 1 then
+				if rarity then
 					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
 					target:SetBackdropBorderColor(unpack(E.media.bordercolor))

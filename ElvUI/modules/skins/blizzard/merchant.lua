@@ -103,7 +103,7 @@ function S:LoadMerchantSkin()
 					local r, g, b = GetItemQualityColor(quality)
 
 					itemName:SetTextColor(r, g, b)
-					if(quality > 1) then
+					if quality then
 						itemButton:SetBackdropBorderColor(r, g, b)
 					else
 						itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
@@ -117,7 +117,7 @@ function S:LoadMerchantSkin()
 				local r, g, b = GetItemQualityColor(quality)
 
 				MerchantBuyBackItemName:SetTextColor(r, g, b)
-				if(quality > 1) then
+				if quality then
 					MerchantBuyBackItemItemButton:SetBackdropBorderColor(r, g, b)
 				else
 					MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
@@ -142,7 +142,7 @@ function S:LoadMerchantSkin()
 					local r, g, b = GetItemQualityColor(quality)
 
 					itemName:SetTextColor(r, g, b)
-					if(quality > 1) then
+					if quality then
 						itemButton:SetBackdropBorderColor(r, g, b)
 					else
 						itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
