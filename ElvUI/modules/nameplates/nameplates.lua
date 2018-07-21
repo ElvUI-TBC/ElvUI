@@ -691,7 +691,6 @@ end
 
 function mod:UpdateCVars()
 	SetCVar("showVKeyCastbar", "1")
-	-- SetCVar("nameplateAllowOverlap", self.db.motionType == "STACKED" and "0" or "1")
 end
 
 local function CopySettings(from, to)

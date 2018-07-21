@@ -138,7 +138,6 @@ P["nameplates"] = {
 	["useTargetScale"] = true,
 	["targetScale"] = 1.15,
 	["nonTargetTransparency"] = 0.40,
-	["motionType"] = "STACKED",
 	["lowHealthThreshold"] = 0.4,
 	["showFriendlyCombat"] = "DISABLED",
 	["showEnemyCombat"] = "DISABLED",
