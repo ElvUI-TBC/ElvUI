@@ -7314,7 +7314,7 @@ E.Options.args.unitframe.args.generalOptionsGroup.args.allColorsGroup.args.class
 	hasAlpha = false,
 }
 
-for i = 1, 3 do
+for i = 1, 5 do
 	E.Options.args.unitframe.args.generalOptionsGroup.args.allColorsGroup.args.classResourceGroup.args["combo"..i] = {
 		order = i + 2,
 		type = "color",

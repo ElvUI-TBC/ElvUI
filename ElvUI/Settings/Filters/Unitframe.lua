@@ -426,31 +426,35 @@ end
 
 G.unitframe.buffwatch = {
 	PRIEST = {
-		[6788] = ClassBuff(6788, "TOPLEFT", {1, 0, 0}), -- Weakened Soul
-		[10060] = ClassBuff(10060 , "RIGHT", {227/255, 23/255, 13/255}), -- Power Infusion
-		[25218] = ClassBuff(25218, "BOTTOMRIGHT", {0.81, 0.85, 0.1}), -- Power Word: Shield
-		[25222] = ClassBuff(25222, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Renew
-		[33076] = ClassBuff(33076, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Prayer of Mending
+		[6788] = ClassBuff(6788, "TOPLEFT", {1, 0, 0}),					-- Weakened Soul
+		[10060] = ClassBuff(10060 , "RIGHT", {0.89, 0.09, 0.05}),		-- Power Infusion
+		[48066] = ClassBuff(48066, "BOTTOMRIGHT", {0.81, 0.85, 0.1}),	-- Power Word: Shield
+		[25222] = ClassBuff(25222, "BOTTOMLEFT", {0.4, 0.7, 0.2}),		-- Renew
+		[33076] = ClassBuff(33076, "TOPRIGHT", {0.2, 0.7, 0.2}),		-- Prayer of Mending
 	},
 	DRUID = {
-		[26982] = ClassBuff(26982, "TOPRIGHT", {0.8, 0.4, 0.8}), -- Rejuvenation
-		[26980] = ClassBuff(26980, "BOTTOMLEFT", {0.2, 0.8, 0.2}), -- Regrowth
-		[33763] = ClassBuff(33763, "TOPLEFT", {0.4, 0.8, 0.2}), -- Lifebloom
+		[26982] = ClassBuff(26982, "TOPRIGHT", {0.8, 0.4, 0.8}),		-- Rejuvenation
+		[26980] = ClassBuff(26980, "BOTTOMLEFT", {0.2, 0.8, 0.2}),		-- Regrowth
+		[33763] = ClassBuff(33763, "TOPLEFT", {0.4, 0.8, 0.2}),			-- Lifebloom
 	},
 	PALADIN = {
-		[1044] = ClassBuff(1044, "BOTTOMRIGHT", {221/255, 117/255, 0}), -- Blessing of Freedom
-		[6940] = ClassBuff(6940, "BOTTOMRIGHT", {227/255, 23/255, 13/255}), -- Blessing of Sacrifice
-		[10278] = ClassBuff(10278, "BOTTOMRIGHT", {0.2, 0.2, 1}), -- Blessing of Protection
+		[1044] = ClassBuff(1044, "BOTTOMRIGHT", {0.86, 0.45, 0}),		-- Blessing of Freedom
+		[6940] = ClassBuff(6940, "BOTTOMRIGHT", {0.89, 0.09, 0.05}),	-- Blessing of Sacrifice
+		[10278] = ClassBuff(10278, "BOTTOMRIGHT", {0.2, 0.2, 1}),		-- Blessing of Protection
 	},
 	SHAMAN = {
-		[16237] = ClassBuff(16237, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Ancestral Fortitude
-		[32594] = ClassBuff(32594, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Earth Shield
+		[16237] = ClassBuff(16237, "BOTTOMLEFT", {0.4, 0.7, 0.2}),		-- Ancestral Fortitude
+		[32594] = ClassBuff(32594, "TOPRIGHT", {0.2, 0.7, 0.2}),		-- Earth Shield
+	},
+	WARRIOR = {
+		[3411] = ClassBuff(3411, "TOPRIGHT", {0.89, 0.09, 0.05}),		-- Intervene
+	},
+	PET = {
+		[1539] = ClassBuff(1539, "TOPLEFT", {0.81, 0.85, 0.1}),			-- Feed Pet
+		[48990] = ClassBuff(48990, "TOPRIGHT", {0.2, 0.8, 0.2})			-- Mend Pet
 	},
 	ROGUE = {},
 	MAGE = {},
-	WARRIOR = {
-		[3411] = ClassBuff(3411, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Intervene
-	},
 	HUNTER = {},
 	WARLOCK = {},
 }
@@ -461,26 +465,26 @@ P["unitframe"]["filters"] = {
 
 G.unitframe.ChannelTicks = {
 	-- Warlock
-	[SpellName(1120)] = 5, -- Drain Soul
-	[SpellName(689)] = 5, -- Drain Life
-	[SpellName(5138)] = 5, -- Drain Mana
-	[SpellName(5740)] = 4, -- Rain of Fire
-	[SpellName(755)] = 10, -- Health Funnel
+	[SpellName(1120)] = 5,		-- Drain Soul
+	[SpellName(689)] = 5,		-- Drain Life
+	[SpellName(5138)] = 5,		-- Drain Mana
+	[SpellName(5740)] = 4,		-- Rain of Fire
+	[SpellName(755)] = 10,		-- Health Funnel
 	-- Druid
-	[SpellName(44203)] = 4, -- Tranquility
-	[SpellName(16914)] = 10, -- Hurricane
+	[SpellName(44203)] = 4,		-- Tranquility
+	[SpellName(16914)] = 10,	-- Hurricane
 	-- Priest
-	[SpellName(15407)] = 3, -- Mind Flay
-	[SpellName(36447)] = 5, -- Mind Sear
+	[SpellName(15407)] = 3,		-- Mind Flay
+	[SpellName(36447)] = 5,		-- Mind Sear
 	-- Mage
-	[SpellName(5143)] = 5, -- Arcane Missiles
-	[SpellName(10)] = 8, -- Blizzard
-	[SpellName(12051)] = 4 -- Evocation
+	[SpellName(5143)] = 5,		-- Arcane Missiles
+	[SpellName(10)] = 8,		-- Blizzard
+	[SpellName(12051)] = 4		-- Evocation
 }
 
 G.unitframe.AuraBarColors = {
 	[SpellName(2825)] = {r = 250/255, g = 146/255, b = 27/255},	-- Bloodlust
-	[SpellName(32182)] = {r = 250/255, g = 146/255, b = 27/255} -- Heroism
+	[SpellName(32182)] = {r = 250/255, g = 146/255, b = 27/255}	-- Heroism
 }
 
 G.unitframe.InvalidSpells = {
