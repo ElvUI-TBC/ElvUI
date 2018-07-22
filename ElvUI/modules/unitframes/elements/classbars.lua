@@ -1,13 +1,15 @@
 local E, L, V, P, G = unpack(ElvUI)
 local UF = E:GetModule("UnitFrames")
 
-local CreateFrame = CreateFrame
-
 local ns = oUF
 local ElvUF = ns.oUF
 assert(ElvUF, "ElvUI was unable to locate oUF.")
 
+local select = select
+local floor = math.floor
 local find, sub, gsub = string.find, string.sub, string.gsub
+
+local CreateFrame = CreateFrame
 
 function UF:Configure_ClassBar(frame)
 	if not frame.VARIABLES_SET then return end
@@ -112,6 +114,14 @@ function UF:Configure_ClassBar(frame)
 
 	bars:Width(CLASSBAR_WIDTH)
 	bars:Height(frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
+
+	if frame.ClassBar == "DruidAltMana" then
+		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
+			bars:SetOrientation("VERTICAL")
+		else
+			bars:SetOrientation("HORIZONTAL")
+		end
+	end
 
 	if frame.USE_CLASSBAR then
 		if frame.DruidAltMana and not frame:IsElementEnabled("DruidAltMana") then
