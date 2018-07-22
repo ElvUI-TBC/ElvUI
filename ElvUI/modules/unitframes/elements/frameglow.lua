@@ -100,7 +100,7 @@ function UF:FrameGlow_PositionGlow(frame, mainGlow, powerGlow)
 	if not (frame and frame.VARIABLES_SET) then return end
 
 	local infoPanel = frame.InfoPanel
-	local additionalPower = frame.AdditionalPower
+	local druidMana = frame.DruidAltMana
 	local comboPoints = frame.ComboPoints
 	local happiness = frame.HappinessIndicator
 	local power = frame.Power and frame.Power.backdrop
@@ -134,8 +134,8 @@ function UF:FrameGlow_PositionGlow(frame, mainGlow, powerGlow)
 		powerGlow:Point("BOTTOMRIGHT", power, offset, -offset)
 	end
 
-	if additionalPower then
-		UF:FrameGlow_ClassGlowPosition(frame, "AdditionalPower", mainGlow, offset)
+	if druidMana then
+		UF:FrameGlow_ClassGlowPosition(frame, "DruidAltMana", mainGlow, offset)
 	elseif comboPoints then
 		UF:FrameGlow_ClassGlowPosition(frame, "ComboPoints", mainGlow, offset)
 	elseif happiness then
