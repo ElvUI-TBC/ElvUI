@@ -1001,6 +1001,16 @@ function E:DBConversions()
 	for filter, filterType in pairs(E.DEFAULT_FILTER) do
 		E.global.unitframe.aurafilters[filter].type = filterType
 	end
+
+	--Combat & Resting Icon options update
+	if E.db.unitframe.units.player.combatIcon ~= nil then
+		E.db.unitframe.units.player.CombatIcon.enable = E.db.unitframe.units.player.combatIcon
+		E.db.unitframe.units.player.combatIcon = nil
+	end
+	if E.db.unitframe.units.player.restIcon ~= nil then
+		E.db.unitframe.units.player.RestIcon.enable = E.db.unitframe.units.player.restIcon
+		E.db.unitframe.units.player.restIcon = nil
+	end
 end
 
 local CPU_USAGE = {}
