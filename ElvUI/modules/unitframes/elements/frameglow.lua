@@ -336,7 +336,7 @@ function UF:FrameGlow_PositionHighlight(frame)
 	if frame.Highlight and frame.Highlight.texture then
 		frame.Highlight.texture:ClearAllPoints()
 		frame.Highlight.texture:Point("TOPLEFT", frame.Health, "TOPLEFT")
-		frame.Highlight.texture:Point("BOTTOMRIGHT", frame.Health:GetStatusBarTexture(), "BOTTOMRIGHT")
+		frame.Highlight.texture:Point("BOTTOMRIGHT", frame.Health.texturePointer, "BOTTOMRIGHT")
 	end
 end
 
