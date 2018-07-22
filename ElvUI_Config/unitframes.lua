@@ -1993,7 +1993,8 @@ E.Options.args.unitframe = {
 			name = L["Cooldown Override"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "cooldownGroup") end,
-			disabled = function() return not E.UnitFrames end
+			--disabled = function() return not E.UnitFrames end
+			disabled = true
 		},
 		spacer2 = {
 			order = 8,
@@ -2493,6 +2494,7 @@ E.Options.args.unitframe = {
 						t.r, t.g, t.b = r, g, b
 						E:UpdateCooldownSettings("unitframe")
 					end,
+					disabled = true,
 					args = {
 						header = {
 							order = 1,
