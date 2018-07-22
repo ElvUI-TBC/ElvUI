@@ -65,7 +65,7 @@ function S:LoadQuestSkin()
 		count:SetDrawLayer("OVERLAY")
 	end
 
-	for i = 1, 6 do
+	for i = 1, MAX_NUM_ITEMS do
 		local item = _G["QuestDetailItem" .. i]
 		local icon = _G["QuestDetailItem" .. i .. "IconTexture"]
 		local count = _G["QuestDetailItem" .. i .. "Count"]
@@ -85,7 +85,7 @@ function S:LoadQuestSkin()
 		count:SetDrawLayer("OVERLAY")
 	end
 
-	for i = 1, 6 do
+	for i = 1, MAX_NUM_ITEMS do
 		local item = _G["QuestRewardItem" .. i]
 		local icon = _G["QuestRewardItem" .. i .. "IconTexture"]
 		local count = _G["QuestRewardItem" .. i .. "Count"]
@@ -338,7 +338,7 @@ function S:LoadQuestSkin()
 		QuestLogListScrollFrame:Show()
 	end)
 
-	for i = 1, 6 do
+	for i = 1, MAX_NUM_ITEMS do
 		local item = _G["QuestProgressItem" .. i]
 		local icon = _G["QuestProgressItem" .. i .. "IconTexture"]
 		local count = _G["QuestProgressItem" .. i .. "Count"]
