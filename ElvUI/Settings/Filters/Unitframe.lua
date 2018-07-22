@@ -451,7 +451,8 @@ G.unitframe.buffwatch = {
 	WARRIOR = {
 		[3411] = ClassBuff(3411, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Intervene
 	},
-	HUNTER = {}
+	HUNTER = {},
+	WARLOCK = {},
 }
 
 P["unitframe"]["filters"] = {
