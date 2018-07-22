@@ -9,11 +9,11 @@ local format, match, gsub, strsplit = string.format, string.match, string.gsub, 
 local IsAddOnLoaded = IsAddOnLoaded
 local GetScreenWidth = GetScreenWidth
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local FRIEND, ENEMY, HIDE, DELETE, NONE, FILTERS, FONT_SIZE, COLOR = FRIEND, ENEMY, HIDE, DELETE, NONE, FILTERS, FONT_SIZE, COLOR
+local HIDE, DELETE, NONE, FILTERS, FONT_SIZE, COLOR = HIDE, DELETE, NONE, FILTERS, FONT_SIZE, COLOR
 local CUSTOM, DISABLE, DEFAULT, COLORS = CUSTOM, DISABLE, DEFAULT, COLORS
 local SHIFT_KEY, ALT_KEY, CTRL_KEY = SHIFT_KEY, ALT_KEY, CTRL_KEY
 local HEALTH, MANA, NAME, PLAYER, CLASS, GROUP, HAPPINESS = HEALTH, MANA, NAME, PLAYER, CLASS, GROUP, HAPPINESS
-local RAGE, FOCUS, ENERGY, RUNIC_POWER = RAGE, FOCUS, ENERGY
+local RAGE, FOCUS, ENERGY = RAGE, FOCUS, ENERGY
 
 local ACD = LibStub("AceConfigDialog-3.0-ElvUI")
 
@@ -374,7 +374,7 @@ local function GetOptionsTable_AuraBars(updateFunc, groupName)
 		end,
 		stateSwitchGetText = function(_, text)
 			local friend, enemy = match(text, "^Friendly:([^,]*)"), match(text, "^Enemy:([^,]*)")
-			return (friend and format("|cFF33FF33%s|r %s", FRIEND, friend)) or (enemy and format("|cFFFF3333%s|r %s", ENEMY, enemy))
+			return (friend and format("|cFF33FF33%s|r %s", L["Friend"], friend)) or (enemy and format("|cFFFF3333%s|r %s", L["Enemy"], enemy))
 		end,
 		stateSwitchOnClick = function(info)
 			filterPriority("aurabar", groupName, carryFilterFrom, nil, nil, true)
@@ -640,7 +640,7 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 		end,
 		stateSwitchGetText = function(_, text)
 			local friend, enemy = match(text, "^Friendly:([^,]*)"), match(text, "^Enemy:([^,]*)")
-			return (friend and format("|cFF33FF33%s|r %s", FRIEND, friend)) or (enemy and format("|cFFFF3333%s|r %s", ENEMY, enemy))
+			return (friend and format("|cFF33FF33%s|r %s", L["Friend"], friend)) or (enemy and format("|cFFFF3333%s|r %s", L["Enemy"], enemy))
 		end,
 		stateSwitchOnClick = function(info)
 			filterPriority(auraType, groupName, carryFilterFrom, nil, nil, true)
