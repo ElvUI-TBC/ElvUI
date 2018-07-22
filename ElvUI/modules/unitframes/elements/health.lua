@@ -52,24 +52,26 @@ end
 
 function UF:Configure_HealthBar(frame)
 	if not frame.VARIABLES_SET then return end
-
 	local db = frame.db
 	local health = frame.Health
 
 	health.Smooth = self.db.smoothbars
 	health.SmoothSpeed = self.db.smoothSpeed * 10
 
-	if health.value then
+	--Text
+	if db.health and health.value then
 		local attachPoint = self:GetObjectAnchorPoint(frame, db.health.attachTextTo)
 		health.value:ClearAllPoints()
 		health.value:Point(db.health.position, attachPoint, db.health.position, db.health.xOffset, db.health.yOffset)
 		frame:Tag(health.value, db.health.text_format)
 	end
 
+	--Colors
 	health.colorSmooth = nil
 	health.colorHealth = nil
 	health.colorClass = nil
 	health.colorReaction = nil
+
 	if db.colorOverride and db.colorOverride == "FORCE_ON" then
 		health.colorClass = true
 		health.colorReaction = true
@@ -92,6 +94,7 @@ function UF:Configure_HealthBar(frame)
 		end
 	end
 
+	--Position
 	health:ClearAllPoints()
 	if frame.ORIENTATION == "LEFT" then
 		health:Point("TOPRIGHT", frame, "TOPRIGHT", -frame.BORDER - frame.SPACING - (frame.HAPPINESS_WIDTH or 0), -frame.BORDER - frame.SPACING - frame.CLASSBAR_YOFFSET)
@@ -145,15 +148,18 @@ function UF:Configure_HealthBar(frame)
 	end
 
 	if db.health then
+		--Party/Raid Frames allow to change statusbar orientation
 		if db.health.orientation then
 			health:SetOrientation(db.health.orientation)
 		end
 
+		--Party/Raid Frames can toggle frequent updates
 		if db.health.frequentUpdates then
 			health.frequentUpdates = db.health.frequentUpdates
 		end
 	end
 
+	--Transparency Settings
 	UF:ToggleTransparentStatusBar(UF.db.colors.transparentHealth, frame.Health, frame.Health.bg, (frame.USE_PORTRAIT and frame.USE_PORTRAIT_OVERLAY) ~= true)
 
 	--Highlight Texture
@@ -199,7 +205,7 @@ function UF:PostUpdateHealth(unit, min, max)
 		if UnitIsPlayer(unit) then
 			local _, class = UnitClass(unit)
 			t = parent.colors.class[class]
-		elseif(reaction) then
+		elseif reaction then
 			t = parent.colors.reaction[reaction]
 		end
 
@@ -208,6 +214,7 @@ function UF:PostUpdateHealth(unit, min, max)
 		end
 	end
 
+	--Backdrop
 	if colors.customhealthbackdrop then
 		local backdrop = colors.health_backdrop
 		self.bg:SetVertexColor(backdrop.r, backdrop.g, backdrop.b)
