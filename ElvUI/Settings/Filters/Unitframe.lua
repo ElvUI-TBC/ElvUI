@@ -470,6 +470,7 @@ G.unitframe.ChannelTicks = {
 	[SpellName(5138)] = 5,		-- Drain Mana
 	[SpellName(5740)] = 4,		-- Rain of Fire
 	[SpellName(755)] = 10,		-- Health Funnel
+	[SpellName(1949)] = 15,		-- Hellfire
 	-- Druid
 	[SpellName(44203)] = 4,		-- Tranquility
 	[SpellName(16914)] = 10,	-- Hurricane
@@ -479,7 +480,9 @@ G.unitframe.ChannelTicks = {
 	-- Mage
 	[SpellName(5143)] = 5,		-- Arcane Missiles
 	[SpellName(10)] = 8,		-- Blizzard
-	[SpellName(12051)] = 4		-- Evocation
+	[SpellName(12051)] = 4,		-- Evocation
+	-- Hunter
+	[SpellName(27022)] = 6,		-- Volley
 }
 
 G.unitframe.AuraBarColors = {
