@@ -161,24 +161,22 @@ UF.ToggleResourceBar = ToggleResourceBar
 -- DRUID
 -------------------------------------------------------------
 function UF:Construct_DruidAltMana(frame)
-	local druidAltMana = CreateFrame("Frame", nil, frame)
-	druidAltMana:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
+	local druidAltMana = CreateFrame("StatusBar", "DruidAltMana", frame)
+	druidAltMana:SetFrameLevel(druidAltMana:GetFrameLevel() + 1)
 	druidAltMana.colorPower = true
 	druidAltMana.PostUpdate = UF.PostUpdateDruidAltMana
 	druidAltMana.PostUpdateVisibility = UF.PostVisibilityDruidAltMana
-
-	druidAltMana.ManaBar = CreateFrame("StatusBar", "DruidAltMana", druidAltMana)
-	UF["statusbars"][druidAltMana.ManaBar] = true
-	druidAltMana.ManaBar:SetStatusBarTexture(E["media"].blankTex)
-	druidAltMana.ManaBar:SetAllPoints(druidAltMana)
+	druidAltMana:CreateBackdrop("Default")
+	UF["statusbars"][druidAltMana] = true
+	druidAltMana:SetStatusBarTexture(E["media"].blankTex)
 
 	druidAltMana.bg = druidAltMana:CreateTexture(nil, "BORDER")
-	druidAltMana.bg:SetAllPoints(druidAltMana.ManaBar)
+	druidAltMana.bg:SetAllPoints(druidAltMana)
 	druidAltMana.bg:SetTexture(E["media"].blankTex)
 	druidAltMana.bg.multiplier = 0.3
 
-	druidAltMana.Text = druidAltMana:CreateFontString(nil, "OVERLAY")
-	UF:Configure_FontString(druidAltMana.Text)
+	druidAltMana.text = druidAltMana:CreateFontString(nil, "OVERLAY")
+	UF:Configure_FontString(druidAltMana.text)
 
 	druidAltMana:SetScript("OnShow", ToggleResourceBar)
 	druidAltMana:SetScript("OnHide", ToggleResourceBar)
@@ -196,7 +194,7 @@ function UF:PostUpdateDruidAltMana(_, min, max, event)
 			local powerValueText = powerValue:GetText()
 			local powerValueParent = powerValue:GetParent()
 			local powerTextPosition = db.power.position
-			local color = ElvUF["colors"].power["MANA"]
+			local color = ElvUF["colors"].power[0]
 			color = E:RGBToHex(color[1], color[2], color[3])
 
 			--Attempt to remove |cFFXXXXXX color codes in order to determine if power text is really empty

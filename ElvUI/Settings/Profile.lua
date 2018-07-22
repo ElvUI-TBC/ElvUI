@@ -450,10 +450,6 @@ P["unitframe"] = {
 		["disconnected"] = {r = 0.84, g = 0.75, b = 0.65},
 		["auraBarBuff"] = {r = .31,g = .31,b = .31},
 		["auraBarDebuff"] = {r = 0.8, g = 0.1, b = 0.1},
-		["healPrediction"] = {
-			["personal"] = {r = 0, g = 1, b = 0.5, a = 0.25},
-			["others"] = {r = 0, g = 1, b = 0, a = 0.25},
-		},
 		["power"] = {
 			["MANA"] = {r = 0.31, g = 0.45, b = 0.63},
 			["RAGE"] = {r = 0.78, g = 0.25, b = 0.25},
@@ -464,6 +460,11 @@ P["unitframe"] = {
 			["BAD"] = {r = 0.78, g = 0.25, b = 0.25},
 			["NEUTRAL"] = {r = 218/255, g = 197/255, b = 92/255},
 			["GOOD"] = {r = 75/255, g = 175/255, b = 76/255}
+		},
+		["healPrediction"] = {
+			["personal"] = {r = 0, g = 1, b = 0.5, a = 0.25},
+			["others"] = {r = 0, g = 1, b = 0, a = 0.25},
+			["maxOverflow"] = 0,
 		},
 		["classResources"] = {
 			["bgColor"] = {r = 0.1,g = 0.1,b = 0.1, a = 1},
