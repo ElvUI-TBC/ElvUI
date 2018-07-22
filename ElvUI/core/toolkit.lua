@@ -49,6 +49,7 @@ local function Size(frame, width, height)
 end
 
 local function Width(frame, width)
+	assert(width)
 	frame:SetWidth(E:Scale(width))
 end
 
@@ -213,10 +214,7 @@ local function CreateShadow(f)
 	shadow:SetFrameLevel(1)
 	shadow:SetFrameStrata(f:GetFrameStrata())
 	shadow:SetOutside(f, 3, 3)
-	shadow:SetBackdrop({
-		edgeFile = LSM:Fetch("border", "ElvUI GlowBorder"), edgeSize = E:Scale(3),
-		insets = {left = E:Scale(5), right = E:Scale(5), top = E:Scale(5), bottom = E:Scale(5)}
-	})
+	shadow:SetBackdrop({edgeFile = LSM:Fetch("border", "ElvUI GlowBorder"), edgeSize = E:Scale(3)})
 	shadow:SetBackdropColor(backdropr, backdropg, backdropb, 0)
 	shadow:SetBackdropBorderColor(borderr, borderg, borderb, 0.9)
 	f.shadow = shadow
