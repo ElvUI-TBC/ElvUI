@@ -338,7 +338,7 @@ function S:LoadQuestSkin()
 		QuestLogListScrollFrame:Show()
 	end)
 
-	for i = 1, MAX_NUM_ITEMS do
+	for i = 1, 6 do
 		local item = _G["QuestProgressItem" .. i]
 		local icon = _G["QuestProgressItem" .. i .. "IconTexture"]
 		local count = _G["QuestProgressItem" .. i .. "Count"]
