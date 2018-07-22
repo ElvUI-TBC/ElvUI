@@ -40,12 +40,17 @@ local SetItemButtonTexture = SetItemButtonTexture
 local SetItemButtonTextureVertexColor = SetItemButtonTextureVertexColor
 local ToggleFrame = ToggleFrame
 local UseContainerItem = UseContainerItem
-
 local BANK_CONTAINER = BANK_CONTAINER
+local CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y = CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y
+local CONTAINER_SCALE = CONTAINER_SCALE
+local CONTAINER_SPACING, VISIBLE_CONTAINER_SPACING = CONTAINER_SPACING, VISIBLE_CONTAINER_SPACING
+local CONTAINER_WIDTH = CONTAINER_WIDTH
 local KEYRING_CONTAINER = KEYRING_CONTAINER
 local MAX_CONTAINER_ITEMS = MAX_CONTAINER_ITEMS
+local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
+local BINDING_NAME_TOGGLEKEYRING = BINDING_NAME_TOGGLEKEYRING
 local SEARCH = SEARCH
 
 local SEARCH_STRING = ""
@@ -1009,7 +1014,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.keyButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
 		f.keyButton:GetPushedTexture():SetInside()
 		f.keyButton:StyleButton(nil, true)
-		f.keyButton.ttText = L["Toggle Key"]
+		f.keyButton.ttText = BINDING_NAME_TOGGLEKEYRING
 		f.keyButton:SetScript("OnEnter", self.Tooltip_Show)
 		f.keyButton:SetScript("OnLeave", self.Tooltip_Hide)
 		f.keyButton:SetScript("OnClick", function() ToggleFrame(f.keyFrame) end)
@@ -1185,6 +1190,81 @@ function B:CloseBank()
 	self.BankFrame:Hide()
 end
 
+function B:updateContainerFrameAnchors()
+	local frame, xOffset, yOffset, screenHeight, freeScreenHeight, leftMostPoint, column
+	local screenWidth = GetScreenWidth()
+	local containerScale = 1
+	local leftLimit = 0
+	if BankFrame:IsShown() then
+		leftLimit = BankFrame:GetRight() - 25
+	end
+
+	while containerScale > CONTAINER_SCALE do
+		screenHeight = GetScreenHeight() / containerScale
+		-- Adjust the start anchor for bags depending on the multibars
+		xOffset = CONTAINER_OFFSET_X / containerScale
+		yOffset = CONTAINER_OFFSET_Y / containerScale
+		-- freeScreenHeight determines when to start a new column of bags
+		freeScreenHeight = screenHeight - yOffset
+		leftMostPoint = screenWidth - xOffset
+		column = 1
+		local frameHeight
+		for _, frameName in ipairs(ContainerFrame1.bags) do
+			frameHeight = _G[frameName]:GetHeight()
+			if freeScreenHeight < frameHeight then
+				-- Start a new column
+				column = column + 1
+				leftMostPoint = screenWidth - (column * CONTAINER_WIDTH * containerScale) - xOffset
+				freeScreenHeight = screenHeight - yOffset
+			end
+			freeScreenHeight = freeScreenHeight - frameHeight - VISIBLE_CONTAINER_SPACING
+		end
+		if leftMostPoint < leftLimit then
+			containerScale = containerScale - 0.01
+		else
+			break
+		end
+	end
+
+	if containerScale < CONTAINER_SCALE then
+		containerScale = CONTAINER_SCALE
+	end
+
+	screenHeight = GetScreenHeight() / containerScale
+	-- Adjust the start anchor for bags depending on the multibars
+	xOffset = CONTAINER_OFFSET_X / containerScale
+	yOffset = CONTAINER_OFFSET_Y / containerScale
+	-- freeScreenHeight determines when to start a new column of bags
+	freeScreenHeight = screenHeight - yOffset
+	column = 0
+
+	local bagsPerColumn = 0
+	for index, frameName in ipairs(ContainerFrame1.bags) do
+		frame = _G[frameName]
+		frame:SetScale(1)
+		if index == 1 then
+			-- First bag
+			frame:Point("BOTTOMRIGHT", ElvUIBagMover, "BOTTOMRIGHT", E.Spacing, -E.Border)
+			bagsPerColumn = bagsPerColumn + 1
+		elseif freeScreenHeight < frame:GetHeight() then
+			-- Start a new column
+			column = column + 1
+			freeScreenHeight = screenHeight - yOffset
+			if column > 1 then
+				frame:Point("BOTTOMRIGHT", ContainerFrame1.bags[(index - bagsPerColumn) - 1], "BOTTOMLEFT", -CONTAINER_SPACING, 0)
+			else
+				frame:Point("BOTTOMRIGHT", ContainerFrame1.bags[index - bagsPerColumn], "BOTTOMLEFT", -CONTAINER_SPACING, 0)
+			end
+			bagsPerColumn = 0
+		else
+			-- Anchor to the previous bag
+			frame:Point("BOTTOMRIGHT", ContainerFrame1.bags[index - 1], "TOPRIGHT", 0, CONTAINER_SPACING)
+			bagsPerColumn = bagsPerColumn + 1
+		end
+		freeScreenHeight = freeScreenHeight - frame:GetHeight() - VISIBLE_CONTAINER_SPACING
+	end
+end
+
 function B:PostBagMove()
 	if(not E.private.bags.enable) then return end
 
@@ -1225,7 +1305,7 @@ function B:Initialize()
 		BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", -(E.Border*2), 22 + E.Border*4 - E.Spacing*2)
 		E:CreateMover(BagFrameHolder, "ElvUIBagMover", L["Bag Mover"], nil, nil, B.PostBagMove)
 
-		-- self:SecureHook("UpdateContainerFrameAnchors")
+		self:SecureHook("updateContainerFrameAnchors")
 		return
 	end
 

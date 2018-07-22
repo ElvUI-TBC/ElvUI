@@ -38,7 +38,6 @@ L["Reset Position"] = "Сбросить позицию"
 L["Sort Bags"] = "Сортировать"
 L["Temporary Move"] = "Временное перемещение"
 L["Toggle Bags"] = "Показать сумки"
-L["Toggle Key"] = "Показать ключи"
 L["Vendor Grays"] = "Продавать серые предметы"
 
 --Chat
