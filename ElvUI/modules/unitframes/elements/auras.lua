@@ -421,26 +421,22 @@ function UF:UpdateAuraTimer(elapsed)
 end
 
 
-function UF:AuraFilter(unit, button, name, _, _, _, dispelType, duration, expiration, caster, isStealable, _, spellID)
+function UF:AuraFilter(unit, button, name, _, _, _, dispelType, duration, expiration)
 	local db = self:GetParent().db
 	if not db or not db[self.type] then return true; end
 
 	db = db[self.type]
 
 	if not name then return nil end
-	local filterCheck, isUnit, isFriend, isPlayer, canDispell, allowDuration, noDuration, spellPriority
+	local filterCheck, isFriend, canDispell, allowDuration, noDuration, spellPriority
 
-	isPlayer = (caster == "player" or caster == "vehicle")
 	isFriend = unit and UnitIsFriend("player", unit) and not UnitCanAttack("player", unit)
 
-	button.isPlayer = isPlayer
 	button.isFriend = isFriend
-	button.isStealable = isStealable
 	button.dtype = dispelType
 	button.duration = duration
 	button.expiration = expiration
 	button.name = name
-	button.owner = caster --what uses this?
 	button.spell = name --what uses this? (SortAurasByName?)
 	button.priority = 0
 
@@ -448,9 +444,8 @@ function UF:AuraFilter(unit, button, name, _, _, _, dispelType, duration, expira
 	allowDuration = noDuration or (duration and (duration > 0) and (db.maxDuration == 0 or duration <= db.maxDuration) and (db.minDuration == 0 or duration >= db.minDuration))
 
 	if db.priority ~= "" then
-		isUnit = unit and caster and UnitIsUnit(unit, caster)
-		canDispell = (self.type == "buffs" and isStealable) or (self.type == "debuffs" and dispelType and E:IsDispellableByMe(dispelType))
-		filterCheck, spellPriority = UF:CheckFilter(name, caster, spellID, isFriend, isPlayer, isUnit, allowDuration, noDuration, canDispell, strsplit(",", db.priority))
+		canDispell = self.type == "debuffs" and dispelType and E:IsDispellableByMe(dispelType)
+		filterCheck, spellPriority = UF:CheckFilter(name, isFriend, allowDuration, noDuration, canDispell, strsplit(",", db.priority))
 		if spellPriority then button.priority = spellPriority end -- this is the only difference from auarbars code
 	else
 		filterCheck = allowDuration and true -- Allow all auras to be shown when the filter list is empty, while obeying duration sliders
