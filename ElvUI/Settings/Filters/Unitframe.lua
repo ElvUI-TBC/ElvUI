@@ -500,11 +500,6 @@ G.unitframe.DebuffHighlightColors = {
 
 
 G.unitframe.specialFilters = {
-	["Personal"] = true,
-	["nonPersonal"] = true,
-	["blockNonPersonal"] = true,
-	["CastByUnit"] = true,
-	["notCastByUnit"] = true,
 	["blockNoDuration"] = true,
 	["Dispellable"] = true,
 }
