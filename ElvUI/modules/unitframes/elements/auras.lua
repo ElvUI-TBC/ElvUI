@@ -5,7 +5,6 @@ local LSM = LibStub("LibSharedMedia-3.0")
 local unpack = unpack
 local find = string.find
 local format = string.format
-local strsplit = strsplit
 local tsort = table.sort
 local ceil = math.ceil
 
@@ -339,7 +338,12 @@ end
 
 local unstableAffliction = GetSpellInfo(30108)
 local vampiricTouch = GetSpellInfo(34914)
-function UF:PostUpdateAura(unit, button)
+function UF:PostUpdateAura(unit, button, index)
+	local name, _, _, _, dtype, duration, expiration = UnitAura(unit, index, button.filter)
+	if expiration then expiration = expiration + GetTime() end
+
+	local isFriend = UnitIsFriend("player", unit) == 1 and true or false
+
 	local auras = button:GetParent()
 	local frame = auras:GetParent()
 	local type = auras.type
@@ -354,8 +358,8 @@ function UF:PostUpdateAura(unit, button)
 	end
 
 	if button.isDebuff then
-		local color = (button.dtype and DebuffTypeColor[button.dtype]) or DebuffTypeColor.none
-		if button.name and (button.name == unstableAffliction or button.name == vampiricTouch) and E.myclass ~= "WARLOCK" then
+		local color = DebuffTypeColor[dtype] or DebuffTypeColor.none
+		if (name == unstableAffliction or name == vampiricTouch) and E.myclass ~= "WARLOCK" then
 			button:SetBackdropBorderColor(0.05, 0.85, 0.94)
 		else
 			button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
@@ -414,68 +418,88 @@ function UF:UpdateAuraTimer(elapsed)
 	end
 end
 
+function UF:CheckFilter(filterType, isFriend)
+	local FRIENDLY_CHECK, ENEMY_CHECK = false, false
+	if type(filterType) == "boolean" then
+		FRIENDLY_CHECK = filterType
+		ENEMY_CHECK = filterType
+	elseif filterType then
+		FRIENDLY_CHECK = filterType.friendly
+		ENEMY_CHECK = filterType.enemy
+	end
 
-function UF:AuraFilter(unit, button, name, _, _, _, dispelType, duration, expiration)
+	if (FRIENDLY_CHECK and isFriend) or (ENEMY_CHECK and not isFriend) then
+		return true
+	end
+
+	return false
+end
+
+function UF:AuraFilter(unit, button, name, _, _, _, _, duration)
 	local db = self:GetParent().db
-	if not db or not db[self.type] then return true; end
+	if not db or not db[self.type] then return true end
 
 	db = db[self.type]
 
-	if not name then return nil end
-	local filterCheck, isFriend, canDispell, allowDuration, noDuration, spellPriority
+	local returnValue = true
+	local anotherFilterExists = false
+	local isFriend = UnitIsFriend("player", unit) == 1 and true or false
 
-	isFriend = unit and UnitIsFriend("player", unit) and not UnitCanAttack("player", unit)
-
-	button.isFriend = isFriend
-	button.dtype = dispelType
-	button.duration = duration
-	button.expiration = expiration
 	button.name = name
-	button.spell = name --what uses this? (SortAurasByName?)
 	button.priority = 0
 
-	noDuration = (not duration or duration == 0)
-	allowDuration = noDuration or (duration and (duration > 0) and (db.maxDuration == 0 or duration <= db.maxDuration) and (db.minDuration == 0 or duration >= db.minDuration))
-
-	if db.priority ~= "" then
-		canDispell = self.type == "debuffs" and dispelType and E:IsDispellableByMe(dispelType)
-		filterCheck, spellPriority = UF:CheckFilter(name, isFriend, allowDuration, noDuration, canDispell, strsplit(",", db.priority))
-		if spellPriority then button.priority = spellPriority end -- this is the only difference from auarbars code
-	else
-		filterCheck = allowDuration and true -- Allow all auras to be shown when the filter list is empty, while obeying duration sliders
+	local turtleBuff = E.global["unitframe"]["aurafilters"]["TurtleBuffs"].spells[name]
+	if turtleBuff and turtleBuff.enable then
+		button.priority = turtleBuff.priority
 	end
 
-	return filterCheck
-end
+	if UF:CheckFilter(db.noDuration, isFriend) then
+		if duration == 0 or not duration then
+			returnValue = false
+		end
 
-function UF:UpdateBuffsHeaderPosition()
-	local parent = self:GetParent()
-	local buffs = parent.Buffs
-	local debuffs = parent.Debuffs
-	local numDebuffs = self.visibleDebuffs
-
-	if numDebuffs == 0 then
-		buffs:ClearAllPoints()
-		buffs:Point(debuffs.point, debuffs.attachTo, debuffs.anchorPoint, debuffs.xOffset, debuffs.yOffset)
-	else
-		buffs:ClearAllPoints()
-		buffs:Point(buffs.point, buffs.attachTo, buffs.anchorPoint, buffs.xOffset, buffs.yOffset)
+		anotherFilterExists = true
 	end
-end
 
-function UF:UpdateDebuffsHeaderPosition()
-	local parent = self:GetParent()
-	local debuffs = parent.Debuffs
-	local buffs = parent.Buffs
-	local numBuffs = self.visibleBuffs
+	if UF:CheckFilter(db.useBlacklist, isFriend) then
+		local blackList = E.global["unitframe"]["aurafilters"]["Blacklist"].spells[name]
+		if blackList and blackList.enable then
+			returnValue = false
+		end
 
-	if numBuffs == 0 then
-		debuffs:ClearAllPoints()
-		debuffs:Point(buffs.point, buffs.attachTo, buffs.anchorPoint, buffs.xOffset, buffs.yOffset)
-	else
-		debuffs:ClearAllPoints()
-		debuffs:Point(debuffs.point, debuffs.attachTo, debuffs.anchorPoint, debuffs.xOffset, debuffs.yOffset)
+		anotherFilterExists = true
 	end
+
+	if UF:CheckFilter(db.useWhitelist, isFriend) then
+		local whiteList = E.global["unitframe"]["aurafilters"]["Whitelist"].spells[name]
+		if whiteList and whiteList.enable then
+			returnValue = true
+			button.priority = whiteList.priority
+		elseif not anotherFilterExists then
+			returnValue = false
+		end
+
+		anotherFilterExists = true
+	end
+
+	if db.useFilter and E.global["unitframe"]["aurafilters"][db.useFilter] then
+		local type = E.global["unitframe"]["aurafilters"][db.useFilter].type
+		local spellList = E.global["unitframe"]["aurafilters"][db.useFilter].spells
+		local spell = spellList[name]
+
+		if type == "Whitelist" then
+			if spell and spell.enable then
+				returnValue = true
+				button.priority = spell.priority
+			elseif not anotherFilterExists then
+				returnValue = false
+			end
+		elseif type == "Blacklist" and spell and spell.enable then
+			returnValue = false
+		end
+	end
+
+	return returnValue
 end
 
 function UF:UpdateBuffsPositionAndDebuffHeight()

@@ -97,64 +97,10 @@ local colorOverrideValues = {
 
 local CUSTOMTEXT_CONFIGS = {}
 
-local carryFilterFrom, carryFilterTo
-local function filterValue(value)
-	return gsub(value,"([%(%)%.%%%+%-%*%?%[%^%$])","%%%1")
-end
-
-local function filterMatch(s,v)
-	local m1, m2, m3, m4 = "^"..v.."$", "^"..v..",", ","..v.."$", ","..v..","
-	return (match(s, m1) and m1) or (match(s, m2) and m2) or (match(s, m3) and m3) or (match(s, m4) and v..",")
-end
-
-local function filterPriority(auraType, groupName, value, remove, movehere, friendState)
-	if not auraType or not value then return end
-	local filter = E.db.unitframe.units[groupName] and E.db.unitframe.units[groupName][auraType] and E.db.unitframe.units[groupName][auraType].priority
-	if not filter then return end
-	local found = filterMatch(filter, filterValue(value))
-	if found and movehere then
-		local tbl, sv, sm = {strsplit(",",filter)}
-		for i in ipairs(tbl) do
-			if tbl[i] == value then sv = i elseif tbl[i] == movehere then sm = i end
-			if sv and sm then break end
-		end
-		tremove(tbl, sm);tinsert(tbl, sv, movehere);
-		E.db.unitframe.units[groupName][auraType].priority = tconcat(tbl,",")
-	elseif found and friendState then
-		local realValue = match(value, "^Friendly:([^,]*)") or match(value, "^Enemy:([^,]*)") or value
-		local friend = filterMatch(filter, filterValue("Friendly:"..realValue))
-		local enemy = filterMatch(filter, filterValue("Enemy:"..realValue))
-		local default = filterMatch(filter, filterValue(realValue))
-
-		local state =
-			(friend and (not enemy) and format("%s%s","Enemy:",realValue))					--[x] friend [ ] enemy: > enemy
-		or	((not enemy and not friend) and format("%s%s","Friendly:",realValue))			--[ ] friend [ ] enemy: > friendly
-		or	(enemy and (not friend) and default and format("%s%s","Friendly:",realValue))	--[ ] friend [x] enemy: (default exists) > friendly
-		or	(enemy and (not friend) and match(value, "^Enemy:") and realValue)				--[ ] friend [x] enemy: (no default) > realvalue
-		or	(friend and enemy and realValue)												--[x] friend [x] enemy: > default
-
-		if state then
-			local stateFound = filterMatch(filter, filterValue(state))
-			if not stateFound then
-				local tbl, sv = {strsplit(",",filter)}
-				for i in ipairs(tbl) do
-					if tbl[i] == value then sv = i;break end
-				end
-				tinsert(tbl, sv, state);tremove(tbl, sv+1)
-				E.db.unitframe.units[groupName][auraType].priority = tconcat(tbl,",")
-			end
-		end
-	elseif found and remove then
-		E.db.unitframe.units[groupName][auraType].priority = gsub(filter, found, "")
-	elseif not found and not remove then
-		E.db.unitframe.units[groupName][auraType].priority = (filter == "" and value) or (filter..","..value)
-	end
-end
-
 -----------------------------------------------------------------------
 -- OPTIONS TABLES
 -----------------------------------------------------------------------
-local function GetOptionsTable_AuraBars(updateFunc, groupName)
+local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 	local config = {
 		order = 800,
 		type = "group",
@@ -238,7 +184,8 @@ local function GetOptionsTable_AuraBars(updateFunc, groupName)
 				desc = L["Set the type of auras to show when a unit is friendly."],
 				values = {
 					["HARMFUL"] = L["Debuffs"],
-					["HELPFUL"] = L["Buffs"]
+					["HELPFUL"] = L["Buffs"],
+					["BOTH"] = L["Both"]
 				}
 			},
 			enemyAuraType = {
@@ -248,7 +195,8 @@ local function GetOptionsTable_AuraBars(updateFunc, groupName)
 				desc = L["Set the type of auras to show when a unit is a foe."],
 				values = {
 					["HARMFUL"] = L["Debuffs"],
-					["HELPFUL"] = L["Buffs"]
+					["HELPFUL"] = L["Buffs"],
+					["BOTH"] = L["Both"]
 				}
 			},
 			uniformThreshold = {
@@ -284,127 +232,140 @@ local function GetOptionsTable_AuraBars(updateFunc, groupName)
 		config.args.attachTo.values["PLAYER_AURABARS"] = L["Player Frame Aura Bars"]
 	end
 
-	config.args.filters.args.minDuration = {
-		order = 16,
-		type = "range",
-		name = L["Minimum Duration"],
-		desc = L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."],
-		min = 0, max = 10800, step = 1
-	}
+	if(friendlyOnly) then
+		config.args.filters.args.useBlacklist = {
+			order = 10,
+			type = "toggle",
+			name = L["Block Blacklisted Auras"],
+			desc = L["Don't display any auras found on the 'Blacklist' filter."],
+		};
+		config.args.filters.args.useWhitelist = {
+			order = 11,
+			type = "toggle",
+			name = L["Allow Whitelisted Auras"],
+			desc = L["If no other filter options are being used then it will block anything not on the 'Whitelist' filter, otherwise it will simply add auras on the whitelist in addition to any other filter settings."]
+		};
+		config.args.filters.args.noDuration = {
+			order = 12,
+			type = "toggle",
+			name = L["Block Auras Without Duration"],
+			desc = L["Don't display auras that have no duration."]
+		};
+		config.args.filters.args.useFilter = {
+			order = 14,
+			name = L["Additional Filter"],
+			desc = L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
+			type = "select",
+			values = function()
+				filters = {};
+				filters[""] = NONE;
+				for filter in pairs(E.global.unitframe["aurafilters"]) do
+					filters[filter] = filter;
+				end
+				return filters;
+			end
+		};
+	else
+		config.args.filters.args.useBlacklist = {
+			order = 10,
+			guiInline = true,
+			type = "group",
+			name = L["Block Blacklisted Auras"],
+			args = {
+				friendly = {
+					order = 1,
+					type = "toggle",
+					name = L["Friendly"],
+					desc = L["If the unit is friendly to you."] .. " " .. L["Don't display any auras found on the 'Blacklist' filter."],
+					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].useBlacklist.friendly; end,
+					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].useBlacklist.friendly = value; updateFunc(UF, groupName); end
+				},
+				enemy = {
+					order = 2,
+					type = "toggle",
+					name = L["Enemy"],
+					desc = L["If the unit is an enemy to you."] .. " " .. L["Don't display any auras found on the 'Blacklist' filter."],
+					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].useBlacklist.enemy; end,
+					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].useBlacklist.enemy = value; updateFunc(UF, groupName); end
+				}
+			}
+		};
+		config.args.filters.args.useWhitelist = {
+			order = 11,
+			guiInline = true,
+			type = "group",
+			name = L["Allow Whitelisted Auras"],
+			args = {
+				friendly = {
+					order = 1,
+					type = "toggle",
+					name = L["Friendly"],
+					desc = L["If the unit is friendly to you."] .. " " .. L["If no other filter options are being used then it will block anything not on the 'Whitelist' filter, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
+					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].useWhitelist.friendly; end,
+					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].useWhitelist.friendly = value; updateFunc(UF, groupName); end,
+				},
+				enemy = {
+					order = 2,
+					type = "toggle",
+					name = L["Enemy"],
+					desc = L["If the unit is an enemy to you."] .. " " .. L["If no other filter options are being used then it will block anything not on the 'Whitelist' filter, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
+					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].useWhitelist.enemy; end,
+					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].useWhitelist.enemy = value; updateFunc(UF, groupName); end
+				}
+			}
+		};
+		config.args.filters.args.noDuration = {
+			order = 12,
+			guiInline = true,
+			type = "group",
+			name = L["Block Auras Without Duration"],
+			args = {
+				friendly = {
+					order = 1,
+					type = "toggle",
+					name = L["Friendly"],
+					desc = L["If the unit is friendly to you."] .. " " .. L["Don't display auras that have no duration."],
+					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].noDuration.friendly; end,
+					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].noDuration.friendly = value; updateFunc(UF, groupName); end
+				},
+				enemy = {
+					order = 2,
+					type = "toggle",
+					name = L["Enemy"],
+					desc = L["If the unit is an enemy to you."] .. " " .. L["Don't display auras that have no duration."],
+					get = function(info) return E.db.unitframe.units[groupName]["aurabar"].noDuration.enemy; end,
+					set = function(info, value) E.db.unitframe.units[groupName]["aurabar"].noDuration.enemy = value; updateFunc(UF, groupName); end
+				}
+			}
+		};
+		config.args.filters.args.useFilter = {
+			order = 14,
+			name = L["Additional Filter"],
+			desc = L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
+			type = "select",
+			values = function()
+				filters = {};
+				filters[""] = NONE;
+				for filter in pairs(E.global.unitframe["aurafilters"]) do
+					filters[filter] = filter;
+				end
+				return filters;
+			end
+		};
+	end
+
 	config.args.filters.args.maxDuration = {
 		order = 17,
 		type = "range",
 		name = L["Maximum Duration"],
 		desc = L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."],
-		min = 0, max = 10800, step = 1
-	}
-	config.args.filters.args.jumpToFilter = {
-		order = 18,
-		name = L["Filters Page"],
-		desc = L["Shortcut to 'Filters' section of the config."],
-		type = "execute",
-		func = function() ACD:SelectGroup("ElvUI", "filters") end
-	}
-	config.args.filters.args.specialPriority = {
-		order = 19,
-		name = L["Add Special Filter"],
-		desc = L["These filters don't use a list of spells like the regular filters. Instead they use the WoW API and some code logic to determine if an aura should be allowed or blocked."],
-		type = "select",
-		values = function()
-			local filters = {}
-			local list = E.global.unitframe["specialFilters"]
-			if not list then return end
-			for filter in pairs(list) do
-				filters[filter] = filter
-			end
-			return filters
-		end,
-		set = function(info, value)
-			filterPriority("aurabar", groupName, value)
-			updateFunc(UF, groupName)
-		end
-	}
-	config.args.filters.args.priority = {
-		order = 20,
-		name = L["Add Regular Filter"],
-		desc = L["These filters use a list of spells to determine if an aura should be allowed or blocked. The content of these filters can be modified in the 'Filters' section of the config."],
-		type = "select",
-		values = function()
-			local filters = {}
-			local list = E.global.unitframe["aurafilters"]
-			if not list then return end
-			for filter in pairs(list) do
-				filters[filter] = filter
-			end
-			return filters
-		end,
-		set = function(info, value)
-			filterPriority("aurabar", groupName, value)
-			updateFunc(UF, groupName)
-		end
-	}
-	config.args.filters.args.resetPriority = {
-		order = 21,
-		name = L["Reset Priority"],
-		desc = L["Reset filter priority to the default state."],
-		type = "execute",
-		func = function()
-			E.db.unitframe.units[groupName].aurabar.priority = P.unitframe.units[groupName].aurabar.priority
-			updateFunc(UF, groupName)
-		end,
-	}
-	config.args.filters.args.filterPriority = {
-		order = 22,
-		dragdrop = true,
-		type = "multiselect",
-		name = L["Filter Priority"],
-		dragOnLeave = function() end, --keep this here
-		dragOnEnter = function(info)
-			carryFilterTo = info.obj.value
-		end,
-		dragOnMouseDown = function(info)
-			carryFilterFrom, carryFilterTo = info.obj.value, nil
-		end,
-		dragOnMouseUp = function(info)
-			filterPriority("aurabar", groupName, carryFilterTo, nil, carryFilterFrom) --add it in the new spot
-			carryFilterFrom, carryFilterTo = nil, nil
-		end,
-		dragOnClick = function(info)
-			filterPriority("aurabar", groupName, carryFilterFrom, true)
-		end,
-		stateSwitchGetText = function(_, text)
-			local friend, enemy = match(text, "^Friendly:([^,]*)"), match(text, "^Enemy:([^,]*)")
-			return (friend and format("|cFF33FF33%s|r %s", L["Friend"], friend)) or (enemy and format("|cFFFF3333%s|r %s", L["Enemy"], enemy))
-		end,
-		stateSwitchOnClick = function(info)
-			filterPriority("aurabar", groupName, carryFilterFrom, nil, nil, true)
-		end,
-		values = function()
-			local str = E.db.unitframe.units[groupName].aurabar.priority
-			if str == "" then return nil end
-			return {strsplit(",",str)}
-		end,
-		get = function(info, value)
-			local str = E.db.unitframe.units[groupName].aurabar.priority
-			if str == "" then return nil end
-			local tbl = {strsplit(",",str)}
-			return tbl[value]
-		end,
-		set = function(info)
-			E.db.unitframe.units[groupName].aurabar[ info[#info] ] = nil -- this was being set when drag and drop was first added, setting it to nil to clear tester profiles of this variable
-			updateFunc(UF, groupName)
-		end
-	}
-	config.args.filters.args.spacer1 = {
-		order = 23,
-		type = "description",
-		name = L["Use drag and drop to rearrange filter priority or right click to remove a filter."].."\n"..L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."],
+		min = 0, max = 3600, step = 1
 	}
 
 	return config
 end
 
-local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupName, numUnits)
+local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, updateFunc, groupName, numUnits)
 	local config = {
 		order = auraType == "buffs" and 500 or 600,
 		type = "group",
@@ -550,122 +511,128 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 		}
 	end
 
-	config.args.filters.args.minDuration = {
-		order = 16,
-		type = "range",
-		name = L["Minimum Duration"],
-		desc = L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."],
-		min = 0, max = 10800, step = 1
-	}
-	config.args.filters.args.maxDuration = {
-		order = 17,
-		type = "range",
-		name = L["Maximum Duration"],
-		desc = L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."],
-		min = 0, max = 10800, step = 1
-	}
-	config.args.filters.args.jumpToFilter = {
-		order = 18,
-		name = L["Filters Page"],
-		desc = L["Shortcut to 'Filters' section of the config."],
-		type = "execute",
-		func = function() ACD:SelectGroup("ElvUI", "filters") end
-	}
-	config.args.filters.args.specialPriority = {
-		order = 19,
-		name = L["Add Special Filter"],
-		desc = L["These filters don't use a list of spells like the regular filters. Instead they use the WoW API and some code logic to determine if an aura should be allowed or blocked."],
-		type = "select",
-		values = function()
-			local filters = {}
-			local list = E.global.unitframe["specialFilters"]
-			if not list then return end
-			for filter in pairs(list) do
-				filters[filter] = filter
+	if(friendlyUnitOnly) then
+		config.args.filters.args.useBlacklist = {
+			order = 15,
+			type = "toggle",
+			name = L["Block Blacklisted Auras"],
+			desc = L["Don't display any auras found on the 'Blacklist' filter."]
+		};
+		config.args.filters.args.useWhitelist = {
+			order = 16,
+			type = "toggle",
+			name = L["Allow Whitelisted Auras"],
+			desc = L["If no other filter options are being used then it will block anything not on the 'Whitelist' filter, otherwise it will simply add auras on the whitelist in addition to any other filter settings."]
+		};
+		config.args.filters.args.noDuration = {
+			order = 17,
+			type = "toggle",
+			name = L["Block Auras Without Duration"],
+			desc = L["Don't display auras that have no duration."]
+		};
+
+		config.args.filters.args.useFilter = {
+			order = 18,
+			name = L["Additional Filter"],
+			desc = L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
+			type = "select",
+			values = function()
+				filters = {};
+				filters[""] = NONE;
+				for filter in pairs(E.global.unitframe["aurafilters"]) do
+					filters[filter] = filter;
+				end
+				return filters;
 			end
-			return filters
-		end,
-		set = function(info, value)
-			filterPriority(auraType, groupName, value)
-			updateFunc(UF, groupName, numUnits)
-		end
-	}
-	config.args.filters.args.priority = {
-		order = 20,
-		name = L["Add Regular Filter"],
-		desc = L["These filters use a list of spells to determine if an aura should be allowed or blocked. The content of these filters can be modified in the 'Filters' section of the config."],
-		type = "select",
-		values = function()
-			local filters = {}
-			local list = E.global.unitframe["aurafilters"]
-			if not list then return end
-			for filter in pairs(list) do
-				filters[filter] = filter
+		};
+	else
+		config.args.filters.args.useBlacklist = {
+			order = 15,
+			guiInline = true,
+			type = "group",
+			name = L["Block Blacklisted Auras"],
+			args = {
+				friendly = {
+					order = 1,
+					type = "toggle",
+					name = L["Friendly"],
+					desc = L["If the unit is friendly to you."].." "..L["Don't display any auras found on the 'Blacklist' filter."],
+					get = function(info) return E.db.unitframe.units[groupName][auraType].useBlacklist.friendly; end,
+					set = function(info, value) E.db.unitframe.units[groupName][auraType].useBlacklist.friendly = value; updateFunc(UF, groupName, numUnits); end
+				},
+				enemy = {
+					order = 2,
+					type = "toggle",
+					name = L["Enemy"],
+					desc = L["If the unit is an enemy to you."].." "..L["Don't display any auras found on the 'Blacklist' filter."],
+					get = function(info) return E.db.unitframe.units[groupName][auraType].useBlacklist.enemy; end,
+					set = function(info, value) E.db.unitframe.units[groupName][auraType].useBlacklist.enemy = value; updateFunc(UF, groupName, numUnits); end
+				}
+			}
+		};
+		config.args.filters.args.useWhitelist = {
+			order = 16,
+			guiInline = true,
+			type = "group",
+			name = L["Allow Whitelisted Auras"],
+			args = {
+				friendly = {
+					order = 1,
+					type = "toggle",
+					name = L["Friendly"],
+					desc = L["If the unit is friendly to you."].." "..L["If no other filter options are being used then it will block anything not on the 'Whitelist' filter, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
+					get = function(info) return E.db.unitframe.units[groupName][auraType].useWhitelist.friendly; end,
+					set = function(info, value) E.db.unitframe.units[groupName][auraType].useWhitelist.friendly = value; updateFunc(UF, groupName, numUnits); end
+				},
+				enemy = {
+					order = 2,
+					type = "toggle",
+					name = L["Enemy"],
+					desc = L["If the unit is an enemy to you."].." "..L["If no other filter options are being used then it will block anything not on the 'Whitelist' filter, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
+					get = function(info) return E.db.unitframe.units[groupName][auraType].useWhitelist.enemy; end,
+					set = function(info, value) E.db.unitframe.units[groupName][auraType].useWhitelist.enemy = value; updateFunc(UF, groupName, numUnits); end
+				}
+			}
+		};
+		config.args.filters.args.noDuration = {
+			order = 17,
+			guiInline = true,
+			type = "group",
+			name = L["Block Auras Without Duration"],
+			args = {
+				friendly = {
+					order = 1,
+					type = "toggle",
+					name = L["Friendly"],
+					desc = L["If the unit is friendly to you."].." "..L["Don't display auras that have no duration."],
+					get = function(info) return E.db.unitframe.units[groupName][auraType].noDuration.friendly; end,
+					set = function(info, value) E.db.unitframe.units[groupName][auraType].noDuration.friendly = value; updateFunc(UF, groupName, numUnits); end
+				},
+				enemy = {
+					order = 2,
+					type = "toggle",
+					name = L["Enemy"],
+					desc = L["If the unit is an enemy to you."].." "..L["Don't display auras that have no duration."],
+					get = function(info) return E.db.unitframe.units[groupName][auraType].noDuration.enemy; end,
+					set = function(info, value) E.db.unitframe.units[groupName][auraType].noDuration.enemy = value; updateFunc(UF, groupName, numUnits); end
+				}
+			}
+		};
+		config.args.filters.args.useFilter = {
+			order = 18,
+			name = L["Additional Filter"],
+			desc = L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
+			type = "select",
+			values = function()
+				filters = {};
+				filters[""] = NONE;
+				for filter in pairs(E.global.unitframe["aurafilters"]) do
+					filters[filter] = filter;
+				end
+				return filters;
 			end
-			return filters
-		end,
-		set = function(info, value)
-			filterPriority(auraType, groupName, value)
-			updateFunc(UF, groupName, numUnits)
-		end
-	}
-	config.args.filters.args.resetPriority = {
-		order = 21,
-		name = L["Reset Priority"],
-		desc = L["Reset filter priority to the default state."],
-		type = "execute",
-		func = function()
-			E.db.unitframe.units[groupName][auraType].priority = P.unitframe.units[groupName][auraType].priority
-			updateFunc(UF, groupName, numUnits)
-		end,
-	}
-	config.args.filters.args.filterPriority = {
-		order = 22,
-		dragdrop = true,
-		type = "multiselect",
-		name = L["Filter Priority"],
-		dragOnLeave = function() end, --keep this here
-		dragOnEnter = function(info)
-			carryFilterTo = info.obj.value
-		end,
-		dragOnMouseDown = function(info)
-			carryFilterFrom, carryFilterTo = info.obj.value, nil
-		end,
-		dragOnMouseUp = function(info)
-			filterPriority(auraType, groupName, carryFilterTo, nil, carryFilterFrom) --add it in the new spot
-			carryFilterFrom, carryFilterTo = nil, nil
-		end,
-		dragOnClick = function(info)
-			filterPriority(auraType, groupName, carryFilterFrom, true)
-		end,
-		stateSwitchGetText = function(_, text)
-			local friend, enemy = match(text, "^Friendly:([^,]*)"), match(text, "^Enemy:([^,]*)")
-			return (friend and format("|cFF33FF33%s|r %s", L["Friend"], friend)) or (enemy and format("|cFFFF3333%s|r %s", L["Enemy"], enemy))
-		end,
-		stateSwitchOnClick = function(info)
-			filterPriority(auraType, groupName, carryFilterFrom, nil, nil, true)
-		end,
-		values = function()
-			local str = E.db.unitframe.units[groupName][auraType].priority
-			if str == "" then return nil end
-			return {strsplit(",",str)}
-		end,
-		get = function(info, value)
-			local str = E.db.unitframe.units[groupName][auraType].priority
-			if str == "" then return nil end
-			local tbl = {strsplit(",",str)}
-			return tbl[value]
-		end,
-		set = function(info)
-			E.db.unitframe.units[groupName][auraType][ info[#info] ] = nil -- this was being set when drag and drop was first added, setting it to nil to clear tester profiles of this variable
-			updateFunc(UF, groupName, numUnits)
-		end
-	}
-	config.args.filters.args.spacer1 = {
-		order = 23,
-		type = "description",
-		name = L["Use drag and drop to rearrange filter priority or right click to remove a filter."].."\n"..L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."],
-	}
+		}
+	end
 
 	return config
 end
@@ -3263,10 +3230,10 @@ E.Options.args.unitframe.args.player = {
 		power = GetOptionsTable_Power(true, UF.CreateAndUpdateUF, "player", nil, true),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "player"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "player"),
-		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "player"),
-		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "player"),
+		buffs = GetOptionsTable_Auras(true, "buffs", false, UF.CreateAndUpdateUF, "player"),
+		debuffs = GetOptionsTable_Auras(true, "debuffs", false, UF.CreateAndUpdateUF, "player"),
 		castbar = GetOptionsTable_Castbar(true, UF.CreateAndUpdateUF, "player"),
-		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, "player"),
+		aurabar = GetOptionsTable_AuraBars(true, UF.CreateAndUpdateUF, "player"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "player"),
 		classbar = {
 			order = 750,
@@ -3866,10 +3833,10 @@ E.Options.args.unitframe.args.target = {
 		power = GetOptionsTable_Power(true, UF.CreateAndUpdateUF, "target", nil, true),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "target"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "target"),
-		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "target"),
-		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "target"),
+		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "target"),
+		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "target"),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "target"),
-		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, "target"),
+		aurabar = GetOptionsTable_AuraBars(false, UF.CreateAndUpdateUF, "target"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "target"),
 		GPSArrow = GetOptionsTableForNonGroup_GPS("target"),
 		combobar = {
@@ -4225,8 +4192,8 @@ E.Options.args.unitframe.args.targettarget = {
 		power = GetOptionsTable_Power(nil, UF.CreateAndUpdateUF, "targettarget"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "targettarget"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "targettarget"),
-		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "targettarget"),
-		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "targettarget"),
+		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "targettarget"),
+		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "targettarget"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "targettarget"),
 	}
 }
@@ -4363,8 +4330,8 @@ E.Options.args.unitframe.args.targettargettarget = {
 		power = GetOptionsTable_Power(nil, UF.CreateAndUpdateUF, "targettargettarget"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "targettargettarget"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "targettargettarget"),
-		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "targettargettarget"),
-		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "targettargettarget"),
+		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "targettargettarget"),
+		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "targettargettarget"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "targettargettarget"),
 	}
 }
@@ -4502,10 +4469,10 @@ E.Options.args.unitframe.args.focus = {
 		power = GetOptionsTable_Power(nil, UF.CreateAndUpdateUF, "focus"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "focus"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "focus"),
-		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "focus"),
-		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "focus"),
+		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "focus"),
+		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "focus"),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "focus"),
-		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, "focus"),
+		aurabar = GetOptionsTable_AuraBars(false, UF.CreateAndUpdateUF, "focus"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "focus"),
 		GPSArrow = GetOptionsTableForNonGroup_GPS("focus"),
 	}
@@ -4642,8 +4609,8 @@ E.Options.args.unitframe.args.focustarget = {
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, "focustarget"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "focustarget"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "focustarget"),
-		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "focustarget"),
-		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "focustarget"),
+		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "focustarget"),
+		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "focustarget"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "focustarget"),
 	}
 }
@@ -4812,8 +4779,8 @@ E.Options.args.unitframe.args.pet = {
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, "pet"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "pet"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "pet"),
-		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "pet"),
-		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "pet"),
+		buffs = GetOptionsTable_Auras(true, "buffs", false, UF.CreateAndUpdateUF, "pet"),
+		debuffs = GetOptionsTable_Auras(true, "debuffs", false, UF.CreateAndUpdateUF, "pet"),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "pet"),
 		happiness = {
 			order = 700,
@@ -4981,8 +4948,8 @@ E.Options.args.unitframe.args.pettarget = {
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, "pettarget"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "pettarget"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "pettarget"),
-		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "pettarget"),
-		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "pettarget")
+		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "pettarget"),
+		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "pettarget")
 	}
 }
 
@@ -5183,8 +5150,8 @@ E.Options.args.unitframe.args.arena = {
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUFGroup, "arena", 5),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUFGroup, "arena", 5),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUFGroup, "arena", 5),
-		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUFGroup, "arena", 5),
-		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUFGroup, "arena", 5),
+		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUFGroup, "arena", 5),
+		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUFGroup, "arena", 5),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUFGroup, "arena", 5)
 	}
 }
@@ -5538,8 +5505,8 @@ E.Options.args.unitframe.args.party = {
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, "party"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "party"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateHeaderGroup, "party"),
-		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "party"),
-		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "party"),
+		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "party"),
+		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "party"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "party"),
 		petsGroup = {
 			order = 850,
@@ -5997,8 +5964,8 @@ E.Options.args.unitframe.args.raid = {
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, "raid"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "raid"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateHeaderGroup, "raid"),
-		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "raid"),
-		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "raid"),
+		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "raid"),
+		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "raid"),
 		buffIndicator = {
 			order = 600,
 			type = "group",
@@ -6356,8 +6323,8 @@ E.Options.args.unitframe.args.raid40 = {
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, "raid40"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "raid40"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateHeaderGroup, "raid40"),
-		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "raid40"),
-		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "raid40"),
+		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "raid40"),
+		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "raid40"),
 		buffIndicator = {
 			order = 600,
 			type = "group",
@@ -6698,8 +6665,8 @@ E.Options.args.unitframe.args.raidpet = {
 		health = GetOptionsTable_Health(true, UF.CreateAndUpdateHeaderGroup, "raidpet"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "raidpet"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateHeaderGroup, "raidpet"),
-		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "raidpet"),
-		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "raidpet"),
+		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "raidpet"),
+		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "raidpet"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "raidpet"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, "raidpet"),
 		buffIndicator = {
@@ -6879,8 +6846,8 @@ E.Options.args.unitframe.args.tank = {
 				}
 			}
 		},
-		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
-		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
+		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
+		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "tank"),
 		buffIndicator = {
 			order = 800,
@@ -7071,8 +7038,8 @@ E.Options.args.unitframe.args.assist = {
 				}
 			}
 		},
-		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
-		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
+		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
+		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "assist"),
 		buffIndicator = {
 			order = 800,

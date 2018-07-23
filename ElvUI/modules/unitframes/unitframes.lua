@@ -1066,7 +1066,13 @@ end
 
 local ignoreSettings = {
 	["position"] = true,
-	["priority"] = true,
+	["playerOnly"] = true,
+	["noConsolidated"] = true,
+	["useBlacklist"] = true,
+	["useWhitelist"] = true,
+	["noDuration"] = true,
+	["onlyDispellable"] = true,
+	["useFilter"] = true
 }
 
 local ignoreSettingsGroup = {

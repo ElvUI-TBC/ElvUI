@@ -605,9 +605,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 0,
-				["priority"] = "Blacklist,PlayerBuffs,Whitelist,blockNoDuration", --Player Buffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = true,
+				["noDuration"] = true,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -621,9 +622,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 0,
-				["priority"] = "Blacklist", --Player Debuffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = false,
+				["noDuration"] = false,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -671,9 +673,11 @@ P["unitframe"] = {
 				["anchorPoint"] = "ABOVE",
 				["attachTo"] = "DEBUFFS",
 				["maxBars"] = 6,
-				["minDuration"] = 0,
+				["useBlacklist"] = true,
+				["useWhitelist"] = true,
+				["noDuration"] = true,
 				["maxDuration"] = 120,
-				["priority"] = "Blacklist,blockNoDuration,RaidDebuffs,PlayerBuffs", --Player AuraBars
+				["useFilter"] = "",
 				["friendlyAuraType"] = "HELPFUL",
 				["enemyAuraType"] = "HARMFUL",
 				["height"] = 20,
@@ -767,9 +771,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "", --Target Buffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = false, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -783,9 +788,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "", --Target Debuffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = false, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -826,9 +832,11 @@ P["unitframe"] = {
 				["anchorPoint"] = "ABOVE",
 				["attachTo"] = "DEBUFFS",
 				["maxBars"] = 6,
-				["minDuration"] = 0,
-				["maxDuration"] = 120,
-				["priority"] = "Blacklist,blockNoDuration,PlayerBuffs,RaidDebuffs", --Target AuraBars
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = true, enemy = true},
+				["maxDuration"] = 300,
+				["useFilter"] = "",
 				["friendlyAuraType"] = "HELPFUL",
 				["enemyAuraType"] = "HARMFUL",
 				["height"] = 20,
@@ -910,9 +918,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,PlayerBuffs,Dispellable", --TargetTarget Buffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = true, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -926,9 +935,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,RaidDebuffs,CCDebuffs,Dispellable,Whitelist", --TargetTarget Debuffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = false, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -996,9 +1006,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist", --TargetTargetTarget Buffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = true, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0,
 			},
@@ -1012,9 +1023,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist", --TargetTargetTarget Debuffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = false, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1086,9 +1098,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,PlayerBuffs,Dispellable", --Focus Buffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = true, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1102,9 +1115,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,RaidDebuffs,Dispellable,Whitelist", --Focus Debuffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = false, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1128,9 +1142,11 @@ P["unitframe"] = {
 				["anchorPoint"] = "ABOVE",
 				["attachTo"] = "DEBUFFS",
 				["maxBars"] = 3,
-				["minDuration"] = 0,
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = false, enemy = false},
 				["maxDuration"] = 120,
-				["priority"] = "Blacklist,blockNoDuration,PlayerBuffs,RaidDebuffs", --Focus AuraBars
+				["useFilter"] = "",
 				["friendlyAuraType"] = "HELPFUL",
 				["enemyAuraType"] = "HARMFUL",
 				["height"] = 20,
@@ -1211,9 +1227,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,PlayerBuffs,Dispellable", --FocusTarget Buffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = true, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1227,9 +1244,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,RaidDebuffs,Dispellable,Whitelist", --FocusTarget Debuffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = false, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1303,9 +1321,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,PlayerBuffs", --Pet Buffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = false,
+				["noDuration"] = true,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1319,9 +1338,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,RaidDebuffs,Dispellable,Whitelist", --Pet Debuffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = false,
+				["noDuration"] = false,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1401,9 +1421,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,PlayerBuffs,Whitelist", --PetTarget Buffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = true, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1417,9 +1438,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,RaidDebuffs", --PetTarget Debuffs
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = false, enemy = false},
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			}
@@ -1484,9 +1506,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,TurtleBuffs,PlayerBuffs,Dispellable", --Arena Buffs
+				["useBlacklist"] = {friendly = false, enemy = false},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = false, enemy = false},
+				["useFilter"] = "TurtleBuffs",
 				["sizeOverride"] = 27,
 				["xOffset"] = 0,
 				["yOffset"] = 16
@@ -1501,9 +1524,10 @@ P["unitframe"] = {
 				["clickThrough"] = false,
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,blockNoDuration,CCDebuffs,Whitelist", --Arena Debuffs
+				["useBlacklist"] = {friendly = false, enemy = false},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = false, enemy = false},
+				["useFilter"] = "CCDebuffs",
 				["sizeOverride"] = 27,
 				["xOffset"] = 0,
 				["yOffset"] = -16
@@ -1605,9 +1629,10 @@ P["unitframe"] = {
 				["sortDirection"] = "DESCENDING",
 				["countFontSize"] = 10,
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,TurtleBuffs", --Party Buffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = false,
+				["noDuration"] = true,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1622,9 +1647,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,RaidDebuffs,CCDebuffs,Dispellable,Whitelist", --Party Debuffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = false,
+				["noDuration"] = false,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0,
 				["sizeOverride"] = 52
@@ -1800,9 +1826,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,TurtleBuffs", --Raid Buffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = false,
+				["noDuration"] = true,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1817,9 +1844,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,RaidDebuffs,CCDebuffs,Dispellable", --Raid Debuffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = false,
+				["noDuration"] = false,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1966,9 +1994,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,TurtleBuffs", --Raid40 Buffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = false,
+				["noDuration"] = true,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -1983,9 +2012,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 300,
-				["priority"] = "Blacklist,RaidDebuffs,CCDebuffs,Dispellable,Whitelist", --Raid40 Debuffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = false,
+				["noDuration"] = false,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -2118,9 +2148,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 0,
-				["priority"] = "Blacklist,PlayerBuffs,blockNoDuration", --RaidPet Buffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = false,
+				["noDuration"] = true,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -2135,9 +2166,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 0,
-				["priority"] = "Blacklist,Whitelist,RaidDebuffs,blockNoDuration", --RaidPet Debuffs
+				["useBlacklist"] = true,
+				["useWhitelist"] = false,
+				["noDuration"] = false,
+				["useFilter"] = "",
  				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -2199,9 +2231,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 0,
-				["priority"] = "",
+				["useBlacklist"] = false,
+				["useWhitelist"] = false,
+				["noDuration"] = false,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 2
 			},
@@ -2216,9 +2249,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 0,
-				["priority"] = "",
+				["useBlacklist"] = false,
+				["useWhitelist"] = false,
+				["noDuration"] = false,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 1
 			},
@@ -2282,9 +2316,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 0,
-				["priority"] = "",
+				["useBlacklist"] = false,
+				["useWhitelist"] = false,
+				["noDuration"] = false,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 2
 			},
@@ -2299,9 +2334,10 @@ P["unitframe"] = {
 				["sortMethod"] = "TIME_REMAINING",
 				["sortDirection"] = "DESCENDING",
 				["clickThrough"] = false,
-				["minDuration"] = 0,
-				["maxDuration"] = 0,
-				["priority"] = "",
+				["useBlacklist"] = false,
+				["useWhitelist"] = false,
+				["noDuration"] = false,
+				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 1
 			},
