@@ -354,17 +354,11 @@ function UF:PostUpdateAura(unit, button)
 	end
 
 	if button.isDebuff then
-		if(not button.isFriend and not button.isPlayer) then --[[and (not E.isDebuffWhiteList[name])]]
-			button:SetBackdropBorderColor(0.9, 0.1, 0.1)
-			button.icon:SetDesaturated((unit and not find(unit, "arena%d")) and true or false)
+		local color = (button.dtype and DebuffTypeColor[button.dtype]) or DebuffTypeColor.none
+		if button.name and (button.name == unstableAffliction or button.name == vampiricTouch) and E.myclass ~= "WARLOCK" then
+			button:SetBackdropBorderColor(0.05, 0.85, 0.94)
 		else
-			local color = (button.dtype and DebuffTypeColor[button.dtype]) or DebuffTypeColor.none
-			if button.name and (button.name == unstableAffliction or button.name == vampiricTouch) and E.myclass ~= "WARLOCK" then
-				button:SetBackdropBorderColor(0.05, 0.85, 0.94)
-			else
-				button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
-			end
-			button.icon:SetDesaturated(false)
+			button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
 		end
 	else
 		button:SetBackdropBorderColor(unpack(E["media"].unitframeBorderColor))
