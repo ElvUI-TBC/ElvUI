@@ -38,7 +38,6 @@ L["Reset Position"] = "Position zurücksetzen"
 L["Sort Bags"] = "Taschen sortieren"
 L["Temporary Move"] = "Temporäres Bewegen"
 L["Toggle Bags"] = "Taschen umschalten"
-L["Toggle Key"] = "Schlüssel umschalten"
 L["Vendor Grays"] = "Graue Gegenstände verkaufen"
 
 --Chat
@@ -293,9 +292,17 @@ L["Your items have been repaired for: "] = "Deine Gegenstände wurden repariert 
 L["Your items have been repaired using guild bank funds for: "] = "Deine Gegenstände wurden repariert. Der Gildenbank kostete das: "
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "|cFFE30000Lua Fehler erhalten. Du kannst die Fehlermeldung ansehen, wenn du den Kampf verlässt."
 
+--Skins
+L["Abandon"] = "Abbrechen"
+L["Share"] = "Teilen"
+L["Track"] = "Verfolgen"
+
 --Static Popups
 L["A setting you have changed will change an option for this character only. This setting that you have changed will be uneffected by changing user profiles. Changing this setting requires that you reload your User Interface."] = "Eine Einstellung, die du geändert hast, betrifft nur einen Charakter. Diese Einstellung, die du verändert hast, wird die Benutzerprofile unbeeinflusst lassen. Eine Änderung dieser Einstellung erfordert, dass du dein Interface neu laden musst."
-L["Are you sure you want to apply this font to all ElvUI elements?"] = "Bist du sicher, dass du diese Schrifart auf alle ElvUI Elemente anwenden möchtest?"
+L["Accepting this will reset the UnitFrame settings for %s. Are you sure?"] = "Wenn du akzeptierst, wird die Einstellung des Einheitenfensters für %s auf Standard zurückgesetzt. Bist du sicher?"
+L["Accepting this will reset your Filter Priority lists for all auras on NamePlates. Are you sure?"] = "Wenn du akzeptierst, wird die Filter Priorität für alle Namensplaketten auf Standard zurückgesetzt. Bist du sicher?"
+L["Accepting this will reset your Filter Priority lists for all auras on UnitFrames. Are you sure?"] = "Wenn du akzeptierst, wird die Filter Priorität für alle Einheitenfenster auf Standard zurückgesetzt. Bist du sicher?"
+L["Are you sure you want to apply this font to all ElvUI elements?"] = "Bist du sicher, dass du diese Schrifart auf alle ElvUI-Elemente anwenden möchtest?"
 L["Are you sure you want to delete all your gray items?"] = "Bist du sicher, dass du alle grauen Gegenstände löschen willst?"
 L["Are you sure you want to disband the group?"] = "Bist du dir sicher, dass du die Gruppe auflösen willst?"
 L["Are you sure you want to reset all the settings on this profile?"] = "Bist du dir sicher dass du alle Einstellungen dieses Profils zurücksetzen willst?"
@@ -309,6 +316,7 @@ L["Do you swear not to post in technical support about something not working wit
 L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"] = "ElvUI ist seit fünf oder mehr Revisionen nicht aktuell. Du kannst die neuste Version bei https://github.com/ElvUI-TBC/ElvUI/ herunterladen."
 L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"] = "ElvUI ist nicht aktuell. Du kannst die neuste Version bei https://github.com/ElvUI-TBC/ElvUI/ herunterladen."
 L["ElvUI needs to perform database optimizations please be patient."] = "ElvUI muss eine Datenbank Optimierung durchführen. Bitte warte eine Moment."
+L["Error resetting UnitFrame."] = "Fehler beim Zurücksetzen des Einheitenfesters."
 L["Hover your mouse over any actionbutton or spellbook button to bind it. Press the escape key or right click to clear the current actionbutton's keybinding."] = "Bewege deine Maus über einen Aktionsbutton oder dein Zauberbuch um ihn mit einem Hotkey zu belegen. Drücke Escape oder rechte Maustaste um die aktuelle Tastenbelegung des Buttons zu löschen."
 L["I Swear"] = "Ich schwöre"
 L["No, Revert Changes!"] = "Nein, Änderungen verwerfen!"

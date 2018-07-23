@@ -85,18 +85,19 @@ function S:LoadAuctionHouseSkin()
 	AuctionsItemButton:SetTemplate("Default", true)
 	AuctionsItemButton:StyleButton()
 
-	AuctionsItemButton:HookScript("OnEvent", function(self, event)
-		self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+	AuctionsItemButton:HookScript2("OnEvent", function(self, event)
 		if event == "NEW_AUCTION_UPDATE" and self:GetNormalTexture() then
 			self:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 			self:GetNormalTexture():SetInside()
-		end
-		local _, _, _, quality = GetAuctionSellItemInfo()
-		if quality and quality > 1 then
-			AuctionsItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
-			AuctionsItemButtonName:SetTextColor(quality)
+
+			local _, _, _, quality = GetAuctionSellItemInfo()
+			if quality then
+				self:SetBackdropBorderColor(GetItemQualityColor(quality))
+			else
+				self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			end
 		else
-			AuctionsItemButton:SetTemplate("Default", true)
+			self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 		end
 	end)
 
@@ -201,11 +202,7 @@ function S:LoadAuctionHouseSkin()
 			icon:SetTemplate("Default")
 
 			hooksecurefunc(name, "SetVertexColor", function(_, r, g, b)
-				if(r == 1 and g == 1 and b == 1) then
-					icon:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-				else
-					icon:SetBackdropBorderColor(r, g, b)
-				end
+				icon:SetBackdropBorderColor(r, g, b)
 			end)
 			hooksecurefunc(name, "Hide", function()
 				icon:SetBackdropBorderColor(unpack(E["media"].bordercolor))
@@ -234,11 +231,7 @@ function S:LoadAuctionHouseSkin()
 		icon:SetTemplate("Default")
 
 		hooksecurefunc(name, "SetVertexColor", function(_, r, g, b)
-			if(r == 1 and g == 1 and b == 1) then
-				icon:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-			else
-				icon:SetBackdropBorderColor(r, g, b)
-			end
+			icon:SetBackdropBorderColor(r, g, b)
 		end)
 		hooksecurefunc(name, "Hide", function()
 			icon:SetBackdropBorderColor(unpack(E["media"].bordercolor))
@@ -269,11 +262,7 @@ function S:LoadAuctionHouseSkin()
 		icon.backdrop:SetAllPoints()
 
 		hooksecurefunc(name, "SetVertexColor", function(_, r, g, b)
-			if(r == 1 and g == 1 and b == 1) then
-				icon:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-			else
-				icon:SetBackdropBorderColor(r, g, b)
-			end
+			icon:SetBackdropBorderColor(r, g, b)
 		end)
 		hooksecurefunc(name, "Hide", function()
 			icon:SetBackdropBorderColor(unpack(E["media"].bordercolor))

@@ -1,35 +1,54 @@
-local E, L, V, P, G = unpack(ElvUI);
-local UF = E:GetModule("UnitFrames");
+local E, L, V, P, G = unpack(ElvUI)
+local UF = E:GetModule("UnitFrames")
+
+local RestingTextures = {
+	["DEFAULT"] = [[Interface\CharacterFrame\UI-StateIcon]],
+	["RESTING"] = [[Interface\AddOns\ElvUI\media\textures\resting]],
+	["RESTING1"] = [[Interface\AddOns\ElvUI\media\textures\resting1]]
+}
 
 function UF:Construct_RestingIndicator(frame)
-	local parent = frame.RaisedElementParent or frame;
-	local resting = parent:CreateTexture(nil, "OVERLAY");
-	resting:Size(22);
-
-	return resting;
+	return frame.RaisedElementParent.TextureParent:CreateTexture(nil, "OVERLAY")
 end
 
 function UF:Configure_RestingIndicator(frame)
-	if(not frame.VARIABLES_SET) then return; end
-	local rIcon = frame.RestingIndicator;
-	local db = frame.db
-	if(db.restIcon) then
-		if(not frame:IsElementEnabled("RestingIndicator")) then
-			frame:EnableElement("RestingIndicator");
+	if not frame.VARIABLES_SET then return end
+
+	local Icon = frame.RestingIndicator
+	local db = frame.db.RestIcon
+
+	if db.enable then
+		if not frame:IsElementEnabled("RestingIndicator") then
+			frame:EnableElement("RestingIndicator")
 		end
 
-		rIcon:ClearAllPoints();
-		if(frame.ORIENTATION == "RIGHT") then
-			rIcon:Point("CENTER", frame.Health, "TOPLEFT", -3, 6);
+		if db.defaultColor then
+			Icon:SetVertexColor(1, 1, 1, 1)
+			Icon:SetDesaturated(false)
 		else
-			if(frame.USE_PORTRAIT and not frame.USE_PORTRAIT_OVERLAY) then
-				rIcon:Point("CENTER", frame.Portrait, "TOPLEFT", -3, 6);
-			else
-				rIcon:Point("CENTER", frame.Health, "TOPLEFT", -3, 6);
-			end
+			Icon:SetVertexColor(db.color.r, db.color.g, db.color.b, db.color.a)
+			Icon:SetDesaturated(true)
 		end
-	elseif(frame:IsElementEnabled("RestingIndicator")) then
-		frame:DisableElement("RestingIndicator");
-		rIcon:Hide();
+
+		if db.texture == "CUSTOM" and db.customTexture then
+			Icon:SetTexture(db.customTexture)
+			Icon:SetTexCoord(0, 1, 0, 1)
+		elseif db.texture ~= "DEFAULT" and RestingTextures[db.texture] then
+			Icon:SetTexture(RestingTextures[db.texture])
+			Icon:SetTexCoord(0, 1, 0, 1)
+		else
+			Icon:SetTexture(RestingTextures.DEFAULT)
+			Icon:SetTexCoord(0, .5, 0, .421875)
+		end
+
+		Icon:Size(db.size)
+		Icon:ClearAllPoints()
+		if frame.ORIENTATION ~= "RIGHT" and (frame.USE_PORTRAIT and not frame.USE_PORTRAIT_OVERLAY) then
+			Icon:Point("CENTER", frame.Portrait, db.anchorPoint, db.xOffset, db.yOffset)
+		else
+			Icon:Point("CENTER", frame.Health, db.anchorPoint, db.xOffset, db.yOffset)
+		end
+	elseif frame:IsElementEnabled("RestingIndicator") then
+		frame:DisableElement("RestingIndicator")
 	end
 end

@@ -69,7 +69,7 @@ function S:LoadMailSkin()
 					if ItemLink then
 						local quality = select(3, GetItemInfo(ItemLink))
 
-						if quality and quality > 1 then
+						if quality then
 							button:SetBackdropBorderColor(GetItemQualityColor(quality))
 						else
 							button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
@@ -119,7 +119,7 @@ function S:LoadMailSkin()
 			if itemName then
 				local quality = select(3, GetItemInfo(itemName))
 
-				if quality and quality > 1 then
+				if quality then
 					button:SetBackdropBorderColor(GetItemQualityColor(quality))
 				else
 					button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
@@ -189,7 +189,7 @@ function S:LoadMailSkin()
 			if ItemLink then
 				local quality = select(3, GetItemInfo(ItemLink))
 
-				if quality and quality > 1 then
+				if quality then
 					button:SetBackdropBorderColor(GetItemQualityColor(quality))
 				else
 					button:SetBackdropBorderColor(unpack(E["media"].bordercolor))

@@ -13,8 +13,8 @@ function S:LoadTrainerSkin()
 	ClassTrainerFrame:Size(710, 470)
 	ClassTrainerFrame:StripTextures(true)
 	ClassTrainerFrame:CreateBackdrop("Transparent")
-	ClassTrainerFrame.backdrop:Point("TOPLEFT", 10, -11)
-	ClassTrainerFrame.backdrop:Point("BOTTOMRIGHT", -32, 74)
+	ClassTrainerFrame.backdrop:Point("TOPLEFT", 15, -11)
+	ClassTrainerFrame.backdrop:Point("BOTTOMRIGHT", -35, 74)
 
 	ClassTrainerListScrollFrame:StripTextures()
 	ClassTrainerListScrollFrame:Size(300)
@@ -27,6 +27,19 @@ function S:LoadTrainerSkin()
 	ClassTrainerDetailScrollFrame.SetHeight = E.noop
 	ClassTrainerDetailScrollFrame:ClearAllPoints()
 	ClassTrainerDetailScrollFrame:Point("TOPRIGHT", ClassTrainerFrame, -64, -85)
+	ClassTrainerDetailScrollFrame.scrollBarHideable = nil
+
+	ClassTrainerFrame.bg1 = CreateFrame("Frame", nil, ClassTrainerFrame)
+	ClassTrainerFrame.bg1:SetTemplate("Transparent")
+	ClassTrainerFrame.bg1:Point("TOPLEFT", 18, -77)
+	ClassTrainerFrame.bg1:Point("BOTTOMRIGHT", -367, 77)
+	ClassTrainerFrame.bg1:SetFrameLevel(ClassTrainerFrame.bg1:GetFrameLevel() - 1)
+
+	ClassTrainerFrame.bg2 = CreateFrame("Frame", nil, ClassTrainerFrame)
+	ClassTrainerFrame.bg2:SetTemplate("Transparent")
+	ClassTrainerFrame.bg2:Point("TOPLEFT", ClassTrainerFrame.bg1, "TOPRIGHT", 1, 0)
+	ClassTrainerFrame.bg2:Point("BOTTOMRIGHT", ClassTrainerFrame, "BOTTOMRIGHT", -38, 77)
+	ClassTrainerFrame.bg2:SetFrameLevel(ClassTrainerFrame.bg2:GetFrameLevel() - 1)
 
 	ClassTrainerDetailScrollChildFrame:StripTextures()
 	ClassTrainerDetailScrollChildFrame:Size(300, 150)
@@ -53,7 +66,10 @@ function S:LoadTrainerSkin()
 	S:HandleCloseButton(ClassTrainerFrameCloseButton)
 
 	ClassTrainerSkillIcon:StripTextures()
+	ClassTrainerSkillIcon:SetTemplate("Default")
 	ClassTrainerSkillIcon:StyleButton(nil, true)
+	ClassTrainerSkillIcon:Size(47)
+	ClassTrainerSkillIcon:Point("TOPLEFT", 2, 0)
 
 	hooksecurefunc("ClassTrainer_SetSelection", function()
 		local skillIcon = ClassTrainerSkillIcon:GetNormalTexture()
@@ -61,8 +77,6 @@ function S:LoadTrainerSkin()
 		if skillIcon then
 			skillIcon:SetInside()
 			skillIcon:SetTexCoord(unpack(E.TexCoords))
-
-			ClassTrainerSkillIcon:SetTemplate("Default")
 		end
 	end)
 
@@ -83,50 +97,49 @@ function S:LoadTrainerSkin()
 	ClassTrainerSkill1:Point("TOPLEFT", 22, -80)
 
 	for i = 1, CLASS_TRAINER_SKILLS_DISPLAYED do
-		local skillButton = _G["ClassTrainerSkill" .. i]
-		local highlight = _G["ClassTrainerSkill" .. i .. "Highlight"]
+		local skillButton = _G["ClassTrainerSkill"..i]
+		local highlight = _G["ClassTrainerSkill"..i.."Highlight"]
 
-		skillButton:SetNormalTexture("")
+		skillButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
 		skillButton.SetNormalTexture = E.noop
+		skillButton:GetNormalTexture():Size(13)
 
 		highlight:SetTexture("")
 		highlight.SetTexture = E.noop
 
-		skillButton.Text = skillButton:CreateFontString(nil, "OVERLAY")
-		skillButton.Text:FontTemplate(nil, 22)
-		skillButton.Text:Point("LEFT", 3, 0)
-		skillButton.Text:SetText("+")
-
 		hooksecurefunc(skillButton, "SetNormalTexture", function(self, texture)
 			if find(texture, "MinusButton") then
-				self.Text:SetText("-")
+				self:GetNormalTexture():SetTexCoord(0.545, 0.975, 0.085, 0.925)
 			elseif find(texture, "PlusButton") then
-				self.Text:SetText("+")
+				self:GetNormalTexture():SetTexCoord(0.045, 0.475, 0.085, 0.925)
 			else
-				self.Text:SetText("")
+				self:GetNormalTexture():SetTexCoord(0, 0, 0, 0)
 			end
 		end)
 	end
 
-	ClassTrainerCollapseAllButton:Point("LEFT", ClassTrainerExpandTabLeft, "RIGHT", -5, 17)
+	ClassTrainerCollapseAllButton:Point("LEFT", ClassTrainerExpandTabLeft, "RIGHT", -8, 18)
 
-	ClassTrainerCollapseAllButton:SetNormalTexture("")
+	ClassTrainerCollapseAllButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
 	ClassTrainerCollapseAllButton.SetNormalTexture = E.noop
+	ClassTrainerCollapseAllButton:GetNormalTexture():Point("LEFT", 3, 2)
+	ClassTrainerCollapseAllButton:GetNormalTexture():Size(15)
+
 	ClassTrainerCollapseAllButton:SetHighlightTexture("")
 	ClassTrainerCollapseAllButton.SetHighlightTexture = E.noop
-	ClassTrainerCollapseAllButton:SetDisabledTexture("")
-	ClassTrainerCollapseAllButton.SetDisabledTexture = E.noop
 
-	ClassTrainerCollapseAllButton.Text = ClassTrainerCollapseAllButton:CreateFontString(nil, "OVERLAY")
-	ClassTrainerCollapseAllButton.Text:FontTemplate(nil, 22)
-	ClassTrainerCollapseAllButton.Text:Point("LEFT", 3, 1)
-	ClassTrainerCollapseAllButton.Text:SetText("+")
+	ClassTrainerCollapseAllButton:SetDisabledTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+	ClassTrainerCollapseAllButton.SetDisabledTexture = E.noop
+	ClassTrainerCollapseAllButton:GetDisabledTexture():Point("LEFT", 3, 2)
+	ClassTrainerCollapseAllButton:GetDisabledTexture():Size(15)
+	ClassTrainerCollapseAllButton:GetDisabledTexture():SetTexCoord(0.045, 0.475, 0.085, 0.925)
+	ClassTrainerCollapseAllButton:GetDisabledTexture():SetDesaturated(true)
 
 	hooksecurefunc(ClassTrainerCollapseAllButton, "SetNormalTexture", function(self, texture)
 		if find(texture, "MinusButton") then
-			self.Text:SetText("-")
+			self:GetNormalTexture():SetTexCoord(0.545, 0.975, 0.085, 0.925)
 		else
-			self.Text:SetText("+")
+			self:GetNormalTexture():SetTexCoord(0.045, 0.475, 0.085, 0.925)
 		end
 	end)
 end

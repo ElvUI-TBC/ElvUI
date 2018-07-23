@@ -28,11 +28,13 @@ local pairs, next, select, type, unpack, wipe, ipairs = pairs, next, select, typ
 local rawset, tostring, tonumber = rawset, tostring, tonumber
 local math_min, math_max, math_floor = math.min, math.max, math.floor
 
+local OKAY = OKAY
 -- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
 -- List them here for Mikk's FindGlobals script
 -- GLOBALS: NORMAL_FONT_COLOR, GameTooltip, StaticPopupDialogs, ACCEPT, CANCEL, StaticPopup_Show
 -- GLOBALS: PlaySound, GameFontHighlight, GameFontHighlightSmall, GameFontHighlightLarge
 -- GLOBALS: CloseSpecialWindows, InterfaceOptions_AddCategory, geterrorhandler
+-- GLOBALS: STATICPOPUP_NUMDIALOGS
 
 local emptyTbl = {}
 
@@ -1161,7 +1163,12 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 
 				elseif v.type == "toggle" then
 					control = gui:Create("CheckBox")
+					control.textWidth = GetOptionsMemberValue("textWidth",v,options,path,appName)
 					control:SetLabel(name)
+					if control.textWidth and control.frame and control.text then
+						local textWidth = control.text:GetWidth()+30
+						control.customWidth = (textWidth>=width_multiplier and textWidth<=width_multiplier*1.5) and textWidth
+					end
 					control:SetTriState(v.tristate)
 					local value = GetOptionsMemberValue("get",v, options, path, appName)
 					control:SetValue(value)
@@ -1238,6 +1245,8 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 						control:DoLayout()
 					else
 						local controlType = v.dialogControl or v.control or "Dropdown"
+						local sortByValue = GetOptionsMemberValue("sortByValue",v,options,path,appName)
+
 						control = gui:Create(controlType)
 						if not control then
 							geterrorhandler()(("Invalid Custom Control Type - %s"):format(tostring(controlType)))
@@ -1249,7 +1258,7 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 							itemType = nil
 						end
 						control:SetLabel(name)
-						control:SetList(values, nil, itemType)
+						control:SetList(values, nil, itemType, sortByValue)
 						local value = GetOptionsMemberValue("get",v, options, path, appName)
 						if not values[value] then
 							value = nil
@@ -1306,30 +1315,61 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 						control:SetLayout("Flow")
 						control:SetTitle(name)
 						control.width = "fill"
-
 						control:PauseLayout()
+
 						local width = GetOptionsMemberValue("width",v,options,path,appName)
+						local dragdrop = GetOptionsMemberValue("dragdrop",v,options,path,appName)
+
 						for i = 1, #valuesort do
 							local value = valuesort[i]
 							local text = values[value]
-							local check = gui:Create("CheckBox")
-							check:SetLabel(text)
-							check:SetUserData("value", value)
-							check:SetUserData("text", text)
-							check:SetDisabled(disabled)
-							check:SetTriState(v.tristate)
-							check:SetValue(GetOptionsMemberValue("get",v, options, path, appName, value))
-							check:SetCallback("OnValueChanged",ActivateMultiControl)
-							InjectInfo(check, options, v, path, rootframe, appName)
-							control:AddChild(check)
-							if width == "double" then
-								check:SetWidth(width_multiplier * 2)
-							elseif width == "half" then
-								check:SetWidth(width_multiplier / 2)
-							elseif width == "full" then
-								check.width = "fill"
+							if dragdrop then
+								local button = gui:Create("Button-ElvUI")
+								button:SetDisabled(disabled)
+								button:SetUserData("value", value)
+								button:SetUserData("text", text)
+								local state = v.stateSwitchGetText and v.stateSwitchGetText(button, text, value)
+								button:SetText(format("|cFF888888%d|r %s", i, state or text))
+								button.stateSwitchOnClick = v.stateSwitchOnClick
+								button.dragOnMouseDown = v.dragOnMouseDown
+								button.dragOnMouseUp = v.dragOnMouseUp
+								button.dragOnEnter = v.dragOnEnter
+								button.dragOnLeave = v.dragOnLeave
+								button.dragOnClick = v.dragOnClick
+								button.dragdrop = true
+								button.ActivateMultiControl = ActivateMultiControl
+								button.value = GetOptionsMemberValue("get",v, options, path, appName, value)
+								InjectInfo(button, options, v, path, rootframe, appName)
+								control:AddChild(button)
+								if width == "double" then
+									button:SetWidth(width_multiplier * 2)
+								elseif width == "half" then
+									button:SetWidth(width_multiplier / 2)
+								elseif width == "full" then
+									button.width = "fill"
+								else
+									button:SetWidth(width_multiplier)
+								end
 							else
-								check:SetWidth(width_multiplier)
+								local check = gui:Create("CheckBox")
+								check:SetLabel(text)
+								check:SetUserData("value", value)
+								check:SetUserData("text", text)
+								check:SetDisabled(disabled)
+								check:SetTriState(v.tristate)
+								check:SetValue(GetOptionsMemberValue("get",v, options, path, appName, value))
+								check:SetCallback("OnValueChanged",ActivateMultiControl)
+								InjectInfo(check, options, v, path, rootframe, appName)
+								control:AddChild(check)
+								if width == "double" then
+									check:SetWidth(width_multiplier * 2)
+								elseif width == "half" then
+									check:SetWidth(width_multiplier / 2)
+								elseif width == "full" then
+									check.width = "fill"
+								else
+									check:SetWidth(width_multiplier)
+								end
 							end
 						end
 						control:ResumeLayout()
@@ -1401,16 +1441,21 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 
 				--Common Init
 				if control then
-					if control.width ~= "fill" then
-						local width = GetOptionsMemberValue("width",v,options,path,appName)
-						if width == "double" then
-							control:SetWidth(width_multiplier * 2)
-						elseif width == "half" then
-							control:SetWidth(width_multiplier / 2)
-						elseif width == "full" then
-							control.width = "fill"
+					local customWidth = control.customWidth or GetOptionsMemberValue("customWidth",v,options,path,appName)
+					if control.width ~= "fill" or customWidth then
+						if customWidth then
+							control:SetWidth(customWidth)
 						else
-							control:SetWidth(width_multiplier)
+							local width = GetOptionsMemberValue("width",v,options,path,appName)
+							if width == "double" then
+								control:SetWidth(width_multiplier * 2)
+							elseif width == "half" then
+								control:SetWidth(width_multiplier / 2)
+							elseif width == "full" then
+								control.width = "fill"
+							else
+								control:SetWidth(width_multiplier)
+							end
 						end
 					end
 					if control.SetDisabled then

@@ -38,7 +38,6 @@ L["Reset Position"] = "Сбросить позицию"
 L["Sort Bags"] = "Сортировать"
 L["Temporary Move"] = "Временное перемещение"
 L["Toggle Bags"] = "Показать сумки"
-L["Toggle Key"] = "Показать ключи"
 L["Vendor Grays"] = "Продавать серые предметы"
 
 --Chat
@@ -292,8 +291,16 @@ L["Your items have been repaired for: "] = "Ремонт обошелся в "
 L["Your items have been repaired using guild bank funds for: "] = "Ремонт обошелся гильдии в "
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "|cFFE30000Обнаружена ошибка lua. Вы получите отчет о ней после завершения боя."
 
+--Skins
+L["Abandon"] = "Отменить"
+L["Share"] = "Предложить"
+L["Track"] = "Отслеживать"
+
 --Static Popups
 L["A setting you have changed will change an option for this character only. This setting that you have changed will be uneffected by changing user profiles. Changing this setting requires that you reload your User Interface."] = "Настройка, которую Вы только что изменили, будет влиять только на этого персонажа. Она не будет изменяться при смене профиля. Также это изменение требует перезагрузки интерфейса для вступления в силу."
+L["Accepting this will reset the UnitFrame settings for %s. Are you sure?"] = "Приняв это вы сбросите настройки для %s. Вы уверены?"
+L["Accepting this will reset your Filter Priority lists for all auras on NamePlates. Are you sure?"] = "Приняв это вы сбросите ваши списки приоритетов для всех аур на индикаторах здоровья. Вы уверены?"
+L["Accepting this will reset your Filter Priority lists for all auras on UnitFrames. Are you sure?"] = "Приняв это вы сбросите ваши списки приоритетов для всех аур на рамках юнитов. Вы уверены?"
 L["Are you sure you want to apply this font to all ElvUI elements?"] = "Вы уверены, что хоттите применить этот шрифт ко всем элементам ElvUI?"
 L["Are you sure you want to delete all your gray items?"] = "Вы уверены, что хотите удалить все предметы серого качества?"
 L["Are you sure you want to disband the group?"] = "Вы уверены, что хотите распустить группу?"
@@ -308,6 +315,7 @@ L["Do you swear not to post in technical support about something not working wit
 L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"] = "Ваш ElvUI устарел более, чем на 5 версий. Вы можете скачать последнюю версию с https://github.com/ElvUI-TBC/ElvUI/"
 L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"] = "ElvUI устарел. Вы можете скачать последнюю версию с https://github.com/ElvUI-TBC/ElvUI/"
 L["ElvUI needs to perform database optimizations please be patient."] = "ElvUI нужно провести оптимизацию базы данных. Подождите, пожалуйста."
+L["Error resetting UnitFrame."] = "Ошибка сброса рамки юнита."
 L["Hover your mouse over any actionbutton or spellbook button to bind it. Press the escape key or right click to clear the current actionbutton's keybinding."] = "Наведите курсор на любую кнопку на панели или в книге заклинаний, чтобы назначит ей клавишу. Нажмите правую кнопку мыши или 'Escape', чтобы сбросить назначение для этой кнопки."
 L["I Swear"] = "Я клянусь!"
 L["No, Revert Changes!"] = "Нет, обратить изменения!"

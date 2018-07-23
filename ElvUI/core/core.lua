@@ -121,34 +121,33 @@ E.ClassRole = {
 	}
 }
 
-E.DEFAULT_FILTER = {
-	["CCDebuffs"] = "Whitelist",
-	["TurtleBuffs"] = "Whitelist",
-	["PlayerBuffs"] = "Whitelist",
-	["Blacklist"] = "Blacklist",
-	["Whitelist"] = "Whitelist",
-	["RaidDebuffs"] = "Whitelist",
-}
+E.DEFAULT_FILTER = {}
+for filter, tbl in pairs(G.unitframe.aurafilters) do
+	E.DEFAULT_FILTER[filter] = tbl.type
+end
 
 E.noop = function() end
 
 local colorizedName
-local length = len("ElvUI")
-for i = 1, length do
-	local letter = sub("ElvUI", i, i)
-	if(i == 1) then
-		colorizedName = format("|cffA11313%s", letter)
-	elseif(i == 2) then
-		colorizedName = format("%s|r|cffC4C4C4%s", colorizedName, letter)
-	elseif(i == length) then
-		colorizedName = format("%s%s|r|cffA11313:|r", colorizedName, letter)
-	else
-		colorizedName = colorizedName .. letter
+function E:ColorizedName(name, arg2)
+	local length = len(name)
+	for i = 1, length do
+		local letter = sub(name, i, i)
+		if i == 1 then
+			colorizedName = format("|cffA11313%s", letter)
+		elseif i == 2 then
+			colorizedName = format("%s|r|cffC4C4C4%s", colorizedName, letter)
+		elseif i == length and arg2 then
+			colorizedName = format("%s%s|r|cffA11313:|r", colorizedName, letter)
+		else
+			colorizedName = colorizedName..letter
+		end
 	end
+	return colorizedName
 end
 
 function E:Print(...)
-	print(colorizedName, ...)
+	print(self:ColorizedName("ElvUI", true), ...)
 end
 
 E.PriestColors = {
@@ -156,6 +155,23 @@ E.PriestColors = {
 	g = 0.99,
 	b = 0.99
 }
+
+local delayedTimer
+local delayedFuncs = {}
+function E:ShapeshiftDelayedUpdate(func, ...)
+	delayedFuncs[func] = {...}
+
+	if delayedTimer then return end
+
+	delayedTimer = E:ScheduleTimer(function()
+		for func in pairs(delayedFuncs) do
+			func(unpack(delayedFuncs[func]))
+		end
+
+		twipe(delayedFuncs)
+		delayedTimer = nil
+	end, 0.05) 
+end
 
 function E:CheckClassColor(r, g, b)
 	r, g, b = floor(r*100+.5)/100, floor(g*100+.5)/100, floor(b*100+.5)/100
@@ -321,20 +337,24 @@ function E:UpdateFrameTemplates()
 end
 
 function E:UpdateBorderColors()
-	for frame in pairs(self["frames"]) do
-		if(frame) then
-			if(frame.template == "Default" or frame.template == "Transparent" or frame.template == nil) then
-				frame:SetBackdropBorderColor(unpack(self["media"].bordercolor))
+	for frame, _ in pairs(self["frames"]) do
+		if frame and not frame.ignoreUpdates then
+			if not frame.ignoreBorderColors then
+				if frame.template == "Default" or frame.template == "Transparent" or frame.template == nil then
+					frame:SetBackdropBorderColor(unpack(self["media"].bordercolor))
+				end
 			end
 		else
 			self["frames"][frame] = nil
 		end
 	end
 
-	for frame in pairs(self["unitFrameElements"]) do
+	for frame, _ in pairs(self["unitFrameElements"]) do
 		if frame and not frame.ignoreUpdates then
-			if frame.template == "Default" or frame.template == "Transparent" or frame.template == nil then
-				frame:SetBackdropBorderColor(unpack(self["media"].unitframeBorderColor))
+			if not frame.ignoreBorderColors then
+				if frame.template == "Default" or frame.template == "Transparent" or frame.template == nil then
+					frame:SetBackdropBorderColor(unpack(self["media"].unitframeBorderColor))
+				end
 			end
 		else
 			self["unitFrameElements"][frame] = nil
@@ -344,15 +364,17 @@ end
 
 function E:UpdateBackdropColors()
 	for frame, _ in pairs(self["frames"]) do
-		if(frame) then
-			if(frame.template == "Default" or frame.template == nil) then
-				if(frame.backdropTexture) then
-					frame.backdropTexture:SetVertexColor(unpack(self["media"].backdropcolor))
-				else
-					frame:SetBackdropColor(unpack(self["media"].backdropcolor))
+		if frame then
+			if not frame.ignoreBackdropColors then
+				if frame.template == "Default" or frame.template == nil then
+					if frame.backdropTexture then
+						frame.backdropTexture:SetVertexColor(unpack(self["media"].backdropcolor))
+					else
+						frame:SetBackdropColor(unpack(self["media"].backdropcolor))
+					end
+				elseif frame.template == "Transparent" then
+					frame:SetBackdropColor(unpack(self["media"].backdropfadecolor))
 				end
-			elseif(frame.template == "Transparent") then
-				frame:SetBackdropColor(unpack(self["media"].backdropfadecolor))
 			end
 		else
 			self["frames"][frame] = nil
@@ -361,14 +383,16 @@ function E:UpdateBackdropColors()
 
 	for frame, _ in pairs(self["unitFrameElements"]) do
 		if frame then
-			if frame.template == "Default" or frame.template == nil then
-				if frame.backdropTexture then
-					frame.backdropTexture:SetVertexColor(unpack(self["media"].backdropcolor))
-				else
-					frame:SetBackdropColor(unpack(self["media"].backdropcolor))
+			if not frame.ignoreBackdropColors then
+				if frame.template == "Default" or frame.template == nil then
+					if frame.backdropTexture then
+						frame.backdropTexture:SetVertexColor(unpack(self["media"].backdropcolor))
+					else
+						frame:SetBackdropColor(unpack(self["media"].backdropcolor))
+					end
+				elseif frame.template == "Transparent" then
+					frame:SetBackdropColor(unpack(self["media"].backdropfadecolor))
 				end
-			elseif frame.template == "Transparent" then
-				frame:SetBackdropColor(unpack(self["media"].backdropfadecolor))
 			end
 		else
 			self["unitFrameElements"][frame] = nil
@@ -980,6 +1004,16 @@ function E:DBConversions()
 	for filter, filterType in pairs(E.DEFAULT_FILTER) do
 		E.global.unitframe.aurafilters[filter].type = filterType
 	end
+
+	--Combat & Resting Icon options update
+	if E.db.unitframe.units.player.combatIcon ~= nil then
+		E.db.unitframe.units.player.CombatIcon.enable = E.db.unitframe.units.player.combatIcon
+		E.db.unitframe.units.player.combatIcon = nil
+	end
+	if E.db.unitframe.units.player.restIcon ~= nil then
+		E.db.unitframe.units.player.RestIcon.enable = E.db.unitframe.units.player.restIcon
+		E.db.unitframe.units.player.restIcon = nil
+	end
 end
 
 local CPU_USAGE = {}
@@ -1090,6 +1124,9 @@ function E:Initialize()
 
 	self:UpdateMedia()
 	self:UpdateFrameTemplates()
+	self:UpdateBorderColors()
+	self:UpdateBackdropColors()
+	self:UpdateStatusBars()
 	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "CheckRole")
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckRole")
 	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale")

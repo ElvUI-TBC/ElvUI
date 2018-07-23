@@ -98,7 +98,7 @@ function S:LoadCharacterSkin()
 			local itemId = GetInventoryItemTexture("player", slotId)
 			if itemId then
 				local rarity = GetInventoryItemQuality("player", slotId)
-				if rarity and rarity > 1 then
+				if rarity then
 					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
 					target:SetBackdropBorderColor(unpack(E.media.bordercolor))
@@ -175,26 +175,23 @@ function S:LoadCharacterSkin()
 	PetPaperDollPetInfo:SetScript("OnEvent", updHappiness);
 	PetPaperDollPetInfo:SetScript("OnShow", updHappiness);
 
-	-- SkillFrame
+	-- Skill Frame
 	SkillFrame:StripTextures()
 
 	SkillFrameExpandButtonFrame:DisableDrawLayer("BACKGROUND")
 
-	SkillFrameCollapseAllButton:Point("LEFT", SkillFrameExpandTabLeft, "RIGHT", -40, -3)
-	SkillFrameCollapseAllButton:SetNormalTexture("")
+	SkillFrameCollapseAllButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
 	SkillFrameCollapseAllButton.SetNormalTexture = E.noop
-	SkillFrameCollapseAllButton:SetHighlightTexture(nil)
+	SkillFrameCollapseAllButton:GetNormalTexture():Size(15)
+	SkillFrameCollapseAllButton:Point("LEFT", SkillFrameExpandTabLeft, "RIGHT", -40, -3)
 
-	SkillFrameCollapseAllButton.Text = SkillFrameCollapseAllButton:CreateFontString(nil, "OVERLAY")
-	SkillFrameCollapseAllButton.Text:FontTemplate(nil, 22)
-	SkillFrameCollapseAllButton.Text:Point("CENTER", -10, 0)
-	SkillFrameCollapseAllButton.Text:SetText("+")
+	SkillFrameCollapseAllButton:SetHighlightTexture(nil)
 
 	hooksecurefunc(SkillFrameCollapseAllButton, "SetNormalTexture", function(self, texture)
 		if find(texture, "MinusButton") then
-			self.Text:SetText("-")
+			self:GetNormalTexture():SetTexCoord(0.545, 0.975, 0.085, 0.925)
 		else
-			self.Text:SetText("+")
+			self:GetNormalTexture():SetTexCoord(0.045, 0.475, 0.085, 0.925)
 		end
 	end)
 
@@ -202,28 +199,27 @@ function S:LoadCharacterSkin()
 
 	for i = 1, SKILLS_TO_DISPLAY do
 		local bar = _G["SkillRankFrame"..i]
+		local label = _G["SkillTypeLabel"..i]
+		local border = _G["SkillRankFrame"..i.."Border"]
+		local background = _G["SkillRankFrame"..i.."Background"]
+
+		bar:CreateBackdrop("Default")
 		bar:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(bar)
-		bar:CreateBackdrop("Default")
 
-		_G["SkillRankFrame"..i.."Border"]:StripTextures()
-		_G["SkillRankFrame"..i.."Background"]:SetTexture(nil)
+		border:StripTextures()
+		background:SetTexture(nil)
 
-		local label = _G["SkillTypeLabel"..i]
-		label:SetNormalTexture("")
+		label:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
 		label.SetNormalTexture = E.noop
+		label:GetNormalTexture():Size(14)
 		label:SetHighlightTexture(nil)
-
-		label.Text = label:CreateFontString(nil, "OVERLAY")
-		label.Text:FontTemplate(nil, 22)
-		label.Text:Point("LEFT", 3, 0)
-		label.Text:SetText("+")
 
 		hooksecurefunc(label, "SetNormalTexture", function(self, texture)
 			if find(texture, "MinusButton") then
-				self.Text:SetText("-")
+				self:GetNormalTexture():SetTexCoord(0.545, 0.975, 0.085, 0.925)
 			else
-				self.Text:SetText("+")
+				self:GetNormalTexture():SetTexCoord(0.045, 0.475, 0.085, 0.925)
 			end
 		end)
 	end
@@ -240,72 +236,67 @@ function S:LoadCharacterSkin()
 	SkillDetailStatusBar:SetStatusBarTexture(E.media.normTex)
 	E:RegisterStatusBar(SkillDetailStatusBar)
 
-	SkillDetailStatusBarUnlearnButton:StripTextures()
-	SkillDetailStatusBarUnlearnButton:Point("LEFT", SkillDetailStatusBarBorder, "RIGHT", -2, -5)
-	SkillDetailStatusBarUnlearnButton:Size(36)
-	
-	SkillDetailStatusBarUnlearnButton.Text = SkillDetailStatusBarUnlearnButton:CreateFontString(nil, "OVERLAY")
-	SkillDetailStatusBarUnlearnButton.Text:FontTemplate()
-	SkillDetailStatusBarUnlearnButton.Text:Point("LEFT", 7, 5)
-	SkillDetailStatusBarUnlearnButton.Text:SetText("|TInterface\\Buttons\\UI-GroupLoot-Pass-Up:34:34|t")
+	S:HandleNextPrevButton(SkillDetailStatusBarUnlearnButton)
+	S:SquareButton_SetIcon(SkillDetailStatusBarUnlearnButton, "DELETE")
+	SkillDetailStatusBarUnlearnButton:Size(24)
+	SkillDetailStatusBarUnlearnButton:Point("LEFT", SkillDetailStatusBarBorder, "RIGHT", 5, 0)
+	SkillDetailStatusBarUnlearnButton:SetHitRectInsets(0, 0, 0, 0)
 
 	-- Reputation Frame
 	ReputationFrame:StripTextures()
 
 	for i = 1, NUM_FACTIONS_DISPLAYED do
-		local bar = _G["ReputationBar"..i]
-		local header = _G["ReputationHeader"..i]
+		local factionBar = _G["ReputationBar"..i]
+		local factionHeader = _G["ReputationHeader"..i]
 		local factionName = _G["ReputationBar"..i.."FactionName"]
-		local warCheck = _G["ReputationBar"..i.."AtWarCheck"]
+		local factionWar = _G["ReputationBar"..i.."AtWarCheck"]
 
-		bar:StripTextures()
-		bar:CreateBackdrop("Default")
-		bar:SetStatusBarTexture(E.media.normTex)
-		bar:Size(108, 13)
-		E:RegisterStatusBar(bar)
+		factionBar:StripTextures()
+		factionBar:CreateBackdrop("Default")
+		factionBar:SetStatusBarTexture(E.media.normTex)
+		factionBar:Size(108, 13)
+		E:RegisterStatusBar(factionBar)
 
-		factionName:Point("LEFT", bar, "LEFT", -150, 0)
+		if i == 1 then
+			factionBar:Point("TOPLEFT", 190, -86)
+		end
+
+		factionName:Point("LEFT", factionBar, "LEFT", -150, 0)
 		factionName:Width(140)
 		factionName.SetWidth = E.noop
 
-		warCheck:StripTextures()
-		warCheck:Point("LEFT", bar, "RIGHT", 0, 0)
+		factionHeader:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		factionHeader.SetNormalTexture = E.noop
+		factionHeader:GetNormalTexture():Size(14)
+		factionHeader:SetHighlightTexture(nil)
+		factionHeader:Point("TOPLEFT", factionBar, "TOPLEFT", -175, 0)
 
-		warCheck.Text = warCheck:CreateFontString(nil, "OVERLAY")
-		warCheck.Text:FontTemplate()
-		warCheck.Text:Point("LEFT", 3, -6)
-		warCheck.Text:SetText("|TInterface\\Buttons\\UI-CheckBox-SwordCheck:45:45|t")
+		factionWar:StripTextures()
+		factionWar:Point("LEFT", factionBar, "RIGHT", 0, 0)
 
-		header:StripTextures(true)
-		header:SetNormalTexture(nil)
-		header.SetNormalTexture = E.noop
-		header:Point("TOPLEFT", bar, "TOPLEFT", -175, 0)
-
-		header.Text = header:CreateFontString(nil, "OVERLAY")
-		header.Text:FontTemplate(nil, 22)
-		header.Text:Point("LEFT", 3, 0)
-		header.Text:SetText("+")
+		factionWar.Icon = factionWar:CreateFontString(nil, "OVERLAY")
+		factionWar.Icon:FontTemplate()
+		factionWar.Icon:Point("LEFT", 3, -6)
+		factionWar.Icon:SetText("|TInterface\\Buttons\\UI-CheckBox-SwordCheck:45:45|t")
 	end
 
-	ReputationBar1:Point("TOPLEFT", 190, -86)
-
-	local function UpdateFaction()
-		local offset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
-		local index, header
+	hooksecurefunc("ReputationFrame_Update", function()
 		local numFactions = GetNumFactions()
+		local factionIndex, factionHeader
+		local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
+
 		for i = 1, NUM_FACTIONS_DISPLAYED, 1 do
-			header = _G["ReputationHeader"..i]
-			index = offset + i
-			if index <= numFactions then
-				if header.isCollapsed then
-					header.Text:SetText("+")
+			factionHeader = _G["ReputationHeader"..i]
+			factionIndex = factionOffset + i
+			if factionIndex <= numFactions then
+				if factionHeader.isCollapsed then
+					factionHeader:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
 				else
-					header.Text:SetText("-")
+					factionHeader:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
 				end
 			end
 		end
-	end
-	hooksecurefunc("ReputationFrame_Update", UpdateFaction)
+	end)
 
 	ReputationFrameStandingLabel:Point("TOPLEFT", 223, -59)
 	ReputationFrameFactionLabel:Point("TOPLEFT", 55, -59)

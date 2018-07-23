@@ -38,7 +38,6 @@ L["Reset Position"] = "위치 초기화"
 L["Sort Bags"] = "가방 정렬"
 L["Temporary Move"] = "임시 이동"
 L["Toggle Bags"] = "가방슬롯 보기"
-L["Toggle Key"] = true;
 L["Vendor Grays"] = "잡동사니 자동판매"
 
 --Chat
@@ -292,9 +291,17 @@ L["Your items have been repaired for: "] = "자동으로 수리하고 비용을 
 L["Your items have been repaired using guild bank funds for: "] = "길드자금으로 수리하고 비용을 지불했습니다:"
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "Lua 에러가 발생하였습니다. 전투가 끝난 후에 내역을 표시하겠습니다."
 
+--Skins
+L["Abandon"] = "포기"
+L["Share"] = "공유"
+L["Track"] = "추적"
+
 --Static Popups
 L["A setting you have changed will change an option for this character only. This setting that you have changed will be uneffected by changing user profiles. Changing this setting requires that you reload your User Interface."] = "이 설정은 캐릭터별로 따로 저장되므로|n프로필에 영향을 주지도, 받지도 않습니다.|n|n설정 적용을 위해 리로드 하시겠습니까?"
-L["Are you sure you want to apply this font to all ElvUI elements?"] = true;
+L["Accepting this will reset the UnitFrame settings for %s. Are you sure?"] = true
+L["Accepting this will reset your Filter Priority lists for all auras on NamePlates. Are you sure?"] = "수락하시면 이름표에 적용된 모든 필터 목록이 초기화 됩니다. 정말로 하시겠습니까?"
+L["Accepting this will reset your Filter Priority lists for all auras on UnitFrames. Are you sure?"] = "수락하시면 유닛프레임에 적용된 모든 필터 목록이 초기화 됩니다. 정말로 하시겠습니까?"
+L["Are you sure you want to apply this font to all ElvUI elements?"] = "정말로 이 글씨체를 ElvUI의 모든 구성요소에 적용하시겠습니까?"
 L["Are you sure you want to delete all your gray items?"] = "모든 잡동사니를 버리겠습니까?"
 L["Are you sure you want to disband the group?"] = "현재 그룹을 해산하시겠습니까?"
 L["Are you sure you want to reset all the settings on this profile?"] = "현재 사용중인 프로필을 초기화 하시겠습니까?"
@@ -308,6 +315,7 @@ L["Do you swear not to post in technical support about something not working wit
 L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"] = "현재 사용하는 ElvUI가 5버전 이상 뒤쳐진 버전입니다. https://github.com/ElvUI-TBC/ElvUI/ 에서 새 버전을 다운로드 받으세요."
 L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"] = "ElvUI가 오래된 버전입니다. https://github.com/ElvUI-TBC/ElvUI/ 에서 새 버전을 다운로드 받으세요."
 L["ElvUI needs to perform database optimizations please be patient."] = "ElvUI의 데이터베이스를 조정할 필요가 있습니다. 잠시 기다려주세요."
+L["Error resetting UnitFrame."] = true
 L["Hover your mouse over any actionbutton or spellbook button to bind it. Press the escape key or right click to clear the current actionbutton's keybinding."] = "행동단축바나 주문책의 스킬에 마우스오버 후 키를 누르면 단축키로 지정합니다. 단축키를 지정한 곳을 우클릭 하거나 ESC를 누르면 해제합니다."
 L["I Swear"] = "알겠습니다."
 L["No, Revert Changes!"] = "예전으로 돌려주세요"

@@ -27,7 +27,6 @@ local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS
 local LOOT, GENERAL, TRADE = LOOT, GENERAL, TRADE
 local GUILD_EVENT_LOG = GUILD_EVENT_LOG
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
 
 local CURRENT_PAGE = 0
 local MAX_PAGE = 8
@@ -338,16 +337,11 @@ function E:SetupLayout(layout, noDataReset)
 			E.db.unitframe.units.raid.debuffs.xOffset = -4
 			E.db.unitframe.units.raid.debuffs.yOffset = -7
 			E.db.unitframe.units.raid.height = 45
-			E.db.unitframe.units.raid.buffs.noConsolidated = false
 			E.db.unitframe.units.raid.buffs.xOffset = 50
 			E.db.unitframe.units.raid.buffs.yOffset = -6
 			E.db.unitframe.units.raid.buffs.clickThrough = true
-			E.db.unitframe.units.raid.buffs.noDuration = false
-			E.db.unitframe.units.raid.buffs.playerOnly = false
 			E.db.unitframe.units.raid.buffs.perrow = 1
-			E.db.unitframe.units.raid.buffs.useFilter = "TurtleBuffs"
 			E.db.unitframe.units.raid.buffs.sizeOverride = 22
-			E.db.unitframe.units.raid.buffs.useBlacklist = false
 			E.db.unitframe.units.raid.buffs.enable = true
 			E.db.unitframe.units.raid.growthDirection = "LEFT_UP"
 
@@ -360,18 +354,12 @@ function E:SetupLayout(layout, noDataReset)
 			E.db.unitframe.units.party.debuffs.xOffset = -4
 			E.db.unitframe.units.party.debuffs.yOffset = -7
 			E.db.unitframe.units.party.height = 45
-			E.db.unitframe.units.party.buffs.noConsolidated = false
 			E.db.unitframe.units.party.buffs.xOffset = 50
 			E.db.unitframe.units.party.buffs.yOffset = -6
 			E.db.unitframe.units.party.buffs.clickThrough = true
-			E.db.unitframe.units.party.buffs.noDuration = false
-			E.db.unitframe.units.party.buffs.playerOnly = false
 			E.db.unitframe.units.party.buffs.perrow = 1
-			E.db.unitframe.units.party.buffs.useFilter = "TurtleBuffs"
 			E.db.unitframe.units.party.buffs.sizeOverride = 22
-			E.db.unitframe.units.party.buffs.useBlacklist = false
 			E.db.unitframe.units.party.buffs.enable = true
-			E.db.unitframe.units.party.roleIcon.position = "BOTTOMRIGHT"
 			E.db.unitframe.units.party.health.text_format = "[healthcolor][health:deficit]"
 			E.db.unitframe.units.party.health.position = "BOTTOM"
 			E.db.unitframe.units.party.GPSArrow.size = 40
@@ -539,6 +527,7 @@ function E:SetupLayout(layout, noDataReset)
 			E.db.movers.ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,-2,"..(yOffset + 5)
 		end
 	elseif (layout == "dpsMelee" or layout == "tank") and not E.db.lowresolutionset and not E.PixelMode then
+		if not E.db.movers then E.db.movers = {} end
 		E.db.movers.ElvUF_PlayerMover = "BOTTOM,ElvUIParent,BOTTOM,-307,76"
 		E.db.movers.ElvUF_TargetMover = "BOTTOM,ElvUIParent,BOTTOM,307,76"
 		E.db.movers.ElvUF_TargetTargetMover = "BOTTOM,ElvUIParent,BOTTOM,0,76"
@@ -591,7 +580,6 @@ local function SetupAuras(style)
 	E:CopyTable(E.db.unitframe.units.target.buffs, P.unitframe.units.target.buffs)
 	E:CopyTable(E.db.unitframe.units.target.debuffs, P.unitframe.units.target.debuffs)
 	E:CopyTable(E.db.unitframe.units.target.aurabar, P.unitframe.units.target.aurabar)
-	E.db.unitframe.units.target.smartAuraDisplay = P.unitframe.units.target.smartAuraDisplay
 
 	if frame then
 		UF:Configure_Auras(frame, "Buffs")
@@ -603,7 +591,6 @@ local function SetupAuras(style)
 	E:CopyTable(E.db.unitframe.units.focus.buffs, P.unitframe.units.focus.buffs)
 	E:CopyTable(E.db.unitframe.units.focus.debuffs, P.unitframe.units.focus.debuffs)
 	E:CopyTable(E.db.unitframe.units.focus.aurabar, P.unitframe.units.focus.aurabar)
-	E.db.unitframe.units.focus.smartAuraDisplay = P.unitframe.units.focus.smartAuraDisplay
 
 	if frame then
 		UF:Configure_Auras(frame, "Buffs")
@@ -614,15 +601,17 @@ local function SetupAuras(style)
 	if not style then
 		E.db.unitframe.units.player.buffs.enable = true
 		E.db.unitframe.units.player.buffs.attachTo = "FRAME"
-		E.db.unitframe.units.player.buffs.noDuration = false
 		E.db.unitframe.units.player.debuffs.attachTo = "BUFFS"
 		E.db.unitframe.units.player.aurabar.enable = false
-		E:GetModule("UnitFrames"):CreateAndUpdateUF("player")
+		if E.private.unitframe.enable then
+			E:GetModule("UnitFrames"):CreateAndUpdateUF("player")
+		end
 
-		E.db.unitframe.units.target.smartAuraDisplay = "DISABLED"
 		E.db.unitframe.units.target.debuffs.enable = true
 		E.db.unitframe.units.target.aurabar.enable = false
-		E:GetModule("UnitFrames"):CreateAndUpdateUF("target")
+		if E.private.unitframe.enable then
+			E:GetModule("UnitFrames"):CreateAndUpdateUF("target")
+		end
 	end
 
 	if(InstallStepComplete) then
