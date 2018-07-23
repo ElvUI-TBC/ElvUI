@@ -452,7 +452,7 @@ G.unitframe.buffwatch = {
 	},
 	PET = {
 		[1539] = ClassBuff(1539, "TOPLEFT", {0.81, 0.85, 0.1}),			-- Feed Pet
-		[48990] = ClassBuff(48990, "TOPRIGHT", {0.2, 0.8, 0.2})			-- Mend Pet
+		[33976] = ClassBuff(33976, "TOPRIGHT", {0.2, 0.8, 0.2})			-- Mend Pet
 	},
 	ROGUE = {},
 	MAGE = {},
