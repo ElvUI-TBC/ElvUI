@@ -1018,7 +1018,6 @@ L["Restore Defaults"] = true; --Also used in Media and ActionBars sections
 L["Resurrect Icon"] = true
 L["Right to Left"] = true;
 L["RL / ML Icons"] = true;
-L["Role Icon"] = true;
 L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."] = true;
 L["Select a unit to copy settings from."] = true;
 L["Select Filter"] = true;
