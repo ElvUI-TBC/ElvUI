@@ -769,7 +769,7 @@ P["unitframe"] = {
 				["sortDirection"] = "DESCENDING",
 				["minDuration"] = 0,
 				["maxDuration"] = 300,
-				["priority"] = "Blacklist", --Target Buffs
+				["priority"] = "", --Target Buffs
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -785,7 +785,7 @@ P["unitframe"] = {
 				["sortDirection"] = "DESCENDING",
 				["minDuration"] = 0,
 				["maxDuration"] = 300,
-				["priority"] = "Blacklist,RaidDebuffs,CCDebuffs,Friendly:Dispellable", --Target Debuffs
+				["priority"] = "", --Target Debuffs
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
