@@ -2831,12 +2831,7 @@ E.Options.args.unitframe = {
 								castColor = {
 									order = 5,
 									type = "color",
-									name = L["Interruptable"]
-								},
-								castNoInterrupt = {
-									order = 6,
-									type = "color",
-									name = L["Non-Interruptable"]
+									name = L["Cast Color"]
 								}
 							}
 						},
