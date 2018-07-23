@@ -121,14 +121,10 @@ E.ClassRole = {
 	}
 }
 
-E.DEFAULT_FILTER = {
-	["CCDebuffs"] = "Whitelist",
-	["TurtleBuffs"] = "Whitelist",
-	["PlayerBuffs"] = "Whitelist",
-	["Blacklist"] = "Blacklist",
-	["Whitelist"] = "Whitelist",
-	["RaidDebuffs"] = "Whitelist",
-}
+E.DEFAULT_FILTER = {}
+for filter, tbl in pairs(G.unitframe.aurafilters) do
+	E.DEFAULT_FILTER[filter] = tbl.type
+end
 
 E.noop = function() end
 
@@ -150,7 +146,6 @@ function E:ColorizedName(name, arg2)
 	return colorizedName
 end
 
-
 function E:Print(...)
 	print(self:ColorizedName("ElvUI", true), ...)
 end
@@ -160,6 +155,23 @@ E.PriestColors = {
 	g = 0.99,
 	b = 0.99
 }
+
+local delayedTimer
+local delayedFuncs = {}
+function E:ShapeshiftDelayedUpdate(func, ...)
+	delayedFuncs[func] = {...}
+
+	if delayedTimer then return end
+
+	delayedTimer = E:ScheduleTimer(function()
+		for func in pairs(delayedFuncs) do
+			func(unpack(delayedFuncs[func]))
+		end
+
+		twipe(delayedFuncs)
+		delayedTimer = nil
+	end, 0.05) 
+end
 
 function E:CheckClassColor(r, g, b)
 	r, g, b = floor(r*100+.5)/100, floor(g*100+.5)/100, floor(b*100+.5)/100
@@ -983,6 +995,16 @@ function E:DBConversions()
 	--Make sure default filters use the correct filter type
 	for filter, filterType in pairs(E.DEFAULT_FILTER) do
 		E.global.unitframe.aurafilters[filter].type = filterType
+	end
+
+	--Combat & Resting Icon options update
+	if E.db.unitframe.units.player.combatIcon ~= nil then
+		E.db.unitframe.units.player.CombatIcon.enable = E.db.unitframe.units.player.combatIcon
+		E.db.unitframe.units.player.combatIcon = nil
+	end
+	if E.db.unitframe.units.player.restIcon ~= nil then
+		E.db.unitframe.units.player.RestIcon.enable = E.db.unitframe.units.player.restIcon
+		E.db.unitframe.units.player.restIcon = nil
 	end
 end
 

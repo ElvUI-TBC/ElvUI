@@ -1,7 +1,11 @@
 local E, L, V, P, G = unpack(ElvUI);
 local UF = E:GetModule("UnitFrames");
 
-local format = format;
+local match = string.match
+local strsplit = strsplit
+local tostring = tostring
+local format = format
+local select = select
 
 local CreateFrame = CreateFrame;
 local IsShiftKeyDown = IsShiftKeyDown;
@@ -54,6 +58,7 @@ end
 
 function UF:Construct_AuraBarHeader(frame)
 	local auraBar = CreateFrame("Frame", nil, frame);
+	auraBar:SetFrameLevel(frame.RaisedElementParent:GetFrameLevel() + 10) --Make them appear above any text element
 	auraBar.PostCreateBar = UF.Construct_AuraBars;
 	auraBar.gap = (-frame.BORDER + frame.SPACING*3);
 	auraBar.spacing = (-frame.BORDER + frame.SPACING*3);
@@ -146,6 +151,7 @@ function UF:Configure_AuraBars(frame)
 
 		auraBars.maxBars = db.aurabar.maxBars;
 		auraBars.forceShow = frame.forceShowAuras;
+		auraBars.spacing = ((-frame.BORDER + frame.SPACING*3) + db.aurabar.spacing)
 		auraBars:SetAnchors();
 	else
 		if(frame:IsElementEnabled("AuraBars")) then
@@ -175,67 +181,53 @@ function UF.SortAuraBarName(a, b)
 	return a.name > b.name;
 end
 
-function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration)
-	if(not self.db) then return; end
-	local db = self.db.aurabar;
-
-	local returnValue = true;
-	local anotherFilterExists = false;
-	local isFriend = UnitIsFriend("player", unit) == 1 and true or false;
-
-	if(UF:CheckFilter(db.noDuration, isFriend)) then
-		if(duration == 0 or not duration) then
-			returnValue = false;
-		end
-
-		anotherFilterExists = true;
-	end
-
-	if(db.maxDuration > 0) then
-		if(duration and (duration > db.maxDuration)) then
-			returnValue = false;
-		end
-
-		anotherFilterExists = true;
-	end
-
-	if(UF:CheckFilter(db.useBlacklist, isFriend)) then
-		local blackList = E.global["unitframe"]["aurafilters"]["Blacklist"].spells[name];
-		if(blackList and blackList.enable) then
-			returnValue = false;
-		end
-
-		anotherFilterExists = true;
-	end
-
-	if(UF:CheckFilter(db.useWhitelist, isFriend)) then
-		local whiteList = E.global["unitframe"]["aurafilters"]["Whitelist"].spells[name];
-		if(whiteList and whiteList.enable) then
-			returnValue = true;
-		elseif(not anotherFilterExists) then
-			returnValue = false;
-		end
-
-		anotherFilterExists = true;
-	end
-
-	if(db.useFilter and E.global["unitframe"]["aurafilters"][db.useFilter]) then
-		local type = E.global["unitframe"]["aurafilters"][db.useFilter].type;
-		local spellList = E.global["unitframe"]["aurafilters"][db.useFilter].spells;
-		local spell = spellList[name];
-
-		if(type == "Whitelist") then
-			if(spell and spell.enable) then
-				returnValue = true;
-			elseif(not anotherFilterExists) then
-				returnValue = false;
+function UF:CheckFilter(name, isFriend, allowDuration, noDuration, canDispell, ...)
+	local friendCheck, filterName, filter, filterType, spellList, spell
+	for i = 1, select("#", ...) do
+		filterName = select(i, ...)
+		friendCheck = (isFriend and match(filterName, "^Friendly:([^,]*)")) or (not isFriend and match(filterName, "^Enemy:([^,]*)")) or nil
+		if friendCheck ~= false then
+			if friendCheck ~= nil and (G.unitframe.specialFilters[friendCheck] or E.global.unitframe.aurafilters[friendCheck]) then
+				filterName = friendCheck -- this is for our filters to handle Friendly and Enemy
 			end
-		elseif(type == "Blacklist" and spell and spell.enable) then
-			returnValue = false;
+			filter = E.global.unitframe.aurafilters[filterName]
+			if filter then
+				filterType = filter.type
+				spellList = filter.spells
+				spell = spellList and (spellList[spellID] or spellList[name])
+
+				if filterType and (filterType == "Whitelist") and (spell and spell.enable) and allowDuration then
+					return true, spell.priority -- this is the only difference from auarbars code
+				elseif filterType and (filterType == "Blacklist") and (spell and spell.enable) then
+					return false
+				end
+			elseif filterName == "Dispellable" and canDispell and allowDuration then
+				return true
+			elseif filterName == "blockNoDuration" and noDuration then
+				return false
+			end
 		end
 	end
+end
 
-	return returnValue;
+function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration)
+	if not self.db then return; end
+	local db = self.db.aurabar
+
+	if not name then return nil end
+	local filterCheck, isFriend, canDispell, allowDuration, noDuration
+
+	if db.priority ~= "" then
+		noDuration = (not duration or duration == 0)
+		isFriend = unit and UnitIsFriend("player", unit) and not UnitCanAttack("player", unit)
+		canDispell = self.type == "Debuffs" and debuffType and E:IsDispellableByMe(debuffType)
+		allowDuration = noDuration or (duration and (duration > 0) and (db.maxDuration == 0 or duration <= db.maxDuration) and (db.minDuration == 0 or duration >= db.minDuration))
+		filterCheck = UF:CheckFilter(name, isFriend, allowDuration, noDuration, canDispell, strsplit(",", db.priority))
+	else
+		filterCheck = true -- Allow all auras to be shown when the filter list is empty
+	end
+
+	return filterCheck
 end
 
 function UF:ColorizeAuraBars()

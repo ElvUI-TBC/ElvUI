@@ -13,10 +13,10 @@ local UnitReaction = UnitReaction
 local UPDATE_VISIBILITY = function(self, event)
 	local druidmana = self.DruidAltMana;
 
-	local min, max = druidmana.ManaBar:GetMinMaxValues();
+	local min, max = druidmana:GetMinMaxValues();
 	local num, str = UnitPowerType("player");
 	if(num ~= 0) then
-		if(druidmana.ManaBar:GetValue() == max) then
+		if(druidmana:GetValue() == max) then
 			druidmana:Hide();
 		else
 			druidmana:Show();
@@ -34,8 +34,6 @@ local UNIT_MANA = function(self, event, unit, currMana, maxMana)
 	if(self.unit ~= unit) then return; end
 	local druidmana = self.DruidAltMana;
 
-	if(not druidmana.ManaBar) then return; end
-
 	if(druidmana.PreUpdate) then
 		druidmana:PreUpdate(unit);
 	end
@@ -46,8 +44,8 @@ local UNIT_MANA = function(self, event, unit, currMana, maxMana)
 		min, max = LDM:GetCurrentMana(), LDM:GetMaximumMana()
 	end
 
-	druidmana.ManaBar:SetMinMaxValues(0, max);
-	druidmana.ManaBar:SetValue(min);
+	druidmana:SetMinMaxValues(0, max);
+	druidmana:SetValue(min);
 
 	local r, g, b, t;
 	if(druidmana.colorPower) then
@@ -68,7 +66,7 @@ local UNIT_MANA = function(self, event, unit, currMana, maxMana)
 	end
 
 	if(b) then
-		druidmana.ManaBar:SetStatusBarColor(r, g, b);
+		druidmana:SetStatusBarColor(r, g, b);
 
 		local bg = druidmana.bg;
 		if(bg) then
@@ -79,8 +77,8 @@ local UNIT_MANA = function(self, event, unit, currMana, maxMana)
 
 	UPDATE_VISIBILITY(self);
 
-	if(druidmana.PostUpdatePower) then
-		return druidmana:PostUpdatePower(unit, min, max);
+	if(druidmana.PostUpdate) then
+		return druidmana:PostUpdate(unit, min, max, event);
 	end
 end
 

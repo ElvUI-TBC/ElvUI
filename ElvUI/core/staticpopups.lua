@@ -3,9 +3,10 @@ local E, L, V, P, G = unpack(ElvUI)
 local _G = _G
 local pairs, type, unpack, assert = pairs, type, unpack, assert
 local tremove, tContains, tinsert, wipe = tremove, tContains, tinsert, table.wipe
-local lower = string.lower
+local lower, format = string.lower, string.format
 
 local CreateFrame = CreateFrame
+local IsAddOnLoaded = IsAddOnLoaded
 local UnitIsDeadOrGhost, InCinematic = UnitIsDeadOrGhost, InCinematic
 local GetBindingFromClick, RunBinding = GetBindingFromClick, RunBinding
 local PurchaseSlot, GetBankSlotCost = PurchaseSlot, GetBankSlotCost
@@ -16,6 +17,7 @@ local StaticPopup_Resize = StaticPopup_Resize
 local ChatEdit_FocusActiveWindow = ChatEdit_FocusActiveWindow
 local STATICPOPUP_TEXTURE_ALERT = STATICPOPUP_TEXTURE_ALERT
 local STATICPOPUP_TEXTURE_ALERTGEAR = STATICPOPUP_TEXTURE_ALERTGEAR
+local YES, NO, OKAY, CANCEL, ACCEPT, DECLINE = YES, NO, OKAY, CANCEL, ACCEPT, DECLINE
 
 E.PopupDialogs = {}
 E.StaticPopup_DisplayedFrames = {}
@@ -191,6 +193,78 @@ E.PopupDialogs["PRIVATE_RL"] = {
 	hideOnEscape = false
 }
 
+E.PopupDialogs["RESET_UF_UNIT"] = {
+	text = L["Accepting this will reset the UnitFrame settings for %s. Are you sure?"],
+	button1 = ACCEPT,
+	button2 = CANCEL,
+	OnAccept = function(self)
+		if self.data and self.data.unit then
+			local UF = E:GetModule("UnitFrames")
+			UF:ResetUnitSettings(self.data.unit)
+			if self.data.mover then
+				E:ResetMovers(self.data.mover)
+			end
+
+			if self.data.unit == "raidpet" then
+				UF:CreateAndUpdateHeaderGroup(self.data.unit, nil, nil, true)
+			end
+
+			if IsAddOnLoaded("ElvUI_Config") then
+				local ACD = LibStub and LibStub("AceConfigDialog-3.0-ElvUI")
+				if ACD and ACD.OpenFrames and ACD.OpenFrames.ElvUI then
+					ACD:SelectGroup("ElvUI", "unitframe", self.data.unit)
+				end
+			end
+		else
+			E:Print(L["Error resetting UnitFrame."])
+		end
+	end,
+	timeout = 0,
+	whileDead = 1,
+	hideOnEscape = false,
+}
+
+E.PopupDialogs["RESET_UF_AF"] = {
+	text = L["Accepting this will reset your Filter Priority lists for all auras on UnitFrames. Are you sure?"],
+	button1 = ACCEPT,
+	button2 = CANCEL,
+	OnAccept = function()
+		for unitName, content in pairs(E.db.unitframe.units) do
+			if content.buffs then
+				content.buffs.priority = P.unitframe.units[unitName].buffs.priority
+			end
+			if content.debuffs then
+				content.debuffs.priority = P.unitframe.units[unitName].debuffs.priority
+			end
+			if content.aurabar then
+				content.aurabar.priority = P.unitframe.units[unitName].aurabar.priority
+			end
+		end
+	end,
+	timeout = 0,
+	whileDead = 1,
+	hideOnEscape = false,
+}
+
+E.PopupDialogs["RESET_NP_AF"] = {
+	text = L["Accepting this will reset your Filter Priority lists for all auras on NamePlates. Are you sure?"],
+	button1 = ACCEPT,
+	button2 = CANCEL,
+	OnAccept = function()
+		for unitType, content in pairs(E.db.nameplates.units) do
+			if content.buffs and content.buffs.filters then
+				content.buffs.filters.priority = P.nameplates.units[unitType].buffs.filters.priority
+			end
+			if content.debuffs and content.debuffs.filters then
+				content.debuffs.filters.priority = P.nameplates.units[unitType].debuffs.filters.priority
+			end
+		end
+	end,
+	timeout = 0,
+	whileDead = 1,
+	hideOnEscape = false,
+}
+
 E.PopupDialogs["KEYBIND_MODE"] = {
 	text = L["Hover your mouse over any actionbutton or spellbook button to bind it. Press the escape key or right click to clear the current actionbutton's keybinding."],
 	button1 = L["Save"],
@@ -349,6 +423,7 @@ E.PopupDialogs["APPLY_FONT_WARNING"] = {
 		E.db.chat.tapFontSize = fontSize
 		E.db.datatexts.font = font
 		E.db.datatexts.fontSize = fontSize
+		E.db.general.minimap.locationFont = font
 		E.db.tooltip.font = font
 		E.db.tooltip.fontSize = fontSize
 		E.db.tooltip.headerFontSize = fontSize
@@ -388,6 +463,20 @@ function E:StaticPopup_OnShow()
 	end
 	if(dialog.enterClicksFirstButton) then
 		self:SetScript("OnKeyDown", E.StaticPopup_OnKeyDown)
+	end
+
+	-- boost static popups over ace gui
+	if IsAddOnLoaded("ElvUI_Config") then
+		local ACD = LibStub and LibStub("AceConfigDialog-3.0-ElvUI")
+		if ACD and ACD.OpenFrames and ACD.OpenFrames.ElvUI then
+			self.frameStrataIncreased = true
+			self:SetFrameStrata("FULLSCREEN_DIALOG")
+
+			local popupFrameLevel = self:GetFrameLevel()
+			if popupFrameLevel < 100 then
+				self:SetFrameLevel(popupFrameLevel+100)
+			end
+		end
 	end
 end
 
@@ -503,6 +592,17 @@ function E:StaticPopup_OnHide()
 	end
 	if(dialog.enterClicksFirstButton) then
 		self:SetScript("OnKeyDown", nil)
+	end
+
+	-- static popup was boosted over ace gui, set it back to normal
+	if self.frameStrataIncreased then
+		self.frameStrataIncreased = nil
+		self:SetFrameStrata("DIALOG")
+
+		local popupFrameLevel = self:GetFrameLevel()
+		if popupFrameLevel > 100 then
+			self:SetFrameLevel(popupFrameLevel-100)
+		end
 	end
 end
 
@@ -946,8 +1046,8 @@ function E:Contruct_StaticPopups()
 
 		local name = E.StaticPopupFrames[index]:GetName()
 		for i = 1, 3 do
-			_G[name .. "Button" .. i]:SetScript("OnClick", function(self)
-				E.StaticPopup_OnClick(self:GetParent(), self:GetID())
+			_G[name.."Button"..i]:SetScript("OnClick", function(button)
+				E.StaticPopup_OnClick(button:GetParent(), button:GetID())
 			end)
 		end
 
