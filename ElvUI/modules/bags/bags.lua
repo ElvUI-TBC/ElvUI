@@ -281,6 +281,7 @@ function B:UpdateSlot(bagID, slotID)
 
 	if(B.ProfessionColors[bagType]) then
 		slot:SetBackdropBorderColor(unpack(B.ProfessionColors[bagType]))
+		slot.ignoreBorderColors = true
 	elseif(clink) then
 		local iLvl, itemEquipLoc
 		slot.name, _, slot.rarity, iLvl, _, _, _, _, itemEquipLoc = GetItemInfo(clink)
@@ -302,11 +303,14 @@ function B:UpdateSlot(bagID, slotID)
 		-- color slot according to item quality
 		if slot.rarity and slot.rarity > 1 then
 			slot:SetBackdropBorderColor(r, g, b)
+			slot.ignoreBorderColors = true
 		else
 			slot:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			slot.ignoreBorderColors = true
 		end
 	else
 		slot:SetBackdropBorderColor(unpack(E.media.bordercolor))
+		slot.ignoreBorderColors = true
 	end
 
 	if texture then
@@ -647,11 +651,14 @@ function B:UpdateKeySlot(slotID)
 
 		if slot.rarity and slot.rarity > 1 then
 			slot:SetBackdropBorderColor(r, g, b)
+			slot.ignoreBorderColors = true
 		else
 			slot:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			slot.ignoreBorderColors = true
 		end
 	else
 		slot:SetBackdropBorderColor(unpack(E.media.bordercolor))
+		slot.ignoreBorderColors = true
 	end
 
 	if texture then

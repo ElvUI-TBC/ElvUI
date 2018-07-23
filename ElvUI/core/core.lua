@@ -337,20 +337,24 @@ function E:UpdateFrameTemplates()
 end
 
 function E:UpdateBorderColors()
-	for frame in pairs(self["frames"]) do
-		if(frame) then
-			if(frame.template == "Default" or frame.template == "Transparent" or frame.template == nil) then
-				frame:SetBackdropBorderColor(unpack(self["media"].bordercolor))
+	for frame, _ in pairs(self["frames"]) do
+		if frame and not frame.ignoreUpdates then
+			if not frame.ignoreBorderColors then
+				if frame.template == "Default" or frame.template == "Transparent" or frame.template == nil then
+					frame:SetBackdropBorderColor(unpack(self["media"].bordercolor))
+				end
 			end
 		else
 			self["frames"][frame] = nil
 		end
 	end
 
-	for frame in pairs(self["unitFrameElements"]) do
+	for frame, _ in pairs(self["unitFrameElements"]) do
 		if frame and not frame.ignoreUpdates then
-			if frame.template == "Default" or frame.template == "Transparent" or frame.template == nil then
-				frame:SetBackdropBorderColor(unpack(self["media"].unitframeBorderColor))
+			if not frame.ignoreBorderColors then
+				if frame.template == "Default" or frame.template == "Transparent" or frame.template == nil then
+					frame:SetBackdropBorderColor(unpack(self["media"].unitframeBorderColor))
+				end
 			end
 		else
 			self["unitFrameElements"][frame] = nil
@@ -360,15 +364,17 @@ end
 
 function E:UpdateBackdropColors()
 	for frame, _ in pairs(self["frames"]) do
-		if(frame) then
-			if(frame.template == "Default" or frame.template == nil) then
-				if(frame.backdropTexture) then
-					frame.backdropTexture:SetVertexColor(unpack(self["media"].backdropcolor))
-				else
-					frame:SetBackdropColor(unpack(self["media"].backdropcolor))
+		if frame then
+			if not frame.ignoreBackdropColors then
+				if frame.template == "Default" or frame.template == nil then
+					if frame.backdropTexture then
+						frame.backdropTexture:SetVertexColor(unpack(self["media"].backdropcolor))
+					else
+						frame:SetBackdropColor(unpack(self["media"].backdropcolor))
+					end
+				elseif frame.template == "Transparent" then
+					frame:SetBackdropColor(unpack(self["media"].backdropfadecolor))
 				end
-			elseif(frame.template == "Transparent") then
-				frame:SetBackdropColor(unpack(self["media"].backdropfadecolor))
 			end
 		else
 			self["frames"][frame] = nil
@@ -377,14 +383,16 @@ function E:UpdateBackdropColors()
 
 	for frame, _ in pairs(self["unitFrameElements"]) do
 		if frame then
-			if frame.template == "Default" or frame.template == nil then
-				if frame.backdropTexture then
-					frame.backdropTexture:SetVertexColor(unpack(self["media"].backdropcolor))
-				else
-					frame:SetBackdropColor(unpack(self["media"].backdropcolor))
+			if not frame.ignoreBackdropColors then
+				if frame.template == "Default" or frame.template == nil then
+					if frame.backdropTexture then
+						frame.backdropTexture:SetVertexColor(unpack(self["media"].backdropcolor))
+					else
+						frame:SetBackdropColor(unpack(self["media"].backdropcolor))
+					end
+				elseif frame.template == "Transparent" then
+					frame:SetBackdropColor(unpack(self["media"].backdropfadecolor))
 				end
-			elseif frame.template == "Transparent" then
-				frame:SetBackdropColor(unpack(self["media"].backdropfadecolor))
 			end
 		else
 			self["unitFrameElements"][frame] = nil
@@ -1116,6 +1124,9 @@ function E:Initialize()
 
 	self:UpdateMedia()
 	self:UpdateFrameTemplates()
+	self:UpdateBorderColors()
+	self:UpdateBackdropColors()
+	self:UpdateStatusBars()
 	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "CheckRole")
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckRole")
 	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale")
