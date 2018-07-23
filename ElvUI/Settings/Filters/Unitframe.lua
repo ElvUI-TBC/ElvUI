@@ -415,6 +415,7 @@ E.ReverseTimer = {
 local function ClassBuff(id, point, color, onlyShowMissing, style, displayText, decimalThreshold, textColor, textThreshold, xOffset, yOffset, sizeOverride)
 	local r, g, b = unpack(color)
 	local r2, g2, b2 = 1, 1, 1
+
 	if textColor then
 		r2, g2, b2 = unpack(textColor)
 	end
