@@ -11,7 +11,6 @@ local format, strsub = string.format, strsub
 
 local CreateFrame = CreateFrame
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
 local CLASS, DEFAULT = CLASS, DEFAULT
 
 local colorBuffer = {}

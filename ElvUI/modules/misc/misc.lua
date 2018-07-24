@@ -41,18 +41,12 @@ function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceName, _, _, destNam
 	if E.db.general.interruptAnnounce == "NONE" then return end
 	if not (event == "SPELL_INTERRUPT" and sourceName == UnitName("player")) then return end
 
-	local party = GetNumPartyMembers()
-
 	if E.db.general.interruptAnnounce == "SAY" then
-		if party > 0 then
-			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "SAY")
-		end
+		SendChatMessage(format(interruptMsg, destName, spellID, spellName), "SAY")
 	elseif E.db.general.interruptAnnounce == "EMOTE" then
-		if party > 0 then
-			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "EMOTE")
-		end
+		SendChatMessage(format(interruptMsg, destName, spellID, spellName), "EMOTE")
 	else
-		local raid = GetNumRaidMembers()
+		local party, raid = GetNumPartyMembers(), GetNumRaidMembers()
 		local _, instanceType = IsInInstance()
 		local battleground = instanceType == "pvp"
 
