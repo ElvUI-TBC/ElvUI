@@ -246,8 +246,9 @@ function S:LoadQuestSkin()
 	QuestLogTimerText:SetTextColor(1, 1, 1)
 
 	QuestFrame:CreateBackdrop("Transparent")
-	QuestFrame.backdrop:Point("TOPLEFT", 15, -19)
-	QuestFrame.backdrop:Point("BOTTOMRIGHT", -30, 67)
+	QuestFrame.backdrop:Point("TOPLEFT", 15, -11)
+	QuestFrame.backdrop:Point("BOTTOMRIGHT", -20, 0)
+	QuestFrame:Width(374)
 
 	QuestLogFrame:SetAttribute("UIPanelLayout-width", E:Scale(685))
 	QuestLogFrame:SetAttribute("UIPanelLayout-height", E:Scale(490))
@@ -255,6 +256,10 @@ function S:LoadQuestSkin()
 	QuestLogFrame:CreateBackdrop("Transparent")
 	QuestLogFrame.backdrop:Point("TOPLEFT", 10, -12)
 	QuestLogFrame.backdrop:Point("BOTTOMRIGHT", -1, 8)
+
+	QuestDetailScrollFrame:Height(402)
+	QuestRewardScrollFrame:Height(402)
+	QuestProgressScrollFrame:Height(402)
 
 	QuestLogListScrollFrame:StripTextures()
 	QuestLogListScrollFrame:CreateBackdrop("Default", true)
@@ -281,13 +286,22 @@ function S:LoadQuestSkin()
 	QuestFrameExitButton:Point("BOTTOMRIGHT", -31, 15)
 	QuestFrameExitButton:Width(100)
 
+	QuestFrameAcceptButton:Point("BOTTOMLEFT", 20, 4)
+	QuestFrameDeclineButton:Point("BOTTOMRIGHT", -37, 4)
+	QuestFrameCompleteButton:Point("BOTTOMLEFT", 20, 4)
+	QuestFrameGoodbyeButton:Point("BOTTOMRIGHT", -37, 4)
+	QuestFrameCompleteQuestButton:Point("BOTTOMLEFT", 20, 4)
+	QuestFrameCancelButton:Point("BOTTOMRIGHT", -37, 4)
+
+	QuestFrameNpcNameText:Point("CENTER", QuestNpcNameFrame, "CENTER", -1, 0)
+
 	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
 	S:HandleScrollBar(QuestDetailScrollFrameScrollBar)
 	S:HandleScrollBar(QuestLogListScrollFrameScrollBar)
 	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
 	S:HandleScrollBar(QuestRewardScrollFrameScrollBar)
 
-	S:HandleCloseButton(QuestFrameCloseButton)
+	S:HandleCloseButton(QuestFrameCloseButton, QuestFrame.backdrop)
 
 	S:HandleCloseButton(QuestLogFrameCloseButton)
 	QuestLogFrameCloseButton:ClearAllPoints()
