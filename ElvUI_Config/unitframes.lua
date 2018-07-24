@@ -2191,14 +2191,6 @@ E.Options.args.unitframe = {
 								["CTRL"] = CTRL_KEY
 							}
 						},
-						resetFilters = {
-							order = 8,
-							type = "execute",
-							name = L["Reset Aura Filters"],
-							func = function(info)
-								E:StaticPopup_Show("RESET_UF_AF") --reset unitframe aurafilters
-							end
-						},
 						barGroup = {
 							order = 20,
 							type = "group",
