@@ -781,6 +781,7 @@ local function UpdateFilterGroup()
 					type = "group",
 					name = L["Buffs"],
 					disabled = function() return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and E.db.nameplates.filters[selectedNameplateFilter].triggers and E.db.nameplates.filters[selectedNameplateFilter].triggers.enable) end,
+					hidden = true,
 					args = {
 						mustHaveAll = {
 							order = 1,
@@ -879,6 +880,7 @@ local function UpdateFilterGroup()
 					type = "group",
 					name = L["Debuffs"],
 					disabled = function() return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and E.db.nameplates.filters[selectedNameplateFilter].triggers and E.db.nameplates.filters[selectedNameplateFilter].triggers.enable) end,
+					hidden = true,
 					args = {
 						mustHaveAll = {
 							order = 1,
@@ -1135,7 +1137,7 @@ local function UpdateFilterGroup()
 						party = {
 							order = 2,
 							type = "toggle",
-							name = DUNGEONS,
+							name = L["Dungeons"],
 							get = function(info)
 								return E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.party
 							end,
@@ -1645,6 +1647,7 @@ local function GetUnitSettings(unit, name)
 				get = function(info) return E.db.nameplates.units[unit].buffs.filters[ info[#info] ] end,
 				set = function(info, value) E.db.nameplates.units[unit].buffs.filters[ info[#info] ] = value NP:ConfigureAll() end,
 				disabled = function() return not E.db.nameplates.units[unit].healthbar.enable end,
+				hidden = true,
 				args = {
 					header = {
 						order = 1,
@@ -1806,6 +1809,7 @@ local function GetUnitSettings(unit, name)
 				get = function(info) return E.db.nameplates.units[unit].debuffs.filters[ info[#info] ] end,
 				set = function(info, value) E.db.nameplates.units[unit].debuffs.filters[ info[#info] ] = value NP:ConfigureAll() end,
 				disabled = function() return not E.db.nameplates.units[unit].healthbar.enable end,
+				hidden = true,
 				args = {
 					header = {
 						order = 1,
@@ -2057,20 +2061,25 @@ local function GetUnitSettings(unit, name)
 						["CENTER"] = L["Center"]
 					}
 				},
-				size = {
+				spacer = {
 					order = 4,
+					type = "description",
+					name = " "
+				},
+				size = {
+					order = 5,
 					type = "range",
 					name = L["Size"],
 					min = 12, max = 42, step = 1
 				},
 				xOffset = {
-					order = 5,
+					order = 6,
 					type = "range",
 					name = L["X-Offset"],
 					min = -100, max = 100, step = 1
 				},
 				yOffset = {
-					order = 6,
+					order = 7,
 					type = "range",
 					name = L["Y-Offset"],
 					min = -100, max = 100, step = 1
@@ -2218,7 +2227,7 @@ E.Options.args.nameplate = {
 					order = 1,
 					type = "group",
 					name = L["General"],
-										args = {
+					args = {
 						header = {
 							order = 1,
 							type = "header",
@@ -2241,16 +2250,8 @@ E.Options.args.nameplate = {
 						--		["OVERLAP"] = UNIT_NAMEPLATES_TYPE_1
 						--	}
 						--},
-						lowHealthThreshold = {
-							order = 4,
-							name = L["Low Health Threshold"],
-							desc = L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."],
-							type = "range",
-							isPercent = true,
-							min = 0, max = 1, step = 0.01
-						},
 						showEnemyCombat = {
-							order = 5,
+							order = 4,
 							type = "select",
 							name = L["Enemy Combat Toggle"],
 							desc = L["Control enemy nameplates toggling on or off when in combat."],
@@ -2265,7 +2266,7 @@ E.Options.args.nameplate = {
 							end
 						},
 						showFriendlyCombat = {
-							order = 6,
+							order = 5,
 							type = "select",
 							name = L["Friendly Combat Toggle"],
 							desc = L["Control friendly nameplates toggling on or off when in combat."],
@@ -2279,13 +2280,22 @@ E.Options.args.nameplate = {
 								NP:PLAYER_REGEN_ENABLED()
 							end
 						},
+						lowHealthThreshold = {
+							order = 6,
+							type = "range",
+							name = L["Low Health Threshold"],
+							desc = L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."],
+							isPercent = true,
+							min = 0, max = 1, step = 0.01
+						},
 						resetFilters = {
 							order = 7,
 							name = L["Reset Aura Filters"],
 							type = "execute",
 							func = function(info, value)
 								E:StaticPopup_Show("RESET_NP_AF") --reset nameplate aurafilters
-							end
+							end,
+							hidden = true
 						},
 						comboPoints = {
 							order = 8,
@@ -2459,6 +2469,7 @@ E.Options.args.nameplate = {
 							type = "group",
 							name = L["Duration"],
 							guiInline = true,
+							hidden = true,
 							args = {
 								durationFont = {
 									order = 1,
@@ -2505,6 +2516,7 @@ E.Options.args.nameplate = {
 							type = "group",
 							name = L["Stack Counter"],
 							guiInline = true,
+							hidden = true,
 							args = {
 								stackFont = {
 									order = 1,
