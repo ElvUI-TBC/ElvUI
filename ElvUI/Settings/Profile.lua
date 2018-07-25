@@ -194,7 +194,6 @@ P["nameplates"] = {
 				["hideTime"] = false,
 				["castTimeFormat"] = "CURRENT",
 				["channelTimeFormat"] = "CURRENT",
-				["timeToHold"] = 0,
 				["iconPosition"] = "RIGHT",
 			},
 			["buffs"] = {
@@ -243,7 +242,6 @@ P["nameplates"] = {
 				["hideTime"] = false,
 				["castTimeFormat"] = "CURRENT",
 				["channelTimeFormat"] = "CURRENT",
-				["timeToHold"] = 0,
 				["iconPosition"] = "RIGHT",
 			},
 			["buffs"] = {
@@ -291,7 +289,6 @@ P["nameplates"] = {
 				["hideTime"] = false,
 				["castTimeFormat"] = "CURRENT",
 				["channelTimeFormat"] = "CURRENT",
-				["timeToHold"] = 0,
 				["iconPosition"] = "RIGHT",
 			},
 			["buffs"] = {
@@ -343,7 +340,6 @@ P["nameplates"] = {
 				["hideTime"] = false,
 				["castTimeFormat"] = "CURRENT",
 				["channelTimeFormat"] = "CURRENT",
-				["timeToHold"] = 0,
 				["iconPosition"] = "RIGHT",
 			},
 			["buffs"] = {

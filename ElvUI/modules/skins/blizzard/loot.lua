@@ -88,7 +88,7 @@ function S:LoadLootSkin()
 			button = _G["LootButton"..index]
 			local slot = (numLootToShow * (LootFrame.page - 1)) + index
 			if slot <= numLootItems then 
-				if (LootSlotIsItem(slot) or LootSlotIsCoin(slot)) and index <= numLootToShow then
+				if LootSlotIsItem(slot) and index <= numLootToShow then
 					texture, _, _, quality = GetLootSlotInfo(slot)
 					if texture then
 						if quality then
@@ -97,6 +97,8 @@ function S:LoadLootSkin()
 							button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 						end
 					end
+				else
+					button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 				end
 			end
 		end

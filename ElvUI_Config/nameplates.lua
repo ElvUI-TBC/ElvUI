@@ -1602,12 +1602,10 @@ local function GetUnitSettings(unit, name)
 						name = L["Offset"],
 						min = 0, max = 15, step = 1
 					},
-					timeToHold = {
+					spacer = {
 						order = 7,
-						type = "range",
-						name = L["Time To Hold"],
-						desc = L["How many seconds the castbar should stay visible after the cast failed or was interrupted."],
-						min = 0, max = 4, step = 0.1
+						type = "description",
+						name = " ",
 					},
 					castTimeFormat = {
 						order = 8,
