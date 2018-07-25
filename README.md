@@ -51,6 +51,10 @@ This UI will arrange your interface to be more flexible and practical.
 
 -- Please Note: These plugins will not function without ElvUI installed.
 
+Currently the aggro / threat highlights does not work on unitframes and nameplates. As a temporary fix you can get this plugin writen by [Tremolo4](https://github.com/Tremolo4)
+
+[ElvUI_ThreatDisplayFix](https://github.com/Tremolo4/ElvUI_ThreatDisplayFix)
+
 ## Commands:
 
     /ec or /elvui     Toggle the configuration GUI.
