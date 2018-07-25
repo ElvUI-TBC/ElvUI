@@ -263,10 +263,12 @@ function S:LoadQuestSkin()
 
 	QuestLogListScrollFrame:StripTextures()
 	QuestLogListScrollFrame:CreateBackdrop("Default", true)
+	QuestLogListScrollFrame.backdrop:Point("TOPLEFT", 0, 2)
 	QuestLogListScrollFrame:Size(305, 375)
 
 	QuestLogDetailScrollFrame:StripTextures()
 	QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
+	QuestLogDetailScrollFrame.backdrop:Point("TOPLEFT", -4, 2)
 	QuestLogDetailScrollFrame:Size(300, 375)
 	QuestLogDetailScrollFrame:ClearAllPoints()
 	QuestLogDetailScrollFrame:Point("TOPRIGHT", QuestLogFrame, -32, -75)
@@ -298,6 +300,7 @@ function S:LoadQuestSkin()
 	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
 	S:HandleScrollBar(QuestDetailScrollFrameScrollBar)
 	S:HandleScrollBar(QuestLogListScrollFrameScrollBar)
+	QuestLogListScrollFrameScrollBar:Point("TOPLEFT", QuestLogListScrollFrame, "TOPRIGHT", 5, -16)
 	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
 	S:HandleScrollBar(QuestRewardScrollFrameScrollBar)
 
@@ -451,6 +454,48 @@ function S:LoadQuestSkin()
 		else
 			self:GetNormalTexture():SetTexCoord(0, 0, 0, 0)
  		end
+	end)
+
+	-- Quest Watch
+	hooksecurefunc("QuestWatch_Update", function()
+		local questIndex, numObjectives, objectivesCompleted
+		local _, finished
+		local text, title, level, color, hex
+		local watchText
+		local watchTextIndex = 1
+
+		for i = 1, GetNumQuestWatches() do
+			questIndex = GetQuestIndexForWatch(i)
+			if questIndex then
+				numObjectives = GetNumQuestLeaderBoards(questIndex)
+				title, level = GetQuestLogTitle(questIndex)
+				color = GetQuestDifficultyColor(level)
+				hex = E:RGBToHex(color.r, color.g, color.b)
+				text = hex.."["..level.."] "..title
+
+				if numObjectives > 0 then
+					watchText = _G["QuestWatchLine"..watchTextIndex]
+					watchText:SetText(text)
+
+					watchTextIndex = watchTextIndex + 1
+					objectivesCompleted = 0
+
+					for j = 1, numObjectives do
+						_, _, finished = GetQuestLogLeaderBoard(j, questIndex)
+						watchText = _G["QuestWatchLine"..watchTextIndex]
+
+						if finished then
+							watchText:SetTextColor(0, 1, 0)
+							objectivesCompleted = objectivesCompleted + 1
+						else
+							watchText:SetTextColor(0.8, 0.8, 0.8)
+						end
+
+						watchTextIndex = watchTextIndex + 1
+					end
+				end
+			end
+		end
 	end)
 end
 

@@ -2,18 +2,21 @@ local E, L, V, P, G = unpack(ElvUI);
 local DT = E:GetModule("DataTexts");
 
 local pairs = pairs;
-local join = string.join;
+local format, join = string.format, string.join
 
-local IsLoggedIn = IsLoggedIn;
-local GetMoney = GetMoney;
-local IsShiftKeyDown = IsShiftKeyDown;
+local GetMoney = GetMoney
+local IsControlKeyDown = IsControlKeyDown
+local IsShiftKeyDown = IsShiftKeyDown
+local IsLoggedIn = IsLoggedIn
 
 local Profit = 0;
 local Spent = 0;
-local resetInfoFormatter = join("", "|cffaaaaaa", L["Reset Data: Hold Shift + Right Click"], "|r");
+local resetCountersFormatter = join("", "|cffaaaaaa", L["Reset Counters: Hold Control + Right Click"], "|r")
+local resetInfoFormatter = join("", "|cffaaaaaa", L["Reset Data: Hold Shift + Right Click"], "|r")
 
 local function OnEvent(self)
-	if(not IsLoggedIn()) then return; end
+	if not IsLoggedIn() then return end
+
 	local NewMoney = GetMoney();
 	ElvDB = ElvDB or {};
 	ElvDB["gold"] = ElvDB["gold"] or {};
@@ -35,10 +38,16 @@ local function OnEvent(self)
 end
 
 local function OnClick(self, btn)
-	if(btn == "RightButton" and IsShiftKeyDown()) then
-		ElvDB.gold = nil;
-		OnEvent(self);
-		DT.tooltip:Hide();
+	if btn == "RightButton" then
+		if IsShiftKeyDown() then
+			ElvDB.gold = nil
+			OnEvent(self)
+			DT.tooltip:Hide()
+		elseif IsControlKeyDown() then
+			Profit = 0
+			Spent = 0
+			DT.tooltip:Hide()
+		end
 	else
 		OpenAllBags();
 	end
@@ -74,7 +83,8 @@ local function OnEnter(self)
 	DT.tooltip:AddDoubleLine(L["Total: "], E:FormatMoney(totalGold, style, textOnly), 1, 1, 1, 1, 1, 1);
 
 	DT.tooltip:AddLine(" ");
-	DT.tooltip:AddLine(resetInfoFormatter);
+	DT.tooltip:AddLine(resetCountersFormatter)
+	DT.tooltip:AddLine(resetInfoFormatter)
 
 	DT.tooltip:Show();
 end
