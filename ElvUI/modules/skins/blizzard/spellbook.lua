@@ -4,7 +4,7 @@ local S = E:GetModule("Skins")
 local _G = _G
 local select, unpack = select, unpack
 
-function S:LoadSpellBookSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.spellbook ~= true) then return end
 
 	SpellBookFrame:StripTextures(true)
@@ -110,4 +110,4 @@ function S:LoadSpellBookSkin()
 	SpellBookPageText:Point("CENTER", SpellBookFrame, "BOTTOMLEFT", 185, 0)
 end
 
-S:AddCallback("Spellbook", S.LoadSpellBookSkin)
+S:AddCallback("Spellbook", LoadSkin)

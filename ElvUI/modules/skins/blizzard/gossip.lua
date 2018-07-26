@@ -7,7 +7,7 @@ local find, gsub = string.find, string.gsub
 
 local hooksecurefunc = hooksecurefunc
 
-function S:LoadGossipSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.gossip ~= true then return end
 
 	ItemTextScrollFrame:StripTextures()
@@ -71,4 +71,4 @@ function S:LoadGossipSkin()
 	end)
 end
 
-S:AddCallback("Gossip", S.LoadGossipSkin)
+S:AddCallback("Gossip", LoadSkin)

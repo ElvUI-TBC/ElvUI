@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-function S:LoadSurveySkin()
+local function LoadSkin()
 	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.gmchat) then return end
 
 	GMSurveyFrame:StripTextures()
@@ -31,4 +31,4 @@ function S:LoadSurveySkin()
 	GMSurveyCommentFrame:SetTemplate("Transparent")
 end
 
-S:AddCallbackForAddon("Blizzard_GMSurveyUI", "GMSurveyFrame", S.LoadSurveySkin)
+S:AddCallbackForAddon("Blizzard_GMSurveyUI", "GMSurveyFrame", LoadSkin)

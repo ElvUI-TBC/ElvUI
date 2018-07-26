@@ -13,7 +13,7 @@ local GetCraftReagentInfo = GetCraftReagentInfo
 local GetCraftReagentItemLink = GetCraftReagentItemLink
 local hooksecurefunc = hooksecurefunc
 
-function S:LoadCraftSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true then return end
 
 	CRAFTS_DISPLAYED = 25
@@ -248,4 +248,4 @@ function S:LoadCraftSkin()
 	end)
 end
 
-S:AddCallbackForAddon("Blizzard_CraftUI", "Craft", S.LoadCraftSkin)
+S:AddCallbackForAddon("Blizzard_CraftUI", "Craft", LoadSkin)

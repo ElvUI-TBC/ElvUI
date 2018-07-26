@@ -3,7 +3,7 @@ local S = E:GetModule("Skins")
 
 local _G = _G
 
-function S:LoadHelpSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.help ~= true) then return end
 
 	local knowFrameButtons = {
@@ -96,4 +96,4 @@ function S:LoadHelpSkin()
 	S:HandleButton(KnowledgeBaseArticleScrollChildFrameBackButton)
 end
 
-S:AddCallback("Help", S.LoadHelpSkin)
+S:AddCallback("Help", LoadSkin)

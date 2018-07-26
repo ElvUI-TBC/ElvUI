@@ -13,7 +13,7 @@ local ATTACHMENTS_MAX_RECEIVE = ATTACHMENTS_MAX_RECEIVE
 local ATTACHMENTS_MAX_SEND = ATTACHMENTS_MAX_SEND
 local INBOXITEMS_TO_DISPLAY = INBOXITEMS_TO_DISPLAY
 
-function S:LoadMailSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.mail ~= true then return end
 
 	-- Inbox Frame
@@ -242,4 +242,4 @@ function S:LoadMailSkin()
 	OpenMailMoneyButtonCount:SetDrawLayer("OVERLAY")
 end
 
-S:AddCallback("Mail", S.LoadMailSkin)
+S:AddCallback("Mail", LoadSkin)

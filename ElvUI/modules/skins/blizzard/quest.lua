@@ -5,7 +5,7 @@ local _G = _G
 local unpack = unpack
 local find = string.find
 
-function S:LoadQuestSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true then return end
 
 	local QuestStrip = {
@@ -499,4 +499,4 @@ function S:LoadQuestSkin()
 	end)
 end
 
-S:AddCallback("Quest", S.LoadQuestSkin)
+S:AddCallback("Quest", LoadSkin)

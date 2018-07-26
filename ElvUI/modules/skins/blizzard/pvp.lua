@@ -4,7 +4,7 @@ local S = E:GetModule("Skins")
 local _G = _G
 local MAX_ARENA_TEAMS = MAX_ARENA_TEAMS
 
-function S:LoadPVPSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.pvp ~= true) then return end
 
 	BattlefieldFrame:StripTextures(true)
@@ -63,4 +63,4 @@ function S:LoadPVPSkin()
 	S:HandleNextPrevButton(PVPTeamDetailsToggleButton)
 end
 
-S:AddCallback("PvP", S.LoadPVPSkin)
+S:AddCallback("PvP", LoadSkin)

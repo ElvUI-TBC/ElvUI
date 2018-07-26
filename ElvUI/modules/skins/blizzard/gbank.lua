@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-function S:LoadGBankSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.gbank ~= true then return end
 	GuildBankFrame:StripTextures()
 	GuildBankFrame:CreateBackdrop("Transparent")
@@ -119,4 +119,4 @@ function S:LoadGBankSkin()
 	S:HandleScrollBar(GuildBankInfoScrollFrameScrollBar)
 end
 
-S:AddCallbackForAddon("Blizzard_GuildBankUI", "GuildBank", S.LoadGBankSkin)
+S:AddCallbackForAddon("Blizzard_GuildBankUI", "GuildBank", LoadSkin)

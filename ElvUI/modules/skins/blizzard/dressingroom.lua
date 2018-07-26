@@ -3,7 +3,7 @@ local S = E:GetModule("Skins");
 
 local SetDressUpBackground = SetDressUpBackground;
 
-function S:LoadDressingRoomSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.dressingroom ~= true) then return; end
 
 	DressUpFrame:StripTextures();
@@ -37,4 +37,4 @@ function S:LoadDressingRoomSkin()
 	DressUpModel.backdrop:SetOutside(DressUpBackgroundTopLeft, nil, nil, DressUpModel);
 end
 
-S:AddCallback("DressingRoom", S.LoadDressingRoomSkin);
+S:AddCallback("DressingRoom", LoadSkin);

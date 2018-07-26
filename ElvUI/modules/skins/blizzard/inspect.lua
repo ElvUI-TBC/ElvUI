@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-function S:LoadInspectSkin()
+local function LoadSkin()
 	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect) then return end
 
 	InspectFrame:StripTextures(true)
@@ -138,4 +138,4 @@ function S:LoadInspectSkin()
 	InspectTalentFrameScrollFrameScrollBar:Point("TOPLEFT", InspectTalentFrameScrollFrame, "TOPRIGHT", 8, -19)
 end
 
-S:AddCallbackForAddon("Blizzard_InspectUI", "Inspect", S.LoadInspectSkin)
+S:AddCallbackForAddon("Blizzard_InspectUI", "Inspect", LoadSkin)

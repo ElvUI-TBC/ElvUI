@@ -7,7 +7,7 @@ local find = string.find
 
 local UnitIsUnit = UnitIsUnit
 
-function S:LoadMiscSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.misc ~= true then return end
 	-- Blizzard frame we want to reskin
 	local skins = {
@@ -784,4 +784,4 @@ function S:LoadMiscSkin()
 
 end
 
-S:AddCallback("SkinMisc", S.LoadMiscSkin)
+S:AddCallback("SkinMisc", LoadSkin)

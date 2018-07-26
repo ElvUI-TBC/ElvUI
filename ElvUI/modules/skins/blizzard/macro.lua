@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-function S:LoadMacroSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.macro ~= true then return end
 
 	MacroFrame:StripTextures()
@@ -90,4 +90,4 @@ function S:LoadMacroSkin()
 	MacroPopupFrame:Point("TOPLEFT", MacroFrame, "TOPRIGHT", -41, 1)
 end
 
-S:AddCallbackForAddon("Blizzard_MacroUI", "Macro", S.LoadMacroSkin)
+S:AddCallbackForAddon("Blizzard_MacroUI", "Macro", LoadSkin)

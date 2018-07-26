@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-function S:LoadAuctionHouseSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.auctionhouse ~= true then return end
 
 	AuctionFrame:StripTextures(true)
@@ -311,4 +311,4 @@ function S:LoadAuctionHouseSkin()
 	AuctionFrameAuctions.bg2:SetFrameLevel(AuctionFrameAuctions.bg2:GetFrameLevel() - 3)
 end
 
-S:AddCallbackForAddon("Blizzard_AuctionUI", "AuctionHouse", S.LoadAuctionHouseSkin)
+S:AddCallbackForAddon("Blizzard_AuctionUI", "AuctionHouse", LoadSkin)

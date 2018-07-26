@@ -3,7 +3,7 @@ local S = E:GetModule("Skins")
 
 local format = format
 
-function S:LoadMirrorTimersSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.mirrorTimers ~= true) then return end
 
 	local function MirrorTimer_OnUpdate(frame, elapsed)
@@ -53,4 +53,4 @@ function S:LoadMirrorTimersSkin()
 	end
 end
 
-S:AddCallback("MirrorTimers", S.LoadMirrorTimersSkin)
+S:AddCallback("MirrorTimers", LoadSkin)

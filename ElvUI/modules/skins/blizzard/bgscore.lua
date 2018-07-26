@@ -3,7 +3,7 @@ local S = E:GetModule("Skins")
 
 local split = string.split
 
-function S:LoadBGScoreSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true
 		or E.private.skins.blizzard.bgscore ~= true)
 	then
@@ -89,4 +89,4 @@ function S:LoadBGScoreSkin()
 	end)
 end
 
-S:AddCallback("WorldStateScore", S.LoadBGScoreSkin)
+S:AddCallback("WorldStateScore", LoadSkin)

@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI);
 local S = E:GetModule("Skins")
 
-function S:LoadBGMapSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bgmap ~= true then return end
 	BattlefieldMinimap:SetClampedToScreen(true)
 	BattlefieldMinimapCorner:Kill()
@@ -76,4 +76,4 @@ function S:LoadBGMapSkin()
 	end)
 end
 
-S:AddCallbackForAddon("Blizzard_BattlefieldMinimap", "BattlefieldMinimap", S.LoadBGMapSkin);
+S:AddCallbackForAddon("Blizzard_BattlefieldMinimap", "BattlefieldMinimap", LoadSkin)

@@ -13,7 +13,7 @@ local GetTradeSkillReagentInfo = GetTradeSkillReagentInfo
 local GetTradeSkillReagentItemLink = GetTradeSkillReagentItemLink
 local hooksecurefunc = hooksecurefunc
 
-function S:LoadTradeSkillSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true then return end
 
 	TRADE_SKILLS_DISPLAYED = 25
@@ -258,4 +258,4 @@ function S:LoadTradeSkillSkin()
 	end)
 end
 
-S:AddCallbackForAddon("Blizzard_TradeSkillUI", "TradeSkill", S.LoadTradeSkillSkin)
+S:AddCallbackForAddon("Blizzard_TradeSkillUI", "TradeSkill", LoadSkin)

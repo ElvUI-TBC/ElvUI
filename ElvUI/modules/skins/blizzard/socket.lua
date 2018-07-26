@@ -7,7 +7,7 @@ local format = string.format
 local GetNumSockets = GetNumSockets
 local GetSocketTypes = GetSocketTypes
 
-function S:LoadSocketSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.socket ~= true then return end
 
 	ItemSocketingFrame:StripTextures()
@@ -52,4 +52,4 @@ function S:LoadSocketSkin()
 	S:HandleButton(ItemSocketingSocketButton)
 end
 
-S:AddCallbackForAddon("Blizzard_ItemSocketingUI", "ItemSocket", S.LoadSocketSkin)
+S:AddCallbackForAddon("Blizzard_ItemSocketingUI", "ItemSocket", LoadSkin)

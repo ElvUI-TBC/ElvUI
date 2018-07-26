@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-function S:LoadBindingSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true
 		or E.private.skins.blizzard.binding ~= true)
 	then
@@ -36,4 +36,4 @@ function S:LoadBindingSkin()
 	KeyBindingFrameUnbindButton:Point("RIGHT", KeyBindingFrameOkayButton, "LEFT", -3, 0)
 end
 
-S:AddCallbackForAddon("Blizzard_BindingUI", "Binding", S.LoadBindingSkin)
+S:AddCallbackForAddon("Blizzard_BindingUI", "Binding", LoadSkin)

@@ -3,7 +3,7 @@ local S = E:GetModule("Skins")
 
 local _G = _G
 
-function S:LoadRaidSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.raid ~= true) then return end
 
 	local StripAllTextures = {
@@ -119,4 +119,4 @@ function S:LoadRaidSkin()
 	end)
 end
 
-S:AddCallbackForAddon("Blizzard_RaidUI", "RaidUI", S.LoadRaidSkin)
+S:AddCallbackForAddon("Blizzard_RaidUI", "RaidUI", LoadSkin)

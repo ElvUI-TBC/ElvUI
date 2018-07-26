@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-function S:LoadArenaSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.arena ~= true) then return end
 
 	ArenaFrame:CreateBackdrop("Transparent")
@@ -20,4 +20,4 @@ function S:LoadArenaSkin()
 	S:HandleCloseButton(ArenaFrameCloseButton)
 end
 
-S:AddCallback("Arena", S.LoadArenaSkin)
+S:AddCallback("Arena", LoadSkin)

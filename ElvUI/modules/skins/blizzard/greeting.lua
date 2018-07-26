@@ -4,7 +4,7 @@ local S = E:GetModule("Skins")
 local _G = _G
 local find, gsub = string.find, string.gsub
 
-function S:LoadGreetingSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.greeting ~= true then return end
 
 	QuestFrameGreetingPanel:HookScript("OnShow", function()
@@ -34,4 +34,4 @@ function S:LoadGreetingSkin()
 	end)
 end
 
-S:AddCallback("Greeting", S.LoadGreetingSkin)
+S:AddCallback("Greeting", LoadSkin)

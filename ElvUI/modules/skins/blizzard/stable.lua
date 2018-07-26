@@ -7,7 +7,7 @@ local GetPetHappiness = GetPetHappiness
 local HasPetUI = HasPetUI
 local UnitExists = UnitExists
 
-function S:LoadStableSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.stable ~= true) then return end
 
 	PetStableFrame:StripTextures()
@@ -51,4 +51,4 @@ function S:LoadStableSkin()
 	end)
 end
 
-S:AddCallback("Stable", S.LoadStableSkin)
+S:AddCallback("Stable", LoadSkin)

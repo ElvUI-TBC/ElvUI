@@ -9,7 +9,7 @@ local GetItemQualityColor = GetItemQualityColor
 local GetTradePlayerItemLink = GetTradePlayerItemLink
 local GetTradeTargetItemLink = GetTradeTargetItemLink
 
-function S:LoadTradeSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trade ~= true) then return end
 
 	TradeFrame:StripTextures(true)
@@ -118,4 +118,4 @@ function S:LoadTradeSkin()
 	end)
 end
 
-S:AddCallback("Trade", S.LoadTradeSkin)
+S:AddCallback("Trade", LoadSkin)

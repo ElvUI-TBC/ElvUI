@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-function S:LoadTabardSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tabard ~= true) then return end
 
 	TabardFrame:StripTextures()
@@ -48,4 +48,4 @@ function S:LoadTabardSkin()
 	end)
 end
 
-S:AddCallback("Tabard", S.LoadTabardSkin)
+S:AddCallback("Tabard", LoadSkin)

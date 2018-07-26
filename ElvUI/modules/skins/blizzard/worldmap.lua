@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-function S:LoadWorldMapSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.worldmap ~= true then return end
 
 	WorldMapFrame:StripTextures()
@@ -19,6 +19,13 @@ function S:LoadWorldMapSkin()
 	S:HandleCloseButton(WorldMapFrameCloseButton)
 
 	WorldMapDetailFrame:CreateBackdrop("Default")
+
+	WorldMapFrameAreaLabel:FontTemplate(nil, 50, "OUTLINE")
+	WorldMapFrameAreaLabel:SetShadowOffset(2, -2)
+	WorldMapFrameAreaLabel:SetTextColor(0.9, 0.8, 0.6)
+
+	WorldMapFrameAreaDescription:FontTemplate(nil, 40, "OUTLINE")
+	WorldMapFrameAreaDescription:SetShadowOffset(2, -2)
 end
 
-S:AddCallback("SkinWorldMap", S.LoadWorldMapSkin)
+S:AddCallback("SkinWorldMap", LoadSkin)

@@ -5,7 +5,7 @@ local _G = _G
 local unpack = unpack
 local find = string.find
 
-function S:LoadTrainerSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trainer ~= true) then return end
 
 	ClassTrainerFrame:SetAttribute("UIPanelLayout-width", E:Scale(710))
@@ -144,4 +144,4 @@ function S:LoadTrainerSkin()
 	end)
 end
 
-S:AddCallbackForAddon("Blizzard_TrainerUI", "Trainer", S.LoadTrainerSkin)
+S:AddCallbackForAddon("Blizzard_TrainerUI", "Trainer", LoadSkin)

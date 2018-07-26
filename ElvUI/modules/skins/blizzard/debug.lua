@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI);
 local S = E:GetModule("Skins");
 
-function S:LoadErrorSkin()
+function S:LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.debug ~= true then return end
 	if IsAddOnLoaded("!DebugTools") then return end
 
@@ -12,7 +12,7 @@ function S:LoadErrorSkin()
 	ScriptErrors_Message:SetFont("Fonts\\FRIZQT__.TTF", 15, "NORMAL")
 end
 
-function S:LoadDebugSkin()
+local function LoadSkin2()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.debug ~= true then return end
 
 	ScriptErrorsFrame:SetParent(E.UIParent)
@@ -84,5 +84,5 @@ function S:LoadDebugSkin()
 	S:HandleCloseButton(EventTraceFrameCloseButton)
 end
 
-S:AddCallback("SkinErrorFrame", S.LoadErrorSkin)
-S:AddCallbackForAddon("!DebugTools", "SkinDebugTools", S.LoadDebugSkin)
+S:AddCallback("SkinErrorFrame", LoadSkin)
+S:AddCallbackForAddon("!DebugTools", "SkinDebugTools", LoadSkin2)

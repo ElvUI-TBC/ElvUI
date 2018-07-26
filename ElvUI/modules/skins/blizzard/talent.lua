@@ -3,7 +3,7 @@ local S = E:GetModule("Skins")
 
 local _G = _G
 
-function S:LoadTalentSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true then return end
 
 	PlayerTalentFrame:StripTextures()
@@ -53,4 +53,4 @@ function S:LoadTalentSkin()
 	end
 end
 
-S:AddCallbackForAddon("Blizzard_TalentUI", "Talent", S.LoadTalentSkin)
+S:AddCallbackForAddon("Blizzard_TalentUI", "Talent", LoadSkin)

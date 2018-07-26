@@ -3,7 +3,7 @@ local S = E:GetModule("Skins")
 
 local hooksecurefunc = hooksecurefunc
 
-function S:LoadQuestTimerSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.questtimer ~= true then return end
 
 	QuestTimerFrame:StripTextures()
@@ -28,4 +28,4 @@ function S:LoadQuestTimerSkin()
 	end)
 end
 
-S:AddCallback("QuestTimer", S.LoadQuestTimerSkin)
+S:AddCallback("QuestTimer", LoadSkin)

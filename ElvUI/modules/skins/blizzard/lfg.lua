@@ -3,7 +3,7 @@ local S = E:GetModule("Skins")
 
 local _G = _G
 
-function S:LoadLFGSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.lfg ~= true then return end
 
 	LFGParentFrame:StripTextures(true)
@@ -150,4 +150,4 @@ function S:LoadLFGSkin()
 	end)
 end
 
-S:AddCallback("LFG", S.LoadLFGSkin)
+S:AddCallback("LFG", LoadSkin)

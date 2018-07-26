@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
-function S:LoadPetitionSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.petition ~= true) then return end
 
 	PetitionFrame:StripTextures(true)
@@ -31,4 +31,4 @@ function S:LoadPetitionSkin()
 	PetitionFrameRenameButton:Point("RIGHT", PetitionFrameCancelButton, "LEFT", -3, 0)
 end
 
-S:AddCallback("Petition", S.LoadPetitionSkin)
+S:AddCallback("Petition", LoadSkin)

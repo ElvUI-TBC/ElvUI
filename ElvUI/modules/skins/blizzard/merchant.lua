@@ -6,7 +6,7 @@ local unpack, select = unpack, select
 
 local hooksecurefunc = hooksecurefunc
 
-function S:LoadMerchantSkin()
+local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.merchant ~= true then return end
 
 	local MerchantFrame = _G["MerchantFrame"]
@@ -182,4 +182,4 @@ function S:LoadMerchantSkin()
 	end)
 end
 
-S:AddCallback("Merchant", S.LoadMerchantSkin)
+S:AddCallback("Merchant", LoadSkin)

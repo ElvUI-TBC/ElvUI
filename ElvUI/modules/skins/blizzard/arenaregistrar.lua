@@ -4,7 +4,7 @@ local S = E:GetModule("Skins")
 local _G = _G
 local select = select
 
-function S:LoadArenaRegistrarSkin()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.arenaregistrar ~= true) then return end
 
 	ArenaRegistrarFrame:CreateBackdrop("Transparent")
@@ -77,4 +77,4 @@ function S:LoadArenaRegistrarSkin()
 	S:HandleCloseButton(PVPBannerFrameCloseButton)
 end
 
-S:AddCallback("ArenaRegistrar", S.LoadArenaRegistrarSkin)
+S:AddCallback("ArenaRegistrar", LoadSkin)
