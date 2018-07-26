@@ -23,6 +23,8 @@ local UNKNOWN = UNKNOWN
 E.Threat = THREAT
 local threatList = {}
 
+local DT -- used to hold the DT module when we need it
+
 function THREAT:UpdatePosition()
 	if self.db.position == "RIGHTCHAT" then
 		self.bar:SetInside(RightChatDataPanel)
@@ -63,6 +65,14 @@ function THREAT:GetColor(unit)
 end
 
 function THREAT:Update(event, srcGuid, dstGuid)
+	if DT and DT.ShowingBGStats then
+		if self.bar:IsShown() then
+			self.bar:Hide()
+		end
+
+		return
+	end
+
 	local targetGUID = UnitGUID("target")
 	if not targetGUID then
 		self.bar:Hide()
@@ -171,6 +181,8 @@ function THREAT:PLAYER_ENTERING_WORLD()
 end
 
 function THREAT:Initialize()
+	DT = E:GetModule("DataTexts")
+
 	self.db = E.db.general.threat
 	self.playerGUID = UnitGUID("player")
 

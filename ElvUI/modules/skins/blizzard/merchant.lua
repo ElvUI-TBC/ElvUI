@@ -54,10 +54,10 @@ local function LoadSkin()
 
 		nameFrame:Point("LEFT", slot, "RIGHT", -6, -17)
 
-		name:Point("LEFT", slot, "RIGHT", -5, 6)
+		name:Point("LEFT", slot, "RIGHT", -4, 5)
 
 		money:ClearAllPoints()
-		money:Point("BOTTOMLEFT", itemButton, "BOTTOMRIGHT", 3, 0)
+		money:Point("BOTTOMLEFT", button, "BOTTOMRIGHT", 3, 0)
 
 		for j = 1, 2 do
 			local currencyItem = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j]
