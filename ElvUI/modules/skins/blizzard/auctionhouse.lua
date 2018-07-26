@@ -24,20 +24,26 @@ local function LoadSkin()
 
 	-- DressUpFrame
 	AuctionDressUpFrame:StripTextures()
-	AuctionDressUpFrame:CreateBackdrop("Default")
+	AuctionDressUpFrame:CreateBackdrop("Transparent")
+	AuctionDressUpFrame.backdrop:Point("TOPLEFT", 0, 10)
+	AuctionDressUpFrame.backdrop:Point("BOTTOMRIGHT", -5, 3)
+	AuctionDressUpFrame:Point("TOPLEFT", AuctionFrame, "TOPRIGHT", 1, -28)
+
+	AuctionDressUpModel:CreateBackdrop()
+	AuctionDressUpModel.backdrop:SetOutside(AuctionDressUpBackgroundTop, nil, nil, AuctionDressUpBackgroundBot)
 
 	SetAuctionDressUpBackground()
 	AuctionDressUpBackgroundTop:SetDesaturated(true)
 	AuctionDressUpBackgroundBot:SetDesaturated(true)
 
-	AuctionDressUpFrame.backdrop:SetOutside(AuctionDressUpBackgroundTop, nil, nil, AuctionDressUpBackgroundBot)
-
 	S:HandleRotateButton(AuctionDressUpModelRotateLeftButton)
 	AuctionDressUpModelRotateLeftButton:Point("TOPLEFT", AuctionDressUpFrame, 8, -17)
+
 	S:HandleRotateButton(AuctionDressUpModelRotateRightButton)
 	AuctionDressUpModelRotateRightButton:Point("TOPLEFT", AuctionDressUpModelRotateLeftButton, "TOPRIGHT", 3, 0)
 
 	S:HandleButton(AuctionDressUpFrameResetButton)
+
 	S:HandleCloseButton(AuctionDressUpFrameCloseButton, AuctionDressUpFrame.backdrop)
 
 	local buttons = {

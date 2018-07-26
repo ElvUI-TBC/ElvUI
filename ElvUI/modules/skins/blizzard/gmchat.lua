@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local function LoadSkin()
-	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.gmchat) then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.gmchat then return end
 
 	GMSurveyFrame:StripTextures()
 	GMSurveyFrame:CreateBackdrop("Transparent")

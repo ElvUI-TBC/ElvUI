@@ -4,7 +4,7 @@ local S = E:GetModule("Skins")
 local _G = _G
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.raid ~= true) then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.raid ~= true then return end
 
 	local StripAllTextures = {
 		"RaidGroup1",
@@ -28,13 +28,13 @@ local function LoadSkin()
 	S:HandleButton(RaidFrameRaidInfoButton)
 
 	for i = 1, MAX_RAID_GROUPS*5 do
-		S:HandleButton(_G["RaidGroupButton" .. i], true)
+		S:HandleButton(_G["RaidGroupButton"..i], true)
 	end
 
 	for i = 1, 8 do
 		for j = 1, 5 do
-			_G["RaidGroup" .. i .. "Slot" .. j]:StripTextures()
-			_G["RaidGroup" .. i .. "Slot" .. j]:SetTemplate("Transparent")
+			_G["RaidGroup"..i.."Slot"..j]:StripTextures()
+			_G["RaidGroup"..i.."Slot"..j]:SetTemplate("Transparent")
 		end
 	end
 
@@ -75,8 +75,9 @@ local function LoadSkin()
 
 	hooksecurefunc("RaidPullout_GetFrame", function()
 		for i = 1, NUM_RAID_PULLOUT_FRAMES do
-			local rp = _G["RaidPullout" .. i]
-			if(not rp.backdrop) then
+			local rp = _G["RaidPullout"..i]
+
+			if not rp.backdrop then
 				_G["RaidPullout"..i.."MenuBackdrop"]:SetBackdrop(nil)
 				rp:CreateBackdrop("Transparent")
 				rp.backdrop:Point("TOPLEFT", 9, -17)
@@ -92,28 +93,29 @@ local function LoadSkin()
 
 		local pfName = pullOutFrame:GetName()
 		for i = 1, pullOutFrame.numPulloutButtons do
-			local pfBName = pfName .. "Button" .. i
+			local pfBName = pfName.."Button"..i
 			local pfBObj = _G[pfBName]
-			if(not pfBObj.backdrop) then
+			if not pfBObj.backdrop then
 				for _, v in pairs{"HealthBar", "ManaBar", "Target", "TargetTarget"} do
-					local sBar = pfBName .. v
+					local sBar = pfBName..v
+
 					_G[sBar]:StripTextures()
 					_G[sBar]:SetStatusBarTexture(E["media"].normTex)
 				end
 
-				_G[pfBName .. "ManaBar"]:Point("TOP", "$parentHealthBar", "BOTTOM", 0, 0)
-				_G[pfBName .. "Target"]:Point("TOP", "$parentManaBar", "BOTTOM", 0, -1)
+				_G[pfBName.."ManaBar"]:Point("TOP", "$parentHealthBar", "BOTTOM", 0, 0)
+				_G[pfBName.."Target"]:Point("TOP", "$parentManaBar", "BOTTOM", 0, -1)
 
 				pfBObj:CreateBackdrop("Default")
 				pfBObj.backdrop:Point("TOPLEFT", E.PixelMode and 0 or -1, -(E.PixelMode and 10 or 9))
 				pfBObj.backdrop:Point("BOTTOMRIGHT", E.PixelMode and 0 or 1, E.PixelMode and 1 or 0)
 			end
 
-			if(not _G[pfBName .. "TargetTargetFrame"].backdrop) then
-				_G[pfBName .. "TargetTargetFrame"]:StripTextures()
-				_G[pfBName .. "TargetTargetFrame"]:CreateBackdrop("Default")
-				_G[pfBName .. "TargetTargetFrame"].backdrop:Point("TOPLEFT", E.PixelMode and 10 or 9, -(E.PixelMode and 15 or 14))
-				_G[pfBName .. "TargetTargetFrame"].backdrop:Point("BOTTOMRIGHT", -(E.PixelMode and 10 or 9), E.PixelMode and 8 or 7)
+			if not _G[pfBName.."TargetTargetFrame"].backdrop then
+				_G[pfBName.."TargetTargetFrame"]:StripTextures()
+				_G[pfBName.."TargetTargetFrame"]:CreateBackdrop("Default")
+				_G[pfBName.."TargetTargetFrame"].backdrop:Point("TOPLEFT", E.PixelMode and 10 or 9, -(E.PixelMode and 15 or 14))
+				_G[pfBName.."TargetTargetFrame"].backdrop:Point("BOTTOMRIGHT", -(E.PixelMode and 10 or 9), E.PixelMode and 8 or 7)
 			end
 		end
 	end)

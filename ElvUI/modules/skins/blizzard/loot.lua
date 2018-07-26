@@ -106,48 +106,49 @@ local function LoadSkin()
 end
 
 local function LoadSkin2()
-	if(E.private.general.lootRoll) then return end
-	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.lootRoll) then return end
+	if E.private.general.lootRoll then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.lootRoll then return end
 
 	local function OnShow(self)
 		self:SetTemplate("Transparent")
 
-		local cornerTexture = _G[self:GetName() .. "Corner"]
+		local cornerTexture = _G[self:GetName().."Corner"]
 		cornerTexture:SetTexture()
 
-		local iconFrame = _G[self:GetName() .. "IconFrame"]
+		local iconFrame = _G[self:GetName().."IconFrame"]
 		local _, _, _, quality = GetLootRollItemInfo(self.rollID)
 		iconFrame:SetBackdropBorderColor(GetItemQualityColor(quality))
 	end
 
 	for i = 1, NUM_GROUP_LOOT_FRAMES do
-		local frame = _G["GroupLootFrame" .. i]
+		local frame = _G["GroupLootFrame"..i]
+		local frameName = frame:GetName()
+		local iconFrame = _G[frameName.."IconFrame"]
+		local icon = _G[frameName.."IconFrameIcon"]
+		local statusBar = _G[frameName.."Timer"]
+		local decoration = _G[frameName.."Decoration"]
+		local pass = _G[frameName.."PassButton"]
+
 		frame:SetParent(UIParent)
 		frame:StripTextures()
 
-		local frameName = frame:GetName()
-		local iconFrame = _G[frameName .. "IconFrame"]
 		iconFrame:SetTemplate("Default")
 
-		local icon = _G[frameName .. "IconFrameIcon"]
 		icon:SetInside()
 		icon:SetTexCoord(unpack(E.TexCoords))
 
-		local statusBar = _G[frameName .. "Timer"]
 		statusBar:StripTextures()
 		statusBar:CreateBackdrop("Default")
 		statusBar:SetStatusBarTexture(E["media"].normTex)
 		E:RegisterStatusBar(statusBar)
-
-		local decoration = _G[frameName .. "Decoration"]
+		
 		decoration:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Gold-Dragon")
 		decoration:Size(130)
 		decoration:Point("TOPLEFT", -37, 20)
 
-		local pass = _G[frameName .. "PassButton"]
 		S:HandleCloseButton(pass, frame)
 
-		_G["GroupLootFrame" .. i]:HookScript("OnShow", OnShow)
+		_G["GroupLootFrame"..i]:HookScript("OnShow", OnShow)
 	end
 end
 

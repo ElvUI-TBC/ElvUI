@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local function LoadSkin()
-	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect) then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect then return end
 
 	InspectFrame:StripTextures(true)
 	InspectFrame:CreateBackdrop("Transparent")
@@ -52,13 +52,13 @@ local function LoadSkin()
 	end
 
 	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
-		if(button.hasItem) then
+		if button.hasItem then
 			local itemID = GetInventoryItemLink(InspectFrame.unit, button:GetID())
-			if(itemID) then
+			if itemID then
 				local _, _, quality = GetItemInfo(itemID)
-				if(not quality) then
+				if not quality then
 					E:Delay(0.1, function()
-						if(InspectFrame.unit) then
+						if InspectFrame.unit then
 							InspectPaperDollItemSlotButton_Update(button)
 						end
 					end)

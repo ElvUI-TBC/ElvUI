@@ -2,11 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true
-		or E.private.skins.blizzard.binding ~= true)
-	then
-		return
-	end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.binding ~= true then return end
 
 	KeyBindingFrame:CreateBackdrop("Transparent")
 	KeyBindingFrame.backdrop:Point("TOPLEFT", 2, 0)
@@ -30,8 +26,10 @@ local function LoadSkin()
 
 	S:HandleButton(KeyBindingFrameDefaultButton)
 	S:HandleButton(KeyBindingFrameCancelButton)
+
 	S:HandleButton(KeyBindingFrameOkayButton)
 	KeyBindingFrameOkayButton:Point("RIGHT", KeyBindingFrameCancelButton, "LEFT", -3, 0)
+
 	S:HandleButton(KeyBindingFrameUnbindButton)
 	KeyBindingFrameUnbindButton:Point("RIGHT", KeyBindingFrameOkayButton, "LEFT", -3, 0)
 end

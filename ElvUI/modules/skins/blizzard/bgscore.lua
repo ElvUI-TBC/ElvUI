@@ -4,11 +4,7 @@ local S = E:GetModule("Skins")
 local split = string.split
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true
-		or E.private.skins.blizzard.bgscore ~= true)
-	then
-		return
-	end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bgscore ~= true then return end
 
 	WorldStateScoreFrame:CreateBackdrop("Transparent")
 	WorldStateScoreFrame.backdrop:Point("TOPLEFT", 10, -15)
@@ -53,24 +49,23 @@ local function LoadSkin()
 		for i = 1, MAX_WORLDSTATE_SCORE_BUTTONS do
 			local index = offset + i
 			local name, _, _, _, _, faction, _, _, _, classToken = GetBattlefieldScore(index)
-			if(name) then
+			if name then
 				local n, r = split("-", name, 2)
-				local myName = UnitName("player")
 
-				if(name == myName) then
+				if name == E.myname then
 					n = "> "..n.." <"
 				end
 
-				if(r) then
+				if r then
 					local color
-					if(inArena) then
-						if(faction == 1) then
+					if inArena then
+						if faction == 1 then
 							color = "|cffffd100"
 						else
 							color = "|cff19ff19"
 						end
 					else
-						if(faction == 1) then
+						if faction == 1 then
 							color = "|cff00adf0"
 						else
 							color = "|cffff1919"

@@ -66,18 +66,18 @@ local function LoadSkin()
 	MacroFrameCharLimitText:Point("BOTTOM", MacroFrameTextBackground, 0, -9)
 
 	for i = 1, MAX_MACROS do
-		local Button = _G["MacroButton"..i]
-		local ButtonIcon = _G["MacroButton"..i.."Icon"]
+		local button = _G["MacroButton"..i]
+		local icon = _G["MacroButton"..i.."Icon"]
 
-		if Button then
-			Button:StripTextures()
-			Button:SetTemplate("Default", true)
-			Button:StyleButton(nil, true)
+		if button then
+			button:StripTextures()
+			button:SetTemplate("Default", true)
+			button:StyleButton(nil, true)
 		end
 
-		if ButtonIcon then
-			ButtonIcon:SetTexCoord(unpack(E.TexCoords))
-			ButtonIcon:SetInside()
+		if icon then
+			icon:SetTexCoord(unpack(E.TexCoords))
+			icon:SetInside()
 		end
 	end
 

@@ -5,7 +5,7 @@ local _G = _G
 local select, unpack = select, unpack
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.spellbook ~= true) then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.spellbook ~= true then return end
 
 	SpellBookFrame:StripTextures(true)
 	SpellBookFrame:CreateBackdrop("Transparent")
@@ -30,20 +30,20 @@ local function LoadSkin()
 	S:HandleCloseButton(SpellBookCloseButton)
 
 	for i = 1, SPELLS_PER_PAGE do
-		local button = _G["SpellButton" .. i]
-		local iconTexture = _G["SpellButton" .. i .. "IconTexture"]
+		local button = _G["SpellButton"..i]
+		local iconTexture = _G["SpellButton"..i.."IconTexture"]
 		local cooldown = _G["SpellButton"..i.."Cooldown"]
 
 		for i = 1, button:GetNumRegions() do
 			local region = select(i, button:GetRegions())
-			if(region:GetObjectType() == "Texture") then
-				if(region:GetTexture() ~= "Interface\\Buttons\\ActionBarFlyoutButton") then
+			if region:GetObjectType() == "Texture" then
+				if region:GetTexture() ~= "Interface\\Buttons\\ActionBarFlyoutButton" then
 					region:SetTexture(nil)
 				end
 			end
 		end
 
-		if(iconTexture) then
+		if iconTexture then
 			iconTexture:SetTexCoord(unpack(E.TexCoords))
 
 			if not button.backdrop then
@@ -51,23 +51,23 @@ local function LoadSkin()
 			end
 		end
 
-		if(cooldown) then
+		if cooldown then
 			E:RegisterCooldown(cooldown)
 		end
 	end
 
 	hooksecurefunc("SpellButton_UpdateButton", function()
 		local name = this:GetName()
-		local spellName = _G[name .. "SpellName"]
-		local subSpellName = _G[name .. "SubSpellName"]
-		local iconTexture = _G[name .. "IconTexture"]
-		local highlight = _G[name .. "Highlight"]
+		local spellName = _G[name.."SpellName"]
+		local subSpellName = _G[name.."SubSpellName"]
+		local iconTexture = _G[name.."IconTexture"]
+		local highlight = _G[name.."Highlight"]
 
 		spellName:SetTextColor(1, 0.80, 0.10)
 		subSpellName:SetTextColor(1, 1, 1)
 
-		if (iconTexture) then
-			if (highlight) then
+		if iconTexture then
+			if highlight then
 				highlight:SetTexture(1, 1, 1, 0.3)
 			end
 		end
@@ -85,9 +85,9 @@ local function LoadSkin()
 	end
 
 	for i = 1, 12 do
-		_G["SpellButton" .. i]:CreateBackdrop("Transparent", true)
-		_G["SpellButton" .. i].backdrop:Point("TOPLEFT", -7, 6)
-		_G["SpellButton" .. i].backdrop:Point("BOTTOMRIGHT", 116, -5)
+		_G["SpellButton"..i]:CreateBackdrop("Transparent", true)
+		_G["SpellButton"..i].backdrop:Point("TOPLEFT", -7, 6)
+		_G["SpellButton"..i].backdrop:Point("BOTTOMRIGHT", 116, -5)
 	end
 
 	SpellButton1:Point("TOPLEFT", SpellBookFrame, "TOPLEFT", 25, -75)

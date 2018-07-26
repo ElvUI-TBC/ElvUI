@@ -10,7 +10,7 @@ local GetTradePlayerItemLink = GetTradePlayerItemLink
 local GetTradeTargetItemLink = GetTradeTargetItemLink
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trade ~= true) then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trade ~= true then return end
 
 	TradeFrame:StripTextures(true)
 	TradeFrame:Width(400)
@@ -89,13 +89,17 @@ local function LoadSkin()
 
 	hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
 		local link = GetTradePlayerItemLink(id)
-		local tradeItemButton = _G["TradePlayerItem" .. id .. "ItemButton"]
-		local tradeItemName = _G["TradePlayerItem" .. id .. "Name"]
-		if(link) then
+		local tradeItemButton = _G["TradePlayerItem"..id.."ItemButton"]
+		local tradeItemName = _G["TradePlayerItem"..id.."Name"]
+
+		if link then
 			local quality = select(3, GetItemInfo(link))
 			if quality then
 				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
 				tradeItemName:SetTextColor(GetItemQualityColor(quality))
+			else
+				tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				tradeItemName:SetTextColor(1, 1, 1)
 			end
 		else
 			tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
@@ -104,13 +108,17 @@ local function LoadSkin()
 
 	hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
 		local link = GetTradeTargetItemLink(id)
-		local tradeItemButton = _G["TradeRecipientItem" .. id .. "ItemButton"]
-		local tradeItemName = _G["TradeRecipientItem" .. id .. "Name"]
-		if(link) then
+		local tradeItemButton = _G["TradeRecipientItem"..id.."ItemButton"]
+		local tradeItemName = _G["TradeRecipientItem"..id.."Name"]
+
+		if link then
 			local quality = select(3, GetItemInfo(link))
 			if quality  then
 				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
 				tradeItemName:SetTextColor(GetItemQualityColor(quality))
+			else
+				tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				tradeItemName:SetTextColor(1, 1, 1)
 			end
 		else
 			tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))

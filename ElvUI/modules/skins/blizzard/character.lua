@@ -84,9 +84,7 @@ local function LoadSkin()
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
 
-		if(cooldown) then
-			E:RegisterCooldown(cooldown)
-		end
+		E:RegisterCooldown(cooldown)
 	end
 
 	local function ColorItemBorder(_, event, unit)
@@ -149,31 +147,29 @@ local function LoadSkin()
 	PetPaperDollFrameExpBar:CreateBackdrop("Default")
 
 	local function updHappiness(self)
-		local happiness = GetPetHappiness();
-		local _, isHunterPet = HasPetUI();
-		if(not happiness or not isHunterPet) then
-			return;
-		end
-		local texture = self:GetRegions();
-		if(happiness == 1) then
-			texture:SetTexCoord(0.41, 0.53, 0.06, 0.30);
-		elseif(happiness == 2) then
-			texture:SetTexCoord(0.22, 0.345, 0.06, 0.30);
-		elseif(happiness == 3) then
-			texture:SetTexCoord(0.04, 0.15, 0.06, 0.30);
+		local happiness = GetPetHappiness()
+		local _, isHunterPet = HasPetUI()
+		if not happiness or not isHunterPet then return end
+
+		local texture = self:GetRegions()
+		if happiness == 1 then
+			texture:SetTexCoord(0.41, 0.53, 0.06, 0.30)
+		elseif happiness == 2 then
+			texture:SetTexCoord(0.22, 0.345, 0.06, 0.30)
+		elseif happiness == 3 then
+			texture:SetTexCoord(0.04, 0.15, 0.06, 0.30)
 		end
 	end
 
-	PetPaperDollPetInfo:Point("TOPLEFT", PetModelFrameRotateLeftButton, "BOTTOMLEFT", 9, -3);
-	PetPaperDollPetInfo:GetRegions():SetTexCoord(0.04, 0.15, 0.06, 0.30);
-	PetPaperDollPetInfo:SetFrameLevel(PetModelFrame:GetFrameLevel() + 2);
-	PetPaperDollPetInfo:CreateBackdrop("Default");
-	PetPaperDollPetInfo:Size(24, 24);
-	updHappiness(PetPaperDollPetInfo);
-
-	PetPaperDollPetInfo:RegisterEvent("UNIT_HAPPINESS");
-	PetPaperDollPetInfo:SetScript("OnEvent", updHappiness);
-	PetPaperDollPetInfo:SetScript("OnShow", updHappiness);
+	PetPaperDollPetInfo:Point("TOPLEFT", PetModelFrameRotateLeftButton, "BOTTOMLEFT", 9, -3)
+	PetPaperDollPetInfo:GetRegions():SetTexCoord(0.04, 0.15, 0.06, 0.30)
+	PetPaperDollPetInfo:SetFrameLevel(PetModelFrame:GetFrameLevel() + 2)
+	PetPaperDollPetInfo:CreateBackdrop("Default")
+	PetPaperDollPetInfo:Size(24, 24)
+	updHappiness(PetPaperDollPetInfo)
+	PetPaperDollPetInfo:RegisterEvent("UNIT_HAPPINESS")
+	PetPaperDollPetInfo:SetScript("OnEvent", updHappiness)
+	PetPaperDollPetInfo:SetScript("OnShow", updHappiness)
 
 	-- Skill Frame
 	SkillFrame:StripTextures()

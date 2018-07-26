@@ -29,11 +29,15 @@ local function LoadSkin()
 		local button_bracket = _G[format("ItemSocketingSocket%dBracketFrame", i)]
 		local button_bg = _G[format("ItemSocketingSocket%dBackground", i)]
 		local button_icon = _G[format("ItemSocketingSocket%dIconTexture", i)]
+
 		button:StripTextures()
 		button:StyleButton(false)
 		button:SetTemplate("Default", true)
+
 		button_bracket:Kill()
+
 		button_bg:Kill()
+
 		button_icon:SetTexCoord(unpack(E.TexCoords))
 		button_icon:SetInside()
 	end
@@ -44,6 +48,7 @@ local function LoadSkin()
 			local button = _G[format("ItemSocketingSocket%d", i)]
 			local gemColor = GetSocketTypes(i)
 			local color = GEM_TYPE_INFO[gemColor]
+
 			button:SetBackdropColor(color.r, color.g, color.b, 0.15)
 			button:SetBackdropBorderColor(color.r, color.g, color.b)
 		end

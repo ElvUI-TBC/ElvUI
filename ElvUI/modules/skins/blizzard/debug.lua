@@ -1,5 +1,5 @@
-local E, L, V, P, G = unpack(ElvUI);
-local S = E:GetModule("Skins");
+local E, L, V, P, G = unpack(ElvUI)
+local S = E:GetModule("Skins")
 
 function S:LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.debug ~= true then return end
@@ -17,13 +17,18 @@ local function LoadSkin2()
 
 	ScriptErrorsFrame:SetParent(E.UIParent)
 	ScriptErrorsFrame:SetTemplate("Transparent")
+
 	S:HandleScrollBar(ScriptErrorsFrameScrollFrameScrollBar)
+
 	S:HandleCloseButton(ScriptErrorsFrameClose)
+
 	ScriptErrorsFrameScrollFrameText:FontTemplate(nil, 13)
+
 	ScriptErrorsFrameScrollFrame:CreateBackdrop("Default")
 	ScriptErrorsFrameScrollFrame:SetFrameLevel(ScriptErrorsFrameScrollFrame:GetFrameLevel() + 2)
 
 	EventTraceFrame:SetTemplate("Transparent")
+
 	S:HandleSliderFrame(EventTraceFrameScroll)
 
 	local texs = {
@@ -61,7 +66,6 @@ local function LoadSkin2()
 		hooksecurefunc(DT, "ModifyErrorFrame", SkinFirstLast)
 	end
 
-	-- TODO FIX HandleNextPrevButton button size
 	ScriptErrorsFrame.previous:Point("BOTTOM", ScriptErrorsFrame, "BOTTOM", -50, 12)
 	ScriptErrorsFrame.next:Point("BOTTOM", ScriptErrorsFrame, "BOTTOM", 50, 12)
 
@@ -72,7 +76,7 @@ local function LoadSkin2()
 			edgeFile = E["media"].blankTex,
 			tile = false, tileSize = 0, edgeSize = noscalemult,
 			insets = { left = -noscalemult, right = -noscalemult, top = -noscalemult, bottom = -noscalemult}
-		});
+		})
 		self:SetBackdropColor(unpack(E["media"].backdropfadecolor))
 		self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 	end)

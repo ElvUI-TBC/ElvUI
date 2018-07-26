@@ -1,8 +1,9 @@
-local E, L, V, P, G = unpack(ElvUI);
+local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bgmap ~= true then return end
+
 	BattlefieldMinimap:SetClampedToScreen(true)
 	BattlefieldMinimapCorner:Kill()
 	BattlefieldMinimapBackground:Kill()
@@ -14,6 +15,7 @@ local function LoadSkin()
 	BattlefieldMinimap:CreateBackdrop("Default")
 	BattlefieldMinimap.backdrop:Point("BOTTOMRIGHT", -4, 2)
 	BattlefieldMinimap:SetFrameStrata("LOW")
+
 	BattlefieldMinimapCloseButton:ClearAllPoints()
 	BattlefieldMinimapCloseButton:Point("TOPRIGHT", -4, 0)
 	S:HandleCloseButton(BattlefieldMinimapCloseButton)
@@ -46,13 +48,13 @@ local function LoadSkin()
 	end)
 
 	hooksecurefunc("BattlefieldMinimap_SetOpacity", function()
-		local alpha = 1.0 - BattlefieldMinimapOptions.opacity or 0;
+		local alpha = 1.0 - BattlefieldMinimapOptions.opacity or 0
 		BattlefieldMinimap.backdrop:SetAlpha(alpha)
 	end)
 
 	local oldAlpha
 	BattlefieldMinimap:HookScript2("OnEnter", function()
-		oldAlpha = BattlefieldMinimapOptions.opacity or 0;
+		oldAlpha = BattlefieldMinimapOptions.opacity or 0
 		BattlefieldMinimap_SetOpacity(0)
 	end)
 
@@ -64,14 +66,14 @@ local function LoadSkin()
 	end)
 
 	BattlefieldMinimapCloseButton:HookScript2("OnEnter", function()
-		oldAlpha = BattlefieldMinimapOptions.opacity or 0;
+		oldAlpha = BattlefieldMinimapOptions.opacity or 0
 		BattlefieldMinimap_SetOpacity(0)
 	end)
 
 	BattlefieldMinimapCloseButton:HookScript2("OnLeave", function()
 		if oldAlpha then
 			BattlefieldMinimap_SetOpacity(oldAlpha)
-			oldAlpha = nil;
+			oldAlpha = nil
 		end
 	end)
 end

@@ -37,6 +37,7 @@ local function LoadSkin()
 
 	for i = 1, 6 do
 		local ddown = _G["LFGFrame"..lfgDropDowns[i]]
+
 		if ddown then
 			S:HandleDropDownBox(ddown, 250)
 		end
@@ -45,11 +46,13 @@ local function LoadSkin()
 
 	for i = 1, 2 do
 		local tab = _G["LFGParentFrameTab"..i]
+
 		S:HandleTab(tab)
 	end
 
 	for i = 1, LFGParentFrame:GetNumChildren() do
 		local child = select(i, LFGParentFrame:GetChildren())
+
 		if child.GetPushedTexture and child:GetPushedTexture() and not child:GetName() then
 			S:HandleCloseButton(child)
 		end
@@ -74,9 +77,9 @@ local function LoadSkin()
 	S:HandleDropDownBox(LFMFrameNameDropDown, 220)
 
 	for i = 1, 4 do
-		_G["LFMFrameColumnHeader" .. i]:StripTextures()
-		_G["LFMFrameColumnHeader" .. i]:StyleButton()
-		_G["LFMFrameColumnHeader" .. i]:ClearAllPoints()
+		_G["LFMFrameColumnHeader"..i]:StripTextures()
+		_G["LFMFrameColumnHeader"..i]:StyleButton()
+		_G["LFMFrameColumnHeader"..i]:ClearAllPoints()
 	end
 
 	LFMFrameColumnHeader3:Point("TOPLEFT", 25, -110)

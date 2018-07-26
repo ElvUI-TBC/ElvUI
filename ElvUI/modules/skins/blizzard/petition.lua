@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.petition ~= true) then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.petition ~= true then return end
 
 	PetitionFrame:StripTextures(true)
 	PetitionFrame:CreateBackdrop("Transparent")
@@ -22,7 +22,7 @@ local function LoadSkin()
 	PetitionFrameMemberTitle:SetTextColor(1, 1, 0)
 
 	for i = 1, 9 do
-		_G["PetitionFrameMemberName" .. i]:SetTextColor(1, 1, 1)
+		_G["PetitionFrameMemberName"..i]:SetTextColor(1, 1, 1)
 	end
 
 	PetitionFrameInstructions:SetTextColor(1, 1, 1)

@@ -6,7 +6,7 @@ local unpack = unpack
 local find = string.find
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trainer ~= true) then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trainer ~= true then return end
 
 	ClassTrainerFrame:SetAttribute("UIPanelLayout-width", E:Scale(710))
 	ClassTrainerFrame:SetAttribute("UIPanelLayout-height", E:Scale(470))
@@ -65,6 +65,8 @@ local function LoadSkin()
 
 	S:HandleCloseButton(ClassTrainerFrameCloseButton)
 
+	ClassTrainerSkillName:Point("TOPLEFT", 58, -3)
+
 	ClassTrainerSkillIcon:StripTextures()
 	ClassTrainerSkillIcon:SetTemplate("Default")
 	ClassTrainerSkillIcon:StyleButton(nil, true)
@@ -91,7 +93,7 @@ local function LoadSkin()
 	end)
 
 	for i = 12, 19 do
-		CreateFrame("Button", "ClassTrainerSkill" .. i, ClassTrainerFrame, "ClassTrainerSkillButtonTemplate"):Point("TOPLEFT", _G["ClassTrainerSkill" .. i - 1], "BOTTOMLEFT")
+		CreateFrame("Button", "ClassTrainerSkill"..i, ClassTrainerFrame, "ClassTrainerSkillButtonTemplate"):Point("TOPLEFT", _G["ClassTrainerSkill"..i - 1], "BOTTOMLEFT")
 	end
 
 	ClassTrainerSkill1:Point("TOPLEFT", 22, -80)

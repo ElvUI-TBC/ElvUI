@@ -4,7 +4,12 @@ local S = E:GetModule("Skins")
 local _G = _G
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.help ~= true) then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.help ~= true then return end
+
+	HelpFrame:StripTextures()
+	HelpFrame:CreateBackdrop("Transparent")
+	HelpFrame.backdrop:Point("TOPLEFT", 6, -2)
+	HelpFrame.backdrop:Point("BOTTOMRIGHT", -45, 14)
 
 	local knowFrameButtons = {
 		"Cancel",
@@ -14,6 +19,11 @@ local function LoadSkin()
 		"SearchButton",
 		"TopIssuesButton"
 	}
+	for i = 1, #knowFrameButtons do
+		local knowButton = _G["KnowledgeBaseFrame"..knowFrameButtons[i]]
+
+		S:HandleButton(knowButton)
+	end
 
 	local helpFrameButtons = {
 		"GMTalkOpenTicket",
@@ -26,42 +36,20 @@ local function LoadSkin()
 		"StuckOpenTicket",
 		"StuckCancel"
 	}
-
-	HelpFrame:StripTextures()
-	HelpFrame:CreateBackdrop("Transparent")
-	HelpFrame.backdrop:Point("TOPLEFT", 6, -2)
-	HelpFrame.backdrop:Point("BOTTOMRIGHT", -45, 14)
-
-	S:HandleCloseButton(HelpFrameCloseButton)
-	HelpFrameCloseButton:Point("TOPRIGHT", -42, 0)
-
-	for i = 1, #knowFrameButtons do
-		local knowButton = _G["KnowledgeBaseFrame" .. knowFrameButtons[i]]
-		S:HandleButton(knowButton)
-	end
-
 	for i = 1, #helpFrameButtons do
-		local helpButton = _G["HelpFrame" .. helpFrameButtons[i]]
+		local helpButton = _G["HelpFrame"..helpFrameButtons[i]]
+
 		S:HandleButton(helpButton)
 	end
 
-	-- hide header textures and move text/buttons.
-	local BlizzardHeader = {
-		"KnowledgeBaseFrame"
-	}
+	S:HandleCloseButton(HelpFrameCloseButton)
+	HelpFrameCloseButton:Point("TOPRIGHT", -42, 0)
+	
+	KnowledgeBaseFrame:StripTextures()
 
-	for i = 1, #BlizzardHeader do
-		local title = _G[BlizzardHeader[i].."Header"]
-		if title then
-			title:SetTexture("")
-			title:ClearAllPoints()
-			if title == _G["GameMenuFrameHeader"] then
-				title:Point("TOP", GameMenuFrame, 0, 0)
-			else
-				title:Point("TOP", BlizzardHeader[i], -22, -8)
-			end
-		end
-	end
+	KnowledgeBaseFrameHeader:SetTexture("")
+	KnowledgeBaseFrameHeader:ClearAllPoints()
+	KnowledgeBaseFrameHeader:Point("TOP", -22, -8)
 
 	HelpFrameOpenTicketDivider:StripTextures()
 
@@ -71,8 +59,6 @@ local function LoadSkin()
 
 	HelpFrameOpenTicketSubmit:Point("RIGHT", HelpFrameOpenTicketCancel, "LEFT", -2, 0)
 	KnowledgeBaseFrameStuck:Point("LEFT", KnowledgeBaseFrameReportIssue, "RIGHT", 2, 0)
-
-	KnowledgeBaseFrame:StripTextures()
 
 	KnowledgeBaseFrameDivider:Kill()
 	KnowledgeBaseFrameDivider2:Kill()
