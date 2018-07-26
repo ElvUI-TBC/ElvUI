@@ -194,6 +194,7 @@ function E:LoadCommands()
 	self:RegisterChatCommand("disable", "DisableAddon");
 	self:RegisterChatCommand("farmmode", "FarmMode");
 	self:RegisterChatCommand("enableblizzard", "EnableBlizzardAddOns")
+	self:RegisterChatCommand("estatus", "ShowStatusReport")
 	--self:RegisterChatCommand("aprilfools", "");
 
 	if E:GetModule("ActionBars") and E.private.actionbar.enable then

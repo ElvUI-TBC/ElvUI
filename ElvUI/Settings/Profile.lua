@@ -2466,6 +2466,7 @@ P["datatexts"] = {
 	["dateFormat"] = "",
 	["battleground"] = true,
 	["panelTransparency"] = false,
+	["panelBackdrop"] = true,
 	["goldFormat"] = "BLIZZARD",
 	["goldCoins"] = false,
 	["noCombatClick"] = false,

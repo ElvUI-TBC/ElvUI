@@ -3,6 +3,10 @@ local TT = E:GetModule("Tooltip");
 
 local tonumber, tostring = tonumber, tostring
 
+local COMBAT = COMBAT
+local NONE, FONT_SIZE = NONE, FONT_SIZE
+local ALT_KEY, CTRL_KEY, SHIFT_KEY = ALT_KEY, CTRL_KEY, SHIFT_KEY
+
 E.Options.args.tooltip = {
 	type = "group",
 	name = L["Tooltip"],
@@ -85,8 +89,13 @@ E.Options.args.tooltip = {
 					name = L["Item Level"],
 					desc = L["Display the item level when mousing over a item."]
 				},
-				itemCount = {
+				spacer = {
 					order = 9,
+					type = "description",
+					name = ""
+				},
+				itemCount = {
+					order = 10,
 					type = "select",
 					name = L["Item Count"],
 					desc = L["Display how many of a certain item you have in your possession."],
@@ -94,18 +103,18 @@ E.Options.args.tooltip = {
 						["BAGS_ONLY"] = L["Bags Only"],
 						["BANK_ONLY"] = L["Bank Only"],
 						["BOTH"] = L["Both"],
-						["NONE"] = L["None"]
+						["NONE"] = NONE
 					}
 				},
 				colorAlpha = {
-					order = 10,
+					order = 11,
 					type = "range",
 					name = OPACITY,
 					isPercent = true,
 					min = 0, max = 1, step = 0.01
 				},
 				fontGroup = {
-					order = 11,
+					order = 12,
 					type = "group",
 					guiInline = true,
 					name = L["Tooltip Font Settings"],
@@ -123,7 +132,7 @@ E.Options.args.tooltip = {
 							name = L["Font Outline"],
 							type = "select",
 							values = {
-								["NONE"] = L["None"],
+								["NONE"] = NONE,
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
@@ -164,7 +173,7 @@ E.Options.args.tooltip = {
 					}
 				},
 				factionColors = {
-					order = 12,
+					order = 13,
 					type = "group",
 					name = L["Custom Faction Colors"],
 					guiInline = true,
@@ -298,7 +307,7 @@ E.Options.args.tooltip = {
 				fontSize = {
 					order = 5,
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					min = 4, max = 33, step = 1,
 					set = function(info, value)
 						E.db.tooltip.healthBar.fontSize = value;
@@ -311,7 +320,7 @@ E.Options.args.tooltip = {
 					type = "select",
 					name = L["Font Outline"],
 					values = {
-						["NONE"] = L["None"],
+						["NONE"] = NONE,
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE"
@@ -325,14 +334,14 @@ E.Options.args.tooltip = {
 			}
 		}
 	}
-};
+}
 
 for i = 1, 8 do
-	E.Options.args.tooltip.args.general.args.factionColors.args["" .. i] = {
+	E.Options.args.tooltip.args.general.args.factionColors.args[""..i] = {
 		order = i,
 		type = "color",
 		hasAlpha = false,
 		name = _G["FACTION_STANDING_LABEL" .. i],
 		disabled = function() return not E.Tooltip or not E.db.tooltip.useCustomFactionColors; end,
-	};
+	}
 end

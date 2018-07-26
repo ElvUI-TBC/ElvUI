@@ -13,14 +13,16 @@ local shortValueDec
 function E:ShortValue(v)
 	shortValueDec = format("%%.%df", E.db.general.decimalLength or 1)
 	if E.db.general.numberPrefixStyle == "METRIC" then
-		if abs(v) >= 1e9 then
+		if abs(v) >= 1e12 then
+			return format(shortValueDec.."T", v / 1e12)
+		elseif abs(v) >= 1e9 then
 			return format(shortValueDec.."G", v / 1e9)
 		elseif abs(v) >= 1e6 then
 			return format(shortValueDec.."M", v / 1e6)
 		elseif abs(v) >= 1e3 then
 			return format(shortValueDec.."k", v / 1e3)
 		else
-			return format("%s", v)
+			return format("%.0f", v)
 		end
 	elseif E.db.general.numberPrefixStyle == "CHINESE" then
 		if abs(v) >= 1e8 then
@@ -28,7 +30,7 @@ function E:ShortValue(v)
 		elseif abs(v) >= 1e4 then
 			return format(shortValueDec.."W", v / 1e4)
 		else
-			return format("%s", v)
+			return format("%.0f", v)
 		end
 	elseif E.db.general.numberPrefixStyle == "KOREAN" then
 		if abs(v) >= 1e8 then
@@ -38,27 +40,31 @@ function E:ShortValue(v)
 		elseif abs(v) >= 1e3 then
 			return format(shortValueDec.."천", v / 1e3)
 		else
-			return format("%s", v)
+			return format("%.0f", v)
 		end
 	elseif E.db.general.numberPrefixStyle == "GERMAN" then
-		if abs(v) >= 1e9 then
+		if abs(v) >= 1e12 then
+			return format(shortValueDec.."Bio", v / 1e12)
+		elseif abs(v) >= 1e9 then
 			return format(shortValueDec.."Mrd", v / 1e9)
 		elseif abs(v) >= 1e6 then
 			return format(shortValueDec.."Mio", v / 1e6)
 		elseif abs(v) >= 1e3 then
 			return format(shortValueDec.."Tsd", v / 1e3)
 		else
-			return format("%s", v)
+			return format("%.0f", v)
 		end
 	else
-		if abs(v) >= 1e9 then
+		if abs(v) >= 1e12 then
+			return format(shortValueDec.."T", v / 1e12)
+		elseif abs(v) >= 1e9 then
 			return format(shortValueDec.."B", v / 1e9)
 		elseif abs(v) >= 1e6 then
 			return format(shortValueDec.."M", v / 1e6)
 		elseif abs(v) >= 1e3 then
 			return format(shortValueDec.."K", v / 1e3)
 		else
-			return format("%s", v)
+			return format("%.0f", v)
 		end
 	end
 end
@@ -272,34 +278,34 @@ function E:ShortenString(string, numChars, dots)
 	end
 end
 
-local waitTable = {};
-local waitFrame;
+local waitTable = {}
+local waitFrame
 function E:Delay(delay, func, ...)
-	if(type(delay) ~= "number" or type(func) ~= "function") then
-		return false;
+	if (type(delay) ~= "number") or (type(func) ~= "function") then
+		return false
 	end
-	if(waitFrame == nil) then
-		waitFrame = CreateFrame("Frame","WaitFrame", E.UIParent);
+	if waitFrame == nil then
+		waitFrame = CreateFrame("Frame","WaitFrame", E.UIParent)
 		waitFrame:SetScript("onUpdate",function (_, elapse)
-			local count = #waitTable;
-			local i = 1;
-			while(i <= count) do
-				local waitRecord = tremove(waitTable, i);
-				local d = tremove(waitRecord, 1);
-				local f = tremove(waitRecord, 1);
-				local p = tremove(waitRecord, 1);
-				if(d > elapse) then
-					tinsert(waitTable, i, {d-elapse, f, p});
-					i = i + 1;
+			local waitRecord, waitDelay, waitFunc, waitParams
+			local i, count = 1, #waitTable
+			while i <= count do
+				waitRecord = tremove(waitTable,i)
+				waitDelay = tremove(waitRecord,1)
+				waitFunc = tremove(waitRecord,1)
+				waitParams = tremove(waitRecord,1)
+				if waitDelay > elapse then
+					tinsert(waitTable,i,{waitDelay-elapse,waitFunc,waitParams})
+					i = i + 1
 				else
-					count = count - 1;
-					f(unpack(p));
+					count = count - 1
+					waitFunc(unpack(waitParams))
 				end
 			end
-		end);
+		end)
 	end
-	tinsert(waitTable, {delay, func, {...}});
-	return true;
+	tinsert(waitTable, {delay, func, {...}})
+	return true
 end
 
 function E:StringTitle(str)

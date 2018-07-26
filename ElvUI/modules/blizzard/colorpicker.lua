@@ -16,9 +16,6 @@ local CLASS, DEFAULT = CLASS, DEFAULT
 local colorBuffer = {}
 local editingText
 
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
-
 local function UpdateAlphaText()
 	local a = OpacitySliderFrame:GetValue()
 	a = (1 - a) * 100

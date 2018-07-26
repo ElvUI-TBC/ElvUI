@@ -57,7 +57,6 @@ local FACTION_BAR_COLORS = FACTION_BAR_COLORS
 local ID = ID
 
 local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
-local playerGUID = UnitGUID("player")
 local targetList, inspectCache = {}, {}
 local TAPPED_COLOR = {r = .6, g = .6, b = .6}
 local AFK_LABEL = " |cffFFFFFF[|r|cffE7E716"..L["AFK"].."|r|cffFFFFFF]|r"
@@ -299,7 +298,7 @@ function TT:ShowInspectInfo(tt, unit, level, r, g, b, numTries)
 	if not canInspect or level < 10 or numTries > 1 then return end
 
 	local GUID = UnitGUID(unit)
-	if GUID == playerGUID then
+	if GUID == E.myguid then
 		tt:AddDoubleLine(L["Talent Specialization:"], select(2, E:GetTalentSpecInfo()), nil, nil, nil, r, g, b)
 		tt:AddDoubleLine(L["Item Level:"], self:GetItemLvL("player"), nil, nil, nil, 1, 1, 1)
 	elseif inspectCache[GUID] then
@@ -446,6 +445,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 			if (UnitIsUnit(groupUnit.."target", unit)) and (not UnitIsUnit(groupUnit,"player")) then
 				local _, class = UnitClass(groupUnit)
 				local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+				if not color then color = RAID_CLASS_COLORS["PRIEST"] end
 				tinsert(targetList, format("%s%s", E:RGBToHex(color.r, color.g, color.b), UnitName(groupUnit)))
 			end
 		end

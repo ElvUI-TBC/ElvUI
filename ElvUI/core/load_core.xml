@@ -17,4 +17,5 @@
 	<Script file="aprilfools.lua"/>
 	<Script file="pluginInstaller.lua"/>
 	<Script file="classCache.lua"/>
+	<Script file="StatusReport.lua"/>
 </Ui>

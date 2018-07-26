@@ -25,15 +25,20 @@ E.Options.args.databars = {
 			type = "group",
 			name = XPBAR_LABEL,
 			args = {
+				header = {
+ 					order = 1,
+					type = "header",
+					name = XPBAR_LABEL
+				},
 				enable = {
-					order = 1,
+					order = 2,
 					type = "toggle",
 					name = L["Enable"],
 					get = function(info) return mod.db.experience[ info[#info] ]; end,
 					set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:EnableDisable_ExperienceBar(); end
 				},
 				generalGroup = {
-					order = 2,
+					order = 3,
 					type = "group",
 					guiInline = true,
 					name = L["General"],
@@ -88,7 +93,7 @@ E.Options.args.databars = {
 					}
 				},
 				fontGroup = {
-					order = 3,
+					order = 4,
 					type = "group",
 					guiInline = true,
 					name = L["Font"],
@@ -147,15 +152,20 @@ E.Options.args.databars = {
 			type = "group",
 			name = REPUTATION,
 			args = {
+				header = {
+ 					order = 1,
+					type = "header",
+					name = REPUTATION
+				},
 				enable = {
-					order = 1,
+					order = 2,
 					type = "toggle",
 					name = L["Enable"],
 					get = function(info) return mod.db.reputation[ info[#info] ]; end,
 					set = function(info, value) mod.db.reputation[ info[#info] ] = value; mod:EnableDisable_ReputationBar(); end,
 				},
 				generalGroup = {
-					order = 2,
+					order = 3,
 					type = "group",
 					guiInline = true,
 					name = L["General"],
@@ -204,7 +214,7 @@ E.Options.args.databars = {
 					}
 				},
 				fontGroup = {
-					order = 3,
+					order = 4,
 					type = "group",
 					guiInline = true,
 					name = L["Font"],

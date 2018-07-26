@@ -1694,6 +1694,19 @@ function CH:Initialize()
 	close:SetFrameLevel(close:GetFrameLevel() + 1)
 	close:EnableMouse(true)
 	S:HandleCloseButton(close)
+
+	CombatLogQuickButtonFrame_Custom:StripTextures()
+	CombatLogQuickButtonFrame_Custom:CreateBackdrop("Default", true)
+	CombatLogQuickButtonFrame_Custom.backdrop:Point("TOPLEFT", 0, -1)
+	CombatLogQuickButtonFrame_Custom.backdrop:Point("BOTTOMRIGHT", -22, 1)
+
+	CombatLogQuickButtonFrame_CustomProgressBar:StripTextures()
+	CombatLogQuickButtonFrame_CustomProgressBar:SetStatusBarTexture(E["media"].normTex)
+	CombatLogQuickButtonFrame_CustomProgressBar:Point("TOPLEFT", 0, 3)
+
+	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Size(20, 22)
+	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Point("TOPRIGHT", CombatLogQuickButtonFrame_Custom, "TOPRIGHT", 0, -1)
+	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:SetHitRectInsets(0, 0, 0, 0)
 end
 
 local function InitializeCallback()

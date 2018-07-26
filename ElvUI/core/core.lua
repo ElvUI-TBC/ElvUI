@@ -8,6 +8,7 @@ local twipe, tinsert, tremove, next = table.wipe, tinsert, tremove, next
 local floor = floor
 local format, find, match, strrep, len, sub, gsub = string.format, string.find, string.match, strrep, string.len, string.sub, string.gsub
 
+local UnitGUID = UnitGUID
 local CreateFrame = CreateFrame
 local GetCVar = GetCVar
 local GetFunctionCPUUsage = GetFunctionCPUUsage
@@ -26,10 +27,9 @@ E.myfaction, E.myLocalizedFaction = UnitFactionGroup("player")
 E.myLocalizedClass, E.myclass, E.myClassID = UnitClass("player")
 E.myLocalizedRace, E.myrace = UnitRace("player")
 E.myname = UnitName("player")
-E.myguid = UnitGUID("player")
 E.myrealm = GetRealmName()
 E.version = GetAddOnMetadata("ElvUI", "Version")
-E.wowbuild = select(2, GetBuildInfo()) E.wowbuild = tonumber(E.wowbuild)
+E.wowpatch, E.wowbuild = GetBuildInfo() E.wowbuild = tonumber(E.wowbuild)
 E.resolution = GetCVar("gxResolution")
 E.screenheight = tonumber(match(E.resolution, "%d+x(%d+)"))
 E.screenwidth = tonumber(match(E.resolution, "(%d+)x+%d"))
@@ -271,7 +271,7 @@ end
 local function LSMCallback()
 	E:UpdateMedia()
 end
-E.LSM.RegisterCallback(E, "LibSharedMedia_Registered", LSMCallback)
+LSM.RegisterCallback(E, "LibSharedMedia_Registered", LSMCallback)
 
 local LBF = LibStub("LibButtonFacade", true)
 
@@ -843,6 +843,7 @@ function E:UpdateAll(ignoreInstall)
 
 	local NP = self:GetModule("NamePlates")
 	NP.db = self.db.nameplates
+	NP:StyleFilterInitializeAllFilters()
 	NP:ConfigureAll()
 
 	local DataBars = self:GetModule("DataBars")
@@ -1093,6 +1094,7 @@ function E:Initialize()
 	twipe(self.global)
 	twipe(self.private)
 
+	self.myguid = UnitGUID("player")
 	self.data = LibStub("AceDB-3.0"):New("ElvDB", self.DF)
 	self.data.RegisterCallback(self, "OnProfileChanged", "UpdateAll")
 	self.data.RegisterCallback(self, "OnProfileCopied", "UpdateAll")
