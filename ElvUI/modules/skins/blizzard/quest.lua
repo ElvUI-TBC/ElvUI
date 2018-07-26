@@ -213,9 +213,9 @@ local function LoadSkin()
 
 		if GetQuestLogRequiredMoney() > 0 then
 			if GetQuestLogRequiredMoney() > GetMoney() then
-				QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+				QuestLogRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
 			else
-				QuestInfoRequiredMoneyText:titleTextColor(unpack(textColor))
+				QuestLogRequiredMoneyText:titleTextColor(unpack(textColor))
 			end
 		end
 
