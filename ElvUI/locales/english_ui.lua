@@ -72,7 +72,6 @@ L["DPS"] = true;
 L["Durability"] = true;
 L["Earned:"] = true;
 L["Friends List"] = true;
-L["Friends"] = true; --Also in Skins
 L["Gold"] = true;
 L["goldabbrev"] = "|cffffd700g|r" --Also used in Bags
 L["Haste"] = true;
@@ -175,7 +174,6 @@ L["This part of the installation process sets up your World of Warcraft default 
 L["This resolution doesn't require that you change settings for the UI to fit on your screen."] = true;
 L["This resolution requires that you change some settings to get everything to fit on your screen."] = true;
 L["This will change the layout of your unitframes and actionbars."] = true;
-L["Trade"] = true;
 L["Welcome to ElvUI version %s!"] = true;
 L["You are now finished with the installation process. If you are in need of technical support please visit us at https://github.com/ElvUI-TBC/ElvUI"] = true;
 L["You can always change fonts and colors of any element of ElvUI from the in-game configuration."] = true;
@@ -252,11 +250,9 @@ L["Target Frame"] = true; --Also used in UnitFrames
 L["Target Powerbar"] = true;
 L["TargetTarget Frame"] = true; --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = true; --Also used in UnitFrames
-L["Time Manager Frame"] = true;
 L["Tooltip"] = true;
 L["Totems"] = true;
 L["Watch Frame"] = true;
-L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[Movers unlocked. Move them now and click Lock when you are done.
 
 Options:

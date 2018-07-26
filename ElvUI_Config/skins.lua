@@ -51,7 +51,7 @@ E.Options.args.skins = {
 				},
 				auctionhouse = {
 					type = "toggle",
-					name = L["Auction Frame"],
+					name = AUCTIONS,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				bags = {
@@ -77,7 +77,7 @@ E.Options.args.skins = {
 				},
 				binding = {
 					type = "toggle",
-					name = L["KeyBinding Frame"],
+					name = KEY_BINDING,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				character = {
@@ -92,17 +92,17 @@ E.Options.args.skins = {
 				},
 				dressingroom = {
 					type = "toggle",
-					name = L["Dressing Room"],
+					name = DRESSUP_FRAME,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				friends = {
 					type = "toggle",
-					name = L["Friends"],
+					name = FRIENDS,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				gbank = {
 					type = "toggle",
-					name = L["Guild Bank"],
+					name = GUILD_BANK,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				gmchat = {
@@ -132,7 +132,7 @@ E.Options.args.skins = {
 				},
 				inspect = {
 					type = "toggle",
-					name = L["Inspect Frame"],
+					name = INSPECT,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				lfg = {
@@ -154,17 +154,17 @@ E.Options.args.skins = {
 				},
 				macro = {
 					type = "toggle",
-					name = L["Macro Frame"],
+					name = MACROS,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				mail = {
 					type = "toggle",
-					name = L["Mail Frame"],
+					name = MAIL_LABEL,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				merchant = {
 					type = "toggle",
-					name = L["Merchant Frame"],
+					name = MERCHANT,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				misc = {
@@ -204,7 +204,7 @@ E.Options.args.skins = {
 				},
 				spellbook = {
 					type = "toggle",
-					name = L["Spellbook"],
+					name = SPELLBOOK,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				stable = {
@@ -219,7 +219,7 @@ E.Options.args.skins = {
 				},
 				talent = {
 					type = "toggle",
-					name = L["Talent Frame"],
+					name = TALENTS,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				taxi = {
@@ -229,7 +229,7 @@ E.Options.args.skins = {
 				},
 				timemanager = {
 					type = "toggle",
-					name = L["Time Manager"],
+					name = TIMEMANAGER_TITLE,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				tooltip = {
@@ -239,12 +239,12 @@ E.Options.args.skins = {
 				},
 				trade = {
 					type = "toggle",
-					name = L["Trade Frame"],
+					name = TRADE,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				tradeskill = {
 					type = "toggle",
-					name = L["TradeSkill Frame"],
+					name = TRADESKILLS,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				trainer = {
@@ -259,7 +259,7 @@ E.Options.args.skins = {
 				},
 				worldmap = {
 					type = "toggle",
-					name = L["World Map"],
+					name = WORLD_MAP,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				mirrorTimers = {
