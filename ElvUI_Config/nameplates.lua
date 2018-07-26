@@ -2628,15 +2628,20 @@ E.Options.args.nameplate = {
 							hasAlpha = false,
 							disabled = function() return not E.db.nameplates.threat.useThreatColor end
 						},
-						goodTransition = {
+						spacer = {
 							order = 10,
+							type = "description",
+							name = ""
+						},
+						goodTransition = {
+							order = 11,
 							type = "color",
 							name = L["Good Transition Color"],
 							hasAlpha = false,
 							disabled = function() return not E.db.nameplates.threat.useThreatColor end
 						},
 						badTransition = {
-							order = 11,
+							order = 12,
 							type = "color",
 							name = L["Bad Transition Color"],
 							hasAlpha = false,

@@ -2410,7 +2410,6 @@ P["chat"] = {
 	["noAlertInCombat"] = false,
 	["chatHistory"] = true,
 	["timeStampFormat"] = "NONE",
-	["scrollDirection"] = "BOTTOM",
 	["chatHistoryLines"] = 250,
 	["keywords"] = "%MYNAME%, ElvUI",
 	["separateSizes"] = false,

@@ -110,7 +110,7 @@ E.Options.args.databars = {
 						textSize = {
 							order = 2,
 							type = "range",
-							name = L["Font Size"],
+							name = FONT_SIZE,
 							min = 6, max = 22, step = 1
 						},
 						textOutline = {
@@ -119,7 +119,7 @@ E.Options.args.databars = {
 							name = L["Font Outline"],
 							desc = L["Set the font outline."],
 							values = {
-								["NONE"] = L["None"],
+								["NONE"] = NONE,
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROME"] = "MONOCHROME",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
@@ -133,9 +133,9 @@ E.Options.args.databars = {
 							width = "double",
 							values = {
 								NONE = NONE,
-								PERCENT = L["Percent"],
 								CUR = L["Current"],
 								REM = L["Remaining"],
+								PERCENT = L["Percent"],
 								CURMAX = L["Current - Max"],
 								CURPERC = L["Current - Percent"],
 								CURREM = L["Current - Remaining"],
@@ -231,7 +231,7 @@ E.Options.args.databars = {
 						textSize = {
 							order = 2,
 							type = "range",
-							name = L["Font Size"],
+							name = FONT_SIZE,
 							min = 6, max = 22, step = 1
 						},
 						textOutline = {
@@ -240,7 +240,7 @@ E.Options.args.databars = {
 							name = L["Font Outline"],
 							desc = L["Set the font outline."],
 							values = {
-								["NONE"] = L["None"],
+								["NONE"] = NONE,
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROME"] = "MONOCHROME",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",

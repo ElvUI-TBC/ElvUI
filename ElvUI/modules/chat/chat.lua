@@ -152,61 +152,33 @@ CH.Keywords = {}
 local numScrollMessages
 local function ChatFrame_OnMouseScroll(frame, delta)
 	numScrollMessages = CH.db.numScrollMessages or 3
-	if CH.db.scrollDirection == "TOP" then
-		if delta < 0 then
-			if IsShiftKeyDown() then
-				frame:ScrollToBottom()
-			elseif IsAltKeyDown() then
+	if delta < 0 then
+		if IsShiftKeyDown() then
+			frame:ScrollToBottom()
+		elseif IsAltKeyDown() then
+			frame:ScrollDown()
+		else
+			for i = 1, numScrollMessages do
 				frame:ScrollDown()
-			else
-				for i = 1, numScrollMessages do
-					frame:ScrollDown()
-				end
-			end
-		elseif delta > 0 then
-			if IsShiftKeyDown() then
-				frame:ScrollToTop()
-			elseif IsAltKeyDown() then
-				frame:ScrollUp()
-			else
-				for i = 1, numScrollMessages do
-					frame:ScrollUp()
-				end
-			end
-
-			if CH.db.scrollDownInterval ~= 0 then
-				if frame.ScrollTimer then
-					CH:CancelTimer(frame.ScrollTimer, true)
-				end
-
-				frame.ScrollTimer = CH:ScheduleTimer("ScrollToBottom", CH.db.scrollDownInterval, frame)
 			end
 		end
-	else
-		if delta < 0 then
-			if IsShiftKeyDown() then
-				frame:ScrollToBottom()
-			else
-				for i = 1, numScrollMessages do
-					frame:ScrollDown()
-				end
+	elseif delta > 0 then
+		if IsShiftKeyDown() then
+			frame:ScrollToTop()
+		elseif IsAltKeyDown() then
+			frame:ScrollUp()
+		else
+			for i = 1, numScrollMessages do
+				frame:ScrollUp()
 			end
-		elseif delta > 0 then
-			if IsShiftKeyDown() then
-				frame:ScrollToTop()
-			else
-				for i = 1, numScrollMessages do
-					frame:ScrollUp()
-				end
+		end
+
+		if CH.db.scrollDownInterval ~= 0 then
+			if frame.ScrollTimer then
+				CH:CancelTimer(frame.ScrollTimer, true)
 			end
 
-			if CH.db.scrollDownInterval ~= 0 then
-				if frame.ScrollTimer then
-					CH:CancelTimer(frame.ScrollTimer, true)
-				end
-
-				frame.ScrollTimer = CH:ScheduleTimer("ScrollToBottom", CH.db.scrollDownInterval, frame)
-			end
+			frame.ScrollTimer = CH:ScheduleTimer("ScrollToBottom", CH.db.scrollDownInterval, frame)
 		end
 	end
 end

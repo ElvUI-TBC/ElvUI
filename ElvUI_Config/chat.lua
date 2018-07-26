@@ -174,22 +174,13 @@ E.Options.args.chat = {
 						E.db.chat.chatHistoryLines = value;
 					end
 				},
-				scrollDirection = {
-					order = 17,
-					type = "select",
-					name = L["Scroll Direction"],
-					values = {
-						["BOTTOM"] = L["Bottom to Top"],
-						["TOP"] = L["Top to Bottom"]
-					}
-				},
 				spacer2 = {
-					order = 18,
+					order = 17,
 					type = "description",
 					name = ""
 				},
 				timeStampFormat = {
-					order = 19,
+					order = 18,
 					type = "select",
 					name = L["Chat Timestamps"],
 					desc = L["Select the format of timestamps for chat messages."],
@@ -204,13 +195,13 @@ E.Options.args.chat = {
 					}
 				},
 				useCustomTimeColor = {
-					order = 20,
+					order = 19,
 					type = "toggle",
 					name = L["Custom Timestamp Color"],
 					disabled = function() return not E.db.chat.timeStampFormat == "NONE"; end
 				},
 				customTimeColor = {
-					order = 21,
+					order = 20,
 					type = "color",
 					hasAlpha = false,
 					name = L["Timestamp Color"],
@@ -423,47 +414,52 @@ E.Options.args.chat = {
 			set = function(info, value) E.db.chat[ info[#info] ] = value; CH:SetupChat(); end,
 			args = {
 				header = {
-					order = 0,
+					order = 1,
 					type = "header",
 					name = L["Fonts"]
 				},
 				font = {
-					order = 1,
+					order = 2,
 					type = "select", dialogControl = "LSM30_Font",
 					name = L["Font"],
 					values = AceGUIWidgetLSMlists.font
 				},
 				fontOutline = {
-					order = 2,
+					order = 3,
 					name = L["Font Outline"],
 					desc = L["Set the font outline."],
 					type = "select",
 					values = {
-						["NONE"] = L["None"],
+						["NONE"] = NONE,
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE"
 					}
 				},
+				spacer = {
+					order = 4,
+					type = "description",
+					name = ""
+				},
 				tabFont = {
 					type = "select", dialogControl = "LSM30_Font",
-					order = 4,
+					order = 5,
 					name = L["Tab Font"],
 					values = AceGUIWidgetLSMlists.font
 				},
 				tabFontSize = {
-					order = 5,
+					order = 6,
 					type = "range",
 					name = L["Tab Font Size"],
 					min = 6, max = 22, step = 1
 				},
 				tabFontOutline = {
-					order = 6,
+					order = 7,
 					name = L["Tab Font Outline"],
 					desc = L["Set the font outline."],
 					type = "select",
 					values = {
-						["NONE"] = L["None"],
+						["NONE"] = NONE,
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE"

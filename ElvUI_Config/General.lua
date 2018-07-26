@@ -245,6 +245,7 @@ E.Options.args.general = {
 					order = 55,
 					type = "execute",
 					name = L["Wipe DB Cache"],
+					buttonElvUI = true,
 					func = function()
 						CC:WipeCache(true)
 						GameTooltip:Hide()
@@ -255,6 +256,7 @@ E.Options.args.general = {
 					order = 56,
 					type = "execute",
 					name = L["Wipe Session Cache"],
+					buttonElvUI = true,
 					func = function()
 						CC:WipeCache()
 						GameTooltip:Hide()
@@ -278,7 +280,7 @@ E.Options.args.general = {
 				fontSize = {
 					order = 2,
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					desc = L["Set the font size for everything in UI. Note: This doesn't effect somethings that have their own seperate options (UnitFrame Font, Datatext Font, ect..)"],
 					min = 4, max = 33, step = 1,
 					set = function(info, value) E.db.general[ info[#info] ] = value; E:UpdateMedia(); E:UpdateFontTemplates(); end
@@ -386,7 +388,7 @@ E.Options.args.general = {
 				colorsHeader = {
 					order = 14,
 					type = "header",
-					name = L["Colors"]
+					name = COLORS
 				},
 				bordercolor = {
 					type = "color",
@@ -626,7 +628,7 @@ E.Options.args.general = {
 				fontSize = {
 					order = 5,
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					get = function(info) return E.private.general.chatBubbleFontSize; end,
 					set = function(info, value) E.private.general.chatBubbleFontSize = value; E:StaticPopup_Show("PRIVATE_RL"); end,
 					min = 4, max = 33, step = 1,
@@ -640,7 +642,7 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general.chatBubbleFontOutline = value; E:StaticPopup_Show("PRIVATE_RL"); end,
 					disabled = function() return E.private.general.chatBubbles == "disabled" end,
 					values = {
-						["NONE"] = L["None"],
+						["NONE"] = NONE,
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE",
@@ -715,7 +717,7 @@ E.Options.args.general = {
 					order = 5,
 					type = "range",
 					min = 6, max = 22, step = 1,
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					get = function(info) return E.db.general.threat.textSize end,
 					set = function(info, value) E.db.general.threat.textSize = value; E:GetModule("Threat"):UpdatePosition() end
 				}

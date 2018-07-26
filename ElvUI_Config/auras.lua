@@ -116,17 +116,17 @@ E.Options.args.auras = {
 				},
 				fontSize = {
 					order = 8,
-					name = L["Font Size"],
 					type = "range",
+					name = FONT_SIZE,
 					min = 6, max = 22, step = 1
 				},
 				fontOutline = {
 					order = 9,
+					type = "select",
 					name = L["Font Outline"],
 					desc = L["Set the font outline."],
-					type = "select",
 					values = {
-						["NONE"] = L["None"],
+						["NONE"] = NONE,
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROME"] = "MONOCHROME",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
@@ -200,7 +200,7 @@ E.Options.args.auras = {
 						},
 						fontSize = {
 							order = 2,
-							name = L["Font Size"],
+							name = FONT_SIZE,
 							type = "range",
 							min = 6, max = 22, step = 1
 						},
@@ -210,9 +210,8 @@ E.Options.args.auras = {
 							desc = L["Set the font outline."],
 							type = "select",
 							values = {
-								["NONE"] = L["None"],
+								["NONE"] = NONE,
 								["OUTLINE"] = "OUTLINE",
-								["MONOCHROME"] = (not E.isMacClient) and "MONOCHROME" or nil,
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
 							}

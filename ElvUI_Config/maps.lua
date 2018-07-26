@@ -1,6 +1,6 @@
-local E, L, V, P, G, _ = unpack(ElvUI);
-local WM = E:GetModule("WorldMap");
-local MM = E:GetModule("Minimap");
+local E, L, V, P, G, _ = unpack(ElvUI)
+local WM = E:GetModule("WorldMap")
+local MM = E:GetModule("Minimap")
 
 E.Options.args.maps = {
 	type = "group",
@@ -30,8 +30,8 @@ E.Options.args.maps = {
 							desc = L["Make the world map smaller."],
 							get = function(info) return E.global.general.smallerWorldMap end,
 							set = function(info, value) E.global.general.smallerWorldMap = value; E:StaticPopup_Show("GLOBAL_RL") end,
-						},
-					},
+						}
+					}
 				},
 				spacer = {
 					order = 3,
@@ -138,6 +138,11 @@ E.Options.args.maps = {
 					type = "group",
 					name = L["Location Text"],
 					args = {
+						header = {
+							order = 0,
+							type = "header",
+							name = L["Location Text"]
+						},
 						locationText = {
 							order = 1,
 							type = "select",
@@ -148,7 +153,7 @@ E.Options.args.maps = {
 							values = {
 								["MOUSEOVER"] = L["Minimap Mouseover"],
 								["SHOW"] = L["Always Display"],
-								["HIDE"] = L["Hide"]
+								["HIDE"] = HIDE
 							},
 							disabled = function() return not E.private.general.minimap.enable; end
 						},
@@ -169,7 +174,7 @@ E.Options.args.maps = {
 						locationFontSize = {
 							order = 4,
 							type = "range",
-							name = L["Font Size"],
+							name = FONT_SIZE,
 							min = 6, max = 36, step = 1,
 							set = function(info, value) E.db.general.minimap.locationFontSize = value; MM:Update_ZoneText(); end,
 							disabled = function() return not E.private.general.minimap.enable end,
@@ -181,7 +186,7 @@ E.Options.args.maps = {
 							set = function(info, value) E.db.general.minimap.locationFontOutline = value; MM:Update_ZoneText(); end,
 							disabled = function() return not E.private.general.minimap.enable; end,
 							values = {
-								["NONE"] = L["None"],
+								["NONE"] = NONE,
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
@@ -194,6 +199,11 @@ E.Options.args.maps = {
 					type = "group",
 					name = L["Reset Zoom"],
 					args = {
+						header = {
+							order = 0,
+							type = "header",
+							name = L["Reset Zoom"]
+						},
 						enableZoomReset = {
 							order = 1,
 							type = "toggle",
@@ -218,6 +228,11 @@ E.Options.args.maps = {
 					type = "group",
 					name = L["Minimap Buttons"],
 					args = {
+						header = {
+							order = 0,
+							type = "header",
+							name = L["Minimap Buttons"]
+						},
 						calendar = {
 							order = 1,
 							type = "group",
@@ -225,10 +240,15 @@ E.Options.args.maps = {
 							get = function(info) return E.db.general.minimap.icons.calendar[ info[#info] ]; end,
 							set = function(info, value) E.db.general.minimap.icons.calendar[ info[#info] ] = value; MM:UpdateSettings(); end,
 							args = {
+								header = {
+									order = 0,
+									type = "header",
+									name = TIMEMANAGER_TOOLTIP_TITLE
+								},
 								hideCalendar = {
 									order = 1,
 									type = "toggle",
-									name = L["Hide"],
+									name = HIDE,
 									get = function(info) return E.private.general.minimap.hideCalendar; end,
 									set = function(info, value) E.private.general.minimap.hideCalendar = value; MM:UpdateSettings(); end,
 									width = "full"
@@ -284,6 +304,11 @@ E.Options.args.maps = {
 							get = function(info) return E.db.general.minimap.icons.mail[ info[#info] ]; end,
 							set = function(info, value) E.db.general.minimap.icons.mail[ info[#info] ] = value; MM:UpdateSettings(); end,
 							args = {
+								header = {
+									order = 0,
+									type = "header",
+									name = MAIL_LABEL
+								},
 								position = {
 									order = 1,
 									type = "select",
@@ -326,6 +351,11 @@ E.Options.args.maps = {
 							get = function(info) return E.db.general.minimap.icons.lfgEye[ info[#info] ]; end,
 							set = function(info, value) E.db.general.minimap.icons.lfgEye[ info[#info] ] = value; MM:UpdateSettings(); end,
 							args = {
+								header = {
+									order = 0,
+									type = "header",
+									name = L["LFG Queue"]
+								},
 								position = {
 									order = 1,
 									type = "select",
@@ -368,6 +398,11 @@ E.Options.args.maps = {
 							get = function(info) return E.db.general.minimap.icons.battlefield[ info[#info] ]; end,
 							set = function(info, value) E.db.general.minimap.icons.battlefield[ info[#info] ] = value; MM:UpdateSettings(); end,
 							args = {
+								header = {
+									order = 0,
+									type = "header",
+									name = L["PvP Queue"]
+								},
 								position = {
 									order = 1,
 									type = "select",

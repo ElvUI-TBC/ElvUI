@@ -101,7 +101,7 @@ E.Options.args.bags = {
 						countFontSize = {
 							order = 2,
 							type = "range",
-							name = L["Font Size"],
+							name = FONT_SIZE,
 							min = 4, max = 22, step = 1,
 							set = function(info, value) E.db.bags.countFontSize = value; B:UpdateCountDisplay(); end
 						},
@@ -111,7 +111,7 @@ E.Options.args.bags = {
 							name = L["Font Outline"],
 							set = function(info, value) E.db.bags.countFontOutline = value; B:UpdateCountDisplay(); end,
 							values = {
-								["NONE"] = L["None"],
+								["NONE"] = NONE,
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
@@ -120,7 +120,7 @@ E.Options.args.bags = {
 						countFontColor = {
 							order = 4,
 							type = "color",
-							name = L["Color"],
+							name = COLOR,
 							get = function(info)
 								local t = E.db.bags[ info[#info] ];
 								local d = P.bags[info[#info]];
@@ -173,7 +173,7 @@ E.Options.args.bags = {
 						itemLevelFontSize = {
 							order = 5,
 							type = "range",
-							name = L["Font Size"],
+							name = FONT_SIZE,
 							min = 6, max = 33, step = 1,
 							disabled = function() return not E.db.bags.itemLevel; end,
 							set = function(info, value) E.db.bags.itemLevelFontSize = value; B:UpdateItemLevelDisplay(); end
@@ -185,7 +185,7 @@ E.Options.args.bags = {
 							disabled = function() return not E.db.bags.itemLevel end,
 							set = function(info, value) E.db.bags.itemLevelFontOutline = value; B:UpdateItemLevelDisplay() end,
 							values = {
-								["NONE"] = L["None"],
+								["NONE"] = NONE,
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
