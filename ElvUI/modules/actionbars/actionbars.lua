@@ -28,7 +28,6 @@ local LSM = LibStub("LibSharedMedia-3.0")
 
 local LBF = LibStub("LibButtonFacade", true)
 
-E.ActionBars = AB
 AB["handledBars"] = {}
 AB["handledbuttons"] = {}
 AB["barDefaults"] = {
@@ -80,9 +79,15 @@ function AB:PositionAndSizeBar(barName)
 	local numColumns = ceil(numButtons / buttonsPerRow)
 	local widthMult = self.db[barName].widthMult
 	local heightMult = self.db[barName].heightMult
+	local visibility = self.db[barName].visibility
 	local bar = self["handledBars"][barName]
 
 	bar.db = self.db[barName]
+	bar.db.position = nil
+
+	if visibility and visibility:match("[\n\r]") then
+		visibility = visibility:gsub("[\n\r]","")
+	end
 
 	if numButtons < buttonsPerRow then
 		buttonsPerRow = numButtons
@@ -202,7 +207,7 @@ function AB:PositionAndSizeBar(barName)
 		local newState = bar:GetAttribute("state-page")
 		bar:SetAttribute("state", newState)
 
-		RegisterStateDriver(bar, "visibility", self.db[barName].visibility)
+		RegisterStateDriver(bar, "visibility", visibility)
 
 		if not bar.initialized then
 			bar.initialized = true
@@ -309,9 +314,9 @@ end
 
 function AB:UpdateBar1Paging()
 	if self.db.bar6.enabled then
-		E.ActionBars.barDefaults.bar1.conditions = "[bonusbar:5] 11; [actionbar:3] 3; [actionbar:4] 4; [actionbar:5] 5; [actionbar:6] 6;"
+		AB.barDefaults.bar1.conditions = "[bonusbar:5] 11; [actionbar:3] 3; [actionbar:4] 4; [actionbar:5] 5; [actionbar:6] 6;"
 	else
-		E.ActionBars.barDefaults.bar1.conditions = "[bonusbar:5] 11; [actionbar:2] 2; [actionbar:3] 3; [actionbar:4] 4; [actionbar:5] 5; [actionbar:6] 6;"
+		AB.barDefaults.bar1.conditions = "[bonusbar:5] 11; [actionbar:2] 2; [actionbar:3] 3; [actionbar:4] 4; [actionbar:5] 5; [actionbar:6] 6;"
 	end
 
 	if (E.private.actionbar.enable ~= true or InCombatLockdown()) or not self.isInitialized then return; end
@@ -382,6 +387,7 @@ function AB:UpdateButtonSettings()
 	for i = 1, 6 do
 		self:PositionAndSizeBar("bar"..i)
 	end
+	self:AdjustMaxStanceButtons()
 	self:PositionAndSizeBarPet()
 	self:PositionAndSizeBarShapeShift()
 end
@@ -453,13 +459,10 @@ function AB:StyleButton(button, noBackdrop, useMasque)
 
 	if macroName then
 		if self.db.macrotext then
-			macroName:Show()
 			macroName:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 			macroName:ClearAllPoints()
 			macroName:Point("BOTTOM", 2, 2)
 			macroName:SetJustifyH("CENTER")
-		else
-			macroName:Hide()
 		end
 	end
 

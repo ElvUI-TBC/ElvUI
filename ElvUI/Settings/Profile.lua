@@ -2575,31 +2575,26 @@ P["actionbar"] = {
 	["fontSize"] = 10,
 	["fontOutline"] = "MONOCHROMEOUTLINE",
 	["fontColor"] = {r = 1, g = 1, b = 1},
-
 	["macrotext"] = false,
 	["hotkeytext"] = true,
-
 	["noRangeColor"] = {r = 0.8, g = 0.1, b = 0.1},
 	["noPowerColor"] = {r = 0.5, g = 0.5, b = 1},
 	["usableColor"] = {r = 1, g = 1, b = 1},
 	["notUsableColor"] = {r = 0.4, g = 0.4, b = 0.4},
-
 	["keyDown"] = true,
 	["movementModifier"] = "SHIFT",
 	["rightClickSelfCast"] = false,
-
-	["microbar"] = {
-		["enabled"] = false,
-		["xOffset"] = 1,
-		["yOffset"] = 1,
-		["buttonsPerRow"] = 8,
-		["alpha"] = 1,
-		["mouseover"] = false
-	},
-
 	["globalFadeAlpha"] = 0,
 	["lockActionBars"] = true,
-
+	["microbar"] = {
+		["enabled"] = false,
+		["buttonsPerRow"] = 8,
+		["buttonSize"] = 20,
+		["buttonSpacing"] = 2,
+		["alpha"] = 1,
+		["mouseover"] = false,
+		["visibility"] = "show",
+	},
 	["bar1"] = {
 		["enabled"] = true,
 		["buttons"] = 12,
@@ -2743,6 +2738,7 @@ P["actionbar"] = {
 		["buttonspacing"] = 2,
 		["backdropSpacing"] = 2,
 		["alpha"] = 1,
-		["inheritGlobalFade"] = false
+		["inheritGlobalFade"] = false,
+		["visibility"] = "show"
 	}
 }

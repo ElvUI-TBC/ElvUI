@@ -3,14 +3,17 @@ local AB = E:GetModule("ActionBars")
 
 local _G = _G
 local ceil = math.ceil
+local format = string.format
 
 local CreateFrame = CreateFrame
+local GetSpellInfo = GetSpellInfo
 local GetShapeshiftForm = GetShapeshiftForm
 local GetNumShapeshiftForms = GetNumShapeshiftForms
 local GetShapeshiftFormCooldown = GetShapeshiftFormCooldown
 local GetShapeshiftFormInfo = GetShapeshiftFormInfo
-local GetSpellInfo = GetSpellInfo
+local CooldownFrame_SetTimer = CooldownFrame_SetTimer
 local InCombatLockdown = InCombatLockdown
+local RegisterStateDriver = RegisterStateDriver
 local GetBindingKey = GetBindingKey
 local NUM_SHAPESHIFT_SLOTS = NUM_SHAPESHIFT_SLOTS
 
@@ -104,6 +107,7 @@ function AB:PositionAndSizeBarShapeShift()
 	local point = self.db["barShapeShift"].point
 	local widthMult = self.db["barShapeShift"].widthMult
 	local heightMult = self.db["barShapeShift"].heightMult
+
 	if bar.mover then
 		bar.mover.positionOverride = point
 		E:UpdatePositionOverride(bar.mover:GetName())
@@ -133,7 +137,7 @@ function AB:PositionAndSizeBarShapeShift()
 		bar.backdrop:Show()
 	else
 		bar.backdrop:Hide()
-
+		--Set size multipliers to 1 when backdrop is disabled
 		widthMult = 1
 		heightMult = 1
 	end
@@ -166,7 +170,7 @@ function AB:PositionAndSizeBarShapeShift()
 		horizontalGrowth = "LEFT"
 	end
 
-	if(self.db["barShapeShift"].inheritGlobalFade) then
+	if self.db["barShapeShift"].inheritGlobalFade then
 		bar:SetParent(self.fadeParent)
 	else
 		bar:SetParent(E.UIParent)
@@ -174,10 +178,10 @@ function AB:PositionAndSizeBarShapeShift()
 
 	local button, lastButton, lastColumnButton
 	local firstButtonSpacing = (self.db["barShapeShift"].backdrop == true and (E.Border + backdropSpacing) or E.Spacing)
-	for i=1, NUM_SHAPESHIFT_SLOTS do
+	for i = 1, NUM_SHAPESHIFT_SLOTS do
 		button = _G["ElvUI_StanceBarButton"..i]
-		lastButton = _G["ElvUI_StanceBarButton"..i-1]
-		lastColumnButton = _G["ElvUI_StanceBarButton"..i-buttonsPerRow]
+		lastButton = _G["ElvUI_StanceBarButton"..i - 1]
+		lastColumnButton = _G["ElvUI_StanceBarButton"..i - buttonsPerRow]
 		button:SetParent(bar)
 		button:ClearAllPoints()
 		button:Size(size)
@@ -188,24 +192,24 @@ function AB:PositionAndSizeBarShapeShift()
 			bar:SetAlpha(bar.db.alpha)
 		end
 
-		if(i == 1) then
+		if i == 1 then
 			local x, y
-			if(point == "BOTTOMLEFT") then
+			if point == "BOTTOMLEFT" then
 				x, y = firstButtonSpacing, firstButtonSpacing
-			elseif(point == "TOPRIGHT") then
+			elseif point == "TOPRIGHT" then
 				x, y = -firstButtonSpacing, -firstButtonSpacing
-			elseif(point == "TOPLEFT") then
+			elseif point == "TOPLEFT" then
 				x, y = firstButtonSpacing, -firstButtonSpacing
 			else
 				x, y = -firstButtonSpacing, firstButtonSpacing
 			end
 
 			button:Point(point, bar, point, x, y)
-		elseif((i - 1) % buttonsPerRow == 0) then
+		elseif (i - 1) % buttonsPerRow == 0 then
 			local x = 0
 			local y = -buttonSpacing
 			local buttonPoint, anchorPoint = "TOP", "BOTTOM"
-			if(verticalGrowth == "UP") then
+			if verticalGrowth == "UP" then
 				y = buttonSpacing
 				buttonPoint = "BOTTOM"
 				anchorPoint = "TOP"
@@ -215,7 +219,7 @@ function AB:PositionAndSizeBarShapeShift()
 			local x = buttonSpacing
 			local y = 0
 			local buttonPoint, anchorPoint = "LEFT", "RIGHT"
-			if(horizontalGrowth == "LEFT") then
+			if horizontalGrowth == "LEFT" then
 				x = -buttonSpacing
 				buttonPoint = "RIGHT"
 				anchorPoint = "LEFT"
@@ -237,7 +241,7 @@ function AB:PositionAndSizeBarShapeShift()
 		end
 	end
 
-	if(self.LBFGroup and E.private.actionbar.lbf.enable) then self.LBFGroup:Skin(E.private.actionbar.lbf.skin) end
+	if self.LBFGroup and E.private.actionbar.lbf.enable then self.LBFGroup:Skin(E.private.actionbar.lbf.skin) end
 end
 
 function AB:AdjustMaxStanceButtons(event)
@@ -247,22 +251,28 @@ function AB:AdjustMaxStanceButtons(event)
 		return
 	end
 
-	for i=1, #bar.buttons do
+	local visibility = self.db.barShapeShift.visibility
+	if visibility and visibility:match("[\n\r]") then
+		visibility = visibility:gsub("[\n\r]", "")
+	end
+
+	for i = 1, #bar.buttons do
 		bar.buttons[i]:Hide()
 	end
+
 	local numButtons = GetNumShapeshiftForms()
 	for i = 1, NUM_SHAPESHIFT_SLOTS do
 		if not bar.buttons[i] then
 			bar.buttons[i] = CreateFrame("CheckButton", format(bar:GetName().."Button%d", i), bar, "ShapeshiftButtonTemplate")
 			bar.buttons[i]:SetID(i)
-			if(self.LBFGroup and E.private.actionbar.lbf.enable) then
+			if self.LBFGroup and E.private.actionbar.lbf.enable then
 				self.LBFGroup:AddButton(bar.buttons[i])
 			end
 			self:HookScript(bar.buttons[i], "OnEnter", "Button_OnEnter")
 			self:HookScript(bar.buttons[i], "OnLeave", "Button_OnLeave")
 		end
 
-		if ( i <= numButtons ) then
+		if i <= numButtons then
 			bar.buttons[i]:Show()
 			bar.LastButton = i
 		else
@@ -276,6 +286,8 @@ function AB:AdjustMaxStanceButtons(event)
 	if event == "UPDATE_SHAPESHIFT_FORMS" then
 		self:StyleShapeShift()
 	end
+
+	RegisterStateDriver(bar, "visibility", (numButtons == 0 and "hide") or visibility)
 end
 
 function AB:UpdateStanceBindings()
