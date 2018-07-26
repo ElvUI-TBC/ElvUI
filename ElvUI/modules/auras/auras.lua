@@ -81,9 +81,17 @@ function A:BuffButton_OnUpdate()
 	local buffIndex = this:GetID();
 	local timeLeft = GetPlayerBuffTimeLeft(buffIndex)
 
+	local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
+	if E.db.auras.cooldown.override and E.TimeColors["auras"] then
+		timeColors, timeThreshold = E.TimeColors["auras"], E.db.auras.cooldown.threshold
+	end
+	if not timeThreshold then
+		timeThreshold = E.TimeThreshold
+	end
+
 	local timerValue, formatID;
-	timerValue, formatID, self.nextUpdate = E:GetTimeInfo(timeLeft, A.db.fadeThreshold);
-	_G[this:GetName().."Duration"]:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatID], E.TimeFormats[formatID][1]), timerValue)
+	timerValue, formatID, self.nextUpdate = E:GetTimeInfo(timeLeft, timeThreshold)
+	_G[this:GetName().."Duration"]:SetFormattedText(("%s%s|r"):format(timeColors[formatID], E.TimeFormats[formatID][1]), timerValue)
 
 	if timeLeft < self.db.fadeThreshold then
 		this:SetAlpha(BuffFrame.BuffAlphaValue)

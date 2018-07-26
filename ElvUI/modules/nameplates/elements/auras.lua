@@ -107,12 +107,18 @@ end
 
 local function UpdateAuraTime(frame, expiration)
 	local timeleft = expiration - GetTime()
-	local timervalue, formatid = E:GetTimeInfo(timeleft, 4)
-	local timeFormat = E.TimeFormats[3][2]
-	if timervalue < 4 then
-		timeFormat = E.TimeFormats[4][2]
+	local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
+	if mod.db.cooldown.override and E.TimeColors["nameplates"] then
+		timeColors, timeThreshold = E.TimeColors["nameplates"], mod.db.cooldown.threshold
 	end
-	frame.timeLeft:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatid], timeFormat), timervalue)
+	if not timeThreshold then
+		timeThreshold = E.TimeThreshold
+	end
+	
+	local timervalue, formatid
+	timervalue, formatid = E:GetTimeInfo(timeleft, timeThreshold)
+	
+	frame.timeLeft:SetFormattedText(format("%s%s|r", timeColors[formatid], E.TimeFormats[formatid][2]), timervalue)
 end
 
 local function RemoveAuraInstance(guid, spellID, caster)

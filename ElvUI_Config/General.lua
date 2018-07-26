@@ -526,7 +526,7 @@ E.Options.args.general = {
 				E.db.cooldown[ info[#info] ] = {};
 				local t = E.db.cooldown[ info[#info] ];
 				t.r, t.g, t.b = r, g, b;
-				E:UpdateCooldownSettings();
+				E:UpdateCooldownSettings("global")
 			end,
 			args = {
 				header = {
@@ -549,10 +549,7 @@ E.Options.args.general = {
 					desc = L["Threshold before text turns red and is in decimal form. Set to -1 for it to never turn red"],
 					min = -1, max = 20, step = 1,
 					get = function(info) return E.db.cooldown[ info[#info] ]; end,
-					set = function(info, value)
-						E.db.cooldown[ info[#info] ] = value;
-						E:UpdateCooldownSettings();
-					end
+					set = function(info, value) E.db.cooldown[ info[#info] ] = value end,
 				},
 				expiringColor = {
 					order = 4,

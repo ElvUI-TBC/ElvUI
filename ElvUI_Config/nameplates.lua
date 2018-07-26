@@ -2547,8 +2547,84 @@ E.Options.args.nameplate = {
 						}
 					}
 				},
-				threatGroup = {
+				cooldownGroup = {
 					order = 4,
+					type = "group",
+					name = L["Cooldown Override"],
+					get = function(info)
+						local t = E.db.nameplates.cooldown[ info[#info] ]
+						local d = P.nameplates.cooldown[ info[#info] ]
+						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
+					end,
+					set = function(info, r, g, b)
+						local t = E.db.nameplates.cooldown[ info[#info] ]
+						t.r, t.g, t.b = r, g, b;
+						E:UpdateCooldownSettings("nameplates")
+					end,
+					hidden = true,
+					args = {
+						header = {
+							order = 1,
+							type = "header",
+							name = L["Cooldown Override"]
+						},
+						override = {
+							order = 2,
+							type = "toggle",
+							name = L["Use Override"],
+							desc = L["This will override the global cooldown settings."],
+							get = function(info) return E.db.nameplates.cooldown[ info[#info] ] end,
+							set = function(info, value) E.db.nameplates.cooldown[ info[#info] ] = value end
+						},
+						threshold = {
+							order = 3,
+							type = "range",
+							name = L["Low Threshold"],
+							desc = L["Threshold before text turns red and is in decimal form. Set to -1 for it to never turn red"],
+							min = -1, max = 20, step = 1,
+							disabled = function() return not E.db.nameplates.cooldown.override end,
+							get = function(info) return E.db.nameplates.cooldown[ info[#info] ] end,
+							set = function(info, value) E.db.nameplates.cooldown[ info[#info] ] = value end
+						},
+						expiringColor = {
+							order = 4,
+							type = "color",
+							name = L["Expiring"],
+							desc = L["Color when the text is about to expire"],
+							disabled = function() return not E.db.nameplates.cooldown.override end
+						},
+						secondsColor = {
+							order = 5,
+							type = "color",
+							name = L["Seconds"],
+							desc = L["Color when the text is in the seconds format."],
+							disabled = function() return not E.db.nameplates.cooldown.override end
+						},
+						minutesColor = {
+							order = 6,
+							type = "color",
+							name = L["Minutes"],
+							desc = L["Color when the text is in the minutes format."],
+							disabled = function() return not E.db.nameplates.cooldown.override end
+						},
+						hoursColor = {
+							order = 7,
+							type = "color",
+							name = L["Hours"],
+							desc = L["Color when the text is in the hours format."],
+							disabled = function() return not E.db.nameplates.cooldown.override end
+						},
+						daysColor = {
+							order = 8,
+							type = "color",
+							name = L["Days"],
+							desc = L["Color when the text is in the days format."],
+							disabled = function() return not E.db.nameplates.cooldown.override end
+						}
+					}
+				},
+				threatGroup = {
+					order = 5,
 					type = "group",
 					name = L["Threat"],
 					get = function(info)
@@ -2650,7 +2726,7 @@ E.Options.args.nameplate = {
 					}
 				},
 				castGroup = {
-					order = 5,
+					order = 6,
 					type = "group",
 					name = L["Cast Bar"],
 					get = function(info)
@@ -2678,7 +2754,7 @@ E.Options.args.nameplate = {
 					}
 				},
 				reactions = {
-					order = 6,
+					order = 7,
 					type = "group",
 					name = L["Reaction Colors"],
 					get = function(info)
