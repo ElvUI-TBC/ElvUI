@@ -4,100 +4,112 @@ local S = E:GetModule("Skins")
 local _G = _G
 local unpack = unpack
 
+local CreateFrame = CreateFrame
+local GetContainerItemLink = GetContainerItemLink
+local GetContainerNumFreeSlots = GetContainerNumFreeSlots
+local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
-local GetContainerItemInfo = GetContainerItemInfo
+local hooksecurefunc = hooksecurefunc
 local BANK_CONTAINER = BANK_CONTAINER
+local MAX_CONTAINER_ITEMS = MAX_CONTAINER_ITEMS
+local NUM_BANKBAGSLOTS = NUM_BANKBAGSLOTS
+local NUM_BANKGENERIC_SLOTS = NUM_BANKGENERIC_SLOTS
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
 
-function S:ContainerFrame_Update(self)
-	local id = self:GetID()
-	local name = self:GetName()
-	local _, itemButton, cooldown, quality
-
-	for i = 1, self.size, 1 do
-		itemButton = _G[name.."Item"..i]
-		cooldown = _G[name.."Item"..i.."Cooldown"]
-
-		if cooldown then
-			E:RegisterCooldown(cooldown)
-		end
-
-		_, _, _, quality = GetContainerItemInfo(id, itemButton:GetID())
-
-		if quality and quality > 1 then
-			itemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
-		else
-			itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-		end
-	end
-end
-
-function S:BankFrameItemButton_Update(button)
-	if not button.isBag then
-		local _, _, _, quality = GetContainerItemInfo(BANK_CONTAINER, button:GetID())
-
-		if quality and quality > 1 then
-			button:SetBackdropBorderColor(GetItemQualityColor(quality))
-		else
-			button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-		end
-	end
-end
+local ProfessionColors = {
+	[0x0001] = {225/255, 175/255, 105/255},	-- Quiver
+	[0x0002] = {225/255, 175/255, 105/255},	-- Ammo Pouch
+	[0x0004] = {225/255, 175/255, 105/255},	-- Soul Bag
+	[0x0008] = {224/255, 187/255, 74/255},	-- Leatherworking
+	[0x0020] = {18/255, 181/255, 32/255},	-- Herbs
+	[0x0040] = {160/255, 3/255, 168/255},	-- Enchanting
+	[0x0080] = {232/255, 118/255, 46/255},	-- Engineering
+	[0x0200] = {8/255, 180/255, 207/255},	-- Gems
+	[0x0400] = {105/255, 79/255, 7/255},	-- Mining
+}
 
 local function LoadSkin()
-	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.bags and not E.private.bags.enable) then return end
+	if not E.private.skins.blizzard.enable and E.private.skins.blizzard.bags and not E.private.bags.enable then return end
 
 	-- ContainerFrame
-	local containerFrame, containerFrameClose
 	for i = 1, NUM_CONTAINER_FRAMES, 1 do
-		containerFrame = _G["ContainerFrame"..i]
-		containerFrameClose = _G["ContainerFrame"..i.."CloseButton"]
+		local frame = _G["ContainerFrame"..i]
+		local closeButton = _G["ContainerFrame"..i.."CloseButton"]
 
-		containerFrame:StripTextures(true)
-		containerFrame:CreateBackdrop("Transparent")
-		containerFrame.backdrop:Point("TOPLEFT", 9, -4)
-		containerFrame.backdrop:Point("BOTTOMRIGHT", -4, 2)
+		frame:StripTextures(true)
+		frame:CreateBackdrop("Transparent")
+		frame.backdrop:Point("TOPLEFT", 9, -4)
+		frame.backdrop:Point("BOTTOMRIGHT", -4, 2)
 
-		S:HandleCloseButton(containerFrameClose)
+		S:HandleCloseButton(closeButton)
 
-		local itemButton, itemButtonIcon
 		for k = 1, MAX_CONTAINER_ITEMS, 1 do
-			itemButton = _G["ContainerFrame"..i.."Item"..k]
-			itemButtonIcon = _G["ContainerFrame"..i.."Item"..k.."IconTexture"]
+			local item = _G["ContainerFrame"..i.."Item"..k]
+			local icon = _G["ContainerFrame"..i.."Item"..k.."IconTexture"]
+			local cooldown = _G["ContainerFrame"..i.."Item"..k.."Cooldown"]
 
-			itemButton:SetNormalTexture(nil)
+			item:SetNormalTexture(nil)
+			item:SetTemplate("Default", true)
+			item:StyleButton()
 
-			itemButton:SetTemplate("Default", true)
-			itemButton:StyleButton()
+			icon:SetInside()
+			icon:SetTexCoord(unpack(E.TexCoords))
 
-			itemButtonIcon:SetInside()
-			itemButtonIcon:SetTexCoord(unpack(E.TexCoords))
+			cooldown.ColorOverride = "bags"
+			E:RegisterCooldown(cooldown)
 		end
 	end
 
-	S:SecureHook("ContainerFrame_Update")
+	hooksecurefunc("ContainerFrame_Update", function(self)
+		local id = self:GetID()
+		local name = self:GetName()
+		local itemButton, itemLink
+		local quality
+		local _, bagType = GetContainerNumFreeSlots(id)
+
+		for i = 1, self.size, 1 do
+			itemButton = _G[name.."Item"..i]
+			itemLink = GetContainerItemLink(id, itemButton:GetID())
+
+			if ProfessionColors[bagType] then
+				itemButton:SetBackdropBorderColor(unpack(ProfessionColors[bagType]))
+				itemButton.ignoreBorderColors = true
+			elseif itemLink then
+				_, _, quality = GetItemInfo(itemLink)
+
+				if quality then
+					itemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
+					itemButton.ignoreBorderColors = true
+				else
+					itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					itemButton.ignoreBorderColors = true
+				end
+			else
+				itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				itemButton.ignoreBorderColors = true
+			end
+		end
+	end)
 
 	-- BankFrame
+	local BankFrame = _G["BankFrame"]
+	BankFrame:StripTextures(true)
 	BankFrame:CreateBackdrop("Transparent")
 	BankFrame.backdrop:Point("TOPLEFT", 10, -11)
 	BankFrame.backdrop:Point("BOTTOMRIGHT", -26, 93)
 
-	BankFrame:StripTextures(true)
-
 	S:HandleCloseButton(BankCloseButton)
 
-	local button, buttonIcon
 	for i = 1, NUM_BANKGENERIC_SLOTS, 1 do
-		button = _G["BankFrameItem"..i]
-		buttonIcon = _G["BankFrameItem"..i.."IconTexture"]
+		local button = _G["BankFrameItem"..i]
+		local icon = _G["BankFrameItem"..i.."IconTexture"]
 
 		button:SetNormalTexture(nil)
-
 		button:SetTemplate("Default", true)
 		button:StyleButton()
 
-		buttonIcon:SetInside()
-		buttonIcon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetInside()
+		icon:SetTexCoord(unpack(E.TexCoords))
 	end
 
 	BankFrame.itemBackdrop = CreateFrame("Frame", "BankFrameItemBackdrop", BankFrame)
@@ -107,16 +119,15 @@ local function LoadSkin()
 	BankFrame.itemBackdrop:SetFrameLevel(BankFrame:GetFrameLevel())
 
 	for i = 1, NUM_BANKBAGSLOTS, 1 do
-		button = _G["BankFrameBag"..i]
-		buttonIcon = _G["BankFrameBag"..i.."IconTexture"]
+		local button = _G["BankFrameBag"..i]
+		local icon = _G["BankFrameBag"..i.."IconTexture"]
 
 		button:SetNormalTexture(nil)
-
 		button:SetTemplate("Default", true)
 		button:StyleButton()
 
-		buttonIcon:SetInside()
-		buttonIcon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetInside()
+		icon:SetTexCoord(unpack(E.TexCoords))
 
 		_G["BankFrameBag"..i.."HighlightFrameTexture"]:SetInside()
 		_G["BankFrameBag"..i.."HighlightFrameTexture"]:SetTexture(unpack(E["media"].rgbvaluecolor), 0.3)
@@ -130,7 +141,26 @@ local function LoadSkin()
 
 	S:HandleButton(BankFramePurchaseButton)
 
-	S:SecureHook("BankFrameItemButton_Update")
+	hooksecurefunc("BankFrameItemButton_Update", function(button)
+		if button.isBag then return end
+
+		local id = button:GetID()
+		local link = GetContainerItemLink(BANK_CONTAINER, id)
+		if link then
+			local _, _, quality = GetItemInfo(link)
+
+			if quality and quality > 1 then
+				button:SetBackdropBorderColor(GetItemQualityColor(quality))
+				button.ignoreBorderColors = true
+			else
+				button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				button.ignoreBorderColors = true
+			end
+		else
+			button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			button.ignoreBorderColors = true
+		end
+	end)
 end
 
 S:AddCallback("SkinBags", LoadSkin)

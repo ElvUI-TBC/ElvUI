@@ -209,7 +209,6 @@ E.Options.args.bags = {
 				t.r, t.g, t.b = r, g, b
 				E:UpdateCooldownSettings("bags")
 			end,
-			disabled = function() return not E.bags end,
 			args = {
 				header = {
 					order = 1,
