@@ -141,11 +141,24 @@ local smileyKeys = {
 	["</3"]="BrokenHeart",
 }
 
-local specialChatIcons = {
---	["Smolderforge"] = {
---		["Loaal"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\ElvUI_Chat_Logo:13:22|t",
---	}
-}
+local specialChatIcons
+do --this can save some main file locals
+	local IconPath	 = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\"
+	local ElvPurple	 = IconPath.."elvui_purple.tga:13:25|t"
+	local ElvPink	 = IconPath.."elvui_pink.tga:13:25|t"
+	local ElvBlue	 = IconPath.."elvui_blue.tga:13:25|t"
+	local ElvGreen	 = IconPath.."elvui_green.tga:13:25|t"
+	local ElvOrange	 = IconPath.."elvui_orange.tga:13:25|t"
+	local ElvRed	 = IconPath.."elvui_red.tga:13:25|t"
+	local ElvRainbow = IconPath.."elvui_rainbow.tga:13:25|t"
+	local Bathrobe	 = IconPath.."bathrobe.blp:15:15|t"
+	local MrHankey	 = IconPath.."mr_hankey.tga:16:18|t"
+	specialChatIcons = {
+--		["Smolderforge"] = {
+--			["Loaal"] = ElvBlue,
+--		}
+	}
+end
 
 CH.Keywords = {}
 
@@ -758,12 +771,10 @@ function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, a
 end
 
 local function GetChatIcons(sender)
-	if specialChatIcons[PLAYER_REALM] and specialChatIcons[PLAYER_REALM][E.myname] then
-		for realm, _ in pairs(specialChatIcons) do
-			for character, texture in pairs(specialChatIcons[realm]) do
-				if sender == character or sender == character.."-"..realm then
-					return texture
-				end
+	for realm, _ in pairs(specialChatIcons) do
+		for character, texture in pairs(specialChatIcons[realm]) do
+			if (realm == PLAYER_REALM and sender == character) or sender == character.."-"..realm then
+				return texture
 			end
 		end
 	end
