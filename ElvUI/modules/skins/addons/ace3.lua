@@ -104,6 +104,25 @@ local function SkinNextPrevButton(...)
 	S:HandleNextPrevButton(...)
 end
 
+local function SkinDropdownPullout(self)
+	if self.obj.pullout.frame.template and self.obj.pullout.slider.template then return end
+
+	if not self.obj.pullout.frame.template then
+		self.obj.pullout.frame:SetTemplate("Default", true)
+	end
+
+	if not self.obj.pullout.slider.template then
+		self.obj.pullout.slider:SetTemplate("Default")
+		self.obj.pullout.slider:Point("TOPRIGHT", self.obj.pullout.frame, "TOPRIGHT", -10, -10)
+		self.obj.pullout.slider:Point("BOTTOMRIGHT", self.obj.pullout.frame, "BOTTOMRIGHT", -10, 10)
+		if self.obj.pullout.slider:GetThumbTexture() then
+			self.obj.pullout.slider:SetThumbTexture(E["media"].blankTex)
+			self.obj.pullout.slider:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
+			self.obj.pullout.slider:GetThumbTexture():Size(10, 12)
+		end
+	end
+end
+
 function S:SkinAce3()
 	local AceGUI = LibStub("AceGUI-3.0", true)
 	if not AceGUI then return end
@@ -142,6 +161,7 @@ function S:SkinAce3()
 		elseif TYPE == "Dropdown" then
 			local frame = widget.dropdown
 			local button = widget.button
+			local button_cover = widget.button_cover
 			local text = widget.text
 			frame:StripTextures()
 
@@ -157,23 +177,10 @@ function S:SkinAce3()
 			end
 			button:SetParent(frame.backdrop)
 			text:SetParent(frame.backdrop)
-			button:HookScript("OnClick", function(this)
-				local dropdown = this.obj.pullout
-				if dropdown.frame then
-					dropdown.frame:SetTemplate("Default", true)
-					if dropdown.slider then
-						dropdown.slider:SetTemplate("Default")
-						dropdown.slider:Point("TOPRIGHT", dropdown.frame, "TOPRIGHT", -10, -10)
-						dropdown.slider:Point("BOTTOMRIGHT", dropdown.frame, "BOTTOMRIGHT", -10, 10)
-
-						if dropdown.slider:GetThumbTexture() then
-							dropdown.slider:SetThumbTexture(E["media"].blankTex)
-							dropdown.slider:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
-							dropdown.slider:GetThumbTexture():Size(10, 12)
-						end
-					end
-				end
-			end)
+			button:HookScript2("OnClick", SkinDropdownPullout)
+			if button_cover then
+				button_cover:HookScript2("OnClick", SkinDropdownPullout)
+			end
 		elseif TYPE == "LSM30_Font" or TYPE == "LSM30_Sound" or TYPE == "LSM30_Border" or TYPE == "LSM30_Background" or TYPE == "LSM30_Statusbar" then
 			local frame = widget.frame
 			local button = frame.dropButton

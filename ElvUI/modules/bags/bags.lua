@@ -985,7 +985,7 @@ function B:ContructContainerFrame(name, isBank)
 
 		f.goldText = f:CreateFontString(nil, "OVERLAY")
 		f.goldText:FontTemplate()
-		f.goldText:Point("BOTTOMRIGHT", f.holderFrame, "TOPRIGHT", -2, 4)
+		f.goldText:Point("BOTTOMRIGHT", f.holderFrame, "TOPRIGHT", -10, 4)
 		f.goldText:SetJustifyH("RIGHT")
 
 		f.sortButton = CreateFrame("Button", name.."SortButton", f)
