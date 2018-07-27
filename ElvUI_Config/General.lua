@@ -430,20 +430,8 @@ E.Options.args.general = {
 						CC:ToggleModule()
 					end
 				},
-				classCacheStoreInDB = {
-					order = 3,
-					type = "toggle",
-					name = L["Store cache in DB"],
-					desc = L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."],
-					get = function(info) return E.db.general.classCacheStoreInDB end,
-					set = function(info, value)
-						E.db.general.classCacheStoreInDB = value
-						CC:SwitchCacheType()
-					end,
-					disabled = function() return not E.private.general.classCache end
-				},
 				classCacheRequestInfo = {
-					order = 4,
+					order = 3,
 					type = "toggle",
 					name = L["Request info for class cache"],
 					desc = L["Use LibWho to cache class info"],
@@ -453,27 +441,56 @@ E.Options.args.general = {
 					end,
 					disabled = function() return not E.private.general.classCache end
 				},
-				wipeClassCacheGlobal = {
-					order = 5,
-					type = "execute",
-					name = L["Wipe DB Cache"],
-					buttonElvUI = true,
-					func = function()
-						CC:WipeCache(true)
-						GameTooltip:Hide()
-					end,
-					disabled = function() return not CC:GetCacheSize(true) end
-				},
-				wipeClassCacheLocal = {
-					order = 6,
-					type = "execute",
-					name = L["Wipe Session Cache"],
-					buttonElvUI = true,
-					func = function()
-						CC:WipeCache()
-						GameTooltip:Hide()
-					end,
-					disabled = function() return not CC:GetCacheSize() end
+				cache = {
+					order = 4,
+					type = "group",
+					name = L["Cache"],
+					guiInline = true,
+					args = {
+						threatLibStatus = {
+							order = 1,
+							type = "description",
+							name = L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."],
+						},
+						spacer = {
+							order = 2,
+							type = "description",
+							name = ""
+						},
+						classCacheStoreInDB = {
+							order = 3,
+							type = "toggle",
+							name = L["Store cache in DB"],
+							get = function(info) return E.db.general.classCacheStoreInDB end,
+							set = function(info, value)
+								E.db.general.classCacheStoreInDB = value
+								CC:SwitchCacheType()
+							end,
+							disabled = function() return not E.private.general.classCache end
+						},
+						wipeClassCacheGlobal = {
+							order = 4,
+							type = "execute",
+							name = L["Wipe DB Cache"],
+							buttonElvUI = true,
+							func = function()
+								CC:WipeCache(true)
+								GameTooltip:Hide()
+							end,
+							disabled = function() return not CC:GetCacheSize(true) end
+						},
+						wipeClassCacheLocal = {
+							order = 5,
+							type = "execute",
+							name = L["Wipe Session Cache"],
+							buttonElvUI = true,
+							func = function()
+								CC:WipeCache()
+								GameTooltip:Hide()
+							end,
+							disabled = function() return not CC:GetCacheSize() end
+						}
+					}
 				}
 			}
 		},
