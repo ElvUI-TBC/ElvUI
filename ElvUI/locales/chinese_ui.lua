@@ -38,7 +38,7 @@ L["Reset Position"] = "重设位置"
 L["Sort Bags"] = "背包整理"
 L["Temporary Move"] = "移动背包"
 L["Toggle Bags"] = "背包开关"
-L["Vendor Grays"] = "出售灰色物品"
+L["Vendor / Delete Grays"] = true
 
 --Chat
 L["AFK"] = "离开" --Also used in datatexts and tooltip
@@ -280,7 +280,7 @@ L["Confused.. Try Again!"] = "请再试一次！"
 L["No gray items to delete."] = "没有要删除的灰色物品"
 L["The spell '%s' has been added to the Blacklist unitframe aura filter."] = "法术'%s'已经被添加到单位框架的光环过滤器中."
 L["This setting caused a conflicting anchor point, where '%s' would be attached to itself. Please check your anchor points. Setting '%s' to be attached to '%s'."] = "这个设置引起一个互相矛盾的锚点, '%s' 被依附于他自身. 请检查你的锚点设置. 设置 '%s' 依附到 '%s'."
-L["Vendored gray items for:"] = "已出售灰色物品:"
+L["Vendored gray items for: %s"] = "已出售灰色物品: %s"
 L["You don't have enough money to repair."] = "没有足够的资金来修复."
 L["You must be at a vendor."] = "你必需以商人为目标."
 L["Your items have been repaired for: "] = "装备已修复: "
@@ -297,13 +297,13 @@ L["A setting you have changed will change an option for this character only. Thi
 L["Accepting this will reset the UnitFrame settings for %s. Are you sure?"] = "接受这个将重置关于%s的单位单位框架. 你确定吗？"
 L["Accepting this will reset your Filter Priority lists for all auras on NamePlates. Are you sure?"] = "接受这个将重置姓名版中所有光环的过滤器优先级. 你确定吗？"
 L["Are you sure you want to apply this font to all ElvUI elements?"] = "确定要对所有ElvUI元素使用这个字体?"
-L["Are you sure you want to delete all your gray items?"] = "确定需要摧毁你的灰色物品?"
 L["Are you sure you want to disband the group?"] = "确定要解散队伍?"
 L["Are you sure you want to reset all the settings on this profile?"] = "确定需要重置这个配置文件中的所有设置?"
 L["Are you sure you want to reset every mover back to it's default position?"] = "确定需要重置所有框架至默认位置?"
 L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = "由于大量的改动导致光环系统需要一个新的安装过程. 这是可选的, 最后一步将设置你的光环样式. 点击「完成」将不再提示. 如果由于某些原因反复提示, 请重新开启游戏."
 L["Can't buy anymore slots!"] = "银行背包栏位已达最大值"
 L["Disable Warning"] = "停用警告"
+L["Delete gray items?"] = true
 L["Discard"] = "取消"
 L["Do you enjoy the new ElvUI?"] = "你喜欢新的ElvUI么？"
 L["Do you swear not to post in technical support about something not working without first disabling the addon/module combination first?"] = "你发誓在你没停用其他插件前不会到技术支持询问某些功能失效吗？"

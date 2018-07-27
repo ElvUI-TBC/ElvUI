@@ -4,20 +4,23 @@ P.gridSize = 64
 P.farmSize = 340
 
 P["general"] = {
-	["taingLog"] = false,
+	["taintLog"] = false,
 	["stickyFrames"] = true,
 	["loginmessage"] = true,
 	["interruptAnnounce"] = "NONE",
 	["autoRepair"] = "NONE",
 	["autoRoll"] = false,
-	["vendorGrays"] = false,
 	["autoAcceptInvite"] = false,
+	["vendorGrays"] = false,
+	["vendorGraysDetails"] = false,
 	["bottomPanel"] = true,
 	["hideErrorFrame"] = true,
 	["enhancedPvpMessages"] = true,
 	["watchFrameHeight"] = 480,
 	["afk"] = true,
-	["numberPrefixStyle"] = "METRIC",
+	["numberPrefixStyle"] = "ENGLISH",
+	["decimalLength"] = 1,
+
 	["fontSize"] = 12,
 	["font"] = "PT Sans Narrow",
 
