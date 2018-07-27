@@ -686,9 +686,6 @@ function AB:FixKeybindText(button)
 
 		hotkey:SetText(text)
 	end
-
-	hotkey:ClearAllPoints()
-	hotkey:Point("TOPRIGHT", 0, -3)
 end
 
 local color

@@ -435,7 +435,6 @@ L["Enable/Disable the loot roll frame."] = "Ativar/Desativar painel de disputa d
 L["Enables the ElvUI Raid Control panel."] = true;
 L["Enhanced PVP Messages"] = true;
 L["General"] = "Geral"
-L["Height of the watch tracker. Increase size to be able to see more objectives."] = true;
 L["Hide At Max Level"] = true;
 L["Hide Error Text"] = "Esconder Texto de Erro"
 L["Hides the red error text at the top of the screen while in combat."] = "Esconde o texto de erro vermelho do topo da tela quando em combate."
@@ -465,7 +464,6 @@ L["Totem Bar"] = true;
 L["Unit Prefix Style"] = true
 L["Vendor Gray Detailed Report"] = true
 L["Version Check"] = true;
-L["Watch Frame Height"] = true;
 L["When you go AFK display the AFK screen."] = true;
 
 --Media

@@ -169,7 +169,7 @@ local function BuildABConfig()
 						order = 5,
 						type = "range",
 						name = FONT_SIZE,
-						min = 4, max = 212, step = 1
+						min = 4, max = 32, step = 1
 					},
 					fontOutline = {
 						order = 6,

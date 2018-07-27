@@ -483,7 +483,6 @@ L["Enable/Disable the loot roll frame."] = "ElvUI 디자인의 입찰 / 차비 /
 L["Enables the ElvUI Raid Control panel."] = true;
 L["Enhanced PVP Messages"] = true;
 L["General"] = "일반"
-L["Height of the watch tracker. Increase size to be able to see more objectives."] = "퀘스트프레임의 길이를 결정합니다."
 L["Hide At Max Level"] = true;
 L["Hide Error Text"] = "전투중 에러 숨기기"
 L["Hides the red error text at the top of the screen while in combat."] = "화면 중앙 상단에 뜨는 여러 에러메시지(ex : 사정거리 부족)를 전투 중에는 띄우지 않게 합니다."
@@ -513,7 +512,6 @@ L["Totem Bar"] = true;
 L["Unit Prefix Style"] = "단위 축약 방식"
 L["Vendor Gray Detailed Report"] = "자동판매시 목록 보기"
 L["Version Check"] = true;
-L["Watch Frame Height"] = "퀘스트프레임 세로길이"
 L["When you go AFK display the AFK screen."] = "자리비움 시 UI가 자리비움모드로 전환됩니다."
 
 --Media

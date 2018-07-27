@@ -208,67 +208,6 @@ E.Options.args.general = {
 						["KOREAN"] = "Korean (천, 만, 억)",
 						["GERMAN"] = "German (Tsd, Mio, Mrd)"
 					}
-				},
-				classCacheHeader = {
-					order = 51,
-					type = "header",
-					name = L["Class Cache"]
-				},
-				classCacheEnable = {
-					order = 52,
-					type = "toggle",
-					name = L["Enable"],
-					desc = L["Enable class caching to colorize names in chat and nameplates."],
-					get = function(info) return E.private.general.classCache end,
-					set = function(info, value)
-						E.private.general.classCache = value
-						CC:ToggleModule()
-					end
-				},
-				classCacheStoreInDB = {
-					order = 53,
-					type = "toggle",
-					name = L["Store cache in DB"],
-					desc = L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."],
-					get = function(info) return E.db.general.classCacheStoreInDB end,
-					set = function(info, value)
-						E.db.general.classCacheStoreInDB = value
-						CC:SwitchCacheType()
-					end,
-					disabled = function() return not E.private.general.classCache end
-				},
-				classCacheRequestInfo = {
-					order = 54,
-					type = "toggle",
-					name = L["Request info for class cache"],
-					desc = L["Use LibWho to cache class info"],
-					get = function(info) return E.db.general.classCacheRequestInfo end,
-					set = function(info, value)
-						E.db.general.classCacheRequestInfo = value
-					end,
-					disabled = function() return not E.private.general.classCache end
-				},
-				wipeClassCacheGlobal = {
-					order = 55,
-					type = "execute",
-					name = L["Wipe DB Cache"],
-					buttonElvUI = true,
-					func = function()
-						CC:WipeCache(true)
-						GameTooltip:Hide()
-					end,
-					disabled = function() return not CC:GetCacheSize(true) end
-				},
-				wipeClassCacheLocal = {
-					order = 56,
-					type = "execute",
-					name = L["Wipe Session Cache"],
-					buttonElvUI = true,
-					func = function()
-						CC:WipeCache()
-						GameTooltip:Hide()
-					end,
-					disabled = function() return not CC:GetCacheSize() end
 				}
 			}
 		},
@@ -470,8 +409,76 @@ E.Options.args.general = {
 				}
 			}
 		},
-		totems = {
+		classCache = {
 			order = 6,
+			type = "group",
+			name = L["Class Cache"],
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["Class Cache"]
+				},
+				classCacheEnable = {
+					order = 2,
+					type = "toggle",
+					name = L["Enable"],
+					desc = L["Enable class caching to colorize names in chat and nameplates."],
+					get = function(info) return E.private.general.classCache end,
+					set = function(info, value)
+						E.private.general.classCache = value
+						CC:ToggleModule()
+					end
+				},
+				classCacheStoreInDB = {
+					order = 3,
+					type = "toggle",
+					name = L["Store cache in DB"],
+					desc = L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."],
+					get = function(info) return E.db.general.classCacheStoreInDB end,
+					set = function(info, value)
+						E.db.general.classCacheStoreInDB = value
+						CC:SwitchCacheType()
+					end,
+					disabled = function() return not E.private.general.classCache end
+				},
+				classCacheRequestInfo = {
+					order = 4,
+					type = "toggle",
+					name = L["Request info for class cache"],
+					desc = L["Use LibWho to cache class info"],
+					get = function(info) return E.db.general.classCacheRequestInfo end,
+					set = function(info, value)
+						E.db.general.classCacheRequestInfo = value
+					end,
+					disabled = function() return not E.private.general.classCache end
+				},
+				wipeClassCacheGlobal = {
+					order = 5,
+					type = "execute",
+					name = L["Wipe DB Cache"],
+					buttonElvUI = true,
+					func = function()
+						CC:WipeCache(true)
+						GameTooltip:Hide()
+					end,
+					disabled = function() return not CC:GetCacheSize(true) end
+				},
+				wipeClassCacheLocal = {
+					order = 6,
+					type = "execute",
+					name = L["Wipe Session Cache"],
+					buttonElvUI = true,
+					func = function()
+						CC:WipeCache()
+						GameTooltip:Hide()
+					end,
+					disabled = function() return not CC:GetCacheSize() end
+				}
+			}
+		},
+		totems = {
+			order = 7,
 			type = "group",
 			name = L["Totem Bar"],
 			get = function(info) return E.db.general.totems[ info[#info] ]; end,
@@ -522,7 +529,7 @@ E.Options.args.general = {
 		},
 		cooldown = {
 			type = "group",
-			order = 7,
+			order = 8,
 			name = L["Cooldown Text"],
 			get = function(info)
 				local t = E.db.cooldown[ info[#info] ];
@@ -591,7 +598,7 @@ E.Options.args.general = {
 			}
 		},
 		chatBubbles = {
-			order = 8,
+			order = 9,
 			type = "group",
 			name = L["Chat Bubbles"],
 			args = {
@@ -651,28 +658,6 @@ E.Options.args.general = {
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE",
 					}
-				}
-			}
-		},
-		watchFrame = {
-			order = 9,
-			type = "group",
-			name = L["Watch Frame"],
-			get = function(info) return E.db.general[ info[#info] ]; end,
-			set = function(info, value) E.db.general[ info[#info] ] = value; end,
-			args = {
-				watchFrameHeader = {
-					order = 1,
-					type = "header",
-					name = L["Watch Frame"],
-				},
-				watchFrameHeight = {
-					order = 2,
-					type = "range",
-					name = L["Watch Frame Height"],
-					desc = L["Height of the watch tracker. Increase size to be able to see more objectives."],
-					min = 400, max = E.screenheight, step = 1,
-					set = function(info, value) E.db.general[ info[#info] ] = value; E:GetModule("Blizzard"):SetWatchFrameHeight(); end
 				}
 			}
 		},

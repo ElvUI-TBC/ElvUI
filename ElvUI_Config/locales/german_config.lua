@@ -436,7 +436,6 @@ L["Enable/Disable the loot roll frame."] = "Aktiviere/Deaktiviere das Beutewürf
 L["Enables the ElvUI Raid Control panel."] = "Aktiviert das ElvUI Raid Control Panel."
 L["Enhanced PVP Messages"] = "Erweiterte PvP Nachrichten"
 L["General"] = "Allgemein"
-L["Height of the watch tracker. Increase size to be able to see more objectives."] = "Höhe des Questfensters. Größe verändern, um mehr Ziele zu sehen."
 L["Hide At Max Level"] = "Auf max. Level vestecken"
 L["Hide Error Text"] = "Fehlertext verstecken"
 L["Hides the red error text at the top of the screen while in combat."] = "Den roten Fehlertext im oberen Teil des Bildschirms im Kampf verstecken"
@@ -466,7 +465,6 @@ L["Totem Bar"] = "Totem-Leiste"
 L["Unit Prefix Style"] = "Einheit Präfix Stil"
 L["Vendor Gray Detailed Report"] = "Graue Gegenstände detaillierter Report"
 L["Version Check"] = "Versionsabfrage"
-L["Watch Frame Height"] = "Questfenster-Höhe"
 L["When you go AFK display the AFK screen."] = "AFK Bildschirm anzeigen, wenn du AFK bist."
 
 --Media

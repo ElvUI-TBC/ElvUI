@@ -879,8 +879,6 @@ function E:UpdateAll(ignoreInstall)
 	LO:TopPanelVisibility()
 	LO:SetDataPanelStyle()
 
-	self:GetModule("Blizzard"):SetWatchFrameHeight()
-
 	collectgarbage("collect")
 end
 
