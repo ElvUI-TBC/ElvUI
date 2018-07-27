@@ -71,91 +71,24 @@ local classification = {
 }
 
 local SlotName = {
-	"Head","Neck","Shoulder","Back","Chest","Wrist",
-	"Hands","Waist","Legs","Feet","Finger0","Finger1",
-	"Trinket0","Trinket1","MainHand","SecondaryHand","Ranged"
+	"Head",
+	"Neck",
+	"Shoulder",
+	"Back",
+	"Chest",
+	"Wrist",
+	"Hands",
+	"Waist",
+	"Legs",
+	"Feet",
+	"Finger0",
+	"Finger1",
+	"Trinket0",
+	"Trinket1",
+	"MainHand",
+	"SecondaryHand",
+	"Ranged"
 }
-
---All this does is increase the spacing between tooltips when you compare items
-function TT:GameTooltip_ShowCompareItem(tt, shift)
-	if not tt then
-		tt = GameTooltip
-	end
-	local _, link = tt:GetItem()
-	if not link then
-		return
-	end
-
-	local item1 = nil
-	local item2 = nil
-	local side = "left"
-	if ShoppingTooltip1:SetHyperlinkCompareItem(link, 1, shift, tt) then
-		item1 = true
-	end
-	if ShoppingTooltip2:SetHyperlinkCompareItem(link, 2, shift, tt) then
-		item2 = true
-	end
-
-	-- find correct side
-	local rightDist = 0
-	local leftPos = tt:GetLeft()
-	local rightPos = tt:GetRight()
-	if not rightPos then
-		rightPos = 0
-	end
-	if not leftPos then
-		leftPos = 0
-	end
-
-	rightDist = GetScreenWidth() - rightPos
-
-	if leftPos and (rightDist < leftPos) then
-		side = "left"
-	else
-		side = "right"
-	end
-
-	-- see if we should slide the tooltip
-	if tt:GetAnchorType() and tt:GetAnchorType() ~= "ANCHOR_PRESERVE" then
-		local totalWidth = 0
-		if(item1) then
-			totalWidth = totalWidth + ShoppingTooltip1:GetWidth()
-		end
-		if(item2) then
-			totalWidth = totalWidth + ShoppingTooltip2:GetWidth()
-		end
-
-		if (side == "left") and (totalWidth > leftPos) then
-			tt:SetAnchorType(tt:GetAnchorType(), (totalWidth - leftPos), 0)
-		elseif (side == "right") and (rightPos + totalWidth) > GetScreenWidth() then
-			tt:SetAnchorType(tt:GetAnchorType(), -((rightPos + totalWidth) - GetScreenWidth()), 0)
-		end
-	end
-
-	if item1 then
-		ShoppingTooltip1:SetOwner(tt, "ANCHOR_NONE")
-		ShoppingTooltip1:ClearAllPoints()
-		if side and side == "left" then
-			ShoppingTooltip1:SetPoint("TOPRIGHT", tt, "TOPLEFT", -2, -10)
-		else
-			ShoppingTooltip1:SetPoint("TOPLEFT", tt, "TOPRIGHT", 2, -10)
-		end
-		ShoppingTooltip1:SetHyperlinkCompareItem(link, 1, shift, tt)
-		ShoppingTooltip1:Show()
-
-		if item2 then
-			ShoppingTooltip2:SetOwner(ShoppingTooltip1, "ANCHOR_NONE")
-			ShoppingTooltip2:ClearAllPoints()
-			if side and side == "left" then
-				ShoppingTooltip2:SetPoint("TOPRIGHT", ShoppingTooltip1, "TOPLEFT", -2, 0)
-			else
-				ShoppingTooltip2:SetPoint("TOPLEFT", ShoppingTooltip1, "TOPRIGHT", 2, 0)
-			end
-			ShoppingTooltip2:SetHyperlinkCompareItem(link, 2, shift, tt)
-			ShoppingTooltip2:Show()
-		end
-	end
-end
 
 function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 	if E.private.tooltip.enable ~= true then return end
@@ -256,7 +189,8 @@ function TT:RemoveTrashLines(tt)
 		local linetext = tiptext:GetText()
 
 		if linetext == PVP or linetext == FACTION_ALLIANCE or linetext == FACTION_HORDE then
-			tiptext:SetText()
+			tiptext:SetText(nil)
+			tiptext:Hide()
 		end
 	end
 end
@@ -352,9 +286,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 		local name, realm = UnitName(unit)
 		local guildName, guildRankName, _, guildRealm = GetGuildInfo(unit)
 		local pvpName = UnitPVPName(unit)
-		if not localeClass or not class then
-			return
-		end
+		if not localeClass or not class then return end
 
 		color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
 
@@ -676,7 +608,6 @@ function TT:Initialize()
 
 	self:SecureHook("GameTooltip_SetDefaultAnchor")
 	self:SecureHook("SetItemRef")
-	self:SecureHook("GameTooltip_ShowCompareItem")
 	self:HookScript(GameTooltip, "OnTooltipSetSpell", "GameTooltip_OnTooltipSetSpell")
 	self:HookScript(GameTooltip, "OnTooltipCleared", "GameTooltip_OnTooltipCleared")
 	self:HookScript(GameTooltip, "OnTooltipSetItem", "GameTooltip_OnTooltipSetItem")

@@ -1,52 +1,42 @@
-local E, L, DF = unpack(ElvUI);
-local B = E:GetModule("Blizzard");
+local E, L, DF = unpack(ElvUI)
+local B = E:GetModule("Blizzard")
 
-local _G = _G;
+local _G = _G
 
 local pvpHolder = CreateFrame("Frame", "PvPHolder", E.UIParent)
 
 function B:WorldStateAlwaysUpFrame_Update()
-	local captureBar;
+	local captureBar
 	for i = 1, NUM_EXTENDED_UI_FRAMES do
-		captureBar = _G["WorldStateCaptureBar" .. i];
-		if(captureBar and captureBar:IsShown()) then
-			captureBar:ClearAllPoints();
-			captureBar:Point("TOP", WorldStateAlwaysUpFrame, "BOTTOM", 0, -80)
+		captureBar = _G["WorldStateCaptureBar"..i]
+
+		if captureBar and captureBar:IsShown() then
+			captureBar:ClearAllPoints()
+			captureBar:Point("TOP", pvpHolder, "BOTTOM", 0, -75)
 		end
 	end
 
-	WorldStateAlwaysUpFrame:ClearAllPoints()
-	WorldStateAlwaysUpFrame:Point("CENTER", pvpHolder, "CENTER", 0, 10)
-
-	if AlwaysUpFrame1 then
-		AlwaysUpFrame1:ClearAllPoints()
-		AlwaysUpFrame1:Point("CENTER", WorldStateAlwaysUpFrame, "CENTER", 0, 0)
-	end
-
-	if AlwaysUpFrame2 then
-		AlwaysUpFrame2:Point("TOP", AlwaysUpFrame1, "BOTTOM", 0, -5)
-	end
-
-	local offset = 0
-
 	for i = 1, NUM_ALWAYS_UP_UI_FRAMES do
-		local frameText = _G["AlwaysUpFrame"..i.."Text"]
-		local frameIcon = _G["AlwaysUpFrame"..i.."Icon"]
-		local frameIcon2 = _G["AlwaysUpFrame"..i.."DynamicIconButton"]
+		local frame = _G["AlwaysUpFrame"..i]
+		local text = _G["AlwaysUpFrame"..i.."Text"]
+		local icon = _G["AlwaysUpFrame"..i.."Icon"]
+		local dynamic = _G["AlwaysUpFrame"..i.."DynamicIconButton"]
 
-		frameText:ClearAllPoints()
-		frameText:Point("CENTER", WorldStateAlwaysUpFrame, "CENTER", 0, offset)
-		frameText:SetJustifyH("CENTER")
+		if frame then
+			if i == 1 then
+				frame:ClearAllPoints()
+				frame:Point("CENTER", pvpHolder, "CENTER", 0, 5)
+			end
 
-		frameIcon:ClearAllPoints()
-		frameIcon:Point("CENTER", frameText, "LEFT", -7, -9)
-		frameIcon:Size(38)
+			text:ClearAllPoints()
+			text:Point("CENTER", frame, "CENTER", 0, 0)
 
-		frameIcon2:ClearAllPoints()
-		frameIcon2:Point("LEFT", frameText, "RIGHT", 5, 0)
-		frameIcon2:Size(38)
+			icon:ClearAllPoints()
+			icon:Point("CENTER", text, "LEFT", -10, -9)
 
-		offset = offset - 25
+			dynamic:ClearAllPoints()
+			dynamic:Point("LEFT", text, "RIGHT", 5, 0)
+		end
 	end
 end
 

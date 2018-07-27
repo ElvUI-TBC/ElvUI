@@ -717,17 +717,48 @@ E.Options.args.general = {
 						["RIGHTCHAT"] = L["Right Chat"]
 					},
 					get = function(info) return E.db.general.threat.position end,
-					set = function(info, value) E.db.general.threat.position = value; E:GetModule("Threat"):UpdatePosition() end
+					set = function(info, value) E.db.general.threat.position = value; E:GetModule("Threat"):UpdatePosition() end,
+					disabled = function() return not E.db.general.threat.enable end
+				},
+				spacer = {
+					order = 5,
+					type = "description",
+					name = ""
+				},
+				threatTextfont = {
+					order = 6,
+					type = "select", dialogControl = "LSM30_Font",
+					name = L["Font"],
+					values = AceGUIWidgetLSMlists.font,
+					get = function(info) return E.db.general.threat.textfont end,
+					set = function(info, value) E.db.general.threat.textfont = value; E:GetModule("Threat"):UpdatePosition() end,
+					disabled = function() return not E.db.general.threat.enable end
 				},
 				threatTextSize = {
-					order = 5,
+					order = 7,
 					type = "range",
-					min = 6, max = 22, step = 1,
 					name = FONT_SIZE,
-					get = function(info) return E.db.general.threat.textSize end,
-					set = function(info, value) E.db.general.threat.textSize = value; E:GetModule("Threat"):UpdatePosition() end
+					min = 6, max = 22, step = 1,
+					get = function(info) return E.db.general.threat.textSize; end,
+					set = function(info, value) E.db.general.threat.textSize = value E:GetModule("Threat"):UpdatePosition() end,
+					disabled = function() return not E.db.general.threat.enable end
+				},
+				threatTextOutline = {
+					order = 8,
+					type = "select",
+					name = L["Font Outline"],
+					desc = L["Set the font outline."],
+					values = {
+						["NONE"] = NONE,
+						["OUTLINE"] = "OUTLINE",
+						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
+						["THICKOUTLINE"] = "THICKOUTLINE"
+					},
+					get = function(info) return E.db.general.threat.textOutline end,
+					set = function(info, value) E.db.general.threat.textOutline = value E:GetModule("Threat"):UpdatePosition() end,
+					disabled = function() return not E.db.general.threat.enable end
 				}
 			}
 		}
 	}
-};
+}

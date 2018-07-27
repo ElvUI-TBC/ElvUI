@@ -8,16 +8,6 @@ local tinsert = table.insert
 local CreateFrame = CreateFrame
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES
 
-local ElvUIKeyRing = CreateFrame("CheckButton", "ElvUIKeyRingButton", UIParent, "ItemButtonTemplate")
-ElvUIKeyRing:RegisterForClicks("anyUp")
-ElvUIKeyRing:StripTextures()
-ElvUIKeyRing:SetScript("OnClick", function() if CursorHasItem() then PutKeyInKeyRing() else ToggleKeyRing() end end)
-ElvUIKeyRing:SetScript("OnReceiveDrag", function() if CursorHasItem() then PutKeyInKeyRing() end end)
-ElvUIKeyRing:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_LEFT") local color = HIGHLIGHT_FONT_COLOR GameTooltip:SetText(KEYRING, color.r, color.g, color.b) GameTooltip:AddLine() end)
-ElvUIKeyRing:SetScript("OnLeave", function() GameTooltip:Hide() end)
-_G[ElvUIKeyRing:GetName().."IconTexture"]:SetTexture("Interface\\ContainerFrame\\KeyRing-Bag-Icon")
-_G[ElvUIKeyRing:GetName().."IconTexture"]:SetTexCoord(unpack(E.TexCoords))
-
 local function OnEnter()
 	if not E.db.bags.bagBar.mouseover then return end
 	E:UIFrameFadeOut(ElvUIBags, 0.2, ElvUIBags:GetAlpha(), 1)
@@ -35,6 +25,7 @@ function B:SkinBag(bag)
 	bag:StripTextures()
 	bag:SetTemplate("Default", true)
 	bag:StyleButton(true)
+
 	icon:SetTexture(bag.oldTex)
 	icon:SetInside()
 	icon:SetTexCoord(unpack(E.TexCoords))
@@ -49,6 +40,13 @@ function B:SizeAndPositionBagBar()
 	local showBackdrop = E.db.bags.bagBar.showBackdrop
 	local growthDirection = E.db.bags.bagBar.growthDirection
 	local sortDirection = E.db.bags.bagBar.sortDirection
+	local visibility = E.db.bags.bagBar.visibility
+
+	if visibility and visibility:match("[\n\r]") then
+		visibility = visibility:gsub("[\n\r]","")
+	end
+
+	RegisterStateDriver(ElvUIBags, "visibility", visibility)
 
 	if E.db.bags.bagBar.mouseover then
 		ElvUIBags:SetAlpha(0)
@@ -67,7 +65,8 @@ function B:SizeAndPositionBagBar()
 
 	for i = 1, #ElvUIBags.buttons do
 		local button = ElvUIBags.buttons[i]
-		local prevButton = ElvUIBags.buttons[i-1]
+		local prevButton = ElvUIBags.buttons[i - 1]
+
 		button:Size(bagBarSize)
 		button:ClearAllPoints()
 		button:Show()
@@ -142,15 +141,29 @@ function B:LoadBagBar()
 		tinsert(ElvUIBags.buttons, b)
 	end
 
-	ElvUIKeyRingButton:SetTemplate()
-	ElvUIKeyRingButton:StyleButton(true)
-	_G[ElvUIKeyRingButton:GetName().."IconTexture"]:SetInside()
-	ElvUIKeyRingButton:SetParent(ElvUIBags)
-	ElvUIKeyRingButton.SetParent = E.dummy
-	ElvUIKeyRingButton:HookScript("OnEnter", OnEnter)
-	ElvUIKeyRingButton:HookScript("OnLeave", OnLeave)
-	tinsert(ElvUIBags.buttons, ElvUIKeyRingButton)
+	local ElvUIKeyRing = CreateFrame("CheckButton", "ElvUIKeyRingButton", UIParent, "ItemButtonTemplate")
+	ElvUIKeyRing:StripTextures()
+	ElvUIKeyRing:SetTemplate()
+	ElvUIKeyRing:StyleButton(true)
+	ElvUIKeyRing:SetParent(ElvUIBags)
+	ElvUIKeyRing.SetParent = E.dummy
+	ElvUIKeyRing:RegisterForClicks("anyUp")
+
+	_G[ElvUIKeyRing:GetName().."IconTexture"]:SetTexture("Interface\\ContainerFrame\\KeyRing-Bag-Icon")
+	_G[ElvUIKeyRing:GetName().."IconTexture"]:SetInside()
+	_G[ElvUIKeyRing:GetName().."IconTexture"]:SetTexCoord(unpack(E.TexCoords))
+
+	ElvUIKeyRing:SetScript("OnClick", function() if CursorHasItem() then PutKeyInKeyRing() else ToggleKeyRing() end end)
+	ElvUIKeyRing:SetScript("OnReceiveDrag", function() if CursorHasItem() then PutKeyInKeyRing() end end)
+	ElvUIKeyRing:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_LEFT") local color = HIGHLIGHT_FONT_COLOR GameTooltip:SetText(KEYRING, color.r, color.g, color.b) GameTooltip:AddLine() end)
+	ElvUIKeyRing:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
+	ElvUIKeyRing:HookScript("OnEnter", OnEnter)
+	ElvUIKeyRing:HookScript("OnLeave", OnLeave)
+
+	tinsert(ElvUIBags.buttons, ElvUIKeyRing)
 
 	self:SizeAndPositionBagBar()
+
 	E:CreateMover(ElvUIBags, "BagsMover", L["Bags"])
 end

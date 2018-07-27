@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI);
 local mod = E:GetModule("DataBars");
+local LSM = LibStub("LibSharedMedia-3.0")
 
 local _G = _G;
 local format = format;
@@ -13,7 +14,8 @@ local backupColor = FACTION_BAR_COLORS[1];
 local FactionStandingLabelUnknown = UNKNOWN
 
 function mod:UpdateReputation(event)
-	if(not mod.db.reputation.enable) then return; end
+	if not mod.db.reputation.enable then return end
+
 	local bar = self.repBar;
 
 	local ID, standingLabel;
@@ -22,7 +24,7 @@ function mod:UpdateReputation(event)
 
 	if not name or (event == "PLAYER_REGEN_DISABLED" and self.db.reputation.hideInCombat) then
 		bar:Hide();
-	elseif (not self.db.reputation.hideInCombat or not InCombatLockdown()) then
+	elseif name and (not self.db.reputation.hideInCombat or not InCombatLockdown()) then
 		bar:Show();
 
 		local text = "";
@@ -97,7 +99,7 @@ function mod:UpdateReputationDimensions()
 	self.repBar:Width(self.db.reputation.width);
 	self.repBar:Height(self.db.reputation.height);
 	self.repBar.statusBar:SetOrientation(self.db.reputation.orientation);
-	self.repBar.text:FontTemplate(E.LSM:Fetch("font", self.db.reputation.textFont), self.db.reputation.textSize, self.db.reputation.textOutline);
+	self.repBar.text:FontTemplate(LSM:Fetch("font", self.db.reputation.font), self.db.reputation.textSize, self.db.reputation.fontOutline)
 	if(self.db.reputation.mouseover) then
 		self.repBar:SetAlpha(0);
 	else

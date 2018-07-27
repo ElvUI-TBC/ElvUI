@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("DataBars")
+local LSM = LibStub("LibSharedMedia-3.0")
 
 local _G = _G
 local format = format
@@ -117,9 +118,9 @@ function mod:UpdateExperienceDimensions()
 	self.expBar:Width(self.db.experience.width)
 	self.expBar:Height(self.db.experience.height)
 
-	self.expBar.text:FontTemplate(E.LSM:Fetch("font", self.db.experience.textFont), self.db.experience.textSize, self.db.experience.textOutline)
-	self.expBar.rested:SetOrientation(self.db.experience.orientation)
+	self.expBar.text:FontTemplate(LSM:Fetch("font", self.db.experience.font), self.db.experience.textSize, self.db.experience.fontOutline)
 
+	self.expBar.rested:SetOrientation(self.db.experience.orientation)
 	self.expBar.statusBar:SetOrientation(self.db.experience.orientation)
 
 	if(self.db.experience.mouseover) then

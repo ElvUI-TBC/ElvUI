@@ -121,8 +121,6 @@ function AFK:SetAFK(status)
 		self.timer = self:ScheduleRepeatingTimer("UpdateTimer", 1)
 
 		self.AFKMode.chat:RegisterEvent("CHAT_MSG_WHISPER")
-		self.AFKMode.chat:RegisterEvent("CHAT_MSG_BN_WHISPER")
-		self.AFKMode.chat:RegisterEvent("CHAT_MSG_BN_CONVERSATION")
 		self.AFKMode.chat:RegisterEvent("CHAT_MSG_GUILD")
 
 		self.AFKMode.bottom.model:SetModelScale(1)

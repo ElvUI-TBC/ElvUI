@@ -328,12 +328,12 @@ E.Options.args.bags = {
 			set = function(info, value) E.db.bags.bagBar[ info[#info] ] = value; B:SizeAndPositionBagBar(); end,
 			args = {
 				header = {
-					order = 0,
+					order = 1,
 					type = "header",
 					name = L["Bag-Bar"]
 				},
 				enable = {
-					order = 1,
+					order = 2,
 					type = "toggle",
 					name = L["Enable"],
 					desc = L["Enable/Disable the Bag-Bar."],
@@ -341,39 +341,39 @@ E.Options.args.bags = {
 					set = function(info, value) E.private.bags.bagBar = value; E:StaticPopup_Show("PRIVATE_RL"); end
 				},
 				showBackdrop = {
-					order = 2,
+					order = 3,
 					type = "toggle",
 					name = L["Backdrop"]
 				},
 				mouseover = {
-					order = 3,
+					order = 4,
 					name = L["Mouse Over"],
 					desc = L["The frame is not shown unless you mouse over the frame."],
 					type = "toggle"
 				},
 				size = {
-					order = 4,
+					order = 5,
 					type = "range",
 					name = L["Button Size"],
 					desc = L["Set the size of your bag buttons."],
 					min = 24, max = 60, step = 1
 				},
 				spacing = {
-					order = 5,
+					order = 6,
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
 					min = 1, max = 10, step = 1
 				},
 				backdropSpacing = {
-					order = 6,
+					order = 7,
 					type = "range",
 					name = L["Backdrop Spacing"],
 					desc = L["The spacing between the backdrop and the buttons."],
 					min = 0, max = 10, step = 1
 				},
 				sortDirection = {
-					order = 7,
+					order = 8,
 					type = "select",
 					name = L["Sort Direction"],
 					desc = L["The direction that the bag frames will grow from the anchor."],
@@ -383,7 +383,7 @@ E.Options.args.bags = {
 					}
 				},
 				growthDirection = {
-					order = 7,
+					order = 9,
 					type = "select",
 					name = L["Bar Direction"],
 					desc = L["The direction that the bag frames be (Horizontal or Vertical)."],
@@ -391,6 +391,22 @@ E.Options.args.bags = {
 						["VERTICAL"] = L["Vertical"],
 						["HORIZONTAL"] = L["Horizontal"]
 					}
+				},
+				visibility = {
+					order = 10,
+					type = "input",
+					name = L["Visibility State"],
+					desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],
+					width = "full",
+					multiline = true,
+					set = function(info, value)
+						if value and value:match("[\n\r]") then
+							value = value:gsub("[\n\r]","")
+						end
+						E.db.bags.bagBar["visibility"] = value
+						B:SizeAndPositionBagBar()
+					end,
+					disabled = function() return not E.private.bags.bagBar end
 				}
 			}
 		},

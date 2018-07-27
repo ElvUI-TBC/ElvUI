@@ -1,6 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local THREAT = E:NewModule("Threat", "AceEvent-3.0")
 local ThreatLib = LibStub("Threat-2.0", true)
+local LSM = LibStub("LibSharedMedia-3.0")
 
 local pairs, select = pairs, select
 local twipe = table.wipe
@@ -33,7 +34,8 @@ function THREAT:UpdatePosition()
 		self.bar:SetInside(LeftChatDataPanel)
 		self.bar:SetParent(LeftChatDataPanel)
 	end
-	self.bar.text:FontTemplate(nil, self.db.textSize)
+	local fontTemplate = LSM:Fetch("font", self.db.textfont)
+	self.bar.text:FontTemplate(fontTemplate, self.db.textSize, self.db.textOutline)
 	self.bar:SetFrameStrata("MEDIUM")
 end
 
@@ -193,7 +195,7 @@ function THREAT:Initialize()
 	self.bar:CreateBackdrop("Default")
 
 	self.bar.text = self.bar:CreateFontString(nil, "OVERLAY")
-	self.bar.text:FontTemplate(nil, self.db.textSize)
+	self.bar.text:FontTemplate(self.db.textfont, self.db.textSize, self.db.textOutline)
 	self.bar.text:Point("CENTER", self.bar, "CENTER")
 
 	self:UpdatePosition()
