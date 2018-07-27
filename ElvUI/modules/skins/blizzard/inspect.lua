@@ -94,21 +94,26 @@ local function LoadSkin()
 
 	InspectTalentFrameCancelButton:Hide()
 
-	InspectTalentFrameTab1:Point("TOPLEFT", 70, -35)
 	InspectTalentFrameSpentPoints:Point("BOTTOMLEFT", 65, 84)
 
 	for i = 1, 3 do
 		local headerTab = _G["InspectTalentFrameTab"..i]
 
 		headerTab:StripTextures()
-		headerTab.backdrop = CreateFrame("Frame", nil, headerTab)
-		headerTab.backdrop:SetTemplate("Default", true)
-		headerTab.backdrop:SetFrameLevel(headerTab:GetFrameLevel() - 1)
+		headerTab:CreateBackdrop("Default", true)
 		headerTab.backdrop:Point("TOPLEFT", 3, -7)
-		headerTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+		headerTab.backdrop:Point("BOTTOMRIGHT", 2, -1)
+		headerTab:SetHitRectInsets(1, 0, 7, -1)
 
 		headerTab:HookScript2("OnEnter", S.SetModifiedBackdrop)
 		headerTab:HookScript2("OnLeave", S.SetOriginalBackdrop)
+
+		headerTab:Width(101)
+		headerTab.SetWidth = E.noop
+
+		if i == 1 then
+			headerTab:Point("TOPLEFT", 19, -40)
+		end
 	end
 
 	for i = 1, MAX_NUM_TALENTS do
