@@ -6,15 +6,18 @@ local LSM = LibStub("LibSharedMedia-3.0")
 local _G = _G
 local time, difftime = time, difftime
 local pairs, unpack, select, tostring, next, tonumber, type, assert = pairs, unpack, select, tostring, next, tonumber, type, assert
-local tconcat, tinsert, tremove, twipe = table.concat, table.insert, table.remove, table.wipe
+local tinsert, tremove, twipe, tconcat = table.insert, table.remove, table.wipe, table.concat
 local strmatch = strmatch
 local gsub, find, gmatch, format, split = string.gsub, string.find, string.gmatch, string.format, string.split
 local strlower, strsub, strlen, strupper = strlower, strsub, strlen, strupper
 
 local BetterDate = BetterDate
+local ChatEdit_ActivateChat = ChatEdit_ActivateChat
+local ChatEdit_ChooseBoxForSend = ChatEdit_ChooseBoxForSend
+local ChatEdit_ParseText = ChatEdit_ParseText
 local ChatEdit_SetLastTellTarget = ChatEdit_SetLastTellTarget
-local ChatFrameEditBox = ChatFrameEditBox
 local ChatFrame_ConfigEventHandler = ChatFrame_ConfigEventHandler
+local ChatFrameEditBox = ChatFrameEditBox
 local ChatFrame_SendTell = ChatFrame_SendTell
 local ChatFrame_SystemEventHandler = ChatFrame_SystemEventHandler
 local CreateFrame = CreateFrame
@@ -25,12 +28,14 @@ local GetChannelName = GetChannelName
 local GetDefaultLanguage = GetDefaultLanguage
 local GetGuildRosterMOTD = GetGuildRosterMOTD
 local GetMouseFocus = GetMouseFocus
+local GetNumPartyMembers = GetNumPartyMembers
 local GetNumRaidMembers = GetNumRaidMembers
 local GetTime = GetTime
+local hooksecurefunc = hooksecurefunc
 local InCombatLockdown = InCombatLockdown
+local IsAltKeyDown = IsAltKeyDown
 local IsInInstance = IsInInstance
 local IsMouseButtonDown = IsMouseButtonDown
-local IsAltKeyDown = IsAltKeyDown
 local IsShiftKeyDown = IsShiftKeyDown
 local PlaySound = PlaySound
 local PlaySoundFile = PlaySoundFile
@@ -38,10 +43,9 @@ local ShowUIPanel, HideUIPanel = ShowUIPanel, HideUIPanel
 local StaticPopup_Visible = StaticPopup_Visible
 local ToggleFrame = ToggleFrame
 local UnitName = UnitName
-local hooksecurefunc = hooksecurefunc
-
+local wipe = wipe
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS
-local DEFAULT_CHAT_FRAME = DEFAULT_CHAT_FRAME
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local GlobalStrings = {
 	["AFK"] = AFK,
@@ -60,9 +64,6 @@ local chatFilters = {}
 
 local PLAYER_REALM = gsub(E.myrealm,"[%s%-]","")
 local PLAYER_NAME = E.myname.."-"..PLAYER_REALM
-
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
 
 local DEFAULT_STRINGS = {
 	BATTLEGROUND = L["BG"],
@@ -222,7 +223,7 @@ function CH:GetSmileyReplacementText(msg)
 	local outstr = ""
 	local origlen = strlen(msg)
 	local startpos = 1
-	local endpos
+	local endpos, _
 
 	while(startpos <= origlen) do
 		endpos = origlen
@@ -233,7 +234,7 @@ function CH:GetSmileyReplacementText(msg)
 		outstr = outstr .. CH:InsertEmotions(strsub(msg,startpos,endpos)) --run replacement on this bit
 		startpos = endpos + 1
 		if(pos ~= nil) then
-			endpos = find(msg,"|h]|r",startpos,-1) or find(msg,"|h",startpos,-1)
+			_, endpos = find(msg,"|h.-|h",startpos)
 			endpos = endpos or origlen
 			if(startpos < endpos) then
 				outstr = outstr .. strsub(msg,startpos,endpos) --don't run replacement on this bit
@@ -294,8 +295,11 @@ function CH:StyleChat(frame)
 		end
 	end)
 
-	if id ~= 2 then
+	if id ~= 2 then --Don't add timestamps to combat log, they don't work.
 		tab.text:Point("LEFT", _G[name.."TabLeft"], "RIGHT", 0, -4)
+		--This usually taints, but LibChatAnims should make sure it doesn't.
+		frame.OldAddMessage = frame.AddMessage
+		frame.AddMessage = CH.AddMessage
 	end
 
 	tab.flash = _G[name.."TabFlash"]
@@ -340,17 +344,42 @@ function CH:StyleChat(frame)
 	frame.styled = true
 end
 
+function CH:AddMessage(msg, infoR, infoG, infoB, infoID, isHistory, historyTime)
+	local historyTimestamp --we need to extend the arguments on AddMessage so we can properly handle times without overriding
+	if isHistory == "ElvUI_ChatHistory" then historyTimestamp = historyTime end
+
+	if (CH.db.timeStampFormat and CH.db.timeStampFormat ~= "NONE") then
+		local timeStamp = BetterDate(CH.db.timeStampFormat, historyTimestamp or time())
+		timeStamp = timeStamp:gsub(" ", "")
+		timeStamp = timeStamp:gsub("AM", " AM")
+		timeStamp = timeStamp:gsub("PM", " PM")
+		if CH.db.useCustomTimeColor then
+			local color = CH.db.customTimeColor
+			local hexColor = E:RGBToHex(color.r, color.g, color.b)
+			msg = format("%s[%s]|r %s", hexColor, timeStamp, msg)
+		else
+			msg = format("[%s] %s", timeStamp, msg)
+		end
+	end
+
+	self.OldAddMessage(self, msg, infoR, infoG, infoB, infoID)
+end
+
 function CH:UpdateSettings()
 	ChatFrameEditBox:SetAltArrowKeyMode(CH.db.useAltKey)
 end
 
-local function removeIconFromLine(text)
-	text = gsub(text, "|TInterface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d+):0|t", function(x)
-		x = _G["RAID_TARGET_"..x];return "{"..strlower(x).."}"
-	end)
-
-	text = gsub(text, "|H.-|h(.-)|h", "%1")
-	return gsub(text, "|T.-|t", "")
+local removeIconFromLine
+do
+	local raidIconFunc = function(x) x = x~="" and _G["RAID_TARGET_"..x];return x and ("{"..strlower(x).."}") or "" end
+	local stripTextureFunc = function(w, x, y) if x=="" then return (w~="" and w) or (y~="" and y) or "" end end
+	local hyperLinkFunc = function(x, y) if x=="" then return y end end
+	removeIconFromLine = function(text)
+		text = gsub(text, "|TInterface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d+):0|t", raidIconFunc) --converts raid icons into {star} etc, if possible.
+		text = gsub(text, "(%s?)(|?)|T.-|t(%s?)", stripTextureFunc) --strip any other texture out but keep a single space from the side(s).
+		text = gsub(text, "(|?)|H.-|h(.-)|h", hyperLinkFunc) --strip hyperlink data only keeping the actual text.
+		return text
+	end
 end
 
 local function colorizeLine(text, r, g, b)
@@ -645,38 +674,43 @@ function CH.FindURL(msg, ...)
 	return false, msg, ...
 end
 
-local SetHyperlink = ItemRefTooltip.SetHyperlink
-function ItemRefTooltip:SetHyperlink(data, ...)
+local function SetChatEditBoxMessage(message)
+	local ChatFrameEditBox = ChatEdit_ChooseBoxForSend()
+	local editBoxShown = ChatFrameEditBox:IsShown()
+	local editBoxText = ChatFrameEditBox:GetText()
+	if not editBoxShown then
+		ChatEdit_ActivateChat(ChatFrameEditBox)
+	end
+	if editBoxText and editBoxText ~= "" then
+		ChatFrameEditBox:SetText("")
+	end
+	ChatFrameEditBox:Insert(message)
+	ChatFrameEditBox:HighlightText()
+end
+
+local function HyperLinkedURL(data)
 	if strsub(data, 1, 3) == "url" then
 		local currentLink = strsub(data, 5)
-		if not ChatFrameEditBox:IsShown() then
-			ChatFrameEditBox:Show()
-			ChatEdit_UpdateHeader(ChatFrameEditBox)
+		if currentLink and currentLink ~= "" then
+			SetChatEditBoxMessage(currentLink)
 		end
-		ChatFrameEditBox:Insert(currentLink)
-		ChatFrameEditBox:HighlightText()
-	else
-		SetHyperlink(self, data, ...)
+		return
 	end
 end
 
-local function WIM_URLLink(link)
-	if strsub(link, 1, 3) == "url" then
-		local currentLink = strsub(link, 5)
-		if not ChatFrameEditBox:IsShown() then
-			ChatFrameEditBox:Show()
-			ChatEdit_UpdateHeader(ChatFrameEditBox)
-		end
-		ChatFrameEditBox:Insert(currentLink)
-		ChatFrameEditBox:HighlightText()
-		return
+local SetHyperlink = ItemRefTooltip.SetHyperlink
+function ItemRefTooltip:SetHyperlink(data, ...)
+	if strsub(data, 1, 3) == "url" then
+		HyperLinkedURL(data)
+	else
+		SetHyperlink(self, data, ...)
 	end
 end
 
 local hyperLinkEntered
 function CH:OnHyperlinkEnter(frame, refString)
 	if InCombatLockdown() then return end
-	local linkToken = refString:match("^([^:]+)")
+	local linkToken = strmatch(refString, "^([^:]+)")
 	if hyperlinkTypes[linkToken] then
 		ShowUIPanel(GameTooltip)
 		GameTooltip:SetOwner(frame, "ANCHOR_CURSOR")
@@ -687,8 +721,13 @@ function CH:OnHyperlinkEnter(frame, refString)
 end
 
 function CH:OnHyperlinkLeave(_, refString)
-	local linkToken = refString:match("^([^:]+)")
-	if hyperlinkTypes[linkToken] then
+	-- local linkToken = refString:match("^([^:]+)")
+	-- if hyperlinkTypes[linkToken] then
+		-- HideUIPanel(GameTooltip)
+		-- hyperLinkEntered = nil
+	-- end
+
+	if hyperLinkEntered then
 		HideUIPanel(GameTooltip)
 		hyperLinkEntered = nil
 	end
@@ -728,29 +767,10 @@ function CH:DisableChatThrottle()
 end
 
 function CH:ShortChannel()
-	return format("|Hchannel:%s|h[%s]|h", self, DEFAULT_STRINGS[self:upper()] or self:gsub("channel:", ""))
+	return format("|Hchannel:%s|h[%s]|h", self, DEFAULT_STRINGS[strupper(self)] or gsub(self, "channel:", ""))
 end
 
-function CH:ConcatenateTimeStamp(msg)
-	if (CH.db.timeStampFormat and CH.db.timeStampFormat ~= "NONE" ) then
-		local timeStamp = BetterDate(CH.db.timeStampFormat, CH.timeOverride or time())
-		timeStamp = timeStamp:gsub(" ", "")
-		timeStamp = timeStamp:gsub("AM", " AM")
-		timeStamp = timeStamp:gsub("PM", " PM")
-		if CH.db.useCustomTimeColor then
-			local color = CH.db.customTimeColor
-			local hexColor = E:RGBToHex(color.r, color.g, color.b)
-			msg = format("%s[%s]|r %s", hexColor, timeStamp, msg)
-		else
-			msg = format("[%s] %s", timeStamp, msg)
-		end
-		CH.timeOverride = nil
-	end
-
-	return msg
-end
-
-function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
+function CH:GetColoredName(event, _, arg2)
 	if not E.private.general.classCache then return arg2 end
 
 	if arg2 and arg2 ~= "" then
@@ -780,11 +800,14 @@ local function GetChatIcons(sender)
 	end
 end
 
-function CH:ChatFrame_MessageEventHandler(event, ...)
+function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, isHistory, historyTime, historyName)
 	if strsub(event, 1, 8) == "CHAT_MSG" then
 		local type = strsub(event, 10)
 		local info = ChatTypeInfo[type]
-		local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11 = ...
+		local historySavedName --we need to extend the arguments on CH.ChatFrame_MessageEventHandler so we can properly handle saved names without overriding
+		if isHistory == "ElvUI_ChatHistory" then
+			historySavedName = historyName
+		end
 
 		local filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11 = false
 		if chatFilters[event] then
@@ -799,7 +822,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			end
 		end
 
-		local coloredName = GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
+		local coloredName = historySavedName or CH:GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
 
 		local channelLength = arg4 and strlen(arg4)
 		if (strsub(type, 1, 7) == "CHANNEL") and (type ~= "CHANNEL_LIST") and ((arg1 ~= "INVITE") or (type ~= "CHANNEL_NOTICE_USER")) then
@@ -833,41 +856,40 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 
 		if type == "SYSTEM" or type == "TEXT_EMOTE" or type == "SKILL" or type == "LOOT" or type == "MONEY" or
 			type == "OPENING" or type == "TRADESKILLS" or type == "PET_INFO" then
-			self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id)
+			self:AddMessage(arg1, info.r, info.g, info.b, info.id, isHistory, historyTime)
 		elseif strsub(type,1,7) == "COMBAT_" then
-			self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id)
+			self:AddMessage(arg1, info.r, info.g, info.b, info.id, isHistory, historyTime)
 		elseif strsub(type,1,6) == "SPELL_" then
-			self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id)
+			self:AddMessage(arg1, info.r, info.g, info.b, info.id, isHistory, historyTime)
 		elseif strsub(type,1,10) == "BG_SYSTEM_" then
-			self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id)
+			self:AddMessage(arg1, info.r, info.g, info.b, info.id, isHistory, historyTime)
 		elseif type == "IGNORED" then
-			self:AddMessage(format(CH:ConcatenateTimeStamp(GlobalStrings.CHAT_IGNORED), arg2), info.r, info.g, info.b, info.id)
+			self:AddMessage(format(GlobalStrings.CHAT_IGNORED, arg2), info.r, info.g, info.b, info.id, isHistory, historyTime)
 		elseif type == "FILTERED" then
-			self:AddMessage(format(CH:ConcatenateTimeStamp(GlobalStrings.CHAT_FILTERED), arg2), info.r, info.g, info.b, info.id)
+			self:AddMessage(format(GlobalStrings.CHAT_FILTERED, arg2), info.r, info.g, info.b, info.id, isHistory, historyTime)
 		elseif type == "RESTRICTED" then
-			self:AddMessage(CH:ConcatenateTimeStamp(GlobalStrings.CHAT_RESTRICTED), info.r, info.g, info.b, info.id)
+			self:AddMessage(GlobalStrings.CHAT_RESTRICTED, info.r, info.g, info.b, info.id, isHistory, historyTime)
 		elseif type == "CHANNEL_LIST" then
 			if channelLength > 0 then
-				self:AddMessage(format(CH:ConcatenateTimeStamp(_G["CHAT_"..type.."_GET"]..arg1), arg4), info.r, info.g, info.b, info.id)
+				self:AddMessage(format(_G["CHAT_"..type.."_GET"]..arg1, arg4), info.r, info.g, info.b, info.id, isHistory, historyTime)
 			else
-				self:AddMessage(CH:ConcatenateTimeStamp(arg1), info.r, info.g, info.b, info.id)
+				self:AddMessage(arg1, info.r, info.g, info.b, info.id, isHistory, historyTime)
 			end
 		elseif type == "CHANNEL_NOTICE_USER" then
 			local globalstring = _G["CHAT_"..arg1.."_NOTICE"]
-			globalstring = CH:ConcatenateTimeStamp(globalstring)
 
 			if strlen(arg5) > 0 then
 				-- TWO users in this notice (E.G. x kicked y)
-				self:AddMessage(format(globalstring, arg4, arg2, arg5), info.r, info.g, info.b, info.id)
+				self:AddMessage(format(globalstring, arg4, arg2, arg5), info.r, info.g, info.b, info.id, isHistory, historyTime)
 			else
-				self:AddMessage(format(globalstring, arg4, arg2), info.r, info.g, info.b, info.id)
+				self:AddMessage(format(globalstring, arg4, arg2), info.r, info.g, info.b, info.id, isHistory, historyTime)
 			end
 		elseif type == "CHANNEL_NOTICE" then
 			local globalstring = _G["CHAT_"..arg1.."_NOTICE"]
 			if arg10 > 0 then
 				arg4 = arg4.." "..arg10
 			end
-			self:AddMessage(format(CH:ConcatenateTimeStamp(globalstring), arg4), info.r, info.g, info.b, info.id)
+			self:AddMessage(format(globalstring, arg4), info.r, info.g, info.b, info.id, isHistory, historyTime)
 		else
 			local body
 			local _, fontHeight = GetChatWindowInfo(self:GetID())
@@ -952,10 +974,10 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				body = body:gsub("<"..GlobalStrings.DND..">", "[|cffE7E716"..L["DND"].."|r] ")
 				body = body:gsub("^%["..GlobalStrings.RAID_WARNING.."%]", "["..L["RW"].."]")
 			end
-			self:AddMessage(CH:ConcatenateTimeStamp(body), info.r, info.g, info.b, info.id)
+			self:AddMessage(body, info.r, info.g, info.b, info.id, isHistory, historyTime)
 		end
 
-		if not CH.SuppressFlash and type == "WHISPER" then
+		if (isHistory ~= "ElvUI_ChatHistory") and type == "WHISPER" then
 			ChatEdit_SetLastTellTarget(arg2)
 			if self.tellTimer and (GetTime() > self.tellTimer) then
 				PlaySound("TellMessage")
@@ -968,21 +990,27 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 	end
 end
 
-function CH:ChatFrame_OnEvent(event, ...)
-	if ChatFrame_ConfigEventHandler(event, ...) then
-		return
-	end
-	if ChatFrame_SystemEventHandler(event, ...) then
-		return
-	end
-	if CH.ChatFrame_MessageEventHandler(self, event, ...) then
-		return
-	end
+function CH:ChatFrame_ConfigEventHandler(...)
+	return ChatFrame_ConfigEventHandler(...)
 end
 
-function CH:FloatingChatFrame_OnEvent(event, ...)
-	CH.ChatFrame_OnEvent(self, event, ...)
-	FloatingChatFrame_OnEvent(self, event, ...)
+function CH:ChatFrame_SystemEventHandler(...)
+	return ChatFrame_SystemEventHandler(...)
+end
+
+function CH:ChatFrame_OnEvent(...)
+	if CH:ChatFrame_ConfigEventHandler(...) then return end
+	if CH:ChatFrame_SystemEventHandler(...) then return end
+	if CH:ChatFrame_MessageEventHandler(...) then return end
+end
+
+function CH:FloatingChatFrame_OnEvent(...)
+	CH:ChatFrame_OnEvent(...)
+	FloatingChatFrame_OnEvent(...)
+end
+
+local function FloatingChatFrameOnEvent(...)
+	CH:FloatingChatFrame_OnEvent(...)
 end
 
 local function OnTextChanged(self)
@@ -1051,7 +1079,7 @@ function CH:SetupChat()
 			frame:EnableMouseWheel(true)
 
 			if id ~= 2 then
-				frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
+				frame:SetScript("OnEvent", FloatingChatFrameOnEvent)
 			end
 
 			hooksecurefunc(frame, "StopMovingOrSizing", function()
@@ -1180,10 +1208,10 @@ end
 
 local protectLinks = {}
 function CH:CheckKeyword(message)
-	for itemLink in message:gmatch("|%x+|Hitem:.-|h.-|h|r") do
-		protectLinks[itemLink] = itemLink:gsub("%s","|s")
+	for hyperLink in message:gmatch("|%x+|H.-|h.-|h|r") do
+		protectLinks[hyperLink]=hyperLink:gsub("%s","|s")
 		for keyword, _ in pairs(CH.Keywords) do
-			if itemLink == keyword then
+			if hyperLink == keyword then
 				if(self.db.keywordSound ~= "None" and not self.SoundPlayed) then
 					if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
 						PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
@@ -1195,37 +1223,39 @@ function CH:CheckKeyword(message)
 		end
 	end
 
-	for itemLink, tempLink in pairs(protectLinks) do
-		message = message:gsub(itemLink:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1"), tempLink)
+	for hyperLink, tempLink in pairs(protectLinks) do
+		message = message:gsub(hyperLink:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1"), tempLink)
 	end
 
 	local classColorTable, tempWord, rebuiltString, lowerCaseWord, wordMatch, classMatch
 	local isFirstWord = true
 	for word in message:gmatch("%s-[^%s]+%s*") do
-		tempWord = word:gsub("[%s%p]", "")
-		lowerCaseWord = tempWord:lower()
-		for keyword, _ in pairs(CH.Keywords) do
-			if lowerCaseWord == keyword:lower() then
-				word = word:gsub(tempWord, format("%s%s|r", E.media.hexvaluecolor, tempWord))
-				if self.db.keywordSound ~= "None" and not self.SoundPlayed then
-					if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
-						PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
+		if not next(protectLinks) or not protectLinks[word:gsub("%s",""):gsub("|s"," ")] then
+			tempWord = word:gsub("[%s%p]", "")
+			lowerCaseWord = tempWord:lower()
+			for keyword, _ in pairs(CH.Keywords) do
+				if lowerCaseWord == keyword:lower() then
+					word = word:gsub(tempWord, format("%s%s|r", E.media.hexvaluecolor, tempWord))
+					if self.db.keywordSound ~= "None" and not self.SoundPlayed  then
+						if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
+							PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
+						end
+						self.SoundPlayed = true
+						self.SoundTimer = CH:ScheduleTimer("ThrottleSound", 1)
 					end
-					self.SoundPlayed = true
-					self.SoundTimer = CH:ScheduleTimer("ThrottleSound", 1)
 				end
 			end
-		end
 
-		if self.db.classColorMentionsChat and E.private.general.classCache then
-			tempWord = word:gsub("^[%s%p]-([^%s%p]+)([%-]?[^%s%p]-)[%s%p]*$","%1%2")
+			if self.db.classColorMentionsChat and E.private.general.classCache then
+				tempWord = word:gsub("^[%s%p]-([^%s%p]+)([%-]?[^%s%p]-)[%s%p]*$","%1%2")
 
-			classMatch = CC:GetCacheTable()[E.myrealm][tempWord]
-			wordMatch = classMatch and lowerCaseWord
+				classMatch = CC:GetCacheTable()[E.myrealm][tempWord]
+				wordMatch = classMatch and lowerCaseWord
 
-			if wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch] then
-				classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
-				word = word:gsub(tempWord:gsub("%-","%%-"), format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, tempWord))
+				if wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch] then
+					classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
+					word = word:gsub(tempWord:gsub("%-","%%-"), format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, tempWord))
+				end
 			end
 		end
 
@@ -1237,9 +1267,9 @@ function CH:CheckKeyword(message)
 		end
 	end
 
-	for itemLink, tempLink in pairs(protectLinks) do
-		rebuiltString = rebuiltString:gsub(tempLink:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1"), itemLink)
-		protectLinks[itemLink] = nil
+	for hyperLink, tempLink in pairs(protectLinks) do
+		rebuiltString = rebuiltString:gsub(tempLink:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1"), hyperLink)
+		protectLinks[hyperLink] = nil
 	end
 
 	return rebuiltString
@@ -1368,63 +1398,53 @@ function CH:DisplayChatHistory()
 	if not (data and next(data)) then return end
 
 	CH.SoundPlayed = true
-	CH.SuppressFlash = true
 	for i = 1, NUM_CHAT_WINDOWS do
 		chat = _G["ChatFrame"..i]
 		for i = 1, #data do
 			d = data[i]
 			if type(d) == "table" then
-				CH.timeOverride = d[51]
 				for _, messageType in pairs(chat.messageTypeList) do
 					if gsub(strsub(d[50],10),"_INFORM","") == messageType then
-						CH.ChatFrame_MessageEventHandler(chat,d[50],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8],d[9],d[10],d[11])
+						CH:ChatFrame_MessageEventHandler(chat,d[50],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8],d[9],d[10],d[11],"ElvUI_ChatHistory",d[51],d[52])
 					end
 				end
 			end
 		end
 	end
 	CH.SoundPlayed = nil
-	CH.SuppressFlash = nil
 end
 
 tremove(ChatTypeGroup["GUILD"], 2)
 function CH:DelayGuildMOTD()
-    local delay, delayFrame, chat = 0, CreateFrame("Frame")
-    tinsert(ChatTypeGroup["GUILD"], 2, "GUILD_MOTD")
-    delayFrame:SetScript("OnUpdate", function(df, elapsed)
+	local delay, checks, delayFrame, chat = 0, 0, CreateFrame("Frame")
+	tinsert(ChatTypeGroup["GUILD"], 2, "GUILD_MOTD")
+	delayFrame:SetScript("OnUpdate", function(df, elapsed)
         delay = delay + elapsed
-        if delay < 7 then return end
+		if delay < 5 then return end
         local msg = GetGuildRosterMOTD()
-        for i = 1, NUM_CHAT_WINDOWS do
-            chat = _G["ChatFrame"..i]
-            if chat and chat:IsEventRegistered("CHAT_MSG_GUILD") then
-                if msg and strlen(msg) > 0 then
+		if msg and strlen(msg) > 0 then
+			for i = 1, NUM_CHAT_WINDOWS do
+				chat = _G["ChatFrame"..i]
+				if chat and chat:IsEventRegistered("CHAT_MSG_GUILD") then
                     local info = ChatTypeInfo["GUILD"]
                     local string = format(GUILD_MOTD_TEMPLATE, msg)
                     chat:AddMessage(string, info.r, info.g, info.b, info.id)
-                end
-                chat:RegisterEvent("GUILD_MOTD")
-            end
-        end
-        df:SetScript("OnUpdate", nil)
-    end)
+					chat:RegisterEvent("GUILD_MOTD")
+				end
+			end
+			df:SetScript("OnUpdate", nil)
+		else -- 5 seconds can be too fast for the API response. let's try once every 5 seconds (max 5 checks).
+			delay, checks = 0, checks + 1
+			if checks >= 5 then
+				df:SetScript("OnUpdate", nil)
+			end
+		end
+	end)
 end
 
 function CH:SaveChatHistory(event, ...)
 	if not self.db.chatHistory then return end
 	local data = ElvCharacterDB.ChatHistoryLog
-
-	if self.db.throttleInterval ~= 0 and (event == "CHAT_MESSAGE_SAY" or event == "CHAT_MESSAGE_YELL" or event == "CHAT_MSG_CHANNEL") then
-		self:ChatThrottleHandler(event, ...)
-
-		local message, author = ...
-		local msg = PrepareMessage(author, message)
-		if author and author ~= PLAYER_NAME and msgList[msg] then
-			if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
-				return
-			end
-		end
-	end
 
 	local temp = {}
 	for i = 1, select("#", ...) do
@@ -1434,6 +1454,7 @@ function CH:SaveChatHistory(event, ...)
 	if #temp > 0 then
 		temp[50] = event
 		temp[51] = time()
+		temp[52] = CH:GetColoredName(event, ...)
 
 		tinsert(data, temp)
 		while #data >= 128 do
@@ -1441,6 +1462,18 @@ function CH:SaveChatHistory(event, ...)
 		end
 	end
 	temp = nil -- Destory!
+
+	if self.db.throttleInterval ~= 0 and (event == "CHAT_MESSAGE_SAY" or event == "CHAT_MESSAGE_YELL" or event == "CHAT_MSG_CHANNEL") then
+		self:ChatThrottleHandler(event, ...)
+
+		local message, author = ...
+		local msg = PrepareMessage(author, message)
+		if author and author ~= E.myname and msgList[msg] then
+			if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
+				return
+			end
+		end
+	end
 end
 
 function CH:ChatFrame_AddMessageEventFilter(event, filter)
@@ -1534,7 +1567,7 @@ function CH:Initialize()
 
 	if(WIM) then
 		WIM.RegisterWidgetTrigger("chat_display", "whisper,chat,w2w,demo", "OnHyperlinkClick", function(self) CH.clickedframe = self end)
-		WIM.RegisterItemRefHandler("url", WIM_URLLink)
+		WIM.RegisterItemRefHandler("url", HyperLinkedURL)
 	end
 
 	self:SecureHook("FCF_SetChatWindowFontSize", "SetChatFont")
@@ -1591,16 +1624,16 @@ function CH:Initialize()
 	ChatTypeInfo["OFFICER"].sticky = 1
 	ChatTypeInfo["CHANNEL"].sticky = 1
 
-	if self.db.chatHistory then
-		self:DisplayChatHistory()
-	end
-
 	for _, event in pairs(FindURL_Events) do
 		ChatFrame_AddMessageEventFilter(event, CH[event] or CH.FindURL)
 		local nType = strsub(event, 10)
 		if nType ~= "AFK" and nType ~= "DND" then
 			self:RegisterEvent(event, "SaveChatHistory")
 		end
+	end
+
+	if self.db.chatHistory then
+		self:DisplayChatHistory()
 	end
 
 	local S = E:GetModule("Skins")
