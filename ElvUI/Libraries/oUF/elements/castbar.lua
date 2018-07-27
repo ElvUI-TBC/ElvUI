@@ -84,17 +84,12 @@ local function updateSafeZone(self)
 	local width = self:GetWidth()
 	local _, _, ms = GetNetStats()
 
-	-- Guard against GetNetStats returning latencies of 0.
-	if(ms ~= 0) then
-		local safeZoneRatio = (ms / 1e3) / self.max
-		if(safeZoneRatio > 1) then
-			safeZoneRatio = 1
-		end
-		safeZone:SetWidth(width * safeZoneRatio)
-		safeZone:Show()
-	else
-		safeZone:Hide()
+	local safeZoneRatio = (ms / 1e3) / self.max
+	if(safeZoneRatio > 1) then
+		safeZoneRatio = 1
 	end
+
+	safeZone:SetWidth(width * safeZoneRatio)
 end
 
 local function UNIT_SPELLCAST_SENT(self, event, unit, spell, rank, target)
