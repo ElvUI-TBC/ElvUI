@@ -79,6 +79,7 @@ L["Hold Shift + Right Click:"] = "按住Shift + 右键点击"
 L["Home Latency:"] = "本机延迟:"
 L["HP"] = "生命值"
 L["HPS"] = "治疗输出"
+L["Invite"] = true
 L["lvl"] = "等级"
 L["Miss Chance"] = true;
 L["Mitigation By Level: "] = "等级减伤: "

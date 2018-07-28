@@ -79,6 +79,7 @@ L["Hold Shift + Right Click:"] = true;
 L["Home Latency:"] = "Latencia Local:"
 L["HP"] = "Salud"
 L["HPS"] = "VPS"
+L["Invite"] = true
 L["lvl"] = "Niv"
 L["Miss Chance"] = true;
 L["Mitigation By Level: "] = "Mitigación Por Nivel: "

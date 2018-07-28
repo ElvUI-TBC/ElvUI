@@ -79,6 +79,7 @@ L["Hold Shift + Right Click:"] = true;
 L["Home Latency:"] = "Latência de Casa:"
 L["HP"] = "PV"
 L["HPS"] = "PVS"
+L["Invite"] = true
 L["lvl"] = "nível"
 L["Miss Chance"] = true;
 L["Mitigation By Level: "] = "Mitigação por nível"
