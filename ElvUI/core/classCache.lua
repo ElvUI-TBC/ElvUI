@@ -219,7 +219,7 @@ end
 function CC:WipeCache(global)
 	if global then
 		for realm in pairs(self.cache) do
-			wipe(realm)
+			wipe(self.cache[realm])
 		end
 
 		wipe(self.cache)
@@ -229,7 +229,7 @@ function CC:WipeCache(global)
 		E:Print(L["Class DB cache wiped."])
 	else
 		for realm in pairs(self.tempCache) do
-			wipe(realm)
+			wipe(self.tempCache[realm])
 		end
 
 		wipe(self.tempCache)
