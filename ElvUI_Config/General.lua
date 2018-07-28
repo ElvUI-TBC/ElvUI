@@ -635,16 +635,25 @@ E.Options.args.general = {
 						["backdrop"] = L["Skin Backdrop"],
 						["nobackdrop"] = L["Remove Backdrop"],
 						["backdrop_noborder"] = L["Skin Backdrop (No Borders)"],
-						["disabled"] = L["Disabled"]
+						["disabled"] = DISABLE
 					}
 				},
-				spacer = {
+				name = {
 					order = 3,
+					type = "toggle",
+					name = L["Chat Bubble Names"],
+					desc = L["Display the name of the unit on the chat bubble."],
+					get = function(info) return E.private.general.chatBubbleName end,
+					set = function(info, value) E.private.general.chatBubbleName = value; E:StaticPopup_Show("PRIVATE_RL") end,
+					disabled = function() return E.private.general.chatBubbles == "nobackdrop" or E.private.general.chatBubbles == "disabled" end
+				},
+				spacer = {
+					order = 4,
 					type = "description",
 					name = ""
 				},
 				font = {
-					order = 4,
+					order = 5,
 					type = "select",
 					name = L["Font"],
 					dialogControl = "LSM30_Font",
@@ -654,7 +663,7 @@ E.Options.args.general = {
 					disabled = function() return E.private.general.chatBubbles == "disabled"; end
 				},
 				fontSize = {
-					order = 5,
+					order = 6,
 					type = "range",
 					name = FONT_SIZE,
 					get = function(info) return E.private.general.chatBubbleFontSize; end,
@@ -663,7 +672,7 @@ E.Options.args.general = {
 					disabled = function() return E.private.general.chatBubbles == "disabled"; end
 				},
 				fontOutline = {
-					order = 6,
+					order = 7,
 					type = "select",
 					name = L["Font Outline"],
 					get = function(info) return E.private.general.chatBubbleFontOutline end,
