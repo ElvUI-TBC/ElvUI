@@ -38,7 +38,7 @@ L["Reset Position"] = "위치 초기화"
 L["Sort Bags"] = "가방 정렬"
 L["Temporary Move"] = "임시 이동"
 L["Toggle Bags"] = "가방슬롯 보기"
-L["Vendor / Delete Grays"] = true
+L["Vendor / Delete Grays"] = "잡템 자동판매/삭제"
 
 --Chat
 L["AFK"] = "자리비움"
@@ -61,7 +61,6 @@ L["yells"] = "외침"
 L["(Hold Shift) Memory Usage"] = "Shift: 메모리 사용량"
 L["Avoidance Breakdown"] = "방어율 목록"
 L["Character: "] = "캐릭터:"
-L["Chest"] = "가슴"
 L["Combat"] = "전투"
 L["Combat Time"] = true;
 L["Coords"] = true;
@@ -85,9 +84,8 @@ L["Miss Chance"] = true;
 L["Mitigation By Level: "] = "레벨별 데미지 경감률"
 L["No Guild"] = "길드 없음"
 L["Profit:"] = "이익:"
-L["Reload UI"] = true;
+L["Reset Counters: Hold Control + Right Click"] = true
 L["Reset Data: Hold Shift + Right Click"] = "기록 리셋: Shift + 우클릭"
-L["Right Click: Reset CPU Usage"] = true;
 L["Saved Raid(s)"] = "귀속된 던전"
 L["Server: "] = "서버:"
 L["Session:"] = "현재 접속:"
@@ -207,12 +205,12 @@ L["You don't have permission to mark targets."] = "레이드 아이콘을 지정
 --Movers
 L["Arena Frames"] = "투기장 프레임"
 L["Auras Frame"] = true;
-L["Bag Mover (Grow Down)"] = true;
-L["Bag Mover (Grow Up)"] = true;
-L["Bag Mover"] = true;
+L["Bag Mover (Grow Down)"] = "가방 조정자(아래로 성장)"
+L["Bag Mover (Grow Up)"] = "가방 조정자(위로 성장)"
+L["Bag Mover"] = "가방 조정자"
 L["Bags"] = "가방"
-L["Bank Mover (Grow Down)"] = true;
-L["Bank Mover (Grow Up)"] = true;
+L["Bank Mover (Grow Down)"] = "은행 조정자(아래로 성장)"
+L["Bank Mover (Grow Up)"] = "은행 조정자(위로 성장)'"
 L["Bar "] = "바 "
 L["Classbar"] = "직업바"
 L["Experience Bar"] = "경험치 바"
@@ -261,11 +259,11 @@ Options:
 ]=]
 
 --Plugin Installer
-L["ElvUI Plugin Installation"] = true;
-L["In Progress"] = true;
-L["List of installations in queue:"] = true;
-L["Pending"] = true;
-L["Steps"] = true;
+L["ElvUI Plugin Installation"] = "ElvUI 플러그인  설치"
+L["In Progress"] = "진행 중"
+L["List of installations in queue:"] = "설치 대기열 목록"
+L["Pending"] = "미결"
+L["Steps"] = "단계"
 
 --Prints
 L[" |cff00ff00bound to |r"] = " 키로 다음의 행동을 실행합니다: |cff2eb7e4"
@@ -294,7 +292,7 @@ L["Track"] = "추적"
 
 --Static Popups
 L["A setting you have changed will change an option for this character only. This setting that you have changed will be uneffected by changing user profiles. Changing this setting requires that you reload your User Interface."] = "이 설정은 캐릭터별로 따로 저장되므로|n프로필에 영향을 주지도, 받지도 않습니다.|n|n설정 적용을 위해 리로드 하시겠습니까?"
-L["Accepting this will reset the UnitFrame settings for %s. Are you sure?"] = true
+L["Accepting this will reset the UnitFrame settings for %s. Are you sure?"] = "수락하시면 %s의 설정이 초기화됩니다. 정말로 하시겠습니까?"
 L["Accepting this will reset your Filter Priority lists for all auras on NamePlates. Are you sure?"] = "수락하시면 이름표에 적용된 모든 필터 목록이 초기화 됩니다. 정말로 하시겠습니까?"
 L["Are you sure you want to apply this font to all ElvUI elements?"] = "정말로 이 글씨체를 ElvUI의 모든 구성요소에 적용하시겠습니까?"
 L["Are you sure you want to disband the group?"] = "현재 그룹을 해산하시겠습니까?"
@@ -302,15 +300,15 @@ L["Are you sure you want to reset all the settings on this profile?"] = "현재 
 L["Are you sure you want to reset every mover back to it's default position?"] = "모든 프레임을 기본 위치로 초기화 하시겠습니까?"
 L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = "새로운 오라시스템을 혼란스러워 하는 분들이 많아 설치과정에 관련 페이지를 추가했습니다. 해도 되고 안해도 됩니다. 이미 스스로 오라시스템을 구축했으면 그냥 설치를 마지막까지 넘겨 종료하세요."
 L["Can't buy anymore slots!"] = "더 이상 가방 칸을 늘릴 수 없습니다."
+L["Delete gray items?"] = "잡템을 삭제하시겠습니까?"
 L["Disable Warning"] = "비활성화 경고"
-L["Delete gray items?"] = true
 L["Discard"] = "작업 취소"
 L["Do you enjoy the new ElvUI?"] = "만우절 기능이었습니다! 이대로 쓰실래요?"
 L["Do you swear not to post in technical support about something not working without first disabling the addon/module combination first?"] = "두 애드온을 병행하여 생기는 문제를 스스로 감수하며 관련 질문글을 올리지 마세요."
 L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"] = "현재 사용하는 ElvUI가 5버전 이상 뒤쳐진 버전입니다. https://github.com/ElvUI-TBC/ElvUI/ 에서 새 버전을 다운로드 받으세요."
 L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"] = "ElvUI가 오래된 버전입니다. https://github.com/ElvUI-TBC/ElvUI/ 에서 새 버전을 다운로드 받으세요."
 L["ElvUI needs to perform database optimizations please be patient."] = "ElvUI의 데이터베이스를 조정할 필요가 있습니다. 잠시 기다려주세요."
-L["Error resetting UnitFrame."] = true
+L["Error resetting UnitFrame."] = "유닛프레임 초기화 오류"
 L["Hover your mouse over any actionbutton or spellbook button to bind it. Press the escape key or right click to clear the current actionbutton's keybinding."] = "행동단축바나 주문책의 스킬에 마우스오버 후 키를 누르면 단축키로 지정합니다. 단축키를 지정한 곳을 우클릭 하거나 ESC를 누르면 해제합니다."
 L["I Swear"] = "알겠습니다."
 L["No, Revert Changes!"] = "예전으로 돌려주세요"
@@ -318,13 +316,13 @@ L["Oh lord, you have got ElvUI and Tukui both enabled at the same time. Select a
 L["One or more of the changes you have made require a ReloadUI."] = "변경 사항을 적용하려면 애드온을 리로드 해야합니다."
 L["One or more of the changes you have made will effect all characters using this addon. You will have to reload the user interface to see the changes you have made."] = "이 설정은 모든 캐릭터에게 동일하게 적용됩니다.|n|n설정 적용을 위해 리로드 하시겠습니까?"
 L["Save"] = "저장"
-L["The profile you tried to import already exists. Choose a new name or accept to overwrite the existing profile."] = true;
+L["The profile you tried to import already exists. Choose a new name or accept to overwrite the existing profile."] = "불러오려는 프로필이 이미 존재합니다. 새로운 이름을 지정하시거나 기존 프로필에 덮어쓸지를 선택하십시오."
 L["Type /hellokitty to revert to old settings."] = "/hellokitty 를 입력해서 예전 세팅으로 돌릴 수 있습니다."
 L["Using the healer layout it is highly recommended you download the addon Clique if you wish to have the click-to-heal function."] = "힐러 레이아웃을 사용할 거라면 Clique 애드온을 같이 써 클릭캐스팅 기능을 이용할 것을 강력히 추천합니다."
 L["Yes, Keep Changes!"] = "네! 이대로 할래요!"
 L["You have changed the Thin Border Theme option. You will have to complete the installation process to remove any graphical bugs."] = "Thin Border Theme 선택을 바꾸었습니다. 설치과정을 끝까지 밟아 그래픽 관련 버그를 미연에 방지하는 걸 추천합니다."
 L["You have changed your UIScale, however you still have the AutoScale option enabled in ElvUI. Press accept if you would like to disable the Auto Scale option."] = "UI 배율이 변경되었지만 ElvUI의 UI크기 자동조절 기능이 켜져있습니다. UI크기 자동조절 기능을 끄고 싶다면 '수락'을 누르세요."
-L["You have imported settings which may require a UI reload to take effect. Reload now?"] = true;
+L["You have imported settings which may require a UI reload to take effect. Reload now?"] = "적용을 위해 UI 다시불러오기가 필요할 수 있는 설정을 가져왔습니다. 지금 UI를 재시작하시겠습니까?"
 L["You must purchase a bank slot first!"] = "우선 은행가방 칸을 구입해야됩니다!"
 
 --Tooltip
@@ -349,6 +347,6 @@ L["You can toggle the microbar by using your middle mouse button on the minimap 
 L["You can use the /resetui command to reset all of your movers. You can also use the command to reset a specific mover, /resetui <mover name>.\nExample: /resetui Player Frame"] = "|cff2eb7e4/resetui|r 입력으로 움직였던 모든 프레임의 위치를 초기화할 수 있습니다. |cff2eb7e4 /resetui 프레임이름|r 으로 특정 프레임만 초기화도 가능합니다."
 
 --UnitFrames
-L["Dead"] = true;
+L["Dead"] = "죽음"
 L["Ghost"] = "유령"
 L["Offline"] = "오프라인"

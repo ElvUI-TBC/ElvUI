@@ -2,6 +2,12 @@ local E, L, V, P, G, _ = unpack(ElvUI)
 local WM = E:GetModule("WorldMap")
 local MM = E:GetModule("Minimap")
 
+local FONT_SIZE, HIDE, NONE = FONT_SIZE, HIDE, NONE
+local MAIL_LABEL = MAIL_LABEL
+local MINIMAP_LABEL = MINIMAP_LABEL
+local TIMEMANAGER_TOOLTIP_TITLE = TIMEMANAGER_TOOLTIP_TITLE
+local WORLD_MAP = WORLD_MAP
+
 E.Options.args.maps = {
 	type = "group",
 	name = L["Maps"],
@@ -279,7 +285,8 @@ E.Options.args.maps = {
 									order = 4,
 									type = "range",
 									name = L["Scale"],
-									min = 0.5, max = 2, step = 0.05
+									min = 0.5, max = 2, step = 0.05,
+									disabled = function() return E.private.general.minimap.hideCalendar end
 								},
 								xOffset = {
 									order = 5,
