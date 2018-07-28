@@ -19,9 +19,9 @@ local BLOCK_CHANCE = BLOCK_CHANCE
 
 local displayString, lastPanel
 local targetlv, playerlv
-local baseMissChance, levelDifference, dodge, parry, block, avoidance, unhittable, avoided, blocked, numAvoidances, unhittableMax
+local baseMissChance, levelDifference, dodge, parry, block, avoidance, unhittable
 local chanceString = "%.2f%%"
-local AVD_DECAY_RATE = 1.5
+local AVD_DECAY_RATE = 0.2
 
 local function IsWearingShield()
 	local slotID = GetInventorySlotInfo("SecondaryHandSlot")
@@ -58,28 +58,20 @@ local function OnEvent(self)
 		baseMissChance = (baseMissChance+ abs(levelDifference * AVD_DECAY_RATE))
 	end
 
-	unhittableMax = 100
-	numAvoidances = 4
 	if dodge <= 0 then dodge = 0 end
 	if parry <= 0 then parry = 0 end
 	if block <= 0 then block = 0 end
 
 	if E.myclass == "DRUID" and GetBonusBarOffset() == 3 then
 		parry = 0
-		numAvoidances = numAvoidances - 1
 	end
 
 	if IsWearingShield() ~= "INVTYPE_SHIELD" then
 		block = 0
-		numAvoidances = numAvoidances - 1
 	end
 
-	unhittableMax = unhittableMax + ((AVD_DECAY_RATE * levelDifference) * numAvoidances)
-
-	avoided = (dodge + parry+ baseMissChance)
-	blocked = (100 - avoided) * block / 100
-	avoidance = (avoided + blocked)
-	unhittable = avoidance - unhittableMax
+	avoidance = (dodge + parry + block + baseMissChance)
+	unhittable = avoidance - 102.4
 
 	self.text:SetFormattedText(displayString, DEFENSE, avoidance)
 
