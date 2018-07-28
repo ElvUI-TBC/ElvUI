@@ -64,8 +64,8 @@ local function LoadSkin()
 		Tab.backdrop:Point("TOPLEFT", 3, -7)
 		Tab.backdrop:Point("BOTTOMRIGHT", -2, -1)
 
-		Tab:HookScript("OnEnter", S.SetModifiedBackdrop)
-		Tab:HookScript("OnLeave", S.SetOriginalBackdrop)
+		Tab:HookScript2("OnEnter", S.SetModifiedBackdrop)
+		Tab:HookScript2("OnLeave", S.SetOriginalBackdrop)
 	end
 
 	S:HandleButton(FriendsFrameIgnorePlayerButton)
@@ -305,7 +305,10 @@ local function LoadSkin()
 	GuildMemberGroupInviteButton:Point("LEFT", GuildMemberRemoveButton, "RIGHT", 3, 0)
 
 	S:HandleNextPrevButton(GuildFramePromoteButton, true)
+	GuildFramePromoteButton:SetHitRectInsets(0, 0, 0, 0)
+
 	S:HandleNextPrevButton(GuildFrameDemoteButton, true)
+	GuildFrameDemoteButton:SetHitRectInsets(0, 0, 0, 0)
 	GuildFrameDemoteButton:Point("LEFT", GuildFramePromoteButton, "RIGHT", 2, 0)
 
 	GuildMemberNoteBackground:SetTemplate("Default")

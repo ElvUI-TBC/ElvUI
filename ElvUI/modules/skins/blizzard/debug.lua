@@ -69,21 +69,23 @@ local function LoadSkin2()
 	ScriptErrorsFrame.previous:Point("BOTTOM", ScriptErrorsFrame, "BOTTOM", -50, 12)
 	ScriptErrorsFrame.next:Point("BOTTOM", ScriptErrorsFrame, "BOTTOM", 50, 12)
 
-	local noscalemult = E.mult * GetCVar("uiScale")
-	FrameStackTooltip:HookScript("OnShow", function(self)
-		self:SetBackdrop({
-			bgFile = E["media"].blankTex,
-			edgeFile = E["media"].blankTex,
-			tile = false, tileSize = 0, edgeSize = noscalemult,
-			insets = { left = -noscalemult, right = -noscalemult, top = -noscalemult, bottom = -noscalemult}
-		})
-		self:SetBackdropColor(unpack(E["media"].backdropfadecolor))
-		self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-	end)
+	if E.private.skins.blizzard.tooltip then
+		local noscalemult = E.mult * GetCVar("uiScale")
+		FrameStackTooltip:HookScript2("OnShow", function(self)
+			self:SetBackdrop({
+				bgFile = E["media"].blankTex,
+				edgeFile = E["media"].blankTex,
+				tile = false, tileSize = 0, edgeSize = noscalemult,
+				insets = {left = -noscalemult, right = -noscalemult, top = -noscalemult, bottom = -noscalemult}
+			})
+			self:SetBackdropColor(unpack(E["media"].backdropfadecolor))
+			self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+		end)
 
-	EventTraceTooltip:HookScript("OnShow", function(self)
-		self:SetTemplate("Transparent")
-	end)
+		EventTraceTooltip:HookScript2("OnShow", function(self)
+			self:SetTemplate("Transparent")
+		end)
+	end
 
 	S:HandleCloseButton(EventTraceFrameCloseButton)
 end
