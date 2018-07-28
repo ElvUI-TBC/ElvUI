@@ -31,24 +31,21 @@ end
 
 local function OnEnter(self)
 	DT:SetupTooltip(self)
+	
+	RequestRaidInfo()
 
-	local name, _, reset, difficultyId, locked, extended, isRaid, maxPlayers;
-	local oneraid, lockoutColor
+	local name, id, reset;
+	local oneraid, instanceid;
 	for i = 1, GetNumSavedInstances() do
-		name, _, reset, difficultyId, locked, extended, _, isRaid, maxPlayers = GetSavedInstanceInfo(i);
-		if(isRaid and (locked or extended) and name) then
+		name, id, reset = GetSavedInstanceInfo(i);
+		if(name) then
 			if(not oneraid) then
 				DT.tooltip:AddLine(" ");
-				DT.tooltip:AddLine(L["Saved Raid(s)"]);
+				DT.tooltip:AddLine(L["Saved Raid(s)/Heroic Instance(s)"]);
 				oneraid = true;
 			end
-			if(extended) then
-				lockoutColor = lockoutColorExtended;
-			else
-				lockoutColor = lockoutColorNormal;
-			end
-
-			DT.tooltip:AddDoubleLine(format(lockoutInfoFormatNoEnc, maxPlayers, difficultyInfo[difficultyId], name), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b);
+			instanceid = format("%s (%d)", name, id)
+			DT.tooltip:AddDoubleLine(instanceid, SecondsToTime(reset, true), 1, 1, 1, lockoutColorNormal.r, lockoutColorNormal.g, lockoutColorNormal.b);
 		end
 		if i == 1 then
 			DT.tooltip:AddLine(" ")
