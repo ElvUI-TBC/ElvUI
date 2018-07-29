@@ -78,7 +78,6 @@ L["Hold Shift + Right Click:"] = "Maintenir Majuscule + Clic droit"
 L["Home Latency:"] = "Latence du Domicile:"
 L["HP"] = "PdS"
 L["HPS"] = "HPS"
-L["Invite"] = true
 L["lvl"] = "niveau"
 L["Miss Chance"] = true
 L["Mitigation By Level: "] = "Réduction par niveau: "

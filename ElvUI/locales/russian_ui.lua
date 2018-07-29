@@ -78,7 +78,6 @@ L["Hold Shift + Right Click:"] = "Shift + ПКМ:"
 L["Home Latency:"] = "Локальная задержка: "
 L["HP"] = "+ Исцел."
 L["HPS"] = "ИВС"
-L["Invite"] = true
 L["lvl"] = "ур."
 L["Miss Chance"] = "Вероятность промаха"
 L["Mitigation By Level: "] = "Снижение на уровне: "

@@ -78,7 +78,6 @@ L["Hold Shift + Right Click:"] = true
 L["Home Latency:"] = true
 L["HP"] = true
 L["HPS"] = true
-L["Invite"] = true
 L["lvl"] = true
 L["Miss Chance"] = true
 L["Mitigation By Level: "] = true

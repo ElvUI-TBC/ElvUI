@@ -126,7 +126,7 @@ end
 local menuFrame = CreateFrame("Frame", "GuildDatatTextRightClickMenu", E.UIParent, "UIDropDownMenuTemplate")
 local menuList = {
 	{text = OPTIONS_MENU, isTitle = true, notCheckable = true},
-	{text = L["Invite"], hasArrow = true, notCheckable = true},
+	{text = PARTY_INVITE, hasArrow = true, notCheckable = true},
 	{text = CHAT_MSG_WHISPER_INFORM, hasArrow = true, notCheckable = true}
 }
 

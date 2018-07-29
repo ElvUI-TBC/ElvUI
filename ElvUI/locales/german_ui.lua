@@ -78,7 +78,6 @@ L["Hold Shift + Right Click:"] = "Halte Shift + Rechtsklick:"
 L["Home Latency:"] = "Standort-Latenz"
 L["HP"] = "HP"
 L["HPS"] = "HPS"
-L["Invite"] = true
 L["lvl"] = "lvl"
 L["Miss Chance"] = "Verfehlchance"
 L["Mitigation By Level: "] = "Schadesminderung per Stufe: "

@@ -78,7 +78,6 @@ L["Hold Shift + Right Click:"] = true
 L["Home Latency:"] = "지연 시간:"
 L["HP"] = "주문력"
 L["HPS"] = "HPS"
-L["Invite"] = true
 L["lvl"] = "레벨"
 L["Miss Chance"] = true
 L["Mitigation By Level: "] = "레벨별 데미지 경감률"
