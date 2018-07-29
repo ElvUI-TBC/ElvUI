@@ -56,10 +56,25 @@ local function LoadSkin()
 	CharacterResistanceFrame:CreateBackdrop("Default")
 	CharacterResistanceFrame.backdrop:SetOutside(MagicResFrame1, nil, nil, MagicResFrame5)
 
-	for i = 1, 5 do
-		local frame = _G["MagicResFrame"..i]
-		frame:Size(24)
+	local function HandleResistanceFrame(frameName)
+		for i = 1, 5 do
+			local frame = _G[frameName..i]
+
+			frame:Size(26)
+			frame:SetTemplate("Default")
+
+			if i ~= 1 then
+				frame:ClearAllPoints()
+				frame:Point("TOP", _G[frameName..i - 1], "BOTTOM", 0, -(E.Border + E.Spacing))
+			end
+
+			select(1, _G[frameName..i]:GetRegions()):SetInside()
+			select(1, _G[frameName..i]:GetRegions()):SetDrawLayer("ARTWORK")
+			select(2, _G[frameName..i]:GetRegions()):SetDrawLayer("OVERLAY")
+		end
 	end
+
+	HandleResistanceFrame("MagicResFrame")
 
 	select(1, MagicResFrame1:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.25, 0.3203125)
 	select(1, MagicResFrame2:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.0234375, 0.09375)
@@ -130,10 +145,7 @@ local function LoadSkin()
 	PetResistanceFrame:CreateBackdrop("Default")
 	PetResistanceFrame.backdrop:SetOutside(PetMagicResFrame1, nil, nil, PetMagicResFrame5)
 
-	for i = 1, 5 do
-		local frame = _G["PetMagicResFrame"..i]
-		frame:Size(24)
-	end
+	HandleResistanceFrame("PetMagicResFrame")
 
 	select(1, PetMagicResFrame1:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.25, 0.3203125)
 	select(1, PetMagicResFrame2:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.0234375, 0.09375)
