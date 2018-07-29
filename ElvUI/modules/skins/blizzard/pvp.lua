@@ -56,7 +56,7 @@ local function LoadSkin()
 
 	for i = 1, 10 do
 		_G["PVPTeamDetailsButton"..i]:Width(335)
-		_G["PVPTeamDetailsButton"..i]:StyleButton()
+		S:HandleButtonHighlight(_G["PVPTeamDetailsButton"..i])
 	end
 
 	S:HandleButton(PVPTeamDetailsAddTeamMember)

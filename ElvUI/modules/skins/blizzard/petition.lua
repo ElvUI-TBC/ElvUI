@@ -15,11 +15,11 @@ local function LoadSkin()
 	S:HandleButton(PetitionFrameCancelButton)
 	S:HandleCloseButton(PetitionFrameCloseButton)
 
-	PetitionFrameCharterTitle:SetTextColor(1, 1, 0)
+	PetitionFrameCharterTitle:SetTextColor(1, 0.80, 0.10)
 	PetitionFrameCharterName:SetTextColor(1, 1, 1)
-	PetitionFrameMasterTitle:SetTextColor(1, 1, 0)
+	PetitionFrameMasterTitle:SetTextColor(1, 0.80, 0.10)
 	PetitionFrameMasterName:SetTextColor(1, 1, 1)
-	PetitionFrameMemberTitle:SetTextColor(1, 1, 0)
+	PetitionFrameMemberTitle:SetTextColor(1, 0.80, 0.10)
 
 	for i = 1, 9 do
 		_G["PetitionFrameMemberName"..i]:SetTextColor(1, 1, 1)

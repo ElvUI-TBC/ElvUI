@@ -14,8 +14,15 @@ local function LoadSkin()
 
 	S:HandleButton(ArenaFrameCancelButton)
 	S:HandleButton(ArenaFrameJoinButton)
+
 	S:HandleButton(ArenaFrameGroupJoinButton)
 	ArenaFrameGroupJoinButton:Point("RIGHT", ArenaFrameJoinButton, "LEFT", -2, 0)
+
+	for i = 1, 6 do
+		local button = _G["ArenaZone"..i]
+
+		S:HandleButtonHighlight(button)
+	end
 
 	S:HandleCloseButton(ArenaFrameCloseButton)
 end
