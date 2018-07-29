@@ -40,7 +40,7 @@ Die folgenden Suchbegriffe können auch benutzt werden:
     • bou : Beim Benutzen gebundene Gegenstände.
     • boe : Beim Ausrüsten gebundene Gegenstände.
     • boa : An den Account gebundene Gegenstände.
-    • quest : Gebundene Quest Gegenstände.]=];
+    • quest : Gebundene Quest Gegenstände.]=]
 L["TEXT_FORMAT_DESC"] = [=[Wähle eine Zeichenfolge um das Textformat zu ändern.
 
 Beispiele:
@@ -61,7 +61,7 @@ Namensformate:
 "name:medium" - Name auf 15 Zeichen beschränkt
 "name:long" - Name auf 20 Zeichen beschränkt
 
-Zum Deaktvieren lasse das Feld leer. Brauchst du mehr Informationen besuche http://www.tukui.org]=];
+Zum Deaktvieren lasse das Feld leer. Brauchst du mehr Informationen besuche http://www.tukui.org]=]
 L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[Wenn du dieses auf 1 setzt werden alle Namensplaketten die vom Stilfilter ausgelöst werden über jeder anderen Namensplakette liegen.
 
 Wenn du dieses auf 2 setzt in einem anderen Stilfilter, werden alle Namensplakette die vom Filter ausgelöst wurden, über den Namensplaketten liegen die auf 1 gesetzt sind, usw.
@@ -170,7 +170,7 @@ L["Displays item level on equippable items."] = "Zeigt das Itemlevel für ausrü
 L["Enable/Disable the all-in-one bag."] = "Einschalten/Ausschalten der zusammengefassten Tasche."
 L["Enable/Disable the Bag-Bar."] = "Aktiviere/Deaktiviere die Taschenleiste."
 L["Full"] = "Voll"
-L["Global"] = true;
+L["Global"] = true
 L["Here you can add items or search terms that you want to be excluded from sorting. To remove an item just click on its name in the list."] = "Hier kannst du Gegenstände oder Suchbedingungen vom Suchen ausschließen. Um ein Gegenstand zu entfernen, klicke einfach auf den Namen in der Liste."
 L["Ignored Items and Search Syntax (Global)"] = "Ignorierte Gegenstände oder Suchoperatoren (Global)"
 L["Ignored Items and Search Syntax (Profile)"] = "Ignorierte Gegenstände oder Suchoperatoren (Profil)"
@@ -200,7 +200,7 @@ L["Top to Bottom"] = "Von oben nach unten"
 L["Use coin icons instead of colored text."] = "Benutze Währungssymbole anstatt von farbigem Text."
 
 --Buffs and Debuffs
-L["Auras Spacing"] = true;
+L["Auras Spacing"] = true
 L["Buffs and Debuffs"] = "Stärkungs- und Schwächungszauber"
 L["Begin a new row or column after this many auras."] = "Beginne nach so vielen Stärkungszaubern eine neue Reihe oder Spalte."
 L["Count xOffset"] = "Den Versatz auf der X-Achse zählen"
@@ -210,20 +210,20 @@ L["Defines the sort order of the selected sort method."] = "Legt die Sortierreih
 L["Disabled Blizzard"] = "Blizzard deaktivieren"
 L["Display reminder bar on the minimap."] = "Buff-Reminder an der Minimap anzeigen"
 L["Fade Threshold"] = "Zeit bis zum Verblassen"
-L["Index"] = true;
+L["Index"] = true
 L["Indicate whether buffs you cast yourself should be separated before or after."] = "Wenn du einen Stärkungszauber auf dich selber wirkst, zeige diesen zuerst in der Leiste."
 L["Limit the number of rows or columns."] = "Beschränkung für die Anzahl an Leisten oder Spalten."
 L["Max Wraps"] = "Maximale Leisten"
 L["No Sorting"] = "Nicht Sortieren"
 L["Other's First"] = "Andere zuerst"
 L["Remaining Time"] = "Verbleibende Zeit anzeigen"
-L["Reminder"] = true;
+L["Reminder"] = true
 L["Reverse Style"] = "Stil umkehren"
 L["Seperate"] = "Seperat"
 L["Set the size of the individual auras."] = "Lege die Größe der individuellen Stärkungszauber fest."
 L["Sort Method"] = "Sortiermethode"
 L["The direction the auras will grow and then the direction they will grow after they reach the wrap after limit."] = "Die Richtung, in die die Stärkungszauber wachsen und dann die Richtung, in die sie wachsen, nachdem sie den Umbruch nach dem Grenzwert erreicht haben."
-L["The spacing between auras."] = true;
+L["The spacing between auras."] = true
 L["Threshold before the icon will fade out and back in. Set to -1 to disable."] = "Schwelle bevor das Symbol ausblendend und wieder einblendet. Setze auf -1 um zu deaktivieren."
 L["Time xOffset"] = "Zeit X-Versatz"
 L["Time yOffset"] = "Zeit Y-Versatz"
@@ -243,7 +243,7 @@ L["Attempt to lock the left and right chat frame positions. Disabling this optio
 L["Below Chat"] = "Unter dem Chat"
 L["Chat EditBox Position"] = "Position der Texteingabeleiste"
 L["Chat History"] = "Chatverlauf"
-L["Chat Timestamps"] = true;
+L["Chat Timestamps"] = true
 L["Class Color Mentions"] = "Erwähnung in Klassenfarbe"
 L["Custom Timestamp Color"] = "Benutzerdefinierte Zeitstempel-Farbe"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "Zeigt den Hyperlink-Tooltip beim Schweben über einem Hyperlink."
@@ -282,7 +282,7 @@ L["Require holding the Alt key down to move cursor or cycle through messages in 
 L["Right Only"] = "Nur rechts"
 L["Right Panel Height"] = "Rechte Fensterhöhe"
 L["Right Panel Width"] = "Rechte Fensterbreite"
-L["Select the format of timestamps for chat messages."] = true;
+L["Select the format of timestamps for chat messages."] = true
 L["Scroll Interval"] = "Scroll-Interval"
 L["Scroll Messages"] = "Scroll Nachrichten"
 L["Separate Panel Sizes"] = "Getrennte Chatfenster-Größen"
@@ -302,7 +302,7 @@ L["Toggle showing of the left and right chat panels."] = "Aktiviere den Hintergr
 L["Toggle the chat tab panel backdrop."] = "Aktiviere den Hintergrund der oberen Tableisten der Chatfenster"
 L["URL Links"] = "URL Links"
 L["Use Alt Key"] = "Benutze Alt-Taste"
-L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true;
+L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true
 L["When opening the Chat Editbox to type a message having this option set means it will retain the last channel you spoke in. If this option is turned off opening the Chat Editbox should always default to the SAY channel."] = "Beim Öffnen der Texteingabeleiste wird dem Kanal beigetreten, in den zu letzt geschrieben wurde. Wenn diese Option deaktiviert ist, wird standardmäßig der SAGEN-Kanal beim Öffnen der Texteingabeleiste aufgerufen."
 L["Whisper Alert"] = "Flüster-Alarm"
 L[ [=[Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.
@@ -326,15 +326,15 @@ Zum Beispiel: Interface\AddOns\ElvUI\media\textures\copy
 Für die meisten Anwender ist es allerdings einfacher, eine tga-Datei in dem WoW-Ordner abzulegen. Anschließend kann man den Namen der Datei hier eingeben.]=]
 
 --Class Cache
-L["Cache"] = true;
-L["Class Cache"] = true;
-L["Enable class caching to colorize names in chat and nameplates."] = true;
-L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true;
-L["Request info for class cache"] = true;
-L["Store cache in DB"] = true;
-L["Use LibWho to cache class info"] = true;
-L["Wipe DB Cache"] = true;
-L["Wipe Session Cache"] = true;
+L["Cache"] = true
+L["Class Cache"] = true
+L["Enable class caching to colorize names in chat and nameplates."] = true
+L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true
+L["Request info for class cache"] = true
+L["Store cache in DB"] = true
+L["Use LibWho to cache class info"] = true
+L["Wipe DB Cache"] = true
+L["Wipe Session Cache"] = true
 
 --Credits
 L["Coding:"] = "Programmierung:"
@@ -508,7 +508,7 @@ L["Maps"] = "Karten"
 L["Minimap Buttons"] = "Minimap Tasten"
 L["Minimap Mouseover"] = "Minimap Mouseover"
 L["Puts coordinates on the world map."] = "Platziert Koordinaten auf der Weltkarte."
-L["PvP Queue"] = true;
+L["PvP Queue"] = true
 L["Reset Zoom"] = "Zoom zurücksetzen"
 L["Right"] = "Rechts"
 L["Scale"] = "Skalierung"
@@ -695,7 +695,7 @@ L["Global (Account Settings)"] = "Global (Accounteinstellungen)"
 L["Import Now"] = "Jetzt importieren"
 L["Import Profile"] = "Importiere Profil"
 L["Importing"] = "Importiere"
-L["Plugin"] = true; -- no need to translate
+L["Plugin"] = true -- no need to translate
 L["Private (Character Settings)"] = "Privat (Charakter Einstellungen)"
 L["Profile imported successfully!"] = "Profil erfolgreich importiert!"
 L["Profile Name"] = "Profilname"
@@ -711,9 +711,9 @@ L["BG Map"] = "Schlachtfeldkarte"
 L["BG Score"] = "Schlachtfeldpunkte"
 L["Character Frame"] = "Charakterfenster"
 L["Debug Tools"] = "Debug Tools"
-L["GM Chat"] = true;
+L["GM Chat"] = true
 L["Gossip Frame"] = "Begrüßungsfenster"
-L["Greeting Frame"] = true;
+L["Greeting Frame"] = true
 L["Guild Registrar"] = "Gildenregister"
 L["Help Frame"] = "Hilfefenster"
 L["LFG Frame"] = "LFG-Fenster"
@@ -745,17 +745,17 @@ L["Custom Faction Colors"] = "Benutzerdefinierte Fraktionsfarben"
 L["Display guild ranks if a unit is guilded."] = "Zeige Gildenränge von Spielern, die in einer Gilde sind."
 L["Display how many of a certain item you have in your possession."] = "Zeige, wie viele sich von dem ausgewählten Gegenstand in deinem Besitz befinden."
 L["Display player titles."] = "Zeige Spielertitel."
-L["Display the item level when mousing over a item."] = true;
+L["Display the item level when mousing over a item."] = true
 L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."] = "Zeige die Spezialisierung und das Itemlevel des Spielers im Tooltip an, wird vielleicht nicht direkt aktualisiert"
 L["Display the spell or item ID when mousing over a spell or item tooltip."] = "Zeige die ID des Zaubers oder des Gegenstands an, wenn du mit der Maus über einen Zauber oder Gegenstand ziehst."
-L["Display vendor sell value on item tooltips."] = true;
+L["Display vendor sell value on item tooltips."] = true
 L["Guild Ranks"] = "Gildenränge"
 L["Header Font Size"] = "Kopfzeile Schriftgröße"
 L["Health Bar"] = "Lebensleiste"
 L["Hide tooltip while in combat."] = "Verstecke den Tooltip während des Kampfes."
 L["Inspect Info"] = "Informationen betrachten"
 L["Item Count"] = "Gegenstandsanzahl"
-L["Item Price"] = true;
+L["Item Price"] = true
 L["Never Hide"] = "Niemals verstecken"
 L["Player Titles"] = "Spielertitel"
 L["Should tooltip be anchored to mouse cursor"] = "Soll der Tooltip an den Mauszeiger verankert werden"
@@ -938,7 +938,7 @@ L["If the unit is friendly to you."] = "Wenn die Einheit freundlich zu dir ist."
 L["If you have a lot of 3D Portraits active then it will likely have a big impact on your FPS. Disable some portraits if you experience FPS issues."] = "Wenn du viele 3D Portraits aktiviert hast, wird es voraussichtlich enorm auf deine FPS auswirken. Deaktiviere bitte einige 3D Portraits, sollte das der Fall sein."
 L["Ignore mouse events."] = "Ignoriere Maus-Events."
 L["InfoPanel Border"] = "InfoPanel Rahmen"
-L["Information Panel"] = true; -- no need to translate
+L["Information Panel"] = true -- no need to translate
 L["Inset"] = "Einsatz"
 L["Inside Information Panel"] = "Im Information Panel"
 L["Invert Grouping Order"] = "Gruppierungsreihenfolge umkehren"
@@ -979,7 +979,7 @@ L["Overlay"] = "Überlagerung"
 L["Override any custom visibility setting in certain situations, EX: Only show groups 1 and 2 inside a 10 man instance."] = "Überschreibe alle benutzerdefinierten Einstellungen für die Sichtbarkeit in bestimmten Situationen. Beispiel: Zeige nur Gruppe 1 und 2 in einer 10er-Instanz."
 L["Override the default class color setting."] = "Überschreibe die Standard-Klassenfarben-Einstellungen"
 L["Owners Name"] = "Name des Besitzers"
-L["Parent"] = true; -- no need to translate
+L["Parent"] = true -- no need to translate
 L["Party Pets"] = "Gruppenbegleiter"
 L["Party Targets"] = "Gruppenziele"
 L["Per Row"] = "Pro Reihe"
@@ -998,7 +998,7 @@ L["Powers"] = "Kräfte"
 L["Priority"] = "Priorität"
 L["Profile Specific"] = "Profilspezifisch"
 L["PvP Icon"] = "PvP Symbol"
-L["PvP Text"] = true; -- no need to translate
+L["PvP Text"] = true -- no need to translate
 L["PVP Trinket"] = "PVP-Schmuck"
 L["Raid Icon"] = "Schlachtzugssymbol"
 L["Raid-Wide Sorting"] = "Raidweite Sortierung"

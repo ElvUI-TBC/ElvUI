@@ -40,7 +40,7 @@ The following search keywords can also be used:
     • bou : Bind on use items.
     • boe : Bind on equip items.
     • boa : Bind on account items.
-    • quest : Quest bound items.]=];
+    • quest : Quest bound items.]=]
 L["TEXT_FORMAT_DESC"] = [=[提供一个更改文字格式的方式
 
 例如:
@@ -69,7 +69,7 @@ L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[如果你设置为1则所有符合这个过�
 --ActionBars
 L["Action Paging"] = "动作条翻页"
 L["ActionBars"] = "动作条"
-L["Action button keybinds will respond on key down, rather than on key up"] = true;
+L["Action button keybinds will respond on key down, rather than on key up"] = true
 L["Allow LBF to handle the skinning of this element."] = "允许LBF来处理这个元素的皮肤"
 L["Alpha"] = "透明度"
 L["Anchor Point"] = "定位方向"
@@ -115,7 +115,7 @@ L["Multiply the backdrops height or width by this value. This is usefull if you 
 L["Not Usable"] = "不可用"
 L["Out of Power"] = "能量不足"
 L["Out of Range"] = "超出范围"
-L["Pick Up Action Key"] = true;
+L["Pick Up Action Key"] = true
 L["Restore Bar"] = "重置动作条"
 L["Restore the actionbars default settings"] = "恢复此动作条的预设设定"
 L["RightClick Self-Cast"] = true
@@ -197,15 +197,15 @@ L["Top to Bottom"] = "顶部到底部"
 L["Use coin icons instead of colored text."] = "显示硬币图标而不是颜色文字"
 
 --Buffs and Debuffs
-L["Auras Spacing"] = true;
-L["Buffs and Debuffs"] = true;
+L["Auras Spacing"] = true
+L["Buffs and Debuffs"] = true
 L["Begin a new row or column after this many auras."] = "在这些光环旁开始新的行或列"
 L["Count xOffset"] = "计数X偏移"
 L["Count yOffset"] = "计数Y偏移"
 L["Defines how the group is sorted."] = "定义组排序方式"
 L["Defines the sort order of the selected sort method."] = "定义排序方式的排序方向"
 L["Disabled Blizzard"] = "禁用暴雪框架"
-L["Display reminder bar on the minimap."] = true;
+L["Display reminder bar on the minimap."] = true
 L["Fade Threshold"] = "阈值渐隐"
 L["Index"] = "索引"
 L["Indicate whether buffs you cast yourself should be separated before or after."] = "将你自身施放的增益从整体增益之前或之后分离出来"
@@ -214,18 +214,18 @@ L["Max Wraps"] = "每行最大数"
 L["No Sorting"] = "不排序"
 L["Other's First"] = "他人光环优先"
 L["Remaining Time"] = "剩余时间"
-L["Reminder"] = true;
+L["Reminder"] = true
 L["Reverse Style"] = "倒序风格"
 L["Seperate"] = "光环分离"
 L["Set the size of the individual auras."] = "设置每个光环的尺寸"
 L["Sort Method"] = "排序方式"
 L["The direction the auras will grow and then the direction they will grow after they reach the wrap after limit."] = "光环图标在第一个方向摆满之后会向下一个方向继续延伸"
-L["The spacing between auras."] = true;
+L["The spacing between auras."] = true
 L["Threshold before the icon will fade out and back in. Set to -1 to disable."] = "图标闪烁时的阈值, 设为-1以禁用."
 L["Time xOffset"] = "时间X偏移"
 L["Time yOffset"] = "时间Y偏移"
 L["Time"] = "时间"
-L["When enabled active buff icons will light up instead of becoming darker, while inactive buff icons will become darker instead of being lit up."] = true;
+L["When enabled active buff icons will light up instead of becoming darker, while inactive buff icons will become darker instead of being lit up."] = true
 L["Wrap After"] = "每行行数"
 L["Your Auras First"] = "自身光环优先"
 
@@ -240,7 +240,7 @@ L["Attempt to lock the left and right chat frame positions. Disabling this optio
 L["Below Chat"] = "聊天框下方"
 L["Chat EditBox Position"] = "对话輸入框位置"
 L["Chat History"] = "聊天历史"
-L["Chat Timestamps"] = true;
+L["Chat Timestamps"] = true
 L["Class Color Mentions"] = "职业颜色提示"
 L["Custom Timestamp Color"] = "自定义时间戳颜色"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "鼠标悬停在链接上时显示鼠标提示"
@@ -279,7 +279,7 @@ L["Require holding the Alt key down to move cursor or cycle through messages in 
 L["Right Only"] = "仅显示右边"
 L["Right Panel Height"] = "右面板高度"
 L["Right Panel Width"] = "右面板宽度"
-L["Select the format of timestamps for chat messages."] = true;
+L["Select the format of timestamps for chat messages."] = true
 L["Scroll Interval"] = "滚动间隔"
 L["Scroll Messages"] = "滚动信息数目"
 L["Separate Panel Sizes"] = "分离框体大小"
@@ -299,7 +299,7 @@ L["Toggle showing of the left and right chat panels."] = "显示/隐藏左右聊
 L["Toggle the chat tab panel backdrop."] = "显示/隐藏聊天框架标签面板背景"
 L["URL Links"] = "网址链接"
 L["Use Alt Key"] = "对话历史Alt键"
-L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true;
+L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true
 L["When opening the Chat Editbox to type a message having this option set means it will retain the last channel you spoke in. If this option is turned off opening the Chat Editbox should always default to the SAY channel."] = "当你开始输入消息时此选项的启用将会让你保留最后一次对话的频道, 如果关闭将始终使用说话频道"
 L["Whisper Alert"] = "密语警报"
 L[ [=[Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.
@@ -323,15 +323,15 @@ Or for most users it would be easier to simply put a tga file into your WoW fold
 对多数玩家来说, 较简易的方式是将 tga 档放入 WoW 资料夹中, 然后在此处输入档案名称.]=]
 
 --Class Cache
-L["Cache"] = true;
-L["Class Cache"] = true;
-L["Enable class caching to colorize names in chat and nameplates."] = true;
-L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true;
-L["Request info for class cache"] = true;
-L["Store cache in DB"] = true;
-L["Use LibWho to cache class info"] = true;
-L["Wipe DB Cache"] = true;
-L["Wipe Session Cache"] = true;
+L["Cache"] = true
+L["Class Cache"] = true
+L["Enable class caching to colorize names in chat and nameplates."] = true
+L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true
+L["Request info for class cache"] = true
+L["Store cache in DB"] = true
+L["Use LibWho to cache class info"] = true
+L["Wipe DB Cache"] = true
+L["Wipe Session Cache"] = true
 
 --Credits
 L["Coding:"] = "编码:"
@@ -358,7 +358,7 @@ L["BottomRightMiniPanel"] = "小地图右下内侧"
 L["Datatext Panel (Left)"] = "左侧信息框"
 L["Datatext Panel (Right)"] = "右侧信息框"
 L["DataTexts"] = "信息文字"
-L["Date Format"] = true;
+L["Date Format"] = true
 L["Display data panels below the chat, used for datatexts."] = "在聊天框下显示用于信息的框架"
 L["Display minimap panels below the minimap, used for datatexts."] = "显示小地图下方的信息框"
 L["Gold Format"] = "金币格式"
@@ -374,7 +374,7 @@ L["RightChatDataPanel"] = "右聊天框"
 L["RightMiniPanel"] = "小地图右方"
 L["Small Panels"] = "迷你面板"
 L["The display format of the money text that is shown in the gold datatext and its tooltip."] = "在信息文字中显示的金钱格式"
-L["Time Format"] = true;
+L["Time Format"] = true
 L["TopLeftMiniPanel"] = "小地图左上内侧"
 L["TopMiniPanel"] = "小地图顶部内侧"
 L["TopRightMiniPanel"] = "小地图右上内侧"
@@ -453,10 +453,10 @@ L["The Thin Border Theme option will change the overall apperance of your UI. Us
 L["Thin Border Theme"] = "细边框主题"
 L["Toggle Tutorials"] = "教学开关"
 L["Top Panel"] = "顶部面板"
-L["Totem Bar"] = true;
+L["Totem Bar"] = true
 L["Unit Prefix Style"] = "单位缩写"
 L["Vendor Gray Detailed Report"] = "出售灰色物品详细报告"
-L["Version Check"] = true;
+L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = "当你离开时显示AFK界面"
 
 --Media
@@ -505,7 +505,7 @@ L["Maps"] = "地图"
 L["Minimap Buttons"] = "小地图按钮"
 L["Minimap Mouseover"] = "小地图鼠标滑过"
 L["Puts coordinates on the world map."] = "在世界地图上显示坐标"
-L["PvP Queue"] = true;
+L["PvP Queue"] = true
 L["Reset Zoom"] = "重置缩放"
 L["Right"] = "右"
 L["Scale"] = "缩放"
@@ -701,19 +701,19 @@ L["Table"] = "表"
 
 --Skins
 L["Alert Frames"] = "警报"
-L["Arena Frame"] = true;
-L["Arena Registrar"] = true;
+L["Arena Frame"] = true
+L["Arena Registrar"] = true
 L["Barbershop Frame"] = "理发师"
 L["BG Map"] = "战场地图"
 L["BG Score"] = "战场记分"
 L["Character Frame"] = "角色"
 L["Debug Tools"] = "除错工具"
-L["GM Chat"] = true;
+L["GM Chat"] = true
 L["Gossip Frame"] = "闲谈"
-L["Greeting Frame"] = true;
+L["Greeting Frame"] = true
 L["Guild Registrar"] = "公会注册"
 L["Help Frame"] = "帮助"
-L["LFG Frame"] = true;
+L["LFG Frame"] = true
 L["Loot Frames"] = "拾取"
 L["Mirror Timers"] = "镜像计时器"
 L["Misc Frames"] = "其他"
@@ -727,7 +727,7 @@ L["Stable"] = "兽栏"
 L["Tabard Frame"] = "战袍"
 L["Taxi Frame"] = "载具"
 L["Trainer Frame"] = "训练师"
-L["Tutorial Frame"] = true;
+L["Tutorial Frame"] = true
 
 --Tooltip
 L["Always Hide"] = "总是隐藏"
@@ -742,17 +742,17 @@ L["Custom Faction Colors"] = "自定义声望颜色"
 L["Display guild ranks if a unit is guilded."] = "当目标有公会时显示其在公会内的等级"
 L["Display how many of a certain item you have in your possession."] = "显示当前物品在你身上的数量."
 L["Display player titles."] = "显示玩家头衔"
-L["Display the item level when mousing over a item."] = true;
+L["Display the item level when mousing over a item."] = true
 L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."] = "当按住shift时展示该玩家的专精和装等,由于需要读取所以不会在指向某玩家时立即更新"
 L["Display the spell or item ID when mousing over a spell or item tooltip."] = "在鼠标提示中显示技能或物品的ID."
-L["Display vendor sell value on item tooltips."] = true;
+L["Display vendor sell value on item tooltips."] = true
 L["Guild Ranks"] = "公会等级"
 L["Header Font Size"] = "标题名字大小"
 L["Health Bar"] = "生命条"
 L["Hide tooltip while in combat."] = "战斗时不显示提示"
 L["Inspect Info"] = "更多信息"
 L["Item Count"] = "物品数量"
-L["Item Price"] = true;
+L["Item Price"] = true
 L["Never Hide"] = "从不隐藏"
 L["Player Titles"] = "玩家头衔"
 L["Should tooltip be anchored to mouse cursor"] = "提示锚定于鼠标"
@@ -779,7 +779,7 @@ L["Allow Whitelisted Auras"] = "允许白名单中的光环"
 L["Alpha channel is taken from the color option."] = "Alpha通道由颜色选项决定"
 L["An X offset (in pixels) to be used when anchoring new frames."] = "锚定新框架时的X偏移(单位:像素)"
 L["An Y offset (in pixels) to be used when anchoring new frames."] = "锚定新框架时的Y偏移(单位:像素)"
-L["Animation Speed"] = true;
+L["Animation Speed"] = true
 L["Ascending or Descending order."] = "升序或降序"
 L["Assist Frames"] = "助理框架"
 L["Assist Target"] = "助理目标"
@@ -826,7 +826,7 @@ L["Coloring"] = "着色"
 L["Combat Fade"] = "不用时隐藏"
 L["Combat Icon"] = "战斗图标"
 L["Combo Point"] = "连击点"
-L["Combobar"] = true;
+L["Combobar"] = true
 L["Configure Auras"] = "设置光环"
 L["Copy From"] = "复制自"
 L["Count Font Size"] = "计数字体尺寸"

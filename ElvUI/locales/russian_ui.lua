@@ -1,7 +1,7 @@
 -- Russian localization file for ruRU.
 local AceLocale = LibStub:GetLibrary("AceLocale-3.0")
 local L = AceLocale:NewLocale("ElvUI", "ruRU")
-if not L then return; end
+if not L then return end
 
 --*_ADDON locales
 L["INCOMPATIBLE_ADDON"] = "Аддон %s не совместим с модулем %s ElvUI. Пожалуйста, выберите отключить ли несовместимый аддон или модуль."
@@ -61,19 +61,18 @@ L["yells"] = "кричит"
 L["(Hold Shift) Memory Usage"] = "(Зажать Shift) Использование памяти"
 L["Avoidance Breakdown"] = "Распределение защиты"
 L["Character: "] = "Персонаж: "
-L["Combat"] = "Бой"
 L["Combat Time"] = "В бою"
 L["Coords"] = "Коорд."
 L["copperabbrev"] = "|cffeda55fм|r" --Also used in Bags
-L["Crit"] = true;
+L["Crit"] = true
 L["Deficit:"] = "Убыток:"
 L["DPS"] = "УВС"
-L["Durability"] = true;
+L["Durability"] = true
 L["Earned:"] = "Заработано"
 L["Friends List"] = "Список друзей"
 L["Gold"] = "Золото"
 L["goldabbrev"] = "|cffffd700з|r" --Also used in Bags
-L["Haste"] = true;
+L["Haste"] = true
 L["Hit"] = "Метк."
 L["Hold Shift + Right Click:"] = "Shift + ПКМ:"
 L["Home Latency:"] = "Локальная задержка: "
@@ -184,7 +183,7 @@ L["Your current resolution is %s, this is considered a %s resolution."] = "Ва�
 L["ABOVE_THREAT_FORMAT"] = "%s: %.0f%% [на %.0f%% опережаем |cff%02x%02x%02x%s|r]"
 L["Bars"] = "Полосы" --Also used in UnitFrames
 L["Can't Roll"] = "Не могу бросить кости"
-L["Copy"] = true;
+L["Copy"] = true
 L["Disband Group"] = "Распустить группу"
 L["Empty Slot"] = "Пустой слот"
 L["Enable"] = "Включить" --Doesn't fit a section since it's used a lot of places
@@ -192,7 +191,7 @@ L["Experience"] = "Опыт"
 L["Farm Mode"] = "Режим фарма"
 L["Fishy Loot"] = "Улов"
 L["Left Click:"] = "ЛКМ:" --layout\layout.lua
-L["Paste"] = true;
+L["Paste"] = true
 L["Raid Menu"] = "Рейдовое меню"
 L["Remaining:"] = "Осталось:"
 L["Rested:"] = "Бодрость:"
@@ -205,7 +204,7 @@ L["You don't have permission to mark targets."] = "У вас нет разреш
 
 --Movers
 L["Arena Frames"] = "Арена" --Also used in UnitFrames
-L["Auras Frame"] = true;
+L["Auras Frame"] = true
 L["Bag Mover (Grow Down)"] = "Сумки (Рост вниз)"
 L["Bag Mover (Grow Up)"] = "Сумки (Рост вверх)"
 L["Bag Mover"] = "Фиксатор сумок"
@@ -237,7 +236,7 @@ L["Player Castbar"] = "Полоса заклинаний игрока"
 L["Player Debuffs"] = "Дебаффы игрока"
 L["Player Frame"] = "Игрок" --Also used in UnitFrames
 L["Player Powerbar"] = "Полоса ресурса игрока"
-L["PvP"] = true;
+L["PvP"] = true
 L["Raid Frames"] = "Рейд"
 L["Raid Pet Frames"] = "Питомцы рейда"
 L["Raid-40 Frames"] = "Рейд 40"

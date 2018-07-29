@@ -30,7 +30,7 @@ L["Remove Bar %d Action Page"] = "Entferne Leiste %d Aktion Seite"
 L["Trigger"] = "Auslöser"
 
 --Bags
-L["Bank"] = true;
+L["Bank"] = true
 L["Hold Control + Right Click:"] = "Halte Strg + Rechtsklick:"
 L["Hold Shift + Drag:"] = "Halte Shift + Ziehen:"
 L["Purchase Bags"] = "Taschen kaufen"
@@ -42,8 +42,8 @@ L["Vendor / Delete Grays"] = "Verkaufe / Lösche graue Gegenstände"
 
 --Chat
 L["AFK"] = "AFK" --Also used in datatexts and tooltip
-L["BG"] = true;
-L["BGL"] = true;
+L["BG"] = true
+L["BGL"] = true
 L["DND"] = "DND" --Also used in datatexts and tooltip
 L["G"] = "G"
 L["Invalid Target"] = "Ungültiges Ziel"
@@ -61,17 +61,16 @@ L["yells"] = "schreien"
 L["(Hold Shift) Memory Usage"] = "(Shift gedrückt) Speichernutzung"
 L["Avoidance Breakdown"] = "Vermeidungsanalyse"
 L["Character: "] = "Charakter: "
-L["Combat"] = "Kampf"
 L["Combat Time"] = "Kampfdauer"
 L["Coords"] = "Koordinaten"
 L["copperabbrev"] = "|cffeda55fc|r" --Also used in Bags
-L["Crit"] = true;
+L["Crit"] = true
 L["Deficit:"] = "Defizit:"
 L["DPS"] = "DPS"
 L["Durability"] = "Haltbarkeit"
 L["Earned:"] = "Verdient:"
 L["Friends List"] = "Freundesliste"
-L["Gold"] = true;
+L["Gold"] = true
 L["goldabbrev"] = "|cffffd700g|r" --Also used in gold datatext
 L["Haste"] = "Tempowertung"
 L["Hit"] = "Trefferchance"
@@ -95,7 +94,7 @@ L["SP"] = "SP"
 L["Spell/Heal Power"] = "Schaden/Heilungsboni"
 L["Spent:"] = "Ausgegeben:"
 L["Stats For:"] = "Stats für:"
-L["System"] = true;
+L["System"] = true
 L["Total CPU:"] = "Gesamt CPU:"
 L["Total Memory:"] = "Gesamte Speichernutzung:"
 L["Total: "] = "Gesamt: "
@@ -185,15 +184,15 @@ L["Your current resolution is %s, this is considered a %s resolution."] = "Deine
 L["ABOVE_THREAT_FORMAT"] = "%s: %.0f%% [%.0f%% above |cff%02x%02x%02x%s|r]"
 L["Bars"] = "Leisten" --Also used in UnitFrames
 L["Can't Roll"] = "Es kann nicht gewürfelt werden."
-L["Copy"] = true;
+L["Copy"] = true
 L["Disband Group"] = "Gruppe auflösen"
 L["Empty Slot"] = "Leerer Platz"
 L["Enable"] = "Eingeschaltet" --Doesn't fit a section since it's used a lot of places
 L["Experience"] = "Erfahrung"
-L["Farm Mode"] = true;
+L["Farm Mode"] = true
 L["Fishy Loot"] = "Faule Beute"
 L["Left Click:"] = "Linksklick:" --layout\layout.lua
-L["Paste"] = true;
+L["Paste"] = true
 L["Raid Menu"] = "Schlachtzugsmenü"
 L["Remaining:"] = "Verbleibend:"
 L["Rested:"] = "Ausgeruht:"
@@ -206,7 +205,7 @@ L["You don't have permission to mark targets."] = "Du hast keine Rechte ein Ziel
 
 --Movers
 L["Arena Frames"] = "Arena Fenster" --Also used in UnitFrames
-L["Auras Frame"] = true;
+L["Auras Frame"] = true
 L["Bag Mover (Grow Down)"] = "Taschen Anker (Nach unten wachsen)"
 L["Bag Mover (Grow Up)"] = "Taschen Anker (Nach oben wachsen)"
 L["Bag Mover"] = "Taschen Anker"
@@ -238,7 +237,7 @@ L["Player Castbar"] = "Spieler Zauberbalken"
 L["Player Debuffs"] = "Spieler Debuffs"
 L["Player Frame"] = "Spielerfenster" --Also used in UnitFrames
 L["Player Powerbar"] = "Spieler Kraftleiste"
-L["PvP"] = true;
+L["PvP"] = true
 L["Raid Frames"] = "Schlachtzugsfenster" --Also used in UnitFrames
 L["Raid Pet Frames"] = "Schlachtzugspets-Fenster"
 L["Raid-40 Frames"] = "40er Schlachtzugsfenster" --Also used in UnitFrames
@@ -251,8 +250,8 @@ L["Target Powerbar"] = "Ziel Kraftleiste"
 L["TargetTarget Frame"] = "Ziel des Ziels Fenster" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Ziel des Ziels des Ziels Fenster"
 L["Tooltip"] = "Tooltip"
-L["Totems"] = true;
-L["Watch Frame"] = true;
+L["Totems"] = true
+L["Watch Frame"] = true
 L["DESC_MOVERCONFIG"] = [=[Ankerpunkte entriegelt. Bewege die Ankerpunkte und klicke 'sperren', wenn du fertig bist.
 
 Options:
@@ -261,7 +260,7 @@ Options:
 ]=]
 
 --Plugin Installer
-L["ElvUI Plugin Installation"] = true;
+L["ElvUI Plugin Installation"] = true
 L["In Progress"] = "In Bearbeitung"
 L["List of installations in queue:"] = "Liste von Installationen in Warteschlange:"
 L["Pending"] = "Ausstehend"

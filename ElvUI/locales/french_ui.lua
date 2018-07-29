@@ -1,7 +1,7 @@
 -- French localization file for frFR.
-local AceLocale = LibStub:GetLibrary("AceLocale-3.0");
-local L = AceLocale:NewLocale("ElvUI", "frFR");
-if not L then return; end
+local AceLocale = LibStub:GetLibrary("AceLocale-3.0")
+local L = AceLocale:NewLocale("ElvUI", "frFR")
+if not L then return end
 
 --*_ADDON locales
 L["INCOMPATIBLE_ADDON"] = "L'addon %s n'est pas compatible avec le module %s d'ElvUI. Merci de sélectionner soit l'addon ou le module d'ElvUI pour le désactiver."
@@ -42,8 +42,8 @@ L["Vendor / Delete Grays"] = true
 
 --Chat
 L["AFK"] = "ABS" --Also used in datatexts and tooltip
-L["BG"] = true;
-L["BGL"] = true;
+L["BG"] = true
+L["BGL"] = true
 L["DND"] = "NPD" --Also used in datatexts and tooltip
 L["G"] = "G"
 L["Invalid Target"] = "Cible incorrecte"
@@ -61,19 +61,18 @@ L["yells"] = "crie"
 L["(Hold Shift) Memory Usage"] = "(Maintenir MAJ) Utilisation de la Mémoire."
 L["Avoidance Breakdown"] = "Répartition de l'évitement"
 L["Character: "] = "Personnage: "
-L["Combat"] = "Combat"
-L["Combat Time"] = true;
-L["Coords"] = true;
+L["Combat Time"] = true
+L["Coords"] = true
 L["copperabbrev"] = "|cffeda55fc|r" --Also used in Bags
-L["Crit"] = true;
+L["Crit"] = true
 L["Deficit:"] = "Déficit:"
 L["DPS"] = "DPS"
-L["Durability"] = true;
+L["Durability"] = true
 L["Earned:"] = "Gagné:"
 L["Friends List"] = "Liste d'amis"
-L["Gold"] = true;
+L["Gold"] = true
 L["goldabbrev"] = "|cffffd700g|r" --Also used in Bags
-L["Haste"] = true;
+L["Haste"] = true
 L["Hit"] = "Toucher"
 L["Hold Shift + Right Click:"] = "Maintenir Majuscule + Clic droit"
 L["Home Latency:"] = "Latence du Domicile:"
@@ -81,7 +80,7 @@ L["HP"] = "PdS"
 L["HPS"] = "HPS"
 L["Invite"] = true
 L["lvl"] = "niveau"
-L["Miss Chance"] = true;
+L["Miss Chance"] = true
 L["Mitigation By Level: "] = "Réduction par niveau: "
 L["No Guild"] = "Pas de Guilde"
 L["Profit:"] = "Profit:"
@@ -92,10 +91,10 @@ L["Server: "] = "Serveur: "
 L["Session:"] = "Session:"
 L["silverabbrev"] = "|cffc7c7cfs|r" --Also used in Bags
 L["SP"] = "PdS"
-L["Spell/Heal Power"] = true;
+L["Spell/Heal Power"] = true
 L["Spent:"] = "Dépensé: "
 L["Stats For:"] = "Stats pour:"
-L["System"] = true;
+L["System"] = true
 L["Total CPU:"] = "Charge du CPU:"
 L["Total Memory:"] = "Mémoire totale:"
 L["Total: "] = "Total: "
@@ -184,15 +183,15 @@ L["Your current resolution is %s, this is considered a %s resolution."] = "Votre
 L["ABOVE_THREAT_FORMAT"] = "%s: %.0f%% [%.0f%% excès |cff%02x%02x%02x%s|r]"
 L["Bars"] = "Barres" --Also used in UnitFrames
 L["Can't Roll"] = "Ne peut pas jeter les dés"
-L["Copy"] = true;
+L["Copy"] = true
 L["Disband Group"] = "Dissoudre le groupe"
-L["Empty Slot"] = true;
+L["Empty Slot"] = true
 L["Enable"] = "Activer" --Doesn't fit a section since it's used a lot of places
 L["Experience"] = "Expérience"
-L["Farm Mode"] = true;
+L["Farm Mode"] = true
 L["Fishy Loot"] = "Butin de pêche"
 L["Left Click:"] = "Clique Gauche:" --layout\layout.lua
-L["Paste"] = true;
+L["Paste"] = true
 L["Raid Menu"] = "Menu Raid"
 L["Remaining:"] = "Restant:"
 L["Rested:"] = "Reposé:"
@@ -205,13 +204,13 @@ L["You don't have permission to mark targets."] = "Vous n'avez pas la permission
 
 --Movers
 L["Arena Frames"] = "Cadre d'arène" --Also used in UnitFrames
-L["Auras Frame"] = true;
+L["Auras Frame"] = true
 L["Bag Mover (Grow Down)"] = "Orientation des sacs (ajouter vers le bas)"
 L["Bag Mover (Grow Up)"] = "Orientation des sacs (ajouter vers le haut)"
 L["Bag Mover"] = "Orientation des sacs"
 L["Bags"] = "Sacs" --Also in DataTexts
-L["Bank Mover (Grow Down)"] = true;
-L["Bank Mover (Grow Up)"] = true;
+L["Bank Mover (Grow Down)"] = true
+L["Bank Mover (Grow Up)"] = true
 L["Bar "] = "Barre " --Also in ActionBars
 L["Classbar"] = "Barre de Classe"
 L["Experience Bar"] = "Barre d'expérience"
@@ -237,7 +236,7 @@ L["Player Castbar"] = "Barre d'incantation du joueur"
 L["Player Debuffs"] = "Affaiblissements du joueur"
 L["Player Frame"] = "Cadre du joueur" --Also used in UnitFrames
 L["Player Powerbar"] = "Barre de pouvoir du joueur" -- need review.
-L["PvP"] = true;
+L["PvP"] = true
 L["Raid Frames"] = "Cadres de Raid"
 L["Raid Pet Frames"] = "Cadres de Raid des Familiers"
 L["Raid-40 Frames"] = "Cadres de Raid 40"
@@ -250,8 +249,8 @@ L["Target Powerbar"] = "Barre de pouvoir de la cible" -- need review.
 L["TargetTarget Frame"] = "Cadre de la cible de votre cible" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Cadre de la cible de la cible de la cible"
 L["Tooltip"] = "Infobulle"
-L["Totems"] = true;
-L["Watch Frame"] = true;
+L["Totems"] = true
+L["Watch Frame"] = true
 L["DESC_MOVERCONFIG"] = [=[Cadres déverrouillés. Déplacez-les et cliquez sur Verrouiller une fois terminé.
 
 Options:

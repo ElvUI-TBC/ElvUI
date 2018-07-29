@@ -40,7 +40,7 @@ L["SEARCH_SYNTAX_DESC"] = [=[因為新增加的 LibItemSearch，你現在可以�
     • bou : 使用後綁定.
     • boe : 裝備後綁定.
     • boa : 帳號綁定.
-    • quest : 任務綁定.]=];
+    • quest : 任務綁定.]=]
 L["TEXT_FORMAT_DESC"] = [=[請填入代碼以變更文字格式。
 
 範例：
@@ -61,7 +61,7 @@ L["TEXT_FORMAT_DESC"] = [=[請填入代碼以變更文字格式。
 "name:medium" - 名稱上限為 15 個字元
 "name:long" - 名稱上限為 20 個字元
 
-若要停用此功能，此欄位請留空。如需更多資訊，請至 http://www.tukui.org]=];
+若要停用此功能，此欄位請留空。如需更多資訊，請至 http://www.tukui.org]=]
 L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[If you set this to 1 then all plates triggered by this style filter will be above any of the non-triggered plates.
 
 If you set this to 2 in another style filter then all plates triggered by that filter will be above plates with frame level set to 1 and all non-triggered plates, and so on.
@@ -71,7 +71,7 @@ NOTE: This setting will NOT fix the issue with clicking or mousing over nameplat
 --ActionBars
 L["Action Paging"] = "快捷列翻頁"
 L["ActionBars"] = "快捷列"
-L["Action button keybinds will respond on key down, rather than on key up"] = true;
+L["Action button keybinds will respond on key down, rather than on key up"] = true
 L["Allow LBF to handle the skinning of this element."] = "允許 LBF 來處理此元件的皮膚"
 L["Alpha"] = "透明度"
 L["Anchor Point"] = "定位方向"
@@ -108,7 +108,7 @@ L["Inherit the global fade, mousing over, targetting, setting focus, losing heal
 L["Key Down"] = "按下施法"
 L["Keybind Mode"] = "快捷鍵綁定模式"
 L["Keybind Text"] = "快捷鍵文字"
-L["LBF Support"] = true;
+L["LBF Support"] = true
 L["Low Threshold"] = "冷卻時間低閥值"
 L["Macro Text"] = "巨集名稱"
 L["Minutes"] = "分"
@@ -117,7 +117,7 @@ L["Multiply the backdrops height or width by this value. This is usefull if you 
 L["Not Usable"] = "無法使用"
 L["Out of Power"] = "施放能量不足"
 L["Out of Range"] = "超出施放範圍"
-L["Pick Up Action Key"] = true;
+L["Pick Up Action Key"] = true
 L["Restore Bar"] = "還原快捷列"
 L["Restore the actionbars default settings"] = "恢復此快捷列的預設設定"
 L["RightClick Self-Cast"] = true
@@ -199,15 +199,15 @@ L["Top to Bottom"] = "頂部至底部"
 L["Use coin icons instead of colored text."] = "使用硬幣圖示取代上色文字"
 
 --Buffs and Debuffs
-L["Auras Spacing"] = true;
-L["Buffs and Debuffs"] = true;
+L["Auras Spacing"] = true
+L["Buffs and Debuffs"] = true
 L["Begin a new row or column after this many auras."] = "在這些光環旁開始新的行或列."
 L["Count xOffset"] = "層數X偏移"
 L["Count yOffset"] = "層數Y偏移"
 L["Defines how the group is sorted."] = "定義群組的排序方式."
 L["Defines the sort order of the selected sort method."] = "定義所選排序方式的排序方向."
 L["Disabled Blizzard"] = "停用暴雪框架"
-L["Display reminder bar on the minimap."] = true;
+L["Display reminder bar on the minimap."] = true
 L["Fade Threshold"] = "漸隱時間閥值"
 L["Index"] = "索引"
 L["Indicate whether buffs you cast yourself should be separated before or after."] = "將你自身施放的增益放於整體增益最前方或或最後方."
@@ -216,18 +216,18 @@ L["Max Wraps"] = "每行最大數"
 L["No Sorting"] = "不分類"
 L["Other's First"] = "他人光環優先"
 L["Remaining Time"] = "剩餘時間"
-L["Reminder"] = true;
-L["Reverse Style"] = true;
+L["Reminder"] = true
+L["Reverse Style"] = true
 L["Seperate"] = "光環分離"
 L["Set the size of the individual auras."] = "設定每個光環的尺寸."
 L["Sort Method"] = "分類方式"
 L["The direction the auras will grow and then the direction they will grow after they reach the wrap after limit."] = "光環增加的方向與到達每行最大數後換行增加的方向"
-L["The spacing between auras."] = true;
+L["The spacing between auras."] = true
 L["Threshold before the icon will fade out and back in. Set to -1 to disable."] = true
 L["Time xOffset"] = "時間X偏移"
 L["Time yOffset"] = "時間Y偏移"
 L["Time"] = "時間"
-L["When enabled active buff icons will light up instead of becoming darker, while inactive buff icons will become darker instead of being lit up."] = true;
+L["When enabled active buff icons will light up instead of becoming darker, while inactive buff icons will become darker instead of being lit up."] = true
 L["Wrap After"] = "每行光環數"
 L["Your Auras First"] = "自身光環優先"
 
@@ -242,14 +242,14 @@ L["Attempt to lock the left and right chat frame positions. Disabling this optio
 L["Below Chat"] = "對話框下方"
 L["Chat EditBox Position"] = "對話輸入框位置"
 L["Chat History"] = "對話記錄"
-L["Chat Timestamps"] = true;
+L["Chat Timestamps"] = true
 L["Class Color Mentions"] = "使用職業上色"
 L["Custom Timestamp Color"] = "自訂時間戳記顏色"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "滑鼠懸停在超鏈接上時顯示鏈接提示框."
 L["Enable the use of separate size options for the right chat panel."] = "啟用獨立的右聊天框大小選項"
-L["Exclude Name"] = true;
-L["Excluded names will not be class colored."] = true;
-L["Excluded Names"] = true;
+L["Exclude Name"] = true
+L["Excluded names will not be class colored."] = true
+L["Excluded Names"] = true
 L["Fade Chat"] = "對話內容漸隱"
 L["Fade Tabs No Backdrop"] = "隱藏拖出的聊天框"
 L["Fade the chat text when there is no activity."] = "未出現新訊息時，隱藏對話框的文字."
@@ -267,7 +267,7 @@ L["List of words to color in chat if found in a message. If you wish to add mult
 L["Lock Positions"] = "鎖定位置"
 L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."] = "記錄對話歷史,當你重載,登錄和退出時會恢復你最後一次會話"
 L["No Alert In Combat"] = "戰鬥中不警報"
-L["Number of messages you scroll for each step."] = true;
+L["Number of messages you scroll for each step."] = true
 L["Number of repeat characters while in combat before the chat editbox is automatically closed."] = "當你在戰鬥中按下技能鍵時,有可能你的輸入框還處於打開狀態,這個功能可以在你按下技能鍵並且在輸入框中輸入下列個數字符串卻沒有放出技能時幫你自動關閉輸入框"
 L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."] = "對話框滾動到底部所需要的滾動時間(秒)."
 L["Panel Backdrop"] = "對話框背景"
@@ -281,9 +281,9 @@ L["Require holding the Alt key down to move cursor or cycle through messages in 
 L["Right Only"] = "僅顯示右框背景"
 L["Right Panel Height"] = "右面板高度"
 L["Right Panel Width"] = "右面板寬度"
-L["Select the format of timestamps for chat messages."] = true;
+L["Select the format of timestamps for chat messages."] = true
 L["Scroll Interval"] = "滾動間隔"
-L["Scroll Messages"] = true;
+L["Scroll Messages"] = true
 L["Separate Panel Sizes"] = "分離框體大小"
 L["Set the font outline."] = "字體描邊設定."
 L["Short Channels"] = "隱藏頻道名稱"
@@ -301,7 +301,7 @@ L["Toggle showing of the left and right chat panels."] = "顯示/隱藏左、右
 L["Toggle the chat tab panel backdrop."] = "顯示/隱藏對話框架標籤面板背景."
 L["URL Links"] = "網址連結"
 L["Use Alt Key"] = "對話歷史Alt鍵"
-L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true;
+L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true
 L["When opening the Chat Editbox to type a message having this option set means it will retain the last channel you spoke in. If this option is turned off opening the Chat Editbox should always default to the SAY channel."] = "打開此選項將會保存你的輸入框為上一次輸入的頻道, 關閉此選項輸入框將始終保持在說的頻道."
 L["Whisper Alert"] = "密語警報"
 L[ [=[Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.
@@ -325,15 +325,15 @@ Or for most users it would be easier to simply put a tga file into your WoW fold
 對多數玩家來說, 較簡易的方式是將 tga 檔放入 WoW 資料夾中, 然後在此處輸入檔案名稱.]=]
 
 --Class Cache
-L["Cache"] = true;
-L["Class Cache"] = true;
-L["Enable class caching to colorize names in chat and nameplates."] = true;
-L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true;
-L["Request info for class cache"] = true;
-L["Store cache in DB"] = true;
-L["Use LibWho to cache class info"] = true;
-L["Wipe DB Cache"] = true;
-L["Wipe Session Cache"] = true;
+L["Cache"] = true
+L["Class Cache"] = true
+L["Enable class caching to colorize names in chat and nameplates."] = true
+L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true
+L["Request info for class cache"] = true
+L["Store cache in DB"] = true
+L["Use LibWho to cache class info"] = true
+L["Wipe DB Cache"] = true
+L["Wipe Session Cache"] = true
 
 --Credits
 L["Coding:"] = "編碼:"
@@ -343,7 +343,7 @@ L["ELVUI_CREDITS"] = "我想透過這個特別方式, 向那些協助測試、�
 L["Testing:"] = "測試："
 
 --DataBars
-L["Current - Percent (Remaining)"] = true;
+L["Current - Percent (Remaining)"] = true
 L["Current - Remaining"] = "當前值 - 剩餘值"
 L["DataBars"] = "數據條"
 L["Hide in Combat"] = "戰鬥中隱藏"
@@ -360,7 +360,7 @@ L["BottomRightMiniPanel"] = "小地圖右下內側"
 L["Datatext Panel (Left)"] = "左側資訊框"
 L["Datatext Panel (Right)"] = "右側資訊框"
 L["DataTexts"] = "資訊文字"
-L["Date Format"] = true;
+L["Date Format"] = true
 L["Display data panels below the chat, used for datatexts."] = "在對話框下顯示用於資訊的框架."
 L["Display minimap panels below the minimap, used for datatexts."] = "顯示小地圖下方的資訊框."
 L["Gold Format"] = "金幣格式"
@@ -376,7 +376,7 @@ L["RightChatDataPanel"] = "右對話框"
 L["RightMiniPanel"] = "小地圖右側"
 L["Small Panels"] = "迷你面板"
 L["The display format of the money text that is shown in the gold datatext and its tooltip."] = "在信息文字中顯示的金錢格式"
-L["Time Format"] = true;
+L["Time Format"] = true
 L["TopLeftMiniPanel"] = "Minimap TopLeft (Inside)"
 L["TopMiniPanel"] = "Minimap Top (Inside)"
 L["TopRightMiniPanel"] = "Minimap TopRight (Inside)"
@@ -427,7 +427,7 @@ L["Display the name of the unit on the chat bubble."] = true
 L["Emotion Icons"] = "表情圖示"
 L["Enable/Disable the loot frame."] = "啟用/停用拾取框架."
 L["Enable/Disable the loot roll frame."] = "啟用/停用擲骰框架."
-L["Enables the ElvUI Raid Control panel."] = true;
+L["Enables the ElvUI Raid Control panel."] = true
 L["Enhanced PVP Messages"] = "PVP增強信息"
 L["General"] = "一般設定"
 L["Hide At Max Level"] = "在最高等級時隱藏"
@@ -455,10 +455,10 @@ L["The Thin Border Theme option will change the overall apperance of your UI. Us
 L["Thin Border Theme"] = "細邊框主題"
 L["Toggle Tutorials"] = "教學開關"
 L["Top Panel"] = "頂部面板"
-L["Totem Bar"] = true;
+L["Totem Bar"] = true
 L["Unit Prefix Style"] = true
 L["Vendor Gray Detailed Report"] = true
-L["Version Check"] = true;
+L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = "當你離開時顯示AFK界面"
 
 --Media
@@ -507,7 +507,7 @@ L["Maps"] = "地圖"
 L["Minimap Buttons"] = "小地圖按鈕"
 L["Minimap Mouseover"] = "小地圖滑鼠滑過"
 L["Puts coordinates on the world map."] = "在世界地圖上放置坐標"
-L["PvP Queue"] = true;
+L["PvP Queue"] = true
 L["Reset Zoom"] = "重置縮放"
 L["Right"] = "右"
 L["Scale"] = "縮放"
@@ -703,21 +703,21 @@ L["Table"] = "表"
 
 --Skins
 L["Alert Frames"] = "警報"
-L["Arena Frame"] = true;
-L["Arena Registrar"] = true;
+L["Arena Frame"] = true
+L["Arena Registrar"] = true
 L["Barbershop Frame"] = "美容院"
 L["BG Map"] = "戰場地圖"
 L["BG Score"] = "戰場積分"
 L["Character Frame"] = "角色"
 L["Debug Tools"] = "除錯工具"
-L["GM Chat"] = true;
+L["GM Chat"] = true
 L["Gossip Frame"] = "對話"
-L["Greeting Frame"] = true;
+L["Greeting Frame"] = true
 L["Guild Registrar"] = "公會註冊"
 L["Help Frame"] = "幫助"
-L["LFG Frame"] = true;
+L["LFG Frame"] = true
 L["Loot Frames"] = "拾取框架"
-L["Mirror Timers"] = true;
+L["Mirror Timers"] = true
 L["Misc Frames"] = "其他"
 L["Petition Frame"] = "回報GM"
 L["PvP Frames"] = "PvP框架"
@@ -729,7 +729,7 @@ L["Stable"] = "獸欄"
 L["Tabard Frame"] = "外袍"
 L["Taxi Frame"] = "載具"
 L["Trainer Frame"] = "訓練師"
-L["Tutorial Frame"] = true;
+L["Tutorial Frame"] = true
 
 --Tooltip
 L["Always Hide"] = "總是隱藏"
@@ -744,17 +744,17 @@ L["Custom Faction Colors"] = "自定義聲望顏色"
 L["Display guild ranks if a unit is guilded."] = "當目標有公會時顯示其位階."
 L["Display how many of a certain item you have in your possession."] = "顯示當前物品在你身上的數量"
 L["Display player titles."] = "顯示玩家稱號."
-L["Display the item level when mousing over a item."] = true;
+L["Display the item level when mousing over a item."] = true
 L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."] = "當按住shift時展示該玩家的專精和裝等,由於需要讀取所以不會在指向某玩家時立即更新."
 L["Display the spell or item ID when mousing over a spell or item tooltip."] = "滑鼠提示中顯示技能或物品的ID"
-L["Display vendor sell value on item tooltips."] = true;
+L["Display vendor sell value on item tooltips."] = true
 L["Guild Ranks"] = "公會會階"
 L["Header Font Size"] = "標題名字大小"
 L["Health Bar"] = "生命條"
 L["Hide tooltip while in combat."] = "戰鬥時不顯示提示."
 L["Inspect Info"] = "更多信息"
 L["Item Count"] = "物品數量"
-L["Item Price"] = true;
+L["Item Price"] = true
 L["Never Hide"] = "從不隱藏"
 L["Player Titles"] = "玩家稱號"
 L["Should tooltip be anchored to mouse cursor"] = "提示錨定在滑鼠"
@@ -781,7 +781,7 @@ L["Allow Whitelisted Auras"] = "允許白名單中的光環"
 L["Alpha channel is taken from the color option."] = true
 L["An X offset (in pixels) to be used when anchoring new frames."] = "錨定新框架時的X偏移(單位:像素)"
 L["An Y offset (in pixels) to be used when anchoring new frames."] = "錨定新框架時的Y偏移(單位:像素)"
-L["Animation Speed"] = true;
+L["Animation Speed"] = true
 L["Ascending or Descending order."] = "升序或降序"
 L["Assist Frames"] = "助理框架"
 L["Assist Target"] = "助理目標"
@@ -905,7 +905,7 @@ L["Friendly Aura Type"] = "友好目標光環類型"
 L["Friendly"] = "友好"
 L["Glow"] = "閃爍"
 L["Good"] = "安全"
-L["GPS Arrow"] = true;
+L["GPS Arrow"] = true
 L["Group By"] = "隊伍排列方式"
 L["Group Spacing"] = true
 L["Grouping & Sorting"] = "分組與排序"
@@ -1007,7 +1007,7 @@ L["Range Check"] = "距離檢查"
 L["Rapidly update the health, uses more memory and cpu. Only recommended for healing."] = "實時更新生命值會佔用更多的內存的和CPU, 只推薦治療角色開啟."
 L["Reaction Castbars"] = "聲望施法條"
 L["Reactions"] = "陣營聲望"
-L["Ready Check Icon"] = true;
+L["Ready Check Icon"] = true
 L["Remaining"] = "剩餘數值"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = "從過濾器中移除一個技能. 當你看見有ID在過濾器中的技能名字時使用技能ID"
 L["Remove a spell from the filter."] = "從過濾器中移除一個技能."
@@ -1018,7 +1018,7 @@ L["Restore Defaults"] = "恢復預設"
 L["Resurrect Icon"] = true
 L["Right to Left"] = "右到左"
 L["RL / ML Icons"] = "團隊隊長/裝備分配圖示"
-L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."] = true;
+L["Seconds remaining on the aura duration before the bar starts moving. Set to 0 to disable."] = true
 L["Select a unit to copy settings from."] = "選擇從哪單位複制."
 L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."] = "請選擇一個過濾器, 若你啓用的是'白名單', 則只顯示'白名單'裡的光環."
 L["Select Filter"] = "選擇過濾器"
@@ -1032,7 +1032,7 @@ L["Set the priority order of the spell, please note that prioritys are only used
 L["Set the type of auras to show when a unit is a foe."] = "當單位是敵對時設定光環顯示的類型."
 L["Set the type of auras to show when a unit is friendly."] = "當單位是友好時設定光環顯示的類型."
 L["Sets the font instance's horizontal text alignment style."] = "設定橫向字體的對齊方式."
-L["Show"] = true;
+L["Show"] = true
 L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."] = "在單位框架中顯示即將回复的的預測治療量, 過量治療則以不同顏色顯示. "
 L["Show Aura From Other Players"] = "顯示其他玩家的光環"
 L["Show Auras"] = "顯示光環"
@@ -1049,7 +1049,7 @@ L["Sort By"] = "排序"
 L["Spaced"] = "留空"
 L["Spacing"] = "間隙"
 L["Spark"] = "火花"
-L["Speed in seconds"] = true;
+L["Speed in seconds"] = true
 L["Stack Counter"] = "層數計數"
 L["Stack Threshold"] = "層數閾值"
 L["Start Near Center"] = "由中心開始"

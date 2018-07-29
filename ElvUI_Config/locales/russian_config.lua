@@ -1,7 +1,7 @@
 -- Russian localization file for ruRU.
 local AceLocale = LibStub:GetLibrary("AceLocale-3.0")
 local L = AceLocale:NewLocale("ElvUI", "ruRU")
-if not L then return; end
+if not L then return end
 
 -- *_DESC locales
 L["ACTIONBARS_DESC"] = "Modify the actionbar settings."
@@ -40,7 +40,7 @@ L["SEARCH_SYNTAX_DESC"] = [=[С добавлением библиотеки LibI
     • bou : персональные при использовании.
     • boe : персональные при одевании.
     • boa : привязоные к учетной записи.
-    • quest : специальные предметы для заданий.]=];
+    • quest : специальные предметы для заданий.]=]
 L["TEXT_FORMAT_DESC"] = [=[Строка для изменения вида текста.
 
 Примеры:
@@ -61,7 +61,7 @@ L["TEXT_FORMAT_DESC"] = [=[Строка для изменения вида те�
 "name:medium" - Имя с ограничением длины в 15 символов
 "name:long" - Имя с ограничением длины в 20 символов
 
-Для отключения оставьте поле пустым, для дополнительной информации посетите http://www.tukui.org]=];
+Для отключения оставьте поле пустым, для дополнительной информации посетите http://www.tukui.org]=]
 L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[If you set this to 1 then all plates triggered by this style filter will be above any of the non-triggered plates.
 
 If you set this to 2 in another style filter then all plates triggered by that filter will be above plates with frame level set to 1 and all non-triggered plates, and so on.
@@ -199,7 +199,7 @@ L["Top to Bottom"] = "Сверху вниз"
 L["Use coin icons instead of colored text."] = "Использовать иконки монет вместо окрашенного текста."
 
 --Buffs and Debuffs
-L["Auras Spacing"] = true;
+L["Auras Spacing"] = true
 L["Buffs and Debuffs"] = "Эффекты и ауры"
 L["Begin a new row or column after this many auras."] = "Начинать новый ряд/столбец после этого количества аур."
 L["Count xOffset"] = "Отступ стаков по X"
@@ -207,7 +207,7 @@ L["Count yOffset"] = "Отступ стаков по Y"
 L["Defines how the group is sorted."] = "Определяет условия сортировки"
 L["Defines the sort order of the selected sort method."] = "Определяет порядок в выбранном методе сортировки."
 L["Disabled Blizzard"] = "Отключить ауры Blizzard"
-L["Display reminder bar on the minimap."] = true;
+L["Display reminder bar on the minimap."] = true
 L["Fade Threshold"] = "Значение мерцания"
 L["Index"] = "Порядок наложения"
 L["Indicate whether buffs you cast yourself should be separated before or after."] = "Определяет должны ли Ваши баффы находиться отдельно перед или после остальных."
@@ -216,13 +216,13 @@ L["Max Wraps"] = "Максимум рядов"
 L["No Sorting"] = "Без сортировки"
 L["Other's First"] = "Сначала чужие"
 L["Remaining Time"] = "Оставшееся время"
-L["Reminder"] = true;
+L["Reminder"] = true
 L["Reverse Style"] = "Обратное затенение"
 L["Seperate"] = "Разделение"
 L["Set the size of the individual auras."] = "Устанавливает размер аур"
 L["Sort Method"] = "Метод сортировки"
 L["The direction the auras will grow and then the direction they will grow after they reach the wrap after limit."] = "Направление роста аур и сторона с которой будет добавляться новый ряд."
-L["The spacing between auras."] = true;
+L["The spacing between auras."] = true
 L["Threshold before the icon will fade out and back in. Set to -1 to disable."] = true
 L["Time xOffset"] = "Отступ времени по X"
 L["Time yOffset"] = "Отступ времени по Y"
@@ -242,7 +242,7 @@ L["Attempt to lock the left and right chat frame positions. Disabling this optio
 L["Below Chat"] = "Под чатом"
 L["Chat EditBox Position"] = "Позиция поля ввода"
 L["Chat History"] = "История чата"
-L["Chat Timestamps"] = true;
+L["Chat Timestamps"] = true
 L["Class Color Mentions"] = "Упоминания цветом класса"
 L["Custom Timestamp Color"] = "Свой цвет времени"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "Отображать подсказку ссылки на при наведении на нее мыши. Действует на предметы, достижения, сохранения подземелий и тд."
@@ -281,7 +281,7 @@ L["Require holding the Alt key down to move cursor or cycle through messages in 
 L["Right Only"] = "Только правый"
 L["Right Panel Height"] = "Высота правого чата"
 L["Right Panel Width"] = "Ширина правого чата"
-L["Select the format of timestamps for chat messages."] = true;
+L["Select the format of timestamps for chat messages."] = true
 L["Scroll Interval"] = "Интервал прокрутки"
 L["Scroll Messages"] = "Прокручивание сообщений"
 L["Separate Panel Sizes"] = "Разные размеры панелей"
@@ -301,7 +301,7 @@ L["Toggle showing of the left and right chat panels."] = "Переключить
 L["Toggle the chat tab panel backdrop."] = "Показать/скрыть фон панели под вкладками чата"
 L["URL Links"] = "Интернет-ссылки"
 L["Use Alt Key"] = "Использовать Alt"
-L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true;
+L["Use class color for the names of players when they are mentioned.\nDepends on Class Caching module!"] = true
 L["When opening the Chat Editbox to type a message having this option set means it will retain the last channel you spoke in. If this option is turned off opening the Chat Editbox should always default to the SAY channel."] = "При открытии строки ввода сообщения, если эта опция включена, будет выбран последний канал, в который Вы писали. В противном случае всегда будет установлен канал 'сказать'."
 L["Whisper Alert"] = "Звук шепота"
 L[ [=[Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.
@@ -325,15 +325,15 @@ Or for most users it would be easier to simply put a tga file into your WoW fold
 Для большинства пользователей будет легче просто положить tga файл в папку игры, а затем написать имя файла здесь.]=]
 
 --Class Cache
-L["Cache"] = true;
-L["Class Cache"] = true;
-L["Enable class caching to colorize names in chat and nameplates."] = true;
-L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true;
-L["Request info for class cache"] = true;
-L["Store cache in DB"] = true;
-L["Use LibWho to cache class info"] = true;
-L["Wipe DB Cache"] = true;
-L["Wipe Session Cache"] = true;
+L["Cache"] = true
+L["Class Cache"] = true
+L["Enable class caching to colorize names in chat and nameplates."] = true
+L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."] = true
+L["Request info for class cache"] = true
+L["Store cache in DB"] = true
+L["Use LibWho to cache class info"] = true
+L["Wipe DB Cache"] = true
+L["Wipe Session Cache"] = true
 
 --Credits
 L["Coding:"] = "Написание кода:"
@@ -455,7 +455,7 @@ L["The Thin Border Theme option will change the overall apperance of your UI. Us
 L["Thin Border Theme"] = "Тонкие границы"
 L["Toggle Tutorials"] = "Показать помощь"
 L["Top Panel"] = "Верхняя панель"
-L["Totem Bar"] = true;
+L["Totem Bar"] = true
 L["Unit Prefix Style"] = "Стиль сокращений"
 L["Vendor Gray Detailed Report"] = "Подробности продажи"
 L["Version Check"] = "Проверка версии"
@@ -507,7 +507,7 @@ L["Maps"] = "Карты"
 L["Minimap Buttons"] = "Кнопки миникарты"
 L["Minimap Mouseover"] = "При наведении мыши"
 L["Puts coordinates on the world map."] = "Добавляет координаты на карту мира."
-L["PvP Queue"] = true;
+L["PvP Queue"] = true
 L["Reset Zoom"] = "Сброс приближения"
 L["Right"] = "Правый"
 L["Scale"] = "Масштаб"
@@ -715,7 +715,7 @@ L["Gossip Frame"] = "Диалоги"
 L["Greeting Frame"] = "Приветствия"
 L["Guild Registrar"] = "Регистратор гильдий"
 L["Help Frame"] = "Помощь"
-L["LFG Frame"] = true;
+L["LFG Frame"] = true
 L["Loot Frames"] = "Добыча"
 L["Mirror Timers"] = "Таймеры"
 L["Misc Frames"] = "Прочие фреймы"
@@ -744,17 +744,17 @@ L["Custom Faction Colors"] = "Свои цвета отношения"
 L["Display guild ranks if a unit is guilded."] = "Отображать ранг в гильдии."
 L["Display how many of a certain item you have in your possession."] = "Отображать количество предметов в сумках"
 L["Display player titles."] = "Отображать звания"
-L["Display the item level when mousing over a item."] = true;
+L["Display the item level when mousing over a item."] = true
 L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."] = "Показывать специализацию и уровень предметов в подсказке. Может обновиться не сразу после наведения курсора."
 L["Display the spell or item ID when mousing over a spell or item tooltip."] = "Отображать ID заклинания или предмета в подсказке при наведении мыши."
-L["Display vendor sell value on item tooltips."] = true;
+L["Display vendor sell value on item tooltips."] = true
 L["Guild Ranks"] = "Ранги гильдии"
 L["Header Font Size"] = "Размер шрифта заголовка"
 L["Health Bar"] = "Полоса здоровья"
 L["Hide tooltip while in combat."] = "Скрывать подсказку в бою"
 L["Inspect Info"] = "Информация осмотра"
 L["Item Count"] = "Кол-во предметов"
-L["Item Price"] = true;
+L["Item Price"] = true
 L["Never Hide"] = "Никогда не скрывать"
 L["Player Titles"] = "Звания игроков"
 L["Should tooltip be anchored to mouse cursor"] = "Привязывает подсказку к курсору мыши."
