@@ -232,6 +232,29 @@ local function Chat_OnMouseWheel(self, delta)
 	end
 end
 
+local function Chat_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
+	local coloredName = CH:GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
+	local type = strsub(event, 10)
+	local info = ChatTypeInfo[type]
+
+	local playerLink, _
+	playerLink = "|Hplayer:"..arg2..":"..arg11..":".."|h"
+	local message = arg1
+	--Escape any % characters, as it may otherwise cause an "invalid option in format" error in the next step
+	message = gsub(message, "%%", "%%%%")
+
+	_, body = pcall(format, _G["CHAT_"..type.."_GET"]..message, playerLink.."["..coloredName.."]".."|h")
+
+	if CH.db.shortChannels then
+		body = body:gsub("|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel)
+		body = body:gsub("^(.-|h) "..L["whispers"], "%1")
+		body = body:gsub("<".._G["AFK"]..">", "[|cffFF0000"..L["AFK"].."|r] ")
+		body = body:gsub("<"..DND..">", "[|cffE7E716"..L["DND"].."|r] ")
+	end
+
+	self:AddMessage(body, info.r, info.g, info.b, info.id)
+end
+
 function AFK:Initialize()
 	if E.global.afkEnabled then
 		SetCVar("cameraYawMoveSpeed", E.global.afkCameraSpeedYaw)
@@ -265,7 +288,7 @@ function AFK:Initialize()
 	self.AFKMode.chat:SetScript("OnDragStart", self.AFKMode.chat.StartMoving)
 	self.AFKMode.chat:SetScript("OnDragStop", self.AFKMode.chat.StopMovingOrSizing)
 	self.AFKMode.chat:SetScript("OnMouseWheel", Chat_OnMouseWheel)
-	self.AFKMode.chat:SetScript("OnEvent", CH.ChatFrame_OnEvent)
+	self.AFKMode.chat:SetScript("OnEvent", Chat_OnEvent)
 
 	self.AFKMode.bottom = CreateFrame("Frame", nil, self.AFKMode)
 	self.AFKMode.bottom:SetFrameLevel(0)

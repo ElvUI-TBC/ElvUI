@@ -136,7 +136,7 @@ local function LoadSkin()
 	CraftDetailScrollChildFrame:StripTextures()
 	CraftDetailScrollChildFrame:Size(300, 150)
 
-	CraftName:Point("TOPLEFT", 65, -20)
+	CraftName:Point("TOPLEFT", 58, -3)
 
 	CraftIcon:SetTemplate("Default")
 	CraftIcon:StyleButton(nil, true)
