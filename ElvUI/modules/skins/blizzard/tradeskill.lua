@@ -148,6 +148,8 @@ local function LoadSkin()
 	TradeSkillSkillIcon:Size(47)
 	TradeSkillSkillIcon:Point("TOPLEFT", 6, -3)
 
+	TradeSkillRequirementLabel:SetTextColor(1, 0.80, 0.10)
+
 	for i = 1, MAX_TRADE_SKILL_REAGENTS do
 		local reagent = _G["TradeSkillReagent"..i]
 		local icon = _G["TradeSkillReagent"..i.."IconTexture"]
