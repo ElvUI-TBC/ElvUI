@@ -4,7 +4,7 @@ local L = AceLocale:NewLocale("ElvUI", "zhTW")
 if not L then return end
 
 -- *_DESC locales
-L["ACTIONBARS_DESC"] = "Modify the actionbar settings."
+L["ACTIONBARS_DESC"] = "修改動作條設定."
 L["AURAS_DESC"] = "小地圖旁的光環圖示設定."
 L["BAGS_DESC"] = "調整 ElvUI 背包設定."
 L["CHAT_DESC"] = "對話框架設定."
@@ -16,7 +16,7 @@ L["PANEL_DESC"] = "調整左、右對話框的尺寸，此設定將會影響對�
 L["SKINS_DESC"] = "調整外觀設定."
 L["TOGGLESKIN_DESC"] = "啟用/停用此外觀."
 L["TOOLTIP_DESC"] = "浮動提示資訊設定選項."
-L["UNITFRAME_DESC"] = "Modify the unitframe settings."
+L["UNITFRAME_DESC"] = "修改單位框架設定."
 L["SEARCH_SYNTAX_DESC"] = [=[因為新增加的 LibItemSearch，你現在可以使用更進階的物品搜尋. 下面是一份搜尋語法的文件. 想要看更完整的解釋請到: https://github.com/Jaliborc/LibItemSearch-1.2/wiki/Search-Syntax.
 
 條件搜尋:
@@ -247,9 +247,9 @@ L["Class Color Mentions"] = "使用職業上色"
 L["Custom Timestamp Color"] = "自訂時間戳記顏色"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "滑鼠懸停在超鏈接上時顯示鏈接提示框."
 L["Enable the use of separate size options for the right chat panel."] = "啟用獨立的右聊天框大小選項"
-L["Exclude Name"] = true
-L["Excluded names will not be class colored."] = true
-L["Excluded Names"] = true
+L["Exclude Name"] = "排除名字"
+L["Excluded names will not be class colored."] = "排除的名字將不會使用職業顏色"
+L["Excluded Names"] = "排除的名字"
 L["Fade Chat"] = "對話內容漸隱"
 L["Fade Tabs No Backdrop"] = "隱藏拖出的聊天框"
 L["Fade the chat text when there is no activity."] = "未出現新訊息時，隱藏對話框的文字."
@@ -267,7 +267,7 @@ L["List of words to color in chat if found in a message. If you wish to add mult
 L["Lock Positions"] = "鎖定位置"
 L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."] = "記錄對話歷史,當你重載,登錄和退出時會恢復你最後一次會話"
 L["No Alert In Combat"] = "戰鬥中不警報"
-L["Number of messages you scroll for each step."] = true
+L["Number of messages you scroll for each step."] = "每次滾動的聊天資訊數目"
 L["Number of repeat characters while in combat before the chat editbox is automatically closed."] = "當你在戰鬥中按下技能鍵時,有可能你的輸入框還處於打開狀態,這個功能可以在你按下技能鍵並且在輸入框中輸入下列個數字符串卻沒有放出技能時幫你自動關閉輸入框"
 L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."] = "對話框滾動到底部所需要的滾動時間(秒)."
 L["Panel Backdrop"] = "對話框背景"
@@ -283,7 +283,7 @@ L["Right Panel Height"] = "右面板高度"
 L["Right Panel Width"] = "右面板寬度"
 L["Select the format of timestamps for chat messages."] = true
 L["Scroll Interval"] = "滾動間隔"
-L["Scroll Messages"] = true
+L["Scroll Messages"] = "滾動資訊數目"
 L["Separate Panel Sizes"] = "分離框體大小"
 L["Set the font outline."] = "字體描邊設定."
 L["Short Channels"] = "隱藏頻道名稱"
@@ -343,7 +343,7 @@ L["ELVUI_CREDITS"] = "我想透過這個特別方式, 向那些協助測試、�
 L["Testing:"] = "測試："
 
 --DataBars
-L["Current - Percent (Remaining)"] = true
+L["Current - Percent (Remaining)"] = "當前值 - 百分百(剩餘)"
 L["Current - Remaining"] = "當前值 - 剩餘值"
 L["DataBars"] = "數據條"
 L["Hide in Combat"] = "戰鬥中隱藏"
@@ -427,7 +427,7 @@ L["Display the name of the unit on the chat bubble."] = true
 L["Emotion Icons"] = "表情圖示"
 L["Enable/Disable the loot frame."] = "啟用/停用拾取框架."
 L["Enable/Disable the loot roll frame."] = "啟用/停用擲骰框架."
-L["Enables the ElvUI Raid Control panel."] = true
+L["Enables the ElvUI Raid Control panel."] = "啟用ElvUI團隊控制台"
 L["Enhanced PVP Messages"] = "PVP增強信息"
 L["General"] = "一般設定"
 L["Hide At Max Level"] = "在最高等級時隱藏"
@@ -471,10 +471,8 @@ L["Backdrop Color"] = "背景顏色"
 L["Backdrop Faded Color"] = "背景透明色"
 L["Border Color"] = "邊框顏色"
 L["Color some texts use."] = "數值(非文字)使用的顏色"
-L["Colors"] = "顏色"
 L["CombatText Font"] = "戰鬥文字字體"
 L["Default Font"] = "預設字體"
-L["Font Size"] = "字體尺寸"
 L["Fonts"] = "字體"
 L["Main backdrop color of the UI."] = "介面背景主色"
 L["Main border color of the UI."] = "UI的主要邊框顏色."
