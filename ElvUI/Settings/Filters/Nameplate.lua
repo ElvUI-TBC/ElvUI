@@ -49,23 +49,6 @@ E["StyleFilterDefaults"] = {
 			["neutral"] = false,
 			["friendly"] = false
 		},
-		["instanceType"] = {
-			["none"] = false,
-			["party"] = false,
-			["raid"] = false,
-			["arena"] = false,
-			["pvp"] = false
-		},
-		["instanceDifficulty"] = {
-			["dungeon"] = {
-				["normal"] = false,
-				["heroic"] = false,
-			},
-			["raid"] = {
-				["normal"] = false,
-				["heroic"] = false,
-			}
-		},
 		["cooldowns"] = {
 			["names"] = {},
 			["mustHaveAll"] = false,

@@ -39,68 +39,6 @@ local function filterPriority(auraType, unit, value, remove, movehere)
 	end
 end
 
-local function UpdateInstanceDifficulty()
-	if (E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.party) then
-		E.Options.args.nameplate.args.filters.args.triggers.args.instanceType.args.dungeonDifficulty = {
-			order = 10,
-			type = "group",
-			name = DUNGEON_DIFFICULTY,
-			desc = L["Check these to only have the filter active in certain difficulties. If none are checked, it is active in all difficulties."],
-			guiInline = true,
-			get = function(info) return E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceDifficulty.dungeon[info[#info]] end,
-			set = function(info, value)
-				E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceDifficulty.dungeon[info[#info]] = value
-				UpdateInstanceDifficulty()
-				NP:ConfigureAll()
-			end,
-			args = {
-				normal = {
-					order = 1,
-					type = "toggle",
-					name = PLAYER_DIFFICULTY1
-				},
-				heroic = {
-					order = 2,
-					type = "toggle",
-					name = PLAYER_DIFFICULTY2
-				}
-			}
-		}
-	else
-		E.Options.args.nameplate.args.filters.args.triggers.args.instanceType.args.dungeonDifficulty = nil
-	end
-
-	if (E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.raid) then
-		E.Options.args.nameplate.args.filters.args.triggers.args.instanceType.args.raidDifficulty = {
-			order = 11,
-			type = "group",
-			name = L["Raid Difficulty"],
-			desc = L["Check these to only have the filter active in certain difficulties. If none are checked, it is active in all difficulties."],
-			guiInline = true,
-			get = function(info) return E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceDifficulty.raid[info[#info]] end,
-			set = function(info, value)
-				E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceDifficulty.raid[info[#info]] = value
-				UpdateInstanceDifficulty()
-				NP:ConfigureAll()
-			end,
-			args = {
-				normal = {
-					order = 1,
-					type = "toggle",
-					name = PLAYER_DIFFICULTY1
-				},
-				heroic = {
-					order = 2,
-					type = "toggle",
-					name = PLAYER_DIFFICULTY2
-				}
-			}
-		}
-	else
-		E.Options.args.nameplate.args.filters.args.triggers.args.instanceType.args.raidDifficulty = nil
-	end
-end
-
 local function UpdateStyleLists()
 	if E.global.nameplates.filters[selectedNameplateFilter] and E.global.nameplates.filters[selectedNameplateFilter].triggers and E.global.nameplates.filters[selectedNameplateFilter].triggers.names then
 		E.Options.args.nameplate.args.filters.args.triggers.args.names.args.names = {
@@ -353,7 +291,6 @@ local function UpdateFilterGroup()
 						NP:StyleFilterInitializeFilter(filter)
 						E.global.nameplates.filters[selectedNameplateFilter] = filter
 						UpdateStyleLists()
-						UpdateInstanceDifficulty()
 						NP:ConfigureAll()
 					end
 				},
@@ -1115,76 +1052,6 @@ local function UpdateFilterGroup()
 							}
 						}
 					}
-				},
-				instanceType = {
-					order = 17,
-					type = "group",
-					name = L["Instance Type"],
-					disabled = function() return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and E.db.nameplates.filters[selectedNameplateFilter].triggers and E.db.nameplates.filters[selectedNameplateFilter].triggers.enable) end,
-					args = {
-						none = {
-							order = 1,
-							type = "toggle",
-							name = NONE,
-							get = function(info)
-								return E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.none
-							end,
-							set = function(info, value)
-								E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.none = value
-								NP:ConfigureAll()
-							end
-						},
-						party = {
-							order = 2,
-							type = "toggle",
-							name = L["Dungeons"],
-							get = function(info)
-								return E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.party
-							end,
-							set = function(info, value)
-								E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.party = value
-								UpdateInstanceDifficulty()
-								NP:ConfigureAll()
-							end
-						},
-						raid = {
-							order = 3,
-							type = "toggle",
-							name = RAID,
-							get = function(info)
-								return E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.raid
-							end,
-							set = function(info, value)
-								E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.raid = value
-								UpdateInstanceDifficulty()
-								NP:ConfigureAll()
-							end
-						},
-						arena = {
-							order = 4,
-							type = "toggle",
-							name = ARENA,
-							get = function(info)
-								return E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.arena
-							end,
-							set = function(info, value)
-								E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.arena = value
-								NP:ConfigureAll()
-							end
-						},
-						pvp = {
-							order = 5,
-							type = "toggle",
-							name = BATTLEFIELDS,
-							get = function(info)
-								return E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.pvp
-							end,
-							set = function(info, value)
-								E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.pvp = value
-								NP:ConfigureAll()
-							end
-						}
-					}
 				}
 			}
 		}
@@ -1460,7 +1327,6 @@ local function UpdateFilterGroup()
 			}
 		}
 
-		UpdateInstanceDifficulty()
 		UpdateStyleLists()
 	end
 end
@@ -2238,18 +2104,8 @@ E.Options.args.nameplate = {
 							name = L["StatusBar Texture"],
 							values = AceGUIWidgetLSMlists.statusbar
 						},
-						--motionType = {
-						--	order = 3,
-						--	type = "select",
-						--	name = UNIT_NAMEPLATES_TYPES,
-						--	desc = L["Set to either stack nameplates vertically or allow them to overlap."],
-						--	values = {
-						--		["STACKED"] = UNIT_NAMEPLATES_TYPE_2,
-						--		["OVERLAP"] = UNIT_NAMEPLATES_TYPE_1
-						--	}
-						--},
 						showEnemyCombat = {
-							order = 4,
+							order = 3,
 							type = "select",
 							name = L["Enemy Combat Toggle"],
 							desc = L["Control enemy nameplates toggling on or off when in combat."],
@@ -2264,7 +2120,7 @@ E.Options.args.nameplate = {
 							end
 						},
 						showFriendlyCombat = {
-							order = 5,
+							order = 4,
 							type = "select",
 							name = L["Friendly Combat Toggle"],
 							desc = L["Control friendly nameplates toggling on or off when in combat."],
@@ -2279,7 +2135,7 @@ E.Options.args.nameplate = {
 							end
 						},
 						lowHealthThreshold = {
-							order = 6,
+							order = 5,
 							type = "range",
 							name = L["Low Health Threshold"],
 							desc = L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."],
@@ -2287,7 +2143,7 @@ E.Options.args.nameplate = {
 							min = 0, max = 1, step = 0.01
 						},
 						resetFilters = {
-							order = 7,
+							order = 6,
 							name = L["Reset Aura Filters"],
 							type = "execute",
 							func = function(info, value)
@@ -2296,19 +2152,19 @@ E.Options.args.nameplate = {
 							hidden = true
 						},
 						comboPoints = {
-							order = 8,
+							order = 7,
 							type = "toggle",
 							name = L["Combo Points"],
 							desc = L["Display combo points on nameplates."]
 						},
 						nameColoredGlow = {
-							order = 9,
+							order = 8,
 							type = "toggle",
 							name = L["Name Colored Glow"],
 							desc = L["Use the Name Color of the unit for the Name Glow."]
 						},
 						targetedNamePlate = {
-							order = 10,
+							order = 9,
 							type = "group",
 							guiInline = true,
 							name = L["Targeted Nameplate"],
@@ -2667,57 +2523,39 @@ E.Options.args.nameplate = {
 							min = 0.3, max = 2, step = 0.01,
 							isPercent = true
 						},
-						beingTankedByTank = {
-							order = 5,
-							type = "toggle",
-							name = L["Color Tanked"],
-							desc = L["Use Tanked Color when a nameplate is being effectively tanked by another tank."],
-							get = function(info) return E.db.nameplates.threat[ info[#info] ] end,
-							set = function(info, value) E.db.nameplates.threat[ info[#info] ] = value end,
-							disabled = function() return not E.db.nameplates.threat.useThreatColor end,
-							hidden = true
-						},
-						beingTankedByTankColor = {
-							order = 6,
-							type = "color",
-							name = L["Tanked Color"],
-							hasAlpha = false,
-							disabled = function() return (not E.db.nameplates.threat.beingTankedByTank or not E.db.nameplates.threat.useThreatColor) end,
-							hidden = true
-						},
 						spacer = {
-							order = 7,
+							order = 5,
 							type = "description",
 							name = ""
 						},
 						goodColor = {
-							order = 8,
+							order = 6,
 							type = "color",
 							name = L["Good Color"],
 							hasAlpha = false,
 							disabled = function() return not E.db.nameplates.threat.useThreatColor end
 						},
 						badColor = {
-							order = 9,
+							order = 7,
 							type = "color",
 							name = L["Bad Color"],
 							hasAlpha = false,
 							disabled = function() return not E.db.nameplates.threat.useThreatColor end
 						},
 						spacer = {
-							order = 10,
+							order = 8,
 							type = "description",
 							name = ""
 						},
 						goodTransition = {
-							order = 11,
+							order = 9,
 							type = "color",
 							name = L["Good Transition Color"],
 							hasAlpha = false,
 							disabled = function() return not E.db.nameplates.threat.useThreatColor end
 						},
 						badTransition = {
-							order = 12,
+							order = 10,
 							type = "color",
 							name = L["Bad Transition Color"],
 							hasAlpha = false,

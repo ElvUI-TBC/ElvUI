@@ -5,7 +5,6 @@ local LSM = LibStub("LibSharedMedia-3.0")
 local ipairs, next, pairs, rawget, rawset, select, setmetatable, tonumber, type, unpack = ipairs, next, pairs, rawget, rawset, select, setmetatable, tonumber, type, unpack
 local tinsert, tsort, twipe = table.insert, table.sort, table.wipe
 
-local GetInstanceInfo = GetInstanceInfo
 local GetSpellCooldown = GetSpellCooldown
 local GetSpellInfo = GetSpellInfo
 local GetTime = GetTime
@@ -227,7 +226,6 @@ end
 
 function mod:StyleFilterConditionCheck(frame, filter, trigger, failed)
 	local condition, name, inCombat, reaction, spell
-	local _, instanceType, instanceDifficulty
 	local level, myLevel, curLevel, minLevel, maxLevel, matchMyLevel
 	local power, maxPower, percPower, underPowerThreshold, overPowerThreshold
 	local health, maxHealth, percHealth, underHealthThreshold, overHealthThreshold
@@ -323,42 +321,6 @@ function mod:StyleFilterConditionCheck(frame, filter, trigger, failed)
 			condition = true
 		end
 		failed = not condition
-	end
-
-	--Try to match by instance conditions
-	if not failed and (trigger.instanceType.none or trigger.instanceType.scenario or trigger.instanceType.party or trigger.instanceType.raid or trigger.instanceType.arena or trigger.instanceType.pvp) then
-		condition = false
-		_, instanceType, instanceDifficulty = GetInstanceInfo()
-		if instanceType
-		and ((trigger.instanceType.none		and instanceType == "none")
-		or (trigger.instanceType.party		and instanceType == "party")
-		or (trigger.instanceType.raid		and instanceType == "raid")
-		or (trigger.instanceType.arena		and instanceType == "arena")
-		or (trigger.instanceType.pvp		and instanceType == "pvp")) then
-			condition = true
-		end
-		failed = not condition
-	end
-
-	--Try to match by instance difficulty
-	if not failed and (trigger.instanceType.party or trigger.instanceType.raid) then
-		if trigger.instanceType.party and instanceType == "party" and (trigger.instanceDifficulty.dungeon.normal or trigger.instanceDifficulty.dungeon.heroic) then
-			condition = false
-			if ((trigger.instanceDifficulty.dungeon.normal		and instanceDifficulty == 1)
-			or (trigger.instanceDifficulty.dungeon.heroic		and instanceDifficulty == 2)) then
-				condition = true
-			end
-			failed = not condition
-		end
-
-		if trigger.instanceType.raid and instanceType == "raid" and (trigger.instanceDifficulty.raid.normal or trigger.instanceDifficulty.raid.heroic) then
-			condition = false
-			if ((trigger.instanceDifficulty.raid.normal		and instanceDifficulty == 14)
-			or (trigger.instanceDifficulty.raid.heroic		and instanceDifficulty == 15)) then
-				condition = true
-			end
-			failed = not condition
-		end
 	end
 
 	--Try to match by level conditions
