@@ -590,13 +590,8 @@ local function UpdateFilterGroup()
 						desc = L["At what point should the text be displayed. Set to -1 to disable."],
 						min = -1, max = 60, step = 1
 					},
-					anyUnit = {
-						order = 11,
-						type = "toggle",
-						name = L["Show Aura From Other Players"]
-					},
 					onlyShowMissing = {
-						order = 12,
+						order = 11,
 						type = "toggle",
 						name = L["Show When Not Active"]
 					}
@@ -842,13 +837,8 @@ local function UpdateFilterGroup()
 						desc = L["At what point should the text be displayed. Set to -1 to disable."],
 						min = -1, max = 60, step = 1
 					},
-					anyUnit = {
-						order = 11,
-						type = "toggle",
-						name = L["Show Aura From Other Players"]
-					},
 					onlyShowMissing = {
-						order = 12,
+						order = 11,
 						type = "toggle",
 						name = L["Show When Not Active"]
 					}
@@ -1093,13 +1083,8 @@ local function UpdateFilterGroup()
 						desc = L["At what point should the text be displayed. Set to -1 to disable."],
 						min = -1, max = 60, step = 1
 					},
-					anyUnit = {
-						order = 11,
-						type = "toggle",
-						name = L["Show Aura From Other Players"]
-					},
 					onlyShowMissing = {
-						order = 12,
+						order = 11,
 						type = "toggle",
 						name = L["Show When Not Active"]
 					}
