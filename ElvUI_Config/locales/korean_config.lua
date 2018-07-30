@@ -920,6 +920,7 @@ L["Display tick marks on the castbar for channelled spells. This will adjust aut
 L["Don't display any auras found on the 'Blacklist' filter."] = "차단 목록에 등록되어 있는 효과들을 표시하지 않게 합니다."
 L["Don't display auras that have no duration."] = "지속시간이 무한인 효과들을 표시하지 않게 합니다.|n|n즉, 유효시간이 있는 효과들만 보이게 됩니다."
 L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."] = "이 값보다 긴 시간(초단위)의 효과들을 표시하지 않습니다.|n|n0으로 설정하면 이 기능을 사용하지 않습니다."
+L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."] = "이 값보다 짧은 시간(초단위)의 효과들을 표시하지 않습니다.|n|n0으로 설정하면 이 기능을 사용하지 않습니다."
 L["Down"] = "아래로"
 L["Dungeon & Raid Filter"] = "던전 & 레이드 필터"
 L["Duration Reverse"] = "총 지속시간이 짧은 순"
@@ -1003,6 +1004,7 @@ L["Method to sort by."] = "정렬 방법"
 L["Middle Click - Set Focus"] = "휠클릭으로 주시 설정"
 L["Middle clicking the unit frame will cause your focus to match the unit."] = "마우스 휠로 이 프레임을 클릭하면 유닛을 주시 대상으로 잡습니다."
 L["Middle"] = "중간"
+L["Minimum Duration"] = "최소 지속시간"
 L["Mouseover Glow"] = true
 L["Mouseover Highlight"] = true
 L["Mouseover"] = "마우스오버 시 표시"

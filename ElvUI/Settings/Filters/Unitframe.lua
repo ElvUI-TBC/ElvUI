@@ -487,8 +487,8 @@ G.unitframe.ChannelTicks = {
 }
 
 G.unitframe.AuraBarColors = {
-	[SpellName(2825)] = {r = 250/255, g = 146/255, b = 27/255},	-- Bloodlust
-	[SpellName(32182)] = {r = 250/255, g = 146/255, b = 27/255}	-- Heroism
+	[SpellName(2825)] = {r = 0.98, g = 0.57, b = 0.10},	-- Bloodlust
+	[SpellName(32182)] = {r = 0.98, g = 0.57, b = 0.10}	-- Heroism
 }
 
 G.unitframe.InvalidSpells = {

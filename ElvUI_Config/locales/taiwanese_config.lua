@@ -872,6 +872,7 @@ L["Display tick marks on the castbar for channelled spells. This will adjust aut
 L["Don't display any auras found on the 'Blacklist' filter."] = "不顯示任何'黑名單'過濾器中的光環."
 L["Don't display auras that have no duration."] = "不限時沒有持續時間的光環."
 L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."] = "不顯示高於此時間(單位:秒)的光環.設置為0以禁用"
+L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."] = true
 L["Down"] = "下"
 L["Dungeon & Raid Filter"] = true
 L["Duration Reverse"] = "持續時間反轉"
@@ -955,6 +956,7 @@ L["Method to sort by."] = "排序方式"
 L["Middle Click - Set Focus"] = "滑鼠中鍵 - 設置焦點"
 L["Middle clicking the unit frame will cause your focus to match the unit."] = "滑鼠中鍵點擊單位框架設置焦點."
 L["Middle"] = "中間"
+L["Minimum Duration"] = "最低持續時間"
 L["Mouseover Glow"] = true
 L["Mouseover Highlight"] = true
 L["Mouseover"] = "滑鼠滑過顯示"

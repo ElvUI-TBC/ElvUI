@@ -193,12 +193,20 @@ function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration)
 		anotherFilterExists = true;
 	end
 
-	if(db.maxDuration > 0) then
-		if(duration and (duration > db.maxDuration)) then
-			returnValue = false;
+	if db.minDuration > 0 then
+		if duration and (duration < db.minDuration) then
+			returnValue = false
 		end
 
-		anotherFilterExists = true;
+		anotherFilterExists = true
+	end
+
+	if db.maxDuration > 0 then
+		if duration and (duration > db.maxDuration) then
+			returnValue = false
+		end
+
+		anotherFilterExists = true
 	end
 
 	if(UF:CheckFilter(db.useBlacklist, isFriend)) then

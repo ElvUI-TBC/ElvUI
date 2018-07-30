@@ -856,6 +856,7 @@ L["Display tick marks on the castbar for channelled spells. This will adjust aut
 L["Don't display any auras found on the 'Blacklist' filter."] = true
 L["Don't display auras that have no duration."] = true
 L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."] = true
+L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."] = true
 L["Down"] = true
 L["Dungeon & Raid Filter"] = true
 L["Duration Reverse"] = true
@@ -939,6 +940,7 @@ L["Method to sort by."] = true
 L["Middle Click - Set Focus"] = true
 L["Middle clicking the unit frame will cause your focus to match the unit."] = true
 L["Middle"] = true
+L["Minimum Duration"] = true
 L["Mouseover Glow"] = true
 L["Mouseover Highlight"] = true
 L["Mouseover"] = true
