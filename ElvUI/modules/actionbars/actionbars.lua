@@ -112,6 +112,7 @@ function AB:PositionAndSizeBar(barName)
 	bar:Height(barHeight)
 
 	bar.mouseover = self.db[barName].mouseover
+	bar:EnableMouse(true)
 
 	local horizontalGrowth, verticalGrowth
 	if point == "TOPLEFT" or point == "TOPRIGHT" then
@@ -144,6 +145,7 @@ function AB:PositionAndSizeBar(barName)
 		button = bar.buttons[i]
 		lastButton = bar.buttons[i-1]
 		lastColumnButton = bar.buttons[i-buttonsPerRow]
+		button:SetParent(bar)
 		button:ClearAllPoints()
 		button:Size(size)
 
@@ -231,6 +233,7 @@ function AB:CreateBar(id)
 	bar.id = id
 	bar:CreateBackdrop("Default")
 	bar:SetFrameStrata("LOW")
+
 	local offset = E.Spacing
 	bar.backdrop:SetPoint("TOPLEFT", bar, "TOPLEFT", offset, -offset)
 	bar.backdrop:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", -offset, offset)
