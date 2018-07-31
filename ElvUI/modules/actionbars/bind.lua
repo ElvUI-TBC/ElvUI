@@ -56,8 +56,10 @@ end
 function AB:BindListener(key)
 	AB.bindingsChanged = true
 	if key == "ESCAPE" or key == "RightButton" then
-		for i = 1, #bind.button.bindings do
-			SetBinding(bind.button.bindings[i])
+		if bind.button.bindings then
+			for i = 1, #bind.button.bindings do
+				SetBinding(bind.button.bindings[i])
+			end
 		end
 		E:Print(format(L["All keybindings cleared for |cff00ff00%s|r."], bind.button.name))
 		self:BindUpdate(bind.button, bind.spellmacro)
@@ -210,16 +212,18 @@ function AB:RegisterButton(b, override)
 	local shapeshift = ShapeshiftButton1:GetScript("OnClick")
 	local pet = PetActionButton1:GetScript("OnClick")
 	local button = SecureActionButton_OnClick
+
 	if b.IsProtected and b.IsObjectType and b.GetScript and b:IsObjectType("CheckButton") and b:IsProtected() then
 		local script = b:GetScript("OnClick")
-		if override then
-			b:HookScript("OnEnter", function(b) self:BindUpdate(b) end)
-		elseif script == pet then
-			b:HookScript("OnEnter", function(b) self:BindUpdate(b, "PET") end)
-		elseif script == shapeshift then
-			b:HookScript("OnEnter", function(b) self:BindUpdate(b, "SHAPESHIFT") end)
-		elseif script == button then
-			b:HookScript("OnEnter", function(b) self:BindUpdate(b) end)
+		local buttonName = b:GetName()
+
+		if find(buttonName, "ActionButton") or find(buttonName, "BonusActionButton") or script == button or override then
+			b:HookScript2("OnEnter", function() self:BindUpdate(b) end)
+			if script == shapeshift then
+				b:HookScript2("OnEnter", function() self:BindUpdate(b, "SHAPESHIFT") end)
+			elseif script == pet then
+				b:HookScript2("OnEnter", function() self:BindUpdate(b, "PET") end)
+			end
 		end
 	end
 end
