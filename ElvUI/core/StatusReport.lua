@@ -52,7 +52,6 @@ local function GetDisplayMode()
 end
 
 local EnglishClassName = {
-	["DEATHKNIGHT"] = "Death Knight",
 	["DRUID"] = "Druid",
 	["HUNTER"] = "Hunter",
 	["MAGE"] = "Mage",

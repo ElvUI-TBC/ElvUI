@@ -2007,7 +2007,8 @@ E.Options.args.nameplate = {
 			name = L["Threat"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "threatGroup") end,
-			disabled = function() return not E.NamePlates end
+			--disabled = function() return not E.NamePlates end
+			disabled = true
 		},
 		spacer2 = {
 			order = 8,
@@ -2492,6 +2493,7 @@ E.Options.args.nameplate = {
 						local t = E.db.nameplates.threat[ info[#info] ]
 						t.r, t.g, t.b = r, g, b
 					end,
+					hidden = true,
 					args = {
 						header = {
 							order = 1,
