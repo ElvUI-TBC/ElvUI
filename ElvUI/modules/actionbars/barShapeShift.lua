@@ -305,6 +305,7 @@ end
 function AB:CreateBarShapeShift()
 	bar:CreateBackdrop("Default")
 	bar.backdrop:SetAllPoints()
+	bar:EnableMouse(true)
 	bar:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -4)
 	bar.buttons = {}
 

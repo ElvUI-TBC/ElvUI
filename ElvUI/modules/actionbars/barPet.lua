@@ -243,6 +243,7 @@ end
 function AB:CreateBarPet()
 	bar:CreateBackdrop("Default")
 	bar.backdrop:SetAllPoints()
+	bar:EnableMouse(true)
 	if self.db["bar4"].enabled then
 		bar:Point("RIGHT", ElvUI_Bar4, "LEFT", -4, 0)
 	else
