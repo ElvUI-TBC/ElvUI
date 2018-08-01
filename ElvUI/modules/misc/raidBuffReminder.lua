@@ -17,81 +17,91 @@ local BUFF_MAX_DISPLAY = BUFF_MAX_DISPLAY
 E.ReminderBuffs = RB
 
 RB.Spell1Buffs = {
-	28521, -- Flask of Blinding Light
-	28518, -- Flask of Fortification
-	28519, -- Flask of Mighty Restoration
-	28540, -- Flask of Pure Death
-	28520, -- Flask of Relentless Assault
-	42735, -- Flask of Chromatic Wonder
-	46839, -- Shattrath Flask of Blinding Light
-	41607, -- Shattrath Flask of Fortification
-	41605, -- Shattrath Flask of Mighty Restoration
-	46837, -- Shattrath Flask of Pure Death
-	41608, -- Shattrath Flask of Relentless Assault
-	41611, -- Shattrath Flask of Supreme Power
-	17629, -- Flask of Chromatic Resistance
-	17628, -- Flask of Supreme Power
-	17626, -- Flask of the Titans
-	17627, -- Flask of Distilled Wisdom
+	28521,	-- Flask of Blinding Light
+	28518,	-- Flask of Fortification
+	28519,	-- Flask of Mighty Restoration
+	28540,	-- Flask of Pure Death
+	28520,	-- Flask of Relentless Assault
+	42735,	-- Flask of Chromatic Wonder
+	46839,	-- Shattrath Flask of Blinding Light
+	41607,	-- Shattrath Flask of Fortification
+	41605,	-- Shattrath Flask of Mighty Restoration
+	46837,	-- Shattrath Flask of Pure Death
+	41608,	-- Shattrath Flask of Relentless Assault
+	41611,	-- Shattrath Flask of Supreme Power
+	17629,	-- Flask of Chromatic Resistance
+	17628,	-- Flask of Supreme Power
+	17626,	-- Flask of the Titans
+	17627,	-- Flask of Distilled Wisdom
 
-	33721, -- Adept's Elixir
-	28509, -- Elixir of Major Mageblood
-	45373, -- Bloodberry Elixir
-	28502, -- Elixir of Major Defense
-	39627, -- Elixir of Draenic Wisdom
-	33726, -- Elixir of Mastery
-	28491, -- Elixir of Healing Power
-	39625, -- Elixir of Major Fortitude
-	28497, -- Elixir of Mighty Agility
-	11406, -- Elixir of Demonslaying
+	33721,	-- Adept's Elixir
+	28509,	-- Elixir of Major Mageblood
+	45373,	-- Bloodberry Elixir
+	28502,	-- Elixir of Major Defense
+	39627,	-- Elixir of Draenic Wisdom
+	33726,	-- Elixir of Mastery
+	28491,	-- Elixir of Healing Power
+	39625,	-- Elixir of Major Fortitude
+	28497,	-- Elixir of Mighty Agility
+	11406,	-- Elixir of Demonslaying
 }
 
 RB.Spell2Buffs = {
-	43706, -- +23 Spellcrit (Skullfish Soup Buff)
-	33257, -- +30 Stamina
-	33256, -- +20 Strength
-	33259, -- +40 AP
-	33261, -- +20 Agility
-	33263, -- +23 Spelldmg
-	33265, -- +8 MP5
-	33268, -- +44 Addheal
-	35272, -- +20 Stamina
-	33254, -- +20 Stamina
-	43764, -- +20 Meleehit
-	45619, -- +8 Spellresist
+	43706,	-- 23 Spellcrit (Skullfish Soup Buff)
+	33257,	-- 30 Stamina
+	33256,	-- 20 Strength
+	33259,	-- 40 AP
+	33261,	-- 20 Agility
+	33263,	-- 23 Spelldmg
+	33265,	-- 8 MP5
+	33268,	-- 44 Addheal
+	35272,	-- 20 Stamina
+	33254,	-- 20 Stamina
+	43764,	-- 20 Meleehit
+	45619,	-- 8 Spellresist
 }
 
 RB.Spell3Buffs = {
-	26991, -- Gift of the Wild
-	26990, -- Mark of the Wild
+	26991,	-- Gift of the Wild
+	26990,	-- Mark of the Wild
 }
 
 RB.Spell4Buffs = {
-	25898, -- Greater Blessing of Kings
-	20217, -- Blessing of Kings
+	25898,	-- Greater Blessing of Kings
+	20217,	-- Blessing of Kings
 }
 
 RB.CasterSpell5Buffs = {
-	27127, -- Arcane Brilliance
-	27126, -- Arcane Intellect
-}
-
-RB.MeleeSpell5Buffs = {
-	25392, -- Prayer of Fortitude
-	25389, -- Power Word: Fortitude
-	469, -- Commanding Shout
+	27127,	-- Arcane Brilliance
+	27126,	-- Arcane Intellect
 }
 
 RB.CasterSpell6Buffs = {
-	27143, -- Greater Blessing of Wisdom
-	27142, -- Blessing of Wisdom
-	25569, -- Mana Spring
+	27143,	-- Greater Blessing of Wisdom
+	27142,	-- Blessing of Wisdom
+	25569,	-- Mana Spring
+}
+
+RB.MeleeSpell5Buffs = {
+	25392,	-- Prayer of Fortitude
+	25389,	-- Power Word: Fortitude
+	469,	-- Commanding Shout
 }
 
 RB.MeleeSpell6Buffs = {
-	27141, -- Greater Blessing of Might
-	27140, -- Blessing of Might
-	2048, -- Battle Shout
+	27141,	-- Greater Blessing of Might
+	27140,	-- Blessing of Might
+	2048,	-- Battle Shout
+}
+
+RB.DamagerSpell7Buffs = {
+	27144,	-- Blessing of Salvation
+	25895,	-- Greater Blessing of Salvation
+}
+
+RB.TankSpell7Buffs = {
+	27168,	-- Blessing of Sanctuary
+	27169,	-- Greater Blessing of Sanctuary
 }
 
 function RB:CheckFilterForActiveBuff(filter)
@@ -147,7 +157,7 @@ function RB:Button_OnUpdate(elapsed)
 end
 
 function RB:Update()
-	for i = 1, 6 do
+	for i = 1, 7 do
 		local button = self.frame[i]
 		local hasBuff, index, texture, untilCancelled, timeLeft, buffName, spellID = self:CheckFilterForActiveBuff(self["Spell"..i.."Buffs"])
 
@@ -212,14 +222,14 @@ function RB:UpdateSettings(isCallback)
 
 	self:UpdateDefaultIcons()
 
-	for i = 1, 6 do
+	for i = 1, 7 do
 		local button = self.frame[i]
 		button:SetSize(E.RBRWidth)
 
 		button:ClearAllPoints()
 		if i == 1 then
 			button:Point("TOP", ElvUI_ReminderBuffs, "TOP", 0, 0)
-		elseif i == 6 then
+		elseif i == 7 then
 			button:Point("BOTTOM", ElvUI_ReminderBuffs, "BOTTOM", 0, 0)
 		else
 			button:Point("TOP", frame[i - 1], "BOTTOM", 0, E.Border - E.Spacing*3)
@@ -233,11 +243,7 @@ function RB:UpdateSettings(isCallback)
 
 		button.timer:FontTemplate(font, E.db.general.reminder.fontSize, E.db.general.reminder.fontOutline)
 		button.cd:SetReverse(E.db.general.reminder.reverse)
-		--if E.db.general.reminder.reverse then
-		--	button.timer:SetParent(button)
-		--else
-			button.timer:SetParent(button.cd)
-		--end
+		button.timer:SetParent(button.cd)
 	end
 
 	if not isCallback then
@@ -278,7 +284,8 @@ function RB:UpdateDefaultIcons()
 		[3] = "Interface\\Icons\\Spell_Nature_Regeneration",
 		[4] = "Interface\\Icons\\Spell_Magic_GreaterBlessingofKings",
 		[5] = (E.Role == "Caster" and "Interface\\Icons\\Spell_Holy_MagicalSentry") or "Interface\\Icons\\Spell_Holy_WordFortitude",
-		[6] = (E.Role == "Caster" and "Interface\\Icons\\Spell_Holy_GreaterBlessingofWisdom") or "Interface\\Icons\\Ability_Warrior_BattleShout"
+		[6] = (E.Role == "Caster" and "Interface\\Icons\\Spell_Holy_GreaterBlessingofWisdom") or "Interface\\Icons\\Ability_Warrior_BattleShout",
+		[7] = (E.Role == "Tank" and "Interface\\Icons\\Spell_Holy_GreaterBlessingofSanctuary") or "Interface\\Icons\\Spell_Holy_GreaterBlessingofSalvation"
 	}
 
 	if E.Role == "Caster" then
@@ -287,6 +294,12 @@ function RB:UpdateDefaultIcons()
 	else
 		self.Spell5Buffs = self.MeleeSpell5Buffs
 		self.Spell6Buffs = self.MeleeSpell6Buffs
+	end
+
+	if E.Role == "Tank" then
+		self.Spell7Buffs = self.TankSpell7Buffs
+	else
+		self.Spell7Buffs = self.DamagerSpell7Buffs
 	end
 end
 
@@ -318,7 +331,7 @@ function RB:Initialize()
 
 	self:UpdatePosition()
 
-	for i = 1, 6 do
+	for i = 1, 7 do
 		frame[i] = self:CreateButton()
 	end
 

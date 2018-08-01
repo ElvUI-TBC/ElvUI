@@ -141,7 +141,7 @@ function M:UpdateSettings()
 	E.MinimapHeight = E.MinimapSize
 
 	if E.db.general.reminder.enable then
-		E.RBRWidth = (E.MinimapHeight + ((E.Border - E.Spacing*3) * 5) + E.Border*2) / 6
+		E.RBRWidth = (E.MinimapHeight + ((E.Border - E.Spacing*3) * 5) + E.Border*3) / 7
 	else
 		E.RBRWidth = 0
 	end
