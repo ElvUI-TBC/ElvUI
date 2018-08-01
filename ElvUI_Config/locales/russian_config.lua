@@ -427,7 +427,6 @@ L["Display the name of the unit on the chat bubble."] = "Отображать и
 L["Emotion Icons"] = "Иконки эмоций"
 L["Enable/Disable the loot frame."] = "Включить/выключить окно добычи ElvUI."
 L["Enable/Disable the loot roll frame."] = "Включить/выключить фрейм распределения добычи ElvUI."
-L["Enables the ElvUI Raid Control panel."] = "Включает панель управления рейдом ElvUI."
 L["Enhanced PVP Messages"] = "Улущенные PvP сообщения"
 L["General"] = "Общие"
 L["Hide At Max Level"] = "Прятать на максимальном уровне"

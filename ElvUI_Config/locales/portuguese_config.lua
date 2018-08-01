@@ -427,7 +427,6 @@ L["Display the name of the unit on the chat bubble."] = true
 L["Emotion Icons"] = "Ícones Emotivos"
 L["Enable/Disable the loot frame."] = "Ativar/Desativar painel de saques."
 L["Enable/Disable the loot roll frame."] = "Ativar/Desativar painel de disputa de saques"
-L["Enables the ElvUI Raid Control panel."] = true
 L["Enhanced PVP Messages"] = true
 L["General"] = "Geral"
 L["Hide At Max Level"] = true

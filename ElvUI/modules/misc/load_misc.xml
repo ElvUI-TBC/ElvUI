@@ -8,6 +8,5 @@
 	<Script file="raidBuffReminder.lua"/>
 	<Script file="threat.lua"/>
 	<Script file="totemBar.lua"/>
-	<Script file="raidUtility.lua"/>
 	<Script file="afk.lua"/>
 </Ui>

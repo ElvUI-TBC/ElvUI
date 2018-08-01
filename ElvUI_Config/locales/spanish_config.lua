@@ -427,7 +427,6 @@ L["Display the name of the unit on the chat bubble."] = true
 L["Emotion Icons"] = "Emoticonos"
 L["Enable/Disable the loot frame."] = "Activa/Desactiva el marco de botín."
 L["Enable/Disable the loot roll frame."] = "Activa/Desactiva el marco de sorteo de botín."
-L["Enables the ElvUI Raid Control panel."] = true
 L["Enhanced PVP Messages"] = true
 L["General"] = "General"
 L["Hide At Max Level"] = true

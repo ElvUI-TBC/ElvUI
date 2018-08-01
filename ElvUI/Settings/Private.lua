@@ -22,8 +22,7 @@ V["general"] = {
 		["zoomLevel"] = 0,
 	},
 	["classCache"] = true,
-	["classColorMentionsSpeech"] = true,
-	["raidUtility"] = false
+	["classColorMentionsSpeech"] = true
 }
 
 V["bags"] = {

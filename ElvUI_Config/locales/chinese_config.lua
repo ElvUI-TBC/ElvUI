@@ -425,7 +425,6 @@ L["Display the name of the unit on the chat bubble."] = "在聊天气泡上显�
 L["Emotion Icons"] = "表情图标"
 L["Enable/Disable the loot frame."] = "开/关物品掉落框架"
 L["Enable/Disable the loot roll frame."] = "开/关掷骰子框架"
-L["Enables the ElvUI Raid Control panel."] = "启用ElvUI团队控制面板"
 L["Enhanced PVP Messages"] = "PVP增强信息"
 L["General"] = "一般"
 L["Hide At Max Level"] = "在最高等级时隐藏"

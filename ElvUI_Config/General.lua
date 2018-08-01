@@ -161,21 +161,18 @@ E.Options.args.general = {
 					name = L["Enhanced PVP Messages"],
 					desc = L["Display battleground messages in the middle of the screen."],
 				},
-				raidUtility = {
-					order = 18,
-					type = "toggle",
-					name = RAID_CONTROL,
-					desc = L["Enables the ElvUI Raid Control panel."],
-					get = function(info) return E.private.general.raidUtility end,
-					set = function(info, value) E.private.general.raidUtility = value; E:StaticPopup_Show("PRIVATE_RL") end
-				},
 				autoScale = {
-					order = 19,
+					order = 18,
 					name = L["Auto Scale"],
 					desc = L["Automatically scale the User Interface based on your screen resolution"],
 					type = "toggle",
 					get = function(info) return E.global.general.autoScale; end,
 					set = function(info, value) E.global.general[ info[#info] ] = value; E:StaticPopup_Show("GLOBAL_RL") end
+				},
+				spacer = {
+					order = 19,
+					type = "description",
+					name = "",
 				},
 				minUiScale = {
 					order = 20,

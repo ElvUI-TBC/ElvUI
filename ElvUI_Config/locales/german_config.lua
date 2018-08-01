@@ -428,7 +428,6 @@ L["Display the name of the unit on the chat bubble."] = "Zeigt den Einheitenname
 L["Emotion Icons"] = "Emoticons"
 L["Enable/Disable the loot frame."] = "Aktiviere/Deaktiviere das Beutefenster."
 L["Enable/Disable the loot roll frame."] = "Aktiviere/Deaktiviere das Beutewürfelfenster."
-L["Enables the ElvUI Raid Control panel."] = "Aktiviert das ElvUI Raid Control Panel."
 L["Enhanced PVP Messages"] = "Erweiterte PvP Nachrichten"
 L["General"] = "Allgemein"
 L["Hide At Max Level"] = "Auf max. Level vestecken"
