@@ -436,7 +436,6 @@ L["Hides the red error text at the top of the screen while in combat."] = "Den r
 L["Log Taints"] = "Log Fehler"
 L["Login Message"] = "Login Nachricht"
 L["Loot Roll"] = "Würfelfenster"
-L["Loot"] = "Beute"
 L["Lowest Allowed UI Scale"] = "Niedrigste erlaubte UI Skalierung"
 L["Multi-Monitor Support"] = "Multi-Monitor-Unterstützung"
 L["Name Font"] = "Schriftart von Spielernamen"

@@ -435,7 +435,6 @@ L["Hides the red error text at the top of the screen while in combat."] = "Escon
 L["Log Taints"] = "Capturar Problemas"
 L["Login Message"] = "Mensagem de Entrada"
 L["Loot Roll"] = "Disputa de Saques"
-L["Loot"] = "Saque"
 L["Lowest Allowed UI Scale"] = true
 L["Multi-Monitor Support"] = true
 L["Name Font"] = "Fonte de Nomes"

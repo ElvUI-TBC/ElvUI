@@ -435,7 +435,6 @@ L["Hides the red error text at the top of the screen while in combat."] = "戰�
 L["Log Taints"] = "錯誤記錄"
 L["Login Message"] = "登入資訊"
 L["Loot Roll"] = "擲骰"
-L["Loot"] = "拾取"
 L["Lowest Allowed UI Scale"] = "最低允許UI縮放"
 L["Multi-Monitor Support"] = "多顯示器支持"
 L["Name Font"] = "名稱字體"

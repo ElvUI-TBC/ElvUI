@@ -419,7 +419,6 @@ L["Hides the red error text at the top of the screen while in combat."] = true
 L["Log Taints"] = true
 L["Login Message"] = true
 L["Loot Roll"] = true
-L["Loot"] = true
 L["Lowest Allowed UI Scale"] = true
 L["Multi-Monitor Support"] = true
 L["Name Font"] = true

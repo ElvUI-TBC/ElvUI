@@ -98,7 +98,7 @@ E.Options.args.general = {
 				loot = {
 					order = 9,
 					type = "toggle",
-					name = L["Loot"],
+					name = LOOT,
 					desc = L["Enable/Disable the loot frame."],
 					get = function(info) return E.private.general.loot; end,
 					set = function(info, value) E.private.general.loot = value; E:StaticPopup_Show("PRIVATE_RL"); end

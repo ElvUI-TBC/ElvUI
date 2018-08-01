@@ -435,7 +435,6 @@ L["Hides the red error text at the top of the screen while in combat."] = "Cache
 L["Log Taints"] = "Journal des corruptions"
 L["Login Message"] = "Message de connexion"
 L["Loot Roll"] = "Cadre de butin"
-L["Loot"] = "Butin"
 L["Lowest Allowed UI Scale"] = "Zoom de l'interface minimum"
 L["Multi-Monitor Support"] = "Support Multi-Moniteur"
 L["Name Font"] = "Nom de la police"

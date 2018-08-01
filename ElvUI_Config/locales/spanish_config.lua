@@ -435,7 +435,6 @@ L["Hides the red error text at the top of the screen while in combat."] = "Ocult
 L["Log Taints"] = "Registro Exhaustivo"
 L["Login Message"] = "Mensaje de inicio"
 L["Loot Roll"] = "Marco de Botín"
-L["Loot"] = "Botín"
 L["Lowest Allowed UI Scale"] = true
 L["Multi-Monitor Support"] = true
 L["Name Font"] = "Fuente para Nombres"

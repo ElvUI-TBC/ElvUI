@@ -435,7 +435,6 @@ L["Hides the red error text at the top of the screen while in combat."] = "Ск�
 L["Log Taints"] = "Отслеживать недочеты"
 L["Login Message"] = "Сообщение загрузки"
 L["Loot Roll"] = "Раздел добычи"
-L["Loot"] = "Добыча"
 L["Lowest Allowed UI Scale"] = "Наименьший возможный масштаб"
 L["Multi-Monitor Support"] = "Поддержка нескольких мониторов"
 L["Name Font"] = "Шрифт имени"

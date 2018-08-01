@@ -483,7 +483,6 @@ L["Hides the red error text at the top of the screen while in combat."] = "화�
 L["Log Taints"] = "Taint 에러 표시"
 L["Login Message"] = "로그인 메세지 표시"
 L["Loot Roll"] = "주사위 굴림창"
-L["Loot"] = "전리품 확인창"
 L["Lowest Allowed UI Scale"] = "최소 허용 UI 크기"
 L["Multi-Monitor Support"] = "다중모니터 지원"
 L["Name Font"] = "캐릭터 이름 글꼴"
