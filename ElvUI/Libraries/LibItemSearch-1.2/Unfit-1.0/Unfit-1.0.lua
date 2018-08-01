@@ -30,12 +30,7 @@ do
 	local _, Class = UnitClass('player')
 	local Unusable
 
-	if Class == 'DEATHKNIGHT' then
-		Unusable = {
-			{3, 4, 10, 11, 13, 14, 15, 16},
-			{7}
-		}
-	elseif Class == 'DRUID' then
+	if Class == 'DRUID' then
 		Unusable = {
 			{1, 2, 3, 4, 8, 9, 14, 15, 16},
 			{4, 5, 7},
