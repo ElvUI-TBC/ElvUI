@@ -412,13 +412,13 @@ function LO:CreateMinimapPanels()
 
 	local f = CreateFrame("Frame", "BottomMiniPanel", Minimap.backdrop);
 	f:SetPoint("BOTTOM", Minimap, "BOTTOM");
-	f:Width(75);
+	f:Width(120)
 	f:Height(20);
 	E:GetModule("DataTexts"):RegisterPanel(f, 1, "ANCHOR_BOTTOM", 0, -10);
 
 	f = CreateFrame("Frame", "TopMiniPanel", Minimap.backdrop);
 	f:SetPoint("TOP", Minimap, "TOP");
-	f:Width(75);
+	f:Width(120)
 	f:Height(20);
 	E:GetModule("DataTexts"):RegisterPanel(f, 1, "ANCHOR_BOTTOM", 0, -10);
 

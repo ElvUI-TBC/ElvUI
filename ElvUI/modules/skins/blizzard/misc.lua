@@ -105,22 +105,24 @@ local function LoadSkin()
 
 	-- Ready Check Frame
 	ReadyCheckPortrait:Kill()
+
 	ReadyCheckFrame:StripTextures()
 	ReadyCheckFrame:SetTemplate("Transparent")
+	ReadyCheckFrame:Size(290, 85)
 
 	S:HandleButton(ReadyCheckFrameYesButton)
-	ReadyCheckFrameYesButton:SetParent(ReadyCheckFrame)
 	ReadyCheckFrameYesButton:ClearAllPoints()
-	ReadyCheckFrameYesButton:Point("TOPRIGHT", ReadyCheckFrame, "CENTER", -3, -5)
+	ReadyCheckFrameYesButton:Point("LEFT", ReadyCheckFrame, 15, -20)
+	ReadyCheckFrameYesButton:SetParent(ReadyCheckFrame)
 
 	S:HandleButton(ReadyCheckFrameNoButton)
-	ReadyCheckFrameNoButton:SetParent(ReadyCheckFrame)
 	ReadyCheckFrameNoButton:ClearAllPoints()
-	ReadyCheckFrameNoButton:Point("TOPLEFT", ReadyCheckFrame, "CENTER", 3, -5)
+	ReadyCheckFrameNoButton:Point("RIGHT", ReadyCheckFrame, -15, -20)
+	ReadyCheckFrameNoButton:SetParent(ReadyCheckFrame)
 
-	ReadyCheckFrameText:SetParent(ReadyCheckFrame)
 	ReadyCheckFrameText:ClearAllPoints()
 	ReadyCheckFrameText:SetPoint("TOP", 0, -15)
+	ReadyCheckFrameText:SetParent(ReadyCheckFrame)
 	ReadyCheckFrameText:SetTextColor(1, 1, 1)
 
 	ReadyCheckFrame:HookScript("OnShow", function(self) -- bug fix, don't show it if initiator

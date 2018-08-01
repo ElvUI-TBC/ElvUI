@@ -849,7 +849,7 @@ function B:ContructContainerFrame(name, isBank)
 
 	f.isBank = isBank
 
-	f.bottomOffset = isBank and 8 or 28
+	f.bottomOffset = 8
 	f.topOffset = isBank and 45 or 50
 	f.BagIDs = isBank and {-1, 5, 6, 7, 8, 9, 10, 11} or {0, 1, 2, 3, 4}
 	f.Bags = {}
