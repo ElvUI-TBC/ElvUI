@@ -105,6 +105,45 @@ local function LoadSkin()
 		count:SetDrawLayer("OVERLAY")
 	end
 
+	local questHonorFrames = {
+		"QuestLogHonorFrame",
+		"QuestDetailHonorFrame",
+		"QuestRewardHonorFrame"
+	}
+
+	for _, frame in pairs(questHonorFrames) do
+		local honor = _G[frame]
+		local icon = _G[frame.."Icon"]
+		local points = _G[frame.."Points"]
+		local text = _G[frame.."HonorReceiveText"]
+
+		honor:SetTemplate("Default")
+		honor:Size(143, 40)
+
+		icon.backdrop = CreateFrame("Frame", nil, honor)
+		icon.backdrop:SetFrameLevel(honor:GetFrameLevel() - 1)
+		icon.backdrop:SetTemplate("Default")
+		icon.backdrop:SetOutside(icon)
+
+		icon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PVPCurrency-Honor-"..E.myfaction)
+		icon.SetTexture = E.noop
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetDrawLayer("OVERLAY")
+		icon:Size(E.PixelMode and 38 or 32)
+		icon:ClearAllPoints()
+		icon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
+		icon:SetParent(icon.backdrop)
+
+		points:ClearAllPoints()
+		points:Point("BOTTOMRIGHT", icon, "BOTTOMRIGHT", -2, 2)
+		points:SetParent(icon.backdrop)
+		points:SetDrawLayer("OVERLAY")
+		points:FontTemplate(nil, nil, "OUTLINE")
+
+		text:Point("LEFT", honor, "LEFT", 44, 0)
+		text:SetText(HONOR_POINTS)
+	end
+
 	local function QuestQualityColors(frame, text, quality, link)
 		if link and not quality then
 			quality = select(3, GetItemInfo(link))

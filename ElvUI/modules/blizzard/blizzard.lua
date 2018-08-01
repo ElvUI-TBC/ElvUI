@@ -44,13 +44,13 @@ function B:Initialize()
 
 			if numQuestRewards > 0 then
 				honorFrame:ClearAllPoints()
-				honorFrame:SetPoint("TOPLEFT", questState.."Item"..rewardsCount, "BOTTOMLEFT", 3, 0)
+				honorFrame:SetPoint("TOPLEFT", questState.."Item"..rewardsCount, "BOTTOMLEFT", 0, -3)
 
 				QuestFrame_SetAsLastShown(questState.."HonorFrame", spacerFrame)
 			else
 				local questItemReceiveText = _G[questState.."ItemReceiveText"]
 				honorFrame:ClearAllPoints()
-				honorFrame:SetPoint("TOPLEFT", questItemReceiveText, "BOTTOMLEFT", 0, -5)
+				honorFrame:SetPoint("TOPLEFT", questItemReceiveText, "BOTTOMLEFT", -3, -6)
 
 				if numQuestSpellRewards > 0 then
 					questItemReceiveText:SetText(REWARD_ITEMS)
