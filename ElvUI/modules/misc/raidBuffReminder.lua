@@ -95,7 +95,7 @@ RB.MeleeSpell6Buffs = {
 }
 
 RB.DamagerSpell7Buffs = {
-	27144,	-- Blessing of Salvation
+	1038,	-- Blessing of Salvation
 	25895,	-- Greater Blessing of Salvation
 }
 
