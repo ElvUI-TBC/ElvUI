@@ -164,6 +164,7 @@ local tagStrings = {
 	end]],
 
 	['missinghp'] = [[function(u)
+		local LMH = LibStub("LibMobHealth-4.0")
 		local current = LMH:GetUnitMaxHP(u) - LMH:GetUnitCurrentHP(u)
 		if(current > 0) then
 			return current
@@ -188,6 +189,7 @@ local tagStrings = {
 	end]],
 
 	['perhp'] = [[function(u)
+		local LMH = LibStub("LibMobHealth-4.0")
 		local m = LMH:GetUnitMaxHP(u)
 		if(m == 0) then
 			return 0
