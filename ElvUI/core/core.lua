@@ -1050,7 +1050,7 @@ function E:GetTopCPUFunc(msg)
 		E:Print("For `/cpuusage` to work, you need to enable script profiling via: `/console scriptProfile 1` then reload. Disable after testing by setting it back to 0.")
 		return
 	end
-	local module, showall, delay, minCalls = msg:match("^([^%s]+)%s*([^%s]*)%s*([^%s]*)%s*(.*)$")
+	local module, showall, delay, minCalls = msg:match("^(%S+)%s*(%S*)%s*(%S*)%s*(.*)$")
 	local checkCore, mod = (not module or module == "") and "E"
 
 	showall = (showall == "true" and true) or false
