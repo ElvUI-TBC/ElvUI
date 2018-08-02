@@ -26,14 +26,15 @@ function A:TempEnchant_Update()
 	TemporaryEnchantFrame:ClearAllPoints()
 	TemporaryEnchantFrame:SetPoint("TOPRIGHT", AurasHolder, "TOPRIGHT", 0, 0)
 
-	TempEnchant1:ClearAllPoints()
-	TempEnchant2:ClearAllPoints()
-	TempEnchant1:Point("TOPRIGHT", AurasHolder, "TOPRIGHT")
-	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -self.db.spacing, 0)
-
 	for i = 1, 2 do
+		_G["TempEnchant"..i]:ClearAllPoints()
+		if i == 1 then
+			_G["TempEnchant"..i]:Point("TOPRIGHT", AurasHolder, "TOPRIGHT")
+		else
+			_G["TempEnchant"..i]:Point("RIGHT", TempEnchant1, "LEFT", -self.db.spacing, 0)
+		end
+
 		self:StyleBuffs("TempEnchant", i)
-		_G["TempEnchant"..i]:SetBackdropBorderColor(137/255, 0, 191/255)
 	end
 end
 
@@ -165,6 +166,28 @@ function A:Update_WeaponEnchantInfo()
 	mainhand, _, _, offhand = GetWeaponEnchantInfo()
 end
 
+function A:UpdateWeaponText(button, expiration)
+	local duration = _G[button:GetName().."Duration"]
+	local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
+
+	if E.db.auras.cooldown.override and E.TimeColors["auras"] then
+		timeColors, timeThreshold = E.TimeColors["auras"], E.db.auras.cooldown.threshold
+	end
+	if not timeThreshold then
+		timeThreshold = E.TimeThreshold
+	end
+
+	local timerValue, formatID
+	timerValue, formatID = E:GetTimeInfo(expiration, timeThreshold)
+	duration:SetFormattedText(format("%s%s|r", timeColors[formatID], E.TimeFormats[formatID][1]), timerValue)
+
+	if expiration > E.db.auras.fadeThreshold then
+		button:SetAlpha(BuffFrame.BuffAlphaValue)
+	else
+		button:SetAlpha(1.0)
+	end
+end
+
 function A:Initialize()
 	self.db = E.db.auras
 	if E.private.auras.enable ~= true then return end
@@ -177,6 +200,22 @@ function A:Initialize()
 
 	self:SecureHook("BuffButton_OnUpdate")
 	self:SecureHook("BuffButton_UpdateAnchors")
+	self:SecureHook("BuffFrame_UpdateDuration", "UpdateWeaponText")
+
+	TempEnchant1:SetScript("OnUpdate", function()
+		local hasMainHandEnchant, _, _, hasOffHandEnchant = GetWeaponEnchantInfo()
+		local mainHand = GetInventoryItemQuality("player", 16)
+		local offHand = GetInventoryItemQuality("player", 17)
+
+		if hasMainHandEnchant and hasOffHandEnchant then
+			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand))
+			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+		elseif hasMainHandEnchant and not hasOffHandEnchant then
+			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+		elseif not hasMainHandEnchant and hasOffHandEnchant then
+			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand))
+		end
+	end)
 
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "Update_WeaponEnchantInfo")
 	self:RegisterEvent("PLAYER_EVENTERING_WORLD", "Update_WeaponEnchantInfo")
