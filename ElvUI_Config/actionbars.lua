@@ -66,8 +66,14 @@ local function BuildABConfig()
 				name = L["Key Down"],
 				desc = L["Action button keybinds will respond on key down, rather than on key up"]
 			},
-			lockActionBars = {
+			useRangeColorText = {
 				order = 9,
+				type = "toggle",
+				name = L["Color Keybind Text"],
+				desc = L["Color Keybind Text when Out of Range, instead of the button."]
+			},
+			lockActionBars = {
+				order = 10,
 				type = "toggle",
 				name = LOCK_ACTIONBAR_TEXT,
 				desc = L["If you unlock actionbars then trying to move a spell might instantly cast it if you cast spells on key press instead of key release."],
@@ -79,7 +85,7 @@ local function BuildABConfig()
 				end
 			},
 			rightClickSelfCast = {
-				order = 10,
+				order = 11,
 				type = "toggle",
 				name = L["RightClick Self-Cast"],
 				set = function(info, value)
@@ -90,7 +96,7 @@ local function BuildABConfig()
 				end,
 			},
 			movementModifier = {
-				order = 11,
+				order = 12,
 				type = "select",
 				name = L["Pick Up Action Key"],
 				desc = L["The button you must hold down in order to drag an ability to another action button."],
@@ -103,7 +109,7 @@ local function BuildABConfig()
 				}
 			},
 			globalFadeAlpha = {
-				order = 12,
+				order = 13,
 				type = "range",
 				name = L["Global Fade Transparency"],
 				desc = L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."],
@@ -112,7 +118,7 @@ local function BuildABConfig()
 				set = function(info, value) E.db.actionbar[ info[#info] ] = value AB.fadeParent:SetAlpha(1-value) end
 			},
 			colorGroup = {
-				order = 13,
+				order = 14,
 				type = "group",
 				name = COLORS,
 				guiInline = true,
@@ -154,7 +160,7 @@ local function BuildABConfig()
 				}
 			},
 			fontGroup = {
-				order = 14,
+				order = 15,
 				type = "group",
 				guiInline = true,
 				name = L["Fonts"],
@@ -201,7 +207,7 @@ local function BuildABConfig()
 				}
 			},
 			lbf = {
-				order = 15,
+				order = 16,
 				type = "group",
 				guiInline = true,
 				name = L["LBF Support"],

@@ -1042,27 +1042,27 @@ local function GetOptionsTable_Portrait(updateFunc, groupName, numUnits)
 				name = L["Enable"],
 				desc = L["If you have a lot of 3D Portraits active then it will likely have a big impact on your FPS. Disable some portraits if you experience FPS issues."]
 			},
-			width = {
-				order = 3,
-				type = "range",
-				name = L["Width"],
-				min = 15, max = 150, step = 1
-			},
 			overlay = {
-				order = 4,
+				order = 3,
 				type = "toggle",
 				name = L["Overlay"],
-				desc = L["Overlay the healthbar"]
+				desc = L["The Portrait will overlay the Healthbar. This will be automatically happen if the Frame Orientation is set to Middle."]
 			},
 			style = {
 				type = "select",
 				name = L["Style"],
 				desc = L["Select the display method of the portrait."],
-				order = 5,
+				order = 4,
 				values = {
 					["2D"] = L["2D"],
 					["3D"] = L["3D"]
 				}
+			},
+			width = {
+				order = 5,
+				type = "range",
+				name = L["Width"],
+				min = 15, max = 150, step = 1
 			}
 		}
 	}
