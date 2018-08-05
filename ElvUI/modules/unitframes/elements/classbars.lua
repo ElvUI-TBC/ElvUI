@@ -194,11 +194,12 @@ function UF:Construct_DruidAltMana(frame)
 	return druidAltMana
 end
 
-function UF:PostUpdateDruidAltMana(_, min, max, event)
+function UF:PostUpdateDruidAltMana(_, cur, max, event)
 	local frame = self.origParent or self:GetParent()
 	local db = frame.db
 
-	if frame.USE_CLASSBAR and ((min ~= max or (not db.classbar.autoHide)) and (event ~= "ElementDisable")) then
+	--if frame.USE_CLASSBAR and ((cur ~= max or (not db.classbar.autoHide)) and (event ~= "ElementDisable")) then
+	if frame.USE_CLASSBAR and ((cur ~= max or (not db.classbar.autoHide)) and (UnitPowerType("player") ~= 0)) then
 		if db.classbar.additionalPowerText then
 			local powerValue = frame.Power.value
 			local powerValueText = powerValue:GetText()
@@ -223,22 +224,22 @@ function UF:PostUpdateDruidAltMana(_, min, max, event)
 				if (powerValueText and (powerValueText ~= "" and powerValueText ~= " ")) then
 					if find(powerTextPosition, "RIGHT") then
 						self.text:Point("RIGHT", powerValue, "LEFT", 3, 0)
-						self.text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))
+						self.text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(cur / max * 100))
 					elseif find(powerTextPosition, "LEFT") then
 						self.text:Point("LEFT", powerValue, "RIGHT", -3, 0)
-						self.text:SetFormattedText("|cffD7BEA5 -|r"..color.." %d%%|r", floor(min / max * 100))
+						self.text:SetFormattedText("|cffD7BEA5 -|r"..color.." %d%%|r", floor(cur / max * 100))
 					else
 						if select(4, powerValue:GetPoint()) <= 0 then
 							self.text:Point("LEFT", powerValue, "RIGHT", -3, 0)
-							self.text:SetFormattedText(" |cffD7BEA5-|r"..color.." %d%%|r", floor(min / max * 100))
+							self.text:SetFormattedText(" |cffD7BEA5-|r"..color.." %d%%|r", floor(cur / max * 100))
 						else
 							self.text:Point("RIGHT", powerValue, "LEFT", 3, 0)
-							self.text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))
+							self.text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(cur / max * 100))
 						end
 					end
 				else
 					self.text:Point(powerValue:GetPoint())
-					self.text:SetFormattedText(color.."%d%%|r", floor(min / max * 100))
+					self.text:SetFormattedText(color.."%d%%|r", floor(cur / max * 100))
 				end
 			else
 				self.text:SetParent(self)
