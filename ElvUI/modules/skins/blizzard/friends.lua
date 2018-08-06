@@ -431,14 +431,18 @@ local function LoadSkin()
 	S:HandleScrollBar(ChannelListScrollFrameScrollBar)
 
 	for i = 1, MAX_DISPLAY_CHANNEL_BUTTONS do
-		_G["ChannelButton"..i]:StripTextures()
-		S:HandleButtonHighlight(_G["ChannelButton"..i], 0.55)
+		local button = _G["ChannelButton"..i]
+		local collapsed = _G["ChannelButton"..i.."Collapsed"]
 
-		_G["ChannelButton"..i.."Collapsed"]:SetTextColor(1, 1, 1)
+		button:StripTextures()
+		S:HandleButtonHighlight(button)
+
+		collapsed:SetTextColor(1, 1, 1)
+		collapsed:FontTemplate(nil, 22)
 	end
 
 	for i = 1, 22 do
-		S:HandleButtonHighlight(_G["ChannelMemberButton"..i], 0.55)
+		S:HandleButtonHighlight(_G["ChannelMemberButton"..i])
 	end
 
 	ChannelRosterScrollFrame:StripTextures()

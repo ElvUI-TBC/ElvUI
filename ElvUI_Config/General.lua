@@ -444,20 +444,11 @@ E.Options.args.general = {
 					name = L["Cache"],
 					guiInline = true,
 					args = {
-						threatLibStatus = {
-							order = 1,
-							type = "description",
-							name = L["If cache stored in DB it will be available between game sessions but increase memory usage.\nIn other way it will be wiped on relog or UI reload."],
-						},
-						spacer = {
-							order = 2,
-							type = "description",
-							name = ""
-						},
 						classCacheStoreInDB = {
-							order = 3,
+							order = 1,
 							type = "toggle",
 							name = L["Store cache in DB"],
+							desc = L["If cache stored in DB it will be available between game sessions but it will increase memory usage.\nIn other way it will be wiped on relog or UI reload."],
 							get = function(info) return E.db.general.classCacheStoreInDB end,
 							set = function(info, value)
 								E.db.general.classCacheStoreInDB = value
@@ -466,7 +457,7 @@ E.Options.args.general = {
 							disabled = function() return not E.private.general.classCache end
 						},
 						wipeClassCacheGlobal = {
-							order = 4,
+							order = 2,
 							type = "execute",
 							name = L["Wipe DB Cache"],
 							buttonElvUI = true,
@@ -477,7 +468,7 @@ E.Options.args.general = {
 							disabled = function() return not CC:GetCacheSize(true) end
 						},
 						wipeClassCacheLocal = {
-							order = 5,
+							order = 3,
 							type = "execute",
 							name = L["Wipe Session Cache"],
 							buttonElvUI = true,

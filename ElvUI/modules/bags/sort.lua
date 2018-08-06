@@ -170,14 +170,11 @@ local function UpdateLocation(from, to)
 end
 
 local function PrimarySort(a, b)
-	local aName, _, _, aLvl, _, _, _, _, _, _, aPrice = GetItemInfo(bagIDs[a])
-	local bName, _, _, bLvl, _, _, _, _, _, _, bPrice = GetItemInfo(bagIDs[b])
+	local aName, _, _, aLvl = GetItemInfo(bagIDs[a])
+	local bName, _, _, bLvl = GetItemInfo(bagIDs[b])
 
 	if aLvl ~= bLvl and aLvl and bLvl then
 		return aLvl > bLvl
-	end
-	if aPrice ~= bPrice and aPrice and bPrice then
-		return aPrice > bPrice
 	end
 
 	if aName and bName then
@@ -203,11 +200,10 @@ local function DefaultSort(a, b)
 		end
 	end
 
-	local _, _, aRarity, _, _, aType, aSubType, _, aEquipLoc = GetItemInfo(aID)
-	local _, _, bRarity, _, _, bType, bSubType, _, bEquipLoc = GetItemInfo(bID)
+	local _, _, _, _, _, aType, aSubType, _, aEquipLoc = GetItemInfo(aID)
+	local _, _, _, _, _, bType, bSubType, _, bEquipLoc = GetItemInfo(bID)
 
-	aRarity = bagQualities[a]
-	bRarity = bagQualities[b]
+	local aRarity, bRarity = bagQualities[a], bagQualities[b]
 
 	if aRarity ~= bRarity and aRarity and bRarity then
 		return aRarity > bRarity

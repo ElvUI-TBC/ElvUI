@@ -1,12 +1,10 @@
 local E, L, V, P, G = unpack(ElvUI)
 local CC = E:NewModule("ClassCache", "AceEvent-3.0")
-
 local LW = LibStub:GetLibrary("LibWho-2.0")
 
 local split, upper = string.split, string.upper
 local wipe = table.wipe
 local pairs = pairs
-local select = select
 
 local GetBattlefieldScore = GetBattlefieldScore
 local GetFriendInfo = GetFriendInfo
@@ -195,7 +193,7 @@ function CC:GetCacheSize(global)
 
 	if global then
 		for realm in pairs(self.cache) do
-			for name in pairs(self.cache[realm]) do
+			for _ in pairs(self.cache[realm]) do
 				size = size + 1
 			end
 		end
@@ -204,7 +202,7 @@ function CC:GetCacheSize(global)
 		self.cacheDBCalculationTime = GetTime()
 	else
 		for realm in pairs(self.tempCache) do
-			for name in pairs(self.tempCache[realm]) do
+			for _ in pairs(self.tempCache[realm]) do
 				size = size + 1
 			end
 		end

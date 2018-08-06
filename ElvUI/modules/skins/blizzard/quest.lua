@@ -352,7 +352,6 @@ local function LoadSkin()
 	QuestLogTrack:Hide()
 
 	local QuestTrack = CreateFrame("Button", "QuestTrack", QuestLogFrame, "UIPanelButtonTemplate")
-
 	S:HandleButton(QuestTrack)
 	QuestTrack:Point("LEFT", QuestFramePushQuestButton, "RIGHT", 2, 0)
 	QuestTrack:Size(101, 21)
@@ -394,7 +393,7 @@ local function LoadSkin()
 		QuestLogListScrollFrame:Show()
 	end)
 
-	for i = 1, 6 do
+	for i = 1, MAX_REQUIRED_ITEMS do
 		local item = _G["QuestProgressItem" .. i]
 		local icon = _G["QuestProgressItem" .. i .. "IconTexture"]
 		local count = _G["QuestProgressItem" .. i .. "Count"]

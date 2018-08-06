@@ -18,7 +18,7 @@ function UF:Construct_Happiness(frame)
 	HappinessIndicator.bg:SetTexture(E["media"].blankTex)
 	HappinessIndicator.bg.multiplier = 0.3
 
-	HappinessIndicator.Override = UF.UpdateOverride
+	HappinessIndicator.Override = UF.HappinessOverride
 
 	return HappinessIndicator
 end
@@ -59,8 +59,11 @@ function UF:Configure_Happiness(frame)
 	end
 end
 
-function UF:UpdateOverride(event, unit)
+function UF:HappinessOverride(event, unit)
 	if not unit or self.unit ~= unit then return end
+
+	local db = self.db
+	if not db then return end
 
 	local element = self.HappinessIndicator
 
@@ -88,7 +91,7 @@ function UF:UpdateOverride(event, unit)
 		element:SetStatusBarColor(r, g, b)
 		element.bg:SetVertexColor(r, g, b, 0.15)
 
-		if damagePercentage == 125 and E.db.unitframe.units.pet.happiness.autoHide then
+		if damagePercentage == 125 and db.happiness.autoHide then
 			element:Hide()
 		else
 			element:Show()
