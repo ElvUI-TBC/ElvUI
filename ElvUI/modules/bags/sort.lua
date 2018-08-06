@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local B = E:GetModule("Bags")
-
 local Search = LibStub("LibItemSearch-1.2")
+local LIP = LibStub("ItemPrice-1.1")
 
 local ipairs, pairs, tonumber, select, unpack = ipairs, pairs, tonumber, select, unpack
 local tinsert, tremove, tsort, twipe = table.insert, table.remove, table.sort, table.wipe
@@ -170,11 +170,18 @@ local function UpdateLocation(from, to)
 end
 
 local function PrimarySort(a, b)
-	local aName, _, _, aLvl = GetItemInfo(bagIDs[a])
-	local bName, _, _, bLvl = GetItemInfo(bagIDs[b])
+	local aName, aLink, _, aLvl = GetItemInfo(bagIDs[a])
+	local bName, bLink, _, bLvl = GetItemInfo(bagIDs[b])
+
+	local aPrice = LIP:GetSellValue(aLink)
+	local bPrice = LIP:GetSellValue(bLink)
 
 	if aLvl ~= bLvl and aLvl and bLvl then
 		return aLvl > bLvl
+	end
+
+	if aPrice ~= bPrice and aPrice and bPrice then
+		return aPrice > bPrice
 	end
 
 	if aName and bName then
