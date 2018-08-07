@@ -25,7 +25,6 @@ local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS
 
 local LAB = LibStub("LibActionButton-1.0")
 local LSM = LibStub("LibSharedMedia-3.0")
-
 local LBF = LibStub("LibButtonFacade", true)
 
 AB["handledBars"] = {}
@@ -143,7 +142,7 @@ function AB:PositionAndSizeBar(barName)
 	local firstButtonSpacing = (self.db[barName].backdrop and (E.Border + backdropSpacing) or E.Spacing)
 	for i = 1, NUM_ACTIONBAR_BUTTONS do
 		button = bar.buttons[i]
-		lastButton = bar.buttons[i-1]
+		lastButton = bar.buttons[i - 1]
 		lastColumnButton = bar.buttons[i-buttonsPerRow]
 		button:SetParent(bar)
 		button:ClearAllPoints()
@@ -568,6 +567,7 @@ function AB:FadeParent_OnEvent(event, unit)
 end
 
 function AB:DisableBlizzard()
+	-- Hidden parent frame
 	local UIHider = CreateFrame("Frame")
 	UIHider:Hide()
 
@@ -606,12 +606,27 @@ function AB:DisableBlizzard()
 		_G["BonusActionButton"..i]:SetAttribute("statehidden", true)
 	end
 
-	MainMenuBar:UnregisterAllEvents()
-	MainMenuBar:Hide()
-	MainMenuBar:SetParent(UIHider)
+	MainMenuBar:EnableMouse(false)
+	MainMenuBar:SetAlpha(0)
 
-	MainMenuBarArtFrame:UnregisterEvent("ACTIONBAR_PAGE_CHANGED")
-	MainMenuBarArtFrame:UnregisterEvent("ADDON_LOADED")
+	for i = 1, MainMenuBar:GetNumChildren() do
+		local child = select(i, MainMenuBar:GetChildren())
+		if child then
+			child:UnregisterAllEvents()
+			child:Hide()
+			child:SetParent(UIHider)
+		end
+	end
+
+	MainMenuExpBar:UnregisterAllEvents()
+	MainMenuExpBar:Hide()
+	MainMenuExpBar:SetParent(UIHider)
+
+	ReputationWatchBar:UnregisterAllEvents()
+	ReputationWatchBar:Hide()
+	ReputationWatchBar:SetParent(UIHider)
+
+	MainMenuBarArtFrame:UnregisterAllEvents()
 	MainMenuBarArtFrame:Hide()
 	MainMenuBarArtFrame:SetParent(UIHider)
 
@@ -709,6 +724,60 @@ function AB:LAB_ButtonUpdate(button)
 end
 LAB.RegisterCallback(AB, "OnButtonUpdate", AB.LAB_ButtonUpdate)
 
+local function Saturate(cooldown)
+	if cooldown:GetParent():GetParent():GetParent().icon then
+		cooldown:GetParent():GetParent():GetParent().icon:SetDesaturated(false)
+	else
+		cooldown:GetParent().icon:SetDesaturated(false)
+	end
+end
+
+local function OnCooldownUpdate(_, button, start, duration)
+	if start and duration > 1.5 then
+		button.saturationLocked = true --Lock any new actions that are created after we activated desaturation option
+
+		button.icon:SetDesaturated(true)
+
+		--Hook cooldown done and add colors back
+		if not button.onCooldownDoneHooked then
+			button.onCooldownDoneHooked = true
+			if button.cooldown.timer then
+				AB:HookScript(button.cooldown.timer, "OnHide", Saturate)
+			else
+				AB:HookScript(button.cooldown, "OnHide", Saturate)
+			end
+		end
+	end
+end
+
+function AB:ToggleDesaturation(value)
+	value = value or self.db.desaturateOnCooldown
+
+	if value then
+		LAB.RegisterCallback(AB, "OnCooldownUpdate", OnCooldownUpdate)
+		local start, duration
+		for button in pairs(LAB.activeButtons) do
+			button.saturationLocked = true
+			start, duration = button:GetCooldown()
+			OnCooldownUpdate(nil, button, start, duration)
+		end
+	else
+		LAB.UnregisterCallback(AB, "OnCooldownUpdate")
+		for button in pairs(LAB.activeButtons) do
+			button.saturationLocked = nil
+			button.icon:SetDesaturated(false)
+			if button.onCooldownDoneHooked then
+				if button.cooldown.timer then
+					AB:Unhook(button.cooldown.timer, "OnHide")
+				else
+					AB:Unhook(button.cooldown, "OnHide")
+				end
+				button.onCooldownDoneHooked = nil
+			end
+		end
+	end
+end
+
 function AB:Initialize()
 	self.db = E.db.actionbar
 	if E.private.actionbar.enable ~= true then return end
@@ -746,6 +815,8 @@ function AB:Initialize()
 
 	SetCVar("lockActionBars", (self.db.lockActionBars == true and 1 or 0))
 	LOCK_ACTIONBAR = (self.db.lockActionBars == true and "1" or "0")
+	
+	self:ToggleDesaturation()
 end
 
 local function InitializeCallback()

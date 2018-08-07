@@ -62,17 +62,15 @@ function AB:UpdatePet(event, unit)
 		if texture then
 			if GetPetActionsUsable() then
 				SetDesaturation(icon, nil)
-				SetDesaturation(autoCast, nil)
 			else
 				SetDesaturation(icon, 1)
-				SetDesaturation(autoCast, 1)
 			end
 			icon:Show()
 		else
 			icon:Hide()
 		end
 
-		if not PetHasActionBar() and texture and name ~= "PET_ACTION_FOLLOW" then
+		if not PetHasActionBar() and texture --[[and name ~= "PET_ACTION_FOLLOW"]] then
 			SetDesaturation(icon, 1)
 			button:SetChecked(false)
 		end

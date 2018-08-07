@@ -97,6 +97,7 @@ L["Cooldown Text"] = "Texto do Tempo de Recarga"
 L["Cooldown Override"] = true
 L["Darken Inactive"] = "Escurecer Inativos"
 L["Days"] = "Dias"
+L["Desaturate On Cooldown"] = true
 L["Display bind names on action buttons."] = "Exibir atalhos nos botões de ação."
 L["Display cooldown text on anything with the cooldown spiral."] = "Exibir texto do tempo de recarga para tudo que tenha espiral de recarga."
 L["Display macro names on action buttons."] = "Exibir nomes das macros nos botões de ação."

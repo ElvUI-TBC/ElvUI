@@ -97,6 +97,7 @@ L["Cooldown Text"] = "Текст восстановления"
 L["Cooldown Override"] = true
 L["Darken Inactive"] = "Неактивные затенены"
 L["Days"] = "Дни"
+L["Desaturate On Cooldown"] = "Обесцветить при кулдауне"
 L["Display bind names on action buttons."] = "Отображать назначенные клавиши на кнопках."
 L["Display cooldown text on anything with the cooldown spiral."] = "Отображать время восстановления на кнопках/предметах."
 L["Display macro names on action buttons."] = "Отображать названия макросов на кнопках."

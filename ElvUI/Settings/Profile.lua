@@ -2658,6 +2658,7 @@ P["actionbar"] = {
 	["globalFadeAlpha"] = 0,
 	["lockActionBars"] = true,
 	["rightClickSelfCast"] = false,
+	["desaturateOnCooldown"] = false,
 
 	["useRangeColorText"] = false,
 	["noRangeColor"] = {r = 0.8, g = 0.1, b = 0.1},

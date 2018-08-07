@@ -97,6 +97,7 @@ L["Cooldown Text"] = "冷卻文字"
 L["Cooldown Override"] = true
 L["Darken Inactive"] = "非啟用者變暗"
 L["Days"] = "天"
+L["Desaturate On Cooldown"] = true
 L["Display bind names on action buttons."] = "在快捷列按鈕上顯示快捷鍵名稱."
 L["Display cooldown text on anything with the cooldown spiral."] = "在任何冷卻動畫上顯示技能冷卻時間."
 L["Display macro names on action buttons."] = "在快捷列按鈕上顯示巨集名稱."
