@@ -800,7 +800,7 @@ function B:VendorGrays(delete)
 						PickupContainerItem(bag, slot)
 						DeleteCursorItem()
 					else
-						stackPrice = (LIP:GetSellValue(itemLink) or 0) * stackCoun
+						stackPrice = (LIP:GetSellValue(itemLink) or 0) * stackCount
 						goldGained = goldGained + stackPrice
 						if E.db.general.vendorGraysDetails and itemLink then
 							E:Print(format("%s|cFF00DDDDx%d|r %s", itemLink, stackCount, B:FormatMoney(stackPrice)))
