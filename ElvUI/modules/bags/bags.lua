@@ -761,16 +761,16 @@ function B:FormatMoney(amount)
 end
 
 function B:GetGraysValue()
-	local value, itemID, rarity, itype, stackCount, stackPrice, _ = 0
+	local value, itemLink, rarity, itype, stackCount, stackPrice, _ = 0
 
 	for bag = 0, NUM_BAG_FRAMES do
-		for slot = 0, GetContainerNumSlots(bag) do
-			itemID = GetContainerItemLink(bag, slot)
-			if itemID then
-				_, _, rarity, _, _, itype = GetItemInfo(itemID)
+		for slot = 1, GetContainerNumSlots(bag) do
+			itemLink = GetContainerItemLink(bag, slot)
+			if itemLink then
+				_, _, rarity, _, _, itype = GetItemInfo(itemLink)
 
 				stackCount = select(2, GetContainerItemInfo(bag, slot)) or 1
-				stackPrice = LIP:GetSellValue(itemID) * stackCount
+				stackPrice = LIP:GetSellValue(itemLink) * stackCount
 				if (rarity and rarity == 0) and (itype and itype ~= "Quest") and (stackPrice > 0) then
 					value = value + stackPrice
 				end
@@ -787,12 +787,12 @@ function B:VendorGrays(delete)
 		return
 	end
 
-	local goldGained, itemID, link, itype, rarity, stackCount, stackPrice, _ = 0
-	for bag = 0, 4, 1 do
+	local goldGained, itemLink, itype, rarity, stackCount, stackPrice, _ = 0
+	for bag = 0, NUM_BAG_FRAMES, 1 do
 		for slot = 1, GetContainerNumSlots(bag), 1 do
-			itemID = GetContainerItemLink(bag, slot)
-			if itemID then
-				_, link, rarity, _, _, itype = GetItemInfo(itemID)
+			itemLink = GetContainerItemLink(bag, slot)
+			if itemLink then
+				_, _, rarity, _, _, itype = GetItemInfo(itemLink)
 				stackCount = select(2, GetContainerItemInfo(bag, slot)) or 1
 
 				if (rarity and rarity == 0) and (itype and itype ~= "Quest") then
@@ -800,10 +800,10 @@ function B:VendorGrays(delete)
 						PickupContainerItem(bag, slot)
 						DeleteCursorItem()
 					else
-						stackPrice = LIP:GetSellValue(itemID) * stackCount
+						stackPrice = (LIP:GetSellValue(itemLink) or 0) * stackCoun
 						goldGained = goldGained + stackPrice
-						if E.db.general.vendorGraysDetails and link then
-							E:Print(format("%s|cFF00DDDDx%d|r %s", link, stackCount, B:FormatMoney(stackPrice)))
+						if E.db.general.vendorGraysDetails and itemLink then
+							E:Print(format("%s|cFF00DDDDx%d|r %s", itemLink, stackCount, B:FormatMoney(stackPrice)))
 						end
 						UseContainerItem(bag, slot)
 					end
@@ -822,7 +822,7 @@ function B:VendorGrayCheck()
 
 	if value == 0 then
 		E:Print(L["No gray items to delete."])
-	elseif(not MerchantFrame or not MerchantFrame:IsShown()) then
+	elseif (not MerchantFrame or not MerchantFrame:IsShown()) then
 		E.PopupDialogs["DELETE_GRAYS"].Money = value
 		E:StaticPopup_Show("DELETE_GRAYS")
 	else
