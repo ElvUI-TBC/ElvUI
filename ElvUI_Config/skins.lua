@@ -65,6 +65,11 @@ E.Options.args.skins = {
 					name = L["Barbershop Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
+				battlefield = {
+					type = "toggle",
+					name = L["Battlefield Frame"],
+					desc = L["TOGGLESKIN_DESC"]
+				},
 				bgmap = {
 					type = "toggle",
 					name = L["BG Map"],
@@ -180,11 +185,6 @@ E.Options.args.skins = {
 				petition = {
 					type = "toggle",
 					name = L["Petition Frame"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
-				pvp = {
-					type = "toggle",
-					name = L["PvP Frames"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				quest = {

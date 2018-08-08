@@ -19,7 +19,7 @@ V["general"] = {
 	["minimap"] = {
 		["enable"] = true,
 		["hideCalendar"] = true,
-		["zoomLevel"] = 0,
+		["zoomLevel"] = 0
 	},
 	["classCache"] = true,
 	["classColorMentionsSpeech"] = true
@@ -27,7 +27,7 @@ V["general"] = {
 
 V["bags"] = {
 	["enable"] = true,
-	["bagBar"] = false,
+	["bagBar"] = false
 }
 
 V["nameplates"] = {
@@ -37,11 +37,10 @@ V["nameplates"] = {
 V["auras"] = {
 	["enable"] = true,
 	["disableBlizzard"] = true,
-
 	["lbf"] = {
 		enable = false,
 		skin = "Blizzard"
-	},
+	}
 }
 
 V["chat"] = {
@@ -60,6 +59,7 @@ V["skins"] = {
 		["auctionhouse"] = true,
 		["bags"] = true,
 		["barber"] = true,
+		["battlefield"] = true,
 		["bgmap"] = true,
 		["bgscore"] = true,
 		["binding"] = true,
@@ -85,7 +85,6 @@ V["skins"] = {
 		["merchant"] = true,
 		["misc"] = true,
 		["petition"] = true,
-		["pvp"] = true,
 		["quest"] = true,
 		["questtimer"] = true,
 		["raid"] = true,
@@ -104,7 +103,7 @@ V["skins"] = {
 		["watchframe"] = true,
 		["worldmap"] = true,
 		["mirrorTimers"] = true
-	},
+	}
 }
 
 V["tooltip"] = {
@@ -127,7 +126,7 @@ V["actionbar"] = {
 	["lbf"] = {
 		enable = false,
 		skin = "Blizzard"
-	},
+	}
 }
 
 V["cooldown"] = {

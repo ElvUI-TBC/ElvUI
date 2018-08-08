@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.pvp ~= true then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.battlefield ~= true then return end
 
 	BattlefieldFrame:StripTextures(true)
 	BattlefieldFrame:CreateBackdrop("Transparent")
@@ -25,4 +25,4 @@ local function LoadSkin()
 	BattlefieldFrameZoneDescription:SetTextColor(1, 1, 1)
 end
 
-S:AddCallback("PvP", LoadSkin)
+S:AddCallback("Battlefield", LoadSkin)
