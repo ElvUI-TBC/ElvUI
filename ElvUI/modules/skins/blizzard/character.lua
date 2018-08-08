@@ -2,13 +2,17 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local _G = _G
+local select, unpack, pairs = select, unpack, pairs
 local find = string.find
 
 local GetInventoryItemQuality = GetInventoryItemQuality
 local GetInventoryItemTexture = GetInventoryItemTexture
 local GetInventorySlotInfo = GetInventorySlotInfo
 local GetItemQualityColor = GetItemQualityColor
+local GetPetHappiness = GetPetHappiness
+local HasPetUI = HasPetUI
 local FauxScrollFrame_GetOffset = FauxScrollFrame_GetOffset
+local MAX_ARENA_TEAMS = MAX_ARENA_TEAMS
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.character ~= true then return end
@@ -24,10 +28,11 @@ local function LoadSkin()
 
 	for i = 1, 5 do
 		local tab = _G["CharacterFrameTab"..i]
+
 		S:HandleTab(tab)
 	end
 
-	-- PaperDollFrame
+	-- Character Frame
 	PaperDollFrame:StripTextures()
 
 	CharacterModelFrame:Point("TOPLEFT", 65, -60)
@@ -38,19 +43,21 @@ local function LoadSkin()
 	S:HandleRotateButton(CharacterModelFrameRotateLeftButton)
 	CharacterModelFrameRotateLeftButton:ClearAllPoints()
 	CharacterModelFrameRotateLeftButton:Point("TOPLEFT", 3, -3)
+
 	S:HandleRotateButton(CharacterModelFrameRotateRightButton)
 	CharacterModelFrameRotateRightButton:ClearAllPoints()
 	CharacterModelFrameRotateRightButton:Point("TOPLEFT", CharacterModelFrameRotateLeftButton, "TOPRIGHT", 3, 0)
 
 	CharacterAttributesFrame:StripTextures()
-	S:HandleDropDownBox(PlayerStatFrameLeftDropDown)
-	S:HandleDropDownBox(PlayerStatFrameRightDropDown)
 
 	local function FixWidth(self)
 		UIDropDownMenu_SetWidth(90, self)
 	end
 
+	S:HandleDropDownBox(PlayerStatFrameLeftDropDown)
 	PlayerStatFrameLeftDropDown:HookScript("OnShow", FixWidth)
+
+	S:HandleDropDownBox(PlayerStatFrameRightDropDown)
 	PlayerStatFrameRightDropDown:HookScript("OnShow", FixWidth)
 
 	CharacterResistanceFrame:CreateBackdrop("Default")
@@ -82,9 +89,27 @@ local function LoadSkin()
 	select(1, MagicResFrame4:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.36328125, 0.43359375)
 	select(1, MagicResFrame5:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.4765625, 0.546875)
 
-	local slots = {"HeadSlot", "NeckSlot", "ShoulderSlot", "BackSlot", "ChestSlot", "ShirtSlot", "TabardSlot", "WristSlot",
-		"HandsSlot", "WaistSlot", "LegsSlot", "FeetSlot", "Finger0Slot", "Finger1Slot", "Trinket0Slot", "Trinket1Slot",
-		"MainHandSlot", "SecondaryHandSlot", "RangedSlot", "AmmoSlot"
+	local slots = {
+		"HeadSlot",
+		"NeckSlot",
+		"ShoulderSlot",
+		"BackSlot",
+		"ChestSlot",
+		"ShirtSlot",
+		"TabardSlot",
+		"WristSlot",
+		"HandsSlot",
+		"WaistSlot",
+		"LegsSlot",
+		"FeetSlot",
+		"Finger0Slot",
+		"Finger1Slot",
+		"Trinket0Slot",
+		"Trinket1Slot",
+		"MainHandSlot",
+		"SecondaryHandSlot",
+		"RangedSlot",
+		"AmmoSlot"
 	}
 
 	for _, slot in pairs(slots) do
@@ -107,7 +132,7 @@ local function LoadSkin()
 
 		for _, slot in pairs(slots) do
 			local target = _G["Character"..slot]
-			local slotId, _, _ = GetInventorySlotInfo(slot)
+			local slotId = GetInventorySlotInfo(slot)
 			local itemId = GetInventoryItemTexture("player", slotId)
 			if itemId then
 				local rarity = GetInventoryItemQuality("player", slotId)
@@ -128,7 +153,7 @@ local function LoadSkin()
 	CharacterFrame:HookScript("OnShow", ColorItemBorder)
 	ColorItemBorder()
 
-	-- PetPaperDollFrame
+	-- Pet Frame
 	PetPaperDollFrame:StripTextures()
 
 	S:HandleButton(PetPaperDollCloseButton)
@@ -136,6 +161,7 @@ local function LoadSkin()
 	S:HandleRotateButton(PetModelFrameRotateLeftButton)
 	PetModelFrameRotateLeftButton:ClearAllPoints()
 	PetModelFrameRotateLeftButton:Point("TOPLEFT", 3, -3)
+
 	S:HandleRotateButton(PetModelFrameRotateRightButton)
 	PetModelFrameRotateRightButton:ClearAllPoints()
 	PetModelFrameRotateRightButton:Point("TOPLEFT", PetModelFrameRotateLeftButton, "TOPRIGHT", 3, 0)
@@ -154,9 +180,9 @@ local function LoadSkin()
 	select(1, PetMagicResFrame5:GetRegions()):SetTexCoord(0.21875, 0.78125, 0.4765625, 0.546875)
 
 	PetPaperDollFrameExpBar:StripTextures()
-	PetPaperDollFrameExpBar:SetStatusBarTexture(E["media"].normTex)
-	E:RegisterStatusBar(PetPaperDollFrameExpBar);
 	PetPaperDollFrameExpBar:CreateBackdrop("Default")
+	PetPaperDollFrameExpBar:SetStatusBarTexture(E["media"].normTex)
+	E:RegisterStatusBar(PetPaperDollFrameExpBar)
 
 	local function updHappiness(self)
 		local happiness = GetPetHappiness()
@@ -173,15 +199,89 @@ local function LoadSkin()
 		end
 	end
 
+	PetPaperDollPetInfo:CreateBackdrop("Default")
 	PetPaperDollPetInfo:Point("TOPLEFT", PetModelFrameRotateLeftButton, "BOTTOMLEFT", 9, -3)
 	PetPaperDollPetInfo:GetRegions():SetTexCoord(0.04, 0.15, 0.06, 0.30)
 	PetPaperDollPetInfo:SetFrameLevel(PetModelFrame:GetFrameLevel() + 2)
-	PetPaperDollPetInfo:CreateBackdrop("Default")
-	PetPaperDollPetInfo:Size(24, 24)
+	PetPaperDollPetInfo:Size(24)
+
 	updHappiness(PetPaperDollPetInfo)
 	PetPaperDollPetInfo:RegisterEvent("UNIT_HAPPINESS")
 	PetPaperDollPetInfo:SetScript("OnEvent", updHappiness)
 	PetPaperDollPetInfo:SetScript("OnShow", updHappiness)
+
+	-- Reputation Frame
+	ReputationFrame:StripTextures()
+
+	for i = 1, NUM_FACTIONS_DISPLAYED do
+		local bar = _G["ReputationBar"..i]
+		local header = _G["ReputationHeader"..i]
+		local name = _G["ReputationBar"..i.."FactionName"]
+		local war = _G["ReputationBar"..i.."AtWarCheck"]
+
+		bar:StripTextures()
+		bar:CreateBackdrop("Default")
+		bar:SetStatusBarTexture(E.media.normTex)
+		bar:Size(108, 13)
+		E:RegisterStatusBar(bar)
+
+		if i == 1 then
+			bar:Point("TOPLEFT", 190, -86)
+		end
+
+		name:Point("LEFT", bar, "LEFT", -150, 0)
+		name:Width(140)
+		name.SetWidth = E.noop
+
+		header:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		header.SetNormalTexture = E.noop
+		header:GetNormalTexture():Size(14)
+		header:SetHighlightTexture(nil)
+		header:Point("TOPLEFT", bar, "TOPLEFT", -175, 0)
+
+		war:StripTextures()
+		war:Point("LEFT", bar, "RIGHT", 0, 0)
+
+		war.icon = war:CreateTexture(nil, "OVERLAY")
+		war.icon:Point("LEFT", 3, -6)
+		war.icon:SetTexture("Interface\\Buttons\\UI-CheckBox-SwordCheck")
+	end
+
+	hooksecurefunc("ReputationFrame_Update", function()
+		local numFactions = GetNumFactions()
+		local offset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
+		local index, header
+
+		for i = 1, NUM_FACTIONS_DISPLAYED, 1 do
+			header = _G["ReputationHeader"..i]
+			index = offset + i
+
+			if index <= numFactions then
+				if header.isCollapsed then
+					header:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+				else
+					header:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+				end
+			end
+		end
+	end)
+
+	ReputationFrameStandingLabel:Point("TOPLEFT", 223, -59)
+	ReputationFrameFactionLabel:Point("TOPLEFT", 55, -59)
+
+	ReputationListScrollFrame:StripTextures()
+	S:HandleScrollBar(ReputationListScrollFrameScrollBar)
+
+	ReputationDetailFrame:StripTextures()
+	ReputationDetailFrame:SetTemplate("Transparent")
+	ReputationDetailFrame:Point("TOPLEFT", ReputationFrame, "TOPRIGHT", -31, -12)
+
+	S:HandleCloseButton(ReputationDetailCloseButton)
+	ReputationDetailCloseButton:Point("TOPRIGHT", 2, 2)
+
+	S:HandleCheckBox(ReputationDetailAtWarCheckBox)
+	S:HandleCheckBox(ReputationDetailInactiveCheckBox)
+	S:HandleCheckBox(ReputationDetailMainScreenCheckBox)
 
 	-- Skill Frame
 	SkillFrame:StripTextures()
@@ -239,8 +339,8 @@ local function LoadSkin()
 	S:HandleScrollBar(SkillDetailScrollFrameScrollBar)
 
 	SkillDetailStatusBar:StripTextures()
-	SkillDetailStatusBar:SetParent(SkillDetailScrollFrame)
 	SkillDetailStatusBar:CreateBackdrop("Default")
+	SkillDetailStatusBar:SetParent(SkillDetailScrollFrame)
 	SkillDetailStatusBar:SetStatusBarTexture(E.media.normTex)
 	E:RegisterStatusBar(SkillDetailStatusBar)
 
@@ -250,78 +350,50 @@ local function LoadSkin()
 	SkillDetailStatusBarUnlearnButton:Point("LEFT", SkillDetailStatusBarBorder, "RIGHT", 5, 0)
 	SkillDetailStatusBarUnlearnButton:SetHitRectInsets(0, 0, 0, 0)
 
-	-- Reputation Frame
-	ReputationFrame:StripTextures()
+	-- PvP Frame
+	PVPFrame:StripTextures(true)
 
-	for i = 1, NUM_FACTIONS_DISPLAYED do
-		local factionBar = _G["ReputationBar"..i]
-		local factionHeader = _G["ReputationHeader"..i]
-		local factionName = _G["ReputationBar"..i.."FactionName"]
-		local factionWar = _G["ReputationBar"..i.."AtWarCheck"]
+	for i = 1, MAX_ARENA_TEAMS do
+		local pvpTeam = _G["PVPTeam"..i]
 
-		factionBar:StripTextures()
-		factionBar:CreateBackdrop("Default")
-		factionBar:SetStatusBarTexture(E.media.normTex)
-		factionBar:Size(108, 13)
-		E:RegisterStatusBar(factionBar)
+		pvpTeam:StripTextures()
+		pvpTeam:CreateBackdrop("Default")
+		pvpTeam.backdrop:Point("TOPLEFT", 9, -4)
+		pvpTeam.backdrop:Point("BOTTOMRIGHT", -24, 3)
 
-		if i == 1 then
-			factionBar:Point("TOPLEFT", 190, -86)
-		end
+		pvpTeam:HookScript("OnEnter", S.SetModifiedBackdrop)
+		pvpTeam:HookScript("OnLeave", S.SetOriginalBackdrop)
 
-		factionName:Point("LEFT", factionBar, "LEFT", -150, 0)
-		factionName:Width(140)
-		factionName.SetWidth = E.noop
-
-		factionHeader:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
-		factionHeader.SetNormalTexture = E.noop
-		factionHeader:GetNormalTexture():Size(14)
-		factionHeader:SetHighlightTexture(nil)
-		factionHeader:Point("TOPLEFT", factionBar, "TOPLEFT", -175, 0)
-
-		factionWar:StripTextures()
-		factionWar:Point("LEFT", factionBar, "RIGHT", 0, 0)
-
-		factionWar.Icon = factionWar:CreateFontString(nil, "OVERLAY")
-		factionWar.Icon:FontTemplate()
-		factionWar.Icon:Point("LEFT", 3, -6)
-		factionWar.Icon:SetText("|TInterface\\Buttons\\UI-CheckBox-SwordCheck:45:45|t")
+		_G["PVPTeam"..i.."Highlight"]:Kill()
 	end
 
-	hooksecurefunc("ReputationFrame_Update", function()
-		local numFactions = GetNumFactions()
-		local factionIndex, factionHeader
-		local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
+	PVPTeamDetails:StripTextures()
+	PVPTeamDetails:SetTemplate("Transparent")
+	PVPTeamDetails:Point("TOPLEFT", PVPFrame, "TOPRIGHT", -30, -12)
 
-		for i = 1, NUM_FACTIONS_DISPLAYED, 1 do
-			factionHeader = _G["ReputationHeader"..i]
-			factionIndex = factionOffset + i
-			if factionIndex <= numFactions then
-				if factionHeader.isCollapsed then
-					factionHeader:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
-				else
-					factionHeader:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
-				end
-			end
-		end
-	end)
+	S:HandleNextPrevButton(PVPFrameToggleButton)
+	PVPFrameToggleButton:Point("BOTTOMRIGHT", PVPFrame, "BOTTOMRIGHT", -48, 81)
+	PVPFrameToggleButton:Size(14)
 
-	ReputationFrameStandingLabel:Point("TOPLEFT", 223, -59)
-	ReputationFrameFactionLabel:Point("TOPLEFT", 55, -59)
+	for i = 1, 5 do
+		local header = _G["PVPTeamDetailsFrameColumnHeader"..i]
 
-	ReputationListScrollFrame:StripTextures()
-	S:HandleScrollBar(ReputationListScrollFrameScrollBar)
+		header:StripTextures()
+		header:StyleButton()
+	end
 
-	ReputationDetailFrame:StripTextures()
-	ReputationDetailFrame:SetTemplate("Transparent")
-	ReputationDetailFrame:Point("TOPLEFT", ReputationFrame, "TOPRIGHT", -31, -12)
+	for i = 1, 10 do
+		local button = _G["PVPTeamDetailsButton"..i]
 
-	S:HandleCloseButton(ReputationDetailCloseButton)
-	ReputationDetailCloseButton:Point("TOPRIGHT", 2, 2)
+		button:Width(335)
+		S:HandleButtonHighlight(button)
+	end
 
-	S:HandleCheckBox(ReputationDetailAtWarCheckBox)
-	S:HandleCheckBox(ReputationDetailInactiveCheckBox)
-	S:HandleCheckBox(ReputationDetailMainScreenCheckBox)
+	S:HandleButton(PVPTeamDetailsAddTeamMember)
+
+	S:HandleNextPrevButton(PVPTeamDetailsToggleButton)
+
+	S:HandleCloseButton(PVPTeamDetailsCloseButton)
 end
 
 S:AddCallback("Character", LoadSkin)
