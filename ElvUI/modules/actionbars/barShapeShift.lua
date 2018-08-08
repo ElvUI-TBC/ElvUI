@@ -182,6 +182,7 @@ function AB:PositionAndSizeBarShapeShift()
 		button = _G["ElvUI_StanceBarButton"..i]
 		lastButton = _G["ElvUI_StanceBarButton"..i - 1]
 		lastColumnButton = _G["ElvUI_StanceBarButton"..i - buttonsPerRow]
+
 		button:SetParent(bar)
 		button:ClearAllPoints()
 		button:Size(size)
@@ -236,7 +237,7 @@ function AB:PositionAndSizeBarShapeShift()
 			button:SetAlpha(bar.db.alpha)
 		end
 
-		if(not button.FlyoutUpdateFunc) then
+		if not button.FlyoutUpdateFunc then
 			self:StyleButton(button, nil, self.LBFGroup and E.private.actionbar.lbf.enable and true or nil)
 		end
 	end
@@ -291,10 +292,14 @@ function AB:AdjustMaxStanceButtons(event)
 end
 
 function AB:UpdateStanceBindings()
+	local color = self.db.fontColor
+
 	for i = 1, NUM_SHAPESHIFT_SLOTS do
 		if self.db.hotkeytext then
+			local key = GetBindingKey("SHAPESHIFTBUTTON"..i)
 			_G["ElvUI_StanceBarButton"..i.."HotKey"]:Show()
-			_G["ElvUI_StanceBarButton"..i.."HotKey"]:SetText(GetBindingKey("SHAPESHIFTBUTTON" .. i))
+			_G["ElvUI_StanceBarButton"..i.."HotKey"]:SetText(key)
+			_G["ElvUI_StanceBarButton"..i.."HotKey"]:SetTextColor(color.r, color.g, color.b)
 			self:FixKeybindText(_G["ElvUI_StanceBarButton"..i])
 		else
 			_G["ElvUI_StanceBarButton"..i.."HotKey"]:Hide()

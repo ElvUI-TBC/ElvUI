@@ -213,16 +213,15 @@ function AB:RegisterButton(b, override)
 	local pet = PetActionButton1:GetScript("OnClick")
 	local button = SecureActionButton_OnClick
 
-	if b.IsProtected and b.IsObjectType and b.GetScript and b:IsObjectType("CheckButton") and b:IsProtected() then
+	if b.IsProtected and b.GetObjectType and b.GetScript and b:GetObjectType() == "CheckButton" and b:IsProtected() then
 		local script = b:GetScript("OnClick")
-		local buttonName = b:GetName()
-
-		if find(buttonName, "ActionButton") or find(buttonName, "BonusActionButton") or script == button or override then
+		if script == button or override then
 			b:HookScript2("OnEnter", function() self:BindUpdate(b) end)
-			if script == shapeshift then
-				b:HookScript2("OnEnter", function() self:BindUpdate(b, "SHAPESHIFT") end)
-			elseif script == pet then
+
+			if script == pet then
 				b:HookScript2("OnEnter", function() self:BindUpdate(b, "PET") end)
+			elseif script == shapeshift then
+				b:HookScript2("OnEnter", function() self:BindUpdate(b, "SHAPESHIFT") end)
 			end
 		end
 	end
