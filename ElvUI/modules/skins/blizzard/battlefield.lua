@@ -13,8 +13,13 @@ local function LoadSkin()
 
 	S:HandleScrollBar(BattlefieldListScrollFrameScrollBar)
 
-	S:HandleButton(BattlefieldFrameCancelButton)
+	for i = 1, BATTLEFIELD_ZONES_DISPLAYED do
+		local button = _G["BattlefieldZone"..i]
 
+		S:HandleButtonHighlight(button)
+	end
+
+	S:HandleButton(BattlefieldFrameCancelButton)
 	S:HandleButton(BattlefieldFrameJoinButton)
 
 	BattlefieldFrameGroupJoinButton:Point("RIGHT", BattlefieldFrameJoinButton, "LEFT", -2, 0)
