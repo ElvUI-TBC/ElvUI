@@ -299,11 +299,11 @@ function E:RequestBGInfo()
 end
 
 function E:PLAYER_ENTERING_WORLD()
+	self:ScheduleTimer("CheckRole", 0.01)
+
 	if(not self.MediaUpdated) then
 		self:UpdateMedia()
 		self.MediaUpdated = true
-	else
-		self:CheckRole()
 	end
 
 	local _, instanceType = IsInInstance()
@@ -1106,7 +1106,7 @@ function E:Initialize()
 	self:CheckIncompatible()
 	self:DBConversions()
 
-	self:CheckRole()
+	self:ScheduleTimer("CheckRole", 0.01)
 	self:UIScale("PLAYER_LOGIN")
 
 	self:LoadCommands()

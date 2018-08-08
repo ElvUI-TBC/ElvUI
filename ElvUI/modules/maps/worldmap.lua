@@ -35,6 +35,7 @@ end
 
 function M:UpdateCoords()
 	if not WorldMapFrame:IsShown() then return end
+
 	local x, y = GetPlayerMapPosition("player")
 	x = x and E:Round(100 * x, 2) or 0
  	y = y and E:Round(100 * y, 2) or 0
@@ -49,7 +50,7 @@ function M:UpdateCoords()
 	local width = WorldMapDetailFrame:GetWidth()
 	local height = WorldMapDetailFrame:GetHeight()
 	local centerX, centerY = WorldMapDetailFrame:GetCenter()
-	local x, y = GetCursorPosition()
+	x, y = GetCursorPosition()
 	local adjustedX = (x / scale - (centerX - (width / 2))) / width
 	local adjustedY = (centerY + (height / 2) - y / scale) / height
 
@@ -74,25 +75,28 @@ function M:PositionCoords()
 
 	CoordsHolder.playerCoords:ClearAllPoints()
 	CoordsHolder.playerCoords:Point(position, WorldMapDetailFrame, position, x + xOffset, y + yOffset)
+
 	CoordsHolder.mouseCoords:ClearAllPoints()
 	CoordsHolder.mouseCoords:Point(position, CoordsHolder.playerCoords, INVERTED_POINTS[position], 0, y)
 end
 
 function M:Initialize()
 	if E.global.general.WorldMapCoordinates.enable then
-		local coordsHolder = CreateFrame("Frame", "CoordsHolder", WorldMapFrame)
-		coordsHolder.playerCoords = coordsHolder:CreateFontString(nil, "OVERLAY")
-		coordsHolder.mouseCoords = coordsHolder:CreateFontString(nil, "OVERLAY")
-		coordsHolder.playerCoords:SetTextColor(1, 1 ,0)
-		coordsHolder.mouseCoords:SetTextColor(1, 1 ,0)
-		coordsHolder.playerCoords:SetFontObject(NumberFontNormal)
-		coordsHolder.mouseCoords:SetFontObject(NumberFontNormal)
-		coordsHolder.playerCoords:SetPoint("BOTTOMLEFT", WorldMapDetailFrame, "BOTTOMLEFT", 5, 5)
-		coordsHolder.playerCoords:SetText(PLAYER..":   0, 0")
-		coordsHolder.mouseCoords:SetPoint("BOTTOMLEFT", coordsHolder.playerCoords, "TOPLEFT", 0, 5)
-		coordsHolder.mouseCoords:SetText(MOUSE_LABEL..":   0, 0")
+		local CoordsHolder = CreateFrame("Frame", "CoordsHolder", WorldMapFrame)
+		CoordsHolder:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1)
+		CoordsHolder:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
 
-		coordsHolder:SetScript("OnUpdate", self.UpdateCoords)
+		CoordsHolder.playerCoords = CoordsHolder:CreateFontString(nil, "OVERLAY")
+		CoordsHolder.playerCoords:SetTextColor(1, 1, 0)
+		CoordsHolder.playerCoords:SetFontObject(NumberFontNormal)
+		CoordsHolder.playerCoords:SetText(PLAYER..":   0, 0")
+
+		CoordsHolder.mouseCoords = CoordsHolder:CreateFontString(nil, "OVERLAY")
+		CoordsHolder.mouseCoords:SetTextColor(1, 1, 0)
+		CoordsHolder.mouseCoords:SetFontObject(NumberFontNormal)
+		CoordsHolder.mouseCoords:SetText(MOUSE_LABEL..":   0, 0")
+
+		CoordsHolder:SetScript("OnUpdate", self.UpdateCoords)
 
 		self:PositionCoords()
 	end
@@ -117,12 +121,12 @@ function M:Initialize()
 		end
 
 		DropDownList1:HookScript("OnShow", function()
-			if(DropDownList1:GetScale() ~= UIParent:GetScale()) then
+			if DropDownList1:GetScale() ~= UIParent:GetScale() then
 				DropDownList1:SetScale(UIParent:GetScale())
 			end
 		end)
 
-		WorldMapTooltip:SetFrameLevel(WorldMapPositioningGuide:GetFrameLevel() + 110);
+		WorldMapTooltip:SetFrameLevel(WorldMapPositioningGuide:GetFrameLevel() + 110)
 	end
 end
 

@@ -76,16 +76,16 @@ RB.CasterSpell5Buffs = {
 	27126,	-- Arcane Intellect
 }
 
-RB.CasterSpell6Buffs = {
-	27143,	-- Greater Blessing of Wisdom
-	27142,	-- Blessing of Wisdom
-	25569,	-- Mana Spring
-}
-
 RB.MeleeSpell5Buffs = {
 	25392,	-- Prayer of Fortitude
 	25389,	-- Power Word: Fortitude
 	469,	-- Commanding Shout
+}
+
+RB.CasterSpell6Buffs = {
+	27143,	-- Greater Blessing of Wisdom
+	27142,	-- Blessing of Wisdom
+	25569,	-- Mana Spring
 }
 
 RB.MeleeSpell6Buffs = {
@@ -291,14 +291,11 @@ function RB:UpdateDefaultIcons()
 	if E.Role == "Caster" then
 		self.Spell5Buffs = self.CasterSpell5Buffs
 		self.Spell6Buffs = self.CasterSpell6Buffs
+	elseif E.Role == "Tank" then
+		self.Spell7Buffs = self.TankSpell7Buffs
 	else
 		self.Spell5Buffs = self.MeleeSpell5Buffs
 		self.Spell6Buffs = self.MeleeSpell6Buffs
-	end
-
-	if E.Role == "Tank" then
-		self.Spell7Buffs = self.TankSpell7Buffs
-	else
 		self.Spell7Buffs = self.DamagerSpell7Buffs
 	end
 end
