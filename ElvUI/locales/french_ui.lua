@@ -62,7 +62,7 @@ L["(Hold Shift) Memory Usage"] = "(Maintenir MAJ) Utilisation de la Mémoire."
 L["Avoidance Breakdown"] = "Répartition de l'évitement"
 L["Character: "] = "Personnage: "
 L["Combat Time"] = true
-L["Coords"] = true
+L["Coords"] = "Coordonnées"
 L["copperabbrev"] = "|cffeda55fc|r" --Also used in Bags
 L["Crit"] = true
 L["Deficit:"] = "Déficit:"
@@ -70,7 +70,7 @@ L["DPS"] = "DPS"
 L["Durability"] = true
 L["Earned:"] = "Gagné:"
 L["Friends List"] = "Liste d'amis"
-L["Gold"] = true
+L["Gold"] = "Or"
 L["goldabbrev"] = "|cffffd700g|r" --Also used in Bags
 L["Haste"] = true
 L["Hit"] = "Toucher"
@@ -90,10 +90,10 @@ L["Server: "] = "Serveur: "
 L["Session:"] = "Session:"
 L["silverabbrev"] = "|cffc7c7cfs|r" --Also used in Bags
 L["SP"] = "PdS"
-L["Spell/Heal Power"] = true
+L["Spell/Heal Power"] = "Puissance d'attaque / de soin"
 L["Spent:"] = "Dépensé: "
 L["Stats For:"] = "Stats pour:"
-L["System"] = true
+L["System"] = "Système"
 L["Total CPU:"] = "Charge du CPU:"
 L["Total Memory:"] = "Mémoire totale:"
 L["Total: "] = "Total: "
@@ -253,8 +253,8 @@ L["Watch Frame"] = true
 L["DESC_MOVERCONFIG"] = [=[Cadres déverrouillés. Déplacez-les et cliquez sur Verrouiller une fois terminé.
 
 Options:
-  Shift + RightClick - Hides mover temporarily.
-  Ctrl + RightClick - Resets mover position to default.
+  Shift + clic droit - Cacher temporairement.
+  Ctrl + clic droit - Réinitialiser la position par défaut.
 ]=]
 
 --Plugin Installer
