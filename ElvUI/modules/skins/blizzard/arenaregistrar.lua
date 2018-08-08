@@ -22,10 +22,13 @@ local function LoadSkin()
 
 	S:HandleButton(ArenaRegistrarFrameGoodbyeButton)
 
-	local registrarButton
 	for i = 1, MAX_TEAM_BORDERS do
-		registrarButton = select(3, _G["ArenaRegistrarButton"..i]:GetRegions())
-		registrarButton:SetTextColor(1, 1, 1)
+		local button = _G["ArenaRegistrarButton"..i]
+		local obj = select(3, button:GetRegions())
+
+		S:HandleButtonHighlight(button)
+
+		obj:SetTextColor(1, 1, 1)
 	end
 
 	ArenaRegistrarPurchaseText:SetTextColor(1, 1, 1)

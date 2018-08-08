@@ -35,7 +35,6 @@ local function LoadSkin()
 		"QuestFrameGoodbyeButton",
 		"QuestFrameCompleteQuestButton",
 		"QuestFrameCancelButton",
-		"QuestFrameGreetingGoodbyeButton",
 		"QuestFrameAcceptButton",
 		"QuestFrameDeclineButton"
 	}
