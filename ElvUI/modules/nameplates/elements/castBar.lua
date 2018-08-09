@@ -48,8 +48,6 @@ function mod:UpdateElement_CastBarOnUpdate(elapsed)
 		else --REMAINING
 			self.Time:SetFormattedText("%.1f", self.value)
 		end
-	elseif self.holdTime > 0 then
-		self.holdTime = self.holdTime - elapsed
 	else
 		self:Hide()
 	end
@@ -93,7 +91,6 @@ function mod:UpdateElement_Cast(frame, event, unit)
 
 		frame.CastBar.casting = true
 		frame.CastBar.channeling = nil
-		frame.CastBar.holdTime = 0
 
 		frame.CastBar:Show()
 	elseif event == "UNIT_SPELLCAST_STOP" or event == "UNIT_SPELLCAST_CHANNEL_STOP" then
@@ -164,7 +161,6 @@ function mod:UpdateElement_Cast(frame, event, unit)
 		frame.CastBar.maxValue = (endTime - startTime) / 1000
 		frame.CastBar:SetMinMaxValues(0, frame.CastBar.maxValue)
 		frame.CastBar:SetValue(frame.CastBar.value)
-		frame.CastBar.holdTime = 0
 
 		if frame.CastBar.Icon then
 			frame.CastBar.Icon.texture:SetTexture(texture)

@@ -1528,7 +1528,6 @@ local FindURL_Events = {
 	"CHAT_MSG_DND",
 }
 
-
 function CH:Initialize()
 	if ElvCharacterDB.ChatHistory then
   		ElvCharacterDB.ChatHistory = nil --Depreciated

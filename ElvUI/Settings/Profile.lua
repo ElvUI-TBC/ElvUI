@@ -657,7 +657,7 @@ P["unitframe"] = {
 			["maxOverflow"] = 0,
 		},
 		["classResources"] = {
-			["bgColor"] = {r = 0.1,g = 0.1,b = 0.1, a = 1},
+			["bgColor"] = {r = 0.1, g = 0.1, b = 0.1, a = 1},
 			["comboPoints"] = {
 				[1] = {r = 0.69, g = 0.31, b = 0.31},
 				[2] = {r = 0.69, g = 0.31, b = 0.31},

@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local _G = _G
-local unpack = unpack
+local unpack, select, pairs = unpack, select, pairs
 local find = string.find
 
 local function LoadSkin()
@@ -20,7 +20,6 @@ local function LoadSkin()
 		"QuestRewardScrollChildFrame",
 		"QuestFrameProgressPanel",
 		"QuestFrameRewardPanel",
-		"QuestFrameGreetingPanel"
 	}
 
 	for _, object in pairs(QuestStrip) do
@@ -44,64 +43,32 @@ local function LoadSkin()
 		S:HandleButton(_G[button])
 	end
 
-	for i = 1, MAX_NUM_ITEMS do
-		local item = _G["QuestLogItem" .. i]
-		local icon = _G["QuestLogItem" .. i .. "IconTexture"]
-		local count = _G["QuestLogItem" .. i .. "Count"]
+	local questItems = {
+		"QuestLogItem",
+		"QuestDetailItem",
+		"QuestRewardItem"
+	}
 
-		item:StripTextures()
-		item:SetTemplate("Default")
-		item:StyleButton()
-		item:Width(item:GetWidth() - 4)
-		item:SetFrameLevel(item:GetFrameLevel() + 2)
+	for _, frame in pairs(questItems) do
+		for i = 1, MAX_NUM_ITEMS do
+			local item = _G[frame..i]
+			local icon = _G[frame..i.."IconTexture"]
+			local count = _G[frame..i.."Count"]
 
-		icon:SetDrawLayer("OVERLAY")
-		icon:Size(icon:GetWidth() -(E.Spacing*2), icon:GetHeight() -(E.Spacing*2))
-		icon:Point("TOPLEFT", E.Border, -E.Border)
-		S:HandleIcon(icon)
+			item:StripTextures()
+			item:SetTemplate("Default")
+			item:StyleButton()
+			item:Size(143, 40)
+			item:SetFrameLevel(item:GetFrameLevel() + 2)
 
-		count:SetParent(item.backdrop)
-		count:SetDrawLayer("OVERLAY")
-	end
+			icon:Size(E.PixelMode and 38 or 32)
+			icon:SetDrawLayer("OVERLAY")
+			icon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
+			S:HandleIcon(icon)
 
-	for i = 1, MAX_NUM_ITEMS do
-		local item = _G["QuestDetailItem" .. i]
-		local icon = _G["QuestDetailItem" .. i .. "IconTexture"]
-		local count = _G["QuestDetailItem" .. i .. "Count"]
-
-		item:StripTextures()
-		item:SetTemplate("Default")
-		item:StyleButton()
-		item:Width(item:GetWidth() - 4)
-		item:SetFrameLevel(item:GetFrameLevel() + 2)
-
-		icon:SetDrawLayer("OVERLAY")
-		icon:Size(icon:GetWidth() -(E.Spacing*2), icon:GetHeight() -(E.Spacing*2))
-		icon:Point("TOPLEFT", E.Border, -E.Border)
-		S:HandleIcon(icon)
-
-		count:SetParent(item.backdrop)
-		count:SetDrawLayer("OVERLAY")
-	end
-
-	for i = 1, MAX_NUM_ITEMS do
-		local item = _G["QuestRewardItem" .. i]
-		local icon = _G["QuestRewardItem" .. i .. "IconTexture"]
-		local count = _G["QuestRewardItem" .. i .. "Count"]
-
-		item:StripTextures()
-		item:SetTemplate("Default")
-		item:StyleButton()
-		item:Width(item:GetWidth() - 4)
-		item:SetFrameLevel(item:GetFrameLevel() + 2)
-
-		icon:SetDrawLayer("OVERLAY")
-		icon:Size(icon:GetWidth() -(E.Spacing*2), icon:GetHeight() -(E.Spacing*2))
-		icon:Point("TOPLEFT", E.Border, -E.Border)
-		S:HandleIcon(icon)
-
-		count:SetParent(item.backdrop)
-		count:SetDrawLayer("OVERLAY")
+			count:SetParent(item.backdrop)
+			count:SetDrawLayer("OVERLAY")
+		end
 	end
 
 	local questHonorFrames = {
@@ -393,19 +360,19 @@ local function LoadSkin()
 	end)
 
 	for i = 1, MAX_REQUIRED_ITEMS do
-		local item = _G["QuestProgressItem" .. i]
-		local icon = _G["QuestProgressItem" .. i .. "IconTexture"]
-		local count = _G["QuestProgressItem" .. i .. "Count"]
+		local item = _G["QuestProgressItem"..i]
+		local icon = _G["QuestProgressItem"..i.."IconTexture"]
+		local count = _G["QuestProgressItem"..i.."Count"]
 
 		item:StripTextures()
 		item:SetTemplate("Default")
 		item:StyleButton()
-		item:Width(item:GetWidth() - 4)
+		item:Size(143, 40)
 		item:SetFrameLevel(item:GetFrameLevel() + 2)
 
+		icon:Size(E.PixelMode and 38 or 32)
 		icon:SetDrawLayer("OVERLAY")
-		icon:Size(icon:GetWidth() -(E.Spacing*2), icon:GetHeight() -(E.Spacing*2))
-		icon:Point("TOPLEFT", E.Border, -E.Border)
+		icon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
 		S:HandleIcon(icon)
 
 		count:SetParent(item.backdrop)
