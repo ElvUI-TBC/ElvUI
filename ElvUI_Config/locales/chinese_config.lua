@@ -69,7 +69,7 @@ L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[如果你设置为1则所有符合这个过�
 --ActionBars
 L["Action Paging"] = "动作条翻页"
 L["ActionBars"] = "动作条"
-L["Action button keybinds will respond on key down, rather than on key up"] = true
+L["Action button keybinds will respond on key down, rather than on key up"] = "在按下快捷键时施法，而不是在松开快捷键时施法。"
 L["Allow LBF to handle the skinning of this element."] = "允许LBF来处理这个元素的皮肤"
 L["Alpha"] = "透明度"
 L["Anchor Point"] = "定位方向"
@@ -118,7 +118,7 @@ L["Multiply the backdrops height or width by this value. This is usefull if you 
 L["Not Usable"] = "不可用"
 L["Out of Power"] = "能量不足"
 L["Out of Range"] = "超出范围"
-L["Pick Up Action Key"] = true
+L["Pick Up Action Key"] = "提取动作键"
 L["Restore Bar"] = "重置动作条"
 L["Restore the actionbars default settings"] = "恢复此动作条的预设设定"
 L["RightClick Self-Cast"] = "右键自我施法"
@@ -243,7 +243,7 @@ L["Attempt to lock the left and right chat frame positions. Disabling this optio
 L["Below Chat"] = "聊天框下方"
 L["Chat EditBox Position"] = "对话輸入框位置"
 L["Chat History"] = "聊天历史"
-L["Chat Timestamps"] = true
+L["Chat Timestamps"] = "聊天时间戳"
 L["Class Color Mentions"] = "职业颜色提示"
 L["Custom Timestamp Color"] = "自定义时间戳颜色"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "鼠标悬停在链接上时显示鼠标提示"
@@ -282,7 +282,7 @@ L["Require holding the Alt key down to move cursor or cycle through messages in 
 L["Right Only"] = "仅显示右边"
 L["Right Panel Height"] = "右面板高度"
 L["Right Panel Width"] = "右面板宽度"
-L["Select the format of timestamps for chat messages."] = true
+L["Select the format of timestamps for chat messages."] = "选择聊天信息的时间戳格式。"
 L["Scroll Interval"] = "滚动间隔"
 L["Scroll Messages"] = "滚动信息数目"
 L["Separate Panel Sizes"] = "分离框体大小"
@@ -454,7 +454,7 @@ L["The Thin Border Theme option will change the overall apperance of your UI. Us
 L["Thin Border Theme"] = "细边框主题"
 L["Toggle Tutorials"] = "教学开关"
 L["Top Panel"] = "顶部面板"
-L["Totem Bar"] = true
+L["Totem Bar"] = "图腾栏"
 L["Unit Prefix Style"] = "单位缩写"
 L["Vendor Gray Detailed Report"] = "出售灰色物品详细报告"
 L["Version Check"] = true
@@ -1024,7 +1024,7 @@ L["Set the priority order of the spell, please note that prioritys are only used
 L["Set the type of auras to show when a unit is a foe."] = "当单位是敌对时设置光环显示的类型"
 L["Set the type of auras to show when a unit is friendly."] = "当单位是友好时设置光环显示的类型"
 L["Sets the font instance's horizontal text alignment style."] = "设置字体实例的水平文本对齐方式"
-L["Show"] = true
+L["Show"] = "显示"
 L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."] = "在单位框架中显示即将回复的的预测治疗量, 过量治疗则以不同颜色显示"
 L["Show Auras"] = "显示光环"
 L["Show Dispellable Debuffs"] = "显示无法驱散的减益光环"

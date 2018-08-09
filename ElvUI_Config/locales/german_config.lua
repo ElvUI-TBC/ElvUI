@@ -121,7 +121,7 @@ L["Multiply the backdrops height or width by this value. This is usefull if you 
 L["Not Usable"] = "Nicht nutzbar"
 L["Out of Power"] = "Keine Kraft"
 L["Out of Range"] = "Außer Reichweite"
-L["Pick Up Action Key"] = "Aktionstaste zum Bewegen"
+L["Pick Up Action Key"] = "Freischaltungstaste"
 L["Restore Bar"] = "Leiste zurücksetzen"
 L["Restore the actionbars default settings"] = "Wiederherstellung der vordefinierten Aktionsleisteneinstellung"
 L["RightClick Self-Cast"] = "Rechtsklick Selbstzauber"
@@ -246,7 +246,7 @@ L["Attempt to lock the left and right chat frame positions. Disabling this optio
 L["Below Chat"] = "Unter dem Chat"
 L["Chat EditBox Position"] = "Position der Texteingabeleiste"
 L["Chat History"] = "Chatverlauf"
-L["Chat Timestamps"] = true
+L["Chat Timestamps"] = "Chatzeitstempel"
 L["Class Color Mentions"] = "Erwähnung in Klassenfarbe"
 L["Custom Timestamp Color"] = "Benutzerdefinierte Zeitstempel-Farbe"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "Zeigt den Hyperlink-Tooltip beim Schweben über einem Hyperlink."
@@ -285,7 +285,7 @@ L["Require holding the Alt key down to move cursor or cycle through messages in 
 L["Right Only"] = "Nur rechts"
 L["Right Panel Height"] = "Rechte Fensterhöhe"
 L["Right Panel Width"] = "Rechte Fensterbreite"
-L["Select the format of timestamps for chat messages."] = true
+L["Select the format of timestamps for chat messages."] = "Bitte wählen Sie das Format des Zeitstempels für Chatnachrichten."
 L["Scroll Interval"] = "Scroll-Interval"
 L["Scroll Messages"] = "Scroll Nachrichten"
 L["Separate Panel Sizes"] = "Getrennte Chatfenster-Größen"

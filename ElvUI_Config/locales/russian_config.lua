@@ -245,7 +245,7 @@ L["Attempt to lock the left and right chat frame positions. Disabling this optio
 L["Below Chat"] = "Под чатом"
 L["Chat EditBox Position"] = "Позиция поля ввода"
 L["Chat History"] = "История чата"
-L["Chat Timestamps"] = true
+L["Chat Timestamps"] = "Время в чате"
 L["Class Color Mentions"] = "Упоминания цветом класса"
 L["Custom Timestamp Color"] = "Свой цвет времени"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "Отображать подсказку ссылки на при наведении на нее мыши. Действует на предметы, достижения, сохранения подземелий и тд."
@@ -284,7 +284,7 @@ L["Require holding the Alt key down to move cursor or cycle through messages in 
 L["Right Only"] = "Только правый"
 L["Right Panel Height"] = "Высота правого чата"
 L["Right Panel Width"] = "Ширина правого чата"
-L["Select the format of timestamps for chat messages."] = true
+L["Select the format of timestamps for chat messages."] = "Выберите формат времени для сообщений чата."
 L["Scroll Interval"] = "Интервал прокрутки"
 L["Scroll Messages"] = "Прокручивание сообщений"
 L["Separate Panel Sizes"] = "Разные размеры панелей"
@@ -456,7 +456,7 @@ L["The Thin Border Theme option will change the overall apperance of your UI. Us
 L["Thin Border Theme"] = "Тонкие границы"
 L["Toggle Tutorials"] = "Показать помощь"
 L["Top Panel"] = "Верхняя панель"
-L["Totem Bar"] = true
+L["Totem Bar"] = "Панель тотемов"
 L["Unit Prefix Style"] = "Стиль сокращений"
 L["Vendor Gray Detailed Report"] = "Подробности продажи"
 L["Version Check"] = "Проверка версии"
