@@ -19,7 +19,7 @@ local function LoadSkin()
 	FriendsFrame.backdrop:Point("TOPLEFT", 10, -12)
 	FriendsFrame.backdrop:Point("BOTTOMRIGHT", -33, 76)
 
-	S:HandleCloseButton(FriendsFrameCloseButton)
+	S:HandleCloseButton(FriendsFrameCloseButton, FriendsFrame.backdrop)
 
 	for i = 1, 5 do
 		S:HandleTab(_G["FriendsFrameTab"..i])
@@ -233,7 +233,7 @@ local function LoadSkin()
 		local button, buttonText, classTextColor, levelTextColor
 		local playerZone = GetRealZoneText()
 
-		if(FriendsFrame.playerStatusFrame) then
+		if FriendsFrame.playerStatusFrame then
 			for i = 1, GUILDMEMBERS_TO_DISPLAY, 1 do
 				button = _G["GuildFrameButton"..i]
 				_, _, _, level, _, zone, _, _, online, _, classFileName = GetGuildRosterInfo(button.guildIndex)
@@ -296,13 +296,13 @@ local function LoadSkin()
 	GuildMemberDetailFrame:CreateBackdrop("Transparent")
 	GuildMemberDetailFrame:Point("TOPLEFT", GuildFrame, "TOPRIGHT", -31, -13)
 
-	S:HandleCloseButton(GuildMemberDetailCloseButton)
+	S:HandleCloseButton(GuildMemberDetailCloseButton, GuildMemberDetailFrame.backdrop)
 
 	S:HandleButton(GuildMemberRemoveButton)
-	GuildMemberRemoveButton:Point("BOTTOMLEFT", 8, 7)
+	GuildMemberRemoveButton:Point("BOTTOMLEFT", 3, 3)
 
 	S:HandleButton(GuildMemberGroupInviteButton)
-	GuildMemberGroupInviteButton:Point("LEFT", GuildMemberRemoveButton, "RIGHT", 3, 0)
+	GuildMemberGroupInviteButton:Point("LEFT", GuildMemberRemoveButton, "RIGHT", 13, 0)
 
 	S:HandleNextPrevButton(GuildFramePromoteButton, true)
 	GuildFramePromoteButton:SetHitRectInsets(0, 0, 0, 0)
@@ -311,14 +311,30 @@ local function LoadSkin()
 	GuildFrameDemoteButton:SetHitRectInsets(0, 0, 0, 0)
 	GuildFrameDemoteButton:Point("LEFT", GuildFramePromoteButton, "RIGHT", 2, 0)
 
-	GuildMemberNoteBackground:SetTemplate("Default")
-	GuildMemberOfficerNoteBackground:SetTemplate("Default")
+	GuildMemberNoteBackground:StripTextures()
+	GuildMemberNoteBackground:CreateBackdrop("Default")
+	GuildMemberNoteBackground.backdrop:Point("TOPLEFT", 0, -2)
+	GuildMemberNoteBackground.backdrop:Point("BOTTOMRIGHT", 0, -1)
+
+	GuildMemberOfficerNoteBackground:StripTextures()
+	GuildMemberOfficerNoteBackground:CreateBackdrop("Default")
+	GuildMemberOfficerNoteBackground.backdrop:Point("TOPLEFT", 0, -2)
+	GuildMemberOfficerNoteBackground.backdrop:Point("BOTTOMRIGHT", 0, -1)
+
+	GuildFrameNotesLabel:Point("TOPLEFT", GuildFrame, "TOPLEFT", 23, -340)
+	GuildFrameNotesText:Point("TOPLEFT", GuildFrameNotesLabel, "BOTTOMLEFT", 0, -6)
+
+	GuildMOTDEditButton:CreateBackdrop("Default")
+	GuildMOTDEditButton.backdrop:Point("TOPLEFT", -7, 3)
+	GuildMOTDEditButton.backdrop:Point("BOTTOMRIGHT", 7, -2)
+	GuildMOTDEditButton:SetHitRectInsets(-7, -7, -3, -2)
 
 	-- Info Frame
 	GuildInfoFrame:StripTextures()
 	GuildInfoFrame:CreateBackdrop("Transparent")
 	GuildInfoFrame.backdrop:Point("TOPLEFT", 3, -6)
 	GuildInfoFrame.backdrop:Point("BOTTOMRIGHT", -2, 3)
+	GuildInfoFrame:Point("TOPLEFT", GuildControlPopupFrame, "TOPLEFT", 2, 0)
 
 	GuildInfoTextBackground:SetTemplate("Default")
 	S:HandleScrollBar(GuildInfoFrameScrollFrameScrollBar)
@@ -339,6 +355,7 @@ local function LoadSkin()
 	GuildEventLogFrame:CreateBackdrop("Transparent")
 	GuildEventLogFrame.backdrop:Point("TOPLEFT", 3, -6)
 	GuildEventLogFrame.backdrop:Point("BOTTOMRIGHT", -2, 5)
+	GuildEventLogFrame:Point("TOPLEFT", GuildControlPopupFrame, "TOPLEFT", 2, 0)
 
 	GuildEventFrame:SetTemplate("Default")
 
@@ -387,9 +404,9 @@ local function LoadSkin()
 	GuildControlPopupFrameEditBox.backdrop:Point("BOTTOMRIGHT", 0, 5)
 
 	for i = 1, 17 do
-		local Checkbox = _G["GuildControlPopupFrameCheckbox"..i]
-		if Checkbox then
-			S:HandleCheckBox(Checkbox)
+		local checkbox = _G["GuildControlPopupFrameCheckbox"..i]
+		if checkbox then
+			S:HandleCheckBox(checkbox)
 		end
 	end
 
