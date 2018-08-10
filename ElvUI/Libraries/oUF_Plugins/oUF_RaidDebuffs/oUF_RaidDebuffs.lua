@@ -22,10 +22,12 @@ addon.DebuffData = debuff_data
 addon.ShowDispellableDebuff = true
 addon.FilterDispellableDebuff = true
 
+addon.priority = 10
+
 local function add(spell, priority, stackThreshold)
 	if(spell) then
 		debuff_data[spell] = {
-			priority = priority,
+			priority = (addon.priority + priority),
 			stackThreshold = (stackThreshold or 0)
 		}
 	end
@@ -172,19 +174,16 @@ local function Update(self, event, unit)
 
 	local _, name, icon, count, debuffType, duration, expirationTime
 	local _name, _icon, _count, _dtype, _duration, _endTime
-	local _priority, priority = -1, 0
+	local _priority, priority = 0, 0
 	local _stackThreshold = 0
 
-	local i = 0
-	while(true) do
-		i = i + 1
+	for i = 1, 40 do
 		name, _, icon, count, debuffType, duration, expirationTime = UnitDebuff(unit, i, "HARMFUL")
-
 		if not (name and icon) then break end
 
 		if(addon.ShowDispellableDebuff and (element.showDispellableDebuff ~= false) and debuffType) then
 			if(addon.FilterDispellableDebuff) then
-				DispellPriority[debuffType] = (DispellPriority[debuffType] or 0)
+				DispellPriority[debuffType] = (DispellPriority[debuffType] or 0) + addon.priority
 				priority = DispellFilter[debuffType] and DispellPriority[debuffType] or 0
 				if(priority == 0) then
 					debuffType = nil
