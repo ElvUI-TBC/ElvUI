@@ -179,7 +179,7 @@ function B:SetSearch(query)
 					button:SetAlpha(1)
 				else
 					SetItemButtonDesaturated(button, 1)
-					button:SetAlpha(0.4)
+					button:SetAlpha(0.5)
 				end
 			end
 		end
@@ -196,7 +196,7 @@ function B:SetSearch(query)
 				button:SetAlpha(1)
 			else
 				SetItemButtonDesaturated(button, 1)
-				button:SetAlpha(0.4)
+				button:SetAlpha(0.5)
 			end
 		end
 	end
@@ -223,7 +223,7 @@ function B:SetGuildBankSearch(query)
 					button:SetAlpha(1)
 				else
 					SetItemButtonDesaturated(button, 1)
-					button:SetAlpha(0.4)
+					button:SetAlpha(0.5)
 				end
 			end
 		end
@@ -272,7 +272,7 @@ end
 function B:UpdateSlot(bagID, slotID)
 	if (self.Bags[bagID] and self.Bags[bagID].numSlots ~= GetContainerNumSlots(bagID)) or not self.Bags[bagID] or not self.Bags[bagID][slotID] then return end
 
-	local slot, _ = self.Bags[bagID][slotID], nil
+	local slot = self.Bags[bagID][slotID]
 	local bagType = self.Bags[bagID].type
 	local texture, count, locked, _, readable = GetContainerItemInfo(bagID, slotID)
 	local clink = GetContainerItemLink(bagID, slotID)
@@ -338,7 +338,7 @@ function B:UpdateSlot(bagID, slotID)
 
 	SetItemButtonTexture(slot, texture)
 	SetItemButtonCount(slot, count)
-	SetItemButtonDesaturated(slot, locked, 0.5, 0.5, 0.5)
+	SetItemButtonDesaturated(slot, locked)
 
 	if GameTooltip:GetOwner() == slot and not slot.hasItem then
 		B:Tooltip_Hide()
@@ -681,7 +681,7 @@ function B:UpdateKeySlot(slotID)
 
 	SetItemButtonTexture(slot, texture)
 	SetItemButtonCount(slot, count)
-	SetItemButtonDesaturated(slot, locked, 0.5, 0.5, 0.5)
+	SetItemButtonDesaturated(slot, locked)
 end
 
 function B:UpdateAll()
@@ -1138,9 +1138,7 @@ function B:ToggleBags(id)
 end
 
 function B:ToggleBackpack()
-	if IsOptionFrameOpen() then
-		return
-	end
+	if IsOptionFrameOpen() then return end
 
 	if IsBagOpen(0) then
 		self:OpenBags()
@@ -1150,9 +1148,7 @@ function B:ToggleBackpack()
 end
 
 function B:OpenAllBags()
-	if IsOptionFrameOpen() then
-		return
-	end
+	if IsOptionFrameOpen() then return end
 
 	if self.BagFrame:IsShown() then
 		self:CloseBags()

@@ -415,6 +415,7 @@ L["Date Format"] = true
 L["Display data panels below the chat, used for datatexts."] = "패널의 하단에 정보문자 탭을 추가합니다. 이 탭에 정보문자가 있게 됩니다."
 L["Display minimap panels below the minimap, used for datatexts."] = "미니맵 하단에 2개의 정보문자를 추가합니다."
 L["Gold Format"] = "골드 표시방법"
+L["Hide specific sections in the datatext tooltip."] = true
 L["left"] = "왼쪽"
 L["LeftChatDataPanel"] = "좌측 패널 정보문자 탭"
 L["LeftMiniPanel"] = "미니맵 왼쪽 정보문자"

@@ -376,18 +376,20 @@ function UF:PostUpdateAura(unit, button, index)
 	button.spell = name
 	button.duration = duration
 
-	if duration ~= 0 then
-		if not button:GetScript("OnUpdate") then
-			button.nextupdate = -1
-			button:SetScript("OnUpdate", UF.UpdateAuraTimer)
+	if E.private.cooldown.enable then
+		if duration ~= 0 then
+			if not button:GetScript("OnUpdate") then
+				button.nextupdate = -1
+				button:SetScript("OnUpdate", UF.UpdateAuraTimer)
+			end
 		end
-	end
-	if duration == 0 then
-		button.priority = nil
-		button.duration = nil
-		button:SetScript("OnUpdate", nil)
-		if button.text:GetFont() then
-			button.text:SetText("")
+		if duration == 0 then
+			button.priority = nil
+			button.duration = nil
+			button:SetScript("OnUpdate", nil)
+			if button.text:GetFont() then
+				button.text:SetText("")
+			end
 		end
 	end
 end

@@ -523,7 +523,7 @@ P["datatexts"] = {
 		["BottomLeftMiniPanel"] = "",
 		["BottomRightMiniPanel"] = "",
 		["TopRightMiniPanel"] = "",
-		["TopLeftMiniPanel"] = "",
+		["TopLeftMiniPanel"] = ""
 	},
 	["timeFormat"] = "%I:%M",
 	["dateFormat"] = "",
@@ -531,10 +531,13 @@ P["datatexts"] = {
 	["panelTransparency"] = false,
 	["panelBackdrop"] = true,
 	["goldFormat"] = "BLIZZARD",
-	["goldCoins"] = false,
+	["goldCoins"] = true,
 	["noCombatClick"] = false,
 	["noCombatHover"] = false,
-
+	["friends"] = {
+		["hideAFK"] = false,
+		["hideDND"] = false,
+	},
 	["minimapPanels"] = true,
 	["leftChatPanel"] = true,
 	["rightChatPanel"] = true,

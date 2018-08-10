@@ -172,6 +172,7 @@ local function LoadSkin()
 		icon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
 		icon:SetParent(icon.backdrop)
 
+		count:Point("BOTTOMRIGHT", icon, "BOTTOMRIGHT", -3, 2)
 		count:SetParent(icon.backdrop)
 		count:SetDrawLayer("OVERLAY")
 
