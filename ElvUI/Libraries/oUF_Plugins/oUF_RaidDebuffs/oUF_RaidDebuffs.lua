@@ -19,7 +19,7 @@ end
 local debuff_data = {}
 addon.DebuffData = debuff_data
 
-addon.ShowDispelableDebuff = true
+addon.ShowDispellableDebuff = true
 addon.FilterDispellableDebuff = true
 
 local function add(spell, priority, stackThreshold)
@@ -175,14 +175,11 @@ local function Update(self, event, unit)
 	local _priority, priority = -1, 0
 	local _stackThreshold = 0
 
-	local i = 0
-	while(true) do
-		i = i + 1
+	for i = 1, 40 do
 		name, _, icon, count, debuffType, duration, expirationTime = UnitDebuff(unit, i, "HARMFUL")
+		if not name then break end
 
-		if not (name and icon) then break end
-
-		if(addon.ShowDispelableDebuff and (element.showDispellableDebuff ~= false) and debuffType) then
+		if(addon.ShowDispellableDebuff and (element.showDispellableDebuff ~= false) and debuffType) then
 			if(addon.FilterDispellableDebuff) then
 				DispellPriority[debuffType] = (DispellPriority[debuffType] or 0)
 				priority = DispellFilter[debuffType] and DispellPriority[debuffType] or 0
@@ -211,8 +208,8 @@ local function Update(self, event, unit)
 		_count, _dtype, _duration, _endTime, _stackThreshold = 5, 'Magic', 0, 60, 0
 	end
 
-	if(_name and _icon) then
-		_stackThreshold = debuff_data[_name] and debuff_data[_name].stackThreshold or _stackThreshold
+ 	if(_name) then
+ 		_stackThreshold = debuff_data[_name] and debuff_data[_name].stackThreshold or _stackThreshold
 	end
 
 	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _stackThreshold)
