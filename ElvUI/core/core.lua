@@ -18,6 +18,7 @@ local IsAddOnLoaded = IsAddOnLoaded
 local IsInInstance, GetNumPartyMembers, GetNumRaidMembers = IsInInstance, GetNumPartyMembers, GetNumRaidMembers
 local RequestBattlefieldScoreData = RequestBattlefieldScoreData
 local SendAddonMessage = SendAddonMessage
+local NONE = NONE
 local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT
 local MAX_TALENT_TABS = MAX_TALENT_TABS
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
@@ -452,7 +453,7 @@ function E:GetTalentSpecInfo(isInspect)
 	end
 
 	if not specName then
-		specName = "None"
+		specName = NONE
 	end
 	if not specIcon then
 		specIcon = "Interface\\Icons\\INV_Misc_QuestionMark"
@@ -509,7 +510,7 @@ function E:CheckIncompatible()
 	end
 
 	if IsAddOnLoaded("Aloft") and E.private.nameplates.enable then
-		E:IncompatibleAddOn("Aloft", "NamePlate")
+		E:IncompatibleAddOn("Aloft", "NamePlates")
 	end
 end
 

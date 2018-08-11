@@ -140,11 +140,11 @@ L["Use Override"] = "强制覆盖"
 L["Visibility State"] = "可见状态"
 L["Width Multiplier"] = "宽度倍增"
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.
- Example: [combat] 2;]=] ] = [=[和宏写法类似, 能根据不同姿态切换动作条.
- 例如: [combat] 2;]=]
+ Example: '[combat] 2;']=] ] = [=[和宏写法类似, 能根据不同姿态切换动作条.
+ 例如: '[combat] 2;']=]
 L[ [=[This works like a macro, you can run different situations to get the actionbar to show/hide differently.
- Example: [combat] show;hide]=] ] = [=[和宏写法类似, 能根据不同姿态切换动作条显示或隐藏.
- 例如: [combat] show;hide]=]
+ Example: '[combat] show;hide']=] ] = [=[和宏写法类似, 能根据不同姿态切换动作条显示或隐藏.
+ 例如: '[combat] show;hide']=]
 
 --Bags
 L["Add an item or search syntax to the ignored list. Items matching the search syntax will be ignored."] = "添加一个物品或者匹配语法到屏蔽列表.符合匹配语法的物品将被忽略"

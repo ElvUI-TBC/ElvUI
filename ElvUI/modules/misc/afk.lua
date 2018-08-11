@@ -3,7 +3,6 @@ local AFK = E:NewModule("AFK", "AceEvent-3.0", "AceTimer-3.0")
 local CH = E:GetModule("Chat")
 
 local _G = _G
-local GetTime = GetTime
 local floor = math.floor
 
 local CinematicFrame = CinematicFrame
@@ -12,6 +11,7 @@ local GetBattlefieldStatus = GetBattlefieldStatus
 local GetGuildInfo = GetGuildInfo
 local GetScreenHeight = GetScreenHeight
 local GetScreenWidth = GetScreenWidth
+local GetTime = GetTime
 local InCombatLockdown = InCombatLockdown
 local IsInGuild = IsInGuild
 local IsShiftKeyDown = IsShiftKeyDown
