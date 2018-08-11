@@ -154,7 +154,7 @@ local function BuildABConfig()
 						order = 2,
 						type = "color",
 						name = L["Out of Power"],
-						desc = L["Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power)."]
+						desc = L["Color of the actionbutton when out of power (Mana, Rage)."]
 					},
 					usableColor = {
 						order = 3,
