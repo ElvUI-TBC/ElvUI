@@ -27,6 +27,7 @@ local UnitIsGhost = UnitIsGhost
 local UnitName = UnitName
 
 local function Update(self, event, unit, succeeded)
+	if self.db and not self.db.resurrectIcon.enable then return end
 	if not unit or self.unit ~= unit then return end
 
 	local element = self.ResurrectIndicator
