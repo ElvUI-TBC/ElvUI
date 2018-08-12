@@ -23,6 +23,7 @@ local UnitName = UnitName
 
 local UNKNOWN = UNKNOWN
 
+local MYREALM = E.myrealm
 local GAME_LOCALE = GetLocale()
 local ENGLISH_CLASS_NAMES
 
@@ -48,11 +49,9 @@ local function GetEnglishClassName(class)
 end
 
 local function WhoCallback(result)
-	if result then
-		if result.NoLocaleClass then
-			CC:CachePlayer(result.Name, result.NoLocaleClass)
-			CC:SendMessage("ClassCacheQueryResult", result.Name, result.NoLocaleClass)
-		end
+	if result and result.NoLocaleClass then
+		CC:CachePlayer(result.Name, result.NoLocaleClass)
+		CC:SendMessage("ClassCache_QueryResult", result.Name, result.NoLocaleClass)
 	end
 end
 
@@ -60,29 +59,17 @@ function CC:GetClassByName(name, realm)
 	if not name or name == "" then return end
 	if realm and realm == "" then return end
 
-	if E.db.general.classCacheStoreInDB then
-		if realm then
-			if self.cache[realm] and self.cache[realm][name] then
-				return self.cache[realm][name]
-			else
-				return
-			end
+	local cacheDB = self:GetCacheTable()
+
+	if realm then
+		if cacheDB[realm] and cacheDB[realm][name] then
+			return cacheDB[realm][name]
 		else
-			if self.cache[E.myrealm][name] then
-				return self.cache[E.myrealm][name]
-			end
+			return
 		end
 	else
-		if realm then
-			if self.tempCache[realm] and self.tempCache[realm][name] then
-				return self.tempCache[realm][name]
-			else
-				return
-			end
-		else
-			if self.tempCache[E.myrealm][name] then
-				return self.tempCache[E.myrealm][name]
-			end
+		if cacheDB[MYREALM][name] then
+			return cacheDB[MYREALM][name]
 		end
 	end
 
@@ -107,68 +94,32 @@ function CC:CachePlayer(name, class, realm)
 
 	if realm and realm == "" then return end
 
-	if E.db.general.classCacheStoreInDB then
-		if realm and not self.cache[realm] then
-			self.cache[realm] = {}
-		end
+	local cacheDB = self:GetCacheTable()
+	realm = realm or MYREALM
 
-		if realm then
-			self.cache[realm][name] = class
-		else
-			self.cache[E.myrealm][name] = class
-		end
-	else
-		if realm and not self.tempCache[realm] then
-			self.tempCache[realm] = {}
-		end
+	cacheDB[realm] = cacheDB[realm] or {}
 
-		if realm then
-			self.tempCache[realm][name] = class
-		else
-			self.tempCache[E.myrealm][name] = class
-		end
+	if cacheDB[realm][name] ~= class then
+		CC:SendMessage("ClassCache_ClassUpdated", name, class)
 	end
+
+	cacheDB[realm][name] = class
 end
 
 function CC:SwitchCacheType(init)
-	if E.db.general.classCacheStoreInDB then
-		if not self.cache[E.myrealm] then
-			self.cache[E.myrealm] = {}
-		end
+	local newDB = self:GetCacheTable()
 
-		if not self.cache[E.myrealm][E.myname] then
-			self.cache[E.myrealm][E.myname] = E.myclass
-		end
+	newDB[MYREALM] = newDB[MYREALM] or {}
+	newDB[MYREALM][E.myname] = E.myclass
 
-		if not init then
-			for realm in pairs(self.tempCache) do
-				if not self.cache[realm] then
-					self.cache[realm] = {}
-				end
+	if not init then
+		local oldDB = E.db.general.classCacheStoreInDB and self.tempCache or self.cache
 
-				for name, class in pairs(self.tempCache[realm]) do
-					self.cache[realm][name] = class
-				end
-			end
-		end
-	else
-		if not self.tempCache[E.myrealm] then
-			self.tempCache[E.myrealm] = {}
-		end
+		for realm in pairs(oldDB) do
+			newDB[realm] = newDB[realm] or {}
 
-		if not self.tempCache[E.myrealm][E.myname] then
-			self.tempCache[E.myrealm][E.myname] = E.myclass
-		end
-
-		if not init then
-			for realm in pairs(self.cache) do
-				if not self.cache[realm] then
-					self.tempCache[realm] = {}
-				end
-
-				for name, class in pairs(self.cache[realm]) do
-					self.tempCache[realm][name] = class
-				end
+			for name, class in pairs(oldDB[realm]) do
+				newDB[realm][name] = class
 			end
 		end
 	end
@@ -190,23 +141,18 @@ function CC:GetCacheSize(global)
 	end
 
 	local size = 0
+	local cacheDB = global and self.cache or self.tempCache
+
+	for realm in pairs(cacheDB) do
+		for _ in pairs(cacheDB[realm]) do
+			size = size + 1
+		end
+	end
 
 	if global then
-		for realm in pairs(self.cache) do
-			for _ in pairs(self.cache[realm]) do
-				size = size + 1
-			end
-		end
-
 		self.cacheDBSize = size
 		self.cacheDBCalculationTime = GetTime()
 	else
-		for realm in pairs(self.tempCache) do
-			for _ in pairs(self.tempCache[realm]) do
-				size = size + 1
-			end
-		end
-
 		self.cacheLocalSize = size
 		self.cacheLocalCalculationTime = GetTime()
 	end
@@ -215,25 +161,20 @@ function CC:GetCacheSize(global)
 end
 
 function CC:WipeCache(global)
+	local cacheDB = global and self.cache or self.tempCache
+
+	for realm in pairs(cacheDB) do
+		wipe(cacheDB[realm])
+	end
+
+	wipe(cacheDB)
+	self:SwitchCacheType(true)
+
 	if global then
-		for realm in pairs(self.cache) do
-			wipe(self.cache[realm])
-		end
-
-		wipe(self.cache)
-		self:SwitchCacheType(true)
 		self.cacheDBCalculationTime = 0
-
 		E:Print(L["Class DB cache wiped."])
 	else
-		for realm in pairs(self.tempCache) do
-			wipe(self.tempCache[realm])
-		end
-
-		wipe(self.tempCache)
-		self:SwitchCacheType(true)
 		self.cacheLocalCalculationTime = 0
-
 		E:Print(L["Class session cache wiped."])
 	end
 end
@@ -302,10 +243,10 @@ function CC:FRIENDLIST_UPDATE()
 	local name, class, _
 
 	for i = 1, GetNumFriends() do
-		name, _, class = GetFriendInfo(i)
+		name, _, classLocalized = GetFriendInfo(i)
 
 		if class then
-			self:CachePlayer(name, GetEnglishClassName(class))
+			self:CachePlayer(name, GetEnglishClassName(classLocalized))
 		end
 	end
 end
