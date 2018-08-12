@@ -49,11 +49,18 @@ local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local GlobalStrings = {
 	["AFK"] = AFK,
+	["BATTLEGROUND"] = BATTLEGROUND,
+	["BATTLEGROUND_LEADER"] = BATTLEGROUND_LEADER,
 	["CHAT_FILTERED"] = CHAT_FILTERED,
 	["CHAT_IGNORED"] = CHAT_IGNORED,
 	["CHAT_RESTRICTED"] = CHAT_RESTRICTED,
 	["CHAT_TELL_ALERT_TIME"] = CHAT_TELL_ALERT_TIME,
 	["DND"] = DND,
+	["GUILD"] = GUILD,
+	--["GUILD_OFFICER"] = GUILD_OFFICER,
+	["PARTY"] = PARTY,
+	["RAID"] = RAID,
+	["RAID_LEADER"] = RAID_LEADER,
 	["RAID_WARNING"] = RAID_WARNING
 }
 
@@ -64,16 +71,6 @@ local chatFilters = {}
 
 local PLAYER_REALM = gsub(E.myrealm,"[%s%-]","")
 local PLAYER_NAME = E.myname.."-"..PLAYER_REALM
-
-local DEFAULT_STRINGS = {
-	BATTLEGROUND = L["BG"],
-	GUILD = L["G"],
-	PARTY = L["P"],
-	RAID = L["R"],
-	OFFICER = L["O"],
-	BATTLEGROUND_LEADER = L["BGL"],
-	RAID_LEADER = L["RL"],
-}
 
 local hyperlinkTypes = {
 	["item"] = true,
@@ -762,7 +759,7 @@ function CH:DisableChatThrottle()
 end
 
 function CH:ShortChannel()
-	return format("|Hchannel:%s|h[%s]|h", self, DEFAULT_STRINGS[strupper(self)] or gsub(self, "channel:", ""))
+	return format("|Hchannel:%s|h[%s]|h", self, gsub(self, "channel:", ""))
 end
 
 function CH:GetColoredName(event, _, arg2)
@@ -967,6 +964,13 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 				body = body:gsub("^(.-|h) "..L["yells"], "%1")
 				body = body:gsub("<"..GlobalStrings.AFK..">", "[|cffFF0000"..L["AFK"].."|r] ")
 				body = body:gsub("<"..GlobalStrings.DND..">", "[|cffE7E716"..L["DND"].."|r] ")
+				body = body:gsub("^%["..GlobalStrings.BATTLEGROUND.."%]", "["..L["BG"].."]")
+				body = body:gsub("^%["..GlobalStrings.BATTLEGROUND_LEADER.."%]", "["..L["BGL"].."]")
+				body = body:gsub("^%["..GlobalStrings.GUILD.."%]", "["..L["G"].."]")
+				--body = body:gsub("^%["..GlobalStrings.GUILD_OFFICER.."%]", "["..L["O"].."]")
+				body = body:gsub("^%["..GlobalStrings.PARTY.."%]", "["..L["P"].."]")
+				body = body:gsub("^%["..GlobalStrings.RAID.."%]", "["..L["R"].."]")
+				body = body:gsub("^%["..GlobalStrings.RAID_LEADER.."%]", "["..L["RL"].."]")
 				body = body:gsub("^%["..GlobalStrings.RAID_WARNING.."%]", "["..L["RW"].."]")
 			end
 			self:AddMessage(body, info.r, info.g, info.b, info.id, isHistory, historyTime)

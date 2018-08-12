@@ -49,7 +49,6 @@ L["G"] = true
 L["Invalid Target"] = true
 L["O"] = true
 L["P"] = true
-L["PL"] = true
 L["R"] = true
 L["RL"] = true
 L["RW"] = true
