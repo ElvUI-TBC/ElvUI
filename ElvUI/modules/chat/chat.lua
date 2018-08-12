@@ -57,7 +57,7 @@ local GlobalStrings = {
 	["CHAT_TELL_ALERT_TIME"] = CHAT_TELL_ALERT_TIME,
 	["DND"] = DND,
 	["GUILD"] = GUILD,
-	--["GUILD_OFFICER"] = GUILD_OFFICER,
+	["CHAT_MSG_OFFICER"] = CHAT_MSG_OFFICER,
 	["PARTY"] = PARTY,
 	["RAID"] = RAID,
 	["RAID_LEADER"] = RAID_LEADER,
@@ -967,7 +967,7 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 				body = body:gsub("^%["..GlobalStrings.BATTLEGROUND.."%]", "["..L["BG"].."]")
 				body = body:gsub("^%["..GlobalStrings.BATTLEGROUND_LEADER.."%]", "["..L["BGL"].."]")
 				body = body:gsub("^%["..GlobalStrings.GUILD.."%]", "["..L["G"].."]")
-				--body = body:gsub("^%["..GlobalStrings.GUILD_OFFICER.."%]", "["..L["O"].."]")
+				body = body:gsub("^%["..GlobalStrings.CHAT_MSG_OFFICER.."%]", "["..L["O"].."]")
 				body = body:gsub("^%["..GlobalStrings.PARTY.."%]", "["..L["P"].."]")
 				body = body:gsub("^%["..GlobalStrings.RAID.."%]", "["..L["R"].."]")
 				body = body:gsub("^%["..GlobalStrings.RAID_LEADER.."%]", "["..L["RL"].."]")
