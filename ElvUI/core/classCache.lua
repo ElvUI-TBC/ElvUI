@@ -86,7 +86,7 @@ function CC:GetClassByName(name, realm)
 		end
 	end
 
-	if E.db.general.classCacheRequestInfo then
+	if E.db.general.classCacheRequestInfo and self.onBattleground ~= "arena" then
 		local result = LW:UserInfo(name, {
 			queue = LW.WHOLIB_QUEUE_QUIET,
 			timeout = 0,
@@ -243,12 +243,12 @@ function CC:PLAYER_ENTERING_WORLD()
 	self.inInstance = inInstance
 
 	if instanceType == "arena" or instanceType == "pvp" then
-		self.inBattleground = true
+		self.onBattleground = instanceType
 	else
-		self.inBattleground = false
+		self.onBattleground = false
 	end
 
-	if self.inInstance or self.inBattleground then
+	if self.inInstance or self.onBattleground then
 		self.lastNumPlayers = 0
 
 		self:UnregisterEvent("PLAYER_TARGET_CHANGED")
@@ -260,7 +260,7 @@ function CC:PLAYER_ENTERING_WORLD()
 
 		self:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
 
-		if self.inBattleground then
+		if self.onBattleground then
 			self:UPDATE_BATTLEFIELD_SCORE()
 		end
 	else
@@ -333,7 +333,7 @@ function CC:PARTY_MEMBERS_CHANGED()
 
 		if not class then return end
 
-		if self.inBattleground then
+		if self.onBattleground then
 			self:CachePlayer(name, class, realm)
 		else
 			self:CachePlayer(name, class)
@@ -350,7 +350,7 @@ function CC:RAID_ROSTER_UPDATE()
 
 		if not class then return end
 
-		if self.inBattleground then
+		if self.onBattleground then
 			self:CachePlayer(name, class, realm)
 		else
 			self:CachePlayer(name, class)
@@ -366,7 +366,7 @@ function CC:PLAYER_TARGET_CHANGED()
 
 	local name, realm = UnitName("target")
 
-	if self.inBattleground then
+	if self.onBattleground then
 		self:CachePlayer(name, class, realm)
 	else
 		self:CachePlayer(name, class)
@@ -381,7 +381,7 @@ function CC:UPDATE_MOUSEOVER_UNIT()
 
 	local name, realm = UnitName("mouseover")
 
-	if self.inBattleground then
+	if self.onBattleground then
 		self:CachePlayer(name, class, realm)
 	else
 		self:CachePlayer(name, class)
