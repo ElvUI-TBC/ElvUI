@@ -307,19 +307,20 @@ function mod:RoundColors(r, g, b)
 end
 
 function mod:UnitClass(name, type)
+	if type == "FRIENDLY_NPC" then return end
+
+	local _, class = UnitClass(name)
+
 	if E.private.general.classCache then
-		if type == "FRIENDLY_PLAYER" then
-			local _, class = UnitClass(name)
-			if class then
-				return class
-			else
-				local name, realm = split("-", name)
-				return CC:GetClassByName(name, realm)
-			end
+		if class then
+			return class
+		else
+			local name, realm = split("-", name)
+			return CC:GetClassByName(name, realm)
 		end
 	else
-		if type == "FRIENDLY_PLAYER" then
-			return select(2, UnitClass(name))
+		if class then
+			return class
 		end
 	end
 end
