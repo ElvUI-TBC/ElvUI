@@ -3,6 +3,7 @@ local S = E:NewModule("Skins", "AceHook-3.0", "AceEvent-3.0")
 
 local _G = _G
 local unpack, assert, pairs, ipairs, select, type, pcall = unpack, assert, pairs, ipairs, select, type, pcall
+local find = string.find
 local tinsert, wipe = table.insert, table.wipe
 
 local CreateFrame = CreateFrame
@@ -16,8 +17,6 @@ S.nonAddonsToLoad = {}
 S.allowBypass = {}
 S.addonCallbacks = {}
 S.nonAddonCallbacks = {["CallPriority"] = {}}
-
-local find = string.find
 
 S.SQUARE_BUTTON_TEXCOORDS = {
 	["UP"] = {     0.45312500,    0.64062500,     0.01562500,     0.20312500};

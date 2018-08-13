@@ -1,6 +1,10 @@
 local E, L, V, P, G = unpack(ElvUI);
 local CC = E:GetModule("ClassCache")
 
+local NONE, FONT_SIZE, COLORS, DISABLE = NONE, FONT_SIZE, COLORS, DISABLE
+local GUILD, PLAYER, LOOT = GUILD, PLAYER, LOOT
+local SAY, CHAT_MSG_EMOTE = SAY, CHAT_MSG_EMOTE
+
 E.Options.args.general = {
 	type = "group",
 	name = L["General"],

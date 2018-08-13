@@ -128,7 +128,6 @@ L["Config Mode:"] = true
 L["CVars Set"] = true
 L["CVars"] = true
 L["Dark"] = true
-L["Disable"] = true
 L["ElvUI Installation"] = true
 L["Finished"] = true
 L["Grid Size:"] = true

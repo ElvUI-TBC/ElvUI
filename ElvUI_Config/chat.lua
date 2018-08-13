@@ -29,6 +29,7 @@ E.Options.args.chat = {
 			order = 3,
 			type = "group",
 			name = L["General"],
+			disabled = function() return not E.private.chat.enable end,
 			args = {
 				header = {
 					order = 0,
@@ -191,14 +192,14 @@ E.Options.args.chat = {
 					order = 18,
 					type = "toggle",
 					name = L["Custom Timestamp Color"],
-					disabled = function() return not E.db.chat.timeStampFormat == "NONE"; end
+					disabled = function() return not E.private.chat.enable or E.db.chat.timeStampFormat == "NONE" end
 				},
 				customTimeColor = {
 					order = 19,
 					type = "color",
 					hasAlpha = false,
 					name = L["Timestamp Color"],
-					disabled = function() return (not E.db.chat.timeStampFormat == "NONE" or not E.db.chat.useCustomTimeColor); end,
+					disabled = function() return not E.private.chat.enable or (E.db.chat.timeStampFormat == "NONE" or not E.db.chat.useCustomTimeColor) end,
 					get = function(info)
 						local t = E.db.chat.customTimeColor;
 						local d = P.chat.customTimeColor;
@@ -215,6 +216,7 @@ E.Options.args.chat = {
 			order = 4,
 			type = "group",
 			name = L["Alerts"],
+			disabled = function() return not E.private.chat.enable end,
 			args = {
 				header = {
 					order = 0,
@@ -252,6 +254,7 @@ E.Options.args.chat = {
 			order = 5,
 			type = "group",
 			name = L["Panels"],
+			disabled = function() return not E.private.chat.enable end,
 			args = {
 				header = {
 					order = 0,
@@ -405,6 +408,7 @@ E.Options.args.chat = {
 			type = "group",
 			name = L["Fonts"],
 			set = function(info, value) E.db.chat[ info[#info] ] = value; CH:SetupChat(); end,
+			disabled = function() return not E.private.chat.enable end,
 			args = {
 				header = {
 					order = 1,

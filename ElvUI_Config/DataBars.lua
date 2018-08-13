@@ -5,8 +5,6 @@ local FONT_SIZE, NONE = FONT_SIZE, NONE
 local REPUTATION = REPUTATION
 local XPBAR_LABEL = XPBAR_LABEL
 
-local databars = {}
-
 E.Options.args.databars = {
 	type = "group",
 	name = L["DataBars"],
