@@ -274,7 +274,7 @@ P["nameplates"] = {
 				}
 			},
 			["name"] = {
-				["useClassColor"] = false,
+				["useClassColor"] = true,
 			}
 		},
 		["ENEMY_PLAYER"] = {
