@@ -137,15 +137,6 @@ function A:BuffButton_UpdateAnchors(buttonName, index, filter)
 			buff:Show()
 		end
 	else
-		local color
-		local debuffType = GetPlayerBuffDispelType(index)
-		if debuffType then
-			color = DebuffTypeColor[debuffType]
-		else
-			color = DebuffTypeColor["none"]
-		end
-		buff:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
-
 		buff:ClearAllPoints()
 		if index == 1 then
 			buff:SetPoint("BOTTOMRIGHT", AurasHolder, "BOTTOMRIGHT", 0, 0)
@@ -157,6 +148,26 @@ function A:BuffButton_UpdateAnchors(buttonName, index, filter)
 			buff:Hide()
 		else
 			buff:Show()
+		end
+	end
+end
+
+function A:BuffButton_Update(buttonName, index, filter)
+	local color, debuffType
+	local buffIndex = GetPlayerBuff(index, filter)
+	local buff = _G[buttonName..index]
+
+	if buffIndex ~= 0 then
+		if filter == "HARMFUL" then
+			debuffType = GetPlayerBuffDispelType(buffIndex)
+
+			if debuffType then
+				color = DebuffTypeColor[debuffType]
+			else
+				color = DebuffTypeColor["none"]
+			end
+
+			buff:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
 		end
 	end
 end
@@ -200,6 +211,7 @@ function A:Initialize()
 
 	self:SecureHook("BuffButton_OnUpdate")
 	self:SecureHook("BuffButton_UpdateAnchors")
+	self:SecureHook("BuffButton_Update")
 	self:SecureHook("BuffFrame_UpdateDuration", "UpdateWeaponText")
 
 	TempEnchant1:SetScript("OnUpdate", function()
