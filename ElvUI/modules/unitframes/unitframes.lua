@@ -21,7 +21,6 @@ local GetInstanceInfo = GetInstanceInfo
 local UnregisterStateDriver = UnregisterStateDriver
 local RegisterStateDriver = RegisterStateDriver
 local MAX_RAID_MEMBERS = MAX_RAID_MEMBERS
-local MAX_BOSS_FRAMES = MAX_BOSS_FRAMES
 
 local ns = oUF
 ElvUF = ns.oUF
@@ -184,9 +183,9 @@ local DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER = {
 function UF:ConvertGroupDB(group)
 	local db = self.db.units[group.groupName]
 	if db.point and db.columnAnchorPoint then
-		db.growthDirection = POINT_COLUMN_ANCHOR_TO_DIRECTION[db.point..db.columnAnchorPoint];
-		db.point = nil;
-		db.columnAnchorPoint = nil;
+		db.growthDirection = POINT_COLUMN_ANCHOR_TO_DIRECTION[db.point..db.columnAnchorPoint]
+		db.point = nil
+		db.columnAnchorPoint = nil
 	end
 
 	if db.growthDirection == "UP" then
@@ -202,7 +201,7 @@ function UF:Construct_UF(frame, unit)
 	frame:SetScript("OnEnter", UnitFrame_OnEnter)
 	frame:SetScript("OnLeave", UnitFrame_OnLeave)
 
-	if(self.thinBorders) then
+	if self.thinBorders then
 		frame.SPACING = 0
 		frame.BORDER = E.mult
 	else
@@ -245,7 +244,7 @@ function UF:GetObjectAnchorPoint(frame, point)
 end
 
 function UF:GetPositionOffset(position, offset)
-	if not offset then offset = 2; end
+	if not offset then offset = 2 end
 	local x, y = 0, 0
 	if find(position, "LEFT") then
 		x = offset
@@ -317,13 +316,13 @@ function UF:UpdateColors()
 	local bad = E:GetColorTable(db.reaction.BAD)
 	local neutral = E:GetColorTable(db.reaction.NEUTRAL)
 
-	ElvUF.colors.tapped = E:GetColorTable(db.tapped);
-	ElvUF.colors.disconnected = E:GetColorTable(db.disconnected);
-	ElvUF.colors.health = E:GetColorTable(db.health);
-	ElvUF.colors.power[0] = E:GetColorTable(db.power.MANA);
-	ElvUF.colors.power[1] = E:GetColorTable(db.power.RAGE);
-	ElvUF.colors.power[2] = E:GetColorTable(db.power.FOCUS);
-	ElvUF.colors.power[3] = E:GetColorTable(db.power.ENERGY);
+	ElvUF.colors.tapped = E:GetColorTable(db.tapped)
+	ElvUF.colors.disconnected = E:GetColorTable(db.disconnected)
+	ElvUF.colors.health = E:GetColorTable(db.health)
+	ElvUF.colors.power[0] = E:GetColorTable(db.power.MANA)
+	ElvUF.colors.power[1] = E:GetColorTable(db.power.RAGE)
+	ElvUF.colors.power[2] = E:GetColorTable(db.power.FOCUS)
+	ElvUF.colors.power[3] = E:GetColorTable(db.power.ENERGY)
 
 	ElvUF.colors.ComboPoints = {}
 	ElvUF.colors.ComboPoints[1] = E:GetColorTable(db.classResources.comboPoints[1])
@@ -342,7 +341,7 @@ function UF:UpdateColors()
 	ElvUF.colors.reaction[8] = good
 	ElvUF.colors.smooth = {1, 0, 0, 1, 1, 0, unpack(E:GetColorTable(db.health))}
 
-	ElvUF.colors.castColor = E:GetColorTable(db.castColor);
+	ElvUF.colors.castColor = E:GetColorTable(db.castColor)
 
 	ElvUF.colors.DebuffHighlight = {}
 	ElvUF.colors.DebuffHighlight["Magic"] = E:GetColorTable(db.debuffHighlight.Magic)
@@ -384,8 +383,9 @@ function UF:Configure_FontString(obj)
 end
 
 function UF:Update_AllFrames()
-	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED"); return end
-	if E.private["unitframe"].enable ~= true then return; end
+	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
+	if E.private["unitframe"].enable ~= true then return end
+
 	self:UpdateColors()
 	self:Update_FontStrings()
 	self:Update_StatusBars()
@@ -416,7 +416,7 @@ function UF:Update_AllFrames()
 end
 
 function UF:CreateAndUpdateUFGroup(group, numGroup)
-	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED"); return end
+	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
 
 	for i = 1, numGroup do
 		local unit = group..i
@@ -563,7 +563,7 @@ function UF.groupPrototype:Configure_Groups(self)
 					width = width + ((db.width + db.horizontalSpacing) * 5) + groupSpacing
 					newCols = newCols + 1
 				elseif group then
-					group:Point(point, self, point, ((((db.width + db.horizontalSpacing) * 5) * ((i-1) % db.groupsPerRowCol))+((i-1) % db.groupsPerRowCol)*groupSpacing) * xMult, (((UNIT_HEIGHT + db.verticalSpacing+groupSpacing) * (newRows - 1))) * yMult)
+					group:Point(point, self, point, ((((db.width + db.horizontalSpacing) * 5) * ((i - 1) % db.groupsPerRowCol)) + ((i - 1) % db.groupsPerRowCol)*groupSpacing) * xMult, (((UNIT_HEIGHT + db.verticalSpacing+groupSpacing) * (newRows - 1))) * yMult)
 				end
 			else
 				if newCols == 1 then
@@ -573,7 +573,7 @@ function UF.groupPrototype:Configure_Groups(self)
 					height = height + ((UNIT_HEIGHT + db.verticalSpacing) * 5) + groupSpacing
 					newRows = newRows + 1
 				elseif group then
-					group:Point(point, self, point, (((db.width + db.horizontalSpacing +groupSpacing) * (newCols - 1))) * xMult, ((((UNIT_HEIGHT + db.verticalSpacing) * 5) * ((i-1) % db.groupsPerRowCol))+((i-1) % db.groupsPerRowCol)*groupSpacing) * yMult)
+					group:Point(point, self, point, (((db.width + db.horizontalSpacing +groupSpacing) * (newCols - 1))) * xMult, ((((UNIT_HEIGHT + db.verticalSpacing) * 5) * ((i - 1) % db.groupsPerRowCol)) + ((i - 1) % db.groupsPerRowCol)*groupSpacing) * yMult)
 				end
 			end
 		end
@@ -646,7 +646,7 @@ function UF.headerPrototype:Update()
 	local db = UF.db["units"][group]
 
 	local i = 1
-	local child = self:GetAttribute("child" .. i)
+	local child = self:GetAttribute("child"..i)
 
 	while child do
 		UF["Update_"..E:StringTitle(group).."Frames"](UF, child, db)
@@ -713,13 +713,14 @@ function UF:CreateHeader(parent, groupFilter, overrideName, template, groupName,
 end
 
 function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdate, headerTemplate)
-	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED"); return end
+	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
+
 	local db = self.db["units"][group]
 	local raidFilter = UF.db.smartRaidFilter
 	local numGroups = db.numGroups
-	if(raidFilter and numGroups and (self[group] and not self[group].blockVisibilityChanges)) then
+	if raidFilter and numGroups and (self[group] and not self[group].blockVisibilityChanges) then
 		local inInstance, instanceType = IsInInstance()
-		if(inInstance and (instanceType == "raid" or instanceType == "pvp")) then
+		if inInstance and (instanceType == "raid" or instanceType == "pvp") then
 			local _, _, _, _, maxPlayers = GetInstanceInfo()
 			local mapID = GetCurrentMapAreaID()
 
@@ -728,7 +729,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 			end
 
 			if maxPlayers > 0 then
-				numGroups = E:Round(maxPlayers/5)
+				numGroups = E:Round(maxPlayers / 5)
 			end
 		end
 	end
@@ -789,7 +790,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 			UF["headerFunctions"][group]:Update(self[group])
 		end
 
-		if(db.enable) then
+		if db.enable then
 			if self[group].mover then
 				E:EnableMover(self[group].mover:GetName())
 			end
@@ -848,7 +849,7 @@ end
 
 function UF:CreateAndUpdateUF(unit)
 	assert(unit, "No unit provided to create or update.")
-	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED"); return end
+	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
 
 	local frameName = E:StringTitle(unit)
 	frameName = frameName:gsub("t(arget)", "T%1")
@@ -900,7 +901,7 @@ function UF:LoadUnits()
 end
 
 function UF:RegisterRaidDebuffIndicator()
-	local _, instanceType = IsInInstance();
+	local _, instanceType = IsInInstance()
 	local ORD = ns.oUF_RaidDebuffs or oUF_RaidDebuffs
 	if ORD then
 		ORD:ResetDebuffData()
@@ -958,13 +959,13 @@ hiddenParent:Hide()
 
 local HandleFrame = function(baseName)
 	local frame
-	if(type(baseName) == "string") then
+	if type(baseName) == "string" then
 		frame = _G[baseName]
 	else
 		frame = baseName
 	end
 
-	if(frame) then
+	if frame then
 		frame:UnregisterAllEvents()
 		frame:Hide()
 
@@ -972,49 +973,40 @@ local HandleFrame = function(baseName)
 		frame:SetParent(hiddenParent)
 
 		local health = frame.healthbar
-		if(health) then
+		if health then
 			health:UnregisterAllEvents()
 		end
 
 		local power = frame.manabar
-		if(power) then
+		if power then
 			power:UnregisterAllEvents()
 		end
 
 		local spell = frame.spellbar
-		if(spell) then
+		if spell then
 			spell:UnregisterAllEvents()
 		end
 	end
 end
 
 function ElvUF:DisableBlizzard(unit)
-	if(not unit) or InCombatLockdown() then return end
+	if (not unit) or InCombatLockdown() then return end
 
-	if(unit == "player") and E.private["unitframe"]["disabledBlizzardFrames"].player then
+	if (unit == "player") and E.private["unitframe"]["disabledBlizzardFrames"].player then
 		HandleFrame(PlayerFrame)
-	elseif(unit == "pet") and E.private["unitframe"]["disabledBlizzardFrames"].player then
+	elseif (unit == "pet") and E.private["unitframe"]["disabledBlizzardFrames"].player then
 		HandleFrame(PetFrame)
-	elseif(unit == "target") and E.private["unitframe"]["disabledBlizzardFrames"].target then
+	elseif (unit == "target") and E.private["unitframe"]["disabledBlizzardFrames"].target then
 		HandleFrame(TargetFrame)
 		HandleFrame(ComboFrame)
 --	elseif(unit == "focus") and E.private["unitframe"]["disabledBlizzardFrames"].focus then
 --		HandleFrame(FocusFrame)
 --		HandleFrame(FocusFrameToT)
-	elseif(unit == "targettarget") and E.private["unitframe"]["disabledBlizzardFrames"].target then
+	elseif (unit == "targettarget") and E.private["unitframe"]["disabledBlizzardFrames"].target then
 		HandleFrame(TargetofTargetFrame)
-	elseif(unit:match"(boss)%d?$" == "boss") and E.private["unitframe"]["disabledBlizzardFrames"].boss then
-		local id = unit:match"boss(%d)"
-		if(id) then
-			HandleFrame("Boss"..id.."TargetFrame")
-		else
-			for i = 1, MAX_BOSS_FRAMES do
-				HandleFrame(("Boss%dTargetFrame"):format(i))
-			end
-		end
-	elseif(unit:match"(party)%d?$" == "party") and E.private["unitframe"]["disabledBlizzardFrames"].party then
+	elseif (unit:match"(party)%d?$" == "party") and E.private["unitframe"]["disabledBlizzardFrames"].party then
 		local id = unit:match"party(%d)"
-		if(id) then
+		if id then
 			HandleFrame("PartyMemberFrame"..id)
 		else
 			for i = 1, 4 do
@@ -1210,7 +1202,8 @@ end
 function UF:Initialize()
 	self.db = E.db["unitframe"]
 	self.thinBorders = self.db.thinBorders or E.PixelMode
-	if E.private["unitframe"].enable ~= true then return; end
+	if E.private["unitframe"].enable ~= true then return end
+
 	E.UnitFrames = UF
 
 	local ElvUF_Parent = CreateFrame("Frame", "ElvUF_Parent", E.UIParent)

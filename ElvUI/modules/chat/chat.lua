@@ -794,15 +794,16 @@ end
 
 function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, isHistory, historyTime, historyName)
 	if strsub(event, 1, 8) == "CHAT_MSG" then
-		local type = strsub(event, 10)
-		local info = ChatTypeInfo[type]
 		local historySavedName --we need to extend the arguments on CH.ChatFrame_MessageEventHandler so we can properly handle saved names without overriding
 		if isHistory == "ElvUI_ChatHistory" then
 			historySavedName = historyName
 		end
+		local type = strsub(event, 10)
+		local info = ChatTypeInfo[type]
 
-		local filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11 = false
+		local filter = false
 		if chatFilters[event] then
+			local newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11
 			for _, filterFunc in next, chatFilters[event] do
 				filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11 = filterFunc(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, event)
 				arg1 = newarg1 or arg1

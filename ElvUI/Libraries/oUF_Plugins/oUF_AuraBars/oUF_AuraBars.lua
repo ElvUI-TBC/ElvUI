@@ -150,7 +150,6 @@ end
 
 local function UpdateBars(auraBars)
 	local bars = auraBars.bars
-	local timenow = GetTime()
 
 	for index = 1, #bars do
 		local frame = bars[index]
@@ -190,6 +189,7 @@ end
 
 local function Update(self, event, unit)
 	if self.unit ~= unit then return end
+
 	local auraBars = self.AuraBars
 	local helpOrHarm
 	local isFriend = UnitIsFriend("player", unit) == 1 and true or false

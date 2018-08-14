@@ -1,6 +1,10 @@
 local E, L, V, P, G = unpack(ElvUI)
 local A = E:NewModule("Auras", "AceHook-3.0", "AceEvent-3.0")
 
+local _G = _G
+local unpack = unpack
+local format = string.format
+
 local mainhand, offhand, _
 
 function A:BuffFrame_Update()
