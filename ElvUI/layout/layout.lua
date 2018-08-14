@@ -372,7 +372,6 @@ function LO:CreateMinimapPanels()
 		RightMiniPanel:Hide()
 	end
 
-
 	local configtoggle = CreateFrame("Button", "ElvConfigToggle", Minimap.backdrop)
 	if(E.db.general.reminder.position == "LEFT") then
 		configtoggle:Point("TOPRIGHT", lminipanel, "TOPLEFT", (E.PixelMode and 1 or -1), 0);
