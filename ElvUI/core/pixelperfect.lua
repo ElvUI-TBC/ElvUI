@@ -132,11 +132,7 @@ function E:UIScale(event, loginFrame)
 			E.UIParent.origHeight = E.UIParent:GetHeight()
 
 			E.UIParent:ClearAllPoints()
-			if E.global.general.commandBarSetting == "ENABLED_RESIZEPARENT" then
-				E.UIParent:Point("BOTTOM")
-			else
-				E.UIParent:Point("CENTER")
-			end
+			E.UIParent:Point("CENTER")
 		end
 
 		--Calculate potential coordinate differences
