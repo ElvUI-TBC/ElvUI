@@ -10,7 +10,7 @@ local function UpdateColor(element, cur, max)
 
 	local r, g, b, t
 	if(element.colorClass) then
-		t = self.colors.class['DRUID']
+		t = parent.colors.class['DRUID']
 	elseif(element.colorSmooth) then
 		r, g, b = parent.ColorGradient(cur, max, unpack(element.smoothGradient or parent.colors.smooth))
 	elseif(element.colorPower) then

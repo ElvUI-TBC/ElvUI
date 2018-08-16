@@ -80,6 +80,7 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 	-- Warrior
 		[SpellName(676)] = Defaults(),		-- Disarm
 		[SpellName(7922)] = Defaults(),		-- Charge Stun
+		[SpellName(12809)] = Defaults(),	-- Concussion Blow
 		[SpellName(18498)] = Defaults(),	-- Shield Bash - Silenced
 		[SpellName(20511)] = Defaults(),	-- Intimidating Shout
 	-- Racial
