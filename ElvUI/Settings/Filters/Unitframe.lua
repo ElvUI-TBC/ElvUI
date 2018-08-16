@@ -282,7 +282,6 @@ G.unitframe.aurafilters["RaidDebuffs"] = {
 		[SpellName(37123)] = Defaults(),	-- Saw Blade
 		[SpellName(37120)] = Defaults(),	-- Fragmentation Bomb
 		[SpellName(37118)] = Defaults(),	-- Shell Shock
-
 		-- High Astromancer Solarian
 		[SpellName(42783)] = Defaults(),	-- Wrath of the Astromancer
 		-- Kael'thas Sunstrider
