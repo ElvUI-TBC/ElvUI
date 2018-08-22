@@ -220,7 +220,14 @@ local function DefaultSort(a, b)
 		return (itemTypes[aType] or 99) < (itemTypes[bType] or 99)
 	end
 
-	if aType == ARMOR or aType == ENCHSLOT_WEAPON then
+	local aItemClassId, aItemSubClassId = itemTypes[aType] or 99, itemSubTypes[aType] and itemSubTypes[aType][aSubType] or 99
+	local bItemClassId, bItemSubClassId = itemTypes[bType] or 99, itemSubTypes[bType] and itemSubTypes[bType][bSubType] or 99
+
+	if aItemClassId ~= bItemClassId then
+		return aItemClassId < bItemClassId
+	end
+
+	if aItemClassId == 1 or aItemClassId == 2 then
 		local aEquipLoc = inventorySlots[aEquipLoc] or -1
 		local bEquipLoc = inventorySlots[bEquipLoc] or -1
 		if aEquipLoc == bEquipLoc then
@@ -231,11 +238,11 @@ local function DefaultSort(a, b)
 			return aEquipLoc < bEquipLoc
 		end
 	end
-	if aSubType == bSubType then
+	if (aItemClassId == bItemClassId) and (aItemSubClassId == bItemSubClassId) then
 		return PrimarySort(a, b)
 	end
 
-	return ((itemSubTypes[aType] or {})[aSubType] or 99) < ((itemSubTypes[bType] or {})[bSubType] or 99)
+	return (aItemSubClassId or 99) < (bItemSubClassId or 99)
 end
 
 local function ReverseSort(a, b)
@@ -264,7 +271,7 @@ end
 local function IterateForwards(bagList, i)
 	i = i + 1
 	local step = 1
-	for _,bag in ipairs(bagList) do
+	for _, bag in ipairs(bagList) do
 		local slots = B:GetNumSlots(bag, bagRole)
 		if i > slots + step then
 			step = step + slots
@@ -402,7 +409,7 @@ function B:ScanBags()
 	for _, bag, slot in B.IterateBags(allBags) do
 		local bagSlot = B:Encode_BagSlot(bag, slot)
 		local itemID = ConvertLinkToID(B:GetItemLink(bag, slot))
-		if(itemID) then
+		if itemID then
 			bagMaxStacks[bagSlot] = select(8, GetItemInfo(itemID))
 			bagIDs[bagSlot] = itemID
 			bagQualities[bagSlot] = select(3, GetItemInfo(B:GetItemLink(bag, slot)))
@@ -446,7 +453,7 @@ function B:CanItemGoInBag(bag, slot, targetBag)
 end
 
 function B.Compress(...)
-	for i=1, select("#", ...) do
+	for i = 1, select("#", ...) do
 		local bags = select(i, ...)
 		B.Stack(bags, bags, B.IsPartial)
 	end
@@ -499,10 +506,11 @@ local blackListQueries = {}
 local function buildBlacklist(...)
 	for entry in pairs(...) do
 		local itemName = GetItemInfo(entry)
-		if(itemName) then
+		if itemName then
 			blackList[itemName] = true
-		elseif(entry ~= "") then
-			if(find(entry, "%[") and find(entry, "%]")) then
+		elseif entry ~= "" then
+			if find(entry, "%[") and find(entry, "%]") then
+				--For some reason the entry was not treated as a valid item. Extract the item name.
 				entry = match(entry, "%[(.*)%]")
 			end
 			blackListQueries[#blackListQueries+1] = entry
@@ -514,10 +522,12 @@ function B.Sort(bags, sorter, invertDirection)
 	if not sorter then sorter = invertDirection and ReverseSort or DefaultSort end
 	if not itemTypes then BuildSortOrder() end
 
+	--Wipe tables before we begin
 	twipe(blackList)
 	twipe(blackListQueries)
 	twipe(blackListedSlots)
 
+	--Build blacklist of items based on the profile and global list
 	buildBlacklist(B.db.ignoredItems)
 	buildBlacklist(E.global.bags.ignoredItems)
 
@@ -525,15 +535,15 @@ function B.Sort(bags, sorter, invertDirection)
 		local bagSlot = B:Encode_BagSlot(bag, slot)
 		local link = B:GetItemLink(bag, slot)
 
-		if(link) then
-			if(blackList[GetItemInfo(link)]) then
+		if link then
+			if blackList[GetItemInfo(link)] then
 				blackListedSlots[bagSlot] = true
 			end
 
-			if(not blackListedSlots[bagSlot]) then
-				for _,itemsearchquery in pairs(blackListQueries) do
+			if not blackListedSlots[bagSlot] then
+				for _, itemsearchquery in pairs(blackListQueries) do
 					local success, result = pcall(Search.Matches, Search, link, itemsearchquery)
-					if(success and result) then
+					if success and result then
 						blackListedSlots[bagSlot] = blackListedSlots[bagSlot] or result
 						break
 					end
@@ -585,6 +595,7 @@ function B.FillBags(from, to)
 			tinsert(specialtyBags, bag)
 		end
 	end
+
 	if #specialtyBags > 0 then
 		B:Fill(from, specialtyBags)
 	end
@@ -596,9 +607,11 @@ end
 function B.Fill(sourceBags, targetBags, reverse, canMove)
 	if not canMove then canMove = DefaultCanMove end
 
+	--Wipe tables before we begin
 	twipe(blackList)
 	twipe(blackListedSlots)
 
+	--Build blacklist of items based on the profile and global list
 	buildBlacklist(B.db.ignoredItems)
 	buildBlacklist(E.global.bags.ignoredItems)
 
@@ -615,11 +628,11 @@ function B.Fill(sourceBags, targetBags, reverse, canMove)
 		local targetBag = B:Decode_BagSlot(emptySlots[1])
 		local link = B:GetItemLink(bag, slot)
 
-		if(link and blackList[GetItemInfo(link)]) then
+		if link and blackList[GetItemInfo(link)] then
 			blackListedSlots[bagSlot] = true
 		end
 
-		if(bagIDs[bagSlot] and B:CanItemGoInBag(bag, slot, targetBag) and canMove(bagIDs[bagSlot], bag, slot) and not blackListedSlots[bagSlot]) then
+		if bagIDs[bagSlot] and B:CanItemGoInBag(bag, slot, targetBag) and canMove(bagIDs[bagSlot], bag, slot) and not blackListedSlots[bagSlot] then
 			B:AddMove(bagSlot, tremove(emptySlots, 1))
 		end
 	end
@@ -627,7 +640,7 @@ function B.Fill(sourceBags, targetBags, reverse, canMove)
 end
 
 function B.SortBags(...)
-	for i=1, select("#", ...) do
+	for i = 1, select("#", ...) do
 		local bags = select(i, ...)
 		for _, slotNum in ipairs(bags) do
 			local bagType = B:IsSpecialtyBag(slotNum)
@@ -676,6 +689,7 @@ function B:StopStacking(message)
 	moveRetries, lastItemID, lockStop, lastDestination, lastMove = 0, nil, nil, nil, nil
 
 	self.SortUpdateTimer:Hide()
+
 	if message then
 		E:Print(message)
 	end
@@ -759,7 +773,7 @@ function B:DoMoves()
 	if lockStop then
 		for slot, itemID in pairs(moveTracker) do
 			local actualItemID = self:GetItemID(self:Decode_BagSlot(slot))
-			if(actualItemID ~= itemID) then
+			if actualItemID ~= itemID then
 				WAIT_TIME = 0.1
 				if (GetTime() - lockStop) > MAX_MOVE_TIME then
 					if lastMove and moveRetries < 100 then
@@ -775,9 +789,9 @@ function B:DoMoves()
 						moveTracker[moveSource] = targetID
 						moveTracker[moveTarget] = moveID
 						lastDestination = moveTarget
-						--lastMove = moves[i]
+						--lastMove = moves[i] --Where does "i" come from???
 						lastItemID = moveID
-						--tremove(moves, i)
+						--tremove(moves, i) --Where does "i" come from???
 						return
 					end
 
