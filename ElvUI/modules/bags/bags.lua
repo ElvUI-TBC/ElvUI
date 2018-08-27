@@ -831,9 +831,11 @@ function B:VendorGrayCheck()
 end
 
 function B:ContructContainerFrame(name, isBank)
+	local strata = E.db.bags.strata or "MEDIUM"
+
 	local f = CreateFrame("Button", name, E.UIParent)
 	f:SetTemplate("Transparent")
-	f:SetFrameStrata("DIALOG")
+	f:SetFrameStrata(strata)
 	f.UpdateSlot = B.UpdateSlot
 	f.UpdateAllSlots = B.UpdateAllSlots
 	f.UpdateBagSlots = B.UpdateBagSlots

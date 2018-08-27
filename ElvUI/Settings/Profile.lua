@@ -147,6 +147,7 @@ P["bags"] = {
 	["clearSearchOnClose"] = false,
 	["disableBagSort"] = false,
 	["disableBankSort"] = false,
+	["strata"] = "MEDIUM",
 	["cooldown"] = {
 		["threshold"] = 4,
 		["override"] = false,
@@ -193,6 +194,9 @@ P["nameplates"] = {
 	["targetGlow"] = "style2",
 	["glowColor"] = {r = 77/255, g = 179/255, b = 255/255, a = 1},
 	["nameColoredGlow"] = false,
+	["cutawayHealth"] = false,
+	["cutawayHealthLength"] = 0.3,
+	["cutawayHealthFadeOutTime"] = 0.6,
 	["alwaysShowTargetHealth"] = true,
 	["castColor"] = {r = 1, g = 208/255, b = 0},
 	["comboPoints"] = true,
@@ -498,6 +502,7 @@ P["chat"] = {
 	["tabFont"] = "PT Sans Narrow",
 	["tabFontSize"] = 12,
 	["tabFontOutline"] = "NONE",
+	["panelColor"] = {r = .06,g = .06,b = .06, a = 0.8}
 }
 
 --Datatexts
