@@ -12,8 +12,6 @@ local gsub, find, gmatch, format, split = string.gsub, string.find, string.gmatc
 local strlower, strsub, strlen, strupper = strlower, strsub, strlen, strupper
 
 local BetterDate = BetterDate
-local ChatEdit_ActivateChat = ChatEdit_ActivateChat
-local ChatEdit_ChooseBoxForSend = ChatEdit_ChooseBoxForSend
 local ChatEdit_ParseText = ChatEdit_ParseText
 local ChatEdit_SetLastTellTarget = ChatEdit_SetLastTellTarget
 local ChatFrame_ConfigEventHandler = ChatFrame_ConfigEventHandler
@@ -667,11 +665,11 @@ function CH.FindURL(msg, ...)
 end
 
 local function SetChatEditBoxMessage(message)
-	local ChatFrameEditBox = ChatEdit_ChooseBoxForSend()
 	local editBoxShown = ChatFrameEditBox:IsShown()
 	local editBoxText = ChatFrameEditBox:GetText()
 	if not editBoxShown then
-		ChatEdit_ActivateChat(ChatFrameEditBox)
+		ChatFrameEditBox:Show()
+		ChatEdit_UpdateHeader(ChatFrameEditBox)
 	end
 	if editBoxText and editBoxText ~= "" then
 		ChatFrameEditBox:SetText("")
