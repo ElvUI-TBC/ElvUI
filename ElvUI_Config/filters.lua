@@ -71,6 +71,10 @@ local function UpdateFilterGroup()
 					desc = L["Add a spell to the filter."],
 					get = function(info) return "" end,
 					set = function(info, value)
+						if not GetSpellInfo(value) then
+							E:Print("Error in filter", selectedFilter, ": Submitted value '", value, "' is not a proper spell")
+							return
+						end
 						if tonumber(value) then value = tonumber(value) end
 						E.global.unitframe.DebuffHighlightColors[value] = {enable = true, style = "GLOW", color = {r = 0.8, g = 0, b = 0, a = 0.85}}
 						UpdateFilterGroup()
@@ -226,6 +230,10 @@ local function UpdateFilterGroup()
 					desc = L["Add a spell to the filter."],
 					get = function(info) return "" end,
 					set = function(info, value)
+						if not GetSpellInfo(value) then
+							E:Print("Error in filter", selectedFilter, ": Submitted value '", value, "' is not a proper spell")
+							return
+						end
 						if tonumber(value) then value = tonumber(value) end
 						if not E.global.unitframe.AuraBarColors[value] then
 							E.global.unitframe.AuraBarColors[value] = false
@@ -1112,6 +1120,10 @@ local function UpdateFilterGroup()
 					desc = L["Add a spell to the filter."],
 					get = function(info) return "" end,
 					set = function(info, value)
+						if not GetSpellInfo(value) then
+							E:Print("Error in filter", selectedFilter, ": Submitted value '", value, "' is not a proper spell")
+							return
+						end
 						if tonumber(value) then	value = tonumber(value) end
 						if not E.global.unitframe["aurafilters"][selectedFilter]["spells"][value] then
 							E.global.unitframe["aurafilters"][selectedFilter]["spells"][value] = {
@@ -1325,7 +1337,7 @@ E.Options.args.filters = {
 				if match(value, "^Friendly:") or match(value, "^Enemy:") then
 					return --dont allow people to create Friendly: or Enemy: filters
 				end
-				if --[[G.unitframe.specialFilters[value] or]] E.global.unitframe.aurafilters[value] then
+				if E.global.unitframe.aurafilters[value] then
 					E:Print(L["Filter already exists!"])
 					return
 				end
