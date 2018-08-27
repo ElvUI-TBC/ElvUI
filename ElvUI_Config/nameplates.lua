@@ -2649,7 +2649,7 @@ E.Options.args.nameplate = {
 					}
 				},
 				cutawayHealth = {
-					order = 7,
+					order = 8,
 					type = "group",
 					name = L["Cutaway Health"],
 					args = {
