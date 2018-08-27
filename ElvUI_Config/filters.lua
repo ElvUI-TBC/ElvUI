@@ -1325,7 +1325,7 @@ E.Options.args.filters = {
 				if match(value, "^Friendly:") or match(value, "^Enemy:") then
 					return --dont allow people to create Friendly: or Enemy: filters
 				end
-				if G.unitframe.specialFilters[value] or E.global.unitframe.aurafilters[value] then
+				if --[[G.unitframe.specialFilters[value] or]] E.global.unitframe.aurafilters[value] then
 					E:Print(L["Filter already exists!"])
 					return
 				end
