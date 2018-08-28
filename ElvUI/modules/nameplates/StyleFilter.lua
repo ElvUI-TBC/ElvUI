@@ -9,6 +9,8 @@ local GetSpellCooldown = GetSpellCooldown
 local GetSpellInfo = GetSpellInfo
 local GetTime = GetTime
 local UnitAffectingCombat = UnitAffectingCombat
+local UnitMana = UnitMana
+local UnitManaMax = UnitManaMax
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
 local UnitLevel = UnitLevel
@@ -295,8 +297,8 @@ function mod:StyleFilterConditionCheck(frame, filter, trigger, failed)
 	--Try to match by power conditions
 	if not failed and trigger.powerThreshold then
 		condition = false
-		power = (trigger.powerThreshold and UnitPower("player")) or 0
-		maxPower = (trigger.powerThreshold and UnitPowerMax("player")) or 0
+		power = (trigger.powerThreshold and UnitMana("player")) or 0
+		maxPower = (trigger.powerThreshold and UnitManaMax("player")) or 0
 		percPower = (maxPower and (maxPower > 0) and power/maxPower) or 0
 		underPowerThreshold = trigger.underPowerThreshold and (trigger.underPowerThreshold ~= 0) and (trigger.underPowerThreshold > percPower)
 		overPowerThreshold = trigger.overPowerThreshold and (trigger.overPowerThreshold ~= 0) and (trigger.overPowerThreshold < percPower)
