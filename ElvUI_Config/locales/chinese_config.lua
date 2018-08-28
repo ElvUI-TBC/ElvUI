@@ -640,6 +640,7 @@ L["Over Power Threshold"] = "高于能量阈值"
 L["Player Health"] = "玩家血量"
 L["Player in Combat"] = "玩家战斗中"
 L["Player Out of Combat"] = "玩家战斗外"
+L["Power Threshold"] = "能量阈值"
 L["Reaction Colors"] = "声望"
 L["Reaction Type"] = "声望类型"
 L["Remove a Name from the list."] = true

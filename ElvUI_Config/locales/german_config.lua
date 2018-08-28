@@ -645,6 +645,7 @@ L["Player Health"] = "Spieler Gesundheit"
 L["Player in Combat"] = "Spieler im Kampf"
 L["Player Out of Combat"] = "Spieler nicht im Kampf"
 L["Reaction Colors"] = "Reaktionsfarbe"
+L["Power Threshold"] = "Kraft Schwellenwert"
 L["Reaction Type"] = "Reaktion Typ"
 L["Remove a Name from the list."] = true
 L["Remove Name"] = "Name entfernen"

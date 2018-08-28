@@ -1924,13 +1924,6 @@ P["unitframe"] = {
 					["color"] = {r = 1, g = 0.9, b = 0}
 				}
 			},
-			["roleIcon"] = {
-				["enable"] = true,
-				["position"] = "CENTER",
-				["attachTo"] = "Health",
-				["xOffset"] = 0,
-				["yOffset"] = 0,
-				["size"] = 15
 			},
 			["raidRoleIcons"] = {
 				["enable"] = true,
@@ -2124,14 +2117,6 @@ P["unitframe"] = {
 					["color"] = {r = 1, g = 0.9, b = 0}
 				}
 			},
-			["roleIcon"] = {
-				["enable"] = true,
-				["position"] = "BOTTOMRIGHT",
-				["attachTo"] = "Health",
-				["xOffset"] = 0,
-				["yOffset"] = 0,
-				["size"] = 15
-			},
 			["raidRoleIcons"] = {
 				["enable"] = true,
 				["position"] = "TOPLEFT"
@@ -2289,14 +2274,6 @@ P["unitframe"] = {
 					["yOffset"] = 2,
 					["color"] = {r = 1, g = 0.9, b = 0}
 				}
-			},
-			["roleIcon"] = {
-				["enable"] = false,
-				["position"] = "BOTTOMRIGHT",
-				["attachTo"] = "Health",
-				["xOffset"] = 0,
-				["yOffset"] = 0,
-				["size"] = 15
 			},
 			["raidRoleIcons"] = {
 				["enable"] = true,

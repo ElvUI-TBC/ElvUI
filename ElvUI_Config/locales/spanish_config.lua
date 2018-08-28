@@ -643,6 +643,7 @@ L["Player Health"] = true
 L["Player in Combat"] = true
 L["Player Out of Combat"] = true
 L["Reaction Colors"] = true
+L["Power Threshold"] = true
 L["Reaction Type"] = true
 L["Remove a Name from the list."] = true
 L["Remove Name"] = "Eliminar Nombre"

@@ -691,6 +691,7 @@ L["Player Health"] = true
 L["Player in Combat"] = "플레이어 전투중"
 L["Player Out of Combat"] = "플레이어 전투 종료"
 L["Reaction Colors"] = "관계 색상"
+L["Power Threshold"] = true
 L["Reaction Type"] = "관계 형태"
 L["Remove a Name from the list."] = true
 L["Remove Name"] = "이름표 필터 제거"
