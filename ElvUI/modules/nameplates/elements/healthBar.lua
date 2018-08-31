@@ -103,6 +103,7 @@ end
 
 function mod:UpdateElement_CutawayHealthFadeOut(frame)
 	local cutawayHealth = frame.CutawayHealth
+	cutawayHealth.fading = true
 	E:UIFrameFadeOut(cutawayHealth, self.db.cutawayHealthFadeOutTime, cutawayHealth:GetAlpha(), 0)
 	cutawayHealth.isPlaying = nil
 end
@@ -123,6 +124,10 @@ function mod:UpdateElement_Health(frame)
 		local change = oldValue - health
 		if change > 0 and not frame.CutawayHealth.isPlaying then
 			local cutawayHealth = frame.CutawayHealth
+			if cutawayHealth.fading then
+				E:UIFrameFadeRemoveFrame(cutawayHealth)
+			end
+			cutawayHealth.fading = false
 			cutawayHealth:SetValue(oldValue)
 			cutawayHealth:SetAlpha(1)
 			if not cutawayHealth.closure then
