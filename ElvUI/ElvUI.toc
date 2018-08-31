@@ -1,6 +1,6 @@
 ## Interface: 20400
 ## Author: Elv, Bunny
-## Version: 1.37
+## Version: 1.38
 ## Title: |cffA11313E|r|cffC4C4C4lvUI|r
 ## Notes: User Interface replacement AddOn for World of Warcraft.
 ## SavedVariables: ElvDB, ElvPrivateDB
