@@ -463,8 +463,10 @@ local function LoadSkin()
 	-- Quest Watch
 	hooksecurefunc("QuestWatch_Update", function()
 		local questIndex, numObjectives, objectivesCompleted
+		local title, level, questTag
+		local titleText, color, hex
 		local _, finished
-		local text, title, level, color, hex
+
 		local watchText
 		local watchTextIndex = 1
 
@@ -472,14 +474,29 @@ local function LoadSkin()
 			questIndex = GetQuestIndexForWatch(i)
 			if questIndex then
 				numObjectives = GetNumQuestLeaderBoards(questIndex)
-				title, level = GetQuestLogTitle(questIndex)
+				title, level, questTag = GetQuestLogTitle(questIndex)
 				color = GetQuestDifficultyColor(level)
 				hex = E:RGBToHex(color.r, color.g, color.b)
-				text = hex.."["..level.."] "..title
+
+				if questTag == ELITE then
+					level = level.."+"
+				elseif questTag == LFG_TYPE_DUNGEON then
+					level = level.." D"
+				elseif questTag == PVP then
+					level = level.." PvP"
+				elseif questTag == RAID then
+					level = level.." R"
+				elseif questTag == GROUP then
+					level = level.." G"
+				elseif questTag == "Heroic" then
+					level = level.." HC"
+				end
+
+				titleText = hex.."["..level.."] "..title
 
 				if numObjectives > 0 then
 					watchText = _G["QuestWatchLine"..watchTextIndex]
-					watchText:SetText(text)
+					watchText:SetText(titleText)
 
 					watchTextIndex = watchTextIndex + 1
 					objectivesCompleted = 0

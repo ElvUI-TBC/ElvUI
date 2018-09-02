@@ -7,8 +7,7 @@ if not L then return end
 L["INCOMPATIBLE_ADDON"] = "Das Addon %s ist nicht mit dem ElvUI %s Modul kompatibel. Bitte deaktiviere entweder das Addon oder deaktiviere das ElvUI Modul."
 
 --*_MSG locales
-L["LOGIN_MSG"] = "Willkommen zu %sElvUI|r Version %s%s|r, Tippe /ec, um das Konfigurationsmenü aufzurufen. Für technische Hilfe besuche das Supportforum unter https://github.com/ElvUI-TBC/ElvUI"
-
+L["LOGIN_MSG"] = "Willkommen zu %sElvUI|r Version %s%s|r, Tippe /ec um das Konfigurationsmenü aufzurufen. Für technische Hilfe, besuche das Supportforum unter https://github.com/ElvUI-TBC/ElvUI oder trete unserem Discord bei: https://discord.gg/Uatdmm7"
 --ActionBars
 L["Binding"] = "Belegung"
 L["Key"] = "Taste"
