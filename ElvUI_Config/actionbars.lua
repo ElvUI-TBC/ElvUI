@@ -369,6 +369,9 @@ local function BuildABConfig()
 				width = "full",
 				multiline = true,
 				set = function(info, value)
+					if value and value:match("[\n\r]") then
+						value = value:gsub("[\n\r]","")
+					end
 					E.db.actionbar["barPet"]["visibility"] = value
 					AB:UpdateButtonSettings()
 				end,
@@ -771,7 +774,6 @@ local function BuildABConfig()
 						if value and value:match("[\n\r]") then
 							value = value:gsub("[\n\r]","")
 						end
-
 						if not E.db.actionbar["bar"..i]["paging"][E.myclass] then
 							E.db.actionbar["bar"..i]["paging"][E.myclass] = {}
 						end

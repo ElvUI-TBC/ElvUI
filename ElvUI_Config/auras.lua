@@ -1,5 +1,7 @@
-local E, L, V, P, G, _ = unpack(ElvUI);
+local E, L, V, P, G = unpack(ElvUI)
 local A = E:GetModule("Auras")
+
+local FONT_SIZE, NONE = FONT_SIZE, NONE
 
 E.Options.args.auras = {
 	type = "group",

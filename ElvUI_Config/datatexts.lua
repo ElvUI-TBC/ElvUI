@@ -1,18 +1,16 @@
 local E, L, V, P, G = unpack(ElvUI)
 local DT = E:GetModule("DataTexts")
 
-local datatexts = {}
-
 local _G = _G
 local pairs = pairs
+local find, upper = string.find, string.upper
 
-local NONE = NONE
-local FRIENDS = FRIENDS
 local HideLeftChat = HideLeftChat
 local HideRightChat = HideRightChat
-local HIDE = HIDE
-local AFK = AFK
-local DND = DND
+local FRIENDS = FRIENDS
+local AFK, DND, FONT_SIZE, HIDE, NONE = AFK, DND, FONT_SIZE, HIDE, NONE
+
+local datatexts = {}
 
 function DT:PanelLayoutOptions()
 	for name, data in pairs(DT.RegisteredDataTexts) do

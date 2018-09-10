@@ -5,6 +5,7 @@ local _G = _G
 local gsub, strlower = string.gsub, string.lower
 
 local GameTooltip = _G["GameTooltip"]
+local NONE = NONE
 
 E.Options.args.chat = {
 	type = "group",

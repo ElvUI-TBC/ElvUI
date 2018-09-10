@@ -6,6 +6,7 @@ local tonumber, tostring = tonumber, tostring
 
 local GameTooltipStatusBar = _G["GameTooltipStatusBar"]
 local COMBAT = COMBAT
+local OPACITY = OPACITY
 local NONE, FONT_SIZE = NONE, FONT_SIZE
 local ALT_KEY, CTRL_KEY, SHIFT_KEY = ALT_KEY, CTRL_KEY, SHIFT_KEY
 

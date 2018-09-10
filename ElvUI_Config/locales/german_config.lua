@@ -149,7 +149,6 @@ L[ [=[This works like a macro, you can run different situations to get the actio
  Example: '[combat] show;hide']=] ] = [=[Dieses funktioniert wie ein Makro, du kannst verschiedene Situationen haben um die Aktionsleiste ein-/auszublenden.
  Beispiel: '[combat] show;hide']=]
 
-
 --Bags
 L["Add an item or search syntax to the ignored list. Items matching the search syntax will be ignored."] = "Füge ein Gegenstand oder ein Suchoperator zu der Ignorierliste hinzu. Gegenstände, die auf den Suchoperator zutreffen werden ignoriert."
 L["Add Item or Search Syntax"] = "Füge Gegenstand oder Suchoperator hinzu"
