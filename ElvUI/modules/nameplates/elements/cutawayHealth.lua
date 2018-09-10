@@ -2,8 +2,6 @@ local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("NamePlates")
 local LSM = LibStub("LibSharedMedia-3.0")
 
-local UnitIsTapDenied = UnitIsTapDenied
-
 function mod:UpdateElement_CutawayHealthFadeOut(frame)
 	local cutawayHealth = frame.CutawayHealth
 	cutawayHealth.fading = true

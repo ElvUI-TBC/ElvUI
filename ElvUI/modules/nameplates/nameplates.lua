@@ -20,7 +20,7 @@ local WorldGetChildren = WorldFrame.GetChildren
 
 local numChildren = 0
 local BORDER = [=[Interface\Tooltips\Nameplate-Border]=]
-local FSPAT = "%s*" .. ((_G.FOREIGN_SERVER_LABEL:gsub("^%s", "")):gsub("[%*()]", "%%%1")) .. "$"
+local FSPAT = "%s*"..((_G.FOREIGN_SERVER_LABEL:gsub("^%s", "")):gsub("[%*()]", "%%%1")).."$"
 local queryList = {}
 
 local RaidIconCoordinate = {
@@ -93,10 +93,10 @@ function mod:SetPlateFrameLevel(frame, level, isTarget)
 			level = (frame.FrameLevelChanged*(40*mod.levelStep)) + (leveledCount*mod.levelStep)
 		end
 
-		frame:SetFrameLevel(level+1)
-		frame.Glow:SetFrameLevel(frame:GetFrameLevel()-1)
-		frame.Buffs:SetFrameLevel(level+1)
-		frame.Debuffs:SetFrameLevel(level+1)
+		frame:SetFrameLevel(level + 1)
+		frame.Glow:SetFrameLevel(frame:GetFrameLevel() - 1)
+		frame.Buffs:SetFrameLevel(level + 1)
+		frame.Debuffs:SetFrameLevel(level + 1)
 	end
 end
 
@@ -148,7 +148,6 @@ function mod:SetTargetFrame(frame)
 				frame:SetAlpha(1)
 			end
 
-			-- TEST
 			mod:UpdateElement_Highlight(frame)
 			mod:UpdateElement_CPoints(frame)
 			mod:UpdateElement_Filters(frame, "PLAYER_TARGET_CHANGED")
@@ -156,6 +155,8 @@ function mod:SetTargetFrame(frame)
 		end
 	elseif frame.isTargetChanged then
 		frame.isTargetChanged = false
+
+		mod:SetPlateFrameLevel(frame, mod:GetPlateFrameLevel(frame))
 
 		if self.db.useTargetScale then
 			self:SetFrameScale(frame, (frame.ThreatScale or 1))
@@ -177,7 +178,6 @@ function mod:SetTargetFrame(frame)
 			end
 		end
 
-		-- TEST
 		mod:UpdateElement_CPoints(frame)
 		mod:UpdateElement_Filters(frame, "PLAYER_TARGET_CHANGED")
 		mod:ForEachPlate("ResetNameplateFrameLevel") --keep this after `UpdateElement_Filters`
@@ -188,10 +188,10 @@ function mod:SetTargetFrame(frame)
 			frame.unit = "mouseover"
 			frame.guid = UnitGUID("mouseover")
 
-			mod:UpdateElement_Highlight(frame)
 			mod:UpdateElement_AurasByUnitID("mouseover")
+			mod:UpdateElement_Highlight(frame)
+			mod:UpdateElement_Cast(frame, nil, frame.unit)
 		end
-		mod:UpdateElement_Cast(frame, nil, frame.unit)
 	elseif frame.isMouseover then
 		frame.isMouseover = nil
 

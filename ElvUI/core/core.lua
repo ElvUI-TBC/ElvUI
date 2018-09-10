@@ -24,6 +24,7 @@ local MAX_TALENT_TABS = MAX_TALENT_TABS
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 -- Constants
+E.title = format("|cfffe7b2c%s |r", "ElvUI")
 E.myfaction, E.myLocalizedFaction = UnitFactionGroup("player")
 E.myLocalizedClass, E.myclass, E.myClassID = UnitClass("player")
 E.myLocalizedRace, E.myrace = UnitRace("player")
