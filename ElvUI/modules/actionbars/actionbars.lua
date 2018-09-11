@@ -27,6 +27,8 @@ local LAB = LibStub("LibActionButton-1.0")
 local LSM = LibStub("LibSharedMedia-3.0")
 local LBF = LibStub("LibButtonFacade", true)
 
+local UIHider
+
 AB["handledBars"] = {}
 AB["handledbuttons"] = {}
 AB["barDefaults"] = {
@@ -568,7 +570,7 @@ end
 
 function AB:DisableBlizzard()
 	-- Hidden parent frame
-	local UIHider = CreateFrame("Frame")
+	UIHider = CreateFrame("Frame")
 	UIHider:Hide()
 
 	MultiBarBottomLeft:SetParent(UIHider)
@@ -645,6 +647,12 @@ function AB:DisableBlizzard()
 	PetActionBarFrame:UnregisterAllEvents()
 	PetActionBarFrame:Hide()
 	PetActionBarFrame:SetParent(UIHider)
+
+	InterfaceOptionsActionBarsPanelAlwaysShowActionBars:EnableMouse(false)
+	InterfaceOptionsActionBarsPanelAlwaysShowActionBars:SetAlpha(0)
+
+	InterfaceOptionsActionBarsPanelLockActionBars:EnableMouse(false)
+	InterfaceOptionsActionBarsPanelLockActionBars:SetAlpha(0)
 
 	self:SecureHook("BlizzardOptionsPanel_OnEvent")
 end

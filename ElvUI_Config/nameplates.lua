@@ -1,10 +1,14 @@
-local E, L, V, P, G = unpack(ElvUI);
-local NP = E:GetModule("NamePlates");
+local E, L, V, P, G = unpack(ElvUI)
+local NP = E:GetModule("NamePlates")
 local ACD = LibStub("AceConfigDialog-3.0-ElvUI")
 
 local next, ipairs, pairs, type, tonumber = next, ipairs, pairs, type, tonumber
 local tremove, tinsert, tsort, tconcat = table.remove, table.insert, table.sort, table.concat
 local format, match, gsub, strsplit = string.format, string.match, string.gsub, strsplit
+
+local GetSpellInfo = GetSpellInfo
+local FACTION_STANDING_LABEL2, FACTION_STANDING_LABEL4, FACTION_STANDING_LABEL5 = FACTION_STANDING_LABEL2, FACTION_STANDING_LABEL4, FACTION_STANDING_LABEL5
+local COLOR, DISABLE, HEALTH, LEVEL, NONE, COMBAT, FILTERS = COLOR, DISABLE, HEALTH, LEVEL, NONE, COMBAT, FILTERS
 
 local selectedNameplateFilter
 

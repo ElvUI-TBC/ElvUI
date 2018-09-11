@@ -6,10 +6,9 @@ local group
 local _G = _G
 local pairs = pairs
 
-local SetCVar = SetCVar
 local GameTooltip = _G["GameTooltip"]
-local FONT_SIZE = FONT_SIZE
-local NONE, COLOR, COLORS = NONE, COLOR, COLORS
+local SetCVar = SetCVar
+local FONT_SIZE, NONE, COLOR, COLORS = FONT_SIZE, NONE, COLOR, COLORS
 local SHIFT_KEY, ALT_KEY, CTRL_KEY = SHIFT_KEY, ALT_KEY, CTRL_KEY
 local LOCK_ACTIONBAR_TEXT = LOCK_ACTIONBAR_TEXT
 
@@ -326,7 +325,7 @@ local function BuildABConfig()
 				type = "range",
 				name = L["Button Spacing"],
 				desc = L["The spacing between buttons."],
-				min = -1, max = 10, step = 1,
+				min = -3, max = 20, step = 1,
 				disabled = function() return not E.db.actionbar.barPet.enabled end
 			},
 			backdropSpacing = {
@@ -470,7 +469,7 @@ local function BuildABConfig()
 				type = "range",
 				name = L["Button Spacing"],
 				desc = L["The spacing between buttons."],
-				min = -1, max = 10, step = 1,
+				min = -3, max = 20, step = 1,
 				disabled = function() return not E.db.actionbar.barShapeShift.enabled end
 			},
 			backdropSpacing = {
@@ -585,7 +584,7 @@ local function BuildABConfig()
 				type = "range",
 				name = L["Button Spacing"],
 				desc = L["The spacing between buttons."],
-				min = -1, max = 20, step = 1,
+				min = -3, max = 20, step = 1,
 				disabled = function() return not E.db.actionbar.microbar.enabled end
 			},
 			buttonsPerRow = {
@@ -727,7 +726,7 @@ local function BuildABConfig()
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
-					min = -1, max = 10, step = 1,
+					min = -3, max = 20, step = 1,
 					disabled = function() return not E.db.actionbar["bar"..i].enabled end
 				},
 				backdropSpacing = {
