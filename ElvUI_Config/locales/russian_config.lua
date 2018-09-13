@@ -985,7 +985,6 @@ L["Minimum Duration"] = "Минимальная длительность"
 L["Mouseover Glow"] = "Свечение при наведении"
 L["Mouseover Highlight"] = "Подсветка при наведении"
 L["Mouseover"] = "При наведении"
-L["Name"] = "Имя" --Also used in Buffs and Debuffs
 L["Neutral"] = "Нейтральный"
 L["Not valid spell id"] = "Неверный ID заклинания"
 L["Num Rows"] = "Рядов"

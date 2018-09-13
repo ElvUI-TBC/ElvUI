@@ -159,6 +159,8 @@ end
 
 function UF:UpdateRange(event)
 	local range = self.Range
+	if not range then return end
+
 	local unit = self.unit
 	if unit then
 		if UnitCanAttack("player", unit) then

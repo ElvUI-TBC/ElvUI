@@ -8,7 +8,7 @@ local format, match, gsub, strsplit = string.format, string.match, string.gsub, 
 
 local GetSpellInfo = GetSpellInfo
 local FACTION_STANDING_LABEL2, FACTION_STANDING_LABEL4, FACTION_STANDING_LABEL5 = FACTION_STANDING_LABEL2, FACTION_STANDING_LABEL4, FACTION_STANDING_LABEL5
-local COLOR, DISABLE, HEALTH, LEVEL, NONE, COMBAT, FILTERS = COLOR, DISABLE, HEALTH, LEVEL, NONE, COMBAT, FILTERS
+local COLOR, DISABLE, HEALTH, LEVEL, NAME, NONE, COMBAT, FILTERS = COLOR, DISABLE, HEALTH, LEVEL, NAME, NONE, COMBAT, FILTERS
 
 local selectedNameplateFilter
 
@@ -306,7 +306,7 @@ local function UpdateFilterGroup()
 				names = {
 					order = 4,
 					type = "group",
-					name = L["Name"],
+					name = NAME,
 					disabled = function() return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and E.db.nameplates.filters[selectedNameplateFilter].triggers and E.db.nameplates.filters[selectedNameplateFilter].triggers.enable) end,
 					args = {
 						addName = {
@@ -1212,7 +1212,7 @@ local function UpdateFilterGroup()
 						name = {
 							order = 7,
 							type = "toggle",
-							name = L["Name"],
+							name = NAME,
 							get = function(info)
 								return E.global.nameplates.filters[selectedNameplateFilter].actions.color.name
 							end,
@@ -1854,14 +1854,14 @@ local function GetUnitSettings(unit, name)
 			nameGroup = {
 				order = 6,
 				type = "group",
-				name = L["Name"],
+				name = NAME,
 				get = function(info) return E.db.nameplates.units[unit].name[ info[#info] ] end,
 				set = function(info, value) E.db.nameplates.units[unit].name[ info[#info] ] = value NP:ConfigureAll() end,
 				args = {
 					header = {
 						order = 1,
 						type = "header",
-						name = L["Name"]
+						name = NAME
 					},
 					enable = {
 						order = 2,

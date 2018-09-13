@@ -985,7 +985,6 @@ L["Minimum Duration"] = true
 L["Mouseover Glow"] = true
 L["Mouseover Highlight"] = true
 L["Mouseover"] = "Pasar el ratón por encima"
-L["Name"] = "Nombre"
 L["Neutral"] = "Neutral"
 L["Not valid spell id"] = "No es un id de hechizo válido"
 L["Num Rows"] = "Número de Filas"

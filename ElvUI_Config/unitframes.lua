@@ -973,14 +973,14 @@ local function GetOptionsTable_Name(updateFunc, groupName, numUnits)
 	local config = {
 		order = 300,
 		type = "group",
-		name = L["Name"],
+		name = NAME,
 		get = function(info) return E.db.unitframe.units[groupName]["name"][ info[#info] ] end,
 		set = function(info, value) E.db.unitframe.units[groupName]["name"][ info[#info] ] = value updateFunc(UF, groupName, numUnits) end,
 		args = {
 			header = {
 				order = 1,
 				type = "header",
-				name = L["Name"]
+				name = NAME
 			},
 			position = {
 				order = 2,
@@ -5592,7 +5592,7 @@ E.Options.args.unitframe.args.party = {
 				name = {
 					order = 8,
 					type = "group",
-					name = L["Name"],
+					name = NAME,
 					guiInline = true,
 					get = function(info) return E.db.unitframe.units["party"]["petsGroup"]["name"][ info[#info] ] end,
 					set = function(info, value) E.db.unitframe.units["party"]["petsGroup"]["name"][ info[#info] ] = value UF:CreateAndUpdateHeaderGroup("party") end,
@@ -5684,7 +5684,7 @@ E.Options.args.unitframe.args.party = {
 					guiInline = true,
 					get = function(info) return E.db.unitframe.units["party"]["targetsGroup"]["name"][ info[#info] ] end,
 					set = function(info, value) E.db.unitframe.units["party"]["targetsGroup"]["name"][ info[#info] ] = value UF:CreateAndUpdateHeaderGroup("party") end,
-					name = L["Name"],
+					name = NAME,
 					args = {
 						position = {
 							order = 1,

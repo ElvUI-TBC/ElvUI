@@ -969,7 +969,6 @@ L["Minimum Duration"] = true
 L["Mouseover Glow"] = true
 L["Mouseover Highlight"] = true
 L["Mouseover"] = true
-L["Name"] = true --Also used in Buffs and Debuffs
 L["Neutral"] = true
 L["Not valid spell id"] = true
 L["Num Rows"] = true

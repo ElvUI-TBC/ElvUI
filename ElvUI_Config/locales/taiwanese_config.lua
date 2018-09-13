@@ -985,7 +985,6 @@ L["Minimum Duration"] = "最低持續時間"
 L["Mouseover Glow"] = true
 L["Mouseover Highlight"] = true
 L["Mouseover"] = "滑鼠滑過顯示"
-L["Name"] = "姓名"
 L["Neutral"] = "中立"
 L["Not valid spell id"] = "無效的技能ID"
 L["Num Rows"] = "行數"

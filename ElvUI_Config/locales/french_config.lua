@@ -985,7 +985,6 @@ L["Minimum Duration"] = "Durée minimum"
 L["Mouseover Glow"] = true
 L["Mouseover Highlight"] = true
 L["Mouseover"] = "Au survol de la souris"
-L["Name"] = "Nom" --Also used in Buffs and Debuffs
 L["Neutral"] = "Neutre"
 L["Not valid spell id"] = "ID du sort invalide"
 L["Num Rows"] = "Nombre de lignes"
