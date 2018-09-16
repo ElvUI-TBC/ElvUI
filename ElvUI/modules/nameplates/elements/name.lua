@@ -2,6 +2,8 @@ local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("NamePlates")
 local LSM = LibStub("LibSharedMedia-3.0")
 
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+
 function mod:UpdateElement_Name(frame, triggered)
 	if not triggered then
 		if not self.db.units[frame.UnitType].showName then return end

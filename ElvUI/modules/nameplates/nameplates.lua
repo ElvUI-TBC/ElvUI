@@ -17,6 +17,7 @@ local UnitGUID = UnitGUID
 local SetCVar = SetCVar
 local WorldFrame = WorldFrame
 local WorldGetChildren = WorldFrame.GetChildren
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local numChildren = 0
 local BORDER = [=[Interface\Tooltips\Nameplate-Border]=]

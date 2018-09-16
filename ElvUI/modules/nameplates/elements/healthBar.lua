@@ -7,6 +7,7 @@ local tonumber = tonumber
 
 local GetInstanceDifficulty = GetInstanceDifficulty
 local UnitLevel = UnitLevel
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 function mod:UpdateElement_HealthOnValueChanged()
 	local frame = self:GetParent().UnitFrame

@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(ElvUI);
+local E, L, V, P, G = unpack(ElvUI)
 
 G["general"] = {
 	["autoScale"] = true,
@@ -16,9 +16,9 @@ G["general"] = {
 
 G["classCache"] = {}
 
-G["classtimer"] = {};
+G["classtimer"] = {}
 
-G["nameplates"] = {};
+G["nameplates"] = {}
 
 G["chat"] = {
 	["classColorMentionExcludedNames"] = {}
@@ -26,7 +26,7 @@ G["chat"] = {
 
 G["bags"] = {
 	["ignoredItems"] = {}
-};
+}
 
 G["unitframe"] = {
 	["aurafilters"] = {},

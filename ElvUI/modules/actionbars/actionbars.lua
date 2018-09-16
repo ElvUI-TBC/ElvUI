@@ -288,6 +288,7 @@ function AB:ReassignBindings(event)
 	self:UnregisterEvent("PLAYER_REGEN_DISABLED")
 
 	if InCombatLockdown() then return end
+
 	for _, bar in pairs(self["handledBars"]) do
 		if not bar then return end
 
@@ -307,6 +308,7 @@ end
 
 function AB:RemoveBindings()
 	if InCombatLockdown() then return end
+
 	for _, bar in pairs(self["handledBars"]) do
 		if not bar then return end
 
