@@ -379,6 +379,8 @@ function mod:OnShow()
 	self.UnitFrame.Level:ClearAllPoints()
 	self.UnitFrame.Name:ClearAllPoints()
 
+	self.UnitFrame.CutawayHealth:Hide()
+
 	if mod.db.units[unitType].healthbar.enable or mod.db.alwaysShowTargetHealth then
 		mod:ConfigureElement_HealthBar(self.UnitFrame)
 		mod:ConfigureElement_CutawayHealth(self.UnitFrame)
