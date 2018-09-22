@@ -3618,6 +3618,9 @@ E.Options.args.unitframe.args.player = {
 						["DEFAULT"] = DEFAULT,
 						["COMBAT"] = [[|TInterface\AddOns\ElvUI\media\textures\combat:14|t]],
 						["ATTACK"] = [[|TInterface\CURSOR\Attack:14|t]],
+						["ALERT"] = [[|TInterface\AddOns\ElvUI\media\textures\UI-Dialog-Icon-AlertNew:14|t]],
+						["ALERT2"] = [[|TInterface\AddOns\ElvUI\media\textures\UI-OptionsFrame-NewFeatureIcon:14|t]],
+						["ARTHAS"] =[[|TInterface\AddOns\ElvUI\media\textures\UI-LFR-PORTRAIT:14|t]],
 						["SKULL"] = [[|TInterface\LootFrame\LootPanel-Icon:14|t]]
 					}
 				},

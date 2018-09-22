@@ -5,7 +5,10 @@ local CombatTextures = {
 	["DEFAULT"] = [[Interface\CharacterFrame\UI-StateIcon]],
 	["COMBAT"] = [[Interface\AddOns\ElvUI\media\textures\combat]],
 	["ATTACK"] = [[Interface\CURSOR\Attack]],
-	["SKULL"] = [[Interface\LootFrame\LootPanel-Icon]],
+	["ALERT"] = [[Interface\AddOns\ElvUI\media\textures\UI-Dialog-Icon-AlertNew]],
+	["ALERT2"] = [[Interface\AddOns\ElvUI\media\textures\UI-OptionsFrame-NewFeatureIcon]],
+	["ARTHAS"] = [[Interface\AddOns\ElvUI\media\textures\UI-LFR-PORTRAIT]],
+	["SKULL"] = [[Interface\LootFrame\LootPanel-Icon]]
 }
 
 function UF:Construct_CombatIndicator(frame)

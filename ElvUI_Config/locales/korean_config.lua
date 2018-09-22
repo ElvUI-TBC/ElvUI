@@ -303,6 +303,7 @@ L["Fade Chat"] = "오래된 메시지 숨기기"
 L["Fade Tabs No Backdrop"] = true
 L["Fade the chat text when there is no activity."] = "시간이 오래 지난 이전의 메시지를 채팅창에서 보이지 않게 합니다. 삭제하는 것은 아니니 마우스 휠링으로 안보이게 한 이전의 메시지를 다시 확인할 수 있습니다."
 L["Fade Undocked Tabs"] = "채팅탭 숨기기"
+L["Fades the text on chat tabs that are docked in a panel where the backdrop is disabled."] = true
 L["Fades the text on chat tabs that are not docked at the left or right chat panel."] = "좌우 패널에 삽입되지 않은 다른 채팅창들의 채팅탭을 숨깁니다."
 L["Font Outline"] = "글꼴 외곽선"
 L["Font"] = "글꼴"
