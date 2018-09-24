@@ -699,6 +699,7 @@ L["Use the Name Color of the unit for the Name Glow."] = "Benutze Klassenfarbe f
 L["Use Threat Color"] = "Benutze Bedrohungsfarbe"
 
 --Profiles Export/Import
+L["Aura Filters"] = "Auren Filter"
 L["Choose Export Format"] = "Wähle Export-Format"
 L["Choose What To Export"] = "Wähle aus, was exportiert werden soll"
 L["Decode Text"] = "Entschlüsselter Text"
@@ -707,13 +708,11 @@ L["Error exporting profile!"] = "Fehler beim Exportieren des Profils!"
 L["Export Now"] = "Jetzt exportieren"
 L["Export Profile"] = "Exportiere Profil"
 L["Exported"] = "Exportiert"
-L["Filters (All)"] = "Filter (Alle)"
-L["Filters (NamePlates)"] = "Filter (Namensplaketten)"
-L["Filters (UnitFrames)"] = "Filter (Einheitenfenster)"
 L["Global (Account Settings)"] = "Global (Accounteinstellungen)"
 L["Import Now"] = "Jetzt importieren"
 L["Import Profile"] = "Importiere Profil"
 L["Importing"] = "Importiere"
+L["NamePlate Style Filters"] = "Namensplaketten Stil Filter"
 L["Plugin"] = true -- no need to translate
 L["Private (Character Settings)"] = "Privat (Charakter Einstellungen)"
 L["Profile imported successfully!"] = "Profil erfolgreich importiert!"

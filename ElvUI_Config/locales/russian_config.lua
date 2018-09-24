@@ -698,6 +698,7 @@ L["Use the Name Color of the unit for the Name Glow."] = "Использоват
 L["Use Threat Color"] = "Использовать цвет угрозы"
 
 --Profiles Export/Import
+L["Aura Filters"] = "Фильтры аур"
 L["Choose Export Format"] = "Выберите формат экспорта"
 L["Choose What To Export"] = "Выберите что экспортировать"
 L["Decode Text"] = "Декодировать"
@@ -706,13 +707,11 @@ L["Error exporting profile!"] = "Ошибка при экспорте профи
 L["Export Now"] = "Экспортировать"
 L["Export Profile"] = "Экспорт профиля"
 L["Exported"] = "Экспортировано"
-L["Filters (All)"] = "Фильтры (Все)"
-L["Filters (NamePlates)"] = "Фильтры (Индикаторы здоровья)"
-L["Filters (UnitFrames)"] = "Фильтры (Рамки юнитов)"
 L["Global (Account Settings)"] = "Глобальные (настройки аккаунта)"
 L["Import Now"] = "Импортировать"
 L["Import Profile"] = "Импорт профиля"
 L["Importing"] = "Импортирую"
+L["NamePlate Style Filters"] = "Фильтры стилей индикаторов здоровья"
 L["Plugin"] = "Плагин"
 L["Private (Character Settings)"] = "Private (Настройки персонажа)"
 L["Profile imported successfully!"] = "Профиль успешно импортирован!"

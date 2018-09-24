@@ -747,6 +747,7 @@ L["Use the Name Color of the unit for the Name Glow."] = true
 L["Use Threat Color"] = "위협 색상 사용"
 
 --Profiles Export/Import
+L["Aura Filters"] = "오라 필터"
 L["Choose Export Format"] = "내보낼 형태 선택"
 L["Choose What To Export"] = "내보낼 내용 선택"
 L["Decode Text"] = "문자 해독"
@@ -755,13 +756,11 @@ L["Error exporting profile!"] = "프로필 내보내기 오류!"
 L["Export Now"] = "지금 내보내기"
 L["Export Profile"] = "프로필 내보내기"
 L["Exported"] = "내보낸 것"
-L["Filters (All)"] = true
-L["Filters (NamePlates)"] = true
-L["Filters (UnitFrames)"] = true
 L["Global (Account Settings)"] = "전역 (계정 설정)"
 L["Import Now"] = "지금 가져오기"
 L["Import Profile"] = "프로필 가져오기"
 L["Importing"] = "가져올 것"
+L["NamePlate Style Filters"] = "이름표 스타일 필터"
 L["Plugin"] = "플러그인"
 L["Private (Character Settings)"] = "개인 (캐릭터 설정)"
 L["Profile imported successfully!"] = "프로필을 성공적으로 가져왔습니다!"
