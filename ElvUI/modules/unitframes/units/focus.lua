@@ -29,8 +29,9 @@ function UF:Construct_FocusFrame(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame);
-	frame.customTexts = {};
+	frame.DebuffHighlight = self:Construct_DebuffHighlight(frame)
 
+	frame.customTexts = {}
 	frame:Point("BOTTOMRIGHT", ElvUF_Target, "TOPRIGHT", 0, 220);
 	E:CreateMover(frame, frame:GetName() .. "Mover", L["Focus Frame"], nil, nil, nil, "ALL,SOLO");
 	frame.unitframeType = "focus";
@@ -104,6 +105,8 @@ function UF:Update_FocusFrame(frame, db)
 	UF:Configure_Range(frame);
 
 	UF:Configure_CustomTexts(frame);
+
+	UF:Configure_DebuffHighlight(frame)
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements");
 end
