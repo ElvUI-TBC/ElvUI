@@ -528,6 +528,36 @@ function UF:AuraFilter(unit, button, name, _, _, _, _, duration)
 	return returnValue
 end
 
+function UF:UpdateBuffsHeaderPosition()
+	local parent = self:GetParent()
+	local buffs = parent.Buffs
+	local debuffs = parent.Debuffs
+	local numDebuffs = self.visibleDebuffs
+
+	if numDebuffs == 0 then
+		buffs:ClearAllPoints()
+		buffs:Point(debuffs.point, debuffs.attachTo, debuffs.anchorPoint, debuffs.xOffset, debuffs.yOffset)
+	else
+		buffs:ClearAllPoints()
+		buffs:Point(buffs.point, buffs.attachTo, buffs.anchorPoint, buffs.xOffset, buffs.yOffset)
+	end
+end
+
+function UF:UpdateDebuffsHeaderPosition()
+	local parent = self:GetParent()
+	local debuffs = parent.Debuffs
+	local buffs = parent.Buffs
+	local numBuffs = self.visibleBuffs
+
+	if numBuffs == 0 then
+		debuffs:ClearAllPoints()
+		debuffs:Point(buffs.point, buffs.attachTo, buffs.anchorPoint, buffs.xOffset, buffs.yOffset)
+	else
+		debuffs:ClearAllPoints()
+		debuffs:Point(debuffs.point, debuffs.attachTo, debuffs.anchorPoint, debuffs.xOffset, debuffs.yOffset)
+	end
+end
+
 function UF:UpdateBuffsPositionAndDebuffHeight()
 	local parent = self:GetParent()
 	local db = parent.db
