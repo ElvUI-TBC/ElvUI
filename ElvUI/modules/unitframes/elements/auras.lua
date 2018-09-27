@@ -455,7 +455,7 @@ end
 function UF:UpdateAuraTimer(elapsed)
 	if self.nextupdate > 0 then
 		self.nextupdate = self.nextupdate - elapsed
-		return
+		if self.nextupdate < 1 then return end
 	end
 
 	local _, _, _, _, _, duration, timeLeft = UnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
