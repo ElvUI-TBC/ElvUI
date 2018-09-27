@@ -536,78 +536,8 @@ E.Options.args.general = {
 				}
 			}
 		},
-		cooldown = {
-			type = "group",
-			order = 8,
-			name = L["Cooldown Text"],
-			get = function(info)
-				local t = E.db.cooldown[ info[#info] ];
-				local d = P.cooldown[info[#info]];
-				return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
-			end,
-			set = function(info, r, g, b)
-				E.db.cooldown[ info[#info] ] = {};
-				local t = E.db.cooldown[ info[#info] ];
-				t.r, t.g, t.b = r, g, b;
-				E:UpdateCooldownSettings("global")
-			end,
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Cooldown Text"]
-				},
-				enable = {
-					type = "toggle",
-					order = 2,
-					name = L["Enable"],
-					desc = L["Display cooldown text on anything with the cooldown spiral."],
-					get = function(info) return E.private.cooldown[ info[#info] ]; end,
-					set = function(info, value) E.private.cooldown[ info[#info] ] = value; E:StaticPopup_Show("PRIVATE_RL"); end
-				},
-				threshold = {
-					type = "range",
-					order = 3,
-					name = L["Low Threshold"],
-					desc = L["Threshold before text turns red and is in decimal form. Set to -1 for it to never turn red"],
-					min = -1, max = 20, step = 1,
-					get = function(info) return E.db.cooldown[ info[#info] ]; end,
-					set = function(info, value) E.db.cooldown[ info[#info] ] = value end,
-				},
-				expiringColor = {
-					order = 4,
-					type = "color",
-					name = L["Expiring"],
-					desc = L["Color when the text is about to expire"]
-				},
-				secondsColor = {
-					order = 5,
-					type = "color",
-					name = L["Seconds"],
-					desc = L["Color when the text is in the seconds format."]
-				},
-				minutesColor = {
-					order = 6,
-					type = "color",
-					name = L["Minutes"],
-					desc = L["Color when the text is in the minutes format."]
-				},
-				hoursColor = {
-					order = 7,
-					type = "color",
-					name = L["Hours"],
-					desc = L["Color when the text is in the hours format."]
-				},
-				daysColor = {
-					order = 8,
-					type = "color",
-					name = L["Days"],
-					desc = L["Color when the text is in the days format."]
-				}
-			}
-		},
 		chatBubbles = {
-			order = 9,
+			order = 8,
 			type = "group",
 			name = L["Chat Bubbles"],
 			args = {
@@ -680,7 +610,7 @@ E.Options.args.general = {
 			}
 		},
 		threatGroup = {
-			order = 10,
+			order = 9,
 			type = "group",
 			name = L["Threat"],
 			args = {

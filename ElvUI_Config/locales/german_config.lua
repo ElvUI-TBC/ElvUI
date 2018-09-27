@@ -8,6 +8,7 @@ L["ACTIONBARS_DESC"] = "Konfiguriere die Einstellungen für die Aktionsleisten."
 L["AURAS_DESC"] = "Konfiguriere die Symbole für die Stärkungs- und Schwächungszauber nahe der Minimap."
 L["BAGS_DESC"] = "Konfiguriere die Einstellungen für die Taschen."
 L["CHAT_DESC"] = "Anpassen der Chateinstellungen für ElvUI."
+L["COOLDOWN_DESC"] = "Passe Cooldown Einstellungen an."
 L["DATABAR_DESC"] = "Einstellung der Informationsleisten."
 L["DATATEXT_DESC"] = "Bearbeite die Anzeige der Infotexte."
 L["ELVUI_DESC"] = "ElvUI ist ein komplettes Benutzerinterface für World of Warcraft."
@@ -234,6 +235,20 @@ L["Time"] = "Zeit"
 L["When enabled active buff icons will light up instead of becoming darker, while inactive buff icons will become darker instead of being lit up."] = "Wenn diese Option aktiviert wird, leuchten die Symbole für aktive Stärkungszauber auf und inaktive Stärkungszauber werden dunkler. Ansonsten leuchten die Symbole für inaktive Stärkungszauber auf und aktive Stärkungszauber werden dunkler."
 L["Wrap After"] = "Umbruch nach"
 L["Your Auras First"] = "Deine Auren zuerst"
+
+--Cooldown
+L["MM:SS"] = "MM:SS"
+L["MM:SS Threshold"] = "MM:SS Schwellenwert"
+L["HH:MM"] = "HH:MM"
+L["HH:MM Threshold"] = "HH:MM Schwellenwert"
+L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = "Schwellenwert (in Sekunden) bevor der Text in MM:SS Format angezeigt wird. Setze auf -1 um niemals das Format zu ändern."
+L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = "Schwellenwert (in Minuten) bevor der Text in MM:SS Format angezeigt wird. Setze auf -1 um niemals das Format zu ändern."
+L["Color Override"] = "Farbüberschreibung"
+L["Force Hide Blizzard Text"] = "Ausblenden des Blizzard Text erzwingen"
+L["Sets the size of the timers."] = true
+L["This option will force hide Blizzard's cooldown text if it's enabled at [Interface > ActionBars > Show Numbers on Cooldown]."] = "Diese Option erzwingt das Ausblenden des Blizzard's Cooldown Text, wenn er unter [Interface - Aktionsleisten - Zahlen für Abklingzeiten anzeigen] aktiviert ist."
+L["Reverse Toggle"] = "Umgekehrte Anzeige"
+L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = "Umgekehrte Anzeige aktiviert den Cooldown Text auf diesem Modul wenn die globale Einstellung deaktiviert ist und deaktiviert es wenn die globale Einstellung aktiviert ist."
 
 --Chat
 L["Above Chat"] = "Über dem Chat"

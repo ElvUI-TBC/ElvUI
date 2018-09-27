@@ -8,6 +8,7 @@ L["ACTIONBARS_DESC"] = "Modify the actionbar settings."
 L["AURAS_DESC"] = "Настройка иконок эффектов, находящихся у миникарты."
 L["BAGS_DESC"] = "Настройки сумок ElvUI"
 L["CHAT_DESC"] = "Настройте отображение чата ElvUI."
+L["COOLDOWN_DESC"] = "Adjust Cooldown Settings."
 L["DATABAR_DESC"] = "Контролирует отображение информационных полос."
 L["DATATEXT_DESC"] = "Установка отображения информационных текстов."
 L["ELVUI_DESC"] = "ElvUI это аддон для полной замены пользовательского интерфейса World of Warcraft."
@@ -233,6 +234,20 @@ L["Time"] = "Время"
 L["When enabled active buff icons will light up instead of becoming darker, while inactive buff icons will become darker instead of being lit up."] = "Если активно, то иконки имеющихся баффов будут яркими, а отсутствующих затемненными."
 L["Wrap After"] = "Размер ряда"
 L["Your Auras First"] = "Сначала свои"
+
+--Cooldown
+L["MM:SS"] = "ММ:СС"
+L["MM:SS Threshold"] = "Граница ММ:СС"
+L["HH:MM"] = "ЧЧ:ММ"
+L["HH:MM Threshold"] = "Граница ЧЧ:ММ"
+L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = "Значение (в секундах), после которого текст восстановления перейдет в формат ММ:СС. Установите на -1, чтобы никогда не использовать данный формат."
+L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = "Значение (в минутах), после которого текст восстановления перейдет в формат ЧЧ:ММ. Установите на -1, чтобы никогда не использовать данный формат."
+L["Color Override"] = "Перезапись цвета"
+L["Force Hide Blizzard Text"] = "Принудительно скрывать текст Blizzard"
+L["Sets the size of the timers."] = true
+L["This option will force hide Blizzard's cooldown text if it's enabled at [Interface > ActionBars > Show Numbers on Cooldown]."] = "Эта опция принудительно скроет текст восстановления Blizzard, если он включен в Интерфейс > Панели команд > Отсчет времени восстановления."
+L["Reverse Toggle"] = "Обратное включение"
+L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = "Включает текст восстановления в этом модуле, когда глобальная опция отключена, и отключает, когда включена."
 
 --Chat
 L["Above Chat"] = "Над чатом"

@@ -83,25 +83,39 @@ end
 function A:BuffButton_OnUpdate()
 	if this.untilCancelled == 1 then return end
 
-	local buffIndex = this:GetID();
+	local buffIndex = this:GetID()
 	local timeLeft = GetPlayerBuffTimeLeft(buffIndex)
+	local duration = _G[this:GetName().."Duration"]
 
-	local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
-	if E.db.auras.cooldown.override and E.TimeColors["auras"] then
-		timeColors, timeThreshold = E.TimeColors["auras"], E.db.auras.cooldown.threshold
-	end
-	if not timeThreshold then
-		timeThreshold = E.TimeThreshold
-	end
-
-	local timerValue, formatID;
-	timerValue, formatID, self.nextUpdate = E:GetTimeInfo(timeLeft, timeThreshold)
-	_G[this:GetName().."Duration"]:SetFormattedText(("%s%s|r"):format(timeColors[formatID], E.TimeFormats[formatID][1]), timerValue)
-
-	if timeLeft < self.db.fadeThreshold then
-		this:SetAlpha(BuffFrame.BuffAlphaValue)
+	if not E:Cooldown_IsEnabled(self) then
+		timeLeft = nil
+		duration:SetText("")
 	else
-		this:SetAlpha(1.0);
+		local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
+		if E.db.auras.cooldown.override and E.TimeColors["auras"] then
+			timeColors, timeThreshold = E.TimeColors["auras"], E.db.auras.cooldown.threshold
+		end
+		if not timeThreshold then
+			timeThreshold = E.TimeThreshold
+		end
+
+		local hhmmThreshold, mmssThreshold
+		if self.db.cooldown.checkSeconds then
+			hhmmThreshold, mmssThreshold = self.db.cooldown.hhmmThreshold, self.db.cooldown.mmssThreshold
+		else
+			hhmmThreshold, mmssThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.hhmmThreshold or nil, E.db.cooldown.checkSeconds and E.db.cooldown.mmssThreshold or nil
+		end
+
+		local value1, formatID, nextUpdate, value2 = E:GetTimeInfo(timeLeft, timeThreshold, hhmmThreshold, mmssThreshold)
+		self.nextUpdate = nextUpdate
+
+		duration:SetFormattedText(format("%s%s|r", timeColors[formatID], E.TimeFormats[formatID][1]), value1, value2)
+
+		if timeLeft < self.db.fadeThreshold then
+			this:SetAlpha(BuffFrame.BuffAlphaValue)
+		else
+			this:SetAlpha(1.0)
+		end
 	end
 end
 
@@ -183,23 +197,36 @@ end
 
 function A:UpdateWeaponText(button, expiration)
 	local duration = _G[button:GetName().."Duration"]
-	local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
 
-	if E.db.auras.cooldown.override and E.TimeColors["auras"] then
-		timeColors, timeThreshold = E.TimeColors["auras"], E.db.auras.cooldown.threshold
-	end
-	if not timeThreshold then
-		timeThreshold = E.TimeThreshold
-	end
-
-	local timerValue, formatID
-	timerValue, formatID = E:GetTimeInfo(expiration, timeThreshold)
-	duration:SetFormattedText(format("%s%s|r", timeColors[formatID], E.TimeFormats[formatID][1]), timerValue)
-
-	if expiration > E.db.auras.fadeThreshold then
-		button:SetAlpha(BuffFrame.BuffAlphaValue)
+	if not E:Cooldown_IsEnabled(self) then
+		expiration = nil
+		duration:SetText("")
 	else
-		button:SetAlpha(1.0)
+		local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
+		if E.db.auras.cooldown.override and E.TimeColors["auras"] then
+			timeColors, timeThreshold = E.TimeColors["auras"], E.db.auras.cooldown.threshold
+		end
+		if not timeThreshold then
+			timeThreshold = E.TimeThreshold
+		end
+
+		local hhmmThreshold, mmssThreshold
+		if self.db.cooldown.checkSeconds then
+			hhmmThreshold, mmssThreshold = self.db.cooldown.hhmmThreshold, self.db.cooldown.mmssThreshold
+		else
+			hhmmThreshold, mmssThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.hhmmThreshold or nil, E.db.cooldown.checkSeconds and E.db.cooldown.mmssThreshold or nil
+		end
+
+		local value1, formatID, nextUpdate, value2 = E:GetTimeInfo(expiration, timeThreshold, hhmmThreshold, mmssThreshold)
+		self.nextUpdate = nextUpdate
+
+		duration:SetFormattedText(format("%s%s|r", timeColors[formatID], E.TimeFormats[formatID][1]), value1, value2)
+
+		if expiration > E.db.auras.fadeThreshold then
+			button:SetAlpha(BuffFrame.BuffAlphaValue)
+		else
+			button:SetAlpha(1.0)
+		end
 	end
 end
 

@@ -55,7 +55,7 @@ local function LoadSkin()
 			icon:SetInside()
 			icon:SetTexCoord(unpack(E.TexCoords))
 
-			cooldown.ColorOverride = "bags"
+			cooldown.CooldownOverride = "bags"
 			E:RegisterCooldown(cooldown)
 		end
 	end

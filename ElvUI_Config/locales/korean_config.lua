@@ -8,6 +8,7 @@ L["ACTIONBARS_DESC"] = "행동단축바의 설정을 변경합니다."
 L["AURAS_DESC"] = "미니맵 근처에 표시되는 강화/약화효과 아이콘에 관련된 옵션들입니다."
 L["BAGS_DESC"] = "통합가방과 가방바에 관련된 옵션들입니다."
 L["CHAT_DESC"] = "채팅과 패널에 관련된 옵션들입니다."
+L["COOLDOWN_DESC"] = "Adjust Cooldown Settings."
 L["DATABAR_DESC"] = "화면에 표시되는 각종 정보막대들을 설정합니다."
 L["DATATEXT_DESC"] = "정보문자에 관련된 옵션들입니다."
 L["ELVUI_DESC"] = "ElvUI는 WoW에서 지원하는 대부분의 기능을 대체하는 통합 애드온입니다."
@@ -279,6 +280,20 @@ L["Time"] = "시간"
 L["When enabled active buff icons will light up instead of becoming darker, while inactive buff icons will become darker instead of being lit up."] = "해당 시너지버프를 가지고 있을 때 아이콘을 활성화하는 방식입니다."
 L["Wrap After"] = "한 줄에 표시할 오라 수"
 L["Your Auras First"] = "내가 걸은 효과 먼저"
+
+--Cooldown
+L["MM:SS"] = true
+L["MM:SS Threshold"] = true
+L["HH:MM"] = true
+L["HH:MM Threshold"] = true
+L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = true
+L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = true
+L["Color Override"] = true
+L["Force Hide Blizzard Text"] = true
+L["Sets the size of the timers."] = true
+L["This option will force hide Blizzard's cooldown text if it's enabled at [Interface > ActionBars > Show Numbers on Cooldown]."] = true
+L["Reverse Toggle"] = true
+L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = true
 
 --Chat
 L["Above Chat"] = "채팅창 위에 배치"

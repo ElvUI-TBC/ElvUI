@@ -8,6 +8,7 @@ L["ACTIONBARS_DESC"] = "修改动作条设定"
 L["AURAS_DESC"] = "小地图旁的光环图标设置"
 L["BAGS_DESC"] = "调整ElvUI背包设置"
 L["CHAT_DESC"] = "聊天框设置"
+L["COOLDOWN_DESC"] = "调整冷却文字设置"
 L["DATATEXT_DESC"] = "设定屏幕所显示的部分信息文字"
 L["DATABAR_DESC"] = "设置各种数据条"
 L["ELVUI_DESC"] = "ElvUI为一套功能完整, 可用来替换WoW原始界面的套件"
@@ -231,6 +232,20 @@ L["Time"] = "时间"
 L["When enabled active buff icons will light up instead of becoming darker, while inactive buff icons will become darker instead of being lit up."] = true
 L["Wrap After"] = "每行行数"
 L["Your Auras First"] = "自身光环优先"
+
+--Cooldown
+L["MM:SS"] = "分:秒"
+L["MM:SS Threshold"] = "分:秒 阈值"
+L["HH:MM"] = "时:分"
+L["HH:MM Threshold"] = "时:分 阈值"
+L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = "文字以分:秒格式显示的阈值(单位:秒). 设为-1以禁用此格式."
+L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = "文字以时:分格式显示的阈值(单位:分). 设为-1以禁用此格式."
+L["Color Override"] = "颜色覆盖"
+L["Force Hide Blizzard Text"] = "强制隐藏暴雪文字"
+L["Sets the size of the timers."] = true
+L["This option will force hide Blizzard's cooldown text if it's enabled at [Interface > ActionBars > Show Numbers on Cooldown]."] = "如果该选项被开启, 将强制隐藏暴雪的冷却文字[界面->动作条->显示冷却时间]."
+L["Reverse Toggle"] = "反转开关"
+L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = "反转开关启用是该模块将在全局禁用时启用, 全局启用是禁用."
 
 --Chat
 L["Above Chat"] = "聊天框上方"

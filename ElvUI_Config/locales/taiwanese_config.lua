@@ -8,6 +8,7 @@ L["ACTIONBARS_DESC"] = "修改動作條設定."
 L["AURAS_DESC"] = "小地圖旁的光環圖示設定."
 L["BAGS_DESC"] = "調整 ElvUI 背包設定."
 L["CHAT_DESC"] = "對話框架設定."
+L["COOLDOWN_DESC"] = "調整冷卻設定."
 L["DATATEXT_DESC"] = "螢幕資訊文字顯示設定."
 L["DATABAR_DESC"] = "設置各種數據條"
 L["ELVUI_DESC"] = "ElvUI 為一套功能完整，可用來替換 WOW 原始介面的 UI 套件"
@@ -233,6 +234,20 @@ L["Time"] = "時間"
 L["When enabled active buff icons will light up instead of becoming darker, while inactive buff icons will become darker instead of being lit up."] = true
 L["Wrap After"] = "每行光環數"
 L["Your Auras First"] = "自身光環優先"
+
+--Cooldown
+L["MM:SS"] = "MM:SS（分:秒）"
+L["MM:SS Threshold"] = "MM:SS（分:秒） 閾值"
+L["HH:MM"] = "HH:MM（時:分）"
+L["HH:MM Threshold"] = "HH:MM（時:分） 閾值"
+L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = "低於設定的閾值（單位：秒）時，將會採用 MM:SS 的格式. 設定為 -1 可禁用改格式"
+L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = "低於設定的閾值（單位：分）時，將會採用 HH:MM 的格式. 設定為 -1 可禁用改格式"
+L["Color Override"] = "顏色覆蓋"
+L["Force Hide Blizzard Text"] = "強制隱藏暴雪文字"
+L["Sets the size of the timers."] = true
+L["This option will force hide Blizzard's cooldown text if it's enabled at [Interface > ActionBars > Show Numbers on Cooldown]."] = "如果你開啟了 [介面 > 快捷列 > 顯示冷卻時間]，這個選項將強制隱藏暴雪的冷卻文字."
+L["Reverse Toggle"] = "反向開關"
+L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = "反向開關將在全局設定為不開啟時開啟，同樣的，在全局設定為開啟時，將會關閉。"
 
 --Chat
 L["Above Chat"] = "對話框上方"

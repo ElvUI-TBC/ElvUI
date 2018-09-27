@@ -8,6 +8,7 @@ L["ACTIONBARS_DESC"] = "Modify the actionbar settings."
 L["AURAS_DESC"] = "Configura los iconos de las auras que aparecen cerca del minimapa."
 L["BAGS_DESC"] = "Ajusta las opciones de las bolsas para ElvUI."
 L["CHAT_DESC"] = "Configura los ajustes del chat para ElvUI."
+L["COOLDOWN_DESC"] = "Adjust Cooldown Settings."
 L["DATABAR_DESC"] = "Setup on-screen display of information bars."
 L["DATATEXT_DESC"] = "Configura el despliegue en pantalla de los textos de datos."
 L["ELVUI_DESC"] = "ElvUI es un addon que reemplaza la interfaz completa de World of Warcraft."
@@ -233,6 +234,20 @@ L["Time"] = "Tiempo"
 L["When enabled active buff icons will light up instead of becoming darker, while inactive buff icons will become darker instead of being lit up."] = true
 L["Wrap After"] = "Auras por Fila/Columna"
 L["Your Auras First"] = "Tus Auras Primero"
+
+--Cooldown
+L["MM:SS"] = true
+L["MM:SS Threshold"] = true
+L["HH:MM"] = true
+L["HH:MM Threshold"] = true
+L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = true
+L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = true
+L["Color Override"] = true
+L["Force Hide Blizzard Text"] = true
+L["Sets the size of the timers."] = true
+L["This option will force hide Blizzard's cooldown text if it's enabled at [Interface > ActionBars > Show Numbers on Cooldown]."] = true
+L["Reverse Toggle"] = true
+L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = true
 
 --Chat
 L["Above Chat"] = "Arriba del Chat"

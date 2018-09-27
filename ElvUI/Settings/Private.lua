@@ -128,7 +128,3 @@ V["actionbar"] = {
 		skin = "Blizzard"
 	}
 }
-
-V["cooldown"] = {
-	enable = true
-}

@@ -107,18 +107,30 @@ end
 
 local function UpdateAuraTime(frame, expiration)
 	local timeleft = expiration - GetTime()
-	local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
-	if mod.db.cooldown.override and E.TimeColors["nameplates"] then
-		timeColors, timeThreshold = E.TimeColors["nameplates"], mod.db.cooldown.threshold
+
+	if E.db.cooldown.enable and mod.db.cooldown.reverse or not E.db.cooldown.enable and not mod.db.cooldown.reverse then
+		timeleft = nil
+		frame.timeLeft:SetText("")
+	else
+		local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
+		if mod.db.cooldown.override and E.TimeColors["nameplates"] then
+			timeColors, timeThreshold = E.TimeColors["nameplates"], mod.db.cooldown.threshold
+		end
+		if not timeThreshold then
+			timeThreshold = E.TimeThreshold
+		end
+
+		local hhmmThreshold, mmssThreshold
+		if mod.db.cooldown.checkSeconds then
+			hhmmThreshold, mmssThreshold = mod.db.cooldown.hhmmThreshold, mod.db.cooldown.mmssThreshold
+		else
+			hhmmThreshold, mmssThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.hhmmThreshold or nil, E.db.cooldown.checkSeconds and E.db.cooldown.mmssThreshold or nil
+		end
+
+		local value1, formatID, nextUpdate, value2 = E:GetTimeInfo(timeleft, timeThreshold, hhmmThreshold, mmssThreshold)
+
+		frame.timeLeft:SetFormattedText(format("%s%s|r", timeColors[formatID], E.TimeFormats[formatID][2]), value1, value2)
 	end
-	if not timeThreshold then
-		timeThreshold = E.TimeThreshold
-	end
-	
-	local timervalue, formatid
-	timervalue, formatid = E:GetTimeInfo(timeleft, timeThreshold)
-	
-	frame.timeLeft:SetFormattedText(format("%s%s|r", timeColors[formatid], E.TimeFormats[formatid][2]), timervalue)
 end
 
 local function RemoveAuraInstance(guid, spellID, caster)

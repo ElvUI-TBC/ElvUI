@@ -483,7 +483,9 @@ function AB:StyleButton(button, noBackdrop, useMasque)
 	end
 
 	if not self.handledbuttons[button] then
+		buttonCooldown.CooldownOverride = "actionbar"
 		E:RegisterCooldown(buttonCooldown)
+
 		self.handledbuttons[button] = true
 	end
 end
