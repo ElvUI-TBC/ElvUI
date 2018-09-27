@@ -95,7 +95,6 @@ L["Color when the text is in the hours format."] = "以小時顯示的文字顏�
 L["Color when the text is in the minutes format."] = "以分顯示的文字顏色."
 L["Color when the text is in the seconds format."] = "以秒顯示的文字顏色."
 L["Cooldown Text"] = "冷卻文字"
-L["Cooldown Override"] = "冷卻覆蓋"
 L["Darken Inactive"] = "非啟用者變暗"
 L["Days"] = "天"
 L["Desaturate On Cooldown"] = "冷卻時的飽和度"
@@ -139,7 +138,6 @@ L["Threshold before text turns red and is in decimal form. Set to -1 for it to n
 L["Toggles the display of the actionbars backdrop."] = "顯示/隱藏快捷列背景框."
 L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."] = "當非戰鬥, 沒有目標, 滿血, 未施法且沒有焦點目標存在時的透明度"
 L["Usable"] = "可以使用"
-L["Use Override"] = "使用覆蓋"
 L["Visibility State"] = "顯示狀態"
 L["Width Multiplier"] = "寬度倍數"
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.

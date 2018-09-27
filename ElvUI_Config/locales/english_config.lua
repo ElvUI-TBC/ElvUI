@@ -90,7 +90,6 @@ L["Color when the text is in the hours format."] = true
 L["Color when the text is in the minutes format."] = true
 L["Color when the text is in the seconds format."] = true
 L["Cooldown Text"] = true
-L["Cooldown Override"] = true
 L["Darken Inactive"] = true
 L["Days"] = true
 L["Desaturate On Cooldown"] = true
@@ -134,7 +133,6 @@ L["Threshold before text turns red and is in decimal form. Set to -1 for it to n
 L["Toggles the display of the actionbars backdrop."] = true
 L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."] = true
 L["Usable"] = true
-L["Use Override"] = true
 L["Visibility State"] = true
 L["Width Multiplier"] = true
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.

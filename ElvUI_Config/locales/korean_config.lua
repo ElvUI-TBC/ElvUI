@@ -131,7 +131,6 @@ L["Color when the text is in the hours format."] = "버튼에 배치된 행동�
 L["Color when the text is in the minutes format."] = "버튼에 배치된 행동의 재사용 대기시간이 분 단위일 경우 글자색"
 L["Color when the text is in the seconds format."] = "버튼에 배치된 행동의 재사용 대기시간이 초 단위일 경우 글자색"
 L["Cooldown Text"] = "재사용 대기시간 설정"
-L["Cooldown Override"] = true
 L["Darken Inactive"] = "킨 태세만 아이콘 표시"
 L["Days"] = "일 단위 색상"
 L["Desaturate On Cooldown"] = "재사용 대기중일 때 흑백처리"
@@ -175,7 +174,6 @@ L["Threshold before text turns red and is in decimal form. Set to -1 for it to n
 L["Toggles the display of the actionbars backdrop."] = "행동단축바의 배경을 표시할지 여부를 결정합니다."
 L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."] = true
 L["Usable"] = "사용 가능"
-L["Use Override"] = true
 L["Visibility State"] = "표시 자동전환 조건"
 L["Width Multiplier"] = "배경 가로길이 배율"
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.
