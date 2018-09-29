@@ -455,7 +455,7 @@ end
 function UF:UpdateAuraTimer(elapsed)
 	if self.nextupdate > 0 then
 		self.nextupdate = self.nextupdate - elapsed
-		if self.nextupdate < 1 then return end
+		return
 	end
 
 	local _, _, _, _, _, duration, timeLeft = UnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
@@ -475,6 +475,7 @@ function UF:UpdateAuraTimer(elapsed)
 	local mmssThreshold = (self.timerOptions and self.timerOptions.mmssThreshold) or (E.db.cooldown.checkSeconds and E.db.cooldown.mmssThreshold)
 
 	local value1, formatid, nextupdate, value2 = E:GetTimeInfo(timeLeft, timeThreshold, hhmmThreshold, mmssThreshold)
+	if nextupdate > 1 then nextupdate = 1.01 end
 	self.nextupdate = nextupdate
 
 	self.text:SetFormattedText(format("%s%s|r", timeColors[formatid], E.TimeFormats[formatid][2]), value1, value2)
