@@ -25,11 +25,15 @@ This UI will arrange your interface to be more flexible and practical.
 <br />
 [ElvUI_CastBarOverlay](https://github.com/ElvUI-TBC/ElvUI_CastBarOverlay)
 <br />
+[ElvUI_CastBarSnap](https://github.com/ElvUI-TBC/ElvUI_CastBarSnap)
+<br />
+[ElvUI_ChannelAlerts](https://github.com/ElvUI-TBC/ElvUI_ChannelAlerts)
+<br />
 [ElvUI_CustomTweaks](https://github.com/ElvUI-TBC/ElvUI_CustomTweaks)
 <br />
 [ElvUI_DataTextColors](https://github.com/ElvUI-TBC/ElvUI_DataTextColors)
 <br />
-[ElvUI_DTBars](https://github.com/ElvUI-TBC/ElvUI_DTBars)
+[ElvUI_DataTextBars](https://github.com/ElvUI-TBC/ElvUI_DataTextBars)
 <br />
 [ElvUI_Enhanced](https://github.com/ElvUI-TBC/ElvUI_Enhanced)
 <br />
@@ -37,13 +41,13 @@ This UI will arrange your interface to be more flexible and practical.
 <br />
 [ElvUI_ExtraActionBars](https://github.com/ElvUI-TBC/ElvUI_ExtraActionBars)
 <br />
+[ElvUI_FogOfWar](https://github.com/ElvUI-TBC/ElvUI_FogofWar)
+<br />
 [ElvUI_LocPlus](https://github.com/ElvUI-TBC/ElvUI_LocPlus)
 <br />
-[ElvUI_Microbar](https://github.com/ElvUI-TBC/ElvUI_Microbar)
+[ElvUI_MicrobarEnhancement](https://github.com/ElvUI-TBC/ElvUI_MicrobarEnhancement)
 <br />
 [ElvUI_MinimapButtons](https://github.com/ElvUI-TBC/ElvUI_MinimapButtons)
-<br />
-[ElvUI_RaidMarkers](https://github.com/ElvUI-TBC/ElvUI_RaidMarkers)
 <br />
 [ElvUI_SwingBar](https://github.com/ElvUI-TBC/ElvUI_SwingBar)
 
