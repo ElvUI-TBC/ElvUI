@@ -31,8 +31,6 @@ This UI will arrange your interface to be more flexible and practical.
 <br />
 [ElvUI_CustomTweaks](https://github.com/ElvUI-TBC/ElvUI_CustomTweaks)
 <br />
-[ElvUI_DataTextColors](https://github.com/ElvUI-TBC/ElvUI_DataTextColors)
-<br />
 [ElvUI_DataTextBars](https://github.com/ElvUI-TBC/ElvUI_DataTextBars)
 <br />
 [ElvUI_Enhanced](https://github.com/ElvUI-TBC/ElvUI_Enhanced)
