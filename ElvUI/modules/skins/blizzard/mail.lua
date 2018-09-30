@@ -85,7 +85,10 @@ local function LoadSkin()
 	end)
 
 	S:HandleNextPrevButton(InboxPrevPageButton)
+	InboxPrevPageButton:Point("CENTER", InboxFrame, "BOTTOMLEFT", 62, 104)
+
 	S:HandleNextPrevButton(InboxNextPageButton)
+	InboxNextPageButton:Point("CENTER", InboxFrame, "BOTTOMLEFT", 313, 104)
 
 	S:HandleCloseButton(InboxCloseButton)
 
