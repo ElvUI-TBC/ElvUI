@@ -153,7 +153,20 @@ function B:LoadBagBar()
 	_G[ElvUIKeyRing:GetName().."IconTexture"]:SetInside()
 	_G[ElvUIKeyRing:GetName().."IconTexture"]:SetTexCoord(unpack(E.TexCoords))
 
-	ElvUIKeyRing:SetScript("OnClick", function() if CursorHasItem() then PutKeyInKeyRing() else ToggleKeyRing() end end)
+	ElvUIKeyRing:SetScript("OnClick", function()
+		if CursorHasItem() then
+			PutKeyInKeyRing()
+		else
+			if E.private.bags.enable then
+				if not ElvUI_ContainerFrame:IsShown() then
+					ToggleFrame(ElvUI_ContainerFrame)
+				end
+				ToggleFrame(ElvUI_ContainerFrameKeyFrame)
+			else
+				ToggleKeyRing()
+			end
+		end
+	end)
 	ElvUIKeyRing:SetScript("OnReceiveDrag", function() if CursorHasItem() then PutKeyInKeyRing() end end)
 	ElvUIKeyRing:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_LEFT") local color = HIGHLIGHT_FONT_COLOR GameTooltip:SetText(KEYRING, color.r, color.g, color.b) GameTooltip:AddLine() end)
 	ElvUIKeyRing:SetScript("OnLeave", function() GameTooltip:Hide() end)
