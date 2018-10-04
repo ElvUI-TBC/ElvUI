@@ -995,7 +995,7 @@ end
 
 function CH:ChatFrame_OnEvent(...)
 	if CH:ChatFrame_ConfigEventHandler(...) then return end
-	if CH:ChatFrame_SystemEventHandler(...) then return end
+	if CH:ChatFrame_SystemEventHandler(event) then return end
 	if CH:ChatFrame_MessageEventHandler(...) then return end
 end
 
