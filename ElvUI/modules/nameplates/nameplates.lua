@@ -813,6 +813,10 @@ function mod:SPELL_UPDATE_COOLDOWN()
 	mod:ForEachPlate("UpdateElement_Filters", "SPELL_UPDATE_COOLDOWN")
 end
 
+function mod:UNIT_FACTION()
+	self:ForEachVisiblePlate("UpdateAllFrame")
+end
+
 function mod:UpdateFonts(plate)
 	if not plate then return end
 
@@ -902,6 +906,7 @@ function mod:Initialize()
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	self:RegisterEvent("UNIT_AURA")
 	self:RegisterEvent("PLAYER_COMBO_POINTS")
+	self:RegisterEvent("UNIT_FACTION")
 
 	self:RegisterMessage("ClassCache_ClassUpdated")
 
