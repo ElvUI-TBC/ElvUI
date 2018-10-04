@@ -47,14 +47,14 @@ for i = 0, NUM_BAG_SLOTS do
 end
 
 local allBags = {}
-for _,i in ipairs(playerBags) do
+for _, i in ipairs(playerBags) do
 	tinsert(allBags, i)
 end
-for _,i in ipairs(bankBags) do
+for _, i in ipairs(bankBags) do
 	tinsert(allBags, i)
 end
 
-for _,i in ipairs(guildBags) do
+for _, i in ipairs(guildBags) do
 	tinsert(allBags, i)
 end
 
@@ -364,9 +364,9 @@ function B:GetNumSlots(bag, role)
 end
 
 local function ConvertLinkToID(link)
-	if(not link) then return end
+	if not link then return end
 
-	if(tonumber(match(link, "item:(%d+)"))) then
+	if tonumber(match(link, "item:(%d+)")) then
 		return tonumber(match(link, "item:(%d+)"))
 	end
 end
@@ -376,11 +376,11 @@ local function DefaultCanMove()
 end
 
 function B:Encode_BagSlot(bag, slot)
-	return (bag*100) + slot
+	return (bag * 100) + slot
 end
 
 function B:Decode_BagSlot(int)
-	return floor(int/100), int % 100
+	return floor(int / 100), int % 100
 end
 
 function B:IsPartial(bag, slot)
@@ -393,10 +393,10 @@ function B:EncodeMove(source, target)
 end
 
 function B:DecodeMove(move)
-	local s = floor(move/10000)
-	local t = move%10000
-	s = (t>9000) and (s+1) or s
-	t = (t>9000) and (t-10000) or t
+	local s = floor(move / 10000)
+	local t = move % 10000
+	s = (t > 9000) and (s + 1) or s
+	t = (t > 9000) and (t - 10000) or t
 	return s, t
 end
 
@@ -844,8 +844,6 @@ function B:GetGroup(id)
 end
 
 function B:CommandDecorator(func, groupsDefaults)
-	local bagGroups = {}
-
 	return function(groups)
 		if self.SortUpdateTimer:IsShown() then
 			E:Print(L["Already Running.. Bailing Out!"])

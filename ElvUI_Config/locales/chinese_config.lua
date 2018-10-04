@@ -65,7 +65,7 @@ L["TEXT_FORMAT_DESC"] = [=[提供一个更改文字格式的方式
 空白则为禁用. 如需技术支持请至http://www.tukui.org]=]
 L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[如果你设置为1则所有符合这个过滤器的姓名版将在其他姓名版上方。
 如果你将另一个过滤器设置为2则符合那个过滤器的姓名版将在设为1的姓名版以及未触发的姓名版上方。
-请注意：这个设置不会修复在互相重叠的姓名版上点击/鼠标悬停的问题。该问题是由于我们无法处理姓名版可点击区域的层次。]=]
+请注意：这个设置不会修复在互相重叠的姓名版上点击/鼠标指向的问题。该问题是由于我们无法处理姓名版可点击区域的层次。]=]
 
 --ActionBars
 L["Action Paging"] = "动作条翻页"
@@ -259,7 +259,7 @@ L["Chat History"] = "聊天历史"
 L["Chat Timestamps"] = "聊天时间戳"
 L["Class Color Mentions"] = "职业颜色提示"
 L["Custom Timestamp Color"] = "自定义时间戳颜色"
-L["Display the hyperlink tooltip while hovering over a hyperlink."] = "鼠标悬停在链接上时显示鼠标提示"
+L["Display the hyperlink tooltip while hovering over a hyperlink."] = "鼠标指向链接时显示鼠标提示"
 L["Enable the use of separate size options for the right chat panel."] = "为左右两个聊天框设置不同的材质和尺寸"
 L["Exclude Name"] = "排除名字"
 L["Excluded names will not be class colored."] = "排除的名字将不会使用职业颜色"
@@ -500,7 +500,7 @@ L["Set the font size for everything in UI. Note: This doesn't effect somethings 
 L["Textures"] = "材质"
 L["The font that combat text will use. |cffFF0000WARNING: This requires a game restart or re-log for this change to take effect.|r"] = "战斗信息将使用此字体, |cffFF0000警告:需重启游戏或重新登陆才可使此变更生效.|r"
 L["The font that the core of the UI will use."] = "核心UI所使用的字体"
-L["The texture that will be used mainly for statusbars."] = "此材质主用于状态列上"
+L["The texture that will be used mainly for statusbars."] = "此材质主用于进度条上"
 L["This texture will get used on objects like chat windows and dropdown menus."] = "主要用于对话窗口及下拉选单等物件的材质"
 L["Value Color"] = "数值颜色"
 
@@ -826,8 +826,8 @@ L["Blacklist Modifier"] = "黑名单功能键"
 L["Blacklist"] = "黑名单"
 L["Block Auras Without Duration"] = "不显示永久的光环"
 L["Block Blacklisted Auras"] = "不显示黑名单中的光环"
-L["Block Mouseover Glow"] = true
-L["Block Target Glow"] = true
+L["Block Mouseover Glow"] = "屏蔽鼠标指向高亮"
+L["Block Target Glow"] = "屏蔽目标高亮"
 L["Borders"] = "边框"
 L["Buff Indicator"] = "Buff提示器"
 L["Buffs"] = "增益光环"
@@ -925,9 +925,9 @@ L["Force On"] = "强制开启"
 L["Force Reaction Color"] = "强制声望颜色"
 L["Force the frames to show, they will act as if they are the player frame."] = "强制框架显示"
 L["Forces Debuff Highlight to be disabled for these frames"] = "为这些框架强制禁用debuff高亮"
-L["Forces Mouseover Glow to be disabled for these frames"] = true
+L["Forces Mouseover Glow to be disabled for these frames"] = "在这些框体中强制关闭鼠标指向高亮"
 L["Forces reaction color instead of class color on units controlled by players."] = "对于玩家控制的角色强制使用声望颜色而不是职业颜色"
-L["Forces Target Glow to be disabled for these frames"] = true
+L["Forces Target Glow to be disabled for these frames"] = "为这些框体强制禁用目标高亮"
 L["Format"] = "格式"
 L["Frame Glow"] = "框体高亮"
 L["Frame Level"] = "框架层次"
@@ -992,8 +992,8 @@ L["Middle Click - Set Focus"] = "鼠标中键 - 设置焦点"
 L["Middle clicking the unit frame will cause your focus to match the unit."] = "鼠标中键点击单位框架设置焦点"
 L["Middle"] = "中间"
 L["Minimum Duration"] = "最小持续时间"
-L["Mouseover Glow"] = "鼠标悬停边框"
-L["Mouseover Highlight"] = "鼠标悬停高亮"
+L["Mouseover Glow"] = "鼠标指向边框"
+L["Mouseover Highlight"] = "鼠标指向高亮"
 L["Mouseover"] = "鼠标滑过显示"
 L["Neutral"] = "中立"
 L["Not valid spell id"] = "不正确的技能ID"

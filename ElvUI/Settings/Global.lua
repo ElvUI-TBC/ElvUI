@@ -12,7 +12,7 @@ G["general"] = {
 		["yOffset"] = 0
 	},
 	["versionCheck"] = true
-};
+}
 
 G["classCache"] = {}
 

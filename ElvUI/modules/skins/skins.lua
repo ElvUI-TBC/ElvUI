@@ -19,36 +19,36 @@ S.addonCallbacks = {}
 S.nonAddonCallbacks = {["CallPriority"] = {}}
 
 S.SQUARE_BUTTON_TEXCOORDS = {
-	["UP"] = {     0.45312500,    0.64062500,     0.01562500,     0.20312500};
-	["DOWN"] = {   0.45312500,    0.64062500,     0.20312500,     0.01562500};
-	["LEFT"] = {   0.23437500,    0.42187500,     0.01562500,     0.20312500};
-	["RIGHT"] = {  0.42187500,    0.23437500,     0.01562500,     0.20312500};
-	["DELETE"] = { 0.01562500,    0.20312500,     0.01562500,     0.20312500}
+	["UP"]		= {0.45312500, 0.64062500, 0.01562500, 0.20312500};
+	["DOWN"]	= {0.45312500, 0.64062500, 0.20312500, 0.01562500};
+	["LEFT"]	= {0.23437500, 0.42187500, 0.01562500, 0.20312500};
+	["RIGHT"]	= {0.42187500, 0.23437500, 0.01562500, 0.20312500};
+	["DELETE"]	= {0.01562500, 0.20312500, 0.01562500, 0.20312500}
 }
 
 function S:SquareButton_SetIcon(self, name)
 	local coords = S.SQUARE_BUTTON_TEXCOORDS[strupper(name)]
-	if(coords) then
+	if coords then
 		self.icon:SetTexCoord(coords[1], coords[2], coords[3], coords[4])
 	end
 end
 
 function S:SetModifiedBackdrop()
-	if(self.backdrop) then self = self.backdrop end
+	if self.backdrop then self = self.backdrop end
 	self:SetBackdropBorderColor(unpack(E["media"].rgbvaluecolor))
 end
 
 function S:SetOriginalBackdrop()
-	if(self.backdrop) then self = self.backdrop end
+	if self.backdrop then self = self.backdrop end
 	self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 end
 
 function S:HandleButton(f, strip)
 	local name = f:GetName()
 	if name then
-		local left = _G[name .. "Left"]
-		local middle = _G[name .. "Middle"]
-		local right = _G[name .. "Right"]
+		local left = _G[name.."Left"]
+		local middle = _G[name.."Middle"]
+		local right = _G[name.."Right"]
 
 		if left then left:Kill() end
 		if middle then middle:Kill() end
@@ -87,45 +87,45 @@ end
 
 function S:HandleScrollBar(frame, thumbTrim)
 	local name = frame:GetName()
-	if(_G[name .. "BG"]) then _G[name .. "BG"]:SetTexture(nil) end
-	if(_G[name .. "Track"]) then _G[name .. "Track"]:SetTexture(nil) end
-	if(_G[name .. "Top"]) then _G[name .. "Top"]:SetTexture(nil) end
-	if(_G[name .. "Bottom"]) then _G[name .. "Bottom"]:SetTexture(nil) end
-	if(_G[name .. "Middle"]) then _G[name .. "Middle"]:SetTexture(nil) end
+	if _G[name.."BG"] then _G[name.."BG"]:SetTexture(nil) end
+	if _G[name.."Track"] then _G[name.."Track"]:SetTexture(nil) end
+	if _G[name.."Top"] then _G[name.."Top"]:SetTexture(nil) end
+	if _G[name.."Bottom"] then _G[name.."Bottom"]:SetTexture(nil) end
+	if _G[name.."Middle"] then _G[name.."Middle"]:SetTexture(nil) end
 
-	if(_G[name .. "ScrollUpButton"] and _G[name .. "ScrollDownButton"]) then
-		_G[name .. "ScrollUpButton"]:StripTextures()
-		if(not _G[name .. "ScrollUpButton"].icon) then
-			S:HandleNextPrevButton(_G[name .. "ScrollUpButton"])
-			S:SquareButton_SetIcon(_G[name .. "ScrollUpButton"], "UP")
-			_G[name .. "ScrollUpButton"]:Size(_G[name .. "ScrollUpButton"]:GetWidth() + 7, _G[name .. "ScrollUpButton"]:GetHeight() + 7)
+	if _G[name.."ScrollUpButton"] and _G[name.."ScrollDownButton"] then
+		_G[name.."ScrollUpButton"]:StripTextures()
+		if not _G[name.."ScrollUpButton"].icon then
+			S:HandleNextPrevButton(_G[name.."ScrollUpButton"])
+			S:SquareButton_SetIcon(_G[name.."ScrollUpButton"], "UP")
+			_G[name.."ScrollUpButton"]:Size(_G[name.."ScrollUpButton"]:GetWidth() + 7, _G[name.."ScrollUpButton"]:GetHeight() + 7)
 		end
 
-		_G[name .. "ScrollDownButton"]:StripTextures()
-		if(not _G[name .. "ScrollDownButton"].icon) then
-			S:HandleNextPrevButton(_G[name .. "ScrollDownButton"])
-			S:SquareButton_SetIcon(_G[name .. "ScrollDownButton"], "DOWN")
-			_G[name .. "ScrollDownButton"]:Size(_G[name .. "ScrollDownButton"]:GetWidth() + 7, _G[name .. "ScrollDownButton"]:GetHeight() + 7)
+		_G[name.."ScrollDownButton"]:StripTextures()
+		if not _G[name.."ScrollDownButton"].icon then
+			S:HandleNextPrevButton(_G[name.."ScrollDownButton"])
+			S:SquareButton_SetIcon(_G[name.."ScrollDownButton"], "DOWN")
+			_G[name.."ScrollDownButton"]:Size(_G[name.."ScrollDownButton"]:GetWidth() + 7, _G[name.."ScrollDownButton"]:GetHeight() + 7)
 		end
 
-		if(not frame.trackbg) then
+		if not frame.trackbg then
 			frame.trackbg = CreateFrame("Frame", nil, frame)
-			frame.trackbg:Point("TOPLEFT", _G[name .. "ScrollUpButton"], "BOTTOMLEFT", 0, -1)
-			frame.trackbg:Point("BOTTOMRIGHT", _G[name .. "ScrollDownButton"], "TOPRIGHT", 0, 1)
+			frame.trackbg:Point("TOPLEFT", _G[name.."ScrollUpButton"], "BOTTOMLEFT", 0, -1)
+			frame.trackbg:Point("BOTTOMRIGHT", _G[name.."ScrollDownButton"], "TOPRIGHT", 0, 1)
 			frame.trackbg:SetTemplate("Transparent")
 		end
 
-		if(frame:GetThumbTexture()) then
-			if(not thumbTrim) then thumbTrim = 3 end
+		if frame:GetThumbTexture() then
+			if not thumbTrim then thumbTrim = 3 end
 			frame:GetThumbTexture():SetTexture(nil)
-			if(not frame.thumbbg) then
+			if not frame.thumbbg then
 				frame.thumbbg = CreateFrame("Frame", nil, frame)
 				frame.thumbbg:Point("TOPLEFT", frame:GetThumbTexture(), "TOPLEFT", 2, -thumbTrim)
 				frame.thumbbg:Point("BOTTOMRIGHT", frame:GetThumbTexture(), "BOTTOMRIGHT", -2, thumbTrim)
 				frame.thumbbg:SetTemplate("Default", true, true)
 				frame.thumbbg:SetBackdropColor(0.6, 0.6, 0.6)
-				if(frame.trackbg) then
-					frame.thumbbg:SetFrameLevel(frame.trackbg:GetFrameLevel()+1)
+				if frame.trackbg then
+					frame.thumbbg:SetFrameLevel(frame.trackbg:GetFrameLevel() + 1)
 				end
 			end
 		end
@@ -144,13 +144,13 @@ local tabs = {
 function S:HandleTab(tab)
 	local name = tab:GetName()
 	for _, object in pairs(tabs) do
-		local tex = _G[name .. object]
-		if(tex) then
+		local tex = _G[name..object]
+		if tex then
 			tex:SetTexture(nil)
 		end
 	end
 
-	if(tab.GetHighlightTexture and tab:GetHighlightTexture()) then
+	if tab.GetHighlightTexture and tab:GetHighlightTexture() then
 		tab:GetHighlightTexture():SetTexture(nil)
 	else
 		tab:StripTextures()
@@ -163,8 +163,8 @@ function S:HandleTab(tab)
 	tab.backdrop:Point("BOTTOMRIGHT", -10, 3)
 end
 
-function S:HandleNextPrevButton(btn, buttonOverride)
-	local inverseDirection = btn:GetName() and (find(btn:GetName():lower(), "left") or find(btn:GetName():lower(), "prev") or find(btn:GetName():lower(), "decrement") or find(btn:GetName():lower(), "promote"))
+function S:HandleNextPrevButton(btn, useVertical, inverseDirection)
+	inverseDirection = inverseDirection or btn:GetName() and (find(btn:GetName():lower(), "left") or find(btn:GetName():lower(), "prev") or find(btn:GetName():lower(), "decrement") or find(btn:GetName():lower(), "promote"))
 
 	btn:StripTextures()
 	btn:SetNormalTexture(nil)
@@ -172,46 +172,47 @@ function S:HandleNextPrevButton(btn, buttonOverride)
 	btn:SetHighlightTexture(nil)
 	btn:SetDisabledTexture(nil)
 
-	if(not btn.icon) then
+	if not btn.icon then
 		btn.icon = btn:CreateTexture(nil, "ARTWORK")
 		btn.icon:Size(13)
-		btn.icon:SetPoint("CENTER")
+		btn.icon:Point("CENTER")
 		btn.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]])
 		btn.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500)
 
 		btn:SetScript("OnMouseDown", function(self)
-			if(btn:IsEnabled() == 1) then
-				self.icon:SetPoint("CENTER", -1, -1)
+			if btn:IsEnabled() == 1 then
+				self.icon:Point("CENTER", -1, -1)
 			end
 		end)
 
 		btn:SetScript("OnMouseUp", function(self)
-			self.icon:SetPoint("CENTER", 0, 0)
+			self.icon:Point("CENTER", 0, 0)
 		end)
 
 		hooksecurefunc(btn, "Disable", function(self)
 			SetDesaturation(self.icon, true)
 			self.icon:SetAlpha(0.5)
 		end)
+
 		hooksecurefunc(btn, "Enable", function(self)
 			SetDesaturation(self.icon, false)
 			self.icon:SetAlpha(1.0)
 		end)
 
-		if(btn:IsEnabled() == 0) then
+		if btn:IsEnabled() == 0 then
 			SetDesaturation(btn.icon, true)
 			btn.icon:SetAlpha(0.5)
 		end
 	end
 
-	if(buttonOverride) then
-		if(inverseDirection) then
+	if useVertical then
+		if inverseDirection then
 			S:SquareButton_SetIcon(btn, "UP")
 		else
 			S:SquareButton_SetIcon(btn, "DOWN")
 		end
 	else
-		if(inverseDirection) then
+		if inverseDirection then
 			S:SquareButton_SetIcon(btn, "LEFT")
 		else
 			S:SquareButton_SetIcon(btn, "RIGHT")
@@ -226,8 +227,8 @@ function S:HandleRotateButton(btn)
 	btn:SetTemplate("Default")
 	btn:Size(btn:GetWidth() - 14, btn:GetHeight() - 14)
 
-	btn:GetNormalTexture():SetTexCoord(0.27, 0.73, 0.27, 0.68)
-	btn:GetPushedTexture():SetTexCoord(0.27, 0.73, 0.27, 0.68)
+	btn:GetNormalTexture():SetTexCoord(0.3, 0.29, 0.3, 0.65, 0.69, 0.29, 0.69, 0.65)
+	btn:GetPushedTexture():SetTexCoord(0.3, 0.29, 0.3, 0.65, 0.69, 0.29, 0.69, 0.65)
 
 	btn:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
 
@@ -240,39 +241,39 @@ function S:HandleEditBox(frame)
 	frame:CreateBackdrop("Default")
 	frame.backdrop:SetFrameLevel(frame:GetFrameLevel())
 
-	if(frame:GetName()) then
-		if(_G[frame:GetName() .. "Left"]) then _G[frame:GetName() .. "Left"]:Kill() end
-		if(_G[frame:GetName() .. "Middle"]) then _G[frame:GetName() .. "Middle"]:Kill() end
-		if(_G[frame:GetName() .. "Right"]) then _G[frame:GetName() .. "Right"]:Kill() end
-		if(_G[frame:GetName() .. "Mid"]) then _G[frame:GetName() .. "Mid"]:Kill() end
+	if frame:GetName() then
+		if _G[frame:GetName().."Left"] then _G[frame:GetName().."Left"]:Kill() end
+		if _G[frame:GetName().."Middle"] then _G[frame:GetName().."Middle"]:Kill() end
+		if _G[frame:GetName().."Right"] then _G[frame:GetName().."Right"]:Kill() end
+		if _G[frame:GetName().."Mid"] then _G[frame:GetName().."Mid"]:Kill() end
 
-		if(frame:GetName():find("Silver") or frame:GetName():find("Copper")) then
+		if frame:GetName():find("Silver") or frame:GetName():find("Copper") then
 			frame.backdrop:Point("BOTTOMRIGHT", -12, -2)
 		end
 	end
 end
 
 function S:HandleDropDownBox(frame, width)
-	local button = _G[frame:GetName() .. "Button"]
-	if(not button) then return end
+	local button = _G[frame:GetName().."Button"]
+	if not button then return end
 
-	if(not width) then width = 155 end
+	if not width then width = 155 end
 
 	frame:StripTextures()
 	frame:Width(width)
 
-	if(_G[frame:GetName() .. "Text"]) then
-		_G[frame:GetName() .. "Text"]:ClearAllPoints()
-		_G[frame:GetName() .. "Text"]:Point("RIGHT", button, "LEFT", -2, 0)
+	if _G[frame:GetName().."Text"] then
+		_G[frame:GetName().."Text"]:ClearAllPoints()
+		_G[frame:GetName().."Text"]:Point("RIGHT", button, "LEFT", -2, 0)
 	end
 
-	if(button) then
+	if button then
 		button:ClearAllPoints()
 		button:Point("RIGHT", frame, "RIGHT", -10, 3)
-		hooksecurefunc(button, "SetPoint", function(_, _, _, _, _, _, noReset)
-			if(not noReset) then
-				button:ClearAllPoints()
-				button:SetPoint("RIGHT", frame, "RIGHT", E:Scale(-10), E:Scale(3), true)
+		hooksecurefunc(button, "SetPoint", function(btn, _, _, _, _, _, noReset)
+			if not noReset then
+				btn:ClearAllPoints()
+				btn:SetPoint("RIGHT", frame, "RIGHT", E:Scale(-10), E:Scale(3), true)
 			end
 		end)
 
@@ -313,17 +314,17 @@ function S:HandleIcon(icon, parent)
 end
 
 function S:HandleItemButton(b, shrinkIcon)
-	if(b.isSkinned) then return end
+	if b.isSkinned then return end
 
 	local icon = b.icon or b.IconTexture or b.iconTexture
 	local texture
-	if(b:GetName() and _G[b:GetName() .. "IconTexture"]) then
-		icon = _G[b:GetName() .. "IconTexture"]
-	elseif(b:GetName() and _G[b:GetName() .. "Icon"]) then
-		icon = _G[b:GetName() .. "Icon"]
+	if b:GetName() and _G[b:GetName().."IconTexture"] then
+		icon = _G[b:GetName().."IconTexture"]
+	elseif b:GetName() and _G[b:GetName().."Icon"] then
+		icon = _G[b:GetName().."Icon"]
 	end
 
-	if(icon and icon:GetTexture()) then
+	if icon and icon:GetTexture() then
 		texture = icon:GetTexture()
 	end
 
@@ -331,10 +332,10 @@ function S:HandleItemButton(b, shrinkIcon)
 	b:CreateBackdrop("Default", true)
 	b:StyleButton()
 
-	if(icon) then
+	if icon then
 		icon:SetTexCoord(unpack(E.TexCoords))
 
-		if(shrinkIcon) then
+		if shrinkIcon then
 			b.backdrop:SetAllPoints()
 			icon:SetInside(b)
 		else
@@ -342,7 +343,7 @@ function S:HandleItemButton(b, shrinkIcon)
 		end
 		icon:SetParent(b.backdrop)
 
-		if(texture) then
+		if texture then
 			icon:SetTexture(texture)
 		end
 	end
@@ -352,10 +353,10 @@ end
 function S:HandleCloseButton(f, point, text)
 	f:StripTextures()
 
-	if(f:GetNormalTexture()) then f:SetNormalTexture("") f.SetNormalTexture = E.noop end
-	if(f:GetPushedTexture()) then f:SetPushedTexture("") f.SetPushedTexture = E.noop end
+	if f:GetNormalTexture() then f:SetNormalTexture("") f.SetNormalTexture = E.noop end
+	if f:GetPushedTexture() then f:SetPushedTexture("") f.SetPushedTexture = E.noop end
 
-	if(not f.backdrop) then
+	if not f.backdrop then
 		f:CreateBackdrop("Default", true)
 		f.backdrop:Point("TOPLEFT", 7, -8)
 		f.backdrop:Point("BOTTOMRIGHT", -8, 8)
@@ -363,16 +364,16 @@ function S:HandleCloseButton(f, point, text)
 		f:HookScript2("OnLeave", S.SetOriginalBackdrop)
 		f:SetHitRectInsets(6, 6, 7, 7)
 	end
-	if(not text) then text = "x" end
-	if(not f.text) then
+	if not text then text = "x" end
+	if not f.text then
 		f.text = f:CreateFontString(nil, "OVERLAY")
 		f.text:SetFont([[Interface\AddOns\ElvUI\media\fonts\PT_Sans_Narrow.ttf]], 16, "OUTLINE")
 		f.text:SetText(text)
 		f.text:SetJustifyH("CENTER")
-		f.text:SetPoint("CENTER", f, "CENTER", -1, 1)
+		f.text:Point("CENTER", f, "CENTER", -1, 1)
 	end
 
-	if(point) then
+	if point then
 		f:Point("TOPRIGHT", point, "TOPRIGHT", 2, 2)
 	end
 end
@@ -384,23 +385,23 @@ function S:HandleSliderFrame(frame)
 	frame:CreateBackdrop("Default")
 	frame.backdrop:SetAllPoints()
 	hooksecurefunc(frame, "SetBackdrop", function(_, backdrop)
-		if(backdrop ~= nil) then
+		if backdrop ~= nil then
 			frame:SetBackdrop(nil)
 		end
 	end)
 	frame:SetThumbTexture(E["media"].blankTex)
 	frame:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
-	frame:GetThumbTexture():Size(SIZE-2,SIZE-2)
-	if(orientation == "VERTICAL") then
+	frame:GetThumbTexture():Size(SIZE - 2, SIZE - 2)
+	if orientation == "VERTICAL" then
 		frame:Width(SIZE)
 	else
 		frame:Height(SIZE)
 
 		for i = 1, frame:GetNumRegions() do
 			local region = select(i, frame:GetRegions())
-			if(region and region:GetObjectType() == "FontString") then
+			if region and region:GetObjectType() == "FontString" then
 				local point, anchor, anchorPoint, x, y = region:GetPoint()
-				if(anchorPoint:find("BOTTOM")) then
+				if anchorPoint:find("BOTTOM") then
 					region:Point(point, anchor, anchorPoint, x, y - 4)
 				end
 			end
@@ -414,10 +415,10 @@ function S:HandleIconSelectionFrame(frame, numIcons, buttonNameTemplate, frameNa
 	assert(buttonNameTemplate and type(buttonNameTemplate) == "string", "HandleIconSelectionFrame: buttonNameTemplate argument missing or not a string")
 
 	local frameName = frameNameOverride or frame:GetName() --We need override in case Blizzard fucks up the naming (guild bank)
-	local scrollFrame = _G[frameName .. "ScrollFrame"]
-	local editBox = _G[frameName .. "EditBox"]
-	local okayButton = _G[frameName .. "OkayButton"] or _G[frameName .. "Okay"]
-	local cancelButton = _G[frameName .. "CancelButton"] or _G[frameName .. "Cancel"]
+	local scrollFrame = _G[frameName.."ScrollFrame"]
+	local editBox = _G[frameName.."EditBox"]
+	local okayButton = _G[frameName.."OkayButton"] or _G[frameName.."Okay"]
+	local cancelButton = _G[frameName.."CancelButton"] or _G[frameName.."Cancel"]
 
 	frame:StripTextures()
 	scrollFrame:StripTextures()
@@ -432,8 +433,8 @@ function S:HandleIconSelectionFrame(frame, numIcons, buttonNameTemplate, frameNa
 	S:HandleEditBox(editBox)
 
 	for i = 1, numIcons do
-		local button = _G[buttonNameTemplate .. i]
-		local icon = _G[button:GetName() .. "Icon"]
+		local button = _G[buttonNameTemplate..i]
+		local icon = _G[button:GetName().."Icon"]
 		button:StripTextures()
 		button:SetTemplate("Default")
 		button:StyleButton(nil, true)
@@ -443,12 +444,12 @@ function S:HandleIconSelectionFrame(frame, numIcons, buttonNameTemplate, frameNa
 end
 
 function S:ADDON_LOADED(_, addon)
-	if(self.allowBypass[addon]) then
-		if(self.addonsToLoad[addon]) then
+	if self.allowBypass[addon] then
+		if self.addonsToLoad[addon] then
 			--Load addons using the old deprecated register method
 			self.addonsToLoad[addon]()
 			self.addonsToLoad[addon] = nil
-		elseif(self.addonCallbacks[addon]) then
+		elseif self.addonCallbacks[addon] then
 			--Fire events to the skins that rely on this addon
 			for index, event in ipairs(self.addonCallbacks[addon]["CallPriority"]) do
 				self.addonCallbacks[addon][event] = nil
@@ -459,9 +460,9 @@ function S:ADDON_LOADED(_, addon)
 		return
 	end
 
-	if(not E.initialized) then return end
+	if not E.initialized then return end
 
-	if(self.addonsToLoad[addon]) then
+	if self.addonsToLoad[addon] then
 		self.addonsToLoad[addon]()
 		self.addonsToLoad[addon] = nil
 	elseif self.addonCallbacks[addon] then
@@ -475,14 +476,14 @@ end
 
 --Old deprecated register function. Keep it for the time being for any plugins that may need it.
 function S:RegisterSkin(name, loadFunc, forceLoad, bypass)
-	if(bypass) then
+	if bypass then
 		self.allowBypass[name] = true
 	end
 
-	if(forceLoad) then
+	if forceLoad then
 		loadFunc()
 		self.addonsToLoad[name] = nil
-	elseif(name == "ElvUI") then
+	elseif name == "ElvUI" then
 		tinsert(self.nonAddonsToLoad, loadFunc)
 	else
 		self.addonsToLoad[name] = loadFunc
@@ -492,23 +493,23 @@ end
 --Add callback for skin that relies on another addon.
 --These events will be fired when the addon is loaded.
 function S:AddCallbackForAddon(addonName, eventName, loadFunc, forceLoad, bypass)
-	if(not addonName or type(addonName) ~= "string") then
+	if not addonName or type(addonName) ~= "string" then
 		E:Print("Invalid argument #1 to S:AddCallbackForAddon (string expected)")
 		return
-	elseif(not eventName or type(eventName) ~= "string") then
+	elseif not eventName or type(eventName) ~= "string" then
 		E:Print("Invalid argument #2 to S:AddCallbackForAddon (string expected)")
 		return
-	elseif(not loadFunc or type(loadFunc) ~= "function") then
+	elseif not loadFunc or type(loadFunc) ~= "function" then
 		E:Print("Invalid argument #3 to S:AddCallbackForAddon (function expected)")
 		return
 	end
 
-	if(bypass) then
+	if bypass then
 		self.allowBypass[addonName] = true
 	end
 
 	--Create an event registry for this addon, so that we can fire multiple events when this addon is loaded
-	if(not self.addonCallbacks[addonName]) then
+	if not self.addonCallbacks[addonName] then
 		self.addonCallbacks[addonName] = {["CallPriority"] = {}}
 	end
 
@@ -521,7 +522,7 @@ function S:AddCallbackForAddon(addonName, eventName, loadFunc, forceLoad, bypass
 	--Register loadFunc to be called when event is fired
 	E.RegisterCallback(E, eventName, loadFunc)
 
-	if(forceLoad) then
+	if forceLoad then
 		E.callbacks:Fire(eventName)
 	else
 		--Insert eventName in this addons' registry
@@ -533,10 +534,10 @@ end
 --Add callback for skin that does not rely on a another addon.
 --These events will be fired when the Skins module is initialized.
 function S:AddCallback(eventName, loadFunc)
-	if(not eventName or type(eventName) ~= "string") then
+	if not eventName or type(eventName) ~= "string" then
 		E:Print("Invalid argument #1 to S:AddCallback (string expected)")
 		return
-	elseif(not loadFunc or type(loadFunc) ~= "function") then
+	elseif not loadFunc or type(loadFunc) ~= "function" then
 		E:Print("Invalid argument #2 to S:AddCallback (function expected)")
 		return
 	end
@@ -560,7 +561,7 @@ function S:Initialize()
 
 	--Fire events for Blizzard addons that are already loaded
 	for addon in pairs(self.addonCallbacks) do
-		if(IsAddOnLoaded(addon)) then
+		if IsAddOnLoaded(addon) then
 			for index, event in ipairs(self.addonCallbacks[addon]["CallPriority"]) do
 				self.addonCallbacks[addon][event] = nil
 				self.addonCallbacks[addon]["CallPriority"][index] = nil
@@ -577,10 +578,10 @@ function S:Initialize()
 
 	--Old deprecated load functions. We keep this for the time being in case plugins make use of it.
 	for addon, loadFunc in pairs(self.addonsToLoad) do
-		if(IsAddOnLoaded(addon)) then
+		if IsAddOnLoaded(addon) then
 			self.addonsToLoad[addon] = nil
 			local _, catch = pcall(loadFunc)
-			if(catch and GetCVar("scriptErrors") == "1") then
+			if catch and GetCVar("scriptErrors") == "1" then
 				ScriptErrorsFrame_OnError(catch, false)
 			end
 		end
@@ -588,7 +589,7 @@ function S:Initialize()
 
 	for _, loadFunc in pairs(self.nonAddonsToLoad) do
 		local _, catch = pcall(loadFunc)
-		if(catch and GetCVar("scriptErrors") == "1") then
+		if catch and GetCVar("scriptErrors") == "1" then
 			ScriptErrorsFrame_OnError(catch, false)
 		end
 	end

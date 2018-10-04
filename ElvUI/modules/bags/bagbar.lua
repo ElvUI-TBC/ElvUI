@@ -4,6 +4,7 @@ local B = E:GetModule("Bags")
 local _G = _G
 local unpack = unpack
 local tinsert = table.insert
+local match, gsub = string.match, string.gsub
 
 local CreateFrame = CreateFrame
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES

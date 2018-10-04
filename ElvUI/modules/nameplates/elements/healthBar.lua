@@ -3,7 +3,8 @@ local mod = E:GetModule("NamePlates")
 local LSM = LibStub("LibSharedMedia-3.0")
 local LMH = LibStub("LibMobHealth-4.0")
 
-local tonumber = tonumber
+local ipairs, tonumber = ipairs, tonumber
+local tinsert = tinsert
 
 local GetInstanceDifficulty = GetInstanceDifficulty
 local UnitLevel = UnitLevel
@@ -22,9 +23,8 @@ end
 function mod:UpdateElement_HealthColor(frame)
 	if not frame.HealthBar:IsShown() then return end
 
-	local r, g, b, classColor, useClassColor
-	local scale = 1
-
+	local classColor, useClassColor
+	local r, g, b, scale = 1, 1, 1, 1
 	local class = frame.UnitClass
 	if class then
 		classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
@@ -71,16 +71,18 @@ function mod:UpdateElement_HealthColor(frame)
 
 		if (not status) or (status and not mod.db.threat.useThreatColor) then
 			local reactionType = frame.UnitReaction
-			if reactionType == 4 then
-				r, g, b = mod.db.reactions.neutral.r, mod.db.reactions.neutral.g, mod.db.reactions.neutral.b
-			elseif reactionType > 4 then
-				if frame.UnitType == "FRIENDLY_PLAYER" then
-					r, g, b = mod.db.reactions.friendlyPlayer.r, mod.db.reactions.friendlyPlayer.g, mod.db.reactions.friendlyPlayer.b
+			if reactionType then
+				if reactionType == 4 then
+					r, g, b = mod.db.reactions.neutral.r, mod.db.reactions.neutral.g, mod.db.reactions.neutral.b
+				elseif reactionType > 4 then
+					if frame.UnitType == "FRIENDLY_PLAYER" then
+						r, g, b = mod.db.reactions.friendlyPlayer.r, mod.db.reactions.friendlyPlayer.g, mod.db.reactions.friendlyPlayer.b
+					else
+						r, g, b = mod.db.reactions.good.r, mod.db.reactions.good.g, mod.db.reactions.good.b
+					end
 				else
-					r, g, b = mod.db.reactions.good.r, mod.db.reactions.good.g, mod.db.reactions.good.b
+					r, g, b = mod.db.reactions.bad.r, mod.db.reactions.bad.g, mod.db.reactions.bad.b
 				end
-			else
-				r, g, b = mod.db.reactions.bad.r, mod.db.reactions.bad.g, mod.db.reactions.bad.b
 			end
 		end
 	end

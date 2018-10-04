@@ -85,7 +85,7 @@ E.DispelClasses = {
 	["DRUID"] = {
 		["Curse"] = true,
 		["Poison"] = true
-	},
+	}
 }
 
 E.HealingClasses = {
@@ -176,12 +176,12 @@ function E:ShapeshiftDelayedUpdate(func, ...)
 end
 
 function E:CheckClassColor(r, g, b)
-	r, g, b = floor(r*100+.5)/100, floor(g*100+.5)/100, floor(b*100+.5)/100
+	r, g, b = floor(r*100 + .5) / 100, floor(g*100 + .5) / 100, floor(b*100 + .5) / 100
 	local matchFound = false
 	for class, _ in pairs(RAID_CLASS_COLORS) do
-		if(class ~= E.myclass) then
+		if class ~= E.myclass then
 			local colorTable = class == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class])
-			if(colorTable.r == r and colorTable.g == g and colorTable.b == b) then
+			if colorTable.r == r and colorTable.g == g and colorTable.b == b then
 				matchFound = true
 			end
 		end
@@ -191,11 +191,11 @@ function E:CheckClassColor(r, g, b)
 end
 
 function E:GetColorTable(data)
-	if(not data.r or not data.g or not data.b) then
+	if not data.r or not data.g or not data.b then
 		error("Could not unpack color values.")
 	end
 
-	if(data.a) then
+	if data.a then
 		return {data.r, data.g, data.b, data.a}
 	else
 		return {data.r, data.g, data.b}
@@ -243,7 +243,7 @@ function E:UpdateMedia()
 
 	-- Value Color
 	local value = self.db["general"].valuecolor
-	if(self:CheckClassColor(value.r, value.g, value.b)) then
+	if self:CheckClassColor(value.r, value.g, value.b) then
 		value = E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass])
 		self.db["general"].valuecolor.r = value.r
 		self.db["general"].valuecolor.g = value.g
@@ -253,7 +253,7 @@ function E:UpdateMedia()
 	self["media"].hexvaluecolor = self:RGBToHex(value.r, value.g, value.b)
 	self["media"].rgbvaluecolor = {value.r, value.g, value.b}
 
-	if(LeftChatPanel and LeftChatPanel.tex and RightChatPanel and RightChatPanel.tex) then
+	if LeftChatPanel and LeftChatPanel.tex and RightChatPanel and RightChatPanel.tex then
 		LeftChatPanel.tex:SetTexture(E.db.chat.panelBackdropNameLeft)
 		local a = E.db.general.backdropfadecolor.a or 0.5
 		LeftChatPanel.tex:SetAlpha(a)
@@ -279,16 +279,17 @@ local LBFGroupToTableElement = {
 }
 
 function E:LBFCallback(SkinID, _, _, Group)
-	if(not E.private) then return end
+	if not E.private then return end
+
 	local element = LBFGroupToTableElement[Group]
-	if(element) then
-		if(E.private[element].lbf.enable) then
+	if element then
+		if E.private[element].lbf.enable then
 			E.private[element].lbf.skin = SkinID
 		end
 	end
 end
 
-if(LBF) then
+if LBF then
 	LBF:RegisterSkinCallback("ElvUI", E.LBFCallback, E)
 end
 
@@ -299,16 +300,16 @@ end
 function E:PLAYER_ENTERING_WORLD()
 	self:ScheduleTimer("CheckRole", 0.01)
 
-	if(not self.MediaUpdated) then
+	if not self.MediaUpdated then
 		self:UpdateMedia()
 		self.MediaUpdated = true
 	end
 
 	local _, instanceType = IsInInstance()
-	if(instanceType == "pvp") then
+	if instanceType == "pvp" then
 		self.BGTimer = self:ScheduleRepeatingTimer("RequestBGInfo", 5)
 		self:RequestBGInfo()
-	elseif(self.BGTimer) then
+	elseif self.BGTimer then
 		self:CancelTimer(self.BGTimer)
 		self.BGTimer = nil
 	end
@@ -322,7 +323,7 @@ end
 
 function E:UpdateFrameTemplates()
 	for frame in pairs(self["frames"]) do
-		if(frame and frame.template) then
+		if frame and frame.template then
 			frame:SetTemplate(frame.template, frame.glossTex)
 		else
 			self["frames"][frame] = nil
@@ -396,7 +397,7 @@ end
 
 function E:UpdateFontTemplates()
 	for text, _ in pairs(self["texts"]) do
-		if(text) then
+		if text then
 			text:FontTemplate(text.font, text.fontSize, text.fontStyle)
 		else
 			self["texts"][text] = nil
@@ -410,9 +411,9 @@ end
 
 function E:UpdateStatusBars()
 	for _, statusBar in pairs(self.statusBars) do
-		if(statusBar and statusBar:GetObjectType() == "StatusBar") then
+		if statusBar and statusBar:GetObjectType() == "StatusBar" then
 			statusBar:SetStatusBarTexture(self.media.normTex)
-		elseif(statusBar and statusBar:GetObjectType() == "Texture") then
+		elseif statusBar and statusBar:GetObjectType() == "Texture" then
 			statusBar:SetTexture(self.media.normTex)
 		end
 	end
@@ -429,9 +430,9 @@ E.HiddenFrame = CreateFrame("Frame")
 E.HiddenFrame:Hide()
 
 function E:IsDispellableByMe(debuffType)
-	if(not self.DispelClasses[self.myclass]) then return end
+	if not self.DispelClasses[self.myclass] then return end
 
-	if(self.DispelClasses[self.myclass][debuffType]) then
+	if self.DispelClasses[self.myclass][debuffType] then
 		return true
 	end
 end
@@ -463,19 +464,19 @@ function E:CheckRole()
 	local talentTree = self:GetTalentSpecInfo()
 	local role
 
-	if(type(self.ClassRole[self.myclass]) == "string") then
+	if type(self.ClassRole[self.myclass]) == "string" then
 		role = self.ClassRole[self.myclass]
-	elseif(talentTree) then
-		if(self.myclass == "DRUID" and talentTree == 2) then
+	elseif talentTree then
+		if self.myclass == "DRUID" and talentTree == 2 then
 			role = select(5, GetTalentInfo(talentTree, 22)) > 0 and "Tank" or "Melee"
 		else
 			role = self.ClassRole[self.myclass][talentTree]
 		end
 	end
 
-	if(not role) then role = "Melee" end
+	if not role then role = "Melee" end
 
-	if(self.Role ~= role) then
+	if self.Role ~= role then
 		self.Role = role
 		self.callbacks:Fire("RoleChanged")
 	end
@@ -512,7 +513,7 @@ function E:CheckIncompatible()
 end
 
 function E:IsFoolsDay()
-	if(find(date(), "04/01/") and not E.global.aprilFools) then
+	if find(date(), "04/01/") and not E.global.aprilFools then
 		return true
 	else
 		return false
@@ -520,11 +521,11 @@ function E:IsFoolsDay()
 end
 
 function E:CopyTable(currentTable, defaultTable)
-	if(type(currentTable) ~= "table") then currentTable = {} end
+	if type(currentTable) ~= "table" then currentTable = {} end
 
 	if type(defaultTable) == "table" then
 		for option, value in pairs(defaultTable) do
-			if(type(value) == "table") then
+			if type(value) == "table" then
 				value = self:CopyTable(currentTable[option], value)
 			end
 
@@ -536,13 +537,13 @@ function E:CopyTable(currentTable, defaultTable)
 end
 
 function E:RemoveEmptySubTables(tbl)
-	if(type(tbl) ~= "table") then
+	if type(tbl) ~= "table" then
 		E:Print("Bad argument #1 to 'RemoveEmptySubTables' (table expected)")
 		return
 	end
 
 	for k, v in pairs(tbl) do
-		if(type(v) == "table") then
+		if type(v) == "table" then
 			if next(v) == nil then
 				tbl[k] = nil
 			else
@@ -553,21 +554,21 @@ function E:RemoveEmptySubTables(tbl)
 end
 
 function E:RemoveTableDuplicates(cleanTable, checkTable)
-	if(type(cleanTable) ~= "table") then
+	if type(cleanTable) ~= "table" then
 		E:Print("Bad argument #1 to 'RemoveTableDuplicates' (table expected)")
 		return
 	end
-	if(type(checkTable) ~= "table") then
+	if type(checkTable) ~= "table" then
 		E:Print("Bad argument #2 to 'RemoveTableDuplicates' (table expected)")
 		return
 	end
 
 	local cleaned = {}
 	for option, value in pairs(cleanTable) do
-		if(type(value) == "table" and checkTable[option] and type(checkTable[option]) == "table") then
+		if type(value) == "table" and checkTable[option] and type(checkTable[option]) == "table" then
 			cleaned[option] = self:RemoveTableDuplicates(value, checkTable[option])
 		else
-			if(cleanTable[option] ~= checkTable[option]) then
+			if cleanTable[option] ~= checkTable[option] then
 				cleaned[option] = value
 			end
 		end
@@ -611,7 +612,7 @@ function E:FilterTableFromBlacklist(cleanTable, blacklistTable)
 end
 
 function E:TableToLuaString(inTable)
-	if(type(inTable) ~= "table") then
+	if type(inTable) ~= "table" then
 		E:Print("Invalid argument #1 to E:TableToLuaString (table expected)")
 		return
 	end
@@ -619,35 +620,35 @@ function E:TableToLuaString(inTable)
 	local ret = "{\n"
 	local function recurse(table, level)
 		for i, v in pairs(table) do
-			ret = ret .. strrep("    ", level).."["
-			if(type(i) == "string") then
-				ret = ret .. "\"" .. i .. "\""
+			ret = ret..strrep("    ", level).."["
+			if type(i) == "string" then
+				ret = ret.."\""..i.."\""
 			else
-				ret = ret .. i
+				ret = ret..i
 			end
-			ret = ret .. "] = "
+			ret = ret.."] = "
 
-			if(type(v) == "number") then
-				ret = ret .. v .. ",\n"
-			elseif(type(v) == "string") then
-				ret = ret .. "\"" .. v:gsub("\\", "\\\\"):gsub("\n", "\\n"):gsub("\"", "\\\"") .. "\",\n"
-			elseif(type(v) == "boolean") then
-				if(v) then
-					ret = ret .. "true,\n"
+			if type(v) == "number" then
+				ret = ret..v..",\n"
+			elseif type(v) == "string" then
+				ret = ret.."\""..v:gsub("\\", "\\\\"):gsub("\n", "\\n"):gsub("\"", "\\\"").."\",\n"
+			elseif type(v) == "boolean" then
+				if v then
+					ret = ret.."true,\n"
 				else
-					ret = ret .. "false,\n"
+					ret = ret.."false,\n"
 				end
-			elseif(type(v) == "table") then
-				ret = ret .. "{\n"
+			elseif type(v) == "table" then
+				ret = ret.."{\n"
 				recurse(v, level + 1)
-				ret = ret .. strrep("    ", level) .. "},\n"
+				ret = ret..strrep("    ", level).."},\n"
 			else
-				ret = ret .. "\""..tostring(v) .. "\",\n"
+				ret = ret.."\""..tostring(v).."\",\n"
 			end
 		end
 	end
 
-	if(inTable) then
+	if inTable then
 		recurse(inTable, 1)
 	end
 	ret = ret.."}"
@@ -667,9 +668,7 @@ local lineStructureTable = {}
 
 function E:ProfileTableToPluginFormat(inTable, profileType)
 	local profileText = profileFormat[profileType]
-	if(not profileText) then
-		return
-	end
+	if not profileText then return end
 
 	twipe(lineStructureTable)
 	local returnString = ""
@@ -679,10 +678,10 @@ function E:ProfileTableToPluginFormat(inTable, profileType)
 	local function buildLineStructure()
 		local str = profileText
 		for _, v in ipairs(lineStructureTable) do
-			if(type(v) == "string") then
-				str = str .. "[\"" .. v .. "\"]"
+			if type(v) == "string" then
+				str = str.."[\""..v.."\"]"
 			else
-				str = str .. "[" .. v .. "]"
+				str = str.."["..v.."]"
 			end
 		end
 
@@ -692,39 +691,39 @@ function E:ProfileTableToPluginFormat(inTable, profileType)
 	local function recurse(tbl)
 		lineStructure = buildLineStructure()
 		for k, v in pairs(tbl) do
-			if(not sameLine) then
-				returnString = returnString .. lineStructure
+			if not sameLine then
+				returnString = returnString..lineStructure
 			end
 
-			returnString = returnString .. "["
+			returnString = returnString.."["
 
-			if(type(k) == "string") then
-				returnString = returnString.."\"" .. k .. "\""
+			if type(k) == "string" then
+				returnString = returnString.."\""..k.."\""
 			else
-				returnString = returnString .. k
+				returnString = returnString..k
 			end
 
-			if(type(v) == "table") then
+			if type(v) == "table" then
 				tinsert(lineStructureTable, k)
 				sameLine = true
-				returnString = returnString .. "]"
+				returnString = returnString.."]"
 				recurse(v)
 			else
 				sameLine = false
-				returnString = returnString .. "] = "
+				returnString = returnString.."] = "
 
-				if(type(v) == "number") then
-					returnString = returnString .. v .. "\n"
-				elseif(type(v) == "string") then
-					returnString = returnString .. "\"" .. v:gsub("\\", "\\\\"):gsub("\n", "\\n"):gsub("\"", "\\\"") .. "\"\n"
-				elseif(type(v) == "boolean") then
-					if(v) then
-						returnString = returnString .. "true\n"
+				if type(v) == "number" then
+					returnString = returnString..v.."\n"
+				elseif type(v) == "string" then
+					returnString = returnString.."\""..v:gsub("\\", "\\\\"):gsub("\n", "\\n"):gsub("\"", "\\\"").."\"\n"
+				elseif type(v) == "boolean" then
+					if v then
+						returnString = returnString.."true\n"
 					else
-						returnString = returnString .. "false\n"
+						returnString = returnString.."false\n"
 					end
 				else
-					returnString = returnString .. "\"" .. tostring(v) .. "\"\n"
+					returnString = returnString.."\""..tostring(v).."\"\n"
 				end
 			end
 		end
@@ -733,7 +732,7 @@ function E:ProfileTableToPluginFormat(inTable, profileType)
 		lineStructure = buildLineStructure()
 	end
 
-	if(inTable and profileType) then
+	if inTable and profileType then
 		recurse(inTable)
 	end
 
@@ -748,7 +747,7 @@ function E:StringSplitMultiDelim(s, delim)
 
 	while(true) do
 		local pos = find(s, delim, start, true)
-		if(not pos) then
+		if not pos then
 			break
 		end
 
@@ -907,19 +906,19 @@ end
 function E:ResetAllUI()
 	self:ResetMovers()
 
-	if(E.db.lowresolutionset) then
+	if E.db.lowresolutionset then
 		E:SetupResolution(true)
 	end
 
-	if(E.db.layoutSet) then
+	if E.db.layoutSet then
 		E:SetupLayout(E.db.layoutSet, true)
 	end
 end
 
 function E:ResetUI(...)
-	if(InCombatLockdown()) then E:Print(ERR_NOT_IN_COMBAT) return end
+	if InCombatLockdown() then E:Print(ERR_NOT_IN_COMBAT) return end
 
-	if(... == "" or ... == " " or ... == nil) then
+	if ... == "" or ... == " " or ... == nil then
 		E:StaticPopup_Show("RESETUI_CHECK")
 		return
 	end
@@ -929,7 +928,7 @@ end
 
 function E:RegisterModule(name, loadFunc)
 	--New method using callbacks
-	if (loadFunc and type(loadFunc) == "function") then
+	if loadFunc and type(loadFunc) == "function" then
 		if self.initialized then
 			loadFunc()
 		else
@@ -958,7 +957,7 @@ end
 
 function E:RegisterInitialModule(name, loadFunc)
 	--New method using callbacks
-	if (loadFunc and type(loadFunc) == "function") then
+	if loadFunc and type(loadFunc) == "function" then
 		if self.InitialModuleCallbacks[name] then
 			--Don't allow a registered module name to be overwritten
 			E:Print("Invalid argument #1 to E:RegisterInitialModule (module name:", name, "is already registered, please use a unique name)")
@@ -988,7 +987,7 @@ function E:InitializeInitialModules()
 	--Old deprecated initialize method, we keep it for any plugins that may need it
 	for _, module in pairs(E["RegisteredInitialModules"]) do
 		module = self:GetModule(module, true)
-		if(module and module.Initialize) then
+		if module and module.Initialize then
 			local _, catch = pcall(module.Initialize, module)
 			if(catch and GetCVar("scriptErrors") == "1") then
 				ScriptErrorsFrame_OnError(catch, false)
@@ -1014,9 +1013,9 @@ function E:InitializeModules()
 	--Old deprecated initialize method, we keep it for any plugins that may need it
 	for _, module in pairs(E["RegisteredModules"]) do
 		module = self:GetModule(module)
-		if(module.Initialize) then
+		if module.Initialize then
 			local _, catch = pcall(module.Initialize, module)
-			if(catch and GetCVar("scriptErrors") == "1") then
+			if catch and GetCVar("scriptErrors") == "1" then
 				ScriptErrorsFrame_OnError(catch, false)
 			end
 		end
@@ -1061,10 +1060,10 @@ local function CompareCPUDiff(showall, module, minCalls)
 
 	for name, oldUsage in pairs(CPU_USAGE) do
 		newName, newFunc = name:match("^([^:]+):(.+)$")
-		if(not newFunc) then
+		if not newFunc then
 			E:Print("CPU_USAGE:", name, newFunc)
 		else
-			if(newName ~= lastModule) then
+			if newName ~= lastModule then
 				mod = E:GetModule(newName, true) or E
 				lastModule = newName
 			end
@@ -1073,13 +1072,13 @@ local function CompareCPUDiff(showall, module, minCalls)
 			if showall and (calls > minCalls) then
 				E:Print('Name('..name..')  Calls('..calls..') Diff('..(differance > 0 and format("%.3f", differance) or 0)..')')
 			end
-			if((differance > greatestDiff) and calls > minCalls) then
+			if (differance > greatestDiff) and calls > minCalls then
 				greatestName, greatestUsage, greatestCalls, greatestDiff = name, newUsage, calls, differance
 			end
 		end
 	end
 
-	if(greatestName) then
+	if greatestName then
 		E:Print(greatestName.. " had the CPU usage difference of: "..(greatestUsage > 0 and format("%.3f", greatestUsage) or 0).."ms. And has been called ".. greatestCalls.." times.")
 	else
 		E:Print("CPU Usage: No CPU Usage differences found.")
@@ -1158,7 +1157,7 @@ function E:Initialize()
 	self:UpdateCooldownSettings("all")
 	self.initialized = true
 
-	if(self.private.install_complete == nil) then
+	if self.private.install_complete == nil then
 		self:Install()
 	end
 
@@ -1180,7 +1179,7 @@ function E:Initialize()
 	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-	if(self.db.general.kittys) then
+	if self.db.general.kittys then
 		self:CreateKittys()
 		self:Delay(5, self.Print, self, L["Type /hellokitty to revert to old settings."])
 	end
@@ -1190,7 +1189,7 @@ function E:Initialize()
 	self:RefreshModulesDB()
 	collectgarbage("collect")
 
-	if(self.db.general.loginmessage) then
-		print(select(2, E:GetModule("Chat").FindURL(format(L["LOGIN_MSG"], self["media"].hexvaluecolor, self["media"].hexvaluecolor, self.version)))..".");
+	if self.db.general.loginmessage then
+		print(select(2, E:GetModule("Chat").FindURL(format(L["LOGIN_MSG"], self["media"].hexvaluecolor, self["media"].hexvaluecolor, self.version)))..".")
 	end
 end

@@ -49,7 +49,7 @@ function mod:CutawayHealthMaxHealthChangeCallback(frame, maxHealth)
 	frame.CutawayHealth:SetMinMaxValues(0, maxHealth)
 end
 
-function mod:ConfigureElement_CutawayHealth(frame, configuring)
+function mod:ConfigureElement_CutawayHealth(frame)
 	local cutawayHealth = frame.CutawayHealth
 	local healthBar = frame.HealthBar
 
