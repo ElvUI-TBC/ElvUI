@@ -2231,7 +2231,7 @@ E.Options.args.nameplate = {
 								targetGlow = {
 									order = 6,
 									type = "select",
-									name = L["Target Indicator"],
+									name = L["Target/Low Health Indicator"],
 									customWidth = 225,
 									get = function(info) return E.db.nameplates.targetGlow end,
 									set = function(info, value) E.db.nameplates.targetGlow = value NP:ConfigureAll() end,

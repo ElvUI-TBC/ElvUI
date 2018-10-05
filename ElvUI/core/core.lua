@@ -216,7 +216,7 @@ function E:UpdateMedia()
 
 	-- Border Color
 	local border = E.db["general"].bordercolor
-	if(self:CheckClassColor(border.r, border.g, border.b)) then
+	if self:CheckClassColor(border.r, border.g, border.b) then
 		local classColor = E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass])
 		E.db["general"].bordercolor.r = classColor.r
 		E.db["general"].bordercolor.g = classColor.g
@@ -989,7 +989,7 @@ function E:InitializeInitialModules()
 		module = self:GetModule(module, true)
 		if module and module.Initialize then
 			local _, catch = pcall(module.Initialize, module)
-			if(catch and GetCVar("scriptErrors") == "1") then
+			if catch and GetCVar("scriptErrors") == "1" then
 				ScriptErrorsFrame_OnError(catch, false)
 			end
 		end
@@ -1161,11 +1161,11 @@ function E:Initialize()
 		self:Install()
 	end
 
---	if(not find(date(), "04/01/")) then
+--	if not find(date(), "04/01/") then
 --		E.global.aprilFools = nil
 --	end
 
---	if(self:HelloKittyFixCheck()) then
+--	if self:HelloKittyFixCheck() then
 --		self:HelloKittyFix()
 --	end
 

@@ -89,8 +89,12 @@ function B:Tooltip_Show()
 	GameTooltip:AddLine(self.ttText)
 
 	if self.ttText2 then
-		GameTooltip:AddLine(" ")
-		GameTooltip:AddDoubleLine(self.ttText2, self.ttText2desc, 1, 1, 1)
+		if self.ttText2desc then
+			GameTooltip:AddLine(" ")
+			GameTooltip:AddDoubleLine(self.ttText2, self.ttText2desc, 1, 1, 1)
+		else
+			GameTooltip:AddLine(self.ttText2)
+		end
 	end
 
 	GameTooltip:Show()
@@ -130,6 +134,7 @@ function B:UpdateSearch()
 				break
 			end
 		end
+
 		if repeatChar then
 			B.ResetAndClear(self)
 			return
@@ -145,7 +150,7 @@ function B:UpdateSearch()
 
 	SEARCH_STRING = searchString
 
-	B:SetSearch(SEARCH_STRING)
+	B:RefreshSearch()
 	B:SetGuildBankSearch(SEARCH_STRING)
 end
 
@@ -261,6 +266,7 @@ function B:UpdateCountDisplay()
 				end
 			end
 		end
+
 		if bagFrame.UpdateAllSlots then
 			bagFrame:UpdateAllSlots()
 		end
@@ -348,7 +354,23 @@ function B:UpdateBagSlots(bagID)
 		if self.UpdateSlot then
 			self:UpdateSlot(bagID, slotID)
 		else
-			self:GetParent():UpdateSlot(bagID, slotID)
+			self:GetParent():GetParent():UpdateSlot(bagID, slotID)
+		end
+	end
+end
+
+function B:RefreshSearch()
+	B:SetSearch(SEARCH_STRING)
+end
+
+function B:SortingFadeBags(bagFrame)
+	if not (bagFrame and bagFrame.BagIDs) then return end
+
+	for _, bagID in ipairs(bagFrame.BagIDs) do
+		for slotID = 1, GetContainerNumSlots(bagID) do
+			local button = bagFrame.Bags[bagID][slotID]
+			SetItemButtonDesaturated(button, 1)
+			button:SetAlpha(0.5)
 		end
 	end
 end
@@ -374,6 +396,11 @@ function B:UpdateAllSlots()
 		if self.Bags[bagID] then
 			self.Bags[bagID]:UpdateBagSlots(bagID)
 		end
+	end
+
+	-- Refresh search in case we moved items around
+	if (not self.registerUpdate) and B:IsSearching() then
+		B:RefreshSearch()
 	end
 end
 
@@ -432,14 +459,14 @@ function B:Layout(isBank)
 			if not f.ContainerHolder[i] then
 				if isBank then
 					f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIBankBag"..bagID - 4, f.ContainerHolder, "BankItemButtonBagTemplate")
-					f.ContainerHolder[i]:SetScript("OnClick", function(self)
-						local inventoryID = self:GetInventorySlot()
+					f.ContainerHolder[i]:SetScript("OnClick", function(holder)
+						local inventoryID = holder:GetInventorySlot()
 						PutItemInBag(inventoryID) --Put bag on empty slot, or drop item in this bag
 					end)
 				else
 					f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBag"..bagID.."Slot", f.ContainerHolder, "BagSlotButtonTemplate")
-					f.ContainerHolder[i]:SetScript("OnClick", function(self)
-						local id = self:GetID()
+					f.ContainerHolder[i]:SetScript("OnClick", function(holder)
+						local id = holder:GetID()
 						PutItemInBag(id) --Put bag on empty slot, or drop item in this bag
 					end)
 				end
@@ -450,6 +477,7 @@ function B:Layout(isBank)
 				f.ContainerHolder[i]:SetNormalTexture("")
 				f.ContainerHolder[i]:SetCheckedTexture(nil)
 				f.ContainerHolder[i]:SetPushedTexture("")
+
 				f.ContainerHolder[i].id = isBank and bagID or bagID + 1
 				f.ContainerHolder[i]:HookScript("OnEnter", function(ch) B.SetSlotAlphaForBag(ch, f) end)
 				f.ContainerHolder[i]:HookScript("OnLeave", function(ch) B.ResetSlotAlphaForBags(ch, f) end)
@@ -488,10 +516,10 @@ function B:Layout(isBank)
 		local numSlots = GetContainerNumSlots(bagID)
 		if numSlots > 0 then
 			if not f.Bags[bagID] then
-				f.Bags[bagID] = CreateFrame("Frame", f:GetName().."Bag"..bagID, f)
+				f.Bags[bagID] = CreateFrame("Frame", f:GetName().."Bag"..bagID, f.holderFrame)
 				f.Bags[bagID]:SetID(bagID)
 				f.Bags[bagID].UpdateBagSlots = B.UpdateBagSlots
-			--	f.Bags[bagID].UpdateSlot = B.UpdateSlot
+				f.Bags[bagID].UpdateSlot = UpdateSlot
 			end
 
 			f.Bags[bagID].numSlots = numSlots
@@ -562,6 +590,7 @@ function B:Layout(isBank)
 				lastButton = f.Bags[bagID][slotID]
 			end
 		else
+			--Hide unused slots
 			for y = 1, MAX_CONTAINER_ITEMS do
 				if f.Bags[bagID] and f.Bags[bagID][y] then
 					f.Bags[bagID][y]:Hide()
@@ -719,14 +748,16 @@ function B:OnEvent(event, ...)
 		end
 
 		self:UpdateBagSlots(...)
+
+		--Refresh search in case we moved items around
 		if B:IsSearching() then
-			B:SetSearch(SEARCH_STRING)
+			B:RefreshSearch()
 		end
 	elseif event == "BAG_UPDATE_COOLDOWN" then
 		if not self:IsShown() then return end
 		self:UpdateCooldowns()
 	elseif event == "PLAYERBANKSLOTS_CHANGED" then
-		self:UpdateAllSlots()
+		self:UpdateAllSlots(-1)
 	end
 end
 
@@ -817,7 +848,7 @@ function B:VendorGrayCheck()
 
 	if value == 0 then
 		E:Print(L["No gray items to delete."])
-	elseif (not MerchantFrame or not MerchantFrame:IsShown()) then
+	elseif not MerchantFrame or not MerchantFrame:IsShown() then
 		E.PopupDialogs["DELETE_GRAYS"].Money = value
 		E:StaticPopup_Show("DELETE_GRAYS")
 	else
@@ -839,13 +870,15 @@ function B:ContructContainerFrame(name, isBank)
 	f:RegisterEvent("ITEM_UNLOCKED")
 	f:RegisterEvent("BAG_UPDATE_COOLDOWN")
 	f:RegisterEvent("BAG_UPDATE")
-	f:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
+
+	if isBank then
+		f:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
+	end
 
 	f:SetScript("OnEvent", B.OnEvent)
 	f:Hide()
 
 	f.isBank = isBank
-
 	f.bottomOffset = 8
 	f.topOffset = isBank and 45 or 50
 	f.BagIDs = isBank and {-1, 5, 6, 7, 8, 9, 10, 11} or {0, 1, 2, 3, 4}
@@ -857,6 +890,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.mover = mover
 	end
 
+	--Allow dragging the frame around
 	f:SetMovable(true)
 	f:RegisterForDrag("LeftButton", "RightButton")
 	f:RegisterForClicks("AnyUp")
@@ -887,12 +921,14 @@ function B:ContructContainerFrame(name, isBank)
 	f.ContainerHolder:Hide()
 
 	if isBank then
+		--Bag Text
 		f.bagText = f:CreateFontString(nil, "OVERLAY")
 		f.bagText:FontTemplate()
 		f.bagText:Point("BOTTOMRIGHT", f.holderFrame, "TOPRIGHT", -2, 4)
 		f.bagText:SetJustifyH("RIGHT")
 		f.bagText:SetText(L["Bank"])
 
+		--Sort Button
 		f.sortButton = CreateFrame("Button", name.."SortButton", f)
 		f.sortButton:SetSize(16 + E.Border, 16 + E.Border)
 		f.sortButton:SetTemplate()
@@ -911,11 +947,19 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton.ttText = L["Sort Bags"]
 		f.sortButton:SetScript("OnEnter", self.Tooltip_Show)
 		f.sortButton:SetScript("OnLeave", self.Tooltip_Hide)
-		f.sortButton:SetScript("OnClick", function() B:CommandDecorator(B.SortBags, "bank")() end)
+		f.sortButton:SetScript("OnClick", function()
+			f:UnregisterAllEvents() --Unregister to prevent unnecessary updates
+			if not f.registerUpdate then
+				B:SortingFadeBags(f)
+			end
+			f.registerUpdate = true --Set variable that indicates this bag should be updated when sorting is done
+			B:CommandDecorator(B.SortBags, "bank")()
+		end)
 		if E.db.bags.disableBankSort then
 			f.sortButton:Disable()
 		end
 
+		--Toggle Bags Button
 		f.bagsButton = CreateFrame("Button", name.."BagsButton", f.holderFrame)
 		f.bagsButton:SetSize(16 + E.Border, 16 + E.Border)
 		f.bagsButton:SetTemplate()
@@ -971,6 +1015,7 @@ function B:ContructContainerFrame(name, isBank)
 			end
 		end)
 
+		--Search
 		f.editBox = CreateFrame("EditBox", name.."EditBox", f)
 		f.editBox:SetFrameLevel(f.editBox:GetFrameLevel() + 2)
 		f.editBox:CreateBackdrop("Default")
@@ -999,11 +1044,13 @@ function B:ContructContainerFrame(name, isBank)
 		f.keyFrame.slots = {}
 		f.keyFrame:Hide()
 
+		--Gold Text
 		f.goldText = f:CreateFontString(nil, "OVERLAY")
 		f.goldText:FontTemplate()
 		f.goldText:Point("BOTTOMRIGHT", f.holderFrame, "TOPRIGHT", -10, 4)
 		f.goldText:SetJustifyH("RIGHT")
 
+		--Sort Button
 		f.sortButton = CreateFrame("Button", name.."SortButton", f)
 		f.sortButton:SetSize(16 + E.Border, 16 + E.Border)
 		f.sortButton:SetTemplate()
@@ -1022,11 +1069,19 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton.ttText = L["Sort Bags"]
 		f.sortButton:SetScript("OnEnter", self.Tooltip_Show)
 		f.sortButton:SetScript("OnLeave", self.Tooltip_Hide)
-		f.sortButton:SetScript("OnClick", function() B:CommandDecorator(B.SortBags, "bags")() end)
+		f.sortButton:SetScript("OnClick", function()
+			f:UnregisterAllEvents() --Unregister to prevent unnecessary updates
+			if not f.registerUpdate then
+				B:SortingFadeBags(f)
+			end
+			f.registerUpdate = true --Set variable that indicates this bag should be updated when sorting is done
+			B:CommandDecorator(B.SortBags, "bags")()
+		end)
 		if E.db.bags.disableBagSort then
 			f.sortButton:Disable()
 		end
 
+		--Keyring Button
 		f.keyButton = CreateFrame("Button", name.."KeyButton", f)
 		f.keyButton:SetSize(16 + E.Border, 16 + E.Border)
 		f.keyButton:SetTemplate()
@@ -1043,6 +1098,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.keyButton:SetScript("OnLeave", self.Tooltip_Hide)
 		f.keyButton:SetScript("OnClick", function() ToggleFrame(f.keyFrame) end)
 
+		--Bags Button
 		f.bagsButton = CreateFrame("Button", name.."BagsButton", f)
 		f.bagsButton:SetSize(16 + E.Border, 16 + E.Border)
 		f.bagsButton:SetTemplate()
@@ -1059,6 +1115,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.bagsButton:SetScript("OnLeave", self.Tooltip_Hide)
 		f.bagsButton:SetScript("OnClick", function() ToggleFrame(f.ContainerHolder) end)
 
+		--Vendor Grays
 		f.vendorGraysButton = CreateFrame("Button", nil, f.holderFrame)
 		f.vendorGraysButton:SetSize(16 + E.Border, 16 + E.Border)
 		f.vendorGraysButton:SetTemplate()
@@ -1075,6 +1132,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.vendorGraysButton:SetScript("OnLeave", self.Tooltip_Hide)
 		f.vendorGraysButton:SetScript("OnClick", B.VendorGrayCheck)
 
+		--Search
 		f.editBox = CreateFrame("EditBox", name.."EditBox", f)
 		f.editBox:SetFrameLevel(f.editBox:GetFrameLevel() + 2)
 		f.editBox:CreateBackdrop("Default")
@@ -1107,6 +1165,7 @@ function B:ContructContainerFrame(name, isBank)
 					bagButton:SetChecked(false)
 				end
 			end
+
 			if E.db.bags.clearSearchOnClose then
 				B.ResetAndClear(f.editBox)
 			end
@@ -1123,8 +1182,7 @@ function B:ContructContainerFrame(name, isBank)
 end
 
 function B:ToggleBags(id)
-	--Closes a bag when inserting a new container..
-	if id and (GetContainerNumSlots(id) == 0) then return end --Closes a bag when inserting a new container..z
+	if id and (GetContainerNumSlots(id) == 0) then return end --Closes a bag when inserting a new container..
 
 	if self.BagFrame:IsShown() then
 		self:CloseBags()
@@ -1171,10 +1229,8 @@ function B:ToggleSortButtonState(isBank)
 end
 
 function B:OpenBags()
-	if self.BagFrame:IsShown() then return end
-
 	self.BagFrame:Show()
-	self.BagFrame:UpdateAllSlots()
+
 	E:GetModule("Tooltip"):GameTooltip_SetDefaultAnchor(GameTooltip)
 end
 
@@ -1193,9 +1249,11 @@ function B:OpenBank()
 		self.BankFrame = self:ContructContainerFrame("ElvUI_BankContainerFrame", true)
 	end
 
+	--Call :Layout first so all elements are created before we update
 	self:Layout(true)
+
 	self.BankFrame:Show()
-	self.BankFrame:UpdateAllSlots()
+
 	self:OpenBags()
 end
 
@@ -1217,6 +1275,7 @@ function B:updateContainerFrameAnchors()
 	local screenWidth = GetScreenWidth()
 	local containerScale = 1
 	local leftLimit = 0
+
 	if BankFrame:IsShown() then
 		leftLimit = BankFrame:GetRight() - 25
 	end
@@ -1234,14 +1293,17 @@ function B:updateContainerFrameAnchors()
 		local frameHeight
 		for _, frameName in ipairs(ContainerFrame1.bags) do
 			frameHeight = _G[frameName]:GetHeight()
+
 			if freeScreenHeight < frameHeight then
 				-- Start a new column
 				column = column + 1
 				leftMostPoint = screenWidth - (column * CONTAINER_WIDTH * containerScale) - xOffset
 				freeScreenHeight = screenHeight - yOffset
 			end
+
 			freeScreenHeight = freeScreenHeight - frameHeight - VISIBLE_CONTAINER_SPACING
 		end
+
 		if leftMostPoint < leftLimit then
 			containerScale = containerScale - 0.01
 		else
@@ -1265,6 +1327,7 @@ function B:updateContainerFrameAnchors()
 	for index, frameName in ipairs(ContainerFrame1.bags) do
 		frame = _G[frameName]
 		frame:SetScale(1)
+
 		if index == 1 then
 			-- First bag
 			frame:Point("BOTTOMRIGHT", ElvUIBagMover, "BOTTOMRIGHT", E.Spacing, -E.Border)
@@ -1292,6 +1355,7 @@ end
 function B:PostBagMove()
 	if not E.private.bags.enable then return end
 
+	-- self refers to the mover (bag or bank)
 	local x, y = self:GetCenter()
 	local screenHeight = E.UIParent:GetTop()
 	local screenWidth = E.UIParent:GetRight()
@@ -1320,12 +1384,14 @@ end
 function B:Initialize()
 	self:LoadBagBar()
 
+	--Bag Mover (We want it created even if Bags module is disabled, so we can use it for default bags too)
 	local BagFrameHolder = CreateFrame("Frame", nil, E.UIParent)
 	BagFrameHolder:Width(200)
 	BagFrameHolder:Height(22)
 	BagFrameHolder:SetFrameLevel(BagFrameHolder:GetFrameLevel() + 400)
 
 	if not E.private.bags.enable then
+		--Set a different default anchor
 		BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", -(E.Border*2), 22 + E.Border*4 - E.Spacing*2)
 		E:CreateMover(BagFrameHolder, "ElvUIBagMover", L["Bag Mover"], nil, nil, B.PostBagMove)
 
@@ -1338,9 +1404,11 @@ function B:Initialize()
 	self.db = E.db.bags
 	self.BagFrames = {}
 
+	--Bag Mover: Set default anchor point and create mover
 	BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", 0, 22 + E.Border*4 - E.Spacing*2)
 	E:CreateMover(BagFrameHolder, "ElvUIBagMover", L["Bag Mover (Grow Up)"], nil, nil, B.PostBagMove)
 
+	--Bank Mover
 	local BankFrameHolder = CreateFrame("Frame", nil, E.UIParent)
 	BankFrameHolder:Width(200)
 	BankFrameHolder:Height(22)
@@ -1348,6 +1416,7 @@ function B:Initialize()
 	BankFrameHolder:SetFrameLevel(BankFrameHolder:GetFrameLevel() + 400)
 	E:CreateMover(BankFrameHolder, "ElvUIBankMover", L["Bank Mover (Grow Up)"], nil, nil, B.PostBagMove)
 
+	--Set some variables on movers
 	ElvUIBagMover.textGrowUp = L["Bag Mover (Grow Up)"]
 	ElvUIBagMover.textGrowDown = L["Bag Mover (Grow Down)"]
 	ElvUIBagMover.POINT = "BOTTOM"
@@ -1355,6 +1424,7 @@ function B:Initialize()
 	ElvUIBankMover.textGrowDown = L["Bank Mover (Grow Down)"]
 	ElvUIBankMover.POINT = "BOTTOM"
 
+	--Create Bag Frame
 	self.BagFrame = self:ContructContainerFrame("ElvUI_ContainerFrame")
 
 	--Hook onto Blizzard Functions

@@ -54,8 +54,10 @@ function UF:Configure_Happiness(frame)
 				HappinessIndicator.backdrop:Point("TOPRIGHT", frame.Health, "TOPRIGHT", frame.HAPPINESS_WIDTH, frame.BORDER)
 			end
 		end
-	elseif frame:IsElementEnabled("HappinessIndicator") then
-		frame:DisableElement("HappinessIndicator")
+	else
+		if frame:IsElementEnabled("HappinessIndicator") then
+			frame:DisableElement("HappinessIndicator")
+		end
 	end
 end
 

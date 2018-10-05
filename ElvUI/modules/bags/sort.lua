@@ -3,7 +3,7 @@ local B = E:GetModule("Bags")
 local Search = LibStub("LibItemSearch-1.2")
 local LIP = LibStub("ItemPrice-1.1")
 
-local ipairs, pairs, tonumber, select, unpack = ipairs, pairs, tonumber, select, unpack
+local ipairs, pairs, tonumber, select, unpack, pcall = ipairs, pairs, tonumber, select, unpack, pcall
 local tinsert, tremove, tsort, twipe = table.insert, table.remove, table.sort, table.wipe
 local floor = math.floor
 local band = bit.band
@@ -72,7 +72,7 @@ local bagStacks = {}
 local bagMaxStacks = {}
 local bagGroups = {}
 local initialOrder = {}
-local itemTypes, itemSubTypes
+local itemTypes, itemSubTypes = {}, {}
 local bagSorted, bagLocked = {}, {}
 local bagRole
 local moves = {}
@@ -137,8 +137,6 @@ local function IsGuildBankBag(bagid)
 end
 
 local function BuildSortOrder()
-	itemTypes = {}
-	itemSubTypes = {}
 	for i, iType in ipairs({GetAuctionItemClasses()}) do
 		itemTypes[iType] = i
 		itemSubTypes[iType] = {}
@@ -506,6 +504,7 @@ local blackListQueries = {}
 local function buildBlacklist(...)
 	for entry in pairs(...) do
 		local itemName = GetItemInfo(entry)
+
 		if itemName then
 			blackList[itemName] = true
 		elseif entry ~= "" then
@@ -595,7 +594,6 @@ function B.FillBags(from, to)
 			tinsert(specialtyBags, bag)
 		end
 	end
-
 	if #specialtyBags > 0 then
 		B:Fill(from, specialtyBags)
 	end
@@ -683,12 +681,44 @@ function B:StartStacking()
 	end
 end
 
-function B:StopStacking(message)
+local function RegisterUpdateDelayed()
+	local shouldUpdateFade
+
+	for _, bagFrame in pairs(B.BagFrames) do
+		if bagFrame.registerUpdate then
+			bagFrame:UpdateAllSlots()
+
+			bagFrame.registerUpdate = nil -- call update and re-register events, keep this after UpdateAllSlots
+			shouldUpdateFade = true -- we should refresh the bag search after sorting
+
+			bagFrame:RegisterEvent("ITEM_LOCK_CHANGED")
+			bagFrame:RegisterEvent("ITEM_UNLOCKED")
+			bagFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
+			bagFrame:RegisterEvent("BAG_UPDATE")
+
+			if bagFrame.isBank then
+				bagFrame:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
+			end
+		end
+	end
+
+	if shouldUpdateFade then
+		B:RefreshSearch() -- this will clear the bag lock look during a sort
+	end
+end
+
+function B:StopStacking(message, noUpdate)
 	twipe(moves)
 	twipe(moveTracker)
 	moveRetries, lastItemID, lockStop, lastDestination, lastMove = 0, nil, nil, nil, nil
 
 	self.SortUpdateTimer:Hide()
+
+	if not noUpdate then
+		--Add a delayed update call, as BAG_UPDATE fires slightly delayed
+		-- and we don't want the last few unneeded updates to be catched
+		E:Delay(0.6, RegisterUpdateDelayed)
+	end
 
 	if message then
 		E:Print(message)
@@ -823,7 +853,7 @@ function B:DoMoves()
 			lastItemID = moveID
 			tremove(moves, i)
 
-			if moves[i-1] then
+			if moves[i - 1] then
 				WAIT_TIME = wasGuild and 0.3 or 0
 				return
 			end
@@ -846,8 +876,7 @@ end
 function B:CommandDecorator(func, groupsDefaults)
 	return function(groups)
 		if self.SortUpdateTimer:IsShown() then
-			E:Print(L["Already Running.. Bailing Out!"])
-			B:StopStacking()
+			B:StopStacking(L["Already Running.. Bailing Out!"], true)
 			return
 		end
 
