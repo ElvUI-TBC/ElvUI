@@ -1,4 +1,4 @@
-local E, L, V, P, G, _ = unpack(ElvUI)
+local E, L, V, P, G = unpack(ElvUI)
 
 local _G = _G
 local format = format
@@ -98,17 +98,20 @@ local function SetupChat()
 	ChatFrame_AddMessageGroup(ChatFrame1, "DND")
 	ChatFrame_AddMessageGroup(ChatFrame1, "IGNORED")
 	ChatFrame_AddMessageGroup(ChatFrame1, "CHANNEL")
+	ChatFrame_AddChannel(ChatFrame1, GENERAL)
+	ChatFrame_RemoveMessageGroup(ChatFrame1, "SKILL")
+	ChatFrame_RemoveMessageGroup(ChatFrame1, "LOOT")
+	ChatFrame_RemoveMessageGroup(ChatFrame1, "MONEY")
+	ChatFrame_RemoveMessageGroup(ChatFrame1, "COMBAT_FACTION_CHANGE")
+	ChatFrame_RemoveChannel(ChatFrame1, TRADE)
 
 	ChatFrame_RemoveAllMessageGroups(ChatFrame3)
-	ChatFrame_AddMessageGroup(ChatFrame3, "COMBAT_FACTION_CHANGE")
 	ChatFrame_AddMessageGroup(ChatFrame3, "SKILL")
 	ChatFrame_AddMessageGroup(ChatFrame3, "LOOT")
 	ChatFrame_AddMessageGroup(ChatFrame3, "MONEY")
 	ChatFrame_AddMessageGroup(ChatFrame3, "COMBAT_XP_GAIN")
 	ChatFrame_AddMessageGroup(ChatFrame3, "COMBAT_HONOR_GAIN")
-	ChatFrame_AddMessageGroup(ChatFrame3, "COMBAT_GUILD_XP_GAIN")
-	ChatFrame_AddChannel(ChatFrame1, GENERAL)
-	ChatFrame_RemoveChannel(ChatFrame1, TRADE)
+	ChatFrame_AddMessageGroup(ChatFrame3, "COMBAT_FACTION_CHANGE")
 	ChatFrame_AddChannel(ChatFrame3, TRADE)
 
 	--Adjust Chat Colors
@@ -148,7 +151,7 @@ local function SetupCVars()
 end
 
 function E:GetColor(r, b, g, a)
-	return { r = r, b = b, g = g, a = a }
+	return {r = r, b = b, g = g, a = a}
 end
 
 function E:SetupTheme(theme, noDisplayMsg)
@@ -481,7 +484,7 @@ function E:SetupLayout(layout, noDataReset)
 		E.db.unitframe.units.arena.castbar.width = 200
 	end
 
-	if(layout == "dpsCaster" or layout == "healer" or (layout == "dpsMelee" and E.myclass == "HUNTER")) then
+	if layout == "dpsCaster" or layout == "healer" or (layout == "dpsMelee" and E.myclass == "HUNTER") then
 		if not E.db.movers then E.db.movers = {} end
 		E.db.unitframe.units.player.castbar.width = E.PixelMode and 406 or 436
 		E.db.unitframe.units.player.castbar.height = 28
@@ -614,7 +617,7 @@ local function SetupAuras(style)
 		end
 	end
 
-	if(InstallStepComplete) then
+	if InstallStepComplete then
 		InstallStepComplete.message = L["Auras Set"]
 		InstallStepComplete:Show()
 	end
@@ -629,18 +632,23 @@ end
 local function ResetAll()
 	InstallNextButton:Disable()
 	InstallPrevButton:Disable()
+
 	InstallOption1Button:Hide()
 	InstallOption1Button:SetScript("OnClick", nil)
 	InstallOption1Button:SetText("")
+
 	InstallOption2Button:Hide()
 	InstallOption2Button:SetScript("OnClick", nil)
 	InstallOption2Button:SetText("")
+
 	InstallOption3Button:Hide()
 	InstallOption3Button:SetScript("OnClick", nil)
 	InstallOption3Button:SetText("")
+
 	InstallOption4Button:Hide()
 	InstallOption4Button:SetScript("OnClick", nil)
 	InstallOption4Button:SetText("")
+
 	ElvUIInstallFrame.SubTitle:SetText("")
 	ElvUIInstallFrame.Desc1:SetText("")
 	ElvUIInstallFrame.Desc2:SetText("")
