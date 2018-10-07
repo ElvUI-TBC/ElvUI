@@ -1265,6 +1265,7 @@ end
 
 function B:OpenBags()
 	self.BagFrame:Show()
+	self.BagFrame:UpdateAllSlots()
 
 	E:GetModule("Tooltip"):GameTooltip_SetDefaultAnchor(GameTooltip)
 end
@@ -1288,6 +1289,7 @@ function B:OpenBank()
 	self:Layout(true)
 
 	self.BankFrame:Show()
+	self.BankFrame:UpdateAllSlots()
 
 	self:OpenBags()
 end
