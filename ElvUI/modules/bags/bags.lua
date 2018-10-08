@@ -1088,14 +1088,14 @@ function B:ContructContainerFrame(name, isBank)
 		--Gold Text
 		f.goldText = f:CreateFontString(nil, "OVERLAY")
 		f.goldText:FontTemplate()
-		f.goldText:Point("BOTTOMRIGHT", f.holderFrame, "TOPRIGHT", -15, 4)
+		f.goldText:Point("BOTTOMRIGHT", f.holderFrame, "TOPRIGHT", -10, 4)
 		f.goldText:SetJustifyH("RIGHT")
 
 		--Sort Button
 		f.sortButton = CreateFrame("Button", name.."SortButton", f)
 		f.sortButton:SetSize(16 + E.Border, 16 + E.Border)
 		f.sortButton:SetTemplate()
-		f.sortButton:Point("RIGHT", f.goldText, "LEFT", 5, E.Border * 2)
+		f.sortButton:Point("RIGHT", f.goldText, "LEFT", -5, E.Border * 2)
 		f.sortButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_Broom")
 		f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 		f.sortButton:GetNormalTexture():SetInside()
