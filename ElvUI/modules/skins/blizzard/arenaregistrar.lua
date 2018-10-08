@@ -17,7 +17,7 @@ local function LoadSkin()
 
 	ArenaRegistrarGreetingFrame:StripTextures()
 
-	select(1, ArenaRegistrarGreetingFrame:GetRegions()):SetTextColor(1, 1, 1)
+	select(1, ArenaRegistrarGreetingFrame:GetRegions()):SetTextColor(1, 0.80, 0.10)
 	RegistrationText:SetTextColor(1, 1, 1)
 
 	S:HandleButton(ArenaRegistrarFrameGoodbyeButton)
