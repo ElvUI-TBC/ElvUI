@@ -273,6 +273,15 @@ function B:UpdateCountDisplay()
 	end
 end
 
+function B:UpdateBagTypes(isBank)
+	local f = self:GetContainerFrame(isBank)
+	for _, bagID in ipairs(f.BagIDs) do
+		if f.Bags[bagID] then
+			f.Bags[bagID].type = select(2, GetContainerNumFreeSlots(bagID))
+		end
+	end
+end
+
 function B:UpdateSlot(bagID, slotID)
 	if (self.Bags[bagID] and self.Bags[bagID].numSlots ~= GetContainerNumSlots(bagID)) or not self.Bags[bagID] or not self.Bags[bagID][slotID] then return end
 
@@ -381,11 +390,6 @@ function B:UpdateCooldowns()
 			for slotID = 1, GetContainerNumSlots(bagID) do
 				local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
 				CooldownFrame_SetTimer(self.Bags[bagID][slotID].cooldown, start, duration, enable)
-				if duration > 0 and enable == 0 then
-					SetItemButtonTextureVertexColor(self.Bags[bagID][slotID], 0.4, 0.4, 0.4)
-				else
-					SetItemButtonTextureVertexColor(self.Bags[bagID][slotID], 1, 1, 1)
-				end
 			end
 		end
 	end
@@ -551,7 +555,7 @@ function B:Layout(isBank)
 					f.Bags[bagID][slotID]:SetNormalTexture(nil)
 					f.Bags[bagID][slotID]:SetCheckedTexture(nil)
 
-					f.Bags[bagID][slotID].Count = _G[f.Bags[bagID][slotID]:GetName() .. "Count"]
+					f.Bags[bagID][slotID].Count = _G[f.Bags[bagID][slotID]:GetName().."Count"]
 					f.Bags[bagID][slotID].Count:ClearAllPoints()
 					f.Bags[bagID][slotID].Count:Point("BOTTOMRIGHT", 0, 2)
 					f.Bags[bagID][slotID].Count:FontTemplate(E.LSM:Fetch("font", E.db.bags.countFont), E.db.bags.countFontSize, E.db.bags.countFontOutline)
@@ -828,7 +832,7 @@ function B:GetGraysValue()
 
 				stackCount = select(2, GetContainerItemInfo(bag, slot)) or 1
 				stackPrice = LIP:GetSellValue(itemLink) * stackCount
-				if (rarity and rarity == 0) and (itype and itype ~= "Quest") and (stackPrice > 0) then
+				if (rarity and rarity == 0) and (itype and itype ~= "Quest") and (stackPrice and stackPrice > 0) then
 					value = value + stackPrice
 				end
 			end
@@ -854,7 +858,7 @@ function B:VendorGrays(delete)
 				itemPrice = LIP:GetSellValue(itemLink) or 0
 
 				if (rarity and rarity == 0) and (itype and itype ~= "Quest") and (itemPrice and itemPrice > 0) then
-					tinsert(B.SellFrame.Info.itemList, {bag, slot, itemLink, itemPrice})
+					tinsert(B.SellFrame.Info.itemList, {bag, slot, itemPrice, itemLink})
 				end
 			end
 		end
@@ -1019,6 +1023,7 @@ function B:ContructContainerFrame(name, isBank)
 			end
 		end)
 
+		--Purchase Bags Button
 		f.purchaseBagButton = CreateFrame("Button", nil, f.holderFrame)
 		f.purchaseBagButton:SetSize(16 + E.Border, 16 + E.Border)
 		f.purchaseBagButton:SetTemplate()
@@ -1072,6 +1077,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.editBox.searchIcon:Point("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1)
 		f.editBox.searchIcon:SetSize(15, 15)
 	else
+		--Keyring Frame
 		f.keyFrame = CreateFrame("Frame", name.."KeyFrame", f)
 		f.keyFrame:Point("TOPRIGHT", f, "TOPLEFT", -(E.PixelMode and 1 or 3), 0)
 		f.keyFrame:SetTemplate("Transparent")
@@ -1082,14 +1088,14 @@ function B:ContructContainerFrame(name, isBank)
 		--Gold Text
 		f.goldText = f:CreateFontString(nil, "OVERLAY")
 		f.goldText:FontTemplate()
-		f.goldText:Point("BOTTOMRIGHT", f.holderFrame, "TOPRIGHT", -10, 4)
+		f.goldText:Point("BOTTOMRIGHT", f.holderFrame, "TOPRIGHT", -15, 4)
 		f.goldText:SetJustifyH("RIGHT")
 
 		--Sort Button
 		f.sortButton = CreateFrame("Button", name.."SortButton", f)
 		f.sortButton:SetSize(16 + E.Border, 16 + E.Border)
 		f.sortButton:SetTemplate()
-		f.sortButton:Point("RIGHT", f.goldText, "LEFT", -5, E.Border * 2)
+		f.sortButton:Point("RIGHT", f.goldText, "LEFT", 5, E.Border * 2)
 		f.sortButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_Broom")
 		f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 		f.sortButton:GetNormalTexture():SetInside()
@@ -1307,6 +1313,13 @@ function B:CloseBank()
 	self.BankFrame:Hide()
 end
 
+local playerEnteringWorldFunc = function() B:UpdateBagTypes() B:Layout() end
+function B:PLAYER_ENTERING_WORLD()
+	self:UpdateGoldText()
+	
+	E:Delay(2, playerEnteringWorldFunc) -- Update bag types for bagslot coloring
+end
+
 function B:updateContainerFrameAnchors()
 	local frame, xOffset, yOffset, screenHeight, freeScreenHeight, leftMostPoint, column
 	local screenWidth = GetScreenWidth()
@@ -1399,10 +1412,10 @@ function B:PostBagMove()
 
 	if y > (screenHeight / 2) then
 		self:SetText(self.textGrowDown)
-		self.POINT = ((x > (screenWidth/2)) and "TOPRIGHT" or "TOPLEFT")
+		self.POINT = ((x > (screenWidth / 2)) and "TOPRIGHT" or "TOPLEFT")
 	else
 		self:SetText(self.textGrowUp)
-		self.POINT = ((x > (screenWidth/2)) and "BOTTOMRIGHT" or "BOTTOMLEFT")
+		self.POINT = ((x > (screenWidth / 2)) and "BOTTOMRIGHT" or "BOTTOMLEFT")
 	end
 
 	local bagFrame
@@ -1433,7 +1446,7 @@ end
 function B:ProgressQuickVendor()
 	local item = B.SellFrame.Info.itemList[1]
 	if not item then return nil, true end --No more to sell
-	local bag, slot, itemLink, itemPrice = unpack(item)
+	local bag, slot, itemPrice, itemLink = unpack(item)
 	
 	local stackPrice
 	local stackCount = select(2, GetContainerItemInfo(bag, slot)) or 1
@@ -1458,7 +1471,7 @@ function B:VendorGreys_OnUpdate(elapsed)
 	if B.SellFrame.Info.ProgressTimer > 0 then return end
 	B.SellFrame.Info.ProgressTimer = B.SellFrame.Info.SellInterval
 
-	local goldGained, lastItem = B:ProgressQuickVendor();
+	local goldGained, lastItem = B:ProgressQuickVendor()
 	if goldGained then
 		B.SellFrame.Info.goldGained = B.SellFrame.Info.goldGained + goldGained
 		B.SellFrame.Info.itemsSold = B.SellFrame.Info.itemsSold + 1
@@ -1574,9 +1587,9 @@ function B:Initialize()
 	E.Bags = self
 
 	self:DisableBlizzard()
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("GUILDBANKBAGSLOTS_CHANGED")
 	self:RegisterEvent("PLAYER_MONEY", "UpdateGoldText")
-	self:RegisterEvent("PLAYER_ENTERING_WORLD", "UpdateGoldText")
 	self:RegisterEvent("PLAYER_TRADE_MONEY", "UpdateGoldText")
 	self:RegisterEvent("TRADE_MONEY_CHANGED", "UpdateGoldText")
 	self:RegisterEvent("BANKFRAME_OPENED", "OpenBank")

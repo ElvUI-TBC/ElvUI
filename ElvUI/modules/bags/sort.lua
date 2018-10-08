@@ -33,7 +33,7 @@ local QueryGuildBankTab = QueryGuildBankTab
 local GetCurrentGuildBankTab = GetCurrentGuildBankTab
 local ARMOR, ENCHSLOT_WEAPON = ARMOR, ENCHSLOT_WEAPON
 
-local guildBags = {51,52,53,54,55,56,57,58}
+local guildBags = {51, 52, 53, 54, 55, 56}
 local bankBags = {BANK_CONTAINER}
 local MAX_MOVE_TIME = 1.25
 
@@ -133,7 +133,7 @@ frame:Hide()
 B.SortUpdateTimer = frame
 
 local function IsGuildBankBag(bagid)
-	return (bagid > 50 and bagid <= 58)
+	return (bagid > 50 and bagid <= 56)
 end
 
 local function BuildSortOrder()
@@ -225,7 +225,7 @@ local function DefaultSort(a, b)
 		return aItemClassId < bItemClassId
 	end
 
-	if aItemClassId == 1 or aItemClassId == 2 then
+	if aItemClassId == ARMOR or aItemClassId == ENCHSLOT_WEAPON then
 		local aEquipLoc = inventorySlots[aEquipLoc] or -1
 		local bEquipLoc = inventorySlots[bEquipLoc] or -1
 		if aEquipLoc == bEquipLoc then
@@ -438,7 +438,7 @@ function B:CanItemGoInBag(bag, slot, targetBag)
 	local itemFamily = GetItemFamily(item)
 	if itemFamily and itemFamily > 0 then
 		local equipSlot = select(9, GetItemInfo(item))
-		if equipSlot == "INVTYPE_BAG" then
+		if equipSlot == "INVTYPE_QUIVER" then
 			itemFamily = 1
 		end
 	end
