@@ -49,6 +49,7 @@ local CONTAINER_WIDTH = CONTAINER_WIDTH
 local KEYRING_CONTAINER = KEYRING_CONTAINER
 local MAX_CONTAINER_ITEMS = MAX_CONTAINER_ITEMS
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES
+local NUM_BANKGENERIC_SLOTS = NUM_BANKGENERIC_SLOTS
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
 local BINDING_NAME_TOGGLEKEYRING = BINDING_NAME_TOGGLEKEYRING
 local SEARCH = SEARCH
@@ -1489,7 +1490,7 @@ end
 function B:CreateSellFrame()
 	B.SellFrame = CreateFrame("Frame", "ElvUIVendorGraysFrame", E.UIParent)
 	B.SellFrame:Size(200,40)
-	B.SellFrame:Point("CENTER", UIParent)
+	B.SellFrame:Point("CENTER", E.UIParent)
 	B.SellFrame:CreateBackdrop("Transparent")
 
 	B.SellFrame.title = B.SellFrame:CreateFontString(nil, "OVERLAY")

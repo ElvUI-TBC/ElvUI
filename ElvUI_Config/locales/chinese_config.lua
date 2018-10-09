@@ -256,9 +256,7 @@ L["HH:MM Threshold"] = "时:分 阈值"
 L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = "文字以分:秒格式显示的阈值(单位:秒). 设为-1以禁用此格式."
 L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = "文字以时:分格式显示的阈值(单位:分). 设为-1以禁用此格式."
 L["Color Override"] = "颜色覆盖"
-L["Force Hide Blizzard Text"] = "强制隐藏暴雪文字"
 L["Sets the size of the timers."] = true
-L["This option will force hide Blizzard's cooldown text if it's enabled at [Interface > ActionBars > Show Numbers on Cooldown]."] = "如果该选项被开启, 将强制隐藏暴雪的冷却文字[界面->动作条->显示冷却时间]."
 L["Reverse Toggle"] = "反转开关"
 L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = "反转开关启用是该模块将在全局禁用时启用, 全局启用是禁用."
 

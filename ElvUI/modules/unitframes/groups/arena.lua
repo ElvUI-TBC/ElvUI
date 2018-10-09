@@ -9,7 +9,7 @@ local ns = oUF;
 local ElvUF = ns.oUF;
 assert(ElvUF, "ElvUI was unable to locate oUF.");
 
-local ArenaHeader = CreateFrame("Frame", "ArenaHeader", UIParent);
+local ArenaHeader = CreateFrame("Frame", "ArenaHeader", E.UIParent)
 
 function UF:Construct_ArenaFrames(frame)
 	frame.RaisedElementParent = CreateFrame("Frame", nil, frame);

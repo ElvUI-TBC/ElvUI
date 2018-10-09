@@ -458,9 +458,10 @@ function UF:UpdateAuraTimer(elapsed)
 		return
 	end
 
+	local textHasFont = self.text and self.text:GetFont()
 	local _, _, _, _, _, duration, timeLeft = UnitAura(self:GetParent().__owner.unit, self:GetID(), self.filter)
 	if (not E:Cooldown_IsEnabled(self)) or (timeLeft and timeLeft <= 0) then
-		if self.text:GetFont() then
+		if textHasFont then
 			self.text:SetText("")
 		end
 		return
@@ -478,7 +479,9 @@ function UF:UpdateAuraTimer(elapsed)
 	if nextupdate > 1 then nextupdate = 1.01 end
 	self.nextupdate = nextupdate
 
-	self.text:SetFormattedText(format("%s%s|r", timeColors[formatid], E.TimeFormats[formatid][2]), value1, value2)
+	if textHasFont then
+		self.text:SetFormattedText(format("%s%s|r", timeColors[formatid], E.TimeFormats[formatid][2]), value1, value2)
+	end
 end
 
 function UF:CheckFilter(filterType, isFriend)

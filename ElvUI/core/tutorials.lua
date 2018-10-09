@@ -45,7 +45,7 @@ function E:SetPrevTutorial()
 end
 
 function E:SpawnTutorialFrame()
-	local f = CreateFrame("Frame", "ElvUITutorialWindow", UIParent)
+	local f = CreateFrame("Frame", "ElvUITutorialWindow", E.UIParent)
 	f:SetFrameStrata("DIALOG")
 	f:SetToplevel(true)
 	f:SetClampedToScreen(true)

@@ -28,7 +28,7 @@ function D:Initialize()
 	self:RegisterComm(REQUEST_PREFIX)
 	self:RegisterEvent("CHAT_MSG_ADDON")
 
-	self.statusBar = CreateFrame("StatusBar", "ElvUI_Download", UIParent)
+	self.statusBar = CreateFrame("StatusBar", "ElvUI_Download", E.UIParent)
 	E:RegisterStatusBar(self.statusBar)
 	self.statusBar:CreateBackdrop("Default")
 	self.statusBar:SetStatusBarTexture(E.media.normTex)
