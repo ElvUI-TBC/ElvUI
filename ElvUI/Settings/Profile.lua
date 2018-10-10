@@ -5,6 +5,7 @@ P.farmSize = 340
 
 --Core
 P["general"] = {
+	["messageRedirect"] = DEFAULT_CHAT_FRAME:GetName(),
 	["taintLog"] = false,
 	["stickyFrames"] = true,
 	["loginmessage"] = true,
@@ -845,6 +846,10 @@ P["unitframe"] = {
 				["yOffset"] = 6,
 				["size"] = 22,
 				["texture"] = "DEFAULT"
+			},
+			["raidRoleIcons"] = {
+				["enable"] = true,
+				["position"] = "TOPLEFT"
 			},
 			["CombatIcon"] = {
 				["enable"] = true,

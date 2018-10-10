@@ -36,6 +36,7 @@ function UF:Construct_PlayerFrame(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame);
+	frame.RaidRoleFramesAnchor = self:Construct_RaidRoleFrames(frame)
 	frame.RestingIndicator = self:Construct_RestingIndicator(frame);
 	frame.CombatIndicator = self:Construct_CombatIndicator(frame);
 	frame.PvPText = self:Construct_PvPIndicator(frame);
@@ -145,6 +146,8 @@ function UF:Update_PlayerFrame(frame, db)
 	end
 
 	UF:Configure_PVPIcon(frame)
+
+	UF:Configure_RaidRoleIcons(frame)
 
 	UF:Configure_CustomTexts(frame);
 

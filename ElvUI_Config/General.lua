@@ -1,9 +1,20 @@
-local E, L, V, P, G = unpack(ElvUI);
+local E, L, V, P, G = unpack(ElvUI)
 local CC = E:GetModule("ClassCache")
+
+local _G = _G
 
 local NONE, FONT_SIZE, COLORS, DISABLE = NONE, FONT_SIZE, COLORS, DISABLE
 local GUILD, PLAYER, LOOT = GUILD, PLAYER, LOOT
 local SAY, CHAT_MSG_EMOTE = SAY, CHAT_MSG_EMOTE
+
+local function GetChatWindowInfo()
+	local ChatTabInfo = {}
+	for i = 1, FCF_GetNumActiveChatFrames() do
+		ChatTabInfo["ChatFrame"..i] = _G["ChatFrame"..i.."Tab"]:GetText()
+	end
+
+	return ChatTabInfo
+end
 
 E.Options.args.general = {
 	type = "group",
@@ -41,13 +52,12 @@ E.Options.args.general = {
 					type = "header",
 					name = L["General"],
 				},
-				pixelPerfect = {
+				messageRedirect = {
 					order = 2,
-					type = "toggle",
-					name = L["Thin Border Theme"],
-					desc = L["The Thin Border Theme option will change the overall apperance of your UI. Using Thin Border Theme is a slight performance increase over the traditional layout."],
-					get = function(info) return E.private.general.pixelPerfect; end,
-					set = function(info, value) E.private.general.pixelPerfect = value; E:StaticPopup_Show("PRIVATE_RL"); end
+					type = "select",
+					name = L["ElvUI: Chat Output"],
+					desc = L["The selects the Chat Frame to use as the output of ElvUI messages."],
+					values = GetChatWindowInfo()
 				},
 				interruptAnnounce = {
 					order = 3,
@@ -74,21 +84,29 @@ E.Options.args.general = {
 						["PLAYER"] = PLAYER
 					}
 				},
-				autoAcceptInvite = {
+				pixelPerfect = {
 					order = 5,
+					type = "toggle",
+					name = L["Thin Border Theme"],
+					desc = L["The Thin Border Theme option will change the overall apperance of your UI. Using Thin Border Theme is a slight performance increase over the traditional layout."],
+					get = function(info) return E.private.general.pixelPerfect; end,
+					set = function(info, value) E.private.general.pixelPerfect = value; E:StaticPopup_Show("PRIVATE_RL"); end
+				},
+				autoAcceptInvite = {
+					order = 6,
 					type = "toggle",
 					name = L["Accept Invites"],
 					desc = L["Automatically accept invites from guild/friends."]
 				},
 				autoRoll = {
-					order = 6,
+					order = 7,
 					type = "toggle",
 					name = L["Auto Greed/DE"],
 					desc = L["Automatically select greed or disenchant (when available) on green quality items. This will only work if you are the max level."],
 					disabled = function() return not E.private.general.lootRoll; end
 				},
 				loot = {
-					order = 7,
+					order = 8,
 					type = "toggle",
 					name = LOOT,
 					desc = L["Enable/Disable the loot frame."],
@@ -96,7 +114,7 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general.loot = value; E:StaticPopup_Show("PRIVATE_RL"); end
 				},
 				lootRoll = {
-					order = 8,
+					order = 9,
 					type = "toggle",
 					name = L["Loot Roll"],
 					desc = L["Enable/Disable the loot roll frame."],
@@ -104,7 +122,7 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general.lootRoll = value; E:StaticPopup_Show("PRIVATE_RL"); end
 				},
 				eyefinity = {
-					order = 9,
+					order = 10,
 					type = "toggle",
 					name = L["Multi-Monitor Support"],
 					desc = L["Attempt to support eyefinity/nvidia surround."],
@@ -112,19 +130,19 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general[ info[#info] ] = value; E:StaticPopup_Show("GLOBAL_RL"); end
 				},
 				hideErrorFrame = {
-					order = 10,
+					order = 11,
 					type = "toggle",
 					name = L["Hide Error Text"],
 					desc = L["Hides the red error text at the top of the screen while in combat."]
 				},
 				taintLog = {
-					order = 11,
+					order = 12,
 					type = "toggle",
 					name = L["Log Taints"],
 					desc = L["Send ADDON_ACTION_BLOCKED errors to the Lua Error frame. These errors are less important in most cases and will not effect your game performance. Also a lot of these errors cannot be fixed. Please only report these errors if you notice a Defect in gameplay."]
 				},
 				bottomPanel = {
-					order = 12,
+					order = 13,
 					type = "toggle",
 					name = L["Bottom Panel"],
 					desc = L["Display a panel across the bottom of the screen. This is for cosmetic only."],
@@ -132,7 +150,7 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.bottomPanel = value; E:GetModule("Layout"):BottomPanelVisibility(); end
 				},
 				topPanel = {
-					order = 13,
+					order = 14,
 					type = "toggle",
 					name = L["Top Panel"],
 					desc = L["Display a panel across the top of the screen. This is for cosmetic only."],
@@ -140,7 +158,7 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.topPanel = value; E:GetModule("Layout"):TopPanelVisibility(); end
 				},
 				afk = {
-					order = 14,
+					order = 15,
 					type = "toggle",
 					name = L["AFK Mode"],
 					desc = L["When you go AFK display the AFK screen."],
@@ -148,13 +166,13 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.afk = value; E:GetModule("AFK"):Toggle(); end
 				},
 				enhancedPvpMessages = {
-					order = 15,
+					order = 16,
 					type = "toggle",
 					name = L["Enhanced PVP Messages"],
 					desc = L["Display battleground messages in the middle of the screen."],
 				},
 				autoScale = {
-					order = 16,
+					order = 17,
 					type = "toggle",
 					name = L["Auto Scale"],
 					desc = L["Automatically scale the User Interface based on your screen resolution"],
@@ -162,12 +180,12 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general[ info[#info] ] = value; E:StaticPopup_Show("GLOBAL_RL") end
 				},
 				spacer = {
-					order = 17,
+					order = 18,
 					type = "description",
 					name = ""
 				},
 				minUiScale = {
-					order = 18,
+					order = 19,
 					type = "range",
 					name = L["Lowest Allowed UI Scale"],
 					min = 0.32, max = 0.64, step = 0.01,
@@ -175,7 +193,7 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general.minUiScale = value; E:StaticPopup_Show("GLOBAL_RL"); end
 				},
 				decimalLength = {
-					order = 19,
+					order = 20,
 					type = "range",
 					name = L["Decimal Length"],
 					desc = L["Controls the amount of decimals used in values displayed on elements like NamePlates and UnitFrames."],
@@ -184,7 +202,7 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.decimalLength = value; E:StaticPopup_Show("GLOBAL_RL") end
 				},
 				numberPrefixStyle = {
-					order = 20,
+					order = 21,
 					type = "select",
 					name = L["Unit Prefix Style"],
 					desc = L["The unit prefixes you want to use when values are shortened in ElvUI. This is mostly used on UnitFrames."],

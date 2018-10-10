@@ -3639,6 +3639,34 @@ E.Options.args.unitframe.args.player = {
 					width = "full"
 				}
 			}
+		},
+		raidRoleIcons = {
+			order = 703,
+			type = "group",
+			name = L["RL / ML Icons"],
+			get = function(info) return E.db.unitframe.units["player"]["raidRoleIcons"][ info[#info] ] end,
+			set = function(info, value) E.db.unitframe.units["player"]["raidRoleIcons"][ info[#info] ] = value; UF:CreateAndUpdateUF("player") end,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["RL / ML Icons"]
+				},
+				enable = {
+					order = 2,
+					type = "toggle",
+					name = L["Enable"]
+				},
+				position = {
+					order = 3,
+					type = "select",
+					name = L["Position"],
+					values = {
+						["TOPLEFT"] = "TOPLEFT",
+						["TOPRIGHT"] = "TOPRIGHT"
+					}
+				}
+			}
 		}
 	}
 }
