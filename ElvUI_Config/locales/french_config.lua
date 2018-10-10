@@ -424,8 +424,10 @@ L["This feature will allow you to transfer settings to other characters."] = "Ce
 L["You must be targeting a player."] = "Vous devez cibler un joueur."
 
 --Filters
+L["Filter Search"] = true
 L["Reset Aura Filters"] = "Réinitialiser les filtres des auras" --Used in Nameplates/UnitFrames general options
 L["Reset Filter"] = "Réinitialiser les filtres"
+L["Search for a spell name inside of a filter."] = true
 L["Used as RaidDebuff Indicator"] = "Utiliser comme indicateur d'affaiblissement en raid"
 
 --General
@@ -557,7 +559,7 @@ L["Toggle Anchors"] = "Afficher les ancres"
 L["Unlock various elements of the UI to be repositioned."] = "Déverrouille divers éléments de l'interface utilisateur pour être repositionné."
 L["Version"] = "Version"
 
---Module Reset
+--Module Control
 L["Are you sure you want to reset ActionBars settings?"] = true
 L["Are you sure you want to reset Auras settings?"] = true
 L["Are you sure you want to reset Bags settings?"] = true
@@ -569,7 +571,15 @@ L["Are you sure you want to reset General settings?"] = true
 L["Are you sure you want to reset NamePlates settings?"] = true
 L["Are you sure you want to reset Tooltip settings?"] = true
 L["Are you sure you want to reset UnitFrames settings?"] = true
+L["Core |cff00b30bE|r|cffC4C4C4lvUI|r options."] = true
+L["If you have any plugins supporting this feature installed you can find them in the selection dropdown to the right."] = true
+L["Module Control"] = true
+L["Module Copy"] = true
 L["Module Reset"] = true
+L["Movers"] = true
+L["On screen positions for different elements."] = true
+L["Select a profile to copy from/to."] = true
+L["This section will allow you to copy settings to a select module from or to a different profile."] = true
 L["This section will help reset specfic settings back to default."] = true
 
 --NamePlates

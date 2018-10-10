@@ -9,6 +9,7 @@ local NONE, COLOR, FILTERS = NONE, COLOR, FILTERS
 
 local selectedSpell
 local selectedFilter
+local quickSearchText = ""
 
 local function filterValue(value)
 	return gsub(value,"([%(%)%.%%%+%-%*%?%[%^%$])","%%%1")
@@ -93,6 +94,14 @@ local function UpdateFilterGroup()
 					end,
 					disabled = function() return not (selectedSpell and selectedSpell ~= "") end
 				},
+				quickSearch = {
+					order = 3,
+					type = "input",
+					name = L["Filter Search"],
+					desc = L["Search for a spell name inside of a filter."],
+					get = function() return quickSearchText end,
+					set = function(info,value) quickSearchText = value end
+				},
 				selectSpell = {
 					order = 10,
 					type = "select",
@@ -114,7 +123,7 @@ local function UpdateFilterGroup()
 									filter = tostring(filter)
 								end
 							end
-							filters[filter] = filter
+							if filter:find(quickSearchText) then filters[filter] = filter end
 						end
 						if not next(filters) then filters[""] = NONE end
 						return filters
@@ -259,6 +268,14 @@ local function UpdateFilterGroup()
 					end,
 					disabled = function() return not (selectedSpell and selectedSpell ~= "") end
 				},
+				quickSearch = {
+					order = 3,
+					type = "input",
+					name = L["Filter Search"],
+					desc = L["Search for a spell name inside of a filter."],
+					get = function() return quickSearchText end,
+					set = function(info,value) quickSearchText = value end
+				},
 				selectSpell = {
 					order = 10,
 					type = "select",
@@ -283,7 +300,7 @@ local function UpdateFilterGroup()
 									filter = tostring(filter)
 								end
 							end
-							filters[filter] = filter
+							if filter:find(quickSearchText) then filters[filter] = filter end
 						end
 						if not next(filters) then filters[""] = NONE end
 						return filters
@@ -423,6 +440,14 @@ local function UpdateFilterGroup()
 					end,
 					disabled = function() return not selectedSpell end
 				},
+				quickSearch = {
+					order = 3,
+					type = "input",
+					name = L["Filter Search"],
+					desc = L["Search for a spell name inside of a filter."],
+					get = function() return quickSearchText end,
+					set = function(info,value) quickSearchText = value end
+				},
 				selectSpell = {
 					order = 10,
 					type = "select",
@@ -435,7 +460,7 @@ local function UpdateFilterGroup()
 						for _, spell in pairs(list) do
 							if spell.id then
 								local name = GetSpellInfo(spell.id)
-								values[spell.id] = name
+								if name:find(quickSearchText) then values[spell.id] = name end
 							end
 						end
 						return values
@@ -656,6 +681,14 @@ local function UpdateFilterGroup()
 					end,
 					disabled = function() return not selectedSpell end
 				},
+				quickSearch = {
+					order = 3,
+					type = "input",
+					name = L["Filter Search"],
+					desc = L["Search for a spell name inside of a filter."],
+					get = function() return quickSearchText end,
+					set = function(info,value) quickSearchText = value end
+				},
 				selectSpell = {
 					order = 10,
 					type = "select",
@@ -668,7 +701,7 @@ local function UpdateFilterGroup()
 						for _, spell in pairs(list) do
 							if spell.id then
 								local name = GetSpellInfo(spell.id)
-								values[spell.id] = name
+								if name:find(quickSearchText) then values[spell.id] = name end
 							end
 						end
 						return values
@@ -897,6 +930,14 @@ local function UpdateFilterGroup()
 					end,
 					disabled = function() return not selectedSpell end
 				},
+				quickSearch = {
+					order = 3,
+					type = "input",
+					name = L["Filter Search"],
+					desc = L["Search for a spell name inside of a filter."],
+					get = function() return quickSearchText end,
+					set = function(info,value) quickSearchText = value end
+				},
 				selectSpell = {
 					order = 10,
 					type = "select",
@@ -909,7 +950,7 @@ local function UpdateFilterGroup()
 						for _, spell in pairs(list) do
 							if spell.id then
 								local name = GetSpellInfo(spell.id)
-								values[spell.id] = name
+								if name:find(quickSearchText) then values[spell.id] = name end
 							end
 						end
 						return values
@@ -1150,7 +1191,7 @@ local function UpdateFilterGroup()
 					disabled = function() return not (selectedSpell and selectedSpell ~= "") end
 				},
 				filterType = {
-					order = 4,
+					order = 3,
 					type = "select",
 					name = L["Filter Type"],
 					desc = L["Set the filter type. Blacklist will hide any auras in the list and show all others. Whitelist will show any auras in the filter and hide all others."],
@@ -1160,6 +1201,14 @@ local function UpdateFilterGroup()
 					},
 					get = function() return E.global.unitframe["aurafilters"][selectedFilter].type end,
 					set = function(info, value) E.global.unitframe["aurafilters"][selectedFilter].type = value UF:Update_AllFrames() end
+				},
+				quickSearch = {
+					order = 4,
+					type = "input",
+					name = L["Filter Search"],
+					desc = L["Search for a spell name inside of a filter."],
+					get = function() return quickSearchText end,
+					set = function(info,value) quickSearchText = value end
 				},
 				selectSpell = {
 					order = 10,
@@ -1185,7 +1234,7 @@ local function UpdateFilterGroup()
 									filter = tostring(filter)
 								end
 							end
-							filters[filter] = filter
+							if filter:find(quickSearchText) then filters[filter] = filter end
 						end
 						if not next(filters) then filters[""] = NONE end
 						return filters
@@ -1349,6 +1398,7 @@ E.Options.args.filters = {
 					end
 					selectedFilter = value
 				end
+				quickSearchText = ""
 				UpdateFilterGroup()
 			end,
 			values = function()
@@ -1379,6 +1429,7 @@ E.Options.args.filters = {
 				removePriority(selectedFilter) --This will wipe a filter from the new aura system profile settings.
 				selectedFilter = nil
 				selectedSpell = nil
+				quickSearchText = ""
 				E.Options.args.filters.args.filterGroup = nil
 			end,
 			disabled = function() return G.unitframe.aurafilters[selectedFilter] end,

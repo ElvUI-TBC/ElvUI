@@ -473,8 +473,10 @@ L["This feature will allow you to transfer settings to other characters."] = "�
 L["You must be targeting a player."] = "유저를 대상으로 잡은 후에 시도해야 합니다."
 
 --Filters
+L["Filter Search"] = true
 L["Reset Aura Filters"] = "오라 필터 초기화" --Used in Nameplates/UnitFrames general options
 L["Reset Filter"] = "필터 초기화"
+L["Search for a spell name inside of a filter."] = true
 L["Used as RaidDebuff Indicator"] = true
 
 --General
@@ -606,7 +608,7 @@ L["Toggle Anchors"] = "프레임 이동 모드"
 L["Unlock various elements of the UI to be repositioned."] = "ElvUI에서 위치를 조정할 수 있는 프레임들을 움직이는 이동 모드를 실행합니다."
 L["Version"] = "버전"
 
---Module Reset
+--Module Control
 L["Are you sure you want to reset ActionBars settings?"] = true
 L["Are you sure you want to reset Auras settings?"] = true
 L["Are you sure you want to reset Bags settings?"] = true
@@ -618,7 +620,15 @@ L["Are you sure you want to reset General settings?"] = true
 L["Are you sure you want to reset NamePlates settings?"] = true
 L["Are you sure you want to reset Tooltip settings?"] = true
 L["Are you sure you want to reset UnitFrames settings?"] = true
+L["Core |cff00b30bE|r|cffC4C4C4lvUI|r options."] = true
+L["If you have any plugins supporting this feature installed you can find them in the selection dropdown to the right."] = true
+L["Module Control"] = true
+L["Module Copy"] = true
 L["Module Reset"] = true
+L["Movers"] = true
+L["On screen positions for different elements."] = true
+L["Select a profile to copy from/to."] = true
+L["This section will allow you to copy settings to a select module from or to a different profile."] = true
 L["This section will help reset specfic settings back to default."] = true
 
 --NamePlates

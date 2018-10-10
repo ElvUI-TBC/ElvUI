@@ -422,8 +422,10 @@ L["This feature will allow you to transfer settings to other characters."] = "�
 L["You must be targeting a player."] = "你必须以一名玩家为目标"
 
 --Filters
+L["Filter Search"] = true
 L["Reset Aura Filters"] = "重置光环过滤器" --Used in Nameplates/UnitFrames general options
 L["Reset Filter"] = "重置过滤器"
+L["Search for a spell name inside of a filter."] = true
 L["Used as RaidDebuff Indicator"] = "作为团队减益指示器"
 
 --General
@@ -555,7 +557,7 @@ L["Toggle Anchors"] = "切换定位开关"
 L["Unlock various elements of the UI to be repositioned."] = "解锁介面上的各种框架来更改位置"
 L["Version"] = "版本"
 
---Module Reset
+--Module Control
 L["Are you sure you want to reset ActionBars settings?"] = "你确定要重置‘动作条’的设置吗？"
 L["Are you sure you want to reset Auras settings?"] = "你确定要重置‘光环’的设置吗？"
 L["Are you sure you want to reset Bags settings?"] = "你确定要重置‘背包’的设置吗？"
@@ -567,7 +569,15 @@ L["Are you sure you want to reset General settings?"] = "你确定要重置‘�
 L["Are you sure you want to reset NamePlates settings?"] = "你确定要重置‘姓名版’的设置吗？"
 L["Are you sure you want to reset Tooltip settings?"] = "你确定要重置‘鼠标提示’的设置吗？"
 L["Are you sure you want to reset UnitFrames settings?"] = "你确定要重置‘单位框架’的设置吗？"
+L["Core |cff00b30bE|r|cffC4C4C4lvUI|r options."] = true
+L["If you have any plugins supporting this feature installed you can find them in the selection dropdown to the right."] = true
+L["Module Control"] = true
+L["Module Copy"] = true
 L["Module Reset"] = "模块重置"
+L["Movers"] = true
+L["On screen positions for different elements."] = true
+L["Select a profile to copy from/to."] = true
+L["This section will allow you to copy settings to a select module from or to a different profile."] = true
 L["This section will help reset specfic settings back to default."] = "这部分将帮助你重置特定设置为默认."
 
 --NamePlates
