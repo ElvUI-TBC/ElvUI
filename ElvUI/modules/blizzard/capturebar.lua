@@ -41,7 +41,7 @@ function B:WorldStateAlwaysUpFrame_Update()
 end
 
 function B:PositionCaptureBar()
-	self:SecureHook("WorldStateAlwaysUpFrame_Update");
+	self:SecureHook("WorldStateAlwaysUpFrame_Update")
 
 	pvpHolder:Size(30, 70)
 	pvpHolder:Point("TOP", E.UIParent, "TOP", 0, -4)

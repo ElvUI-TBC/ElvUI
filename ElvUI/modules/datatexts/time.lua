@@ -37,7 +37,7 @@ end
 
 local function OnEnter(self)
 	DT:SetupTooltip(self)
-	
+
 	if not enteredFrame then
 		RequestRaidInfo()
 

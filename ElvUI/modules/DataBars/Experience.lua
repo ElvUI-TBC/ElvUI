@@ -2,7 +2,6 @@ local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("DataBars")
 local LSM = LibStub("LibSharedMedia-3.0")
 
-local _G = _G
 local format = format
 local min = min
 
@@ -10,11 +9,11 @@ local GetPetExperience, UnitXP, UnitXPMax = GetPetExperience, UnitXP, UnitXPMax
 local UnitLevel = UnitLevel
 local GetXPExhaustion = GetXPExhaustion
 local GetAccountExpansionLevel = GetAccountExpansionLevel
-local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE
 local InCombatLockdown = InCombatLockdown
+local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE
 
 function mod:GetXP(unit)
-	if(unit == "pet") then
+	if unit == "pet" then
 		return GetPetExperience()
 	else
 		return UnitXP(unit), UnitXPMax(unit)
@@ -35,7 +34,7 @@ function mod:UpdateExperience(event)
 		bar:Show()
 
 		local cur, max = self:GetXP("player")
-		if(max <= 0) then max = 1 end
+		if max <= 0 then max = 1 end
 		bar.statusBar:SetMinMaxValues(0, max)
 		bar.statusBar:SetValue(cur - 1 >= 0 and cur - 1 or 0)
 		bar.statusBar:SetValue(cur)
@@ -44,42 +43,42 @@ function mod:UpdateExperience(event)
 		local text = ""
 		local textFormat = self.db.experience.textFormat
 
-		if(rested and rested > 0) then
+		if rested and rested > 0 then
 			bar.rested:SetMinMaxValues(0, max)
 			bar.rested:SetValue(min(cur + rested, max))
 
-			if(textFormat == "PERCENT") then
+			if textFormat == "PERCENT" then
 				text = format("%d%% R:%d%%", cur / max * 100, rested / max * 100)
-			elseif(textFormat == "CURMAX") then
+			elseif textFormat == "CURMAX" then
 				text = format("%s - %s R:%s", E:ShortValue(cur), E:ShortValue(max), E:ShortValue(rested))
-			elseif(textFormat == "CURPERC") then
+			elseif textFormat == "CURPERC" then
 				text = format("%s - %d%% R:%s [%d%%]", E:ShortValue(cur), cur / max * 100, E:ShortValue(rested), rested / max * 100)
-			elseif(textFormat == "CUR") then
+			elseif textFormat == "CUR" then
 				text = format("%s R:%s", E:ShortValue(cur), E:ShortValue(rested))
-			elseif(textFormat == "REM") then
+			elseif textFormat == "REM" then
 				text = format("%s R:%s", E:ShortValue(max - cur), E:ShortValue(rested))
-			elseif(textFormat == "CURREM") then
+			elseif textFormat == "CURREM" then
 				text = format("%s - %s R:%s", E:ShortValue(cur), E:ShortValue(max - cur), E:ShortValue(rested))
-			elseif(textFormat == "CURPERCREM") then
+			elseif textFormat == "CURPERCREM" then
 				text = format("%s - %d%% (%s) R:%s", E:ShortValue(cur), cur / max * 100, E:ShortValue(max - cur), E:ShortValue(rested))
 			end
 		else
 			bar.rested:SetMinMaxValues(0, 1)
 			bar.rested:SetValue(0)
 
-			if(textFormat == "PERCENT") then
+			if textFormat == "PERCENT" then
 				text = format("%d%%", cur / max * 100)
-			elseif(textFormat == "CURMAX") then
+			elseif textFormat == "CURMAX" then
 				text = format("%s - %s", E:ShortValue(cur), E:ShortValue(max))
-			elseif(textFormat == "CURPERC") then
+			elseif textFormat == "CURPERC" then
 				text = format("%s - %d%%", E:ShortValue(cur), cur / max * 100)
-			elseif(textFormat == "CUR") then
+			elseif textFormat == "CUR" then
 				text = format("%s", E:ShortValue(cur))
-			elseif(textFormat == "REM") then
+			elseif textFormat == "REM" then
 				text = format("%s", E:ShortValue(max - cur))
-			elseif(textFormat == "CURREM") then
+			elseif textFormat == "CURREM" then
 				text = format("%s - %s", E:ShortValue(cur), E:ShortValue(max - cur))
-			elseif(textFormat == "CURPERCREM") then
+			elseif textFormat == "CURPERCREM" then
 				text = format("%s - %d%% (%s)", E:ShortValue(cur), cur / max * 100, E:ShortValue(max - cur))
 			end
 		end
@@ -89,7 +88,7 @@ function mod:UpdateExperience(event)
 end
 
 function mod:ExperienceBar_OnEnter()
-	if(mod.db.experience.mouseover) then
+	if mod.db.experience.mouseover then
 		E:UIFrameFadeIn(self, 0.4, self:GetAlpha(), 1)
 	end
 	GameTooltip:ClearLines()
@@ -103,7 +102,7 @@ function mod:ExperienceBar_OnEnter()
 	GameTooltip:AddDoubleLine(L["XP:"], format(" %d / %d (%d%%)", cur, max, cur/max * 100), 1, 1, 1)
 	GameTooltip:AddDoubleLine(L["Remaining:"], format(" %d (%d%% - %d "..L["Bars"]..")", max - cur, (max - cur) / max * 100, 20 * (max - cur) / max), 1, 1, 1)
 
-	if(rested) then
+	if rested then
 		GameTooltip:AddDoubleLine(L["Rested:"], format("+%d (%d%%)", rested, rested / max * 100), 1, 1, 1)
 	end
 
@@ -123,7 +122,7 @@ function mod:UpdateExperienceDimensions()
 	self.expBar.rested:SetOrientation(self.db.experience.orientation)
 	self.expBar.statusBar:SetOrientation(self.db.experience.orientation)
 
-	if(self.db.experience.mouseover) then
+	if self.db.experience.mouseover then
 		self.expBar:SetAlpha(0)
 	else
 		self.expBar:SetAlpha(1)
@@ -132,7 +131,7 @@ end
 
 function mod:EnableDisable_ExperienceBar()
 	local maxLevel = MAX_PLAYER_LEVEL_TABLE[GetAccountExpansionLevel()]
-	if((UnitLevel("player") ~= maxLevel or not self.db.experience.hideAtMaxLevel) and self.db.experience.enable) then
+	if (UnitLevel("player") ~= maxLevel or not self.db.experience.hideAtMaxLevel) and self.db.experience.enable then
 		self:RegisterEvent("PLAYER_XP_UPDATE", "UpdateExperience")
 		self:RegisterEvent("DISABLE_XP_GAIN", "UpdateExperience")
 		self:RegisterEvent("ENABLE_XP_GAIN", "UpdateExperience")

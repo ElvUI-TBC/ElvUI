@@ -111,14 +111,14 @@ end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
 function DT:GetDataPanelPoint(panel, i, numPoints)
-	if(numPoints == 1) then
+	if numPoints == 1 then
 		return "CENTER", panel, "CENTER"
 	else
-		if(i == 1) then
+		if i == 1 then
 			return "CENTER", panel, "CENTER"
-		elseif(i == 2) then
+		elseif i == 2 then
 			return "RIGHT", panel.dataPanels["middle"], "LEFT", -4, 0
-		elseif(i == 3) then
+		elseif i == 3 then
 			return "LEFT", panel.dataPanels["middle"], "RIGHT", 4, 0
 		end
 	end
@@ -159,8 +159,8 @@ function DT:RegisterPanel(panel, numPoints, anchor, xOff, yOff)
 	panel.anchor = anchor
 	for i = 1, numPoints do
 		local pointIndex = DT.PointLocation[i]
-		if(not panel.dataPanels[pointIndex]) then
-			panel.dataPanels[pointIndex] = CreateFrame("Button", panel:GetName() .. "DataText" .. i, panel)
+		if not panel.dataPanels[pointIndex] then
+			panel.dataPanels[pointIndex] = CreateFrame("Button", panel:GetName().."DataText"..i, panel)
 			panel.dataPanels[pointIndex]:RegisterForClicks("AnyUp")
 			panel.dataPanels[pointIndex].text = panel.dataPanels[pointIndex]:CreateFontString(nil, "OVERLAY")
 			panel.dataPanels[pointIndex].text:SetAllPoints()
@@ -178,11 +178,11 @@ end
 
 function DT:AssignPanelToDataText(panel, data)
 	panel.name = ""
-	if(data["name"]) then
+	if data["name"] then
 		panel.name = data["name"]
 	end
 
-	if(data["events"]) then
+	if data["events"] then
 		for _, event in pairs(data["events"]) do
 			-- random error 132
 			if event == "PLAYER_ENTERING_WORLD" then
@@ -192,31 +192,31 @@ function DT:AssignPanelToDataText(panel, data)
 		end
 	end
 
-	if(data["eventFunc"]) then
+	if data["eventFunc"] then
 		panel:SetScript("OnEvent", data["eventFunc"])
 		data["eventFunc"](panel, "ELVUI_FORCE_RUN")
 	end
 
-	if(data["onUpdate"]) then
+	if data["onUpdate"] then
 		panel:SetScript("OnUpdate", data["onUpdate"])
 		data["onUpdate"](panel, 20000)
 	end
 
-	if(data["onClick"]) then
+	if data["onClick"] then
 		panel:SetScript("OnClick", function(self, button)
-			if(E.db.datatexts.noCombatClick and InCombatLockdown()) then return end
+			if E.db.datatexts.noCombatClick and InCombatLockdown() then return end
 			data["onClick"](self, button)
 		end)
 	end
 
-	if(data["onEnter"]) then
+	if data["onEnter"] then
 		panel:SetScript("OnEnter", function(self)
-			if(E.db.datatexts.noCombatHover and InCombatLockdown()) then return end
+			if E.db.datatexts.noCombatHover and InCombatLockdown() then return end
 			data["onEnter"](self)
 		end)
 	end
 
-	if(data["onLeave"]) then
+	if data["onLeave"] then
 		panel:SetScript("OnLeave", data["onLeave"])
 	else
 		panel:SetScript("OnLeave", DT.Data_OnLeave)
@@ -267,12 +267,12 @@ function DT:LoadDataTexts()
 
 				for name, data in pairs(DT.RegisteredDataTexts) do
 					for option, value in pairs(self.db.panels) do
-						if(value and type(value) == "table") then
-							if(option == panelName and self.db.panels[option][pointIndex] and self.db.panels[option][pointIndex] == name) then
+						if value and type(value) == "table" then
+							if option == panelName and self.db.panels[option][pointIndex] and self.db.panels[option][pointIndex] == name then
 								DT:AssignPanelToDataText(panel.dataPanels[pointIndex], data)
 							end
-						elseif(value and type(value) == "string" and value == name) then
-							if(self.db.panels[option] == name and option == panelName) then
+						elseif value and type(value) == "string" and value == name then
+							if self.db.panels[option] == name and option == panelName then
 								DT:AssignPanelToDataText(panel.dataPanels[pointIndex], data)
 							end
 						end
@@ -282,13 +282,13 @@ function DT:LoadDataTexts()
 		end
 	end
 
-	if(DT.ForceHideBGStats) then
+	if DT.ForceHideBGStats then
 		DT.ForceHideBGStats = nil
 	end
 end
 
 function DT:RegisterDatatext(name, events, eventFunc, updateFunc, clickFunc, onEnterFunc, onLeaveFunc, localizedName)
-	if(name) then
+	if name then
 		DT.RegisteredDataTexts[name] = {}
 	else
 		error("Cannot register datatext no name was provided.")
@@ -296,26 +296,26 @@ function DT:RegisterDatatext(name, events, eventFunc, updateFunc, clickFunc, onE
 
 	DT.RegisteredDataTexts[name]["name"] = name
 
-	if(type(events) == "table") then
+	if type(events) == "table" then
 		DT.RegisteredDataTexts[name]["events"] = events
 		DT.RegisteredDataTexts[name]["eventFunc"] = eventFunc
-	elseif(events and type(events) ~= "table") then
+	elseif events and type(events) ~= "table" then
 		error("Events must be registered as a table.")
 	end
 
-	if(updateFunc and type(updateFunc) == "function") then
+	if updateFunc and type(updateFunc) == "function" then
 		DT.RegisteredDataTexts[name]["onUpdate"] = updateFunc
 	end
 
-	if(clickFunc and type(clickFunc) == "function") then
+	if clickFunc and type(clickFunc) == "function" then
 		DT.RegisteredDataTexts[name]["onClick"] = clickFunc
 	end
 
-	if(onEnterFunc and type(onEnterFunc) == "function") then
+	if onEnterFunc and type(onEnterFunc) == "function" then
 		DT.RegisteredDataTexts[name]["onEnter"] = onEnterFunc
 	end
 
-	if(onLeaveFunc and type(onLeaveFunc) == "function") then
+	if onLeaveFunc and type(onLeaveFunc) == "function" then
 		DT.RegisteredDataTexts[name]["onLeave"] = onLeaveFunc
 	end
 
