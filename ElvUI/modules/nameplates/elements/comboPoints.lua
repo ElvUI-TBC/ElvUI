@@ -37,8 +37,14 @@ function mod:ConfigureElement_CPoints(frame)
 	local comboPoints = frame.CPoints
 
 	comboPoints:ClearAllPoints()
-	comboPoints:Point("CENTER", frame.HealthBar, "BOTTOM", self.db.units[frame.UnitType].comboPoints.xOffset, self.db.units[frame.UnitType].comboPoints.yOffset)
-	
+	if self.db.units[frame.UnitType].healthbar.enable or (frame.isTarget and self.db.alwaysShowTargetHealth) then
+		comboPoints:SetParent(frame.HealthBar)
+		comboPoints:Point("CENTER", frame.HealthBar, "BOTTOM", self.db.units[frame.UnitType].comboPoints.xOffset, self.db.units[frame.UnitType].comboPoints.yOffset)
+	else
+		comboPoints:SetParent(frame)
+		comboPoints:Point("CENTER", frame, "TOP", self.db.units[frame.UnitType].comboPoints.xOffset, self.db.units[frame.UnitType].comboPoints.yOffset)
+	end
+
 	for i = 1, MAX_COMBO_POINTS do
 		comboPoints[i]:SetVertexColor(unpack(E:GetColorTable(self.db.comboBar.colors[i])))
 	end
@@ -46,7 +52,6 @@ end
 
 function mod:ConstructElement_CPoints(parent)
 	local comboBar = CreateFrame("Frame", "$parentComboPoints", parent.HealthBar)
-	comboBar:Point("CENTER", parent.HealthBar, "BOTTOM")
 	comboBar:SetSize(68, 1)
 	comboBar:Hide()
 
