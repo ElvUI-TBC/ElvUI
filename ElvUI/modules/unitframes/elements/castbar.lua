@@ -207,7 +207,13 @@ function UF:Configure_Castbar(frame)
 		end
 
 		--Adjust tick heights
-		castbar.tickHeight = castbar:GetHeight()
+		if db.castbar.insideInfoPanel and frame.USE_INFO_PANEL then
+			castbar.tickHeight = (db.infoPanel.height -(E.PixelMode and 2 or 6))
+			castbar.Spark:Height(db.infoPanel.height * 2)
+		else
+			castbar.tickHeight = castbar:GetHeight()
+			castbar.Spark:Height(castbar:GetHeight() * 2)
+		end
 
 		if db.castbar.ticks then --Only player unitframe has this
 			--Set tick width and color
@@ -331,8 +337,6 @@ function UF:PostCastStart(unit, name)
 	else
 		self.Text:SetWidth(min(textWidth, textStringWidth))
 	end
-
-	self.Spark:Height(self:GetHeight() * 2)
 
 	self.unit = unit
 
