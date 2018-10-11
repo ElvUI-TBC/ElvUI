@@ -668,7 +668,6 @@ L["Cutaway Health"] = true
 L["Default Settings"] = "기본 설정"
 L["Depends on Class Caching module!"] = true
 L["Display a healer icon over known healers inside battlegrounds or arenas."] = "전장이나 투기장에서 유닛이 힐러인 경우 이름표에 힐러 아이콘을 표시합니다."
-L["Display combo points on nameplates."] = "이름표에 연계점수를 표시합니다."
 L["Elite Icon"] = "정예 아이콘"
 L["Enable/Disable the scaling of targetted nameplates."] = "대상선택된 이름표의 크기조절을 활성화/비활성화합니다."
 L["Enabling this will check your health amount."] = "활성화하면 내 체력량을 점검합니다."

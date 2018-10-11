@@ -1,20 +1,15 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("NamePlates")
 
-local ComboColors = {
-	[1] = {0.69, 0.31, 0.31},
-	[2] = {0.69, 0.31, 0.31},
-	[3] = {0.65, 0.63, 0.35},
-	[4] = {0.65, 0.63, 0.35},
-	[5] = {0.33, 0.59, 0.33}
-}
+local unpack = unpack
 
 local GetComboPoints = GetComboPoints
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
 function mod:UpdateElement_CPoints(frame)
-	if not self.db.comboPoints then return end
+	if not frame.UnitType then return end
 	if frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC" then return end
+	if self.db.units[frame.UnitType].comboPoints.enable ~= true then return end
 
 	local numPoints
 	if UnitExists("target") and frame.isTarget then
@@ -36,30 +31,36 @@ function mod:UpdateElement_CPoints(frame)
 end
 
 function mod:ConfigureElement_CPoints(frame)
-	if self.db.comboPoints and not frame.CPoints:IsShown() then
-		frame.CPoints:Show()
-	elseif frame.CPoints:IsShown() then
-		frame.CPoints:Hide()
+	if not frame.UnitType then return end
+	if frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC" then return end
+
+	local comboPoints = frame.CPoints
+
+	comboPoints:ClearAllPoints()
+	comboPoints:Point("CENTER", frame.HealthBar, "BOTTOM", self.db.units[frame.UnitType].comboPoints.xOffset, self.db.units[frame.UnitType].comboPoints.yOffset)
+	
+	for i = 1, MAX_COMBO_POINTS do
+		comboPoints[i]:SetVertexColor(unpack(E:GetColorTable(self.db.comboBar.colors[i])))
 	end
 end
 
 function mod:ConstructElement_CPoints(parent)
-	local frame = CreateFrame("Frame", "$parentComboPoints", parent.HealthBar)
-	frame:Point("CENTER", parent.HealthBar, "BOTTOM")
-	frame:SetSize(68, 1)
-	frame:Hide()
+	local comboBar = CreateFrame("Frame", "$parentComboPoints", parent.HealthBar)
+	comboBar:Point("CENTER", parent.HealthBar, "BOTTOM")
+	comboBar:SetSize(68, 1)
+	comboBar:Hide()
 
 	for i = 1, MAX_COMBO_POINTS do
-		frame[i] = frame:CreateTexture(nil, "OVERLAY")
-		frame[i]:SetTexture([[Interface\AddOns\ElvUI\media\textures\bubbleTex.tga]])
-		frame[i]:SetSize(12, 12)
-		frame[i]:SetVertexColor(unpack(ComboColors[i]))
+		comboBar[i] = comboBar:CreateTexture(nil, "OVERLAY")
+		comboBar[i]:SetTexture([[Interface\AddOns\ElvUI\media\textures\bubbleTex.tga]])
+		comboBar[i]:SetSize(12, 12)
 
 		if i == 1 then
-			frame[i]:SetPoint("LEFT", frame, "TOPLEFT")
+			comboBar[i]:Point("LEFT", comboBar, "TOPLEFT")
 		else
-			frame[i]:SetPoint("LEFT", frame[i-1], "RIGHT", 2, 0)
+			comboBar[i]:Point("LEFT", comboBar[i - 1], "RIGHT", 2, 0)
 		end
 	end
-	return frame
+
+	return comboBar
 end

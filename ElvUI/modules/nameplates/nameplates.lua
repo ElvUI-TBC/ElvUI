@@ -141,6 +141,7 @@ function mod:SetTargetFrame(frame)
 				self:ConfigureElement_Highlight(frame)
 				self:ConfigureElement_Level(frame)
 				self:ConfigureElement_Name(frame)
+				self:ConfigureElement_CPoints(frame)
 				self:RegisterEvents(frame)
 				self:UpdateElement_All(frame, true)
 			end
@@ -386,6 +387,7 @@ function mod:OnShow()
 		mod:ConfigureElement_CutawayHealth(self.UnitFrame)
 		mod:ConfigureElement_CastBar(self.UnitFrame)
 		mod:ConfigureElement_Glow(self.UnitFrame)
+		mod:ConfigureElement_CPoints(self.UnitFrame)
 
 		if mod.db.units[unitType].buffs.enable then
 			self.UnitFrame.Buffs.db = mod.db.units[unitType].buffs

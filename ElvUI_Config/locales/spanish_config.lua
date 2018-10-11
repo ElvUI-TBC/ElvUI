@@ -619,7 +619,6 @@ L["Cutaway Health"] = true
 L["Default Settings"] = true
 L["Depends on Class Caching module!"] = true
 L["Display a healer icon over known healers inside battlegrounds or arenas."] = "Muestra un icono de sanados sobre los sanadores conocidos en los campos de batalla o arenas."
-L["Display combo points on nameplates."] = "Muestra los puntos de combo en las placas de nombre."
 L["Elite Icon"] = true
 L["Enable/Disable the scaling of targetted nameplates."] = true
 L["Enabling this will check your health amount."] = true

@@ -1875,14 +1875,58 @@ local function GetUnitSettings(unit, name)
 		}
 	}
 
-	if(unit == "FRIENDLY_PLAYER" or unit == "ENEMY_PLAYER") then
+	if unit == "FRIENDLY_PLAYER" or unit == "ENEMY_PLAYER" then
 		if unit == "ENEMY_PLAYER" then
 			group.args.markHealers = {
-				order = 1,
-				type = "toggle",
+				order = 7,
+				type = "group",
 				name = L["Healer Icon"],
-				desc = L["Display a healer icon over known healers inside battlegrounds or arenas."],
+				get = function(info) return E.db.nameplates.units.ENEMY_PLAYER[ info[#info] ] end,
 				set = function(info, value) E.db.nameplates.units.ENEMY_PLAYER[ info[#info] ] = value NP:PLAYER_ENTERING_WORLD() NP:ConfigureAll() end,
+				args = {
+					header = {
+						order = 1,
+						type = "header",
+						name = L["Healer Icon"]
+					},
+					markHealers = {
+						order = 2,
+						type = "toggle",
+						name = L["Enable"],
+						desc = L["Display a healer icon over known healers inside battlegrounds or arenas."]
+					}
+				}
+			}
+			group.args.comboPoints = {
+				order = 8,
+				type = "group",
+				name = L["Combo Points"],
+				get = function(info) return E.db.nameplates.units.ENEMY_PLAYER.comboPoints[ info[#info] ] end,
+				set = function(info, value) E.db.nameplates.units.ENEMY_PLAYER.comboPoints[ info[#info] ] = value NP:PLAYER_COMBO_POINTS() NP:ConfigureAll() end,
+				args = {
+					header = {
+						order = 1,
+						type = "header",
+						name = L["Combo Points"]
+					},
+					enable = {
+						order = 2,
+						type = "toggle",
+						name = L["Enable"]
+					},
+					xOffset = {
+						order = 3,
+						type = "range",
+						name = L["X-Offset"],
+						min = -100, max = 100, step = 1
+					},
+					yOffset = {
+						order = 4,
+						type = "range",
+						name = L["Y-Offset"],
+						min = -100, max = 100, step = 1
+					}
+				}
 			}
 		end
 		group.args.healthGroup.args.useClassColor = {
@@ -1891,15 +1935,15 @@ local function GetUnitSettings(unit, name)
 			name = L["Use Class Color"],
 			desc = L["Depends on Class Caching module!"],
 			disabled = function() return not E.private.general.classCache end
-		};
+		}
 		group.args.nameGroup.args.useClassColor = {
 			order = 3,
 			type = "toggle",
 			name = L["Use Class Color"],
 			desc = L["Depends on Class Caching module!"],
 			disabled = function() return not E.private.general.classCache end
-		};
-	elseif(unit == "ENEMY_NPC" or unit == "FRIENDLY_NPC") then
+		}
+	elseif unit == "ENEMY_NPC" or unit == "FRIENDLY_NPC" then
 		group.args.eliteIcon = {
 			order = 7,
 			type = "group",
@@ -1954,6 +1998,39 @@ local function GetUnitSettings(unit, name)
 				}
 			}
 		}
+		if unit == "ENEMY_NPC" then
+			group.args.comboPoints = {
+				order = 8,
+				type = "group",
+				name = L["Combo Points"],
+				get = function(info) return E.db.nameplates.units.ENEMY_NPC.comboPoints[ info[#info] ] end,
+				set = function(info, value) E.db.nameplates.units.ENEMY_NPC.comboPoints[ info[#info] ] = value NP:PLAYER_COMBO_POINTS() NP:ConfigureAll() end,
+				args = {
+					header = {
+						order = 1,
+						type = "header",
+						name = L["Combo Points"]
+					},
+					enable = {
+						order = 2,
+						type = "toggle",
+						name = L["Enable"]
+					},
+					xOffset = {
+						order = 3,
+						type = "range",
+						name = L["X-Offset"],
+						min = -100, max = 100, step = 1
+					},
+					yOffset = {
+						order = 4,
+						type = "range",
+						name = L["Y-Offset"],
+						min = -100, max = 100, step = 1
+					}
+				}
+			}
+		end
 	end
 
 	ORDER = ORDER + 100
@@ -2035,12 +2112,12 @@ E.Options.args.nameplate = {
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "reactions") end,
 			disabled = function() return not E.NamePlates end
 		},
-		cutawayHealthShortcut = {
+		comboBarShortcut = {
 			order = 11,
 			type = "execute",
-			name = L["Cutaway Health"],
+			name = L["Combo Points"],
 			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "cutawayHealth") end,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "comboBar") end,
 			disabled = function() return not E.NamePlates end
 		},
 		spacer3 = {
@@ -2048,8 +2125,16 @@ E.Options.args.nameplate = {
 			type = "description",
 			name = " "
 		},
-		friendlyPlayerShortcut = {
+		cutawayHealthShortcut = {
 			order = 13,
+			type = "execute",
+			name = L["Cutaway Health"],
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "cutawayHealth") end,
+			disabled = function() return not E.NamePlates end
+		},
+		friendlyPlayerShortcut = {
+			order = 14,
 			type = "execute",
 			name = L["Friendly Player Frames"],
 			buttonElvUI = true,
@@ -2057,19 +2142,11 @@ E.Options.args.nameplate = {
 			disabled = function() return not E.NamePlates end
 		},
 		enemyPlayerShortcut = {
-			order = 14,
+			order = 15,
 			type = "execute",
 			name = L["Enemy Player Frames"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "enemyPlayerGroup") end,
-			disabled = function() return not E.NamePlates end
-		},
-		friendlyNPCShortcut = {
-			order = 15,
-			type = "execute",
-			name = L["Friendly NPC Frames"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "friendlyNPCGroup") end,
 			disabled = function() return not E.NamePlates end
 		},
 		spacer4 = {
@@ -2077,8 +2154,16 @@ E.Options.args.nameplate = {
 			type = "description",
 			name = " "
 		},
-		enemyNPCShortcut = {
+		friendlyNPCShortcut = {
 			order = 17,
+			type = "execute",
+			name = L["Friendly NPC Frames"],
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "friendlyNPCGroup") end,
+			disabled = function() return not E.NamePlates end
+		},
+		enemyNPCShortcut = {
+			order = 18,
 			type = "execute",
 			name = L["Enemy NPC Frames"],
 			buttonElvUI = true,
@@ -2086,7 +2171,7 @@ E.Options.args.nameplate = {
 			disabled = function() return not E.NamePlates end
 		},
 		filtersShortcut = {
-			order = 18,
+			order = 19,
 			type = "execute",
 			name = L["Style Filter"],
 			buttonElvUI = true,
@@ -2094,7 +2179,7 @@ E.Options.args.nameplate = {
 			disabled = function() return not E.NamePlates end
 		},
 		generalGroup = {
-			order = 19,
+			order = 20,
 			type = "group",
 			name = L["General Options"],
 			childGroups = "tab",
@@ -2164,20 +2249,14 @@ E.Options.args.nameplate = {
 							end,
 							hidden = true
 						},
-						comboPoints = {
-							order = 7,
-							type = "toggle",
-							name = L["Combo Points"],
-							desc = L["Display combo points on nameplates."]
-						},
 						nameColoredGlow = {
-							order = 8,
+							order = 7,
 							type = "toggle",
 							name = L["Name Colored Glow"],
 							desc = L["Use the Name Color of the unit for the Name Glow."]
 						},
 						targetedNamePlate = {
-							order = 9,
+							order = 8,
 							type = "group",
 							guiInline = true,
 							name = L["Targeted Nameplate"],
@@ -2576,20 +2655,37 @@ E.Options.args.nameplate = {
 						}
 					}
 				},
-				cutawayHealth = {
+				comboBar = {
 					order = 7,
+					type = "group",
+					name = L["Combo Points"],
+					args = {
+						header = {
+							order = 1,
+							type = "header",
+							name = L["Combo Points"]
+						}
+					}
+				},
+				cutawayHealth = {
+					order = 8,
 					type = "group",
 					name = L["Cutaway Health"],
 					args = {
-						enabled = {
+						header = {
 							order = 1,
+							type = "header",
+							name = L["Cutaway Health"]
+						},
+						enabled = {
+							order = 2,
 							type = "toggle",
 							name = L["Enable"],
 							get = function(info) return E.db.nameplates.cutawayHealth end,
 							set = function(info, value) E.db.nameplates.cutawayHealth = value; end,
 						},
 						healthLength = {
-							order = 2,
+							order = 3,
 							type = "range",
 							name = L["Health Length"],
 							desc = L["How much time before the CutawayHealth starts to fade."],
@@ -2598,7 +2694,7 @@ E.Options.args.nameplate = {
 							set = function(info, value) E.db.nameplates.cutawayHealthLength = value end
 						},
 						healthFadeOutTime = {
-							order = 3,
+							order = 4,
 							type = "range",
 							name = L["Fade Out"],
 							desc = L["How long the CutawayHealth will take to fade out."],
@@ -2685,3 +2781,22 @@ E.Options.args.nameplate = {
 		}
 	}
 }
+
+for i = 1, 5 do
+	E.Options.args.nameplate.args.generalGroup.args.comboBar.args["combo"..i] = {
+		order = i + 2,
+		type = "color",
+		name = L["Combo Point"].." #"..i,
+		get = function(info)
+			local t = E.db.nameplates.comboBar.colors[i]
+			local d = P.nameplates.comboBar.colors[i]
+			return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+		end,
+		set = function(info, r, g, b)
+			local t = E.db.nameplates.comboBar.colors[i]
+			t.r, t.g, t.b = r, g, b
+			NP:PLAYER_COMBO_POINTS()
+			NP:ConfigureAll()
+		end
+	}
+end

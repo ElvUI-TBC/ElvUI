@@ -619,7 +619,6 @@ L["Cutaway Health"] = "Убывающее здоровье"
 L["Default Settings"] = "Умолчания"
 L["Depends on Class Caching module!"] = true
 L["Display a healer icon over known healers inside battlegrounds or arenas."] = "Отображать иконки лекаря над известными целителями на полях боя и аренах"
-L["Display combo points on nameplates."] = "Отображать очки серии на индикаторах"
 L["Elite Icon"] = "Иконки элиты"
 L["Enable/Disable the scaling of targetted nameplates."] = "Включить/выключить масштабирование индикатора цели."
 L["Enabling this will check your health amount."] = "Если включено, будет проверять значение вашего здоровья."

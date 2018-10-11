@@ -234,7 +234,6 @@ P["nameplates"] = {
 	["cutawayHealthFadeOutTime"] = 0.6,
 	["alwaysShowTargetHealth"] = true,
 	["castColor"] = {r = 1, g = 208/255, b = 0},
-	["comboPoints"] = true,
 	["cooldown"] = {
 		["threshold"] = 4,
 		["override"] = true,
@@ -274,6 +273,15 @@ P["nameplates"] = {
 		["goodScale"] = 0.8,
 		["badScale"] = 1.2,
 		["useThreatColor"] = true,
+	},
+	["comboBar"] = {
+		["colors"] = {
+			[1] = {r = 0.69, g = 0.31, b = 0.31},
+			[2] = {r = 0.69, g = 0.31, b = 0.31},
+			[3] = {r = 0.65, g = 0.63, b = 0.35},
+			[4] = {r = 0.65, g = 0.63, b = 0.35},
+			[5] = {r = 0.33, g = 0.59, b = 0.33}
+		}
 	},
 	["filters"] = {
 		["Boss"] = {
@@ -332,6 +340,11 @@ P["nameplates"] = {
 		},
 		["ENEMY_PLAYER"] = {
 			["markHealers"] = true,
+			["comboPoints"] = {
+				["enable"] = true,
+				["xOffset"] = 0,
+				["yOffset"] = 0,
+			},
 			["healthbar"] = {
 				["enable"] = true,
 				["height"] = 10,
@@ -431,6 +444,11 @@ P["nameplates"] = {
 			}
 		},
 		["ENEMY_NPC"] = {
+			["comboPoints"] = {
+				["enable"] = true,
+				["xOffset"] = 0,
+				["yOffset"] = 0,
+			},
 			["healthbar"] = {
 				["enable"] = true,
 				["height"] = 10,
