@@ -166,7 +166,7 @@ E.Options.args.bags = {
 							type = "range",
 							name = L["Item Level Threshold"],
 							desc = L["The minimum item level required for it to be shown."],
-							min = 1, max = 1000, step = 1,
+							min = 1, max = 175, step = 1,
 							disabled = function() return not E.db.bags.itemLevel end,
 							set = function(info, value) E.db.bags.itemLevelThreshold = value B:UpdateItemLevelDisplay() end
 						},
@@ -378,14 +378,14 @@ E.Options.args.bags = {
 				player = {
 					order = 3,
 					type = "toggle",
-					set = function(info, value) E.db.bags.split[ info[#info] ] = value B:Layout() end,
-					name = L["Bag"]
+					name = L["Bag"],
+					set = function(info, value) E.db.bags.split[ info[#info] ] = value B:Layout() end
 				},
 				bank = {
 					order = 4,
 					type = "toggle",
-					set = function(info, value) E.db.bags.split[ info[#info] ] = value B:Layout(true) end,
-					name = L["Bank"]
+					name = L["Bank"],
+					set = function(info, value) E.db.bags.split[ info[#info] ] = value B:Layout(true) end
 				},
 				splitbags = {
 					order = 5,

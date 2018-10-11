@@ -2,6 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local _G = _G
+local pairs, unpack = pairs, unpack
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.raid ~= true then return end
@@ -41,9 +42,9 @@ local function LoadSkin()
 	hooksecurefunc("RaidClassButton_Update", function()
 		local button, icon, count
 		for index, value in pairs(RAID_CLASS_BUTTONS) do
-			button = _G["RaidClassButton" .. value.button]
-			icon = _G["RaidClassButton" .. value.button .. "IconTexture"]
-			count = _G["RaidClassButton" .. value.button .. "Count"]
+			button = _G["RaidClassButton"..value.button]
+			icon = _G["RaidClassButton"..value.button.."IconTexture"]
+			count = _G["RaidClassButton"..value.button.."Count"]
 
 			button:StripTextures()
 
@@ -67,8 +68,13 @@ local function LoadSkin()
 					icon:SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
 					icon:SetTexCoord(value.coords[1] + 0.015, value.coords[2] - 0.02, value.coords[3] + 0.018, value.coords[4] - 0.02)
 				end
-				icon:Size(20)
+				icon:Size(22)
+
 				count:FontTemplate(nil, 12, "OUTLINE")
+
+				if value.button == 12 then
+					button:Point("BOTTOMLEFT", RaidFrame, "BOTTOMRIGHT", E.PixelMode and -35 or -32, 95) 
+				end
 			end
 		end
 	end)
