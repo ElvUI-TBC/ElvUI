@@ -68,12 +68,10 @@ function mod:ConstructElement_CPoints(parent)
 	comboBar:SetSize(68, 1)
 	comboBar:Hide()
 
-	local noscalemult = E.mult * UIParent:GetScale()
 	for i = 1, MAX_COMBO_POINTS do
-		comboBar[i] = CreateFrame("StatusBar", nil, comboBar)
-		comboBar[i]:CreateBackdrop("Default")
-		comboBar[i].backdrop:SetPoint("TOPLEFT", comboBar[i], -noscalemult, noscalemult)
-		comboBar[i].backdrop:SetPoint("BOTTOMRIGHT", comboBar[i], noscalemult, -noscalemult)
+		comboBar[i] = CreateFrame("StatusBar", comboBar:GetName().."ComboPoint"..i, comboBar)
+
+		self:StyleFrame(comboBar[i], true)
 	end
 
 	return comboBar
