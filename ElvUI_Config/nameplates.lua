@@ -1391,17 +1391,17 @@ local function GetUnitSettings(unit, name)
 						type = "toggle",
 						name = L["Enable"]
 					},
-					height = {
-						order = 3,
-						type = "range",
-						name = L["Height"],
-						min = 4, max = 20, step = 1
-					},
 					width = {
-						order = 4,
+						order = 3,
 						type = "range",
 						name = L["Width"],
 						min = 50, max = 200, step = 1
+					},
+					height = {
+						order = 4,
+						type = "range",
+						name = L["Height"],
+						min = 4, max = 20, step = 1
 					},
 					textGroup = {
 						order = 5,
@@ -1453,24 +1453,28 @@ local function GetUnitSettings(unit, name)
 					hideSpellName = {
 						order = 3,
 						type = "toggle",
-						name = L["Hide Spell Name"]
+						name = L["Hide Spell Name"],
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					hideTime = {
 						order = 4,
 						type = "toggle",
-						name = L["Hide Time"]
+						name = L["Hide Time"],
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					height = {
 						order = 5,
 						type = "range",
 						name = L["Height"],
-						min = 4, max = 20, step = 1
+						min = 4, max = 20, step = 1,
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					offset = {
 						order = 6,
 						type = "range",
 						name = L["Offset"],
-						min = 0, max = 15, step = 1
+						min = 0, max = 15, step = 1,
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					spacer = {
 						order = 7,
@@ -1485,7 +1489,8 @@ local function GetUnitSettings(unit, name)
 							["CURRENT"] = L["Current"],
 							["CURRENT_MAX"] = L["Current / Max"],
 							["REMAINING"] = L["Remaining"]
-						}
+						},
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					channelTimeFormat = {
 						order = 9,
@@ -1495,7 +1500,8 @@ local function GetUnitSettings(unit, name)
 							["CURRENT"] = L["Current"],
 							["CURRENT_MAX"] = L["Current / Max"],
 							["REMAINING"] = L["Remaining"]
-						}
+						},
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					iconPosition = {
 						order = 10,
@@ -1504,7 +1510,8 @@ local function GetUnitSettings(unit, name)
 						values = {
 							["LEFT"] = L["Left"],
 							["RIGHT"] = L["Right"]
-						}
+						},
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					}
 				}
 			},
@@ -1918,31 +1925,36 @@ local function GetUnitSettings(unit, name)
 						order = 3,
 						type = "range",
 						name = L["Width"],
-						min = 5, max = 30, step = 1
+						min = 5, max = 30, step = 1,
+						disabled = function() return not E.db.nameplates.units.ENEMY_PLAYER.comboPoints.enable end
 					},
 					height = {
 						order = 4,
 						type = "range",
 						name = L["Height"],
-						min = 5, max = 30, step = 1
+						min = 5, max = 30, step = 1,
+						disabled = function() return not E.db.nameplates.units.ENEMY_PLAYER.comboPoints.enable end
 					},
 					spacing = {
 						order = 5,
 						type = "range",
 						name = L["Spacing"],
-						min = 0, max = 20, step = 1
+						min = 3, max = 20, step = 1,
+						disabled = function() return not E.db.nameplates.units.ENEMY_PLAYER.comboPoints.enable end
 					},
 					xOffset = {
 						order = 6,
 						type = "range",
 						name = L["X-Offset"],
-						min = -100, max = 100, step = 1
+						min = -100, max = 100, step = 1,
+						disabled = function() return not E.db.nameplates.units.ENEMY_PLAYER.comboPoints.enable end
 					},
 					yOffset = {
 						order = 7,
 						type = "range",
 						name = L["Y-Offset"],
-						min = -100, max = 100, step = 1
+						min = -100, max = 100, step = 1,
+						disabled = function() return not E.db.nameplates.units.ENEMY_PLAYER.comboPoints.enable end
 					}
 				}
 			}
@@ -1989,7 +2001,8 @@ local function GetUnitSettings(unit, name)
 						["TOP"] = L["Top"],
 						["BOTTOM"] = L["Bottom"],
 						["CENTER"] = L["Center"]
-					}
+					},
+					disabled = function() return not E.db.nameplates.units[unit].eliteIcon.enable end
 				},
 				spacer = {
 					order = 4,
@@ -2000,19 +2013,22 @@ local function GetUnitSettings(unit, name)
 					order = 5,
 					type = "range",
 					name = L["Size"],
-					min = 12, max = 42, step = 1
+					min = 12, max = 42, step = 1,
+					disabled = function() return not E.db.nameplates.units[unit].eliteIcon.enable end
 				},
 				xOffset = {
 					order = 6,
 					type = "range",
 					name = L["X-Offset"],
-					min = -100, max = 100, step = 1
+					min = -100, max = 100, step = 1,
+					disabled = function() return not E.db.nameplates.units[unit].eliteIcon.enable end
 				},
 				yOffset = {
 					order = 7,
 					type = "range",
 					name = L["Y-Offset"],
-					min = -100, max = 100, step = 1
+					min = -100, max = 100, step = 1,
+					disabled = function() return not E.db.nameplates.units[unit].eliteIcon.enable end
 				}
 			}
 		}
@@ -2038,31 +2054,36 @@ local function GetUnitSettings(unit, name)
 						order = 3,
 						type = "range",
 						name = L["Wifth"],
-						min = 5, max = 30, step = 1
+						min = 5, max = 30, step = 1,
+						disabled = function() return not E.db.nameplates.units.ENEMY_NPC.comboPoints.enable end
 					},
 					height = {
 						order = 4,
 						type = "range",
 						name = L["Height"],
-						min = 5, max = 30, step = 1
+						min = 5, max = 30, step = 1,
+						disabled = function() return not E.db.nameplates.units.ENEMY_NPC.comboPoints.enable end
 					},
 					spacing = {
 						order = 5,
 						type = "range",
 						name = L["Spacing"],
-						min = 0, max = 20, step = 1
+						min = 3, max = 20, step = 1,
+						disabled = function() return not E.db.nameplates.units.ENEMY_NPC.comboPoints.enable end
 					},
 					xOffset = {
 						order = 6,
 						type = "range",
 						name = L["X-Offset"],
-						min = -100, max = 100, step = 1
+						min = -100, max = 100, step = 1,
+						disabled = function() return not E.db.nameplates.units.ENEMY_NPC.comboPoints.enable end
 					},
 					yOffset = {
 						order = 7,
 						type = "range",
 						name = L["Y-Offset"],
-						min = -100, max = 100, step = 1
+						min = -100, max = 100, step = 1,
+						disabled = function() return not E.db.nameplates.units.ENEMY_NPC.comboPoints.enable end
 					}
 				}
 			}
