@@ -342,8 +342,11 @@ P["nameplates"] = {
 			["markHealers"] = true,
 			["comboPoints"] = {
 				["enable"] = true,
+				["width"] = 12,
+				["height"] = 6,
+				["spacing"] = 7,
 				["xOffset"] = 0,
-				["yOffset"] = 0,
+				["yOffset"] = 0
 			},
 			["healthbar"] = {
 				["enable"] = true,
@@ -446,8 +449,11 @@ P["nameplates"] = {
 		["ENEMY_NPC"] = {
 			["comboPoints"] = {
 				["enable"] = true,
+				["width"] = 12,
+				["height"] = 6,
+				["spacing"] = 7,
 				["xOffset"] = 0,
-				["yOffset"] = 0,
+				["yOffset"] = 0
 			},
 			["healthbar"] = {
 				["enable"] = true,

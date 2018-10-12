@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("NamePlates")
+local LSM = LibStub("LibSharedMedia-3.0")
 
 local unpack = unpack
 
@@ -46,7 +47,19 @@ function mod:ConfigureElement_CPoints(frame)
 	end
 
 	for i = 1, MAX_COMBO_POINTS do
-		comboPoints[i]:SetVertexColor(unpack(E:GetColorTable(self.db.comboBar.colors[i])))
+		comboPoints[i]:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar))
+		comboPoints[i]:SetStatusBarColor(unpack(E:GetColorTable(self.db.comboBar.colors[i])))
+
+		if i == 3 then
+			comboPoints[i]:Point("CENTER", comboPoints, "CENTER")
+		elseif i == 1 or i == 2 then
+			comboPoints[i]:Point("RIGHT", comboPoints[i + 1], "LEFT", -self.db.units[frame.UnitType].comboPoints.spacing, 0)
+		else
+			comboPoints[i]:Point("LEFT", comboPoints[i - 1], "RIGHT", self.db.units[frame.UnitType].comboPoints.spacing, 0)
+		end
+
+		comboPoints[i]:Width(self.db.units[frame.UnitType].comboPoints.width)
+		comboPoints[i]:Height(self.db.units[frame.UnitType].comboPoints.height)
 	end
 end
 
@@ -55,16 +68,12 @@ function mod:ConstructElement_CPoints(parent)
 	comboBar:SetSize(68, 1)
 	comboBar:Hide()
 
+	local noscalemult = E.mult * UIParent:GetScale()
 	for i = 1, MAX_COMBO_POINTS do
-		comboBar[i] = comboBar:CreateTexture(nil, "OVERLAY")
-		comboBar[i]:SetTexture([[Interface\AddOns\ElvUI\media\textures\bubbleTex.tga]])
-		comboBar[i]:SetSize(12, 12)
-
-		if i == 1 then
-			comboBar[i]:Point("LEFT", comboBar, "TOPLEFT")
-		else
-			comboBar[i]:Point("LEFT", comboBar[i - 1], "RIGHT", 2, 0)
-		end
+		comboBar[i] = CreateFrame("StatusBar", nil, comboBar)
+		comboBar[i]:CreateBackdrop("Default")
+		comboBar[i].backdrop:SetPoint("TOPLEFT", comboBar[i], -noscalemult, noscalemult)
+		comboBar[i].backdrop:SetPoint("BOTTOMRIGHT", comboBar[i], noscalemult, -noscalemult)
 	end
 
 	return comboBar

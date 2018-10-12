@@ -1914,14 +1914,32 @@ local function GetUnitSettings(unit, name)
 						type = "toggle",
 						name = L["Enable"]
 					},
-					xOffset = {
+					width = {
 						order = 3,
+						type = "range",
+						name = L["Width"],
+						min = 5, max = 30, step = 1
+					},
+					height = {
+						order = 4,
+						type = "range",
+						name = L["Height"],
+						min = 5, max = 30, step = 1
+					},
+					spacing = {
+						order = 5,
+						type = "range",
+						name = L["Spacing"],
+						min = 0, max = 20, step = 1
+					},
+					xOffset = {
+						order = 6,
 						type = "range",
 						name = L["X-Offset"],
 						min = -100, max = 100, step = 1
 					},
 					yOffset = {
-						order = 4,
+						order = 7,
 						type = "range",
 						name = L["Y-Offset"],
 						min = -100, max = 100, step = 1
@@ -2016,14 +2034,32 @@ local function GetUnitSettings(unit, name)
 						type = "toggle",
 						name = L["Enable"]
 					},
-					xOffset = {
+					width = {
 						order = 3,
+						type = "range",
+						name = L["Wifth"],
+						min = 5, max = 30, step = 1
+					},
+					height = {
+						order = 4,
+						type = "range",
+						name = L["Height"],
+						min = 5, max = 30, step = 1
+					},
+					spacing = {
+						order = 5,
+						type = "range",
+						name = L["Spacing"],
+						min = 0, max = 20, step = 1
+					},
+					xOffset = {
+						order = 6,
 						type = "range",
 						name = L["X-Offset"],
 						min = -100, max = 100, step = 1
 					},
 					yOffset = {
-						order = 4,
+						order = 7,
 						type = "range",
 						name = L["Y-Offset"],
 						min = -100, max = 100, step = 1
