@@ -3,6 +3,7 @@ local CC = E:GetModule("ClassCache")
 
 local _G = _G
 
+local FCF_GetNumActiveChatFrames = FCF_GetNumActiveChatFrames
 local NONE, FONT_SIZE, COLORS, DISABLE = NONE, FONT_SIZE, COLORS, DISABLE
 local GUILD, PLAYER, LOOT = GUILD, PLAYER, LOOT
 local SAY, CHAT_MSG_EMOTE = SAY, CHAT_MSG_EMOTE

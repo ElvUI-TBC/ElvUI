@@ -3,7 +3,7 @@ local UF = E:GetModule("UnitFrames")
 local LSM = LibStub("LibSharedMedia-3.0")
 
 local assert, select, pairs, unpack = assert, select, pairs, unpack
-local tinsert = tinsert
+local tinsert, wipe = tinsert, wipe
 
 local CreateFrame = CreateFrame
 local GetSpellInfo = GetSpellInfo
@@ -59,8 +59,9 @@ function UF:UpdateAuraWatchFromHeader(group, petOverride)
 	end
 end
 
+local buffs = {}
 function UF:UpdateAuraWatch(frame, petOverride, db)
-	local buffs = {}
+	wipe(buffs)
 	local auras = frame.AuraWatch
 	db = db and db.buffIndicator or frame.db.buffIndicator
 

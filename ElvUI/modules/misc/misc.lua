@@ -176,9 +176,6 @@ function M:ForceCVars()
 end
 
 function M:Initialize()
-	--DB conversion
-	if E.db.general.vendorGrays then E.db.bags.vendorGrays.enable = E.db.general.vendorGrays end
-
 	self:LoadRaidMarker()
 	self:LoadLoot()
 	self:LoadLootRoll()

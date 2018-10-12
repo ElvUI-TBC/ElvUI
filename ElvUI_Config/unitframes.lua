@@ -1179,7 +1179,8 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				values = {
 					["CURRENTMAX"] = L["Current / Max"],
 					["CURRENT"] = L["Current"],
-					["REMAINING"] = L["Remaining"]
+					["REMAINING"] = L["Remaining"],
+					["REMAININGMAX"] = L["Remaining / Max"]
 				}
 			},
 			spark = {
@@ -1195,8 +1196,14 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				desc = L["Display the castbar inside the information panel, the icon will be displayed outside the main unitframe."],
 				disabled = function() return not E.db.unitframe.units[groupName].infoPanel or not E.db.unitframe.units[groupName].infoPanel.enable end
 			},
-			iconSettings = {
+			displayTarget = {
 				order = 12,
+				type = "toggle",
+				name = L["Display Target"],
+				desc = L["Display the target of your current cast. Useful for mouseover casts."]
+			},
+			iconSettings = {
+				order = 13,
 				type = "group",
 				name = L["Icon"],
 				guiInline = true,
@@ -1259,14 +1266,8 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 	}
 
 	if hasTicks then
-		config.args.displayTarget = {
-			order = 11,
-			type = "toggle",
-			name = L["Display Target"],
-			desc = L["Display the target of your current cast. Useful for mouseover casts."]
-		}
 		config.args.ticks = {
-			order = 12,
+			order = 14,
 			type = "group",
 			name = L["Ticks"],
 			guiInline = true,
