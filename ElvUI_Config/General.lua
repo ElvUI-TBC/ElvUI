@@ -11,7 +11,9 @@ local SAY, CHAT_MSG_EMOTE = SAY, CHAT_MSG_EMOTE
 local function GetChatWindowInfo()
 	local ChatTabInfo = {}
 	for i = 1, FCF_GetNumActiveChatFrames() do
-		ChatTabInfo["ChatFrame"..i] = _G["ChatFrame"..i.."Tab"]:GetText()
+		if i ~= 2 then
+			ChatTabInfo["ChatFrame"..i] = _G["ChatFrame"..i.."Tab"]:GetText()
+		end
 	end
 
 	return ChatTabInfo
