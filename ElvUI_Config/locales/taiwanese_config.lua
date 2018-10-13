@@ -175,12 +175,14 @@ L["Button Size (Bag)"] = "單個格子尺寸 (背包)"
 L["Button Size (Bank)"] = "單個格子尺寸 (銀行)"
 L["Clear Search On Close"] = "關閉時清空搜尋"
 L["Condensed"] = "濃縮"
+L["Custom Color"] = true
 L["Descending"] = "降序"
 L["Direction the bag sorting will use to allocate the items."] = "整理背包物品時，將依此排序方向排放物品."
 L["Disable Bag Sort"] = "停用背包排序"
 L["Disable Bank Sort"] = "停用銀行排序"
 L["Display Item Level"] = "顯示物品等級"
 L["Displays item level on equippable items."] = "在可裝備物品上顯示裝備等級"
+L["Enable Custom Color"] = true
 L["Enable/Disable the all-in-one bag."] = "啟用/停用整合背包."
 L["Enable/Disable the Bag-Bar."] = "啟用/停用背包條."
 L["Full"] = "滿"
@@ -216,6 +218,18 @@ L["The spacing between buttons."] = "兩個按鈕間的距離."
 L["Top to Bottom"] = "頂部至底部"
 L["Use coin icons instead of colored text."] = "使用硬幣圖示取代上色文字"
 L["Will attempt to sell another item in set interval after previous one was sold."] = true
+
+--Bag Colors
+L["Ammo Pouch"] = true
+L["Enchanting"] = true
+L["Engineering"] = true
+L["Gems"] = true
+L["Herbalism"] = true
+L["Leatherworking"] = true
+L["Mining"] = true
+L["Profession Bags"] = true
+L["Quiver"] = true
+L["Soul Bag"] = true
 
 --Buffs and Debuffs
 L["Auras Spacing"] = true

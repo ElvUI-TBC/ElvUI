@@ -175,12 +175,14 @@ L["Button Size (Bag)"] = "Размер слотов сумок"
 L["Button Size (Bank)"] = "Размер слотов банка"
 L["Clear Search On Close"] = "Сбрасывать поиск при закрытии"
 L["Condensed"] = "Через запятую"
+L["Custom Color"] = true
 L["Descending"] = "Нисходящее"
 L["Direction the bag sorting will use to allocate the items."] = "Направление расположения предметов при сортировке."
 L["Disable Bag Sort"] = "Отключить сортировку сумок"
 L["Disable Bank Sort"] = "Отключить сортировку банка"
 L["Display Item Level"] = "Отображать уровень предметов"
 L["Displays item level on equippable items."] = "Отображает уровень предметов, которые можно надеть."
+L["Enable Custom Color"] = true
 L["Enable/Disable the all-in-one bag."] = "Включить/выключить режим сумки 'все в одной'. "
 L["Enable/Disable the Bag-Bar."] = "Включить/выключить панель сумок"
 L["Full"] = "Полный"
@@ -216,6 +218,18 @@ L["The spacing between buttons."] = "Расстояние между кнопк�
 L["Top to Bottom"] = "Сверху вниз"
 L["Use coin icons instead of colored text."] = "Использовать иконки монет вместо окрашенного текста."
 L["Will attempt to sell another item in set interval after previous one was sold."] = true
+
+--Bag Colors
+L["Ammo Pouch"] = true
+L["Enchanting"] = true
+L["Engineering"] = true
+L["Gems"] = true
+L["Herbalism"] = true
+L["Leatherworking"] = true
+L["Mining"] = true
+L["Profession Bags"] = true
+L["Quiver"] = true
+L["Soul Bag"] = true
 
 --Buffs and Debuffs
 L["Auras Spacing"] = true

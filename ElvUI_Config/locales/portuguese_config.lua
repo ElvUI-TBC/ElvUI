@@ -175,12 +175,14 @@ L["Button Size (Bag)"] = "Tamanho do Botão (Bolsas)"
 L["Button Size (Bank)"] = "Tamanho do Botão (Banco)"
 L["Clear Search On Close"] = true
 L["Condensed"] = true
+L["Custom Color"] = true
 L["Descending"] = "Descendente"
 L["Direction the bag sorting will use to allocate the items."] = "Direção que o organizador de bolsas irá usar para distribuir os itens."
 L["Disable Bag Sort"] = true
 L["Disable Bank Sort"] = true
 L["Display Item Level"] = true
 L["Displays item level on equippable items."] = true
+L["Enable Custom Color"] = true
 L["Enable/Disable the all-in-one bag."] = "Ativar/Desativar a Bolsa tudo-em-um."
 L["Enable/Disable the Bag-Bar."] = "Ativar/Desativar a Barra das Bolsas."
 L["Full"] = true
@@ -216,6 +218,18 @@ L["The spacing between buttons."] = "Espaçamento entre botões."
 L["Top to Bottom"] = "De cima para baixo"
 L["Use coin icons instead of colored text."] = true
 L["Will attempt to sell another item in set interval after previous one was sold."] = true
+
+--Bag Colors
+L["Ammo Pouch"] = true
+L["Enchanting"] = true
+L["Engineering"] = true
+L["Gems"] = true
+L["Herbalism"] = true
+L["Leatherworking"] = true
+L["Mining"] = true
+L["Profession Bags"] = true
+L["Quiver"] = true
+L["Soul Bag"] = true
 
 --Buffs and Debuffs
 L["Auras Spacing"] = true

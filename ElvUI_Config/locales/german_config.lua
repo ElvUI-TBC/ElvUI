@@ -176,12 +176,14 @@ L["Button Size (Bag)"] = "Tasten Größe (Tasche)"
 L["Button Size (Bank)"] = "Tasten Größe (Bank)"
 L["Clear Search On Close"] = "Leere Suche beim Schließen"
 L["Condensed"] = "Gekürzt"
+L["Custom Color"] = "Benutzerdefinierte Farbe"
 L["Descending"] = "Absteigend"
 L["Direction the bag sorting will use to allocate the items."] = "Die Richtung, in welche die Gegenstände in den Taschen sortiert werden."
 L["Disable Bag Sort"] = "Deaktiviere Taschensortierung"
 L["Disable Bank Sort"] = "Deaktiviere Banksortierung"
 L["Display Item Level"] = "Itemlevel anzeigen"
 L["Displays item level on equippable items."] = "Zeigt das Itemlevel für ausrüstbare Gegenstände an."
+L["Enable Custom Color"] = "Benutzerdefinierte Farbe aktivieren"
 L["Enable/Disable the all-in-one bag."] = "Einschalten/Ausschalten der zusammengefassten Tasche."
 L["Enable/Disable the Bag-Bar."] = "Aktiviere/Deaktiviere die Taschenleiste."
 L["Full"] = "Voll"
@@ -217,6 +219,18 @@ L["The spacing between buttons."] = "Der Abstand zwischen den Tasten."
 L["Top to Bottom"] = "Von oben nach unten"
 L["Use coin icons instead of colored text."] = "Benutze Währungssymbole anstatt von farbigem Text."
 L["Will attempt to sell another item in set interval after previous one was sold."] = "Versucht einen anderen Gegenstand in einem bestimmten Intervall zu verkaufen, nachdem der vorherige verkauft wurde."
+
+--Bag Colors
+L["Ammo Pouch"] = true
+L["Enchanting"] = "Verzauberkunst"
+L["Engineering"] = "Ingenieurskunst"
+L["Gems"] = "Edelsteine"
+L["Herbalism"] = "Kräuterkunde"
+L["Leatherworking"] = "Lederverarbeitung"
+L["Mining"] = "Bergbau"
+L["Profession Bags"] = true
+L["Quiver"] = true
+L["Soul Bag"] = true
 
 --Buffs and Debuffs
 L["Auras Spacing"] = true

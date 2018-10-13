@@ -5,7 +5,7 @@ local _G = _G
 local gsub, match = string.gsub, string.match
 
 local GameTooltip = _G["GameTooltip"]
-local FONT_SIZE, NONE, COLOR =  FONT_SIZE, NONE, COLOR
+local FONT_SIZE, NONE, COLOR, COLORS =  FONT_SIZE, NONE, COLOR, COLORS
 
 E.Options.args.bags = {
 	type = "group",
@@ -161,8 +161,30 @@ E.Options.args.bags = {
 							desc = L["Displays item level on equippable items."],
 							set = function(info, value) E.db.bags.itemLevel = value B:UpdateItemLevelDisplay() end
 						},
-						itemLevelThreshold = {
+						itemLevelCustomColorEnable = {
 							order = 2,
+							type = "toggle",
+							name = L["Enable Custom Color"],
+							set = function(info, value) E.db.bags.itemLevelCustomColorEnable = value B:UpdateItemLevelDisplay() end
+						},
+						itemLevelCustomColor = {
+							order = 3,
+							type = "color",
+							name = L["Custom Color"],
+							disabled = function() return not E.db.bags.itemLevelCustomColorEnable end,
+							get = function(info)
+								local t = E.db.bags.itemLevelCustomColor
+								local d = P.bags.itemLevelCustomColor
+								return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+							end,
+							set = function(info, r, g, b)
+								local t = E.db.bags.itemLevelCustomColor
+								t.r, t.g, t.b = r, g, b
+								B:UpdateItemLevelDisplay()
+							end
+						},
+						itemLevelThreshold = {
+							order = 4,
 							type = "range",
 							name = L["Item Level Threshold"],
 							desc = L["The minimum item level required for it to be shown."],
@@ -171,12 +193,12 @@ E.Options.args.bags = {
 							set = function(info, value) E.db.bags.itemLevelThreshold = value B:UpdateItemLevelDisplay() end
 						},
 						spacer = {
-							order = 3,
+							order = 5,
 							type = "description",
 							name = ""
 						},
 						itemLevelFont = {
-							order = 4,
+							order = 6,
 							type = "select",
 							dialogControl = "LSM30_Font",
 							name = L["Font"],
@@ -185,7 +207,7 @@ E.Options.args.bags = {
 							set = function(info, value) E.db.bags.itemLevelFont = value B:UpdateItemLevelDisplay() end
 						},
 						itemLevelFontSize = {
-							order = 5,
+							order = 7,
 							type = "range",
 							name = FONT_SIZE,
 							min = 6, max = 33, step = 1,
@@ -193,7 +215,7 @@ E.Options.args.bags = {
 							set = function(info, value) E.db.bags.itemLevelFontSize = value B:UpdateItemLevelDisplay() end
 						},
 						itemLevelFontOutline = {
-							order = 6,
+							order = 8,
 							type = "select",
 							name = L["Font Outline"],
 							disabled = function() return not E.db.bags.itemLevel end,
@@ -259,8 +281,84 @@ E.Options.args.bags = {
 				}
 			}
 		},
-		bagBar = {
+		colorGroup = {
 			order = 5,
+			type = "group",
+			name = COLORS,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = COLORS
+				},
+				profession = {
+					order = 2,
+					type = "group",
+					name = L["Profession Bags"],
+					guiInline = true,
+					get = function(info)
+						local t = E.db.bags.colors.profession[ info[#info] ]
+						local d = P.bags.colors.profession[info[#info]]
+						return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+					end,
+					set = function(info, r, g, b)
+						local t = E.db.bags.colors.profession[ info[#info] ]
+						t.r, t.g, t.b = r, g, b
+						B:UpdateBagColors("ProfessionColors", info[#info], r, g, b)
+						B:UpdateAllBagSlots()
+					end,
+					args = {
+						quiver = {
+							order = 1,
+							type = "color",
+							name = L["Quiver"]
+						},
+						ammoPouch = {
+							order = 2,
+							type = "color",
+							name = L["Ammo Pouch"]
+						},
+						soulBag = {
+							order = 3,
+							type = "color",
+							name = L["Soul Bag"]
+						},
+						leatherworking = {
+							order = 4,
+							type = "color",
+							name = L["Leatherworking"]
+						},
+						herbs = {
+							order = 5,
+							type = "color",
+							name = L["Herbs"]
+						},
+						enchanting = {
+							order = 6,
+							type = "color",
+							name = L["Enchanting"]
+						},
+						engineering = {
+							order = 7,
+							type = "color",
+							name = L["Engineering"]
+						},
+						gems = {
+							order = 8,
+							type = "color",
+							name = L["Gems"]
+						},
+						mining = {
+							order = 9,
+							type = "color",
+							name = L["Mining"]
+						}
+					}
+				}
+			}
+		},
+		bagBar = {
+			order = 6,
 			type = "group",
 			name = L["Bag-Bar"],
 			get = function(info) return E.db.bags.bagBar[ info[#info] ] end,
@@ -357,7 +455,7 @@ E.Options.args.bags = {
 			}
 		},
 		split = {
-			order = 6,
+			order = 7,
 			type = "group",
 			name = L["Split"],
 			get = function(info) return E.db.bags.split[ info[#info] ] end,
@@ -467,7 +565,7 @@ E.Options.args.bags = {
 			}
 		},
 		vendorGrays = {
-			order = 7,
+			order = 8,
 			type = "group",
 			name = L["Vendor Grays"],
 			get = function(info) return E.db.bags.vendorGrays[ info[#info] ] end,
@@ -489,18 +587,20 @@ E.Options.args.bags = {
 					type = "range",
 					name = L["Sell Interval"],
 					desc = L["Will attempt to sell another item in set interval after previous one was sold."],
-					min = 0.1, max = 1, step = 0.1
+					min = 0.1, max = 1, step = 0.1,
+					disabled = function() return not E.db.bags.vendorGrays.enable end
 				},
 				details = {
 					order = 4,
 					type = "toggle",
 					name = L["Vendor Gray Detailed Report"],
-					desc = L["Displays a detailed report of every item sold when enabled."]
+					desc = L["Displays a detailed report of every item sold when enabled."],
+					disabled = function() return not E.db.bags.vendorGrays.enable end
 				}
 			}
 		},
 		bagSortingGroup = {
-			order = 8,
+			order = 9,
 			type = "group",
 			name = L["Bag Sorting"],
 			disabled = function() return not E.bags end,
@@ -595,7 +695,7 @@ E.Options.args.bags = {
 			}
 		},
 		search_syntax = {
-			order = 9,
+			order = 10,
 			type = "group",
 			name = L["Search Syntax"],
 			disabled = function() return not E.bags end,

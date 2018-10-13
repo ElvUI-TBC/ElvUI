@@ -139,6 +139,8 @@ P["bags"] = {
 	["itemLevelFont"] = "Homespun",
 	["itemLevelFontSize"] = 10,
 	["itemLevelFontOutline"] = "MONOCHROMEOUTLINE",
+	["itemLevelCustomColorEnable"] = false,
+	["itemLevelCustomColor"] = {r = 1, g = 1, b = 1},
 	["countFont"] = "Homespun",
 	["countFontSize"] = 10,
 	["countFontOutline"] = "MONOCHROMEOUTLINE",
@@ -148,6 +150,19 @@ P["bags"] = {
 	["disableBagSort"] = false,
 	["disableBankSort"] = false,
 	["strata"] = "DIALOG",
+	["colors"] = {
+		["profession"] = {
+			["quiver"] = {r = 1, g = 0.56, b = 0.73},
+			["ammoPouch"] = {r = 1, g = 0.56, b = 0.73},
+			["soulBag"] = {r = 0.47, g = 0.26, b = 1},
+			["leatherworking"] = {r = 0.88, g = 0.73, b = 0.29},
+			["herbs"] = {r = .07, g = .71, b = .13},
+			["enchanting"] = {r = 0.76, g = 0.02, b = 0.8},
+			["engineering"] = {r = 0.91, g = 0.46, b = 0.18},
+			["gems"] = {r = 0.03, g = 0.71, b = 0.81},
+			["mining"] = {r = 0.54, g = 0.40, b = 0.04}
+		}
+	},
 	["vendorGrays"] = {
 		["enable"] = false,
 		["interval"] = 0.2,
@@ -342,9 +357,9 @@ P["nameplates"] = {
 			["markHealers"] = true,
 			["comboPoints"] = {
 				["enable"] = true,
-				["width"] = 12,
-				["height"] = 6,
-				["spacing"] = 7,
+				["width"] = 8,
+				["height"] = 4,
+				["spacing"] = 5,
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
@@ -449,9 +464,9 @@ P["nameplates"] = {
 		["ENEMY_NPC"] = {
 			["comboPoints"] = {
 				["enable"] = true,
-				["width"] = 12,
-				["height"] = 6,
-				["spacing"] = 7,
+				["width"] = 8,
+				["height"] = 4,
+				["spacing"] = 5,
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},

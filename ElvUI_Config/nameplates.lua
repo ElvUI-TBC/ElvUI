@@ -1925,14 +1925,14 @@ local function GetUnitSettings(unit, name)
 						order = 3,
 						type = "range",
 						name = L["Width"],
-						min = 5, max = 30, step = 1,
+						min = 4, max = 30, step = 1,
 						disabled = function() return not E.db.nameplates.units.ENEMY_PLAYER.comboPoints.enable end
 					},
 					height = {
 						order = 4,
 						type = "range",
 						name = L["Height"],
-						min = 5, max = 30, step = 1,
+						min = 4, max = 30, step = 1,
 						disabled = function() return not E.db.nameplates.units.ENEMY_PLAYER.comboPoints.enable end
 					},
 					spacing = {
@@ -2054,14 +2054,14 @@ local function GetUnitSettings(unit, name)
 						order = 3,
 						type = "range",
 						name = L["Wifth"],
-						min = 5, max = 30, step = 1,
+						min = 4, max = 30, step = 1,
 						disabled = function() return not E.db.nameplates.units.ENEMY_NPC.comboPoints.enable end
 					},
 					height = {
 						order = 4,
 						type = "range",
 						name = L["Height"],
-						min = 5, max = 30, step = 1,
+						min = 4, max = 30, step = 1,
 						disabled = function() return not E.db.nameplates.units.ENEMY_NPC.comboPoints.enable end
 					},
 					spacing = {

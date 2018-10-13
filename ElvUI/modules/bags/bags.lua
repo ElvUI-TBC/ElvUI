@@ -56,18 +56,6 @@ local SEARCH = SEARCH
 
 local SEARCH_STRING = ""
 
-B.ProfessionColors = {
-	[0x0001] = {225/255, 175/255, 105/255},	-- Quiver
-	[0x0002] = {225/255, 175/255, 105/255},	-- Ammo Pouch
-	[0x0004] = {225/255, 175/255, 105/255},	-- Soul Bag
-	[0x0008] = {224/255, 187/255, 74/255},	-- Leatherworking
-	[0x0020] = {18/255, 181/255, 32/255},	-- Herbs
-	[0x0040] = {160/255, 3/255, 168/255},	-- Enchanting
-	[0x0080] = {232/255, 118/255, 46/255},	-- Engineering
-	[0x0200] = {8/255, 180/255, 207/255},	-- Gems
-	[0x0400] = {105/255, 79/255, 7/255},	-- Mining
-}
-
 function B:GetContainerFrame(arg)
 	if type(arg) == "boolean" and (arg == true) then
 		return self.BankFrame
@@ -283,6 +271,16 @@ function B:UpdateBagTypes(isBank)
 	end
 end
 
+function B:UpdateAllBagSlots()
+	if E.private.bags.enable ~= true then return end
+
+	for _, bagFrame in pairs(self.BagFrames) do
+		if bagFrame.UpdateAllSlots then
+			bagFrame:UpdateAllSlots()
+		end
+	end
+end
+
 function B:UpdateSlot(bagID, slotID)
 	if (self.Bags[bagID] and self.Bags[bagID].numSlots ~= GetContainerNumSlots(bagID)) or not self.Bags[bagID] or not self.Bags[bagID][slotID] then return end
 
@@ -313,7 +311,11 @@ function B:UpdateSlot(bagID, slotID)
 		if iLvl and B.db.itemLevel and (itemEquipLoc ~= nil and itemEquipLoc ~= "" and itemEquipLoc ~= "INVTYPE_AMMO" and itemEquipLoc ~= "INVTYPE_BAG" and itemEquipLoc ~= "INVTYPE_QUIVER" and itemEquipLoc ~= "INVTYPE_TABARD") and (slot.rarity and slot.rarity > 1) then
 			if iLvl >= E.db.bags.itemLevelThreshold then
 				slot.itemLevel:SetText(iLvl)
-				slot.itemLevel:SetTextColor(r, g, b)
+				if B.db.itemLevelCustomColorEnable then
+					slot.itemLevel:SetTextColor(B.db.itemLevelCustomColor.r, B.db.itemLevelCustomColor.g, B.db.itemLevelCustomColor.b)
+				else
+					slot.itemLevel:SetTextColor(r, g, b)
+				end
 			end
 		end
 
@@ -1525,6 +1527,22 @@ function B:CreateSellFrame()
 	B.SellFrame:Hide()
 end
 
+B.BagIndice = {
+	quiver = 0x0001,
+	ammoPouch = 0x0002,
+	soulBag = 0x0004,
+	leatherworking = 0x0008,
+	herbs = 0x0020,
+	enchanting = 0x0040,
+	engineering = 0x0080,
+	gems = 0x0200,
+	mining = 0x0400
+}
+
+function B:UpdateBagColors(table, indice, r, g, b)
+	self[table][B.BagIndice[indice]] = {r, g, b}
+end
+
 function B:Initialize()
 	self:LoadBagBar()
 
@@ -1552,6 +1570,18 @@ function B:Initialize()
 	E.bags = self
 	self.db = E.db.bags
 	self.BagFrames = {}
+
+	self.ProfessionColors = {
+		[0x0001] = {self.db.colors.profession.quiver.r, self.db.colors.profession.quiver.g, self.db.colors.profession.quiver.b},
+		[0x0002] = {self.db.colors.profession.ammoPouch.r, self.db.colors.profession.ammoPouch.g, self.db.colors.profession.ammoPouch.b},
+		[0x0004] = {self.db.colors.profession.soulBag.r, self.db.colors.profession.soulBag.g, self.db.colors.profession.soulBag.b},
+		[0x0008] = {self.db.colors.profession.leatherworking.r, self.db.colors.profession.leatherworking.g, self.db.colors.profession.leatherworking.b},
+		[0x0020] = {self.db.colors.profession.herbs.r, self.db.colors.profession.herbs.g, self.db.colors.profession.herbs.b},
+		[0x0040] = {self.db.colors.profession.enchanting.r, self.db.colors.profession.enchanting.g, self.db.colors.profession.enchanting.b},
+		[0x0080] = {self.db.colors.profession.engineering.r, self.db.colors.profession.engineering.g, self.db.colors.profession.engineering.b},
+		[0x0200] = {self.db.colors.profession.gems.r, self.db.colors.profession.gems.g, self.db.colors.profession.gems.b},
+		[0x0400] = {self.db.colors.profession.mining.r, self.db.colors.profession.mining.g, self.db.colors.profession.mining.b}
+	}
 
 	--Bag Mover: Set default anchor point and create mover
 	BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", 0, 22 + E.Border*4 - E.Spacing*2)
