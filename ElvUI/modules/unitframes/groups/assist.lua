@@ -1,5 +1,5 @@
-local E, L, V, P, G = unpack(ElvUI); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
-local UF = E:GetModule("UnitFrames");
+local E, L, V, P, G = unpack(ElvUI)
+local UF = E:GetModule("UnitFrames")
 
 local ns = oUF
 local ElvUF = ns.oUF

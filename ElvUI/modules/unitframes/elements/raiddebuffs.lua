@@ -3,7 +3,7 @@ local UF = E:GetModule("UnitFrames")
 
 local unpack = unpack
 
-local CreateFrame = CreateFrame;
+local CreateFrame = CreateFrame
 
 function UF:Construct_RaidDebuffs(frame)
 	local rdebuff = CreateFrame("Frame", nil, frame.RaisedElementParent)

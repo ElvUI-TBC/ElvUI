@@ -1,8 +1,8 @@
 local E, L, V, P, G = unpack(ElvUI)
 local UF = E:GetModule("UnitFrames")
 
-local match = string.match
 local select, tonumber = select, tonumber
+local match = string.match
 
 local CreateFrame = CreateFrame
 local GetNumRaidMembers = GetNumRaidMembers
@@ -97,7 +97,7 @@ function UF:RaidRoleUpdate()
 	local assistant = frame.AssistantIndicator
 	local masterLooter = frame.MasterLooterIndicator
 
-	if not leader or not masterLooter or not assistant then return; end
+	if not leader or not masterLooter or not assistant then return end
 
 	local db = frame.db
 	local isLeader = leader:IsShown()

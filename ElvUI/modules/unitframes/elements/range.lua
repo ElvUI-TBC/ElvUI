@@ -3,6 +3,7 @@ local UF = E:GetModule("UnitFrames")
 local SpellRange = LibStub("SpellRange-1.0")
 
 local pairs, ipairs = pairs, ipairs
+local find = string.find
 
 local CheckInteractDistance = CheckInteractDistance
 local UnitCanAttack = UnitCanAttack
@@ -205,6 +206,6 @@ function UF:UpdateRange()
 			end
 		end
 	else
-		self:SetAlpha(range.insideAlpha)	
+		self:SetAlpha(range.insideAlpha)
 	end
 end

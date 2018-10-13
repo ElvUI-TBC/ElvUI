@@ -79,7 +79,7 @@ function UF:Update_RaidpetHeader(header, db)
 		header:ClearAllPoints()
 		header:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 574)
 
-		E:CreateMover(header, header:GetName() .. "Mover", L["Raid Pet Frames"], nil, nil, nil, "ALL,RAID10,RAID25,RAID40")
+		E:CreateMover(header, header:GetName().."Mover", L["Raid Pet Frames"], nil, nil, nil, "ALL,RAID10,RAID25,RAID40")
 		header.positioned = true
 
 		header:RegisterEvent("PLAYER_LOGIN")
@@ -98,7 +98,7 @@ function UF:Update_RaidpetFrames(frame, db)
 	frame:RegisterForClicks(self.db.targetOnMouseDown and "AnyDown" or "AnyUp")
 
 	do
-		if(self.thinBorders) then
+		if self.thinBorders then
 			frame.SPACING = 0
 			frame.BORDER = E.mult
 		else

@@ -1,7 +1,7 @@
-local E, L, V, P, G = unpack(ElvUI);
-local UF = E:GetModule("UnitFrames");
+local E, L, V, P, G = unpack(ElvUI)
+local UF = E:GetModule("UnitFrames")
 
-local CreateFrame = CreateFrame;
+local CreateFrame = CreateFrame
 
 function UF:Construct_Portrait(frame, type)
 	local portrait
@@ -109,8 +109,8 @@ function UF:PortraitUpdate()
 
 	local portrait = db.portrait
 	if portrait.enable and self:GetParent().USE_PORTRAIT_OVERLAY then
-		self:SetAlpha(0);
-		self:SetAlpha(0.35);
+		self:SetAlpha(0)
+		self:SetAlpha(0.35)
 	else
 		self:SetAlpha(1)
 	end

@@ -1,19 +1,19 @@
-local E, L, V, P, G = unpack(ElvUI);
-local UF = E:GetModule("UnitFrames");
+local E, L, V, P, G = unpack(ElvUI)
+local UF = E:GetModule("UnitFrames")
 
-local random = random;
+local random = random
 
-local CreateFrame = CreateFrame;
+local CreateFrame = CreateFrame
 
-local ns = oUF;
-local ElvUF = ns.oUF;
-assert(ElvUF, "ElvUI was unable to locate oUF.");
+local ns = oUF
+local ElvUF = ns.oUF
+assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 function UF:Construct_PowerBar(frame, bg, text, textPos)
-	local power = CreateFrame("StatusBar", nil, frame);
-	UF["statusbars"][power] = true;
+	local power = CreateFrame("StatusBar", nil, frame)
+	UF["statusbars"][power] = true
 
-	power.PostUpdate = self.PostUpdatePower;
+	power.PostUpdate = self.PostUpdatePower
 
 	CreateStatusBarTexturePointer(power)
 
@@ -55,14 +55,14 @@ function UF:Configure_Power(frame)
 			power:Show()
 		end
 
-		power.Smooth = self.db.smoothbars;
-		power.SmoothSpeed = self.db.smoothSpeed * 10;
+		power.Smooth = self.db.smoothbars
+		power.SmoothSpeed = self.db.smoothSpeed * 10
 
 		--Text
-		local attachPoint = self:GetObjectAnchorPoint(frame, db.power.attachTextTo);
-		power.value:ClearAllPoints();
-		power.value:Point(db.power.position, attachPoint, db.power.position, db.power.xOffset, db.power.yOffset);
-		frame:Tag(power.value, db.power.text_format);
+		local attachPoint = self:GetObjectAnchorPoint(frame, db.power.attachTextTo)
+		power.value:ClearAllPoints()
+		power.value:Point(db.power.position, attachPoint, db.power.position, db.power.xOffset, db.power.yOffset)
+		frame:Tag(power.value, db.power.text_format)
 
 		if db.power.attachTextTo == "Power" then
 			power.value:SetParent(power)
