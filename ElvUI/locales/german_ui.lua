@@ -8,6 +8,7 @@ L["INCOMPATIBLE_ADDON"] = "Das Addon %s ist nicht mit dem ElvUI %s Modul kompati
 
 --*_MSG locales
 L["LOGIN_MSG"] = "Willkommen zu %sElvUI|r Version %s%s|r, Tippe /ec um das Konfigurationsmenü aufzurufen. Für technische Hilfe, besuche das Supportforum unter https://github.com/ElvUI-TBC/ElvUI oder trete unserem Discord bei: https://discord.gg/Uatdmm7"
+
 --ActionBars
 L["Binding"] = "Belegung"
 L["Key"] = "Taste"
@@ -38,6 +39,7 @@ L["Sort Bags"] = "Taschen sortieren"
 L["Temporary Move"] = "Temporäres Bewegen"
 L["Toggle Bags"] = "Taschen umschalten"
 L["Vendor / Delete Grays"] = "Verkaufe / Lösche graue Gegenstände"
+L["Vendoring Grays"] = "Verkaufe graue Gegenstände"
 
 --Chat
 L["AFK"] = "AFK" --Also used in datatexts and tooltip

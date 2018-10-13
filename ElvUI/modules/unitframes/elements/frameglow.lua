@@ -2,9 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local UF = E:GetModule("UnitFrames")
 
 local _G = _G
-local pairs = pairs
-local select = select
-local assert = assert
+local assert, pairs, select = assert, pairs, select
 local tinsert = table.insert
 
 local CreateFrame = CreateFrame
@@ -161,6 +159,10 @@ function UF:FrameGlow_CreateGlow(frame, mouse)
 			elseif event == "PLAYER_TARGET_CHANGED" then
 				UF:FrameGlow_CheckTarget(frame)
 			end
+		end)
+
+		frame:HookScript2("OnUpdate", function() -- Temporary Bugfix. "UPDATE_MOUSEOVER_UNIT" does not fire when mouseover a unitframe.
+			UF:FrameGlow_CheckMouseover(frame)
 		end)
 	end
 

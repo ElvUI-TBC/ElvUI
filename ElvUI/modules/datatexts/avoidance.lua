@@ -17,9 +17,10 @@ local DODGE_CHANCE = DODGE_CHANCE
 local PARRY_CHANCE = PARRY_CHANCE
 local BLOCK_CHANCE = BLOCK_CHANCE
 
-local displayString, lastPanel
+local lastPanel
 local targetlv, playerlv
 local baseMissChance, levelDifference, dodge, parry, block, avoidance, unhittable
+local displayString = ""
 local chanceString = "%.2f%%"
 local AVD_DECAY_RATE = 0.2
 

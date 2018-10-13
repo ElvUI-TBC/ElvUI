@@ -156,7 +156,7 @@ P["bags"] = {
 			["ammoPouch"] = {r = 1, g = 0.56, b = 0.73},
 			["soulBag"] = {r = 0.47, g = 0.26, b = 1},
 			["leatherworking"] = {r = 0.88, g = 0.73, b = 0.29},
-			["herbs"] = {r = .07, g = .71, b = .13},
+			["herbs"] = {r = 0.07, g = 0.71, b = 0.13},
 			["enchanting"] = {r = 0.76, g = 0.02, b = 0.8},
 			["engineering"] = {r = 0.91, g = 0.46, b = 0.18},
 			["gems"] = {r = 0.03, g = 0.71, b = 0.81},
@@ -802,7 +802,7 @@ P["unitframe"] = {
 				["color"] = {r = 1, g = 1, b = 1, a = 1}
 			},
 			["mouseoverGlow"] = {
-				["enable"] = false,
+				["enable"] = true,
 				["class"] = false,
 				["texture"] = "ElvUI Blank",
 				["color"] = {r = 1, g = 1, b = 1, a = 0.1}
