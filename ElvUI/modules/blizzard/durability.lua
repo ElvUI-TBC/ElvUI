@@ -1,7 +1,7 @@
 local E, L, DF = unpack(ElvUI)
 local B = E:GetModule("Blizzard")
 
-local _G = _G;
+local _G = _G
 
 function B:PositionDurabilityFrame()
 	DurabilityFrame:SetFrameStrata("HIGH")

@@ -17,7 +17,6 @@ local UnitIsPlayer = UnitIsPlayer
 local UnitIsUnit = UnitIsUnit
 local UnitName = UnitName
 local UnitReaction = UnitReaction
-
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local UNKNOWN = UNKNOWN
 
@@ -97,14 +96,14 @@ function THREAT:Update(event, srcGuid, dstGuid)
 
 			if isInRaid > 0 then
 				for i = 1, 40 do
-					if UnitExists("raid" .. i) and not UnitIsUnit("raid" .. i, "player") then
-						threatList["raid" .. i] = select(2, GetThreatStatus(ThreatLib:GetThreat(UnitGUID("raid" .. i), targetGUID), max))
+					if UnitExists("raid"..i) and not UnitIsUnit("raid"..i, "player") then
+						threatList["raid"..i] = select(2, GetThreatStatus(ThreatLib:GetThreat(UnitGUID("raid"..i), targetGUID), max))
 					end
 				end
 			else
 				for i = 1, 4 do
-					if UnitExists("party" .. i) then
-						threatList["party" .. i] = select(2, GetThreatStatus(ThreatLib:GetThreat(UnitGUID("party" .. i), targetGUID), max))
+					if UnitExists("party"..i) then
+						threatList["party"..i] = select(2, GetThreatStatus(ThreatLib:GetThreat(UnitGUID("party"..i), targetGUID), max))
 					end
 				end
 			end

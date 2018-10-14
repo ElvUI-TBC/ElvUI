@@ -33,7 +33,7 @@ local iconSize = 30
 local sq, ss, sn
 local OnEnter = function(self)
 	local slot = self:GetID()
-	if(LootSlotIsItem(slot)) then
+	if LootSlotIsItem(slot) then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:SetLootItem(slot)
 		CursorUpdate(self)
@@ -61,7 +61,7 @@ local OnClick = function(self)
 	LootFrame.selectedSlot = self:GetID()
 	LootFrame.selectedLootButton = self:GetName()
 
-	if(IsModifiedClick()) then
+	if IsModifiedClick() then
 		HandleModifiedItemClick(GetLootSlotLink(self:GetID()))
 	else
 		StaticPopup_Hide("CONFIRM_LOOT_DISTRIBUTION")
@@ -73,7 +73,7 @@ local OnClick = function(self)
 end
 
 local OnShow = function(self)
-	if(GameTooltip:IsOwned(self)) then
+	if GameTooltip:IsOwned(self) then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:SetLootItem(self:GetID())
 		CursorOnUpdate(self)
@@ -84,7 +84,7 @@ local function anchorSlots(self)
 	local shownSlots = 0
 	for i = 1, #self.slots do
 		local frame = self.slots[i]
-		if(frame:IsShown()) then
+		if frame:IsShown() then
 			shownSlots = shownSlots + 1
 
 			frame:Point("TOP", lootFrame, 4, (-8 + iconSize) - (shownSlots * iconSize))
@@ -148,7 +148,7 @@ local function createSlot(id)
 end
 
 function M:LOOT_SLOT_CLEARED(_, slot)
-	if(not lootFrame:IsShown()) then return end
+	if not lootFrame:IsShown() then return end
 
 	lootFrame.slots[slot]:Hide()
 	anchorSlots(lootFrame)
@@ -174,22 +174,22 @@ end
 function M:LOOT_OPENED(_, autoLoot)
 	lootFrame:Show()
 
-	if(not lootFrame:IsShown()) then
+	if not lootFrame:IsShown() then
 		CloseLoot(autoLoot == 0)
 	end
 
 	local items = GetNumLootItems()
 
-	if(IsFishingLoot()) then
+	if IsFishingLoot() then
 		lootFrame.title:SetText(L["Fishy Loot"])
-	elseif(not UnitIsFriend("player", "target") and UnitIsDead("target")) then
+	elseif not UnitIsFriend("player", "target") and UnitIsDead("target") then
 		lootFrame.title:SetText(UnitName("target"))
 	else
 		lootFrame.title:SetText(LOOT)
 	end
 
 	-- Blizzard uses strings here
-	if(GetCVar("lootUnderMouse") == "1") then
+	if GetCVar("lootUnderMouse") == "1" then
 		local x, y = GetCursorPosition()
 		x = x / lootFrame:GetEffectiveScale()
 		y = y / lootFrame:GetEffectiveScale()
@@ -204,13 +204,13 @@ function M:LOOT_OPENED(_, autoLoot)
 	end
 
 	local m, w, t = 0, 0, lootFrame.title:GetStringWidth()
-	if(items > 0) then
+	if items > 0 then
 		for i = 1, items do
 			local slot = lootFrame.slots[i] or createSlot(i)
 			local texture, item, quantity, quality = GetLootSlotInfo(i)
 			local color = ITEM_QUALITY_COLORS[quality]
 
-			if(LootSlotIsCoin(i)) then
+			if LootSlotIsCoin(i) then
 				item = item:gsub("\n", ", ")
 			end
 
@@ -308,9 +308,9 @@ function M:LoadLoot()
 	tinsert(UISpecialFrames, "ElvLootFrame")
 
 	function _G.GroupLootDropDown_GiveLoot()
-		if(sq >= MASTER_LOOT_THREHOLD) then
+		if sq >= MASTER_LOOT_THREHOLD then
 			local dialog = StaticPopup_Show("CONFIRM_LOOT_DISTRIBUTION", ITEM_QUALITY_COLORS[sq].hex..sn..FONT_COLOR_CODE_CLOSE, this:GetText())
-			if (dialog) then
+			if dialog then
 				dialog.data = this.value
 			end
 		else

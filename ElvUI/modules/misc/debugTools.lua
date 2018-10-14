@@ -58,11 +58,11 @@ end
 function D:ScriptErrorsFrame_UpdateButtons()
 	local numErrors = #ScriptErrorsFrame.order
 	local index = ScriptErrorsFrame.index
-	if ( index == 0 ) then
+	if index == 0 then
 		ScriptErrorsFrame.lastButton:Disable()
 		ScriptErrorsFrame.firstButton:Disable()
 	else
-		if ( numErrors == 1 ) then
+		if numErrors == 1 then
 			ScriptErrorsFrame.lastButton:Disable()
 			ScriptErrorsFrame.firstButton:Disable()
 		else
@@ -99,7 +99,7 @@ function D:TaintError(event, addonName, addonFunc)
 end
 
 function D:StaticPopup_Show(name)
-	if(name == "ADDON_ACTION_FORBIDDEN" and E.db.general.taintLog ~= true) then
+	if name == "ADDON_ACTION_FORBIDDEN" and E.db.general.taintLog ~= true then
 		StaticPopup_Hide(name)
 	end
 end

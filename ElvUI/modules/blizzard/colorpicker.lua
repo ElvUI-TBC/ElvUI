@@ -94,25 +94,28 @@ local function HandleUpdateLimiter(self, elapsed)
 end
 
 function B:EnhanceColorPicker()
-	if IsAddOnLoaded("ColorPickerPlus") then
-		return
-	end
-	ColorPickerFrame:SetClampedToScreen(true)
+	if IsAddOnLoaded("ColorPickerPlus") then return end
 
 	--Skin the default frame, move default buttons into place
+	ColorPickerFrame:SetClampedToScreen(true)
 	ColorPickerFrame:SetTemplate("Transparent")
+
 	ColorPickerFrameHeader:SetTexture("")
 	ColorPickerFrameHeader:ClearAllPoints()
 	ColorPickerFrameHeader:SetPoint("TOP", ColorPickerFrame, 0, 0)
-	S:HandleButton(ColorPickerOkayButton)
+
 	S:HandleButton(ColorPickerCancelButton)
 	ColorPickerCancelButton:ClearAllPoints()
-	ColorPickerOkayButton:ClearAllPoints()
 	ColorPickerCancelButton:Point("BOTTOMRIGHT", ColorPickerFrame, "BOTTOMRIGHT", -6, 6)
 	ColorPickerCancelButton:Point("BOTTOMLEFT", ColorPickerFrame, "BOTTOM", 0, 6)
-	ColorPickerOkayButton:Point("BOTTOMLEFT", ColorPickerFrame,"BOTTOMLEFT", 6,6)
-	ColorPickerOkayButton:Point("RIGHT", ColorPickerCancelButton,"LEFT", -4,0)
+
+	S:HandleButton(ColorPickerOkayButton)
+	ColorPickerOkayButton:ClearAllPoints()
+	ColorPickerOkayButton:Point("BOTTOMLEFT", ColorPickerFrame,"BOTTOMLEFT", 6, 6)
+	ColorPickerOkayButton:Point("RIGHT", ColorPickerCancelButton,"LEFT", -4, 0)
+
 	S:HandleSliderFrame(OpacitySliderFrame)
+
 	ColorPickerFrame:HookScript("OnShow", function(self)
 		-- get color that will be replaced
 		local r, g, b = ColorPickerFrame:GetColorRGB()
@@ -169,16 +172,16 @@ function B:EnhanceColorPicker()
 	-- add Color Swatch for original color
 	local t = ColorPickerFrame:CreateTexture("ColorPPOldColorSwatch")
 	local w, h = ColorSwatch:GetSize()
-	t:Size(w*0.75,h*0.75)
-	t:SetTexture(0,0,0)
+	t:Size(w*0.75, h*0.75)
+	t:SetTexture(0, 0, 0)
 	-- OldColorSwatch to appear beneath ColorSwatch
 	t:SetDrawLayer("BORDER")
-	t:Point("BOTTOMLEFT", "ColorSwatch", "TOPRIGHT", -(w/2), -(h/3))
+	t:Point("BOTTOMLEFT", "ColorSwatch", "TOPRIGHT", -(w / 2), -(h / 3))
 
 	-- add Color Swatch for the copied color
 	t = ColorPickerFrame:CreateTexture("ColorPPCopyColorSwatch")
 	t:SetSize(w,h)
-	t:SetTexture(0,0,0)
+	t:SetTexture(0, 0, 0)
 	t:Hide()
 
 	-- add copy button to the ColorPickerFrame
@@ -292,7 +295,7 @@ function B:EnhanceColorPicker()
 		box:SetID(i)
 		box:SetFrameStrata("DIALOG")
 		box:SetAutoFocus(false)
-		box:SetTextInsets(0,7,0,0)
+		box:SetTextInsets(0, 7, 0, 0)
 		box:SetJustifyH("RIGHT")
 		box:Height(24)
 
@@ -330,7 +333,7 @@ function B:EnhanceColorPicker()
 		end
 
 		box:SetScript("OnEditFocusGained", function(self) self:SetCursorPosition(0) self:HighlightText() end)
-		box:SetScript("OnEditFocusLost", function(self)	self:HighlightText(0,0) end)
+		box:SetScript("OnEditFocusLost", function(self)	self:HighlightText(0, 0) end)
 		box:SetScript("OnTextSet", function(self) self:ClearFocus() end)
 		box:Show()
 	end

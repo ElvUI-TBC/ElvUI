@@ -69,12 +69,12 @@ local rolltypes = {"need", "greed", [0] = "pass"}
 local function SetTip(frame)
 	GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
 	GameTooltip:SetText(frame.tiptext)
-	if(frame:IsEnabled() == 0) then
+	if frame:IsEnabled() == 0 then
 		GameTooltip:AddLine("|cffff3333"..L["Can't Roll"])
 	end
 
 	for name, tbl in pairs(frame.parent.rolls) do
-		if(tbl[1] == rolltypes[frame.rolltype] and tbl[2]) then
+		if tbl[1] == rolltypes[frame.rolltype] and tbl[2] then
 			local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[tbl[2]] or RAID_CLASS_COLORS[tbl[2]]
 			GameTooltip:AddLine(name, classColor.r, classColor.g, classColor.b)
 		end
@@ -83,13 +83,14 @@ local function SetTip(frame)
 end
 
 local function SetItemTip(frame)
-	if(not frame.link) then return end
+	if not frame.link then return end
+
 	GameTooltip:SetOwner(frame, "ANCHOR_TOPLEFT")
 	GameTooltip:SetHyperlink(frame.link)
-	if(IsShiftKeyDown()) then
+	if IsShiftKeyDown() then
 		GameTooltip_ShowCompareItem()
 	end
-	if(IsModifiedClick("DRESSUP")) then
+	if IsModifiedClick("DRESSUP") then
 		ShowInspectCursor()
 	else
 		ResetCursor()
@@ -97,23 +98,23 @@ local function SetItemTip(frame)
 end
 
 local function ItemOnUpdate(self)
-	if(IsShiftKeyDown()) then
+	if IsShiftKeyDown() then
 		GameTooltip_ShowCompareItem()
 	end
 	CursorOnUpdate(self)
 end
 
 local function LootClick(frame)
-	if(IsControlKeyDown()) then
+	if IsControlKeyDown() then
 		DressUpItemLink(frame.link)
-	elseif(IsShiftKeyDown()) then
+	elseif IsShiftKeyDown() then
 		ChatEdit_InsertLink(frame.link)
 	end
 end
 
 local function OnEvent(frame, _, rollID)
 	cancelled_rolls[rollID] = true
-	if(frame.rollID ~= rollID) then return end
+	if frame.rollID ~= rollID then return end
 
 	frame.rollID = nil
 	frame.time = nil
@@ -121,13 +122,14 @@ local function OnEvent(frame, _, rollID)
 end
 
 local function StatusUpdate(frame)
-	if(not frame.parent.rollID) then return end
+	if not frame.parent.rollID then return end
+
 	local t = GetLootRollTimeLeft(frame.parent.rollID)
 	local perc = t / frame.parent.time
 	frame.spark:Point("CENTER", frame, "LEFT", perc * frame:GetWidth(), 0)
 	frame:SetValue(t)
 
-	if(t > 1000000000) then
+	if t > 1000000000 then
 		frame:GetParent():Hide()
 	end
 end
@@ -137,17 +139,20 @@ local function CreateRollButton(parent, ntex, ptex, htex, rolltype, tiptext, ...
 	f:Point(...)
 	f:Size(FRAME_HEIGHT - 4)
 	f:SetNormalTexture(ntex)
-	if(ptex) then f:SetPushedTexture(ptex) end
+	if ptex then f:SetPushedTexture(ptex) end
 	f:SetHighlightTexture(htex)
 	f.rolltype = rolltype
 	f.parent = parent
 	f.tiptext = tiptext
+
 	f:SetScript("OnEnter", SetTip)
 	f:SetScript("OnLeave", HideTip)
 	f:SetScript("OnClick", ClickRoll)
+
 	local txt = f:CreateFontString(nil, nil)
 	txt:FontTemplate(nil, nil, "OUTLINE")
 	txt:Point("CENTER", 0, rolltype == 2 and 1 or rolltype == 0 and -1.2 or 0)
+
 	return f, txt
 end
 
@@ -193,6 +198,7 @@ function M:CreateRollFrame()
 	status.bg = status:CreateTexture(nil, "BACKGROUND")
 	status.bg:SetAlpha(0.1)
 	status.bg:SetAllPoints()
+
 	local spark = frame:CreateTexture(nil, "OVERLAY")
 	spark:Size(14, FRAME_HEIGHT)
 	spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
@@ -225,13 +231,13 @@ end
 
 local function GetFrame()
 	for _, f in ipairs(M.RollBars) do
-		if(not f.rollID) then
+		if not f.rollID then
 			return f
 		end
 	end
 
 	local f = M:CreateRollFrame()
-	if(pos == "TOP") then
+	if pos == "TOP" then
 		f:Point("TOP", next(M.RollBars) and M.RollBars[#M.RollBars] or AlertFrameHolder, "BOTTOM", 0, -4)
 	else
 		f:Point("BOTTOM", next(M.RollBars) and M.RollBars[#M.RollBars] or AlertFrameHolder, "TOP", 0, 4)
@@ -243,7 +249,7 @@ local function GetFrame()
 end
 
 function M:START_LOOT_ROLL(_, rollID, time)
-	if(cancelled_rolls[rollID]) then return end
+	if cancelled_rolls[rollID] then return end
 
 	local f = GetFrame()
 	f.rollID = rollID
@@ -258,10 +264,11 @@ function M:START_LOOT_ROLL(_, rollID, time)
 	f.button.link = GetLootRollItemLink(rollID)
 
 	f.needbutt:Enable()
-	f.greedbutt:Enable()
 	SetDesaturation(f.needbutt:GetNormalTexture())
-	SetDesaturation(f.greedbutt:GetNormalTexture())
 	f.needbutt:SetAlpha(1)
+
+	f.greedbutt:Enable()
+	SetDesaturation(f.greedbutt:GetNormalTexture())
 	f.greedbutt:SetAlpha(1)
 
 	f.fsbind:SetText(bindOnPickUp and "BoP" or "BoE")
@@ -278,29 +285,29 @@ function M:START_LOOT_ROLL(_, rollID, time)
 	f:SetPoint("CENTER", WorldFrame, "CENTER")
 	f:Show()
 
-	if(E.db.general.autoRoll and UnitLevel("player") == MAX_PLAYER_LEVEL and quality == 2 and not bindOnPickUp) then
-			RollOnLoot(rollID, 2)
+	if E.db.general.autoRoll and UnitLevel("player") == MAX_PLAYER_LEVEL and quality == 2 and not bindOnPickUp then
+		RollOnLoot(rollID, 2)
 	end
 end
 
 function M:ParseRollChoice(msg)
 	for i, v in pairs(rollpairs) do
 		local _, _, playername, itemname = find(msg, i)
-		if(locale == "ruRU" and (v == "greed" or v == "need")) then
+		if locale == "ruRU" and (v == "greed" or v == "need") then
 			local temp = playername
 			playername = itemname
 			itemname = temp
 		end
-		if(playername and itemname and playername ~= "Everyone") then return playername, itemname, v end
+		if playername and itemname and playername ~= "Everyone" then return playername, itemname, v end
 	end
 end
 
 function M:CHAT_MSG_LOOT(_, msg)
 	local playername, itemname, rolltype = self:ParseRollChoice(msg)
-	if(playername and itemname and rolltype) then
+	if playername and itemname and rolltype then
 		local class = select(2, UnitClass(playername))
 		for _, f in ipairs(M.RollBars) do
-			if(f.rollID and f.button.link == itemname and not f.rolls[playername]) then
+			if f.rollID and f.button.link == itemname and not f.rolls[playername] then
 				f.rolls[playername] = { rolltype, class }
 				f[rolltype]:SetText(tonumber(f[rolltype]:GetText()) + 1)
 				return
@@ -310,7 +317,7 @@ function M:CHAT_MSG_LOOT(_, msg)
 end
 
 function M:LoadLootRoll()
-	if(not E.private.general.lootRoll) then return end
+	if not E.private.general.lootRoll then return end
 
 	self:RegisterEvent("CHAT_MSG_LOOT")
 	self:RegisterEvent("START_LOOT_ROLL")
