@@ -4769,6 +4769,7 @@ E.Options.args.unitframe.args.pet = {
 		buffs = GetOptionsTable_Auras(true, "buffs", false, UF.CreateAndUpdateUF, "pet"),
 		debuffs = GetOptionsTable_Auras(true, "debuffs", false, UF.CreateAndUpdateUF, "pet"),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "pet"),
+		aurabar = GetOptionsTable_AuraBars(true, UF.CreateAndUpdateUF, "pet"),
 		happiness = {
 			order = 700,
 			type = "group",
@@ -6831,9 +6832,11 @@ E.Options.args.unitframe.args.tank = {
 					name = L["Class Color Override"],
 					desc = L["Override the default class color setting."],
 					values = colorOverrideValues
-				}
+				},
+				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "tank")
 			}
 		},
+		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "tank"),
 		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
 		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "tank"),
@@ -6889,6 +6892,8 @@ E.Options.args.unitframe.args.tank = {
 		}
 	}
 }
+E.Options.args.unitframe.args.tank.args.name.args.attachTextTo.values = {["Health"] = HEALTH, ["Frame"] = L["Frame"]}
+E.Options.args.unitframe.args.tank.args.targetsGroup.args.name.args.attachTextTo.values = {["Health"] = HEALTH, ["Frame"] = L["Frame"]}
 
 E.Options.args.unitframe.args.assist = {
 	order = 1600,
@@ -7023,9 +7028,11 @@ E.Options.args.unitframe.args.assist = {
 					name = L["Class Color Override"],
 					desc = L["Override the default class color setting."],
 					values = colorOverrideValues
-				}
+				},
+				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "assist")
 			}
 		},
+		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "assis"),
 		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
 		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "assist"),
@@ -7081,6 +7088,8 @@ E.Options.args.unitframe.args.assist = {
 		}
 	}
 }
+E.Options.args.unitframe.args.assist.args.name.args.attachTextTo.values = {["Health"] = HEALTH, ["Frame"] = L["Frame"]}
+E.Options.args.unitframe.args.assist.args.targetsGroup.args.name.args.attachTextTo.values = {["Health"] = HEALTH, ["Frame"] = L["Frame"]}
 
 --MORE COLORING STUFF YAY
 E.Options.args.unitframe.args.generalOptionsGroup.args.allColorsGroup.args.classResourceGroup = {

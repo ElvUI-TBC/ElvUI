@@ -285,6 +285,7 @@ E.Options.args.bags = {
 			order = 5,
 			type = "group",
 			name = COLORS,
+			disabled = function() return not E.bags end,
 			args = {
 				header = {
 					order = 1,

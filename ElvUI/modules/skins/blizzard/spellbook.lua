@@ -51,6 +51,12 @@ local function LoadSkin()
 			end
 		end
 
+		button.bg = CreateFrame("Frame", nil, button)
+		button.bg:SetTemplate("Transparent")
+		button.bg:Point("TOPLEFT", -6, 6)
+		button.bg:Point("BOTTOMRIGHT", 115, -6)
+		button.bg:SetFrameLevel(button.bg:GetFrameLevel() - 2)
+
 		if cooldown then
 			E:RegisterCooldown(cooldown)
 		end
@@ -82,12 +88,6 @@ local function LoadSkin()
 
 		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 		tab:GetNormalTexture():SetInside()
-	end
-
-	for i = 1, 12 do
-		_G["SpellButton"..i]:CreateBackdrop("Transparent", true)
-		_G["SpellButton"..i].backdrop:Point("TOPLEFT", -7, 6)
-		_G["SpellButton"..i].backdrop:Point("BOTTOMRIGHT", 116, -5)
 	end
 
 	SpellButton1:Point("TOPLEFT", SpellBookFrame, "TOPLEFT", 25, -75)

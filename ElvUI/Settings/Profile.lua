@@ -1696,6 +1696,25 @@ P["unitframe"] = {
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},
+			["aurabar"] = {
+				["enable"] = false,
+				["anchorPoint"] = "ABOVE",
+				["attachTo"] = "FRAME",
+				["maxBars"] = 6,
+				["useBlacklist"] = {friendly = true, enemy = true},
+				["useWhitelist"] = {friendly = false, enemy = false},
+				["noDuration"] = {friendly = true, enemy = true},
+				["minDuration"] = 0,
+				["maxDuration"] = 120,
+				["useFilter"] = "",
+				["friendlyAuraType"] = "HELPFUL",
+				["enemyAuraType"] = "HARMFUL",
+				["height"] = 20,
+				["sort"] = "TIME_REMAINING",
+				["uniformThreshold"] = 0,
+				["yOffset"] = 2,
+				["spacing"] = 2
+			},
 			["buffIndicator"] = {
 				["enable"] = true,
 				["size"] = 8,
@@ -2589,6 +2608,13 @@ P["unitframe"] = {
 			["disableDebuffHighlight"] = true,
 			["disableMouseoverGlow"] = false,
 			["disableTargetGlow"] = false,
+			["name"] = {
+				["position"] = "CENTER",
+				["text_format"] = "[namecolor][name:medium]",
+				["yOffset"] = 0,
+				["xOffset"] = 0,
+				["attachTextTo"] = "Health"
+			},
 			["buffs"] = {
 				["enable"] = false,
 				["perrow"] = 6,
@@ -2664,7 +2690,14 @@ P["unitframe"] = {
 				["yOffset"] = 0,
 				["width"] = 120,
 				["height"] = 28,
-				["colorOverride"] = "USE_DEFAULT"
+				["colorOverride"] = "USE_DEFAULT",
+				["name"] = {
+					["position"] = "CENTER",
+					["text_format"] = "[namecolor][name:medium]",
+					["yOffset"] = 0,
+					["xOffset"] = 0,
+					["attachTextTo"] = "Health"
+				}
 			}
 		},
 		["assist"] = {
@@ -2678,6 +2711,13 @@ P["unitframe"] = {
 			["disableDebuffHighlight"] = true,
 			["disableMouseoverGlow"] = false,
 			["disableTargetGlow"] = false,
+			["name"] = {
+				["position"] = "CENTER",
+				["text_format"] = "[namecolor][name:medium]",
+				["yOffset"] = 0,
+				["xOffset"] = 0,
+				["attachTextTo"] = "Health"
+			},
 			["buffs"] = {
 				["enable"] = false,
 				["perrow"] = 6,
@@ -2753,7 +2793,14 @@ P["unitframe"] = {
 				["yOffset"] = 0,
 				["width"] = 120,
 				["height"] = 28,
-				["colorOverride"] = "USE_DEFAULT"
+				["colorOverride"] = "USE_DEFAULT",
+				["name"] = {
+					["position"] = "CENTER",
+					["text_format"] = "[namecolor][name:medium]",
+					["yOffset"] = 0,
+					["xOffset"] = 0,
+					["attachTextTo"] = "Frame"
+				}
 			}
 		}
 	}

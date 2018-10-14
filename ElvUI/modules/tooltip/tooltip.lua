@@ -6,7 +6,7 @@ local _G = _G
 local unpack, tonumber, select, pairs = unpack, tonumber, select, pairs
 local twipe, tinsert, tconcat = table.wipe, table.insert, table.concat
 local floor = math.floor
-local find, format = string.find, string.format
+local find, format, match = string.find, string.format, string.match
 
 local CreateFrame = CreateFrame
 local GetTime = GetTime
@@ -45,16 +45,19 @@ local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local GetItemCount = GetItemCount
 local SetTooltipMoney = SetTooltipMoney
 local GameTooltip_ClearMoney = GameTooltip_ClearMoney
-local TARGET = TARGET
-local DEAD = DEAD
-local FOREIGN_SERVER_LABEL = FOREIGN_SERVER_LABEL
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local PVP = PVP
-local FACTION_ALLIANCE = FACTION_ALLIANCE
-local FACTION_HORDE = FACTION_HORDE
-local LEVEL = LEVEL
 local FACTION_BAR_COLORS = FACTION_BAR_COLORS
-local ID = ID
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+
+local LOCALE = {
+	PVP = PVP,
+	FACTION_HORDE = FACTION_HORDE,
+	FOREIGN_SERVER_LABEL = FOREIGN_SERVER_LABEL,
+	ID = ID,
+	LEVEL = LEVEL,
+	TARGET = TARGET,
+	DEAD = DEAD,
+	FACTION_ALLIANCE = FACTION_ALLIANCE
+}
 
 local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
 local targetList, inspectCache = {}, {}
@@ -112,7 +115,7 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 
 	if parent then
 		if self.db.healthBar.statusPosition == "BOTTOM" then
-			if(GameTooltipStatusBar.anchoredToTop) then
+			if GameTooltipStatusBar.anchoredToTop then
 				GameTooltipStatusBar:ClearAllPoints()
 				GameTooltipStatusBar:Point("TOPLEFT", GameTooltip, "BOTTOMLEFT", E.Border, -(E.Spacing * 3))
 				GameTooltipStatusBar:Point("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", -E.Border, -(E.Spacing * 3))
@@ -188,7 +191,7 @@ function TT:RemoveTrashLines(tt)
 		local tiptext = _G["GameTooltipTextLeft"..i]
 		local linetext = tiptext:GetText()
 
-		if linetext == PVP or linetext == FACTION_ALLIANCE or linetext == FACTION_HORDE then
+		if linetext == LOCALE.PVP or linetext == LOCALE.FACTION_ALLIANCE or linetext == LOCALE.FACTION_HORDE then
 			tiptext:SetText(nil)
 			tiptext:Hide()
 		end
@@ -198,7 +201,7 @@ end
 function TT:GetLevelLine(tt, offset)
 	for i = offset, tt:NumLines() do
 		local tipText = _G["GameTooltipTextLeft"..i]
-		if tipText:GetText() and tipText:GetText():find(LEVEL) then
+		if tipText:GetText() and tipText:GetText():find(LOCALE.LEVEL) then
 			return tipText
 		end
 	end
@@ -206,7 +209,7 @@ end
 
 function TT:INSPECT_TALENT_READY()
 	local GUID = UnitGUID("mouseover")
-	if(self.lastGUID ~= GUID) then return end
+	if self.lastGUID ~= GUID then return end
 
 	local unit = "mouseover"
 	if UnitExists(unit) then
@@ -248,7 +251,7 @@ function TT:ShowInspectInfo(tt, unit, level, r, g, b, numTries)
 		tt:AddDoubleLine(L["Talent Specialization:"], talent, nil, nil, nil, r, g, b)
 		tt:AddDoubleLine(L["Item Level:"], itemLevel, nil, nil, nil, 1, 1, 1)
 	else
-		if(not canInspect) or (InspectFrame and InspectFrame:IsShown()) then return end
+		if (not canInspect) or (InspectFrame and InspectFrame:IsShown()) then return end
 		self.lastGUID = GUID
 		NotifyInspect(unit)
 		self:RegisterEvent("INSPECT_TALENT_READY")
@@ -257,7 +260,7 @@ end
 
 function TT:GameTooltip_OnTooltipSetUnit(tt)
 	local unit = select(2, tt:GetUnit())
-	if((tt:GetOwner() ~= UIParent) and (self.db.visibility and self.db.visibility.unitFrames ~= "NONE")) then
+	if (tt:GetOwner() ~= UIParent) and (self.db.visibility and self.db.visibility.unitFrames ~= "NONE") then
 		local modifier = self.db.visibility.unitFrames
 
 		if modifier == "ALL" or not ((modifier == "SHIFT" and IsShiftKeyDown()) or (modifier == "CTRL" and IsControlKeyDown()) or (modifier == "ALT" and IsAltKeyDown())) then
@@ -298,7 +301,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 			if isShiftKeyDown then
 				name = name.."-"..realm
 			else
-				name = name..FOREIGN_SERVER_LABEL
+				name = name..LOCALE.FOREIGN_SERVER_LABEL
 			end
 		end
 
@@ -312,11 +315,11 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 
 		local lineOffset = 2
 		if guildName then
-			if(guildRealm and isShiftKeyDown) then
+			if guildRealm and isShiftKeyDown then
 				guildName = guildName.."-"..guildRealm
 			end
 
-			if(self.db.guildRanks) then
+			if self.db.guildRanks then
 				GameTooltipTextLeft2:SetText(("<|cff00ff10%s|r> [|cff00ff10%s|r]"):format(guildName, guildRankName))
 			else
 				GameTooltipTextLeft2:SetText(("<|cff00ff10%s|r>"):format(guildName))
@@ -349,7 +352,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 			local diffColor = GetQuestDifficultyColor(level)
 
 			if UnitIsPVP(unit) then
-				pvpFlag = format(" (%s)", PVP)
+				pvpFlag = format(" (%s)", LOCALE.PVP)
 			end
 
 			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", classification[creatureClassification] or "", creatureType or "", pvpFlag)
@@ -367,7 +370,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 			targetColor = E.db.tooltip.useCustomFactionColors and E.db.tooltip.factionColors[reaction] or FACTION_BAR_COLORS[reaction]
 		end
 
-		GameTooltip:AddDoubleLine(format("%s:", TARGET), format("|cff%02x%02x%02x%s|r", targetColor.r * 255, targetColor.g * 255, targetColor.b * 255, UnitName(unitTarget)))
+		GameTooltip:AddDoubleLine(format("%s:", LOCALE.TARGET), format("|cff%02x%02x%02x%s|r", targetColor.r * 255, targetColor.g * 255, targetColor.b * 255, UnitName(unitTarget)))
 	end
 
 	local numParty, numRaid = GetNumPartyMembers(), GetNumRaidMembers()
@@ -414,8 +417,8 @@ function TT:GameTooltipStatusBar_OnValueChanged(tt, value)
 	if value > 0 and max == 1 then
 		tt.text:SetFormattedText("%d%%", floor(value * 100))
 		tt:SetStatusBarColor(TAPPED_COLOR.r, TAPPED_COLOR.g, TAPPED_COLOR.b) --most effeciant?
-	elseif(value == 0 or (unit and UnitIsDeadOrGhost(unit))) then
-		tt.text:SetText(DEAD)
+	elseif value == 0 or (unit and UnitIsDeadOrGhost(unit)) then
+		tt.text:SetText(LOCALE.DEAD)
 	else
 		if unit then
 			tt.text:SetText(E:ShortValue(LMH:GetUnitCurrentHP(unit)).." / "..E:ShortValue(LMH:GetUnitMaxHP(unit)))
@@ -431,7 +434,7 @@ end
 
 function TT:GameTooltip_OnTooltipSetItem(tt)
 	local ownerName = tt:GetOwner() and tt:GetOwner().GetName and tt:GetOwner():GetName()
-	if (self.db.visibility and self.db.visibility.bags ~= "NONE" and ownerName and (find(ownerName, "ElvUI_Container") or find(ownerName, "ElvUI_BankContainer"))) then
+	if self.db.visibility and self.db.visibility.bags ~= "NONE" and ownerName and (find(ownerName, "ElvUI_Container") or find(ownerName, "ElvUI_BankContainer")) then
 		local modifier = self.db.visibility.bags
 
 		if modifier == "ALL" or not ((modifier == "SHIFT" and IsShiftKeyDown()) or (modifier == "CTRL" and IsControlKeyDown()) or (modifier == "ALT" and IsAltKeyDown())) then
@@ -459,7 +462,8 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 		end
 
 		if self.db.spellID then
-			left = (("|cFFCA3C3C%s|r %s"):format(ID, link)):match(":(%w+)")
+			local id = tonumber(match(link, ":(%w+)"))
+			left = (("|cFFCA3C3C%s|r %s"):format(LOCALE.ID, id))
 		end
 
 		if self.db.itemCount == "BAGS_ONLY" then
@@ -503,7 +507,7 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 	id = id and id:match("spell:(%d+)")
 	if not id or not self.db.spellID then return end
 
-	local displayString = ("|cFFCA3C3C%s|r %d"):format(ID, id)
+	local displayString = ("|cFFCA3C3C%s|r %d"):format(LOCALE.ID, id)
 	local lines = tt:NumLines()
 	local isFound
 	for i = 1, lines do
@@ -521,9 +525,9 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 end
 
 function TT:SetItemRef(link)
-	if find(link, "^spell:") and self.db.spellID then
-		local id = tonumber(link:match("spell:(%d+)"))
-		ItemRefTooltip:AddLine(("|cFFCA3C3C%s|r %d"):format(ID, id))
+	if self.db.spellID and (find(link, "^spell:") or find(link, "^item:")) then
+		local id = tonumber(match(link, "(%d+)"))
+		ItemRefTooltip:AddLine(format("|cFFCA3C3C%s|r %d", LOCALE.ID, id))
 		ItemRefTooltip:Show()
 	end
 end
@@ -532,12 +536,12 @@ function TT:CheckBackdropColor()
 	if not GameTooltip:IsShown() then return end
 
 	local r, g, b = GameTooltip:GetBackdropColor()
-	if (r and g and b) then
+	if r and g and b then
 		r = E:Round(r, 1)
 		g = E:Round(g, 1)
 		b = E:Round(b, 1)
 		local red, green, blue = unpack(E.media.backdropfadecolor)
-		if (r ~= red or g ~= green or b ~= blue) then
+		if r ~= red or g ~= green or b ~= blue then
 			GameTooltip:SetBackdropColor(red, green, blue, self.db.colorAlpha)
 		end
 	end

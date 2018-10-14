@@ -147,6 +147,8 @@ function UF:Configure_HealthBar(frame)
 		health.bg:SetParent(frame.Portrait.overlay)
 	end
 
+	health.bg:SetTexture(E.LSM:Fetch("statusbar", E.private.general.normTex))
+
 	if db.health then
 		--Party/Raid Frames allow to change statusbar orientation
 		if db.health.orientation then
@@ -210,7 +212,7 @@ function UF:PostUpdateHealth(unit, min, max)
 		end
 
 		if t then
-			self.bg:SetVertexColor(t[1], t[2], t[3])
+			self.bg:SetVertexColor(t[1] * 0.25 , t[2] * 0.25, t[3] * 0.25)
 		end
 	end
 

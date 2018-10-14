@@ -61,7 +61,6 @@ function UF:Update_TankHeader(header, db)
 	header:Hide()
 	header.db = db
 
-	RegisterStateDriver(header, "visibility", "show")
 	RegisterStateDriver(header, "visibility", "[target=raid1,exists] show;hide")
 
 	local width, height = header:GetSize()
@@ -147,15 +146,7 @@ function UF:Update_TankFrames(frame, db)
 	UF:Configure_Threat(frame)
 
 	--Name
-	do
-		local name = frame.Name
-		name:Point("CENTER", frame.Health, "CENTER")
-		if UF.db.colors.healthclass then
-			frame:Tag(name, "[name:medium]")
-		else
-			frame:Tag(name, "[namecolor][name:medium]")
-		end
-	end
+	UF:UpdateNameSettings(frame)
 
 	--Range
 	UF:Configure_Range(frame)
