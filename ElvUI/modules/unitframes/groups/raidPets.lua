@@ -75,7 +75,7 @@ end
 function UF:Update_RaidpetHeader(header, db)
 	header.db = db
 
-	if(not header.positioned) then
+	if not header.positioned then
 		header:ClearAllPoints()
 		header:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 574)
 

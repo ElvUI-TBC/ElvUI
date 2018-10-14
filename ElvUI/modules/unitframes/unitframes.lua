@@ -660,7 +660,7 @@ function UF.headerPrototype:Update()
 		end
 
 		i = i + 1
-		child = self:GetAttribute("child" .. i)
+		child = self:GetAttribute("child"..i)
 	end
 end
 

@@ -88,13 +88,6 @@ E.DispelClasses = {
 	}
 }
 
-E.HealingClasses = {
-	PALADIN = 1,
-	SHAMAN = 3,
-	DRUID = 3,
-	PRIEST = {1, 2}
-}
-
 E.ClassRole = {
 	PALADIN = {
 		[1] = "Caster",
