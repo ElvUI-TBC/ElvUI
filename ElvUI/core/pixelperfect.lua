@@ -64,7 +64,7 @@ function E:UIScale(event, loginFrame)
 		-- I don"t know how it really work, but i"m assuming they add pixel to width to compensate the bezel. :P
 
 		-- HQ resolution
-		if width >= 9840 then width = 3280 end							-- WQSXGA
+		if width >= 9840 then width = 3280 end						-- WQSXGA
 		if width >= 7680 and width < 9840 then width = 2560 end		-- WQXGA
 		if width >= 5760 and width < 7680 then width = 1920 end		-- WUXGA & HDTV
 		if width >= 5040 and width < 5760 then width = 1680 end		-- WSXGA+

@@ -14,7 +14,7 @@ local backdropr, backdropg, backdropb, backdropa, borderr, borderg, borderb = 0,
 local function GetTemplate(t, isUnitFrameElement)
 	backdropa = 1
 	if t == "ClassColor" then
-		if(CUSTOM_CLASS_COLORS) then
+		if CUSTOM_CLASS_COLORS then
 			borderr, borderg, borderb = CUSTOM_CLASS_COLORS[E.myclass].r, CUSTOM_CLASS_COLORS[E.myclass].g, CUSTOM_CLASS_COLORS[E.myclass].b
 		else
 			borderr, borderg, borderb = RAID_CLASS_COLORS[E.myclass].r, RAID_CLASS_COLORS[E.myclass].g, RAID_CLASS_COLORS[E.myclass].b
@@ -58,7 +58,7 @@ local function Height(frame, height)
 end
 
 local function Point(obj, arg1, arg2, arg3, arg4, arg5)
-	if(arg2 == nil) then
+	if arg2 == nil then
 		arg2 = obj:GetParent()
 	end
 
@@ -102,33 +102,33 @@ end
 local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
 	GetTemplate(t, isUnitFrameElement)
 
-	if(t) then
+	if t then
 		f.template = t
 	end
 
-	if(glossTex) then
+	if glossTex then
 		f.glossTex = glossTex
 	end
 
-	if(ignoreUpdates) then
+	if ignoreUpdates then
 		f.ignoreUpdates = ignoreUpdates
 	end
 
-	if(forcePixelMode) then
+	if forcePixelMode then
 		f.forcePixelMode = forcePixelMode
 	end
 
 	local bgFile = E.media.blankTex
-	if(glossTex) then
+	if glossTex then
 		bgFile = E.media.glossTex
 	end
 
-	if(isUnitFrameElement) then
+	if isUnitFrameElement then
 		f.isUnitFrameElement = isUnitFrameElement
 	end
 
-	if(t ~= "NoBackdrop") then
-		if(E.private.general.pixelPerfect or f.forcePixelMode) then
+	if t ~= "NoBackdrop" then
+		if E.private.general.pixelPerfect or f.forcePixelMode then
 			f:SetBackdrop({
 				bgFile = bgFile,
 				edgeFile = E["media"].blankTex,
@@ -174,7 +174,7 @@ local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode, isUnit
 	f:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
 	f:SetBackdropBorderColor(borderr, borderg, borderb)
 
-	if(not f.ignoreUpdates) then
+	if not f.ignoreUpdates then
 		if f.isUnitFrameElement then
 			E["unitFrameElements"][f] = true
 		else
@@ -184,17 +184,17 @@ local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode, isUnit
 end
 
 local function CreateBackdrop(f, t, tex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
-	if(not t) then t = "Default" end
+	if not t then t = "Default" end
 
 	local b = CreateFrame("Frame", nil, f)
-	if(f.forcePixelMode or forcePixelMode) then
+	if f.forcePixelMode or forcePixelMode then
 		b:SetOutside(nil, E.mult, E.mult)
 	else
 		b:SetOutside()
 	end
 	b:SetTemplate(t, tex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
 
-	if(f:GetFrameLevel() - 1 >= 0) then
+	if f:GetFrameLevel() - 1 >= 0 then
 		b:SetFrameLevel(f:GetFrameLevel() - 1)
 	else
 		b:SetFrameLevel(0)
@@ -231,7 +231,7 @@ local function Kill(object)
 end
 
 local function StripTextures(object, kill)
-	for i=1, object:GetNumRegions() do
+	for i = 1, object:GetNumRegions() do
 		local region = select(i, object:GetRegions())
 		if region and region:GetObjectType() == "Texture" then
 			if kill and type(kill) == "boolean" then
@@ -256,7 +256,7 @@ local function FontTemplate(fs, font, fontSize, fontStyle)
 	fontSize = fontSize or E.db.general.fontSize
 
 	if fontStyle == "OUTLINE" and (E.db.general.font == "Homespun") then
-		if (fontSize > 10 and not fs.fontSize) then
+		if fontSize > 10 and not fs.fontSize then
 			fontStyle = "MONOCHROMEOUTLINE"
 			fontSize = 10
 		end

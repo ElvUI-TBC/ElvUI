@@ -1,12 +1,12 @@
-local E, L, V, P, G = unpack(ElvUI);
+local E, L, V, P, G = unpack(ElvUI)
 
-local select, unpack, assert, tonumber, type, pairs = select, unpack, assert, tonumber, type, pairs;
-local tinsert, tremove = tinsert, tremove;
-local abs, ceil, floor, modf, mod = math.abs, math.ceil, math.floor, math.modf, mod;
-local format, sub, upper, split, utf8sub = string.format, string.sub, string.upper, string.split, string.utf8sub;
+local select, unpack, assert, tonumber, type, pairs = select, unpack, assert, tonumber, type, pairs
+local tinsert, tremove = tinsert, tremove
+local abs, ceil, floor, modf, mod = math.abs, math.ceil, math.floor, math.modf, mod
+local format, sub, upper, split, utf8sub = string.format, string.sub, string.upper, string.split, string.utf8sub
 
-local GetScreenWidth, GetScreenHeight = GetScreenWidth, GetScreenHeight;
-local CreateFrame = CreateFrame;
+local GetScreenWidth, GetScreenHeight = GetScreenWidth, GetScreenHeight
+local CreateFrame = CreateFrame
 
 --Return short value of a number
 local shortValueDec, value
@@ -71,126 +71,127 @@ function E:ShortValue(v)
 end
 
 function E:IsEvenNumber(num)
-	return num % 2 == 0;
+	return num % 2 == 0
 end
 
 function E:ColorGradient(perc, ...)
-	if(perc >= 1) then
+	if perc >= 1 then
 		return select(select("#", ...) - 2, ...)
-	elseif(perc <= 0) then
+	elseif perc <= 0 then
 		return ...
 	end
 
-	local num = select("#", ...) / 3;
-	local segment, relperc = modf(perc*(num-1));
-	local r1, g1, b1, r2, g2, b2 = select((segment*3)+1, ...);
+	local num = select("#", ...) / 3
+	local segment, relperc = modf(perc*(num - 1))
+	local r1, g1, b1, r2, g2, b2 = select((segment*3) + 1, ...)
 
-	return r1 + (r2-r1)*relperc, g1 + (g2-g1)*relperc, b1 + (b2-b1)*relperc;
+	return r1 + (r2-r1)*relperc, g1 + (g2-g1)*relperc, b1 + (b2-b1)*relperc
 end
 
 function E:Round(num, idp)
-	if(idp and idp > 0) then
-		local mult = 10 ^ idp;
-		return floor(num * mult + 0.5) / mult;
+	if idp and idp > 0 then
+		local mult = 10 ^ idp
+		return floor(num * mult + 0.5) / mult
 	end
-	return floor(num + 0.5);
+	return floor(num + 0.5)
 end
 
 function E:Truncate(v, decimals)
-	return v - (v % (0.1 ^ (decimals or 0)));
+	return v - (v % (0.1 ^ (decimals or 0)))
 end
 
 function E:RGBToHex(r, g, b)
 	r = r <= 1 and r >= 0 and r or 1
 	g = g <= 1 and g >= 0 and g or 1
 	b = b <= 1 and b >= 0 and b or 1
-	return format("|cff%02x%02x%02x", r*255, g*255, b*255);
+	return format("|cff%02x%02x%02x", r*255, g*255, b*255)
 end
 
 function E:HexToRGB(hex)
-	local rhex, ghex, bhex = sub(hex, 1, 2), sub(hex, 3, 4), sub(hex, 5, 6);
-	return tonumber(rhex, 16), tonumber(ghex, 16), tonumber(bhex, 16);
+	local rhex, ghex, bhex = sub(hex, 1, 2), sub(hex, 3, 4), sub(hex, 5, 6)
+	return tonumber(rhex, 16), tonumber(ghex, 16), tonumber(bhex, 16)
 end
 
 function E:FramesOverlap(frameA, frameB)
-	if(not frameA or not frameB) then return; end
+	if not frameA or not frameB then return end
 
-	local sA, sB = frameA:GetEffectiveScale(), frameB:GetEffectiveScale();
-	if(not sA or not sB) then return; end
+	local sA, sB = frameA:GetEffectiveScale(), frameB:GetEffectiveScale()
+	if not sA or not sB then return end
 
-	local frameALeft = frameA:GetLeft();
-	local frameARight = frameA:GetRight();
-	local frameABottom = frameA:GetBottom();
-	local frameATop = frameA:GetTop();
+	local frameALeft = frameA:GetLeft()
+	local frameARight = frameA:GetRight()
+	local frameABottom = frameA:GetBottom()
+	local frameATop = frameA:GetTop()
 
-	local frameBLeft = frameB:GetLeft();
-	local frameBRight = frameB:GetRight();
-	local frameBBottom = frameB:GetBottom();
-	local frameBTop = frameB:GetTop();
+	local frameBLeft = frameB:GetLeft()
+	local frameBRight = frameB:GetRight()
+	local frameBBottom = frameB:GetBottom()
+	local frameBTop = frameB:GetTop()
 
-	if(not frameALeft or not frameARight or not frameABottom or not frameATop) then return; end
-	if(not frameBLeft or not frameBRight or not frameBBottom or not frameBTop) then return; end
+	if not frameALeft or not frameARight or not frameABottom or not frameATop then return end
+	if not frameBLeft or not frameBRight or not frameBBottom or not frameBTop then return end
 
 	return ((frameALeft*sA) < (frameBRight*sB))
 		and ((frameBLeft*sB) < (frameARight*sA))
 		and ((frameABottom*sA) < (frameBTop*sB))
-		and ((frameBBottom*sB) < (frameATop*sA));
+		and ((frameBBottom*sB) < (frameATop*sA))
 end
 
 function E:GetScreenQuadrant(frame)
-	local x, y = frame:GetCenter();
-	local screenWidth = GetScreenWidth();
-	local screenHeight = GetScreenHeight();
-	local point;
+	local x, y = frame:GetCenter()
+	local screenWidth = GetScreenWidth()
+	local screenHeight = GetScreenHeight()
+	local point
 
-	if(not frame:GetCenter()) then
-		return "UNKNOWN", frame:GetName();
+	if not frame:GetCenter() then
+		return "UNKNOWN", frame:GetName()
 	end
 
 	if (x > (screenWidth / 3) and x < (screenWidth / 3)*2) and y > (screenHeight / 3)*2 then
-		point = "TOP";
+		point = "TOP"
 	elseif x < (screenWidth / 3) and y > (screenHeight / 3)*2 then
-		point = "TOPLEFT";
+		point = "TOPLEFT"
 	elseif x > (screenWidth / 3)*2 and y > (screenHeight / 3)*2 then
-		point = "TOPRIGHT";
+		point = "TOPRIGHT"
 	elseif (x > (screenWidth / 3) and x < (screenWidth / 3)*2) and y < (screenHeight / 3) then
-		point = "BOTTOM";
+		point = "BOTTOM"
 	elseif x < (screenWidth / 3) and y < (screenHeight / 3) then
-		point = "BOTTOMLEFT";
+		point = "BOTTOMLEFT"
 	elseif x > (screenWidth / 3)*2 and y < (screenHeight / 3) then
-		point = "BOTTOMRIGHT";
+		point = "BOTTOMRIGHT"
 	elseif x < (screenWidth / 3) and (y > (screenHeight / 3) and y < (screenHeight / 3)*2) then
-		point = "LEFT";
+		point = "LEFT"
 	elseif x > (screenWidth / 3)*2 and y < (screenHeight / 3)*2 and y > (screenHeight / 3) then
-		point = "RIGHT";
+		point = "RIGHT"
 	else
-		point = "CENTER";
+		point = "CENTER"
 	end
-	return point;
+
+	return point
 end
 
 function E:GetXYOffset(position, override)
-	local default = E.Spacing;
-	local x, y = override or default, override or default;
+	local default = E.Spacing
+	local x, y = override or default, override or default
 
-	if(position == "TOP")then
-		return 0, y;
-	elseif(position == "TOPLEFT") then
-		return x, y;
-	elseif(position == "TOPRIGHT") then
-		return -x, y;
-	elseif(position == "BOTTOM") then
-		return 0, -y;
-	elseif(position == "BOTTOMLEFT") then
-		return x, -y;
-	elseif(position == "BOTTOMRIGHT") then
-		return -x, -y;
-	elseif(position == "LEFT") then
-		return -x, 0;
-	elseif(position == "RIGHT") then
-		return x, 0;
-	elseif(position == "CENTER") then
-		return 0, 0;
+	if position == "TOP" then
+		return 0, y
+	elseif position == "TOPLEFT" then
+		return x, y
+	elseif position == "TOPRIGHT" then
+		return -x, y
+	elseif position == "BOTTOM" then
+		return 0, -y
+	elseif position == "BOTTOMLEFT" then
+		return x, -y
+	elseif position == "BOTTOMRIGHT" then
+		return -x, -y
+	elseif position == "LEFT" then
+		return -x, 0
+	elseif position == "RIGHT" then
+		return x, 0
+	elseif position == "CENTER" then
+		return 0, 0
 	end
 end
 
@@ -241,7 +242,7 @@ function E:AbbreviateString(string, allUpper)
 	local words = {split(" ", string)}
 	for _, word in pairs(words) do
 		word = utf8sub(word, 1, 1)
-		if(allUpper) then
+		if allUpper then
 			word = word:upper()
 		end
 		newString = newString .. word
@@ -251,30 +252,30 @@ function E:AbbreviateString(string, allUpper)
 end
 
 function E:ShortenString(string, numChars, dots)
-	local bytes = string:len();
-	if(bytes <= numChars) then
-		return string;
+	local bytes = string:len()
+	if bytes <= numChars then
+		return string
 	else
-		local len, pos = 0, 1;
+		local len, pos = 0, 1
 		while(pos <= bytes) do
-			len = len + 1;
+			len = len + 1
 			local c = string:byte(pos)
-			if(c > 0 and c <= 127) then
-				pos = pos + 1;
-			elseif(c >= 192 and c <= 223) then
-				pos = pos + 2;
-			elseif(c >= 224 and c <= 239) then
-				pos = pos + 3;
-			elseif(c >= 240 and c <= 247) then
-				pos = pos + 4;
+			if c > 0 and c <= 127 then
+				pos = pos + 1
+			elseif c >= 192 and c <= 223 then
+				pos = pos + 2
+			elseif c >= 224 and c <= 239 then
+				pos = pos + 3
+			elseif c >= 240 and c <= 247 then
+				pos = pos + 4
 			end
-			if(len == numChars) then break; end
+			if len == numChars then break end
 		end
 
-		if(len == numChars and pos <= bytes) then
-			return string:sub(1, pos - 1)..(dots and "..." or "");
+		if len == numChars and pos <= bytes then
+			return string:sub(1, pos - 1)..(dots and "..." or "")
 		else
-			return string;
+			return string
 		end
 	end
 end
@@ -310,7 +311,7 @@ function E:Delay(delay, func, ...)
 end
 
 function E:StringTitle(str)
-	return str:gsub("(.)", upper, 1);
+	return str:gsub("(.)", upper, 1)
 end
 
 E.TimeThreshold = 3
@@ -373,78 +374,78 @@ function E:GetTimeInfo(s, threshhold, hhmm, mmss)
 	end
 end
 
-local COLOR_COPPER = "|cffeda55f";
-local COLOR_SILVER = "|cffc7c7cf";
-local COLOR_GOLD = "|cffffd700";
-local ICON_COPPER = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-CopperIcon:16:16|t";
-local ICON_SILVER = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-SilverIcon:16:16|t";
-local ICON_GOLD = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-GoldIcon:16:16|t";
+local COLOR_COPPER = "|cffeda55f"
+local COLOR_SILVER = "|cffc7c7cf"
+local COLOR_GOLD = "|cffffd700"
+local ICON_COPPER = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-CopperIcon:16:16|t"
+local ICON_SILVER = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-SilverIcon:16:16|t"
+local ICON_GOLD = "|TInterface\\AddOns\\ElvUI\\media\\textures\\UI-GoldIcon:16:16|t"
 
 function E:FormatMoney(amount, style, textonly)
-	local coppername = textonly and L.copperabbrev or ICON_COPPER;
-	local silvername = textonly and L.silverabbrev or ICON_SILVER;
-	local goldname = textonly and L.goldabbrev or ICON_GOLD;
+	local coppername = textonly and L.copperabbrev or ICON_COPPER
+	local silvername = textonly and L.silverabbrev or ICON_SILVER
+	local goldname = textonly and L.goldabbrev or ICON_GOLD
 
-	local value = abs(amount);
-	local gold = floor(value / 10000);
-	local silver = floor(mod(value / 100, 100));
-	local copper = floor(mod(value, 100));
+	local value = abs(amount)
+	local gold = floor(value / 10000)
+	local silver = floor(mod(value / 100, 100))
+	local copper = floor(mod(value, 100))
 
-	if(not style or style == "SMART") then
-		local str = "";
-		if(gold > 0) then
-			str = format("%d%s%s", gold, goldname, (silver > 0 or copper > 0) and " " or "");
+	if not style or style == "SMART" then
+		local str = ""
+		if gold > 0 then
+			str = format("%d%s%s", gold, goldname, (silver > 0 or copper > 0) and " " or "")
 		end
-		if(silver > 0) then
-			str = format("%s%d%s%s", str, silver, silvername, copper > 0 and " " or "");
+		if silver > 0 then
+			str = format("%s%d%s%s", str, silver, silvername, copper > 0 and " " or "")
 		end
-		if(copper > 0 or value == 0) then
-			str = format("%s%d%s", str, copper, coppername);
+		if copper > 0 or value == 0 then
+			str = format("%s%d%s", str, copper, coppername)
 		end
-		return str;
+		return str
 	end
 
-	if(style == "FULL") then
-		if(gold > 0) then
-			return format("%d%s %d%s %d%s", gold, goldname, silver, silvername, copper, coppername);
-		elseif(silver > 0) then
-			return format("%d%s %d%s", silver, silvername, copper, coppername);
+	if style == "FULL" then
+		if gold > 0 then
+			return format("%d%s %d%s %d%s", gold, goldname, silver, silvername, copper, coppername)
+		elseif silver > 0 then
+			return format("%d%s %d%s", silver, silvername, copper, coppername)
 		else
-			return format("%d%s", copper, coppername);
+			return format("%d%s", copper, coppername)
 		end
-	elseif(style == "SHORT") then
-		if(gold > 0) then
-			return format("%.1f%s", amount / 10000, goldname);
-		elseif(silver > 0) then
-			return format("%.1f%s", amount / 100, silvername);
+	elseif style == "SHORT" then
+		if gold > 0 then
+			return format("%.1f%s", amount / 10000, goldname)
+		elseif silver > 0 then
+			return format("%.1f%s", amount / 100, silvername)
 		else
-			return format("%d%s", amount, coppername);
+			return format("%d%s", amount, coppername)
 		end
-	elseif(style == "SHORTINT") then
-		if(gold > 0) then
-			return format("%d%s", gold, goldname);
-		elseif(silver > 0) then
-			return format("%d%s", silver, silvername);
+	elseif style == "SHORTINT" then
+		if gold > 0 then
+			return format("%d%s", gold, goldname)
+		elseif silver > 0 then
+			return format("%d%s", silver, silvername)
 		else
-			return format("%d%s", copper, coppername);
+			return format("%d%s", copper, coppername)
 		end
-	elseif(style == "CONDENSED") then
-		if(gold > 0) then
-			return format("%s%d|r.%s%02d|r.%s%02d|r", COLOR_GOLD, gold, COLOR_SILVER, silver, COLOR_COPPER, copper);
-		elseif(silver > 0) then
-			return format("%s%d|r.%s%02d|r", COLOR_SILVER, silver, COLOR_COPPER, copper);
+	elseif style == "CONDENSED" then
+		if gold > 0 then
+			return format("%s%d|r.%s%02d|r.%s%02d|r", COLOR_GOLD, gold, COLOR_SILVER, silver, COLOR_COPPER, copper)
+		elseif silver > 0 then
+			return format("%s%d|r.%s%02d|r", COLOR_SILVER, silver, COLOR_COPPER, copper)
 		else
-			return format("%s%d|r", COLOR_COPPER, copper);
+			return format("%s%d|r", COLOR_COPPER, copper)
 		end
-	elseif(style == "BLIZZARD") then
-		if(gold > 0) then
-			return format("%s%s %d%s %d%s", gold, goldname, silver, silvername, copper, coppername);
-		elseif(silver > 0) then
-			return format("%d%s %d%s", silver, silvername, copper, coppername);
+	elseif style == "BLIZZARD" then
+		if gold > 0 then
+			return format("%s%s %d%s %d%s", gold, goldname, silver, silvername, copper, coppername)
+		elseif silver > 0 then
+			return format("%d%s %d%s", silver, silvername, copper, coppername)
 		else
-			return format("%d%s", copper, coppername);
+			return format("%d%s", copper, coppername)
 		end
 	end
 
-	return self:FormatMoney(amount, "SMART");
+	return self:FormatMoney(amount, "SMART")
 end

@@ -74,7 +74,7 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 	f.shouldDisable = shouldDisable
 
 	f:SetFrameLevel(parent:GetFrameLevel() + 1)
-	if(overlay == true) then
+	if overlay == true then
 		f:SetFrameStrata("DIALOG")
 	else
 		f:SetFrameStrata("BACKGROUND")
@@ -101,9 +101,9 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 
 		local delim
 		local anchorString = E.db["movers"][name]
-		if(find(anchorString, "\031")) then
+		if find(anchorString, "\031") then
 			delim = "\031"
-		elseif(find(anchorString, ",")) then
+		elseif find(anchorString, ",") then
 			delim = ","
 		end
 		local point, anchor, secondaryPoint, x, y = split(delim, anchorString)
@@ -138,8 +138,8 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 		local x, y, point = E:CalculateMoverPoints(self)
 		self:ClearAllPoints()
 		local overridePoint
-		if(self.positionOverride) then
-			if(self.positionOverride == "BOTTOM" or self.positionOverride == "TOP") then
+		if self.positionOverride then
+			if self.positionOverride == "BOTTOM" or self.positionOverride == "TOP" then
 				overridePoint = "BOTTOM"
 			else
 				overridePoint = "BOTTOMLEFT"
@@ -147,7 +147,7 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 		end
 
 		self:Point(self.positionOverride or point, E.UIParent, overridePoint and overridePoint or point, x, y)
-		if(self.positionOverride) then
+		if self.positionOverride then
 			self.parent:ClearAllPoints()
 			self.parent:Point(self.positionOverride, self, self.positionOverride)
 		end
@@ -170,6 +170,7 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 
 	local function OnEnter(self)
 		if isDragging then return end
+
 		self.text:SetTextColor(1, 1, 1)
 		ElvUIMoverNudgeWindow:Show()
 		E.AssignFrameToNudge(self)
@@ -185,7 +186,7 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 			else
 				self:StopMovingOrSizing()
 			end
-			if(IsControlKeyDown() and self.textString) then
+			if IsControlKeyDown() and self.textString then
 				E:ResetMovers(self.textString)
 			elseif IsShiftKeyDown() then
 				self:Hide()
@@ -203,7 +204,7 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 	end
 
 	local function OnMouseWheel(_, delta)
-		if(IsShiftKeyDown()) then
+		if IsShiftKeyDown() then
 			E:NudgeMover(delta)
 		else
 			E:NudgeMover(nil, delta)
@@ -245,7 +246,7 @@ function E:CalculateMoverPoints(mover, nudgeX, nudgeY)
 	local TOP = screenHeight / 2
 	local point, nudgePoint, nudgeInversePoint
 
-	if(y >= TOP) then
+	if y >= TOP then
 		point = "TOP"
 		nudgePoint = "TOP"
 		nudgeInversePoint = "BOTTOM"
@@ -257,13 +258,13 @@ function E:CalculateMoverPoints(mover, nudgeX, nudgeY)
 		y = mover:GetBottom()
 	end
 
-	if(x >= RIGHT) then
-		point = point .. "RIGHT"
+	if x >= RIGHT then
+		point = point.."RIGHT"
 		nudgePoint = "RIGHT"
 		nudgeInversePoint = "LEFT"
 		x = mover:GetRight() - screenWidth
-	elseif(x <= LEFT) then
-		point = point .. "LEFT"
+	elseif x <= LEFT then
+		point = point.."LEFT"
 		nudgePoint = "LEFT"
 		nudgeInversePoint = "RIGHT"
 		x = mover:GetLeft()
@@ -271,23 +272,23 @@ function E:CalculateMoverPoints(mover, nudgeX, nudgeY)
 		x = x - screenCenter
 	end
 
-	if(mover.positionOverride) then
-		if(mover.positionOverride == "TOPLEFT") then
+	if mover.positionOverride then
+		if mover.positionOverride == "TOPLEFT" then
 			x = mover:GetLeft() - E.diffGetLeft
 			y = mover:GetTop() - E.diffGetTop
-		elseif(mover.positionOverride == "TOPRIGHT") then
+		elseif mover.positionOverride == "TOPRIGHT" then
 			x = mover:GetRight() - E.diffGetRight
 			y = mover:GetTop() - E.diffGetTop
-		elseif(mover.positionOverride == "BOTTOMLEFT") then
+		elseif mover.positionOverride == "BOTTOMLEFT" then
 			x = mover:GetLeft() - E.diffGetLeft
 			y = mover:GetBottom() - E.diffGetBottom
-		elseif(mover.positionOverride == "BOTTOMRIGHT") then
+		elseif mover.positionOverride == "BOTTOMRIGHT" then
 			x = mover:GetRight() - E.diffGetRight
 			y = mover:GetBottom() - E.diffGetBottom
-		elseif(mover.positionOverride == "BOTTOM") then
+		elseif mover.positionOverride == "BOTTOM" then
 			x = mover:GetCenter() - screenCenter
 			y = mover:GetBottom() - E.diffGetBottom
-		elseif(mover.positionOverride == "TOP") then
+		elseif mover.positionOverride == "TOP" then
 			x = mover:GetCenter() - screenCenter
 			y = mover:GetTop() - E.diffGetTop
 		end
@@ -374,8 +375,9 @@ function E:ToggleMovers(show, moverType)
 end
 
 function E:DisableMover(name)
-	if(self.DisabledMovers[name]) then return end
-	if(not self.CreatedMovers[name]) then
+	if self.DisabledMovers[name] then return end
+
+	if not self.CreatedMovers[name] then
 		error("mover doesn't exist")
 	end
 
@@ -384,7 +386,7 @@ function E:DisableMover(name)
 		self.DisabledMovers[name][x] = y
 	end
 
-	if(self.configMode) then
+	if self.configMode then
 		_G[name]:Hide()
 	end
 
@@ -392,8 +394,9 @@ function E:DisableMover(name)
 end
 
 function E:EnableMover(name)
-	if(self.CreatedMovers[name]) then return end
-	if(not self.DisabledMovers[name]) then
+	if self.CreatedMovers[name] then return end
+
+	if not self.DisabledMovers[name] then
 		error("mover doesn't exist")
 	end
 
@@ -404,12 +407,12 @@ function E:EnableMover(name)
 
 	--Commented out, as it created an issue with trying to reset a mover after having used EnableMover on it. Not sure if this code is even needed anymore.
 --[[
-	if(E.db["movers"] and E.db["movers"][name] and type(E.db["movers"][name]) == "string") then
+	if E.db["movers"] and E.db["movers"][name] and type(E.db["movers"][name]) == "string" then
 		self.CreatedMovers[name]["point"] = E.db["movers"][name]
 	end
 ]]
 
-	if(self.configMode) then
+	if self.configMode then
 		_G[name]:Show()
 	end
 
@@ -470,9 +473,9 @@ function E:SetMoversPositions()
 		if E.db["movers"] and E.db["movers"][name] and type(E.db["movers"][name]) == "string" then
 			local delim
 			local anchorString = E.db["movers"][name]
-			if(find(anchorString, "\031")) then
+			if find(anchorString, "\031") then
 				delim = "\031"
-			elseif(find(anchorString, ",")) then
+			elseif find(anchorString, ",") then
 				delim = ","
 			end
 			point, anchor, secondaryPoint, x, y = split(delim, anchorString)

@@ -35,9 +35,9 @@ E.ConfigModeLocalizedStrings = {
 }
 
 function E:Grid_Show()
-	if(not grid) then
+	if not grid then
 		E:Grid_Create()
-	elseif(grid.boxSize ~= E.db.gridSize) then
+	elseif grid.boxSize ~= E.db.gridSize then
 		grid:Hide()
 		E:Grid_Create()
 	else
@@ -70,7 +70,7 @@ function E:ToggleConfigMode(override, configType)
 		end
 
 		ElvUIMoverPopupWindow:Show()
-		if(IsAddOnLoaded("ElvUI_Config")) then
+		if IsAddOnLoaded("ElvUI_Config") then
 			LibStub("AceConfigDialog-3.0-ElvUI"):Close("ElvUI")
 			GameTooltip:Hide()
 		end
@@ -239,7 +239,7 @@ function E:CreateMoverPopup()
 	desc:SetText(L["DESC_MOVERCONFIG"])
 
 	local snapping = CreateFrame("CheckButton", f:GetName().."CheckButton", f, "OptionsCheckButtonTemplate")
-	_G[snapping:GetName() .. "Text"]:SetText(L["Sticky Frames"])
+	_G[snapping:GetName().."Text"]:SetText(L["Sticky Frames"])
 
 	snapping:SetScript("OnShow", function(self)
 		self:SetChecked(E.db.general.stickyFrames)
@@ -250,12 +250,12 @@ function E:CreateMoverPopup()
 	end)
 
 	local lock = CreateFrame("Button", f:GetName().."CloseButton", f, "OptionsButtonTemplate")
-	_G[lock:GetName() .. "Text"]:SetText(L["Lock"])
+	_G[lock:GetName().."Text"]:SetText(L["Lock"])
 
 	lock:SetScript("OnClick", function()
 		E:ToggleConfigMode(true)
 
-		if(IsAddOnLoaded("ElvUI_Config")) then
+		if IsAddOnLoaded("ElvUI_Config") then
 			LibStub("AceConfigDialog-3.0-ElvUI"):Open("ElvUI")
 		end
 
@@ -360,7 +360,7 @@ function E:CreateMoverPopup()
 	end)
 	xOffset:SetScript("OnEnterPressed", function(self)
 		local num = self:GetText()
-		if(tonumber(num)) then
+		if tonumber(num) then
 			local diff = num - xOffset.currentValue
 			xOffset.currentValue = num
 			E:NudgeMover(diff)
@@ -395,7 +395,7 @@ function E:CreateMoverPopup()
 	end)
 	yOffset:SetScript("OnEnterPressed", function(self)
 		local num = self:GetText()
-		if(tonumber(num)) then
+		if tonumber(num) then
 			local diff = num - yOffset.currentValue
 			yOffset.currentValue = num
 			E:NudgeMover(nil, diff)
@@ -424,7 +424,7 @@ function E:CreateMoverPopup()
 	resetButton:SetPoint("TOP", nudgeFrame, "CENTER", 0, 2)
 	resetButton:Size(100, 25)
 	resetButton:SetScript("OnClick", function()
-		if(ElvUIMoverNudgeWindow.child.textString) then
+		if ElvUIMoverNudgeWindow.child.textString then
 			E:ResetMovers(ElvUIMoverNudgeWindow.child.textString)
 			E:UpdateNudgeFrame(ElvUIMoverNudgeWindow.child)
 		end
