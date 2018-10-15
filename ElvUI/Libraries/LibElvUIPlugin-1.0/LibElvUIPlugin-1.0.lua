@@ -12,6 +12,7 @@ local CreateFrame = CreateFrame
 local GetAddOnMetadata = GetAddOnMetadata
 local GetNumPartyMembers, GetNumRaidMembers = GetNumPartyMembers, GetNumRaidMembers
 local IsAddOnLoaded = IsAddOnLoaded
+local IsInGuild = IsInGuild
 local IsInInstance = IsInInstance
 local SendAddonMessage = SendAddonMessage
 
@@ -78,6 +79,7 @@ function lib:RegisterPlugin(name,callback, isLib)
 		local f = CreateFrame("Frame")
 		f:RegisterEvent("RAID_ROSTER_UPDATE")
 		f:RegisterEvent("PARTY_MEMBERS_CHANGED")
+		f:RegisterEvent("PLAYER_ENTERING_WORLD")
 		f:RegisterEvent("CHAT_MSG_ADDON")
 		f:SetScript("OnEvent", lib.VersionCheck)
 		lib.vcframe = f
@@ -151,8 +153,7 @@ end
 
 function lib:VersionCheck(event, prefix, message, channel, sender)
 	local E = ElvUI[1]
-	if event == "CHAT_MSG_ADDON" then
-		if not (prefix == lib.prefix and sender and message and not strmatch(message, "^%s-$")) then return end
+	if (event == "CHAT_MSG_ADDON") and sender and message and (not strmatch(message, "^%s-$")) and (prefix == lib.prefix) then
 		if sender == E.myname then return end
 
 		if not E["pluginRecievedOutOfDateMessage"] then

@@ -15,6 +15,7 @@ local GetFunctionCPUUsage = GetFunctionCPUUsage
 local GetTalentTabInfo = GetTalentTabInfo
 local InCombatLockdown = InCombatLockdown
 local IsAddOnLoaded = IsAddOnLoaded
+local IsInGuild = IsInGuild
 local IsInInstance, GetNumPartyMembers, GetNumRaidMembers = IsInInstance, GetNumPartyMembers, GetNumRaidMembers
 local RequestBattlefieldScoreData = RequestBattlefieldScoreData
 local SendAddonMessage = SendAddonMessage
@@ -772,7 +773,7 @@ end
 local SendRecieveGroupSize = -1 --this is negative one so that the first check will send (if group size is greater than one; specifically for /reload)
 local function SendRecieve(_, event, prefix, message, _, sender)
 	if event == "CHAT_MSG_ADDON" then
-		if sender == myName then return end
+		if sender == E.myname then return end
 
 		if prefix == "ELVUI_VERSIONCHK" then
 			if (not E.recievedOutOfDateMessage) and (tonumber(message) ~= nil and tonumber(message) > tonumber(E.version)) then
@@ -805,6 +806,7 @@ local f = CreateFrame("Frame")
 f:RegisterEvent("RAID_ROSTER_UPDATE")
 f:RegisterEvent("PARTY_MEMBERS_CHANGED")
 f:RegisterEvent("CHAT_MSG_ADDON")
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:SetScript("OnEvent", SendRecieve)
 
 function E:UpdateAll(ignoreInstall)
