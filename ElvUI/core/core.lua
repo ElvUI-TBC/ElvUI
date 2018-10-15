@@ -771,8 +771,6 @@ end
 
 local SendRecieveGroupSize = -1 --this is negative one so that the first check will send (if group size is greater than one; specifically for /reload)
 local function SendRecieve(_, event, prefix, message, _, sender)
-	if not E.global.general.versionCheck then return end
-
 	if event == "CHAT_MSG_ADDON" then
 		if sender == myName then return end
 

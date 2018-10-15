@@ -27,26 +27,13 @@ E.Options.args.general = {
 	get = function(info) return E.db.general[ info[#info] ]; end,
 	set = function(info, value) E.db.general[ info[#info] ] = value; end,
 	args = {
-		versionCheck = {
-			order = 1,
-			type = "toggle",
-			name = L["Version Check"],
-			get = function(info) return E.global.general.versionCheck; end,
-			set = function(info, value) E.global.general.versionCheck = value; end
-		},
-		spacer = {
-			order = 2,
-			type = "description",
-			name = "",
-			width = "full",
-		},
 		intro = {
-			order = 3,
+			order = 1,
 			type = "description",
 			name = L["ELVUI_DESC"],
 		},
 		general = {
-			order = 4,
+			order = 2,
 			type = "group",
 			name = L["General"],
 			args = {
@@ -222,7 +209,7 @@ E.Options.args.general = {
 			}
 		},
 		media = {
-			order = 5,
+			order = 3,
 			type = "group",
 			name = L["Media"],
 			get = function(info) return E.db.general[ info[#info] ]; end,
@@ -420,7 +407,7 @@ E.Options.args.general = {
 			}
 		},
 		classCache = {
-			order = 6,
+			order = 4,
 			type = "group",
 			name = L["Class Cache"],
 			args = {
@@ -496,7 +483,7 @@ E.Options.args.general = {
 			}
 		},
 		totems = {
-			order = 7,
+			order = 5,
 			type = "group",
 			name = L["Totem Bar"],
 			get = function(info) return E.db.general.totems[ info[#info] ]; end,
@@ -546,7 +533,7 @@ E.Options.args.general = {
 			}
 		},
 		chatBubbles = {
-			order = 8,
+			order = 6,
 			type = "group",
 			name = L["Chat Bubbles"],
 			args = {
@@ -619,7 +606,7 @@ E.Options.args.general = {
 			}
 		},
 		threatGroup = {
-			order = 9,
+			order = 7,
 			type = "group",
 			name = L["Threat"],
 			args = {

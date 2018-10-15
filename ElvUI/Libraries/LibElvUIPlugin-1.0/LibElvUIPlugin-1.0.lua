@@ -150,8 +150,6 @@ local function SendPluginVersionCheck(self)
 end
 
 function lib:VersionCheck(event, prefix, message, channel, sender)
-	if not ElvUI[1].global.general.versionCheck then return end
-
 	local E = ElvUI[1]
 	if event == "CHAT_MSG_ADDON" then
 		if not (prefix == lib.prefix and sender and message and not strmatch(message, "^%s-$")) then return end

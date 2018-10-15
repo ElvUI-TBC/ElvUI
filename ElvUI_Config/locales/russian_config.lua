@@ -508,7 +508,6 @@ L["Totem Bar"] = "Панель тотемов"
 L["Unit Prefix Style"] = "Стиль сокращений"
 L["Vendor Grays"] = "Продавать серые предметы"
 L["Vendor Gray Detailed Report"] = "Подробности продажи"
-L["Version Check"] = "Проверка версии"
 L["When you go AFK display the AFK screen."] = "Отображать специальный экран, когда вы переходите в состояние \"Отсутствует\"."
 
 --Media

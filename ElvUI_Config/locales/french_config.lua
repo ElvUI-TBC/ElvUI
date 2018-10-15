@@ -508,7 +508,6 @@ L["Totem Bar"] = "Barre de totems"
 L["Unit Prefix Style"] = "Style des préfixes d'unités"
 L["Vendor Grays"] = "Vendre les objets gris"
 L["Vendor Gray Detailed Report"] = true
-L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = "Quand vous êtes AFK, affiche un écran spécial."
 
 --Media

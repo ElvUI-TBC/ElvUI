@@ -10,8 +10,7 @@ G["general"] = {
 		["position"] = "BOTTOMLEFT",
 		["xOffset"] = 0,
 		["yOffset"] = 0
-	},
-	["versionCheck"] = true
+	}
 }
 
 G["classCache"] = {}

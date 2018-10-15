@@ -557,7 +557,6 @@ L["Totem Bar"] = "토템바"
 L["Unit Prefix Style"] = "단위 축약 방식"
 L["Vendor Grays"] = "잡동사니 자동판매"
 L["Vendor Gray Detailed Report"] = "자동판매시 목록 보기"
-L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = "자리비움 시 UI가 자리비움모드로 전환됩니다."
 
 --Media

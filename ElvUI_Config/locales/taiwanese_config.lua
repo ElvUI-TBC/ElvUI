@@ -508,7 +508,6 @@ L["Totem Bar"] = "圖騰列"
 L["Unit Prefix Style"] = "單位縮寫"
 L["Vendor Grays"] = "出售灰色物品"
 L["Vendor Gray Detailed Report"] = "詳細報告灰色物品售賣"
-L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = "當你離開時顯示AFK界面"
 
 --Media
