@@ -463,6 +463,7 @@ L["Bottom Panel"] = "Bandeau en bas"
 L["Chat Bubbles Style"] = "Style des bulles de discussion"
 L["Chat Bubbles"] = "Bulles de discussion"
 L["Chat Bubble Names"] = true
+L["Chat Output"] = true
 L["Controls the amount of decimals used in values displayed on elements like NamePlates and UnitFrames."] = true
 L["Decimal Length"] = true
 L["Direction the bar moves on gains/losses"] = "Direction que prend la barre quand gain / perte"
@@ -500,6 +501,7 @@ L["The font that appears on the text above players heads. |cffFF0000WARNING: Thi
 L["The Thin Border Theme option will change the overall apperance of your UI. Using Thin Border Theme is a slight performance increase over the traditional layout."] = true
 L["The unit prefixes you want to use when values are shortened in ElvUI. This is mostly used on UnitFrames."] = true
 L["Thin Border Theme"] = "Thème aec bordures fines"
+L["This selects the Chat Frame to use as the output of ElvUI messages."] = true
 L["Toggle Tutorials"] = "Afficher les tutoriels"
 L["Top Panel"] = "Bandeau en haut"
 L["Totem Bar"] = "Barre de totems"

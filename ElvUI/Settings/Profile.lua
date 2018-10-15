@@ -970,6 +970,12 @@ P["unitframe"] = {
 				["iconYOffset"] = 0,
 				["tickWidth"] = 1,
 				["tickColor"] = {r = 0, g = 0, b = 0, a = 0.8},
+				["strataAndLevel"] = {
+					["useCustomStrata"] = false,
+					["frameStrata"] = "LOW",
+					["useCustomLevel"] = false,
+					["frameLevel"] = 1
+				}
 			},
 			["classbar"] = {
 				["enable"] = true,
@@ -1129,14 +1135,19 @@ P["unitframe"] = {
 				["icon"] = true,
 				["format"] = "REMAINING",
 				["spark"] = true,
-				["displayTarget"] = false,
 				["iconSize"] = 42,
 				["iconAttached"] = true,
 				["insideInfoPanel"] = true,
 				["iconAttachedTo"] = "Frame",
 				["iconPosition"] = "LEFT",
 				["iconXOffset"] = -10,
-				["iconYOffset"] = 0
+				["iconYOffset"] = 0,
+				["strataAndLevel"] = {
+					["useCustomStrata"] = false,
+					["frameStrata"] = "LOW",
+					["useCustomLevel"] = false,
+					["frameLevel"] = 1
+				}
 			},
 			["combobar"] = {
 				["enable"] = true,
@@ -1470,14 +1481,19 @@ P["unitframe"] = {
 				["icon"] = true,
 				["format"] = "REMAINING",
 				["spark"] = true,
-				["displayTarget"] = false,
 				["iconSize"] = 32,
 				["iconAttached"] = true,
 				["insideInfoPanel"] = true,
 				["iconAttachedTo"] = "Frame",
 				["iconPosition"] = "LEFT",
 				["iconXOffset"] = -10,
-				["iconYOffset"] = 0
+				["iconYOffset"] = 0,
+				["strataAndLevel"] = {
+					["useCustomStrata"] = false,
+					["frameStrata"] = "LOW",
+					["useCustomLevel"] = false,
+					["frameLevel"] = 1
+				}
 			},
 			["aurabar"] = {
 				["enable"] = false,
@@ -1727,14 +1743,19 @@ P["unitframe"] = {
 				["icon"] = true,
 				["format"] = "REMAINING",
 				["spark"] = true,
-				["displayTarget"] = false,
 				["iconSize"] = 26,
 				["iconAttached"] = true,
 				["insideInfoPanel"] = true,
 				["iconAttachedTo"] = "Frame",
 				["iconPosition"] = "LEFT",
 				["iconXOffset"] = -10,
-				["iconYOffset"] = 0
+				["iconYOffset"] = 0,
+				["strataAndLevel"] = {
+					["useCustomStrata"] = false,
+					["frameStrata"] = "LOW",
+					["useCustomLevel"] = false,
+					["frameLevel"] = 1
+				}
 			}
 		},
 		["pettarget"] = {
@@ -1918,14 +1939,19 @@ P["unitframe"] = {
 				["icon"] = true,
 				["format"] = "REMAINING",
 				["spark"] = true,
-				["displayTarget"] = false,
 				["iconSize"] = 32,
 				["iconAttached"] = true,
 				["insideInfoPanel"] = true,
 				["iconAttachedTo"] = "Frame",
 				["iconPosition"] = "LEFT",
 				["iconXOffset"] = -10,
-				["iconYOffset"] = 0
+				["iconYOffset"] = 0,
+				["strataAndLevel"] = {
+					["useCustomStrata"] = false,
+					["frameStrata"] = "LOW",
+					["useCustomLevel"] = false,
+					["frameLevel"] = 1
+				}
 			},
 			["pvpTrinket"] = {
 				["enable"] = true,
@@ -2058,13 +2084,13 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
 			},
 			["castbar"] = {
@@ -2074,14 +2100,19 @@ P["unitframe"] = {
 				["icon"] = true,
 				["format"] = "REMAINING",
 				["spark"] = true,
-				["displayTarget"] = false,
 				["iconSize"] = 32,
 				["iconAttached"] = true,
 				["insideInfoPanel"] = true,
 				["iconAttachedTo"] = "Frame",
 				["iconPosition"] = "LEFT",
 				["iconXOffset"] = -10,
-				["iconYOffset"] = 0
+				["iconYOffset"] = 0,
+				["strataAndLevel"] = {
+					["useCustomStrata"] = false,
+					["frameStrata"] = "LOW",
+					["useCustomLevel"] = false,
+					["frameLevel"] = 1
+				}
 			},
 			["raidRoleIcons"] = {
 				["enable"] = true,
@@ -2113,6 +2144,14 @@ P["unitframe"] = {
 					["text_format"] = "[namecolor][name:short]",
 					["yOffset"] = 0,
 					["xOffset"] = 0
+				},
+				["raidicon"] = {
+					["enable"] = true,
+					["size"] = 18,
+					["attachTo"] = "TOP",
+					["attachToObject"] = "Frame",
+					["xOffset"] = 0,
+					["yOffset"] = 8
 				}
 			},
 			["raidicon"] = {
@@ -2266,13 +2305,13 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
 			},
 			["raidRoleIcons"] = {
@@ -2424,13 +2463,13 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
 			},
 			["raidRoleIcons"] = {
@@ -2579,13 +2618,13 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
 			},
 			["raidicon"] = {
@@ -2674,14 +2713,22 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
+			},
+			["raidicon"] = {
+				["enable"] = true,
+				["size"] = 18,
+				["attachTo"] = "TOP",
+				["attachToObject"] = "Frame",
+				["xOffset"] = 0,
+				["yOffset"] = 8
 			},
 			["targetsGroup"] = {
 				["enable"] = true,
@@ -2697,6 +2744,14 @@ P["unitframe"] = {
 					["yOffset"] = 0,
 					["xOffset"] = 0,
 					["attachTextTo"] = "Health"
+				},
+				["raidicon"] = {
+					["enable"] = true,
+					["size"] = 18,
+					["attachTo"] = "TOP",
+					["attachToObject"] = "Frame",
+					["xOffset"] = 0,
+					["yOffset"] = 8
 				}
 			}
 		},
@@ -2777,14 +2832,22 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
+			},
+			["raidicon"] = {
+				["enable"] = true,
+				["size"] = 18,
+				["attachTo"] = "TOP",
+				["attachToObject"] = "Frame",
+				["xOffset"] = 0,
+				["yOffset"] = 8
 			},
 			["targetsGroup"] = {
 				["enable"] = true,
@@ -2800,6 +2863,14 @@ P["unitframe"] = {
 					["yOffset"] = 0,
 					["xOffset"] = 0,
 					["attachTextTo"] = "Frame"
+				},
+				["raidicon"] = {
+					["enable"] = true,
+					["size"] = 18,
+					["attachTo"] = "TOP",
+					["attachToObject"] = "Frame",
+					["xOffset"] = 0,
+					["yOffset"] = 8
 				}
 			}
 		}

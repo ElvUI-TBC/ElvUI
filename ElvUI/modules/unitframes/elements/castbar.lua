@@ -111,6 +111,14 @@ function UF:Configure_Castbar(frame)
 			castbar.Holder:GetScript("OnSizeChanged")(castbar.Holder)
 		end
 
+		if db.castbar.strataAndLevel and db.castbar.strataAndLevel.useCustomStrata then
+			castbar:SetFrameStrata(db.castbar.strataAndLevel.frameStrata)
+		end
+
+		if db.castbar.strataAndLevel and db.castbar.strataAndLevel.useCustomLevel then
+			castbar:SetFrameLevel(db.castbar.strataAndLevel.frameLevel)
+		end
+
 		--Latency
 		if db.castbar.latency then
 			castbar.SafeZone = castbar.LatencyTexture

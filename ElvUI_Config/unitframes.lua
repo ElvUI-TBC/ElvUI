@@ -1196,14 +1196,8 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				desc = L["Display the castbar inside the information panel, the icon will be displayed outside the main unitframe."],
 				disabled = function() return not E.db.unitframe.units[groupName].infoPanel or not E.db.unitframe.units[groupName].infoPanel.enable end
 			},
-			displayTarget = {
-				order = 12,
-				type = "toggle",
-				name = L["Display Target"],
-				desc = L["Display the target of your current cast. Useful for mouseover casts."]
-			},
 			iconSettings = {
-				order = 13,
+				order = 12,
 				type = "group",
 				name = L["Icon"],
 				guiInline = true,
@@ -1261,13 +1255,63 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 						disabled = function() return E.db.unitframe.units[groupName].castbar.iconAttached end
 					}
 				}
+			},
+			strataAndLevel = {
+				order = 13,
+				type = "group",
+				name = L["Strata and Level"],
+				get = function(info) return E.db.unitframe.units[groupName]['castbar']["strataAndLevel"][ info[#info] ] end,
+				set = function(info, value) E.db.unitframe.units[groupName]['castbar']["strataAndLevel"][ info[#info] ] = value updateFunc(UF, groupName, numUnits) end,
+				guiInline = true,
+				args = {
+					useCustomStrata = {
+						order = 1,
+						type = "toggle",
+						name = L["Use Custom Strata"]
+					},
+					frameStrata = {
+						order = 2,
+						type = "select",
+						name = L["Frame Strata"],
+						values = {
+							["BACKGROUND"] = "BACKGROUND",
+							["LOW"] = "LOW",
+							["MEDIUM"] = "MEDIUM",
+							["HIGH"] = "HIGH",
+							["DIALOG"] = "DIALOG",
+							["TOOLTIP"] = "TOOLTIP"
+						}
+					},
+					spacer = {
+						order = 3,
+						type = "description",
+						name = ""
+					},
+					useCustomLevel = {
+						order = 4,
+						type = "toggle",
+						name = L["Use Custom Level"]
+					},
+					frameLevel = {
+						order = 5,
+						type = "range",
+						name = L["Frame Level"],
+						min = 2, max = 128, step = 1
+					}
+				}
 			}
 		}
 	}
 
 	if hasTicks then
-		config.args.ticks = {
+		config.args.displayTarget = {
 			order = 14,
+			type = "toggle",
+			name = L["Display Target"],
+			desc = L["Display the target of your current cast. Useful for mouseover casts."]
+		}
+		config.args.ticks = {
+			order = 15,
 			type = "group",
 			name = L["Ticks"],
 			guiInline = true,
@@ -6840,6 +6884,7 @@ E.Options.args.unitframe.args.tank = {
 		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
 		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "tank"),
+		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, "tank"),
 		buffIndicator = {
 			order = 800,
 			type = "group",
@@ -7036,6 +7081,7 @@ E.Options.args.unitframe.args.assist = {
 		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
 		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "assist"),
+		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, "assist"),
 		buffIndicator = {
 			order = 800,
 			type = "group",

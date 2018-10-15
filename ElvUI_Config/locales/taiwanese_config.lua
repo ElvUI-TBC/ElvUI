@@ -463,6 +463,7 @@ L["Bottom Panel"] = "底部面板"
 L["Chat Bubbles Style"] = "聊天氣泡樣式"
 L["Chat Bubbles"] = "聊天氣泡"
 L["Chat Bubble Names"] = "聊天氣泡姓名"
+L["Chat Output"] = true
 L["Controls the amount of decimals used in values displayed on elements like NamePlates and UnitFrames."] = true
 L["Decimal Length"] = "小數位數"
 L["Direction the bar moves on gains/losses"] = "條增加/減少時的方向"
@@ -500,6 +501,7 @@ L["The font that appears on the text above players heads. |cffFF0000WARNING: Thi
 L["The Thin Border Theme option will change the overall apperance of your UI. Using Thin Border Theme is a slight performance increase over the traditional layout."] = "細邊框主題會改變所有的外觀,使用細邊框主題會略微提升性能"
 L["The unit prefixes you want to use when values are shortened in ElvUI. This is mostly used on UnitFrames."] = "在ElvUI中數值單位的縮寫. 該選項主要應用在單位框體."
 L["Thin Border Theme"] = "細邊框主題"
+L["This selects the Chat Frame to use as the output of ElvUI messages."] = true
 L["Toggle Tutorials"] = "教學開關"
 L["Top Panel"] = "頂部面板"
 L["Totem Bar"] = "圖騰列"

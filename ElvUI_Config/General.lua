@@ -58,8 +58,8 @@ E.Options.args.general = {
 				messageRedirect = {
 					order = 2,
 					type = "select",
-					name = L["ElvUI: Chat Output"],
-					desc = L["The selects the Chat Frame to use as the output of ElvUI messages."],
+					name = L["Chat Output"],
+					desc = L["This selects the Chat Frame to use as the output of ElvUI messages."],
 					values = GetChatWindowInfo()
 				},
 				interruptAnnounce = {
