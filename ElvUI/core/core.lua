@@ -764,42 +764,42 @@ function E:SendMessage()
 		end
 	elseif numParty > 0 then
 		SendAddonMessage("ELVUI_VERSIONCHK", E.version, "PARTY")
-	end
-
-	if E.SendMSGTimer then
-		self:CancelTimer(E.SendMSGTimer)
-		E.SendMSGTimer = nil
+	elseif IsInGuild() then
+		SendAddonMessage("ELVUI_VERSIONCHK", E.version, "GUILD")
 	end
 end
 
-local SendRecieveGroupSize
+local SendRecieveGroupSize = -1 --this is negative one so that the first check will send (if group size is greater than one; specifically for /reload)
 local function SendRecieve(_, event, prefix, message, _, sender)
 	if not E.global.general.versionCheck then return end
 
 	if event == "CHAT_MSG_ADDON" then
-		if prefix ~= "ELVUI_VERSIONCHK" then return end
-		if not sender or sender == E.myname or E.recievedOutOfDateMessage then return end
+		if sender == myName then return end
 
-		message = tonumber(message)
+		if prefix == "ELVUI_VERSIONCHK" then
+			if (not E.recievedOutOfDateMessage) and (tonumber(message) ~= nil and tonumber(message) > tonumber(E.version)) then
+				E:Print(L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"])
 
-		if message and message > tonumber(E.version) then
-			E:Print(L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"])
+				if (tonumber(message) - tonumber(E.version)) >= 0.01 then
+					E:StaticPopup_Show("ELVUI_UPDATE_AVAILABLE")
+				end
 
-			if (message - tonumber(E.version)) >= 0.05 then
-				E:StaticPopup_Show("ELVUI_UPDATE_AVAILABLE")
+				E.recievedOutOfDateMessage = true
+			elseif tonumber(message) ~= nil and tonumber(message) < tonumber(E.version) then -- Send Message Back if you intercept and are higher revision
+				E:ScheduleTimer("SendMessage", 10)
 			end
-
-			E.recievedOutOfDateMessage = true
 		end
-	else
+	elseif event == "PARTY_MEMBERS_CHANGED" or event == "RAID_ROSTER_UPDATE" then
 		local numRaid, numParty = GetNumRaidMembers(), GetNumPartyMembers() + 1
 		local num = numRaid > 0 and numRaid or numParty
 		if num ~= SendRecieveGroupSize then
-			if num > 1 and SendRecieveGroupSize and num > SendRecieveGroupSize then
-				E.SendMSGTimer = E:ScheduleTimer("SendMessage", 12)
+			if num > 1 and num > SendRecieveGroupSize then
+				E:ScheduleTimer("SendMessage", 10)
 			end
 			SendRecieveGroupSize = num
 		end
+	else
+		E:ScheduleTimer("SendMessage", 10)
 	end
 end
 

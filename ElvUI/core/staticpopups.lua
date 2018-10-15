@@ -14,7 +14,6 @@ local MoneyFrame_Update = MoneyFrame_Update
 local SetCVar, DisableAddOn = SetCVar, DisableAddOn
 local ReloadUI, PlaySound, StopMusic = ReloadUI, PlaySound, StopMusic
 local StaticPopup_Resize = StaticPopup_Resize
-local ChatEdit_FocusActiveWindow = ChatEdit_FocusActiveWindow
 local STATICPOPUP_TEXTURE_ALERT = STATICPOPUP_TEXTURE_ALERT
 local STATICPOPUP_TEXTURE_ALERTGEAR = STATICPOPUP_TEXTURE_ALERTGEAR
 local YES, NO, OKAY, CANCEL, ACCEPT, DECLINE = YES, NO, OKAY, CANCEL, ACCEPT, DECLINE
@@ -31,7 +30,6 @@ E.PopupDialogs["ELVUI_UPDATE_AVAILABLE"] = {
 		self.editBox:SetWidth(220)
 		self.editBox:SetText("https://github.com/ElvUI-TBC/ElvUI")
 		self.editBox:HighlightText()
-		ChatEdit_FocusActiveWindow()
 	end,
 	OnHide = function(self)
 		self.editBox:SetWidth(self.editBox.width or 50)
@@ -41,11 +39,9 @@ E.PopupDialogs["ELVUI_UPDATE_AVAILABLE"] = {
 	button1 = OKAY,
 	OnAccept = E.noop,
 	EditBoxOnEnterPressed = function(self)
-		ChatEdit_FocusActiveWindow()
 		self:GetParent():Hide()
 	end,
 	EditBoxOnEscapePressed = function(self)
-		ChatEdit_FocusActiveWindow()
 		self:GetParent():Hide()
 	end,
 	EditBoxOnTextChanged = function(self)
@@ -54,7 +50,6 @@ E.PopupDialogs["ELVUI_UPDATE_AVAILABLE"] = {
 		end
 		self:HighlightText()
 		self:ClearFocus()
-		ChatEdit_FocusActiveWindow()
 	end,
 	OnEditFocusGained = function(self)
 		self:HighlightText()

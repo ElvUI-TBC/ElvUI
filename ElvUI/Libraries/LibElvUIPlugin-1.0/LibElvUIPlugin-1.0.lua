@@ -1,11 +1,12 @@
-local MAJOR, MINOR = "LibElvUIPlugin-1.0", 18
+local MAJOR, MINOR = "LibElvUIPlugin-1.0", 22
 local lib, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
 
 --Cache global variables
 --Lua functions
 local pairs, tonumber = pairs, tonumber
-local format, gsub, strmatch, strsplit = format, gsub, strmatch, strsplit
+local format, gsub, strmatch, strsplit, strsub, strlen, ceil = format, gsub, strmatch, strsplit, strsub, strlen, ceil
+
 --WoW API / Variables
 local CreateFrame = CreateFrame
 local GetAddOnMetadata = GetAddOnMetadata
@@ -20,6 +21,7 @@ local SendAddonMessage = SendAddonMessage
 lib.plugins = {}
 lib.index = 0
 lib.prefix = "ElvUIPluginVC"
+lib.groupSize = -1 --this is negative one so that the first check will send (if group size is greater than one; specifically for /reload)
 
 -- MULTI Language Support (Default Language: English)
 local MSG_OUTDATED = "Your version of %s %s is out of date (latest is version %s). You can download the latest version from https://github.com/ElvUI-TBC/ElvUI/"
@@ -162,7 +164,7 @@ function lib:VersionCheck(event, prefix, message, channel, sender)
 					name, version = strmatch(p, "([%w_]+)=([%d%p]+)")
 					if lib.plugins[name] then
 						plugin = lib.plugins[name]
-						if plugin.version ~= "BETA" and version and tonumber(version) and plugin.version and tonumber(plugin.version) and tonumber(version) > tonumber(plugin.version) then
+						if plugin.version ~= "BETA" and version ~= nil and tonumber(version) ~= nil and plugin.version ~= nil and tonumber(plugin.version) ~= nil and tonumber(version) > tonumber(plugin.version) then
 							plugin.old = true
 							plugin.newversion = tonumber(version)
 							Pname = GetAddOnMetadata(plugin.name, "Title")
@@ -213,25 +215,26 @@ end
 
 function lib:SendPluginVersionCheck(message)
 	if (not message) or strmatch(message, "^%s-$") then return end
-
 	local ChatType
+
 	if GetNumRaidMembers() > 1 then
 		local _, instanceType = IsInInstance()
 		ChatType = instanceType == "pvp" and "BATTLEGROUND" or "RAID"
 	elseif GetNumPartyMembers() > 0 then
 		ChatType = "PARTY"
+	elseif IsInGuild() then
+		ChatType = "GUILD"
 	end
-	if not ChatType then return end
 
-	local maxChar, msgLength = 254 - strlen(lib.prefix), strlen(message)
+	local delay, maxChar, msgLength = 0, 250, strlen(message)
 	if msgLength > maxChar then
-		local delay, splitMessage = 0
+		local splitMessage
 
 		for _ = 1, ceil(msgLength/maxChar) do
 			splitMessage = strmatch(strsub(message, 1, maxChar), ".+;")
 
-			if splitMessage then -- incase the string is over `maxChar` but doesnt contain `;`
-				message = gsub(message, "^"..gsub(splitMessage, '([%-%.%+%[%]%(%)%$%^%%%?%*])','%%%1'), "")
+			if splitMessage then -- incase the string is over 250 but doesnt contain `;`
+				message = gsub(message, "^"..gsub(splitMessage, '([%(%)%.%%%+%-%*%?%[%^%$])','%%%1'), "")
 				ElvUI[1]:Delay(delay, SendAddonMessage, lib.prefix, splitMessage, ChatType)
 				delay = delay + 1
 			end
