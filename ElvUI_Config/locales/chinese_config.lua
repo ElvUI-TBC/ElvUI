@@ -12,7 +12,7 @@ L["COOLDOWN_DESC"] = "调整冷却文字设置"
 L["DATATEXT_DESC"] = "设定屏幕所显示的部分信息文字"
 L["DATABAR_DESC"] = "设置各种数据条"
 L["ELVUI_DESC"] = "ElvUI为一套功能完整, 可用来替换WoW原始界面的套件"
-L["NAMEPLATE_DESC"] = "修改血条设定"
+L["NAMEPLATE_DESC"] = "修改姓名板设定"
 L["PANEL_DESC"] = "调整左、右聊天框的大小, 此设定将会影响聊天与背包框架的大小"
 L["SKINS_DESC"] = "调整外观设定"
 L["TOGGLESKIN_DESC"] = "启用/停用此外观"
@@ -63,9 +63,9 @@ L["TEXT_FORMAT_DESC"] = [=[提供一个更改文字格式的方式
 'name:long' - 姓名显示限制于20字节内
 
 空白则为禁用. 如需技术支持请至http://www.tukui.org]=]
-L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[如果你设置为1则所有符合这个过滤器的姓名版将在其他姓名版上方。
-如果你将另一个过滤器设置为2则符合那个过滤器的姓名版将在设为1的姓名版以及未触发的姓名版上方。
-请注意：这个设置不会修复在互相重叠的姓名版上点击/鼠标指向的问题。该问题是由于我们无法处理姓名版可点击区域的层次。]=]
+L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[如果你设置为1则所有符合这个过滤器的姓名板将在其他姓名板上方。
+如果你将另一个过滤器设置为2则符合那个过滤器的姓名板将在设为1的姓名板以及未触发的姓名板上方。
+请注意：这个设置不会修复在互相重叠的姓名板上点击/鼠标指向的问题。该问题是由于我们无法处理姓名板可点击区域的层次。]=]
 
 --ActionBars
 L["Action Paging"] = "动作条翻页"
@@ -173,14 +173,14 @@ L["Button Size (Bag)"] = "背包格子尺寸"
 L["Button Size (Bank)"] = "银行背包格子尺寸"
 L["Clear Search On Close"] = "关闭时清除搜索"
 L["Condensed"] = "巨集"
-L["Custom Color"] = true
+L["Custom Color"] = "自定义颜色"
 L["Descending"] = "降序"
 L["Direction the bag sorting will use to allocate the items."] = "整理背包时物品排序方向."
 L["Disable Bag Sort"] = "禁用背包排序"
 L["Disable Bank Sort"] = "禁用银行排序"
 L["Display Item Level"] = "显示物品等级"
 L["Displays item level on equippable items."] = "显示所有可装备物品的物品等级"
-L["Enable Custom Color"] = true
+L["Enable Custom Color"] = "启用自定义颜色"
 L["Enable/Disable the all-in-one bag."] = "开/关整合背包"
 L["Enable/Disable the Bag-Bar."] = "启用/禁用背包条"
 L["Full"] = "满"
@@ -215,16 +215,16 @@ L["The size of the individual buttons on the bank frame."] = "银行框架单个
 L["The spacing between buttons."] = "两个按钮间的距离"
 L["Top to Bottom"] = "顶部到底部"
 L["Use coin icons instead of colored text."] = "显示硬币图标而不是颜色文字"
-L["Will attempt to sell another item in set interval after previous one was sold."] = true
+L["Will attempt to sell another item in set interval after previous one was sold."] = "尝试在设定的周期后卖下一个物品"
 
 --Bag Colors
 L["Ammo Pouch"] = true
-L["Enchanting"] = true
-L["Engineering"] = true
-L["Gems"] = true
-L["Herbalism"] = true
-L["Leatherworking"] = true
-L["Mining"] = true
+L["Enchanting"] = "附魔"
+L["Engineering"] = "工程"
+L["Gems"] = "珠宝"
+L["Herbalism"] = "草药"
+L["Leatherworking"] = "制皮"
+L["Mining"] = "采矿"
 L["Profession Bags"] = true
 L["Quiver"] = true
 L["Soul Bag"] = true
@@ -461,8 +461,8 @@ L["Bottom Panel"] = "底部面板"
 L["Chat Bubbles Style"] = "聊天气泡样式"
 L["Chat Bubbles"] = "聊天气泡"
 L["Chat Bubble Names"] = "聊天气泡名字"
-L["Chat Output"] = true
-L["Controls the amount of decimals used in values displayed on elements like NamePlates and UnitFrames."] = "控制像姓名版和团队框架中各数值的小数位数"
+L["Chat Output"] = "聊天输出"
+L["Controls the amount of decimals used in values displayed on elements like NamePlates and UnitFrames."] = "控制像姓名板和团队框架中各数值的小数位数"
 L["Decimal Length"] = "小数位数"
 L["Direction the bar moves on gains/losses"] = "条增加/减少时的方向"
 L["Displays a detailed report of every item sold when enabled."] = "启用后显示包含每个物品金额的详细报告"
@@ -499,7 +499,7 @@ L["The font that appears on the text above players heads. |cffFF0000WARNING: Thi
 L["The Thin Border Theme option will change the overall apperance of your UI. Using Thin Border Theme is a slight performance increase over the traditional layout."] = "细边框主题会改变所有的外观,使用细边框主题会略微提升性能"
 L["The unit prefixes you want to use when values are shortened in ElvUI. This is mostly used on UnitFrames."] = "在ElvUI中数值单位的缩写. 该选项主要应用在单位框体"
 L["Thin Border Theme"] = "细边框主题"
-L["This selects the Chat Frame to use as the output of ElvUI messages."] = true
+L["This selects the Chat Frame to use as the output of ElvUI messages."] = "选择ElvUI信息的聊天输出"
 L["Toggle Tutorials"] = "教学开关"
 L["Top Panel"] = "顶部面板"
 L["Totem Bar"] = "图腾栏"
@@ -581,7 +581,7 @@ L["Are you sure you want to reset Cooldown settings?"] = "你确定要重置‘�
 L["Are you sure you want to reset DataBars settings?"] = "你确定要重置‘数据条’的设置吗？"
 L["Are you sure you want to reset DataTexts settings?"] = "你确定要重置‘信息文字’的设置吗？"
 L["Are you sure you want to reset General settings?"] = "你确定要重置‘一般’的设置吗？"
-L["Are you sure you want to reset NamePlates settings?"] = "你确定要重置‘姓名版’的设置吗？"
+L["Are you sure you want to reset NamePlates settings?"] = "你确定要重置‘姓名板’的设置吗？"
 L["Are you sure you want to reset Tooltip settings?"] = "你确定要重置‘鼠标提示’的设置吗？"
 L["Are you sure you want to reset UnitFrames settings?"] = "你确定要重置‘单位框架’的设置吗？"
 L["Core |cff00b30bE|r|cffC4C4C4lvUI|r options."] = "核心|cff00b30bE|r|cffC4C4C4lvUI|r配置"
@@ -697,7 +697,7 @@ L["Missing"] = "缺失"
 L["Name Color"] = "姓名颜色"
 L["Name Colored Glow"] = "姓名颜色高亮"
 L["Name Only"] = "仅姓名"
-L["NamePlates"] = "姓名板(血条)"
+L["NamePlates"] = "姓名板"
 L["Non-Target Transparency"] = "非目标透明度"
 L["Not Targeted"] = "非当前目标"
 L["Off Cooldown"] = "冷却外"
@@ -761,7 +761,7 @@ L["Global (Account Settings)"] = "全局(账号设置)"
 L["Import Now"] = "现在导入"
 L["Import Profile"] = "导入配置文件"
 L["Importing"] = "正在导入"
-L["NamePlate Style Filters"] = "姓名版样式过滤器"
+L["NamePlate Style Filters"] = "姓名板样式过滤器"
 L["Plugin"] = "插件"
 L["Private (Character Settings)"] = "个人(角色配置)"
 L["Profile imported successfully!"] = "配置文件导入成功"

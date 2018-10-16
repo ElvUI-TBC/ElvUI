@@ -25,6 +25,8 @@ local MAX_TALENT_TABS = MAX_TALENT_TABS
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 -- Constants
+E.LSM = LSM
+E.noop = function() end
 E.title = format("|cfffe7b2c%s |r", "ElvUI")
 E.myfaction, E.myLocalizedFaction = UnitFactionGroup("player")
 E.myLocalizedClass, E.myclass, E.myClassID = UnitClass("player")
@@ -37,7 +39,6 @@ E.resolution = GetCVar("gxResolution")
 E.screenheight = tonumber(match(E.resolution, "%d+x(%d+)"))
 E.screenwidth = tonumber(match(E.resolution, "(%d+)x+%d"))
 E.isMacClient = IsMacClient()
-E.LSM = LSM
 
 E["media"] = {}
 E["frames"] = {}
@@ -121,8 +122,6 @@ E.DEFAULT_FILTER = {}
 for filter, tbl in pairs(G.unitframe.aurafilters) do
 	E.DEFAULT_FILTER[filter] = tbl.type
 end
-
-E.noop = function() end
 
 local colorizedName
 function E:ColorizedName(name, arg2)

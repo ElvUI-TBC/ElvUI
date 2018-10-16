@@ -109,8 +109,8 @@ function E:UIScale(event, loginFrame)
 			-- if autoscale is off, find a new width value of E.UIParent for screen #1.
 			if not E.global.general.autoScale or height > 1200 then
 				local h = UIParent:GetHeight()
-				local ratio = height / h
-				local w = width / ratio
+				local ratio = (height / h)
+				local w = (width / ratio)
 
 				width = w
 				height = h
