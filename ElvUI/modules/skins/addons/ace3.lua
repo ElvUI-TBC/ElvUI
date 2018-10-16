@@ -328,7 +328,7 @@ function S:SkinAce3()
 				if not E.GUIFrame then
 					E.GUIFrame = frame
 				end
-				for i=1, frame:GetNumChildren() do
+				for i = 1, frame:GetNumChildren() do
 					local child = select(i, frame:GetChildren())
 					if child:GetObjectType() == "Button" and child:GetText() then
 						SkinButton(child)
@@ -400,7 +400,7 @@ function S:SkinAce3()
 		elseif TYPE == "SimpleGroup" then
 			local frame = widget.content:GetParent()
 			frame:SetTemplate("Transparent", nil, true) --ignore border updates
-			frame:SetBackdropBorderColor(0,0,0,0) --Make border completely transparent
+			frame:SetBackdropBorderColor(0, 0, 0, 0) --Make border completely transparent
 		end
 
 		return oldRegisterAsContainer(self, widget)
