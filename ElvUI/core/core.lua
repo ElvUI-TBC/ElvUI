@@ -754,6 +754,7 @@ function E:StringSplitMultiDelim(s, delim)
 	return unpack(t)
 end
 
+local SendMessageTimer -- prevent setting multiple timers at once
 function E:SendMessage()
 	local numRaid, numParty = GetNumRaidMembers(), GetNumPartyMembers()
 	if numRaid > 1 then
@@ -768,24 +769,31 @@ function E:SendMessage()
 	elseif IsInGuild() then
 		SendAddonMessage("ELVUI_VERSIONCHK", E.version, "GUILD")
 	end
+
+	SendMessageTimer = nil
 end
 
-local SendRecieveGroupSize = -1 --this is negative one so that the first check will send (if group size is greater than one; specifically for /reload)
+local SendRecieveGroupSize = 0
 local function SendRecieve(_, event, prefix, message, _, sender)
 	if event == "CHAT_MSG_ADDON" then
 		if sender == E.myname then return end
 
 		if prefix == "ELVUI_VERSIONCHK" then
-			if (not E.recievedOutOfDateMessage) and (tonumber(message) ~= nil and tonumber(message) > tonumber(E.version)) then
-				E:Print(L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"])
+			local msg, ver = tonumber(message), tonumber(E.version)
+			if msg and (msg > ver) then -- you're outdated D:
+				if not E.recievedOutOfDateMessage then
+					E:Print(L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-TBC/ElvUI/"])
 
-				if (tonumber(message) - tonumber(E.version)) >= 0.01 then
-					E:StaticPopup_Show("ELVUI_UPDATE_AVAILABLE")
+					if msg and ((msg - ver) >= 0.01) then
+						E:StaticPopup_Show("ELVUI_UPDATE_AVAILABLE")
+					end
+
+					E.recievedOutOfDateMessage = true
 				end
-
-				E.recievedOutOfDateMessage = true
-			elseif tonumber(message) ~= nil and tonumber(message) < tonumber(E.version) then -- Send Message Back if you intercept and are higher revision
-				E:ScheduleTimer("SendMessage", 10)
+			elseif msg and (msg < ver) then -- Send Message Back if you intercept and are higher revision
+				if not SendMessageTimer then
+					SendMessageTimer = E:ScheduleTimer("SendMessage", 10)
+				end
 			end
 		end
 	elseif event == "PARTY_MEMBERS_CHANGED" or event == "RAID_ROSTER_UPDATE" then
@@ -793,12 +801,14 @@ local function SendRecieve(_, event, prefix, message, _, sender)
 		local num = numRaid > 0 and numRaid or numParty
 		if num ~= SendRecieveGroupSize then
 			if num > 1 and num > SendRecieveGroupSize then
-				E:ScheduleTimer("SendMessage", 10)
+				if not SendMessageTimer then
+					SendMessageTimer = E:ScheduleTimer("SendMessage", 10)
+				end
 			end
 			SendRecieveGroupSize = num
 		end
-	else
-		E:ScheduleTimer("SendMessage", 10)
+	elseif not SendMessageTimer then
+		SendMessageTimer = E:ScheduleTimer("SendMessage", 10)
 	end
 end
 
