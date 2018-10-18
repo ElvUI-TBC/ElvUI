@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 
+local select = select
 local max = math.max
 
 local CreateFrame = CreateFrame
@@ -12,19 +13,16 @@ local GetRealZoneText = GetRealZoneText
 local GetScreenResolutions = GetScreenResolutions
 local UnitLevel = UnitLevel
 
-local function IsAddOnEnabled(addon)
-	return GetAddOnEnableState(E.myname, addon) == 2
-end
-
 local function AreOtherAddOnsEnabled()
 	local name, loadable, reason, _
 	for i = 1, GetNumAddOns() do
 		name, _, _, loadable, reason = GetAddOnInfo(i)
-		if ((name ~= "ElvUI" and name ~= "ElvUI Config") and (loadable or (not loadable and reason == "DEMAND_LOADED"))) then --Loaded or load on demand
-			return "No"
+		if (name ~= "ElvUI" and name ~= "ElvUI_Config" and name ~= "!Compatibility" and name ~= "!DebugTools") and (loadable or (not loadable and reason == "DEMAND_LOADED")) then --Loaded or load on demand
+			return "Yes"
 		end
 	end
-	return "Yes"
+
+	return "No"
 end
 
 local function GetUiScale()
@@ -60,18 +58,8 @@ local EnglishClassName = {
 	["ROGUE"] = "Rogue",
 	["SHAMAN"] = "Shaman",
 	["WARLOCK"] = "Warlock",
-	["WARRIOR"] = "Warrior",
+	["WARRIOR"] = "Warrior"
 }
-
-local function GetSpecName()
-	local _, specName = E:GetTalentSpecInfo()
-
-	if specName and specName ~= "" then
-		return specName
-	else
-		return "None"
-	end
-end
 
 local function GetResolution()
 	return (({GetScreenResolutions()})[GetCurrentResolution()] or GetCVar("gxWindowedResolution"))
@@ -114,8 +102,9 @@ function E:CreateStatusFrame()
 
 	local function CreateContentLines(num, parent, anchorTo)
 		local content = CreateFrame("Frame", nil, parent)
-		content:Size(240, (num * 20) + ((num-1)*5)) --20 height and 5 spacing
-		content:Point("TOP", anchorTo, "BOTTOM",0 , -5)
+		content:Size(240, (num * 20) + ((num - 1) * 5)) --20 height and 5 spacing
+		content:Point("TOP", anchorTo, "BOTTOM", 0, -5)
+
 		for i = 1, num do
 			local line = CreateFrame("Frame", nil, content)
 			line:Size(240, 20)
@@ -128,7 +117,7 @@ function E:CreateStatusFrame()
 			if i == 1 then
 				content["Line"..i]:Point("TOP", content, "TOP")
 			else
-				content["Line"..i]:Point("TOP", content["Line"..(i-1)], "BOTTOM", 0, -5)
+				content["Line"..i]:Point("TOP", content["Line"..(i - 1)], "BOTTOM", 0, -5)
 			end
 		end
 
@@ -197,7 +186,7 @@ function E:CreateStatusFrame()
 	StatusFrame.Section3.Content.Line1.Text:SetFormattedText("Faction: |cff4beb2c%s|r", E.myfaction)
 	StatusFrame.Section3.Content.Line2.Text:SetFormattedText("Race: |cff4beb2c%s|r", E.myrace)
 	StatusFrame.Section3.Content.Line3.Text:SetFormattedText("Class: |cff4beb2c%s|r", EnglishClassName[E.myclass])
-	StatusFrame.Section3.Content.Line4.Text:SetFormattedText("Specialization: |cff4beb2c%s|r", GetSpecName())
+	StatusFrame.Section3.Content.Line4.Text:SetFormattedText("Specialization: |cff4beb2c%s|r", select(2, E:GetTalentSpecInfo()))
 	StatusFrame.Section3.Content.Line5.Text:SetFormattedText("Level: |cff4beb2c%s|r", UnitLevel("player"))
 	StatusFrame.Section3.Content.Line6.Text:SetFormattedText("Zone: |cff4beb2c%s|r", GetRealZoneText())
 	StatusFrame.Section3.Content.Line7.Text:SetFormattedText("Realm: |cff4beb2c%s|r", E.myrealm)
@@ -223,7 +212,7 @@ end
 local function UpdateDynamicValues()
 	E.StatusFrame.Section2.Content.Line3.Text:SetFormattedText("Display Mode: |cff4beb2c%s|r", GetDisplayMode())
 	E.StatusFrame.Section2.Content.Line4.Text:SetFormattedText("Resolution: |cff4beb2c%s|r", GetResolution())
-	E.StatusFrame.Section3.Content.Line4.Text:SetFormattedText("Specialization: |cff4beb2c%s|r", GetSpecName())
+	E.StatusFrame.Section3.Content.Line4.Text:SetFormattedText("Specialization: |cff4beb2c%s|r", select(2, E:GetTalentSpecInfo()))
 	E.StatusFrame.Section3.Content.Line5.Text:SetFormattedText("Level: |cff4beb2c%s|r", UnitLevel("player"))
 	E.StatusFrame.Section3.Content.Line6.Text:SetFormattedText("Zone: |cff4beb2c%s|r", GetRealZoneText())
 end
