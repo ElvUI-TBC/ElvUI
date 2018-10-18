@@ -31,7 +31,7 @@ local AceGUI, oldminor = LibStub:NewLibrary(ACEGUI_MAJOR, ACEGUI_MINOR)
 if not AceGUI then return end -- No upgrade needed
 
 -- Lua APIs
-local tconcat, tremove, tinsert = table.concat, table.remove, table.insert
+local tconcat, tinsert = table.concat, table.insert
 local select, pairs, next, type = select, pairs, next, type
 local error, assert, loadstring = error, assert, loadstring
 local setmetatable, rawget, rawset = setmetatable, rawget, rawset
@@ -690,14 +690,12 @@ AceGUI:RegisterLayout("Flow",
 		--height of the current row
 		local rowheight = 0
 		local rowoffset = 0
-		local lastrowoffset
 
 		local width = content.width or content:GetWidth() or 0
 
 		--control at the start of the row
 		local rowstart
 		local rowstartoffset
-		local lastrowstart
 		local isfullheight
 
 		local frameoffset
