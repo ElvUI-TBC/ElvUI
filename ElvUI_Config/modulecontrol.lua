@@ -5,6 +5,7 @@ local CP = E:GetModule("CopyProfile")
 
 local XPBAR_LABEL = XPBAR_LABEL
 local REPUTATION = REPUTATION
+local MINIMAP_LABEL = MINIMAP_LABEL
 local COLORS = COLORS
 
 --Actionbars
@@ -152,6 +153,34 @@ local function CreateDatatextsConfig()
 		name = L["Panels"],
 		get = function(info) return E.global.profileCopy.datatexts[ info[#info] ] end,
 		set = function(info, value) E.global.profileCopy.datatexts[ info[#info] ] = value end
+	}
+
+	return config
+end
+
+--General
+local function CreateGeneralConfig()
+	local config = CP:CreateModuleConfigGroup(L["General"], "general")
+	config.args.minimap = {
+		order = 2,
+		type = "toggle",
+		name = MINIMAP_LABEL,
+		get = function(info) return E.global.profileCopy.general[ info[#info] ] end,
+		set = function(info, value) E.global.profileCopy.general[ info[#info] ] = value end
+	}
+	config.args.threat = {
+		order = 3,
+		type = "toggle",
+		name = L["Threat"],
+		get = function(info) return E.global.profileCopy.general[ info[#info] ] end,
+		set = function(info, value) E.global.profileCopy.general[ info[#info] ] = value end
+	}
+	config.args.totems = {
+		order = 4,
+		type = "toggle",
+		name = L["Totem Bar"],
+		get = function(info) return E.global.profileCopy.general[ info[#info] ] end,
+		set = function(info, value) E.global.profileCopy.general[ info[#info] ] = value end
 	}
 
 	return config
@@ -424,6 +453,7 @@ E.Options.args.modulecontrol= {
 						cooldown = CreateCooldownConfig(),
 						databars = CreateDatatbarsConfig(),
 						datatexts = CreateDatatextsConfig(),
+						general = CreateGeneralConfig(),
 						nameplates = CreateNamePlatesConfig(),
 						tooltip = CreateTooltipConfig(),
 						uniframes = CreateUnitframesConfig()

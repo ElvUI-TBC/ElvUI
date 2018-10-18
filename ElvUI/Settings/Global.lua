@@ -206,6 +206,12 @@ G["profileCopy"] = {
 		["general"] = true,
 		["panels"] = true
 	},
+	["general"] = {
+		["general"] = true,
+		["minimap"] = true,
+		["threat"] = true,
+		["totems"] = true
+	},
 	["nameplates"] = {
 		["general"] = true,
 		["reactions"] = true,
