@@ -56,8 +56,7 @@ local function LoadSkin()
 
 	MacroFrameSelectedMacroButton:StripTextures()
 	MacroFrameSelectedMacroButton:SetTemplate("Transparent")
-	MacroFrameSelectedMacroButton:StyleButton(true)
-	MacroFrameSelectedMacroButton:GetNormalTexture():SetTexture(nil)
+	MacroFrameSelectedMacroButton:StyleButton(nil, true)
 
 	MacroFrameSelectedMacroButtonIcon:SetTexCoord(unpack(E.TexCoords))
 	MacroFrameSelectedMacroButtonIcon:SetInside()
