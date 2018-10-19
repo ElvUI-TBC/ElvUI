@@ -59,7 +59,7 @@ local function LoadSkin()
 	BattlefieldMinimap:HookScript2("OnLeave", function()
 		if oldAlpha then
 			BattlefieldMinimap_SetOpacity(oldAlpha)
-			oldAlpha = nil;
+			oldAlpha = nil
 		end
 	end)
 

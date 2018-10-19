@@ -3,7 +3,7 @@ local S = E:GetModule("Skins")
 
 local _G = _G
 local unpack, select, pairs = unpack, select, pairs
-local find = string.find
+local find, format = string.find, string.format
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true then return end
