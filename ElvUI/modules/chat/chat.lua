@@ -617,12 +617,12 @@ function CH.FindURL(msg, ...)
 	if not msg then return end
 
 	local event = select(11, ...)
-	if event and event == "CHAT_MSG_WHISPER" and CH.db.whisperSound ~= "None" and not CH.SoundPlayed then
+	if event and event == "CHAT_MSG_WHISPER" and (CH.db.whisperSound ~= "None") and not CH.SoundTimer then
 		if (CH.db.noAlertInCombat and not InCombatLockdown()) or not CH.db.noAlertInCombat then
 			PlaySoundFile(LSM:Fetch("sound", CH.db.whisperSound), "Master")
 		end
-		CH.SoundPlayed = true
-		CH.SoundTimer = CH:ScheduleTimer("ThrottleSound", 1)
+
+		CH.SoundTimer = E:Delay(1, CH.ThrottleSound)
 	end
 
 	if not CH.db.url then
@@ -1192,7 +1192,7 @@ function CH.CHAT_MSG_SAY(message, author, ...)
 end
 
 function CH:ThrottleSound()
-	self.SoundPlayed = nil
+	CH.SoundTimer = nil
 end
 
 local protectLinks = {}
@@ -1201,12 +1201,12 @@ function CH:CheckKeyword(message)
 		protectLinks[hyperLink]=hyperLink:gsub("%s","|s")
 		for keyword, _ in pairs(CH.Keywords) do
 			if hyperLink == keyword then
-				if(self.db.keywordSound ~= "None" and not self.SoundPlayed) then
+				if (self.db.keywordSound ~= "None") and not self.SoundTimer then
 					if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
 						PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
 					end
-					self.SoundPlayed = true
-					self.SoundTimer = CH:ScheduleTimer("ThrottleSound", 1)
+
+					self.SoundTimer = E:Delay(1, CH.ThrottleSound)
 				end
 			end
 		end
@@ -1225,12 +1225,12 @@ function CH:CheckKeyword(message)
 			for keyword, _ in pairs(CH.Keywords) do
 				if lowerCaseWord == keyword:lower() then
 					word = word:gsub(tempWord, format("%s%s|r", E.media.hexvaluecolor, tempWord))
-					if self.db.keywordSound ~= "None" and not self.SoundPlayed  then
+					if (self.db.keywordSound ~= "None") and not self.SoundTimer then
 						if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
 							PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
 						end
-						self.SoundPlayed = true
-						self.SoundTimer = CH:ScheduleTimer("ThrottleSound", 1)
+
+						self.SoundTimer = E:Delay(1, CH.ThrottleSound)
 					end
 				end
 			end
@@ -1386,7 +1386,7 @@ function CH:DisplayChatHistory()
 	local data, chat, d = ElvCharacterDB.ChatHistoryLog
 	if not (data and next(data)) then return end
 
-	CH.SoundPlayed = true
+	CH.SoundTimer = true
 	for i = 1, NUM_CHAT_WINDOWS do
 		chat = _G["ChatFrame"..i]
 		for i = 1, #data do
@@ -1400,7 +1400,7 @@ function CH:DisplayChatHistory()
 			end
 		end
 	end
-	CH.SoundPlayed = nil
+	CH.SoundTimer = nil
 end
 
 tremove(ChatTypeGroup["GUILD"], 2)
