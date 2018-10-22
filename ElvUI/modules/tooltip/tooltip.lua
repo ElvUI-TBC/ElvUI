@@ -53,10 +53,13 @@ local LOCALE = {
 	FACTION_HORDE = FACTION_HORDE,
 	FOREIGN_SERVER_LABEL = FOREIGN_SERVER_LABEL,
 	ID = ID,
-	LEVEL = LEVEL,
 	TARGET = TARGET,
 	DEAD = DEAD,
-	FACTION_ALLIANCE = FACTION_ALLIANCE
+	FACTION_ALLIANCE = FACTION_ALLIANCE,
+
+	-- Custom to find LEVEL string on tooltip
+	LEVEL1 = TOOLTIP_UNIT_LEVEL:gsub("%s?%%s%s?%-?",""),
+	LEVEL2 = TOOLTIP_UNIT_LEVEL_CLASS:gsub("^%%2$s%s?(.-)%s?%%1$s","%1"):gsub("^%-?г?о?%s?",""):gsub("%s?%%s%s?%-?","")
 }
 
 local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
@@ -200,9 +203,11 @@ end
 
 function TT:GetLevelLine(tt, offset)
 	for i = offset, tt:NumLines() do
-		local tipText = _G["GameTooltipTextLeft"..i]
-		if tipText:GetText() and tipText:GetText():find(LOCALE.LEVEL) then
-			return tipText
+		local tipLine = _G["GameTooltipTextLeft"..i]
+		local tipText = tipLine and tipLine.GetText and tipLine:GetText()
+		if tipText and (tipText:find(LOCALE.LEVEL1) or tipText:find(LOCALE.LEVEL2)) then
+
+			return tipLine
 		end
 	end
 end
@@ -405,6 +410,7 @@ end
 
 function TT:GameTooltipStatusBar_OnValueChanged(tt, value)
 	if not value or not self.db.healthBar.text or not tt.text then return end
+
 	local unit = select(2, tt:GetParent():GetUnit())
 	if not unit then
 		local GMF = GetMouseFocus()

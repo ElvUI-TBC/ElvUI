@@ -332,7 +332,7 @@ E.Options.args.bags = {
 						herbs = {
 							order = 5,
 							type = "color",
-							name = L["Herbs"]
+							name = L["Herbalism"]
 						},
 						enchanting = {
 							order = 6,
