@@ -121,7 +121,7 @@ L["Multiply the backdrops height or width by this value. This is usefull if you 
 L["Not Usable"] = "Nicht nutzbar"
 L["Out of Power"] = "Keine Kraft"
 L["Out of Range"] = "Außer Reichweite"
-L["Pick Up Action Key"] = "Freischaltungstaste"
+L["Pickup Actionkey"] = "Freischaltungstaste"
 L["Restore Bar"] = "Leiste zurücksetzen"
 L["Restore the actionbars default settings"] = "Wiederherstellung der vordefinierten Aktionsleisteneinstellung"
 L["RightClick Self-Cast"] = "Rechtsklick Selbstzauber"
@@ -197,6 +197,8 @@ L["Item Level"] = "Itemlevel"
 L["Money Format"] = "Geldformat"
 L["Panel Width (Bags)"] = "Leistenbreite (Taschen)"
 L["Panel Width (Bank)"] = "Leistenbreite (Bank)"
+L["Player"] = "Spieler"
+L["Profession Bags"] = "Berufstaschen"
 L["Reverse Bag Slots"] = "Umgekehrte Taschenslots"
 L["Search Syntax"] = "Suchsyntax"
 L["Sell Interval"] = "Verkaufsintervall"
@@ -228,9 +230,8 @@ L["Gems"] = "Edelsteine"
 L["Herbalism"] = "Kräuterkunde"
 L["Leatherworking"] = "Lederverarbeitung"
 L["Mining"] = "Bergbau"
-L["Profession Bags"] = true
-L["Quiver"] = true
-L["Soul Bag"] = true
+L["Quiver"] = "Köcher"
+L["Soul Bag"] = "Seelentasche"
 
 --Buffs and Debuffs
 L["Auras Spacing"] = true
@@ -273,7 +274,6 @@ L["HH:MM Threshold"] = "HH:MM Schwellenwert"
 L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = "Schwellenwert (in Sekunden) bevor der Text in MM:SS Format angezeigt wird. Setze auf -1 um niemals das Format zu ändern."
 L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = "Schwellenwert (in Minuten) bevor der Text in MM:SS Format angezeigt wird. Setze auf -1 um niemals das Format zu ändern."
 L["Color Override"] = "Farbüberschreibung"
-L["Sets the size of the timers."] = true
 L["Reverse Toggle"] = "Umgekehrte Anzeige"
 L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = "Umgekehrte Anzeige aktiviert den Cooldown Text auf diesem Modul wenn die globale Einstellung deaktiviert ist und deaktiviert es wenn die globale Einstellung aktiviert ist."
 
@@ -1083,6 +1083,7 @@ L["Rapidly update the health, uses more memory and cpu. Only recommended for hea
 L["Reaction Castbars"] = "Reaktion Zauberleiste"
 L["Reactions"] = "Reaktionen"
 L["Ready Check Icon"] = "Bereitschaftssymbol"
+L["Remaining / Max"] = true
 L["Remaining"] = "Verbleibend"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = "Entferne Zauber vom Filter. Benutze die Zauber ID, wenn du die ID als Teil vom Zaubernamen im Filter siehst."
 L["Remove a spell from the filter."] = "Entfernt einen Zauber aus dem Filter."

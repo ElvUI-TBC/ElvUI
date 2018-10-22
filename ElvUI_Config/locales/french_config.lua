@@ -120,7 +120,7 @@ L["Multiply the backdrops height or width by this value. This is usefull if you 
 L["Not Usable"] = "Non utilisable"
 L["Out of Power"] = "Sans ressource"
 L["Out of Range"] = "Hors de portée"
-L["Pick Up Action Key"] = "Touche de déverrouillage"
+L["Pickup Actionkey"] = "Touche de déverrouillage"
 L["Restore Bar"] = "Restaurer la barre"
 L["Restore the actionbars default settings"] = "Restaure la barre d'actions avec ses paramètres par défaut."
 L["RightClick Self-Cast"] = true
@@ -196,6 +196,8 @@ L["Item Level"] = "Niveau d'objet"
 L["Money Format"] = "Format monétaire"
 L["Panel Width (Bags)"] = "Largeur du panneau (Sac)"
 L["Panel Width (Bank)"] = "Largeur du panneau (Banque)"
+L["Player"] = true
+L["Profession Bags"] = true
 L["Reverse Bag Slots"] = true
 L["Search Syntax"] = "Syntaxe pour la recherche"
 L["Sell Interval"] = true
@@ -227,9 +229,8 @@ L["Gems"] = true
 L["Herbalism"] = true
 L["Leatherworking"] = true
 L["Mining"] = true
-L["Profession Bags"] = true
-L["Quiver"] = true
-L["Soul Bag"] = true
+L["Quiver"] = "Carquois"
+L["Soul Bag"] = "Sac d'âme"
 
 --Buffs and Debuffs
 L["Auras Spacing"] = true
@@ -272,7 +273,6 @@ L["HH:MM Threshold"] = true
 L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = true
 L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = true
 L["Color Override"] = true
-L["Sets the size of the timers."] = true
 L["Reverse Toggle"] = true
 L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = true
 
@@ -1082,6 +1082,7 @@ L["Rapidly update the health, uses more memory and cpu. Only recommended for hea
 L["Reaction Castbars"] = "Réaction des barres d'incantation"
 L["Reactions"] = "Réactions"
 L["Ready Check Icon"] = "Icône d'appel"
+L["Remaining / Max"] = true
 L["Remaining"] = "Restant"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = "Supprimer un sort depuis le filtre. Utilisez l'ID du sort si vous voyez cet ID dans le nom du sort."
 L["Remove a spell from the filter."] = "Supprimer un sort depuis le filtre."

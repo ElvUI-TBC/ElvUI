@@ -118,7 +118,7 @@ L["Multiply the backdrops height or width by this value. This is usefull if you 
 L["Not Usable"] = "不可用"
 L["Out of Power"] = "能量不足"
 L["Out of Range"] = "超出范围"
-L["Pick Up Action Key"] = "提取动作键"
+L["Pickup Actionkey"] = "提取动作键"
 L["Restore Bar"] = "重置动作条"
 L["Restore the actionbars default settings"] = "恢复此动作条的预设设定"
 L["RightClick Self-Cast"] = "右键自我施法"
@@ -194,6 +194,8 @@ L["Item Level"] = "物品等级"
 L["Money Format"] = "金币格式"
 L["Panel Width (Bags)"] = "背包面板宽度"
 L["Panel Width (Bank)"] = "银行面板宽度"
+L["Player"] = true
+L["Profession Bags"] = true
 L["Reverse Bag Slots"] = "反向背包格子"
 L["Search Syntax"] = "搜索语法"
 L["Sell Interval"] = "售卖周期"
@@ -225,9 +227,8 @@ L["Gems"] = "珠宝"
 L["Herbalism"] = "草药"
 L["Leatherworking"] = "制皮"
 L["Mining"] = "采矿"
-L["Profession Bags"] = true
-L["Quiver"] = true
-L["Soul Bag"] = true
+L["Quiver"] = "箭袋"
+L["Soul Bag"] = "灵魂袋"
 
 --Buffs and Debuffs
 L["Auras Spacing"] = true
@@ -270,7 +271,6 @@ L["HH:MM Threshold"] = "时:分 阈值"
 L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = "文字以分:秒格式显示的阈值(单位:秒). 设为-1以禁用此格式."
 L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = "文字以时:分格式显示的阈值(单位:分). 设为-1以禁用此格式."
 L["Color Override"] = "颜色覆盖"
-L["Sets the size of the timers."] = true
 L["Reverse Toggle"] = "反转开关"
 L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = "反转开关启用是该模块将在全局禁用时启用, 全局启用是禁用."
 
@@ -1080,6 +1080,7 @@ L["Rapidly update the health, uses more memory and cpu. Only recommended for hea
 L["Reaction Castbars"] = "声望施法条"
 L["Reactions"] = "声望"
 L["Ready Check Icon"] = "就位确认图标"
+L["Remaining / Max"] = true
 L["Remaining"] = "剩余生命值"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = "从过滤器中移除一个技能. 当过滤器中的技能名字中有ID时使用技能ID"
 L["Remove a spell from the filter."] = "从过滤器中移除一个技能"

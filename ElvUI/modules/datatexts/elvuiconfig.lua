@@ -12,6 +12,7 @@ local ReloadUI = ReloadUI
 
 local displayString = ""
 local configText = "ElvUI"
+local reloadText = RELOADUI
 local plugins
 local lastPanel
 
@@ -36,7 +37,7 @@ local function OnEnter(self)
 	DT:SetupTooltip(self)
 
 	DT.tooltip:AddDoubleLine(L["Left Click:"], L["Toggle Configuration"], 1, 1, 1)
-	DT.tooltip:AddDoubleLine(L["Hold Shift + Right Click:"], L["Reload UI"], 1, 1, 1)
+	DT.tooltip:AddDoubleLine(L["Hold Shift + Right Click:"], reloadText, 1, 1, 1)
 	if plugins then
 		DT.tooltip:AddLine(" ")
 		DT.tooltip:AddDoubleLine("Plugins:", "Version:")
@@ -65,4 +66,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext("ElvUI Config", {"PLAYER_LOGIN"}, OnEvent, nil, OnClick, OnEnter)
+DT:RegisterDatatext("ElvUI Config", {"PLAYER_LOGIN"}, OnEvent, nil, OnClick, OnEnter, nil, "ElvUI Config")

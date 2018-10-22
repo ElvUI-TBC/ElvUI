@@ -156,7 +156,7 @@ L["Multiply the backdrops height or width by this value. This is usefull if you 
 L["Not Usable"] = "사용 불가능"
 L["Out of Power"] = "자원 부족"
 L["Out of Range"] = "사정거리 밖"
-L["Pick Up Action Key"] = "행동 단축바 수정 키"
+L["Pickup Actionkey"] = "행동 단축바 수정 키"
 L["Restore Bar"] = "기본값으로 초기화"
 L["Restore the actionbars default settings"] = "이 행동단축바에 대한 모든 수치를 기본값으로 되돌립니다."
 L["RightClick Self-Cast"] = "우클릭으로 자기에게 시전"
@@ -242,6 +242,8 @@ L["Item Level"] = "아이템 레벨"
 L["Money Format"] = "소지금 표시방법"
 L["Panel Width (Bags)"] = "통합가방 프레임 가로길이"
 L["Panel Width (Bank)"] = "통합은행 프레임 가로길이"
+L["Player"] = true
+L["Profession Bags"] = true
 L["Reverse Bag Slots"] = true
 L["Search Syntax"] = "아이템 검색법"
 L["Sell Interval"] = true
@@ -273,9 +275,8 @@ L["Gems"] = true
 L["Herbalism"] = true
 L["Leatherworking"] = true
 L["Mining"] = true
-L["Profession Bags"] = true
-L["Quiver"] = true
-L["Soul Bag"] = true
+L["Quiver"] = "화살통"
+L["Soul Bag"] = "영혼의 가방"
 
 --Buffs and Debuffs
 L["Auras Spacing"] = true
@@ -318,7 +319,6 @@ L["HH:MM Threshold"] = true
 L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = true
 L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = true
 L["Color Override"] = true
-L["Sets the size of the timers."] = true
 L["Reverse Toggle"] = true
 L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = true
 
@@ -1131,6 +1131,7 @@ L["Rapidly update the health, uses more memory and cpu. Only recommended for hea
 L["Reaction Castbars"] = "관계 시전바"
 L["Reactions"] = "관계"
 L["Ready Check Icon"] = "전투준비 아이콘"
+L["Remaining / Max"] = true
 L["Remaining"] = "남은 시간"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = "필터에서 주문을 제거합니다. 필터 내 주문이름의 일부로 주문ID가 보이면 주문ID를 사용하십시오."
 L["Remove a spell from the filter."] = "필터에서 주문을 제거합니다."

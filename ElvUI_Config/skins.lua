@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(ElvUI);
+local E, L, V, P, G = unpack(ElvUI)
 
 local AUCTIONS, FRIENDS, INSPECT, TALENTS, TRADE, MERCHANT, MACROS, SPELLBOOK = AUCTIONS, FRIENDS, INSPECT, TALENTS, TRADE, MERCHANT, MACROS, SPELLBOOK
 local GUILD_BANK, TRADESKILLS, WORLD_MAP, QUEST_TIMERS = GUILD_BANK, TRADESKILLS, WORLD_MAP, QUEST_TIMERS
@@ -19,22 +19,22 @@ E.Options.args.skins = {
 			order = 2,
 			type = "toggle",
 			name = "Blizzard",
-			get = function(info) return E.private.skins.blizzard.enable; end,
-			set = function(info, value) E.private.skins.blizzard.enable = value; E:StaticPopup_Show("PRIVATE_RL"); end,
+			get = function(info) return E.private.skins.blizzard.enable end,
+			set = function(info, value) E.private.skins.blizzard.enable = value E:StaticPopup_Show("PRIVATE_RL") end,
 		},
 		ace3 = {
 			order = 3,
 			type = "toggle",
 			name = "Ace3",
-			get = function(info) return E.private.skins.ace3.enable; end,
-			set = function(info, value) E.private.skins.ace3.enable = value; E:StaticPopup_Show("PRIVATE_RL"); end,
+			get = function(info) return E.private.skins.ace3.enable end,
+			set = function(info, value) E.private.skins.ace3.enable = value E:StaticPopup_Show("PRIVATE_RL") end,
 		},
 		blizzard = {
 			order = 100,
 			type = "group",
 			name = "Blizzard",
-			get = function(info) return E.private.skins.blizzard[ info[#info] ]; end,
-			set = function(info, value) E.private.skins.blizzard[ info[#info] ] = value; E:StaticPopup_Show("CONFIG_RL"); end,
+			get = function(info) return E.private.skins.blizzard[ info[#info] ] end,
+			set = function(info, value) E.private.skins.blizzard[ info[#info] ] = value E:StaticPopup_Show("CONFIG_RL") end,
 			disabled = function() return not E.private.skins.blizzard.enable end,
 			guiInline = true,
 			args = {
@@ -279,4 +279,4 @@ E.Options.args.skins = {
 			}
 		}
 	}
-};
+}

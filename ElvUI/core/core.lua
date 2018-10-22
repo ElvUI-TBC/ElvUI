@@ -1199,6 +1199,6 @@ function E:Initialize()
 	collectgarbage("collect")
 
 	if self.db.general.loginmessage then
-		print(select(2, E:GetModule("Chat").FindURL(format(L["LOGIN_MSG"], self["media"].hexvaluecolor, self["media"].hexvaluecolor, self.version)))..".")
+		self:Print(select(2, E:GetModule("Chat").FindURL(format(L["LOGIN_MSG"], self["media"].hexvaluecolor, self["media"].hexvaluecolor, self.version)))..".")
 	end
 end

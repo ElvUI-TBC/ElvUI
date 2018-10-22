@@ -2053,7 +2053,7 @@ local function GetUnitSettings(unit, name)
 					width = {
 						order = 3,
 						type = "range",
-						name = L["Wifth"],
+						name = L["Width"],
 						min = 4, max = 30, step = 1,
 						disabled = function() return not E.db.nameplates.units.ENEMY_NPC.comboPoints.enable end
 					},

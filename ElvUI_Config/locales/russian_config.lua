@@ -120,7 +120,7 @@ L["Multiply the backdrops height or width by this value. This is usefull if you 
 L["Not Usable"] = "Нельзя использовать"
 L["Out of Power"] = "Мало ресурса"
 L["Out of Range"] = "Вне радиуса"
-L["Pick Up Action Key"] = "Клавиша перетаскивания"
+L["Pickup Actionkey"] = "Клавиша перетаскивания"
 L["Restore Bar"] = "Восстановить панель"
 L["Restore the actionbars default settings"] = "Восстанавливает настройки панели по умолчанию."
 L["RightClick Self-Cast"] = "Применить к себе через ПКМ"
@@ -196,6 +196,8 @@ L["Item Level"] = "Уровень предметов"
 L["Money Format"] = "Формат денег"
 L["Panel Width (Bags)"] = "Ширина сумок"
 L["Panel Width (Bank)"] = "Ширина банка"
+L["Player"] = true
+L["Profession Bags"] = true
 L["Reverse Bag Slots"] = "Обратный порядок слотов"
 L["Search Syntax"] = "Синтаксис поиска"
 L["Sell Interval"] = "Интервал продажи"
@@ -227,9 +229,8 @@ L["Gems"] = "Самоцветы"
 L["Herbalism"] = "Травы"
 L["Leatherworking"] = "Кожа"
 L["Mining"] = "Горное дело"
-L["Profession Bags"] = true
-L["Quiver"] = true
-L["Soul Bag"] = true
+L["Quiver"] = "Колчан"
+L["Soul Bag"] = "Сумка душ"
 
 --Buffs and Debuffs
 L["Auras Spacing"] = true
@@ -272,7 +273,6 @@ L["HH:MM Threshold"] = "Граница ЧЧ:ММ"
 L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = "Значение (в секундах), после которого текст восстановления перейдет в формат ММ:СС. Установите на -1, чтобы никогда не использовать данный формат."
 L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = "Значение (в минутах), после которого текст восстановления перейдет в формат ЧЧ:ММ. Установите на -1, чтобы никогда не использовать данный формат."
 L["Color Override"] = "Перезапись цвета"
-L["Sets the size of the timers."] = true
 L["Reverse Toggle"] = "Обратное включение"
 L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = "Включает текст восстановления в этом модуле, когда глобальная опция отключена, и отключает, когда включена."
 
@@ -1082,6 +1082,7 @@ L["Rapidly update the health, uses more memory and cpu. Only recommended for hea
 L["Reaction Castbars"] = "Полоса заклинаний по реакции"
 L["Reactions"] = "Отношение"
 L["Ready Check Icon"] = "Иконка готовности"
+L["Remaining / Max"] = true
 L["Remaining"] = "Оставшееся"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = "Удалить заклинание из фильтра. Используйте ID, если в фильтре имя удаляемого заклинания содержит ID."
 L["Remove a spell from the filter."] = "Удалить заклинание из фильтра."

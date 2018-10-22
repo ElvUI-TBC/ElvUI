@@ -30,7 +30,7 @@ E.Options.args = {
 	ElvUI_Header = {
 		order = 1,
 		type = "header",
-		name = L["Version"] .. format(": |cff99ff33%s|r", E.version),
+		name = L["Version"]..format(": |cff99ff33%s|r", E.version),
 		width = "full"
 	},
 	LoginMessage = {
@@ -172,7 +172,7 @@ E.Options.args.credits = {
 		text = {
 			order = 1,
 			type = "description",
-			name = L["ELVUI_CREDITS"] .. "\n\n" .. L["Coding:"] .. DEVELOPER_STRING .. "\n\n" .. L["Testing:"] .. TESTER_STRING .. "\n\n" .. L["Donations:"] .. DONATOR_STRING
+			name = L["ELVUI_CREDITS"].."\n\n"..L["Coding:"]..DEVELOPER_STRING.."\n\n"..L["Testing:"]..TESTER_STRING.."\n\n"..L["Donations:"]..DONATOR_STRING
 		}
 	}
 }
@@ -239,7 +239,7 @@ local function ExportImport_Open(mode)
 	label2:SetWidth(800)
 	frame:AddChild(label2)
 
-	if(mode == "export") then
+	if mode == "export" then
 		frame:SetTitle(L["Export Profile"])
 
 		local profileTypeDropdown = AceGUI:Create("Dropdown")
@@ -266,11 +266,11 @@ local function ExportImport_Open(mode)
 
 			local profileType, exportFormat = profileTypeDropdown:GetValue(), exportFormatDropdown:GetValue()
 			local profileKey, profileExport = D:ExportProfile(profileType, exportFormat)
-			if(not profileKey or not profileExport) then
+			if not profileKey or not profileExport then
 				label1:SetText(L["Error exporting profile!"])
 			else
 				label1:SetText(format("%s: %s%s|r", L["Exported"], E.media.hexvaluecolor, profileTypeItems[profileType]))
-				if(profileType == "profile") then
+				if profileType == "profile" then
 					label2:SetText(format("%s: %s%s|r", L["Profile Name"], E.media.hexvaluecolor, profileKey))
 				end
 			end
@@ -287,7 +287,7 @@ local function ExportImport_Open(mode)
 			box:SetText(exportString)
 			box.editBox:HighlightText()
 		end)
-	elseif(mode == "import") then
+	elseif mode == "import" then
 		frame:SetTitle(L["Import Profile"])
 		local importButton = AceGUI:Create("Button-ElvUI")
 		importButton:SetDisabled(true)
@@ -299,7 +299,7 @@ local function ExportImport_Open(mode)
 
 			local text
 			local success = D:ImportProfile(box:GetText())
-			if(success) then
+			if success then
 				text = L["Profile imported successfully!"]
 			else
 				text = L["Error decoding data. Import string may be corrupted!"]
@@ -317,7 +317,7 @@ local function ExportImport_Open(mode)
 			label2:SetText(" ")
 			local decodedText
 			local profileType, profileKey, profileData = D:Decode(box:GetText())
-			if(profileData) then
+			if profileData then
 				decodedText = E:TableToLuaString(profileData)
 			end
 			local importText = D:CreateProfileExport(decodedText, profileType, profileKey)
@@ -328,14 +328,14 @@ local function ExportImport_Open(mode)
 		local oldText = ""
 		local function OnTextChanged()
 			local text = box:GetText()
-			if(text == "") then
+			if text == "" then
 				label1:SetText(" ")
 				label2:SetText(" ")
 				importButton:SetDisabled(true)
 				decodeButton:SetDisabled(true)
-			elseif(oldText ~= text) then
+			elseif oldText ~= text then
 				local stringType = D:GetImportStringType(text)
-				if(stringType == "Base64") then
+				if stringType == "Base64" then
 					decodeButton:SetDisabled(false)
 				else
 					decodeButton:SetDisabled(true)
@@ -349,7 +349,7 @@ local function ExportImport_Open(mode)
 					decodeButton:SetDisabled(true)
 				else
 					label1:SetText(format("%s: %s%s|r", L["Importing"], E.media.hexvaluecolor, profileTypeItems[profileType] or ""))
-					if(profileType == "profile") then
+					if profileType == "profile" then
 						label2:SetText(format("%s: %s%s|r", L["Profile Name"], E.media.hexvaluecolor, profileKey))
 					end
 					importButton:SetDisabled(false)
@@ -409,18 +409,18 @@ E.Options.args.profiles.plugins["ElvUI"] = {
 	},
 	distributeProfile = {
 		order = 91,
+		type = "execute",
 		name = L["Share Current Profile"],
 		desc = L["Sends your current profile to your target."],
-		type = "execute",
 		func = function()
-			if(not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target")) then
+			if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target") then
 				E:Print(L["You must be targeting a player."])
 				return
 			end
 			local name, server = UnitName("target")
-			if(name and (not server or server == "")) then
+			if name and (not server or server == "") then
 				D:Distribute(name)
-			elseif(server) then
+			elseif server then
 				D:Distribute(name, true)
 			end
 		end
@@ -431,17 +431,17 @@ E.Options.args.profiles.plugins["ElvUI"] = {
 		name = L["Share Filters"],
 		desc = L["Sends your filter settings to your target."],
 		func = function()
-			if(not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target")) then
+			if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target") then
 				E:Print(L["You must be targeting a player."])
 				return
 			end
 			local name, server = UnitName("target")
-			if(name and (not server or server == "")) then
+			if name and (not server or server == "") then
 				D:Distribute(name, false, true)
-			elseif(server) then
+			elseif server then
 				D:Distribute(name, true, true)
 			end
-		end,
+		end
 	},
 	spacer2 = {
 		order = 93,

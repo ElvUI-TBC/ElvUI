@@ -120,7 +120,7 @@ L["Multiply the backdrops height or width by this value. This is usefull if you 
 L["Not Usable"] = "無法使用"
 L["Out of Power"] = "施放能量不足"
 L["Out of Range"] = "超出施放範圍"
-L["Pick Up Action Key"] = "拖曳動作鍵"
+L["Pickup Actionkey"] = "拖曳動作鍵"
 L["Restore Bar"] = "還原快捷列"
 L["Restore the actionbars default settings"] = "恢復此快捷列的預設設定"
 L["RightClick Self-Cast"] = "右鍵自我施法"
@@ -196,6 +196,8 @@ L["Item Level"] = "物品等級"
 L["Money Format"] = "金幣格式"
 L["Panel Width (Bags)"] = "框架寬度 (背包)"
 L["Panel Width (Bank)"] = "框架寬度 (銀行)"
+L["Player"] = true
+L["Profession Bags"] = true
 L["Reverse Bag Slots"] = true
 L["Search Syntax"] = "搜尋語法"
 L["Sell Interval"] = true
@@ -227,7 +229,6 @@ L["Gems"] = true
 L["Herbalism"] = true
 L["Leatherworking"] = true
 L["Mining"] = true
-L["Profession Bags"] = true
 L["Quiver"] = true
 L["Soul Bag"] = true
 
@@ -272,7 +273,6 @@ L["HH:MM Threshold"] = "HH:MM（時:分） 閾值"
 L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = "低於設定的閾值（單位：秒）時，將會採用 MM:SS 的格式. 設定為 -1 可禁用改格式"
 L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = "低於設定的閾值（單位：分）時，將會採用 HH:MM 的格式. 設定為 -1 可禁用改格式"
 L["Color Override"] = "顏色覆蓋"
-L["Sets the size of the timers."] = true
 L["Reverse Toggle"] = "反向開關"
 L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = "反向開關將在全局設定為不開啟時開啟，同樣的，在全局設定為開啟時，將會關閉。"
 
@@ -1082,6 +1082,7 @@ L["Rapidly update the health, uses more memory and cpu. Only recommended for hea
 L["Reaction Castbars"] = "聲望施法條"
 L["Reactions"] = "陣營聲望"
 L["Ready Check Icon"] = true
+L["Remaining / Max"] = true
 L["Remaining"] = "剩餘數值"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = "從過濾器中移除一個技能. 當你看見有ID在過濾器中的技能名字時使用技能ID"
 L["Remove a spell from the filter."] = "從過濾器中移除一個技能."

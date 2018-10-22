@@ -120,7 +120,7 @@ L["Multiply the backdrops height or width by this value. This is usefull if you 
 L["Not Usable"] = true
 L["Out of Power"] = "Sin Poder"
 L["Out of Range"] = "Fuera de Rango"
-L["Pick Up Action Key"] = "Tecla de arrastrar acción"
+L["Pickup Actionkey"] = "Tecla de arrastrar acción"
 L["Restore Bar"] = "Restaurar Barra"
 L["Restore the actionbars default settings"] = "Restaura las barras de acción a los ajustes predeterminados."
 L["RightClick Self-Cast"] = true
@@ -196,6 +196,8 @@ L["Item Level"] = true
 L["Money Format"] = true
 L["Panel Width (Bags)"] = "Ancho del Panel (Bolsas)"
 L["Panel Width (Bank)"] = "Ancho del Panel (Banco)"
+L["Player"] = true
+L["Profession Bags"] = true
 L["Reverse Bag Slots"] = true
 L["Search Syntax"] = true
 L["Sell Interval"] = true
@@ -227,9 +229,8 @@ L["Gems"] = true
 L["Herbalism"] = true
 L["Leatherworking"] = true
 L["Mining"] = true
-L["Profession Bags"] = true
-L["Quiver"] = true
-L["Soul Bag"] = true
+L["Quiver"] = "Carcaj"
+L["Soul Bag"] = "Bolsa de almas"
 
 --Buffs and Debuffs
 L["Auras Spacing"] = true
@@ -272,7 +273,6 @@ L["HH:MM Threshold"] = true
 L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = true
 L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = true
 L["Color Override"] = true
-L["Sets the size of the timers."] = true
 L["Reverse Toggle"] = true
 L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = true
 
@@ -1082,6 +1082,7 @@ L["Rapidly update the health, uses more memory and cpu. Only recommended for hea
 L["Reaction Castbars"] = true
 L["Reactions"] = "Reacciones"
 L["Ready Check Icon"] = true
+L["Remaining / Max"] = true
 L["Remaining"] = "Restante"
 L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = true
 L["Remove a spell from the filter."] = "Elimina un hechizo del filtro."

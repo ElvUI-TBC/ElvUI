@@ -5,6 +5,7 @@ local group
 
 local _G = _G
 local pairs = pairs
+local gsub, match = string.gsub, string.match
 
 local GameTooltip = _G["GameTooltip"]
 local SetCVar = SetCVar
@@ -102,7 +103,7 @@ local function BuildABConfig()
 			movementModifier = {
 				order = 11,
 				type = "select",
-				name = L["Pick Up Action Key"],
+				name = L["Pickup Actionkey"],
 				desc = L["The button you must hold down in order to drag an ability to another action button."],
 				disabled = function() return (not E.private.actionbar.enable or not E.db.actionbar.lockActionBars) end,
 				values = {
