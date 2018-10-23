@@ -13,6 +13,10 @@ function UF:Construct_PowerBar(frame, bg, text, textPos)
 	local power = CreateFrame("StatusBar", nil, frame)
 	UF["statusbars"][power] = true
 
+	power.RaisedElementParent = CreateFrame("Frame", nil, power)
+	power.RaisedElementParent:SetFrameLevel(power:GetFrameLevel() + 100)
+	power.RaisedElementParent:SetAllPoints()
+
 	power.PostUpdate = self.PostUpdatePower
 
 	CreateStatusBarTexturePointer(power)
@@ -65,7 +69,7 @@ function UF:Configure_Power(frame)
 		frame:Tag(power.value, db.power.text_format)
 
 		if db.power.attachTextTo == "Power" then
-			power.value:SetParent(power)
+			power.value:SetParent(power.RaisedElementParent)
 		else
 			power.value:SetParent(frame.RaisedElementParent)
 		end
@@ -190,6 +194,7 @@ function UF:Configure_Power(frame)
 	elseif frame:IsElementEnabled("Power") then
 		frame:DisableElement("Power")
 		power:Hide()
+		frame:Tag(power.value, "")
 	end
 
 	--Transparency Settings
@@ -197,7 +202,7 @@ function UF:Configure_Power(frame)
 end
 
 function UF:PostUpdatePower(unit, cur, max)
-	local parent = self:GetParent()
+	local parent = self.origParent or self:GetParent()
 
 	if parent.isForced then
 		local pType = random(0, 3)
@@ -215,5 +220,10 @@ function UF:PostUpdatePower(unit, cur, max)
 	local db = parent.db
 	if db and db.power and db.power.hideonnpc then
 		UF:PostNamePosition(parent, unit)
+	end
+
+	--Force update to DruidAltMana in order to reposition text if necessary
+	if parent:IsElementEnabled("DruidAltMana") then
+		E:Delay(0.01, parent.DruidAltMana.ForceUpdate, parent.DruidAltMana) --Delay it slightly  so Power text has a chance to clear itself first
 	end
 end

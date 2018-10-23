@@ -7077,7 +7077,7 @@ E.Options.args.unitframe.args.assist = {
 				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "assist")
 			}
 		},
-		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "assis"),
+		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "assist"),
 		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
 		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "assist"),

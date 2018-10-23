@@ -242,7 +242,7 @@ function UF:PostUpdateDruidAltMana(_, cur, max, event)
 					self.text:SetFormattedText(color.."%d%%|r", floor(cur / max * 100))
 				end
 			else
-				self.text:SetParent(self)
+				self.text:SetParent(frame.RaisedElementParent)
 				self.text:Point("CENTER", self)
 				self.text:SetFormattedText(color.."%d%%|r", floor(cur / max * 100))
 			end
