@@ -161,14 +161,14 @@ function S:SkinAce3()
 			S:HandleButton(button)
 		elseif TYPE == "Button" then
 			local frame = widget.frame
-			S:HandleButton(frame, nil, true)
+			S:HandleButton(frame)
 			frame:StripTextures()
 			frame:CreateBackdrop("Default", true)
 			frame.backdrop:SetInside()
 			widget.text:SetParent(frame.backdrop)
 		elseif TYPE == "Button-ElvUI" then
 			local frame = widget.frame
-			S:HandleButton(frame, nil, true)
+			S:HandleButton(frame)
 			frame:StripTextures()
 			frame:CreateBackdrop("Default", true)
 			frame.backdrop:SetInside()
