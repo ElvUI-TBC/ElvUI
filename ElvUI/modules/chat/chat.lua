@@ -76,39 +76,19 @@ local hyperlinkTypes = {
 	["quest"] = true,
 	["enchant"] = true,
 	["instancelock"] = true,
-	["talent"] = true,
+	["talent"] = true
 }
 
-CH.Smileys = {
-	Keys = {},
-	Textures = {}
-}
-
-function CH:RemoveSmiley(keyOrIndex)
-	if type(keyOrIndex) == 'number' then
-		tremove(CH.Smileys.Keys, keyOrIndex)
-		tremove(CH.Smileys.Textures, keyOrIndex)
-	elseif type(keyOrIndex) == 'string' then
-		for i, v in ipairs(CH.Smileys.Keys) do
-			if v == keyOrIndex then
-				tremove(CH.Smileys.Keys, i)
-				tremove(CH.Smileys.Textures, i)
-				break
-			end
-		end
+CH.Smileys = {}
+function CH:RemoveSmiley(key)
+	if key and (type(key) == "string") then
+		CH.Smileys[key] = nil
 	end
 end
 
--- `top` will be picked before others, use this for cases such as ">:(" and ":(". where you would want ">:(" selected before ":(".
-function CH:AddSmiley(key, texture, top)
-	if key and texture then
-		if top then
-			tinsert(CH.Smileys.Keys, 1, key)
-			tinsert(CH.Smileys.Textures, 1, texture)
-		else
-			tinsert(CH.Smileys.Keys, key)
-			tinsert(CH.Smileys.Textures, texture)
-		end
+function CH:AddSmiley(key, texture)
+	if key and (type(key) == "string") and texture then
+		CH.Smileys[key] = texture
 	end
 end
 
@@ -182,17 +162,12 @@ function CH:GetGroupDistribution()
 end
 
 function CH:InsertEmotions(msg)
-	for i, v in ipairs(CH.Smileys.Keys) do
-		if CH.Smileys.Textures[i] then
-			if strmatch(msg, '^'..v..'$') then -- only word
-				msg = gsub(msg, v, '|T'..CH.Smileys.Textures[i]..':16:16|t');
-			elseif strmatch(msg, '^'..v..'[%s%p]+') then -- start of string
-				msg = gsub(msg, '^'..v..'([%s%p]+)', '|T'..CH.Smileys.Textures[i]..':16:16|t%1');
-			elseif strmatch(msg, '[%s%p]-'..v..'$') then -- end of string
-				msg = gsub(msg, '([%s%p]-)'..v..'$', '%1|T'..CH.Smileys.Textures[i]..':16:16|t');
-			elseif strmatch(msg, '[%s%p]-'..v..'[%s%p]+') then -- whole word
-				msg = gsub(msg, '([%s%p]-)'..v..'([%s%p]+)', '%1|T'..CH.Smileys.Textures[i]..':16:16|t%2');
-			end
+	local emoji, pattern
+	for word in msg:gmatch("%s-%S+%s*") do
+		pattern = gsub(strtrim(word), "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1")
+		emoji = CH.Smileys[pattern]
+		if emoji and strmatch(msg, "[%s%p]-"..pattern.."[%s%p]*") then
+			msg = gsub(msg, "([%s%p]-)"..pattern.."([%s%p]*)", "%1"..emoji.."%2")
 		end
 	end
 
@@ -209,16 +184,16 @@ function CH:GetSmileyReplacementText(msg)
 	while(startpos <= origlen) do
 		endpos = origlen
 		local pos = find(msg,"|H",startpos,true)
-		if(pos ~= nil) then
+		if pos ~= nil then
 			endpos = pos
 		end
-		outstr = outstr .. CH:InsertEmotions(strsub(msg,startpos,endpos)) --run replacement on this bit
+		outstr = outstr..CH:InsertEmotions(strsub(msg,startpos,endpos)) --run replacement on this bit
 		startpos = endpos + 1
-		if(pos ~= nil) then
+		if pos ~= nil then
 			_, endpos = find(msg,"|h.-|h",startpos)
 			endpos = endpos or origlen
-			if(startpos < endpos) then
-				outstr = outstr .. strsub(msg,startpos,endpos) --don't run replacement on this bit
+			if startpos < endpos then
+				outstr = outstr..strsub(msg,startpos,endpos) --don't run replacement on this bit
 				startpos = endpos + 1
 			end
 		end
@@ -331,9 +306,9 @@ function CH:AddMessage(msg, infoR, infoG, infoB, infoID, isHistory, historyTime)
 
 	if (CH.db.timeStampFormat and CH.db.timeStampFormat ~= "NONE") then
 		local timeStamp = BetterDate(CH.db.timeStampFormat, historyTimestamp or time())
-		timeStamp = timeStamp:gsub(" ", "")
-		timeStamp = timeStamp:gsub("AM", " AM")
-		timeStamp = timeStamp:gsub("PM", " PM")
+		timeStamp = gsub(timeStamp, " ", "")
+		timeStamp = gsub(timeStamp, "AM", " AM")
+		timeStamp = gsub(timeStamp, "PM", " PM")
 		if CH.db.useCustomTimeColor then
 			local color = CH.db.customTimeColor
 			local hexColor = E:RGBToHex(color.r, color.g, color.b)
@@ -352,9 +327,9 @@ end
 
 local removeIconFromLine
 do
-	local raidIconFunc = function(x) x = x~="" and _G["RAID_TARGET_"..x];return x and ("{"..strlower(x).."}") or "" end
-	local stripTextureFunc = function(w, x, y) if x=="" then return (w~="" and w) or (y~="" and y) or "" end end
-	local hyperLinkFunc = function(x, y) if x=="" then return y end end
+	local raidIconFunc = function(x) x = x ~= "" and _G["RAID_TARGET_"..x] return x and ("{"..strlower(x).."}") or "" end
+	local stripTextureFunc = function(w, x, y) if x == "" then return (w ~= "" and w) or (y ~= "" and y) or "" end end
+	local hyperLinkFunc = function(x, y) if x == "" then return y end end
 	removeIconFromLine = function(text)
 		text = gsub(text, "|TInterface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d+):0|t", raidIconFunc) --converts raid icons into {star} etc, if possible.
 		text = gsub(text, "(%s?)(|?)|T.-|t(%s?)", stripTextureFunc) --strip any other texture out but keep a single space from the side(s).
@@ -463,7 +438,7 @@ local function FindRightChatID()
 		local chat = _G["ChatFrame"..i]
 		local id = chat:GetID()
 
-		if(E:FramesOverlap(chat, RightChatPanel) and not E:FramesOverlap(chat, LeftChatPanel)) then
+		if E:FramesOverlap(chat, RightChatPanel) and not E:FramesOverlap(chat, LeftChatPanel) then
 			rightChatID = id
 			break
 		end
@@ -728,7 +703,7 @@ end
 function CH:EnableHyperlink()
 	for i = 1, NUM_CHAT_WINDOWS do
 		local frame = _G["ChatFrame"..i]
-		if (not self.hooks or not self.hooks[frame] or not self.hooks[frame].OnHyperlinkEnter) then
+		if not self.hooks or not self.hooks[frame] or not self.hooks[frame].OnHyperlinkEnter then
 			self:HookScript(frame, "OnHyperlinkEnter")
 			self:HookScript(frame, "OnHyperlinkLeave")
 			self:HookScript(frame, "OnMessageScrollChanged")
@@ -842,14 +817,13 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 			end
 		end
 
-		if type == "SYSTEM" or type == "TEXT_EMOTE" or type == "SKILL" or type == "LOOT" or type == "MONEY" or
-			type == "OPENING" or type == "TRADESKILLS" or type == "PET_INFO" then
+		if type == "SYSTEM" or type == "TEXT_EMOTE" or type == "SKILL" or type == "LOOT" or type == "MONEY" or type == "OPENING" or type == "TRADESKILLS" or type == "PET_INFO" then
 			self:AddMessage(arg1, info.r, info.g, info.b, info.id, isHistory, historyTime)
-		elseif strsub(type,1,7) == "COMBAT_" then
+		elseif strsub(type, 1, 7) == "COMBAT_" then
 			self:AddMessage(arg1, info.r, info.g, info.b, info.id, isHistory, historyTime)
-		elseif strsub(type,1,6) == "SPELL_" then
+		elseif strsub(type, 1, 6) == "SPELL_" then
 			self:AddMessage(arg1, info.r, info.g, info.b, info.id, isHistory, historyTime)
-		elseif strsub(type,1,10) == "BG_SYSTEM_" then
+		elseif strsub(type, 1, 10) == "BG_SYSTEM_" then
 			self:AddMessage(arg1, info.r, info.g, info.b, info.id, isHistory, historyTime)
 		elseif type == "IGNORED" then
 			self:AddMessage(format(GlobalStrings.CHAT_IGNORED, arg2), info.r, info.g, info.b, info.id, isHistory, historyTime)
@@ -918,7 +892,7 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 			for tag in gmatch(arg1, "%b{}") do
 				term = strlower(gsub(tag, "[{}]", ""))
 				if ICON_TAG_LIST[term] and ICON_LIST[ICON_TAG_LIST[term]] then
-					arg1 = gsub(arg1, tag, ICON_LIST[ICON_TAG_LIST[term]] .. "0|t")
+					arg1 = gsub(arg1, tag, ICON_LIST[ICON_TAG_LIST[term]].."0|t")
 				end
 			end
 
@@ -948,26 +922,26 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 
 			-- Add Channel
 			arg4 = gsub(arg4, "%s%-%s.*", "")
-			if(channelLength > 0) then
+			if channelLength > 0 then
 				body = "|Hchannel:channel:"..arg8.."|h["..arg4.."]|h "..body
 			end
 
 			if CH.db.shortChannels then
-				body = body:gsub("|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel)
-				body = body:gsub("CHANNEL:", "")
-				body = body:gsub("^(.-|h) "..L["whispers"], "%1")
-				body = body:gsub("^(.-|h) "..L["says"], "%1")
-				body = body:gsub("^(.-|h) "..L["yells"], "%1")
-				body = body:gsub("<"..GlobalStrings.AFK..">", "[|cffFF0000"..L["AFK"].."|r] ")
-				body = body:gsub("<"..GlobalStrings.DND..">", "[|cffE7E716"..L["DND"].."|r] ")
-				body = body:gsub("^%["..GlobalStrings.BATTLEGROUND.."%]", "["..L["BG"].."]")
-				body = body:gsub("^%["..GlobalStrings.BATTLEGROUND_LEADER.."%]", "["..L["BGL"].."]")
-				body = body:gsub("^%["..GlobalStrings.GUILD.."%]", "["..L["G"].."]")
-				body = body:gsub("^%["..GlobalStrings.CHAT_MSG_OFFICER.."%]", "["..L["O"].."]")
-				body = body:gsub("^%["..GlobalStrings.PARTY.."%]", "["..L["P"].."]")
-				body = body:gsub("^%["..GlobalStrings.RAID.."%]", "["..L["R"].."]")
-				body = body:gsub("^%["..GlobalStrings.RAID_LEADER.."%]", "["..L["RL"].."]")
-				body = body:gsub("^%["..GlobalStrings.RAID_WARNING.."%]", "["..L["RW"].."]")
+				body = gsub(body, "|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel)
+				body = gsub(body, "CHANNEL:", "")
+				body = gsub(body, "^(.-|h) "..L["whispers"], "%1")
+				body = gsub(body, "^(.-|h) "..L["says"], "%1")
+				body = gsub(body, "^(.-|h) "..L["yells"], "%1")
+				body = gsub(body, "<"..GlobalStrings.AFK..">", "[|cffFF0000"..L["AFK"].."|r] ")
+				body = gsub(body, "<"..GlobalStrings.DND..">", "[|cffE7E716"..L["DND"].."|r] ")
+				body = gsub(body, "^%["..GlobalStrings.BATTLEGROUND.."%]", "["..L["BG"].."]")
+				body = gsub(body, "^%["..GlobalStrings.BATTLEGROUND_LEADER.."%]", "["..L["BGL"].."]")
+				body = gsub(body, "^%["..GlobalStrings.GUILD.."%]", "["..L["G"].."]")
+				body = gsub(body, "^%["..GlobalStrings.CHAT_MSG_OFFICER.."%]", "["..L["O"].."]")
+				body = gsub(body, "^%["..GlobalStrings.PARTY.."%]", "["..L["P"].."]")
+				body = gsub(body, "^%["..GlobalStrings.RAID.."%]", "["..L["R"].."]")
+				body = gsub(body, "^%["..GlobalStrings.RAID_LEADER.."%]", "["..L["RL"].."]")
+				body = gsub(body, "^%["..GlobalStrings.RAID_WARNING.."%]", "["..L["RW"].."]")
 			end
 			self:AddMessage(body, info.r, info.g, info.b, info.id, isHistory, historyTime)
 		end
@@ -1016,7 +990,7 @@ local function OnTextChanged(self)
 		if strlen(text) > MIN_REPEAT_CHARACTERS then
 		local repeatChar = true
 		for i = 1, MIN_REPEAT_CHARACTERS, 1 do
-			if strsub(text,(0-i), (0-i)) ~= strsub(text, (-1-i), (-1-i)) then
+			if strsub(text,(0 - i), (0 - i)) ~= strsub(text, (-1 - i), (-1 - i)) then
 				repeatChar = false
 				break
 			end
@@ -1032,13 +1006,13 @@ local function OnTextChanged(self)
 		if strsub(text, 1, 4) == "/tt " then
 			local unitname, realm = UnitName("target")
 			if unitname and realm then
-				unitname = unitname .. "-" .. realm:gsub(" ", "")
+				unitname = unitname.."-"..realm:gsub(" ", "")
 			end
 			ChatFrame_SendTell((unitname or L["Invalid Target"]), ChatFrame1)
 		end
 
 		if strsub(text, 1, 4) == "/gr " then
-			self:SetText(CH:GetGroupDistribution() .. strsub(text, 5))
+			self:SetText(CH:GetGroupDistribution()..strsub(text, 5))
 			ChatEdit_ParseText(self, 0)
 		end
 	end
@@ -1198,7 +1172,8 @@ end
 local protectLinks = {}
 function CH:CheckKeyword(message)
 	for hyperLink in message:gmatch("|%x+|H.-|h.-|h|r") do
-		protectLinks[hyperLink]=hyperLink:gsub("%s","|s")
+		protectLinks[hyperLink]=gsub(hyperLink,"%s","|s")
+
 		for keyword, _ in pairs(CH.Keywords) do
 			if hyperLink == keyword then
 				if (self.db.keywordSound ~= "None") and not self.SoundTimer then
@@ -1213,18 +1188,18 @@ function CH:CheckKeyword(message)
 	end
 
 	for hyperLink, tempLink in pairs(protectLinks) do
-		message = message:gsub(hyperLink:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1"), tempLink)
+		message = gsub(message, gsub(hyperLink, "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1"), tempLink)
 	end
 
 	local classColorTable, tempWord, rebuiltString, lowerCaseWord, wordMatch, classMatch
 	local isFirstWord = true
 	for word in message:gmatch("%s-%S+%s*") do
-		if not next(protectLinks) or not protectLinks[word:gsub("%s",""):gsub("|s"," ")] then
-			tempWord = word:gsub("[%s%p]", "")
+		if not next(protectLinks) or not protectLinks[gsub(gsub(word,"%s",""),"|s"," ")] then
+			tempWord = gsub(word, "[%s%p]", "")
 			lowerCaseWord = tempWord:lower()
 			for keyword, _ in pairs(CH.Keywords) do
 				if lowerCaseWord == keyword:lower() then
-					word = word:gsub(tempWord, format("%s%s|r", E.media.hexvaluecolor, tempWord))
+					word = gsub(word, tempWord, format("%s%s|r", E.media.hexvaluecolor, tempWord))
 					if (self.db.keywordSound ~= "None") and not self.SoundTimer then
 						if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
 							PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
@@ -1236,14 +1211,14 @@ function CH:CheckKeyword(message)
 			end
 
 			if self.db.classColorMentionsChat and E.private.general.classCache then
-				tempWord = word:gsub("^[%s%p]-([^%s%p]+)([%-]?[^%s%p]-)[%s%p]*$","%1%2")
+				tempWord = gsub(word,"^[%s%p]-([^%s%p]+)([%-]?[^%s%p]-)[%s%p]*$","%1%2")
 
 				classMatch = CC:GetCacheTable()[E.myrealm][tempWord]
 				wordMatch = classMatch and lowerCaseWord
 
 				if wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch] then
 					classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
-					word = word:gsub(tempWord:gsub("%-","%%-"), format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, tempWord))
+					word = gsub(word, gsub(tempWord, "%-","%%-"), format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, tempWord))
 				end
 			end
 		end
@@ -1257,7 +1232,7 @@ function CH:CheckKeyword(message)
 	end
 
 	for hyperLink, tempLink in pairs(protectLinks) do
-		rebuiltString = rebuiltString:gsub(tempLink:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1"), hyperLink)
+		rebuiltString = gsub(rebuiltString, gsub(tempLink, "([%(%)%.%%%+%-%*%?%[%^%$])","%%%1"), hyperLink)
 		protectLinks[hyperLink] = nil
 	end
 
@@ -1519,16 +1494,15 @@ local FindURL_Events = {
 	"CHAT_MSG_EMOTE",
 	"CHAT_MSG_TEXT_EMOTE",
 	"CHAT_MSG_AFK",
-	"CHAT_MSG_DND",
+	"CHAT_MSG_DND"
 }
 
 function CH:DefaultSmileys()
-	if next(CH.Smileys.Keys) then
-		wipe(CH.Smileys.Keys)
-		wipe(CH.Smileys.Textures)
+	if next(CH.Smileys) then
+		wipe(CH.Smileys)
 	end
 
-	local t = "Interface\\AddOns\\ElvUI\\media\\textures\\chatEmojis\\%s.tga"
+	local t = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatEmojis\\%s:16:16|t"
 
 	-- new keys
 	CH:AddSmiley(':angry:',							format(t,'angry'))
@@ -1654,7 +1628,7 @@ function CH:Initialize()
 
 	ChatFrameMenuButton:Kill()
 
-	if(WIM) then
+	if WIM then
 		WIM.RegisterWidgetTrigger("chat_display", "whisper,chat,w2w,demo", "OnHyperlinkClick", function(self) CH.clickedframe = self end)
 		WIM.RegisterItemRefHandler("url", HyperLinkedURL)
 	end
@@ -1741,7 +1715,7 @@ function CH:Initialize()
 		if button == "LeftButton" and not self.isMoving then
 			self:StartMoving()
 			self.isMoving = true
-		elseif(button == "RightButton" and not self.isSizing) then
+		elseif button == "RightButton" and not self.isSizing then
 			self:StartSizing()
 			self.isSizing = true
 		end
