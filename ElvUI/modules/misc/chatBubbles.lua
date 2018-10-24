@@ -4,6 +4,7 @@ local CH = E:GetModule("Chat")
 local CC = E:GetModule("ClassCache")
 
 local select, unpack, type = select, unpack, type
+local gsub, gmatch, format, lower = string.gsub, string.gmatch, string.format, string.lower
 local strlower, split = strlower, string.split
 
 local CreateFrame = CreateFrame

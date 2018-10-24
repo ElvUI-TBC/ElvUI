@@ -4,6 +4,7 @@ local CH = E:GetModule("Chat")
 
 local _G = _G
 local floor = math.floor
+local gsub, format = string.gsub, string.format
 
 local CinematicFrame = CinematicFrame
 local CreateFrame = CreateFrame
@@ -56,13 +57,13 @@ local function UpdateAnimation(self, elapsed)
 	self.animTime = self.animTime + (elapsed * 1000)
 	self:SetSequenceTime(67, self.animTime)
 
-	if(self.animTime >= 3000) then
+	if self.animTime >= 3000 then
 		StopAnimation(self)
 	end
 end
 
 local function OnAnimFinished(self)
-	if(self.animTime > 500) then
+	if self.animTime > 500 then
 		StopAnimation(self)
 	end
 end
@@ -92,8 +93,8 @@ local function RockConfigFix()
 end
 
 function AFK:SetAFK(status)
-	if(status and not self.isAFK) then
-		if(InspectFrame) then
+	if status and not self.isAFK then
+		if InspectFrame then
 			InspectPaperDollFrame:Hide()
 		end
 
@@ -110,7 +111,7 @@ function AFK:SetAFK(status)
 		SetCVar("cameraPitchMoveSpeed", E.global.afkCameraSpeedPitch)
 		MoveViewLeftStart()
 
-		if(IsInGuild()) then
+		if IsInGuild() then
 			local guildName, guildRankName = GetGuildInfo("player")
 			self.AFKMode.bottom.guild:SetFormattedText("%s - %s", guildName, guildRankName)
 		else
@@ -132,7 +133,7 @@ function AFK:SetAFK(status)
 		self.AFKMode.bottom.model:SetScript("OnAnimFinished", OnAnimFinished)
 
 		self.isAFK = true
-	elseif(not status and self.isAFK) then
+	elseif not status and self.isAFK then
 		self.AFKMode:Hide()
 		UIParent:Show()
 
@@ -155,8 +156,8 @@ function AFK:SetAFK(status)
 end
 
 function AFK:OnEvent(event, ...)
-	if(event == "PLAYER_REGEN_DISABLED" or event == "UPDATE_BATTLEFIELD_STATUS") then
-		if(event == "UPDATE_BATTLEFIELD_STATUS") then
+	if event == "PLAYER_REGEN_DISABLED" or event == "UPDATE_BATTLEFIELD_STATUS" then
+		if event == "UPDATE_BATTLEFIELD_STATUS" then
 			local status, _, instanceID
 			for i = 1, MAX_BATTLEFIELD_QUEUES do
 				status, _, instanceID = GetBattlefieldStatus(i)
@@ -165,27 +166,28 @@ function AFK:OnEvent(event, ...)
 				end
 			end
 			local status = status
-			if(status == "confirm") then
+			if status == "confirm" then
 				self:SetAFK(false)
 			end
 		else
 			self:SetAFK(false)
 		end
 
-		if(event == "PLAYER_REGEN_DISABLED") then
+		if event == "PLAYER_REGEN_DISABLED" then
 			self:RegisterEvent("PLAYER_REGEN_ENABLED", "OnEvent")
 		end
 
 		return
 	end
 
-	if(event == "PLAYER_REGEN_ENABLED") then
+	if event == "PLAYER_REGEN_ENABLED" then
 		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	end
 
-	if(not E.db.general.afk) then return end
-	if(InCombatLockdown() or CinematicFrame:IsShown()) then return end
-	if(UnitCastingInfo("player") ~= nil) then
+	if not E.db.general.afk then return end
+
+	if InCombatLockdown() or CinematicFrame:IsShown() then return end
+	if UnitCastingInfo("player") ~= nil then
 		--Don't activate afk if player is crafting stuff, check back in 30 seconds
 		self:ScheduleTimer("OnEvent", 30)
 		return
@@ -195,7 +197,7 @@ function AFK:OnEvent(event, ...)
 end
 
 function AFK:Toggle()
-	if(E.db.general.afk) then
+	if E.db.general.afk then
 		self:RegisterEvent("PLAYER_FLAGS_CHANGED", "OnEvent")
 		self:RegisterEvent("PLAYER_REGEN_DISABLED", "OnEvent")
 		self:RegisterEvent("UPDATE_BATTLEFIELD_STATUS", "OnEvent")
@@ -211,7 +213,8 @@ function AFK:Toggle()
 end
 
 local function OnKeyDown(_, key)
-	if(ignoreKeys[key]) then return end
+	if ignoreKeys[key] then return end
+
 	if printKeys[key] then
 		Screenshot()
 	else
@@ -221,11 +224,11 @@ local function OnKeyDown(_, key)
 end
 
 local function Chat_OnMouseWheel(self, delta)
-	if(delta == 1 and IsShiftKeyDown()) then
+	if delta == 1 and IsShiftKeyDown() then
 		self:ScrollToTop()
-	elseif(delta == -1 and IsShiftKeyDown()) then
+	elseif delta == -1 and IsShiftKeyDown() then
 		self:ScrollToBottom()
-	elseif(delta == -1) then
+	elseif delta == -1 then
 		self:ScrollDown()
 	else
 		self:ScrollUp()
@@ -246,10 +249,10 @@ local function Chat_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg
 	_, body = pcall(format, _G["CHAT_"..type.."_GET"]..message, playerLink.."["..coloredName.."]".."|h")
 
 	if CH.db.shortChannels then
-		body = body:gsub("|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel)
-		body = body:gsub("^(.-|h) "..L["whispers"], "%1")
-		body = body:gsub("<".._G["AFK"]..">", "[|cffFF0000"..L["AFK"].."|r] ")
-		body = body:gsub("<"..DND..">", "[|cffE7E716"..L["DND"].."|r] ")
+		body = gsub(body, "|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel)
+		body = gsub(body, "^(.-|h) "..L["whispers"], "%1")
+		body = gsub(body, "<".._G["AFK"]..">", "[|cffFF0000"..L["AFK"].."|r] ")
+		body = gsub(body, "<"..DND..">", "[|cffE7E716"..L["DND"].."|r] ")
 	end
 
 	self:AddMessage(body, info.r, info.g, info.b, info.id)
@@ -302,10 +305,9 @@ function AFK:Initialize()
 	self.AFKMode.bottom.logo:Point("CENTER", self.AFKMode.bottom, "CENTER", 0, 50)
 	self.AFKMode.bottom.logo:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\logo")
 
-	local factionGroup = E.myfaction
 	self.AFKMode.bottom.faction = self.AFKMode.bottom:CreateTexture(nil, "OVERLAY")
 	self.AFKMode.bottom.faction:Point("BOTTOMLEFT", self.AFKMode.bottom, "BOTTOMLEFT", -20, -16)
-	self.AFKMode.bottom.faction:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\"..factionGroup.."-Logo")
+	self.AFKMode.bottom.faction:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\"..E.myfaction.."-Logo")
 	self.AFKMode.bottom.faction:Size(140)
 
 	self.AFKMode.bottom.name = self.AFKMode.bottom:CreateFontString(nil, "OVERLAY")

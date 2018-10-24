@@ -23,9 +23,17 @@ local function LoadSkin()
 	end
 
 	PlayerTalentFrameScrollFrame:StripTextures()
-	PlayerTalentFrameScrollFrame:CreateBackdrop("Default")
-	PlayerTalentFrameScrollFrame.backdrop:Point("TOPLEFT", -1, 2)
-	PlayerTalentFrameScrollFrame.backdrop:Point("BOTTOMRIGHT", 6, -2)
+	PlayerTalentFrameScrollFrame:SetHitRectInsets(0, 0, 1, 1)
+
+	PlayerTalentFrame.bg = CreateFrame("Frame", nil, PlayerTalentFrame)
+	PlayerTalentFrame.bg:SetTemplate("Default")	
+	PlayerTalentFrame.bg:Point("TOPLEFT", PlayerTalentFrameBackgroundTopLeft, "TOPLEFT", -1, 1)
+	PlayerTalentFrame.bg:Point("BOTTOMRIGHT", PlayerTalentFrameBackgroundBottomRight, "BOTTOMRIGHT", -19, 51)
+
+	PlayerTalentFrameBackgroundTopLeft:SetParent(PlayerTalentFrame.bg)
+	PlayerTalentFrameBackgroundTopRight:SetParent(PlayerTalentFrame.bg)
+	PlayerTalentFrameBackgroundBottomLeft:SetParent(PlayerTalentFrame.bg)
+	PlayerTalentFrameBackgroundBottomRight:SetParent(PlayerTalentFrame.bg)
 
 	S:HandleScrollBar(PlayerTalentFrameScrollFrameScrollBar)
 	PlayerTalentFrameScrollFrameScrollBar:Point("TOPLEFT", PlayerTalentFrameScrollFrame, "TOPRIGHT", 10, -16)
@@ -38,6 +46,7 @@ local function LoadSkin()
 	for i = 1, MAX_NUM_TALENTS do
 		local talent = _G["PlayerTalentFrameTalent"..i]
 		local icon = _G["PlayerTalentFrameTalent"..i.."IconTexture"]
+		local border = _G["PlayerTalentFrameTalent"..i.."RankBorder"]
 		local rank = _G["PlayerTalentFrameTalent"..i.."Rank"]
 
 		if talent then
@@ -48,6 +57,8 @@ local function LoadSkin()
 			icon:SetInside()
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:SetDrawLayer("ARTWORK")
+
+			border:Point("CENTER", talent, "BOTTOMRIGHT", 3, -5)
 
 			rank:SetFont(E.LSM:Fetch("font", E.db["general"].font), 12, "OUTLINE")
 		end

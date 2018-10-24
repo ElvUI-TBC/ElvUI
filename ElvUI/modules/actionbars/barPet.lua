@@ -3,6 +3,7 @@ local AB = E:GetModule("ActionBars")
 
 local _G = _G
 local ceil = math.ceil
+local gsub, match = string.gsub, string.match
 
 local CreateFrame = CreateFrame
 local RegisterStateDriver = RegisterStateDriver

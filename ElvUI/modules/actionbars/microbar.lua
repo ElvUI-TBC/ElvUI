@@ -2,6 +2,8 @@ local E, L, V, P, G = unpack(ElvUI)
 local AB = E:GetModule("ActionBars")
 
 local _G = _G
+local gsub, match = string.gsub, string.match
+
 local CreateFrame = CreateFrame
 local RegisterStateDriver = RegisterStateDriver
 

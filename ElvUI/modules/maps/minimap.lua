@@ -3,7 +3,7 @@ local M = E:NewModule("Minimap", "AceEvent-3.0")
 E.Minimap = M
 
 local _G = _G
-local strsub = strsub
+local match, strsub = string.match, strsub
 
 local CreateFrame = CreateFrame
 local EasyMenu = EasyMenu
@@ -395,7 +395,7 @@ function M:Initialize()
 	fm:Hide()
 
 	FarmModeMap:SetScript("OnShow", function()
-		if(AurasMover and not E:HasMoverBeenMoved("AurasMover")) then
+		if AurasMover and not E:HasMoverBeenMoved("AurasMover") then
 			AurasMover:ClearAllPoints()
 			AurasMover:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3)
 		end
@@ -405,7 +405,7 @@ function M:Initialize()
 	end)
 
 	FarmModeMap:SetScript("OnHide", function()
-		if(AurasMover and not E:HasMoverBeenMoved("AurasMover")) then
+		if AurasMover and not E:HasMoverBeenMoved("AurasMover") then
 			E:ResetMovers(L["Auras Frame"])
 		end
 

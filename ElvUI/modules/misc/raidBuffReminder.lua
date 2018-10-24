@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local RB = E:NewModule("ReminderBuffs", "AceEvent-3.0")
 local LSM = LibStub("LibSharedMedia-3.0")
 
-local ipairs = ipairs
+local ipairs, unpack = ipairs, unpack
 
 local GetPlayerBuff = GetPlayerBuff
 local GetPlayerBuffName = GetPlayerBuffName

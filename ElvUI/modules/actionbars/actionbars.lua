@@ -4,7 +4,7 @@ local AB = E:NewModule("ActionBars", "AceHook-3.0", "AceEvent-3.0")
 local _G = _G
 local pairs, select, unpack = pairs, select, unpack
 local ceil = math.ceil
-local format, gsub, split = string.format, string.gsub, string.split
+local format, gsub, match, split = string.format, string.gsub, string.match, string.split
 
 local CreateFrame = CreateFrame
 local UnitHealth = UnitHealth

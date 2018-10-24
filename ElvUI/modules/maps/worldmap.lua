@@ -2,6 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local M = E:NewModule("WorldMap", "AceTimer-3.0")
 E.WorldMap = M
 
+local pairs = pairs
 local find, format = string.find, string.format
 
 local CreateFrame = CreateFrame

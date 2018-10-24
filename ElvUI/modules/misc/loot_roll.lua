@@ -1,6 +1,10 @@
 local E, L, V, P, G = unpack(ElvUI)
 local M = E:GetModule("Misc")
 
+local pairs, unpack, ipairs, next, tonumber = pairs, unpack, ipairs, next, tonumber
+local find = string.find
+local tinsert = table.insert
+
 local CursorOnUpdate = CursorOnUpdate
 local DressUpItemLink = DressUpItemLink
 local GetLootRollItemInfo = GetLootRollItemInfo
@@ -13,10 +17,6 @@ local RollOnLoot = RollOnLoot
 local ShowInspectCursor = ShowInspectCursor
 local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-
-local find = string.find
-local pairs, unpack, ipairs, next, tonumber = pairs, unpack, ipairs, next, tonumber
-local tinsert = table.insert
 
 local pos = "TOP"
 local cancelled_rolls = {}

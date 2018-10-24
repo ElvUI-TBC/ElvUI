@@ -3,7 +3,7 @@ local AB = E:GetModule("ActionBars")
 
 local _G = _G
 local ceil = math.ceil
-local format = string.format
+local gsub, format, match = string.gsub, string.format, string.match
 
 local CreateFrame = CreateFrame
 local GetSpellInfo = GetSpellInfo

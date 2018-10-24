@@ -4,7 +4,7 @@ local AB = E:GetModule("ActionBars")
 local _G = _G
 local select, tonumber, pairs = select, tonumber, pairs
 local floor = math.floor
-local find, format = string.find, string.format
+local find, format, upper = string.find, string.format, string.upper
 
 local CreateFrame = CreateFrame
 local EnumerateFrames = EnumerateFrames
