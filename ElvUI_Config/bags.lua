@@ -38,8 +38,22 @@ E.Options.args.bags = {
 					type = "header",
 					name = L["General"]
 				},
-				moneyFormat = {
+				strata = {
 					order = 2,
+					type = "select",
+					name = L["Frame Strata"],
+					set = function(info, value) E.db.bags[info[#info]] = value; E:StaticPopup_Show("PRIVATE_RL") end,
+					values = {
+						["BACKGROUND"] = "BACKGROUND",
+						["LOW"] = "LOW",
+						["MEDIUM"] = "MEDIUM",
+						["HIGH"] = "HIGH",
+						["DIALOG"] = "DIALOG",
+						["TOOLTIP"] = "TOOLTIP"
+					}
+				},
+				moneyFormat = {
+					order = 3,
 					type = "select",
 					name = L["Money Format"],
 					desc = L["The display format of the money text that is shown at the top of the main bag."],
@@ -54,49 +68,35 @@ E.Options.args.bags = {
 					set = function(info, value) E.db.bags[ info[#info] ] = value B:UpdateGoldText() end
 				},
 				moneyCoins = {
-					order = 3,
+					order = 4,
 					type = "toggle",
 					name = L["Show Coins"],
 					desc = L["Use coin icons instead of colored text."],
 					set = function(info, value) E.db.bags[ info[#info] ] = value B:UpdateGoldText() end
 				},
 				clearSearchOnClose = {
-					order = 4,
+					order = 5,
 					type = "toggle",
 					name = L["Clear Search On Close"],
 					set = function(info, value) E.db.bags[info[#info]] = value end
 				},
 				reverseSlots = {
-					order = 5,
+					order = 6,
 					type = "toggle",
 					name = L["Reverse Bag Slots"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAll() end,
 				},
 				disableBagSort = {
-					order = 6,
+					order = 7,
 					type = "toggle",
 					name = L["Disable Bag Sort"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:ToggleSortButtonState(false) end
 				},
 				disableBankSort = {
-					order = 7,
+					order = 8,
 					type = "toggle",
 					name = L["Disable Bank Sort"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:ToggleSortButtonState(true) end
-				},
-				strata = {
-					order = 8,
-					type = "select",
-					name = L["Frame Strata"],
-					set = function(info, value) E.db.bags[info[#info]] = value; E:StaticPopup_Show("PRIVATE_RL") end,
-					values = {
-						["BACKGROUND"] = "BACKGROUND",
-						["LOW"] = "LOW",
-						["MEDIUM"] = "MEDIUM",
-						["HIGH"] = "HIGH",
-						["DIALOG"] = "DIALOG",
-						["TOOLTIP"] = "TOOLTIP"
-					}
 				},
 				countGroup = {
 					order = 9,
