@@ -69,6 +69,7 @@ L["Deficit:"] = "손해:"
 L["DPS"] = "DPS"
 L["Durability"] = "내구도"
 L["Earned:"] = "수입:"
+L["ElvUI Config"] = true
 L["Friends List"] = "친구 목록"
 L["Gold"] = "골드"
 L["goldabbrev"] = "|TInterface\\MoneyFrame\\UI-MoneyIcons:0:0:1:0:64:16:1:16:1:16|t" --"|cffffd700●|r"

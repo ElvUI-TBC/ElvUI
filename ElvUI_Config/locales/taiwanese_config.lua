@@ -1123,7 +1123,6 @@ L["Sort By"] = "排序"
 L["Spaced"] = "留空"
 L["Spacing"] = "間隙"
 L["Spark"] = "火花"
-L["Speed in seconds"] = true
 L["Stack Counter"] = "層數計數"
 L["Stack Threshold"] = "層數閾值"
 L["Start Near Center"] = "由中心開始"

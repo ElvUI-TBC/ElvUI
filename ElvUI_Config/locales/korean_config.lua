@@ -1172,7 +1172,6 @@ L["Sort By"] = true
 L["Spaced"] = "외부에 작게 분리"
 L["Spacing"] = "간격"
 L["Spark"] = "반짝임"
-L["Speed in seconds"] = true
 L["Stack Counter"] = "중첩 표시"
 L["Stack Threshold"] = "중첩 기준점"
 L["Start Near Center"] = "가운데 정렬"

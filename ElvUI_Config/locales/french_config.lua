@@ -1123,7 +1123,6 @@ L["Sort By"] = "Afficher par"
 L["Spaced"] = "Espacé"
 L["Spacing"] = "Espace"
 L["Spark"] = "Lueur"
-L["Speed in seconds"] = true
 L["Stack Counter"] = "Compteur de pile"
 L["Stack Threshold"] = "Seuil de pile"
 L["Start Near Center"] = "Démarrer près du centre"

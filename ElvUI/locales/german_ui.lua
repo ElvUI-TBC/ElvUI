@@ -69,6 +69,7 @@ L["Deficit:"] = "Defizit:"
 L["DPS"] = "DPS"
 L["Durability"] = "Haltbarkeit"
 L["Earned:"] = "Verdient:"
+L["ElvUI Config"] = true
 L["Friends List"] = "Freundesliste"
 L["Gold"] = true
 L["goldabbrev"] = "|cffffd700g|r" --Also used in gold datatext

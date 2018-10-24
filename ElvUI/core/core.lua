@@ -27,7 +27,7 @@ local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 -- Constants
 E.LSM = LSM
 E.noop = function() end
-E.title = format("|cfffe7b2c%s |r", "ElvUI")
+E.title = format("|cff00b30bE|r|cffC4C4C4lvUI|r")
 E.myfaction, E.myLocalizedFaction = UnitFactionGroup("player")
 E.myLocalizedClass, E.myclass, E.myClassID = UnitClass("player")
 E.myLocalizedRace, E.myrace = UnitRace("player")

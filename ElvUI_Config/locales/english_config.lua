@@ -1107,7 +1107,6 @@ L["Sort By"] = true
 L["Spaced"] = true
 L["Spacing"] = true
 L["Spark"] = true
-L["Speed in seconds"] = true
 L["Stack Counter"] = true
 L["Stack Threshold"] = true
 L["Start Near Center"] = true

@@ -69,6 +69,7 @@ L["Deficit:"] = true
 L["DPS"] = true
 L["Durability"] = true
 L["Earned:"] = true
+L["ElvUI Config"] = true
 L["Friends List"] = true
 L["Gold"] = true
 L["goldabbrev"] = "|cffffd700g|r" --Also used in Bags

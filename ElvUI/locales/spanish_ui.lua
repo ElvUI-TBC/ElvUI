@@ -69,6 +69,7 @@ L["Deficit:"] = "Déficit:"
 L["DPS"] = "DPS"
 L["Durability"] = "Durabilidad"
 L["Earned:"] = "Ganada:"
+L["ElvUI Config"] = true
 L["Friends List"] = "Lista de Amigos"
 L["Gold"] = "Oro"
 L["goldabbrev"] = "|cffffd700g|r"

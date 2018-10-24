@@ -69,6 +69,7 @@ L["Deficit:"] = "赤字:"
 L["DPS"] = "傷害輸出"
 L["Durability"] = "耐久度"
 L["Earned:"] = "賺取:"
+L["ElvUI Config"] = true
 L["Friends List"] = "好友列表"
 L["Gold"] = "金錢"
 L["goldabbrev"] = "|cffffd700金|r" --Also used in Bags

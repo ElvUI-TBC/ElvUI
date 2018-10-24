@@ -69,6 +69,7 @@ L["Deficit:"] = "Убыток:"
 L["DPS"] = "УВС"
 L["Durability"] = "Прочность"
 L["Earned:"] = "Заработано"
+L["ElvUI Config"] = true
 L["Friends List"] = "Список друзей"
 L["Gold"] = "Золото"
 L["goldabbrev"] = "|cffffd700з|r" --Also used in Bags
