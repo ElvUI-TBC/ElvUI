@@ -1,41 +1,48 @@
 ElvUI = {}
 
-local _G = _G;
-local pairs, unpack = pairs, unpack;
+local _G = _G
+local pairs, unpack = pairs, unpack
 
-BINDING_HEADER_ELVUI = GetAddOnMetadata("ElvUI", "Title");
+BINDING_HEADER_ELVUI = GetAddOnMetadata("ElvUI", "Title")
 
-local AddOnName, Engine = "ElvUI", ElvUI;
-local AddOn = LibStub("AceAddon-3.0"):NewAddon(AddOnName, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceHook-3.0");
-AddOn.callbacks = AddOn.callbacks or
-	LibStub("CallbackHandler-1.0"):New(AddOn);
-AddOn.DF = {}; AddOn.DF["profile"] = {}; AddOn.DF["global"] = {}; AddOn.privateVars = {}; AddOn.privateVars["profile"] = {}; -- Defaults
+local AddOnName, Engine = "ElvUI", ElvUI
+local AddOn = LibStub("AceAddon-3.0"):NewAddon(AddOnName, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceHook-3.0")
+
+AddOn.callbacks = AddOn.callbacks or LibStub("CallbackHandler-1.0"):New(AddOn)
+
+-- Defaults
+AddOn.DF = {}
+AddOn.DF["profile"] = {}
+AddOn.DF["global"] = {}
+AddOn.privateVars = {}
+AddOn.privateVars["profile"] = {}
+
 AddOn.Options = {
 	type = "group",
 	name = AddOnName,
 	args = {},
-};
+}
 
-local Locale = LibStub("AceLocale-3.0"):GetLocale(AddOnName, false);
-Engine[1] = AddOn;
-Engine[2] = Locale;
-Engine[3] = AddOn.privateVars["profile"];
-Engine[4] = AddOn.DF["profile"];
-Engine[5] = AddOn.DF["global"];
+local Locale = LibStub("AceLocale-3.0"):GetLocale(AddOnName, false)
+Engine[1] = AddOn
+Engine[2] = Locale
+Engine[3] = AddOn.privateVars["profile"]
+Engine[4] = AddOn.DF["profile"]
+Engine[5] = AddOn.DF["global"]
 
-_G[AddOnName] = Engine;
+_G[AddOnName] = Engine
 local tcopy = table.copy
 function AddOn:OnInitialize()
 	if not ElvCharacterDB then
-		ElvCharacterDB = {};
+		ElvCharacterDB = {}
 	end
 
-	ElvCharacterData = nil; --Depreciated
-	ElvPrivateData = nil; --Depreciated
-	ElvData = nil; --Depreciated
+	ElvCharacterData = nil --Depreciated
+	ElvPrivateData = nil --Depreciated
+	ElvData = nil --Depreciated
 
-	self.db = tcopy(self.DF.profile, true);
-	self.global = tcopy(self.DF.global, true);
+	self.db = tcopy(self.DF.profile, true)
+	self.global = tcopy(self.DF.global, true)
 	if ElvDB then
 		if ElvDB.global then
 			self:CopyTable(self.global, ElvDB.global)
@@ -51,7 +58,7 @@ function AddOn:OnInitialize()
 		end
 	end
 
-	self.private = tcopy(self.privateVars.profile, true);
+	self.private = tcopy(self.privateVars.profile, true)
 	if ElvPrivateDB then
 		local profileKey
 		if ElvPrivateDB.profileKeys then
@@ -63,14 +70,14 @@ function AddOn:OnInitialize()
 		end
 	end
 
-	if(self.private.general.pixelPerfect) then
-		self.Border = self.mult;
-		self.Spacing = 0;
-		self.PixelMode = true;
+	if self.private.general.pixelPerfect then
+		self.Border = self.mult
+		self.Spacing = 0
+		self.PixelMode = true
 	end
 
-	self:UIScale();
-	self:UpdateMedia();
+	self:UIScale()
+	self:UpdateMedia()
 
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
 	self:RegisterEvent("PLAYER_LOGIN", "Initialize")
@@ -84,7 +91,7 @@ function AddOn:OnInitialize()
 	local GameMenuButton = CreateFrame("Button", nil, GameMenuFrame, "GameMenuButtonTemplate")
 	GameMenuButton:Size(GameMenuButtonLogout:GetWidth(), GameMenuButtonLogout:GetHeight())
 
-	GameMenuButton:SetText(self:ColorizedName(AddOnName))
+	GameMenuButton:SetText(self.title)
 	GameMenuButton:SetScript("OnClick", function()
 		AddOn:ToggleConfig()
 		HideUIPanel(GameMenuFrame)
@@ -117,33 +124,33 @@ end
 
 function AddOn:PLAYER_REGEN_ENABLED()
 	self:ToggleConfig()
-	self:UnregisterEvent("PLAYER_REGEN_ENABLED");
+	self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 end
 
 function AddOn:PLAYER_REGEN_DISABLED()
-	local err = false;
+	local err = false
 
 	if IsAddOnLoaded("ElvUI_Config") then
 		local ACD = LibStub("AceConfigDialog-3.0-ElvUI")
 
 		if ACD.OpenFrames[AddOnName] then
-			self:RegisterEvent("PLAYER_REGEN_ENABLED");
-			ACD:Close(AddOnName);
-			err = true;
+			self:RegisterEvent("PLAYER_REGEN_ENABLED")
+			ACD:Close(AddOnName)
+			err = true
 		end
 	end
 
 	if self.CreatedMovers then
 		for name, _ in pairs(self.CreatedMovers) do
 			if _G[name] and _G[name]:IsShown() then
-				err = true;
-				_G[name]:Hide();
+				err = true
+				_G[name]:Hide()
 			end
 		end
 	end
 
 	if err == true then
-		self:Print(ERR_NOT_IN_COMBAT);
+		self:Print(ERR_NOT_IN_COMBAT)
 	end
 end
 
@@ -154,10 +161,10 @@ function AddOn:ResetProfile()
 	end
 
 	if profileKey and ElvPrivateDB.profiles and ElvPrivateDB.profiles[profileKey] then
-		ElvPrivateDB.profiles[profileKey] = nil;
+		ElvPrivateDB.profiles[profileKey] = nil
 	end
 
-	ElvCharacterDB = nil;
+	ElvCharacterDB = nil
 	ReloadUI()
 end
 
@@ -169,13 +176,13 @@ function AddOn:ToggleConfig()
 	if InCombatLockdown() then
 		self:Print(ERR_NOT_IN_COMBAT)
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
-		return;
+		return
 	end
 
 	if not IsAddOnLoaded("ElvUI_Config") then
 		local _, _, _, _, _, reason = GetAddOnInfo("ElvUI_Config")
 		if reason ~= "MISSING" and reason ~= "DISABLED" then
-			self.GUIFrame = false;
+			self.GUIFrame = false
 			LoadAddOn("ElvUI_Config")
 			if GetAddOnMetadata("ElvUI_Config", "Version") ~= "1.01" then
 				self:StaticPopup_Show("CLIENT_UPDATE_REQUEST")
@@ -194,11 +201,11 @@ function AddOn:ToggleConfig()
 	end
 
 	if mode == "Open" then
-		ElvConfigToggle.text:SetTextColor(unpack(AddOn.media.rgbvaluecolor));
-		PlaySound("igMainMenuOpen");
+		ElvConfigToggle.text:SetTextColor(unpack(AddOn.media.rgbvaluecolor))
+		PlaySound("igMainMenuOpen")
 	else
-		ElvConfigToggle.text:SetTextColor(1, 1, 1);
-		PlaySound("igMainMenuClose");
+		ElvConfigToggle.text:SetTextColor(1, 1, 1)
+		PlaySound("igMainMenuClose")
 	end
 
 	ACD[mode](ACD, AddOnName)
