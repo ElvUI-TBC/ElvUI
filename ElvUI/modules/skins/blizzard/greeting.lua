@@ -26,7 +26,11 @@ local function LoadSkin()
 		for i = 1, MAX_NUM_QUESTS do
 			local button = _G["QuestTitleButton"..i]
 
-			S:HandleButtonHighlight(button)
+			if not button.isSkinned then
+				S:HandleButtonHighlight(button)
+				
+				button.isSkinned = true
+			end
 		end
 
 		for i = 1, MAX_NUM_QUESTS do
