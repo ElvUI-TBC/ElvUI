@@ -4,6 +4,7 @@ E.DataBars = mod
 
 local _G = _G
 
+local CreateFrame = CreateFrame
 local GetAccountExpansionLevel = GetAccountExpansionLevel
 local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE
 
@@ -19,7 +20,7 @@ function mod:CreateBar(name, onEnter, onClick, ...)
 	bar:Point(...)
 	bar:SetScript("OnEnter", onEnter)
 	bar:SetScript("OnLeave", mod.OnLeave)
-	bar:SetScript("OnClick", onClick)
+	bar:SetScript("OnMouseDown", onClick)
 	bar:SetFrameStrata("LOW")
 	bar:SetTemplate("Transparent")
 	bar:Hide()

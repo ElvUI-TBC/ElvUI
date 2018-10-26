@@ -172,7 +172,7 @@ function AddOn:OnProfileReset()
 	self:StaticPopup_Show("RESET_PROFILE_PROMPT")
 end
 
-function AddOn:ToggleConfig()
+function AddOn:ToggleConfig(msg)
 	if InCombatLockdown() then
 		self:Print(ERR_NOT_IN_COMBAT)
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -184,6 +184,12 @@ function AddOn:ToggleConfig()
 		if reason ~= "MISSING" and reason ~= "DISABLED" then
 			self.GUIFrame = false
 			LoadAddOn("ElvUI_Config")
+			--For some reason, GetAddOnInfo reason is "DEMAND_LOADED" even if the addon is disabled.
+			--Workaround: Try to load addon and check if it is loaded right after.
+			if not IsAddOnLoaded("ElvUI_Config") then
+				self:Print("|cffff0000Error -- Addon 'ElvUI_Config' not found or is disabled.|r")
+				return
+			end
 			if GetAddOnMetadata("ElvUI_Config", "Version") ~= "1.01" then
 				self:StaticPopup_Show("CLIENT_UPDATE_REQUEST")
 			end
@@ -195,20 +201,38 @@ function AddOn:ToggleConfig()
 
 	local ACD = LibStub("AceConfigDialog-3.0-ElvUI")
 
+	local pages
+	if msg and msg ~= "" then
+		pages = {strsplit(",", msg)}
+	end
+
 	local mode = "Close"
-	if not ACD.OpenFrames[AddOnName] then
-		mode = "Open"
+	if not ACD.OpenFrames[AddOnName] or (pages ~= nil) then
+		if pages ~= nil then
+			local mainTab = pages[1] and ACD.Status and ACD.Status.ElvUI
+			local subTab = pages[2] and mainTab and mainTab.children[pages[1]]
+			if ACD.OpenFrames[AddOnName] and ((subTab and subTab.status.groups.selected == pages[2]) or ((not subTab) and mainTab and mainTab.status.groups.selected == pages[1])) then
+				mode = "Close"
+			else
+				mode = "Open"
+			end
+		else
+			mode = "Open"
+		end
+	end
+	ACD[mode](ACD, AddOnName)
+
+	if pages and (mode == "Open") then
+		ACD:SelectGroup(AddOnName, unpack(pages))
 	end
 
 	if mode == "Open" then
-		ElvConfigToggle.text:SetTextColor(unpack(AddOn.media.rgbvaluecolor))
+		ElvConfigToggle.text:SetTextColor(unpack(self.media.rgbvaluecolor))
 		PlaySound("igMainMenuOpen")
 	else
 		ElvConfigToggle.text:SetTextColor(1, 1, 1)
 		PlaySound("igMainMenuClose")
 	end
-
-	ACD[mode](ACD, AddOnName)
 
 	GameTooltip:Hide() --Just in case you're mouseovered something and it closes.
 end
