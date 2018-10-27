@@ -391,9 +391,25 @@ local function ClassBuff(id, point, color, onlyShowMissing, style, displayText, 
 		r2, g2, b2 = unpack(textColor)
 	end
 
-	return {["enabled"] = true, ["id"] = id, ["point"] = point, ["color"] = {["r"] = r, ["g"] = g, ["b"] = b},
-	["onlyShowMissing"] = onlyShowMissing, ["style"] = style or "coloredIcon", ["displayText"] = displayText or false, ["decimalThreshold"] = decimalThreshold or 5,
-	["textColor"] = {["r"] = r2, ["g"] = g2, ["b"] = b2}, ["textThreshold"] = textThreshold or -1, ["xOffset"] = xOffset or 0, ["yOffset"] = yOffset or 0, ["sizeOverride"] = sizeOverride or 0}
+	return {
+		["enabled"] = true,
+		["id"] = id,
+		["point"] = point,
+		["color"] = {
+			["r"] = r, ["g"] = g, ["b"] = b
+		},
+		["onlyShowMissing"] = onlyShowMissing,
+		["style"] = style or "coloredIcon",
+		["displayText"] = displayText or false,
+		["decimalThreshold"] = decimalThreshold or 5,
+		["textColor"] = {
+			["r"] = r2, ["g"] = g2, ["b"] = b2
+		},
+		["textThreshold"] = textThreshold or -1,
+		["xOffset"] = xOffset or 0,
+		["yOffset"] = yOffset or 0,
+		["sizeOverride"] = sizeOverride or 0
+	}
 end
 
 G.unitframe.buffwatch = {

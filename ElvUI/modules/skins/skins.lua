@@ -97,8 +97,9 @@ function S:HandleButtonHighlight(frame)
 	rightGrad:SetGradientAlpha("Horizontal", 0.9, 0.9, 0.9, 0, 0.9, 0.9, 0.9, 0.35)
 end
 
-function S:HandleScrollBar(frame, thumbTrim)
+function S:HandleScrollBar(frame, thumbTrimY, thumbTrimX)
 	local name = frame:GetName()
+
 	if _G[name.."BG"] then _G[name.."BG"]:SetTexture(nil) end
 	if _G[name.."Track"] then _G[name.."Track"]:SetTexture(nil) end
 	if _G[name.."Top"] then _G[name.."Top"]:SetTexture(nil) end
@@ -108,15 +109,13 @@ function S:HandleScrollBar(frame, thumbTrim)
 	if _G[name.."ScrollUpButton"] and _G[name.."ScrollDownButton"] then
 		_G[name.."ScrollUpButton"]:StripTextures()
 		if not _G[name.."ScrollUpButton"].icon then
-			S:HandleNextPrevButton(_G[name.."ScrollUpButton"])
-			S:SquareButton_SetIcon(_G[name.."ScrollUpButton"], "UP")
+			S:HandleNextPrevButton(_G[name.."ScrollUpButton"], true, true)
 			_G[name.."ScrollUpButton"]:Size(_G[name.."ScrollUpButton"]:GetWidth() + 7, _G[name.."ScrollUpButton"]:GetHeight() + 7)
 		end
 
 		_G[name.."ScrollDownButton"]:StripTextures()
 		if not _G[name.."ScrollDownButton"].icon then
-			S:HandleNextPrevButton(_G[name.."ScrollDownButton"])
-			S:SquareButton_SetIcon(_G[name.."ScrollDownButton"], "DOWN")
+			S:HandleNextPrevButton(_G[name.."ScrollDownButton"], true)
 			_G[name.."ScrollDownButton"]:Size(_G[name.."ScrollDownButton"]:GetWidth() + 7, _G[name.."ScrollDownButton"]:GetHeight() + 7)
 		end
 
@@ -124,16 +123,17 @@ function S:HandleScrollBar(frame, thumbTrim)
 			frame.trackbg = CreateFrame("Frame", nil, frame)
 			frame.trackbg:Point("TOPLEFT", _G[name.."ScrollUpButton"], "BOTTOMLEFT", 0, -1)
 			frame.trackbg:Point("BOTTOMRIGHT", _G[name.."ScrollDownButton"], "TOPRIGHT", 0, 1)
-			frame.trackbg:SetTemplate("Transparent")
+			frame.trackbg:SetTemplate("Default", true, true)
 		end
 
 		if frame:GetThumbTexture() then
-			if not thumbTrim then thumbTrim = 3 end
 			frame:GetThumbTexture():SetTexture(nil)
 			if not frame.thumbbg then
+				if not thumbTrimY then thumbTrimY = 3 end
+				if not thumbTrimX then thumbTrimX = 2 end
 				frame.thumbbg = CreateFrame("Frame", nil, frame)
-				frame.thumbbg:Point("TOPLEFT", frame:GetThumbTexture(), "TOPLEFT", 2, -thumbTrim)
-				frame.thumbbg:Point("BOTTOMRIGHT", frame:GetThumbTexture(), "BOTTOMRIGHT", -2, thumbTrim)
+				frame.thumbbg:Point("TOPLEFT", frame:GetThumbTexture(), "TOPLEFT", 2, -thumbTrimY)
+				frame.thumbbg:Point("BOTTOMRIGHT", frame:GetThumbTexture(), "BOTTOMRIGHT", -thumbTrimX, thumbTrimY)
 				frame.thumbbg:SetTemplate("Default", true, true)
 				frame.thumbbg:SetBackdropColor(0.6, 0.6, 0.6)
 				if frame.trackbg then
@@ -144,6 +144,7 @@ function S:HandleScrollBar(frame, thumbTrim)
 	end
 end
 
+--Tab Regions
 local tabs = {
 	"LeftDisabled",
 	"MiddleDisabled",
@@ -291,6 +292,7 @@ function S:HandleDropDownBox(frame, width)
 
 		self:HandleNextPrevButton(button, true)
 	end
+
 	frame:CreateBackdrop("Default")
 	frame.backdrop:Point("TOPLEFT", 20, -2)
 	frame.backdrop:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
