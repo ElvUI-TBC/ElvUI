@@ -133,5 +133,5 @@ function AB:SetupMicroBar()
 
 	MainMenuBarPerformanceBarFrame:Kill()
 
-	E:CreateMover(ElvUI_MicroBar, "MicrobarMover", L["Micro Bar"], nil, nil, nil, "ALL,ACTIONBARS")
+	E:CreateMover(ElvUI_MicroBar, 'MicrobarMover', L["Micro Bar"], nil, nil, nil, "ALL,ACTIONBARS", nil, "actionbar,microbar")
 end

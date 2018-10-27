@@ -2,6 +2,20 @@ ElvUI = {}
 
 local _G = _G
 local pairs, unpack = pairs, unpack
+local wipe = wipe
+local format, strsplit = string.format, string.split
+
+local CreateFrame = CreateFrame
+local GetAddOnInfo = GetAddOnInfo
+local GetAddOnMetadata = GetAddOnMetadata
+local HideUIPanel = HideUIPanel
+local InCombatLockdown = InCombatLockdown
+local IsAddOnLoaded = IsAddOnLoaded
+local LoadAddOn = LoadAddOn
+local ReloadUI = ReloadUI
+local GameMenuFrame = GameMenuFrame
+local GameMenuButtonLogout = GameMenuButtonLogout
+local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT
 
 BINDING_HEADER_ELVUI = GetAddOnMetadata("ElvUI", "Title")
 
@@ -172,6 +186,7 @@ function AddOn:OnProfileReset()
 	self:StaticPopup_Show("RESET_PROFILE_PROMPT")
 end
 
+local pageNodes = {}
 function AddOn:ToggleConfig(msg)
 	if InCombatLockdown() then
 		self:Print(ERR_NOT_IN_COMBAT)
@@ -200,18 +215,44 @@ function AddOn:ToggleConfig(msg)
 	end
 
 	local ACD = LibStub("AceConfigDialog-3.0-ElvUI")
+	local ConfigOpen = ACD.OpenFrames[AddOnName]
 
-	local pages
+	local pages, msgStr
 	if msg and msg ~= "" then
 		pages = {strsplit(",", msg)}
+		msgStr = msg:gsub(",","\001")
 	end
 
 	local mode = "Close"
-	if not ACD.OpenFrames[AddOnName] or (pages ~= nil) then
+	if not ConfigOpen or (pages ~= nil) then
 		if pages ~= nil then
-			local mainTab = pages[1] and ACD.Status and ACD.Status.ElvUI
-			local subTab = pages[2] and mainTab and mainTab.children[pages[1]]
-			if ACD.OpenFrames[AddOnName] and ((subTab and subTab.status.groups.selected == pages[2]) or ((not subTab) and mainTab and mainTab.status.groups.selected == pages[1])) then
+			local pageCount, index, mainSel = #pages
+			if pageCount > 1 then
+				wipe(pageNodes)
+				index = 0
+
+				local main, mainNode, mainSelStr, sub, subNode, subSel
+				for i = 1, pageCount do
+					if i == 1 then
+						main = pages[i] and ACD.Status and ACD.Status.ElvUI
+						mainSel = main and main.status and main.status.groups and main.status.groups.selected
+						mainSelStr = mainSel and ("^"..mainSel:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1").."\001")
+						mainNode = main and main.children and main.children[pages[i]]
+						pageNodes[index + 1], pageNodes[index + 2] = main, mainNode
+					else
+						sub = pages[i] and pageNodes[i] and ((i == pageCount and pageNodes[i]) or pageNodes[i].children[pages[i]])
+						subSel = sub and sub.status and sub.status.groups and sub.status.groups.selected
+						subNode = (mainSelStr and msgStr:match(mainSelStr..pages[i]:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1").."$") and (subSel and subSel == pages[i])) or ((i == pageCount and not subSel) and mainSel and mainSel == msgStr)
+						pageNodes[index + 1], pageNodes[index + 2] = sub, subNode
+					end
+					index = index + 2
+				end
+			else
+				local main = pages[1] and ACD.Status and ACD.Status.ElvUI
+				mainSel = main and main.status and main.status.groups and main.status.groups.selected
+			end
+
+			if ConfigOpen and ((not index and mainSel and mainSel == msg) or (index and pageNodes and pageNodes[index])) then
 				mode = "Close"
 			else
 				mode = "Open"

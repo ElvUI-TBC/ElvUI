@@ -296,7 +296,7 @@ function LO:CreateChatPanels()
 	lchat:SetFrameLevel(lchat:GetFrameLevel() + 2)
 	lchat:CreateBackdrop("Transparent", nil, true)
 	lchat.backdrop:SetAllPoints()
-	E:CreateMover(lchat, "LeftChatMover", L["Left Chat"])
+	E:CreateMover(lchat, "LeftChatMover", L["Left Chat"], nil, nil, nil, nil, nil, "chat,general")
 
 	--Background Texture
 	lchat.tex = lchat:CreateTexture(nil, "OVERLAY")
@@ -348,7 +348,7 @@ function LO:CreateChatPanels()
 	rchat:SetFrameLevel(lchat:GetFrameLevel() + 2)
 	rchat:CreateBackdrop("Transparent", nil, true)
 	rchat.backdrop:SetAllPoints()
-	E:CreateMover(rchat, "RightChatMover", L["Right Chat"])
+	E:CreateMover(rchat, "RightChatMover", L["Right Chat"], nil, nil, nil, nil, nil, "chat,general")
 
 	--Background Texture
 	rchat.tex = rchat:CreateTexture(nil, "OVERLAY")

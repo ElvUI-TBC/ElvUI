@@ -179,5 +179,5 @@ function B:LoadBagBar()
 
 	self:SizeAndPositionBagBar()
 
-	E:CreateMover(ElvUIBags, "BagsMover", L["Bags"])
+	E:CreateMover(ElvUIBags, "BagsMover", L["Bags"], nil, nil, nil, nil, nil, "bags,general")
 end

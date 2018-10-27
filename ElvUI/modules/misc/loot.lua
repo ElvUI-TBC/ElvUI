@@ -300,7 +300,7 @@ function M:LoadLoot()
 	self:RegisterEvent("OPEN_MASTER_LOOT_LIST")
 	self:RegisterEvent("UPDATE_MASTER_LOOT_LIST")
 
-	E:CreateMover(lootFrameHolder, "LootFrameMover", L["Loot Frame"])
+	E:CreateMover(lootFrameHolder, "LootFrameMover", L["Loot Frame"], nil, nil, nil, nil, nil, "general,general")
 
 	-- Fuzz
 	LootFrame:UnregisterAllEvents()

@@ -253,6 +253,7 @@ L["Watch Frame"] = true
 L["DESC_MOVERCONFIG"] = [=[프레임을 드래그로 원하는 위치로 이동시키세요.|n[잠금] 버튼을 누르면 이동모드가 종료됩니다.
 
 Options:
+  우클릭 - Open Config Section.
   Shift + RightClick - Hides mover temporarily.
   Ctrl + RightClick - Resets mover position to default.
 ]=]

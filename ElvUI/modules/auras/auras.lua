@@ -238,7 +238,7 @@ function A:Initialize()
 	holder:Point("TOPRIGHT", MMHolder, "TOPLEFT", -(6 + E.Border), -E.Border - E.Spacing)
 	holder:Width(456)
 	holder:Height(E.MinimapHeight)
-	E:CreateMover(holder, "AurasMover", L["Auras Frame"])
+	E:CreateMover(holder, "AurasMover", L["Auras Frame"], nil, nil, nil, nil, nil, "auras")
 
 	self:SecureHook("BuffButton_OnUpdate")
 	self:SecureHook("BuffButton_UpdateAnchors")

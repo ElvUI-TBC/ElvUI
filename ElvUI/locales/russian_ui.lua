@@ -253,6 +253,7 @@ L["Watch Frame"] = "Задания"
 L["DESC_MOVERCONFIG"] = [=[Блокировка отключена. Передвиньте фреймы и нажмите 'Закрепить', когда закончите.
 
 Options:
+  RightClick - Open Config Section.
   Shift + RightClick - Hides mover temporarily.
   Ctrl + RightClick - Resets mover position to default.
 ]=]

@@ -323,7 +323,7 @@ function AB:CreateBarShapeShift()
 	self:RegisterEvent("PLAYER_AURAS_CHANGED", "StyleShapeShift")
 	self:RegisterEvent("ACTIONBAR_PAGE_CHANGED", "StyleShapeShift")
 
-	E:CreateMover(bar, "ShiftAB", L["Stance Bar"], nil, -3, nil, "ALL,ACTIONBARS")
+	E:CreateMover(bar, "ShiftAB", L["Stance Bar"], nil, -3, nil, "ALL,ACTIONBARS", nil, "actionbar,stanceBar")
 	self:AdjustMaxStanceButtons()
 	self:PositionAndSizeBarShapeShift()
 	self:StyleShapeShift()

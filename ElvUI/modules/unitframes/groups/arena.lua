@@ -34,7 +34,7 @@ function UF:Construct_ArenaFrames(frame)
 	frame.unitframeType = "arena"
 
 	ArenaHeader:Point("BOTTOMRIGHT", E.UIParent, "RIGHT", -105, -165)
-	E:CreateMover(ArenaHeader, ArenaHeader:GetName().."Mover", L["Arena Frames"], nil, nil, nil, "ALL,ARENA")
+	E:CreateMover(ArenaHeader, ArenaHeader:GetName().."Mover", L["Arena Frames"], nil, nil, nil, "ALL,ARENA", nil, "unitframe,arena,generalGroup")
 	frame.mover = ArenaHeader.mover
 end
 

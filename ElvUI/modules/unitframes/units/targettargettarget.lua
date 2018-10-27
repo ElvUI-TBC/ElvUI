@@ -24,7 +24,7 @@ function UF:Construct_TargetTargetTargetFrame(frame)
 	frame.customTexts = {}
 
 	frame:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 160)
-	E:CreateMover(frame, frame:GetName().."Mover", L["TargetTargetTarget Frame"], nil, nil, nil, "ALL,SOLO")
+	E:CreateMover(frame, frame:GetName().."Mover", L["TargetTargetTarget Frame"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,targettargettarget,generalGroup")
 	frame.unitframeType = "targettargettarget"
 end
 
