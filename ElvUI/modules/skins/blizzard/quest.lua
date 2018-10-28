@@ -227,13 +227,20 @@ local function LoadSkin()
 		QuestObjectiveTextColor()
 
 		local numQuestRewards, numQuestChoices
+		local numQuestSpellRewards = 0
 		if questState == "QuestLog" then
 			numQuestRewards, numQuestChoices = GetNumQuestLogRewards(), GetNumQuestLogChoices()
+			if GetQuestLogRewardSpell() then
+				numQuestSpellRewards = 1
+			end
 		else
 			numQuestRewards, numQuestChoices = GetNumQuestRewards(), GetNumQuestChoices()
+			if GetRewardSpell() then
+				numQuestSpellRewards = 1
+			end
 		end
 
-		local rewardsCount = numQuestChoices + numQuestRewards
+		local rewardsCount = numQuestChoices + numQuestRewards + numQuestSpellRewards
 		if rewardsCount > 0 then
 			local questItem, itemName, link
 			local questItemName = questState.."Item"
