@@ -1,25 +1,72 @@
 local E, L, V, P, G = unpack(ElvUI)
 local DT = E:GetModule("DataTexts")
 
-local join = string.join
+local select = select
+local format, join = string.format, string.join
 
-local GetContainerNumFreeSlots = GetContainerNumFreeSlots
+local GetItemInfo = GetItemInfo
+local GetAuctionItemSubClasses = GetAuctionItemSubClasses
+local GetInventoryItemLink = GetInventoryItemLink
+local ContainerIDToInventoryID = ContainerIDToInventoryID
 local GetContainerNumSlots = GetContainerNumSlots
-
+local GetContainerNumFreeSlots = GetContainerNumFreeSlots
+local GetItemQualityColor = GetItemQualityColor
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS
 
+local quiver = select(1, GetAuctionItemSubClasses(7))
+local pouch = select(2, GetAuctionItemSubClasses(7))
+local soulBag = select(2, GetAuctionItemSubClasses(3))
+
 local displayString = ""
+
 local lastPanel
 
 local function OnEvent(self)
+	local bagFree, bagType
 	local free, total, used = 0, 0, 0
 	for i = 0, NUM_BAG_SLOTS do
-		free, total = free + GetContainerNumFreeSlots(i), total + GetContainerNumSlots(i)
+		bagFree, bagType = GetContainerNumFreeSlots(i)
+		if bagType == 0 then -- Skips "special" non-generic bags such as quivers, mining bags, etc.
+			free, total = free + bagFree, total + GetContainerNumSlots(i)
+		end
 	end
 	used = total - free
 
 	self.text:SetFormattedText(displayString, L["Bags"], used, total)
+
 	lastPanel = self
+end
+
+local function OnEnter(self)
+	DT:SetupTooltip(self)
+
+	local r, g, b
+	local _, name, quality, subClass, link
+	local free, total, used
+
+	for i = 1, NUM_BAG_SLOTS do
+		link = GetInventoryItemLink("player", ContainerIDToInventoryID(i))
+		if link then
+			name, _, quality, _, _, _, subClass = GetItemInfo(link)
+			r, g, b = GetItemQualityColor(quality)
+
+			free, total, used = 0, 0, 0
+			free, total = GetContainerNumFreeSlots(i), GetContainerNumSlots(i)
+			used = total - free
+
+			if subClass == quiver then
+				DT.tooltip:AddDoubleLine(join("", name), format("%d / %d", used, total), r, g, b)
+			elseif subClass == pouch then
+				DT.tooltip:AddDoubleLine(join("", name), format("%d / %d", used, total), r, g, b)
+			elseif subClass == soulBag then
+				DT.tooltip:AddDoubleLine(join("", name), format("%d / %d", used, total), r, g, b)
+			else
+				DT.tooltip:AddDoubleLine(join("", name), format("%d / %d", used, total), r, g, b)
+			end
+		end
+	end
+
+	DT.tooltip:Show()
 end
 
 local function OnClick()
@@ -35,4 +82,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext("Bags", {"PLAYER_LOGIN", "BAG_UPDATE"}, OnEvent, nil, OnClick, nil, nil, L["Bags"])
+DT:RegisterDatatext("Bags", {"PLAYER_LOGIN", "BAG_UPDATE"}, OnEvent, nil, OnClick, OnEnter, nil, L["Bags"])
