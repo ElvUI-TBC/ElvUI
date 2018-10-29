@@ -209,7 +209,7 @@ local function LoadSkin()
 	S:HandleEditBox(TradeSkillInputBox)
 	S:HandleNextPrevButton(TradeSkillIncrementButton)
 
-	S:HandleCloseButton(TradeSkillFrameCloseButton)
+	S:HandleCloseButton(TradeSkillFrameCloseButton, TradeSkillFrame.backdrop)
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
 		if TradeSkillSkillIcon:GetNormalTexture() then

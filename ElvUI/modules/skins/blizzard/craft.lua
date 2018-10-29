@@ -151,7 +151,7 @@ local function LoadSkin()
 	CraftCreateButton:Point("TOPRIGHT", CraftCancelButton, "TOPLEFT", -3, 0)
 	S:HandleButton(CraftCreateButton)
 
-	S:HandleCloseButton(CraftFrameCloseButton)
+	S:HandleCloseButton(CraftFrameCloseButton, CraftFrame.backdrop)
 
 	for i = 1, MAX_CRAFT_REAGENTS do
 		local reagent = _G["CraftReagent"..i]
