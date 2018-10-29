@@ -2,6 +2,8 @@ local E, L, V, P, G = unpack(ElvUI)
 local M = E:NewModule("Misc", "AceEvent-3.0", "AceTimer-3.0")
 E.Misc = M
 
+local format, gsub = string.format, string.gsub
+
 local CanGuildBankRepair = CanGuildBankRepair
 local CanMerchantRepair = CanMerchantRepair
 local GetFriendInfo = GetFriendInfo
@@ -24,7 +26,6 @@ local UnitInRaid = UnitInRaid
 local UnitName = UnitName
 local UIErrorsFrame = UIErrorsFrame
 local MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS
-local format, gsub = string.format, string.gsub
 
 local interruptMsg = INTERRUPTED.." %s's \124cff71d5ff\124Hspell:%d\124h[%s]\124h\124r!"
 

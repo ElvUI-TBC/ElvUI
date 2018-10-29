@@ -301,6 +301,7 @@ L["Are you sure you want to reset every mover back to it's default position?"] =
 L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = "Devido à grande confusão causada pelo novo sistema de auras foi implementado um novo passo no processo de instalação. Este passo é opcional, se você gosta da maneira que as suas auras estão configuradas vá para o último passo e clique em Terminado para não ser solicitado a configurar este passo novamente. Se por algum motivo for repetidamente solicitado a fazê-lo, por favor reinicie o seu jogo."
 L["Can't buy anymore slots!"] = "Não é possível comprar mais espaços!"
 L["Delete gray items?"] = true
+L["Detected that your ElvUI Config addon is out of date. Not having your ElvUI Config addon up to date will result in missing options."] = true
 L["Disable Warning"] = "Desativar Aviso"
 L["Discard"] = "Descartar"
 L["Do you enjoy the new ElvUI?"] = true
@@ -321,7 +322,6 @@ L["Type /hellokitty to revert to old settings."] = true
 L["Using the healer layout it is highly recommended you download the addon Clique if you wish to have the click-to-heal function."] = "Ao usar o leioute de curandeiro é altamente recomendado que você baixe o addon Clique se quiser ter a função de clicar-para-curar."
 L["Yes, Keep Changes!"] = true
 L["You have changed the Thin Border Theme option. You will have to complete the installation process to remove any graphical bugs."] = true
-L["You have changed your UIScale, however you still have the AutoScale option enabled in ElvUI. Press accept if you would like to disable the Auto Scale option."] = "Você mudou a Escala da sua IU, no entanto ainda tem a opção de dimensionamento automático ativa na ElvUI. Pressione Aceitar se gostaria de desativar a opção de dimensionamento automático."
 L["You have imported settings which may require a UI reload to take effect. Reload now?"] = true
 L["You must purchase a bank slot first!"] = "Você deve comprar um espaço no banco primeiro!"
 

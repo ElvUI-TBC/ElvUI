@@ -17,9 +17,9 @@ local NUM_BANKGENERIC_SLOTS = NUM_BANKGENERIC_SLOTS
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
 
 local ProfessionColors = {
-	[0x0001] = {225/255, 175/255, 105/255},	-- Quiver
-	[0x0002] = {225/255, 175/255, 105/255},	-- Ammo Pouch
-	[0x0004] = {225/255, 175/255, 105/255},	-- Soul Bag
+	[0x0001] = {225/255, 142/255, 186/255},	-- Quiver
+	[0x0002] = {225/255, 142/255, 186/255},	-- Ammo Pouch
+	[0x0004] = {120/255, 66/255, 255/255},	-- Soul Bag
 	[0x0008] = {224/255, 187/255, 74/255},	-- Leatherworking
 	[0x0020] = {18/255, 181/255, 32/255},	-- Herbs
 	[0x0040] = {160/255, 3/255, 168/255},	-- Enchanting

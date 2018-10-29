@@ -1,6 +1,11 @@
 local E, L, V, P, G = unpack(ElvUI)
 local M = E:GetModule("Misc")
 
+local unpack, pairs = unpack, pairs
+local tinsert = table.insert
+local gsub = string.gsub
+local max = math.max
+
 local CloseLoot = CloseLoot
 local CursorOnUpdate = CursorOnUpdate
 local CursorUpdate = CursorUpdate
@@ -21,10 +26,6 @@ local UnitIsFriend = UnitIsFriend
 local UnitName = UnitName
 local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
 local LOOT = LOOT
-
-local max = math.max
-local tinsert = table.insert
-local unpack, pairs = unpack, pairs
 
 -- Credit Haste
 local lootFrame, lootFrameHolder

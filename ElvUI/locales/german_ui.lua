@@ -301,6 +301,7 @@ L["Are you sure you want to reset every mover back to it's default position?"] =
 L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = "Aufgrund der großen Verwirrung, die durch das neue Auren-System verursacht wurde, habe ich einen neuen Schritt zum Installationsprozess hinzugefügt. Dieser ist optional. Wenn du deine Auren so eingestellt lassen willst, wie sie sind, gehe einfach zum letzten Schritt und klicke auf fertig um nicht erneut aufgefordert zu werden. Wirst du, aus welchen Grund auch immer, öfter aufgefordert, starte bitte dein Spiel neu"
 L["Can't buy anymore slots!"] = "Kann keine Slots mehr kaufen"
 L["Delete gray items?"] = "Graue Gegenstände löschen?"
+L["Detected that your ElvUI Config addon is out of date. Not having your ElvUI Config addon up to date will result in missing options."] = "Es wurde erkannt dass dein ElvUI Konfigurations-Addon veraltet ist. Das nicht auf dem neuesten Stand haben des ElvUI Konfigurations-Addons wird in fehlenden Optionen resultieren."
 L["Disable Warning"] = "Deaktiviere Warnung"
 L["Discard"] = "Verwerfen"
 L["Do you enjoy the new ElvUI?"] = "Gefällt dir das neue ElvUI?"
@@ -321,7 +322,6 @@ L["Type /hellokitty to revert to old settings."] = "Tippe /hellokitty um die alt
 L["Using the healer layout it is highly recommended you download the addon Clique if you wish to have the click-to-heal function."] = "Wenn du das Heiler Layout benutzt ist es sehr empfohlen das Addon Clique zu downloaden wenn du die Klick-zum-Heilen Funktion haben willst."
 L["Yes, Keep Changes!"] = "Ja, Änderungen behalten!"
 L["You have changed the Thin Border Theme option. You will have to complete the installation process to remove any graphical bugs."] = "Du hast die Dünnen Rahmen Einstellungen geändert. Du musst die Installation komplett abschließen um grafische Fehler zu vermeiden."
-L["You have changed your UIScale, however you still have the AutoScale option enabled in ElvUI. Press accept if you would like to disable the Auto Scale option."] = "Du hast die Skalierung des benutzerinterfaces geändert, während du die automatische Skalierung in ElvUI aktiv hast. Drücke Annehmen um die automatische Skalierung zu deaktivieren."
 L["You have imported settings which may require a UI reload to take effect. Reload now?"] = "Du hast Einstellungen importiert die wahrscheinlich ein Neuladen des UI erfordern. Jetzt neu laden?"
 L["You must purchase a bank slot first!"] = "Du musst erst ein Bankfach kaufen!"
 

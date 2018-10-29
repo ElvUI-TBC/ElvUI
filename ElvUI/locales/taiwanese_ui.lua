@@ -301,6 +301,7 @@ L["Are you sure you want to reset every mover back to it's default position?"] =
 L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = "因為新的光環系統造成了大量的混亂因此我導入了一個新的步驟到安裝過程中. 這是可選的, 如果你喜歡你現在的設定請跳到最後一個步驟並點擊「完成」將不會再提示. 如果由於某些原因反復提示, 請重新開啟遊戲."
 L["Can't buy anymore slots!"] = "無法再購買更多銀行欄位!"
 L["Delete gray items?"] = "刪除灰色物品?"
+L["Detected that your ElvUI Config addon is out of date. Not having your ElvUI Config addon up to date will result in missing options."] = "偵測到你的 ElvUI 設定插件已過期. ElvUI 設定插件過期會造成某些選項遺失"
 L["Disable Warning"] = "停用警告"
 L["Discard"] = "取消"
 L["Do you enjoy the new ElvUI?"] = "你享受新版的 ElvUI嗎?"
@@ -321,7 +322,6 @@ L["Type /hellokitty to revert to old settings."] = "輸入 /hellokitty 來回復
 L["Using the healer layout it is highly recommended you download the addon Clique if you wish to have the click-to-heal function."] = "使用治療者佈局時建議你下載 Clique 插件, 以擁有點擊血條治療的功能"
 L["Yes, Keep Changes!"] = "是的, 保留變更!"
 L["You have changed the Thin Border Theme option. You will have to complete the installation process to remove any graphical bugs."] = "你選擇了細邊框主題選項. 你必須完成安裝程序來移除任何圖像錯誤"
-L["You have changed your UIScale, however you still have the AutoScale option enabled in ElvUI. Press accept if you would like to disable the Auto Scale option."] = "你改變了介面縮放比例, 然而ElvUI的自動縮放選項是開啟的. 點擊接受以關閉ElvUI的自動縮放."
 L["You have imported settings which may require a UI reload to take effect. Reload now?"] = "你導入的設定可能需要重新載入UI才能生效. 現在重新載入嗎?"
 L["You must purchase a bank slot first!"] = "你必需先購買一個銀行背包欄位!"
 
