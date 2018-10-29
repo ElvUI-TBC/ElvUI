@@ -5,17 +5,13 @@ local select = select
 local format, join = string.format, string.join
 
 local GetItemInfo = GetItemInfo
-local GetAuctionItemSubClasses = GetAuctionItemSubClasses
 local GetInventoryItemLink = GetInventoryItemLink
 local ContainerIDToInventoryID = ContainerIDToInventoryID
 local GetContainerNumSlots = GetContainerNumSlots
 local GetContainerNumFreeSlots = GetContainerNumFreeSlots
 local GetItemQualityColor = GetItemQualityColor
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS
-
-local quiver = select(1, GetAuctionItemSubClasses(7))
-local pouch = select(2, GetAuctionItemSubClasses(7))
-local soulBag = select(2, GetAuctionItemSubClasses(3))
+local BACKPACK_TOOLTIP = BACKPACK_TOOLTIP
 
 local displayString = ""
 
@@ -41,26 +37,26 @@ local function OnEnter(self)
 	DT:SetupTooltip(self)
 
 	local r, g, b
-	local _, name, quality, subClass, link
+	local _, name, quality, link
 	local free, total, used
 
-	for i = 1, NUM_BAG_SLOTS do
-		link = GetInventoryItemLink("player", ContainerIDToInventoryID(i))
-		if link then
-			name, _, quality, _, _, _, subClass = GetItemInfo(link)
-			r, g, b = GetItemQualityColor(quality)
+	for i = 0, NUM_BAG_SLOTS do
+		if i ~= 0 then
+			link = GetInventoryItemLink("player", ContainerIDToInventoryID(i))
+			if link then
+				name, _, quality = GetItemInfo(link)
+				r, g, b = GetItemQualityColor(quality)
+			end
+		end
 
-			free, total, used = 0, 0, 0
-			free, total = GetContainerNumFreeSlots(i), GetContainerNumSlots(i)
-			used = total - free
+		free, total, used = 0, 0, 0
+		free, total = GetContainerNumFreeSlots(i), GetContainerNumSlots(i)
+		used = total - free
 
-			if subClass == quiver then
-				DT.tooltip:AddDoubleLine(join("", name), format("%d / %d", used, total), r, g, b)
-			elseif subClass == pouch then
-				DT.tooltip:AddDoubleLine(join("", name), format("%d / %d", used, total), r, g, b)
-			elseif subClass == soulBag then
-				DT.tooltip:AddDoubleLine(join("", name), format("%d / %d", used, total), r, g, b)
-			else
+		if i == 0 then
+			DT.tooltip:AddDoubleLine(join("", BACKPACK_TOOLTIP), format("%d / %d", used, total), 1, 1, 1)
+		else
+			if name then
 				DT.tooltip:AddDoubleLine(join("", name), format("%d / %d", used, total), r, g, b)
 			end
 		end

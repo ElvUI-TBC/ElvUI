@@ -488,7 +488,7 @@ local function SetImportedProfile(profileType, profileKey, profileData, force)
 	elseif profileType == "filters" then
 		E:CopyTable(ElvDB.global.unitframe, profileData.unitframe)
 	elseif profileType == "styleFilters" then
-		E:CopyTable(ElvDB.global.nameplate, profileData.nameplate)
+		E:CopyTable(ElvDB.global.nameplates, profileData.nameplates)
 	end
 
 	--Update all ElvUI modules
