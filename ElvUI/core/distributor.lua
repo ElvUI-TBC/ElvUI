@@ -4,7 +4,7 @@ local LibCompress = LibStub:GetLibrary("LibCompress")
 local LibBase64 = LibStub("LibBase64-1.0-ElvUI")
 
 local tonumber, type, pcall, loadstring = tonumber, type, pcall, loadstring
-local len, format, split, find = string.len, string.format, string.split, string.find
+local len, format, gsub, split, find = string.len, string.format, string.gsub, string.split, string.find
 
 local CreateFrame = CreateFrame
 local GetNumRaidMembers, UnitInRaid = GetNumRaidMembers, UnitInRaid
@@ -36,7 +36,7 @@ function D:Initialize()
 	self.statusBar:Size(250, 18)
 	self.statusBar.text = self.statusBar:CreateFontString(nil, "OVERLAY")
 	self.statusBar.text:FontTemplate()
-	self.statusBar.text:SetPoint("CENTER")
+	self.statusBar.text:Point("CENTER")
 	self.statusBar:Hide()
 end
 
@@ -82,8 +82,8 @@ function D:Distribute(target, otherServer, isGlobal)
 	E:StaticPopup_Show("DISTRIBUTOR_WAITING")
 end
 
-function D:CHAT_MSG_ADDON(_, _, message, _, sender)
-	if not Downloads[sender] then return end
+function D:CHAT_MSG_ADDON(_, prefix, message, _, sender)
+	if prefix ~= TRANSFER_PREFIX or not Downloads[sender] then return end
 
 	local cur = len(message)
 	local max = Downloads[sender].length
@@ -302,7 +302,11 @@ local function GetProfileData(profileType)
 			profileKey = ElvDB.profileKeys[E.myname.." - "..E.myrealm]
 		end
 
+		--Copy current profile data
 		profileData = E:CopyTable(profileData , ElvDB.profiles[profileKey])
+		--This table will also hold all default values, not just the changed settings.
+		--This makes the table huge, and will cause the WoW client to lock up for several seconds.
+		--We compare against the default table and remove all duplicates from our table. The table is now much smaller.
 		profileData = E:RemoveTableDuplicates(profileData, P)
 		profileData = E:FilterTableFromBlacklist(profileData, blacklistedKeys["profile"])
 	elseif profileType == "private" then
@@ -330,9 +334,9 @@ local function GetProfileData(profileType)
 	elseif profileType == "styleFilters" then
 		profileKey = "styleFilters"
 
-		profileData["nameplate"] = {}
-		profileData["nameplate"]["filters"] = {}
-		profileData["nameplate"]["filters"] = E:CopyTable(profileData["nameplate"]["filters"], ElvDB.global.nameplate.filters)
+		profileData["nameplates"] = {}
+		profileData["nameplates"]["filters"] = {}
+		profileData["nameplates"]["filters"] = E:CopyTable(profileData["nameplates"]["filters"], ElvDB.global.nameplates.filters)
 		profileData = E:RemoveTableDuplicates(profileData, G)
 	end
 
@@ -350,9 +354,7 @@ local function GetProfileExport(profileType, exportFormat)
 
 	if exportFormat == "text" then
 		local serialData = D:Serialize(profileData)
-
 		exportString = D:CreateProfileExport(serialData, profileType, profileKey)
-
 		local compressedData = LibCompress:Compress(exportString)
 		local encodedData = LibBase64:Encode(compressedData)
 		profileExport = encodedData
@@ -383,7 +385,7 @@ function D:GetImportStringType(dataString)
 
 	if LibBase64:IsBase64(dataString) then
 		stringType = "Base64"
-	elseif find(dataString, "{") then
+	elseif find(dataString, "{") then --Basic check to weed out obviously wrong strings
 		stringType = "Table"
 	end
 
@@ -404,14 +406,14 @@ function D:Decode(dataString)
 		end
 
 		local serializedData, success
-		serializedData, profileInfo = E:StringSplitMultiDelim(decompressedData, "^^::")
+		serializedData, profileInfo = E:StringSplitMultiDelim(decompressedData, "^^::") -- "^^" indicates the end of the AceSerializer string
 
 		if not profileInfo then
 			E:Print("Error importing profile. String is invalid or corrupted!")
 			return
 		end
 
-		serializedData = format("%s%s", serializedData, "^^")
+		serializedData = format("%s%s", serializedData, "^^") --Add back the AceSerializer terminator
 		profileType, profileKey = E:StringSplitMultiDelim(profileInfo, "::")
 		success, profileData = D:Deserialize(serializedData)
 
@@ -421,7 +423,7 @@ function D:Decode(dataString)
 		end
 	elseif stringType == "Table" then
 		local profileDataAsString
-		profileDataAsString, profileInfo = E:StringSplitMultiDelim(dataString, "}::")
+		profileDataAsString, profileInfo = E:StringSplitMultiDelim(dataString, "}::") -- "}::" indicates the end of the table
 
 		if not profileInfo then
 			E:Print("Error extracting profile info. Invalid import string!")
@@ -433,7 +435,8 @@ function D:Decode(dataString)
 			return
 		end
 
-		profileDataAsString = format("%s%s", profileDataAsString, "}")
+		profileDataAsString = format("%s%s", profileDataAsString, "}") --Add back the missing "}"
+		profileDataAsString = gsub(profileDataAsString, "\124\124", "\124") --Remove escape pipe characters
 		profileType, profileKey = E:StringSplitMultiDelim(profileInfo, "::")
 
 		local profileToTable = loadstring(format("%s %s", "return", profileDataAsString))
@@ -458,10 +461,13 @@ local function SetImportedProfile(profileType, profileKey, profileData, force)
 	if profileType == "profile" then
 		if not ElvDB.profiles[profileKey] or force then
 			if force and E.data.keys.profile == profileKey then
+				--Overwriting an active profile doesn't update when calling SetProfile
+				--So make it look like we use a different profile
 				local tempKey = profileKey.."_Temp"
 				E.data.keys.profile = tempKey
 			end
 			ElvDB.profiles[profileKey] = profileData
+			--Calling SetProfile will now update all settings correctly
 			E.data:SetProfile(profileKey)
 		else
 			D.profileType = profileType
@@ -496,6 +502,7 @@ function D:ExportProfile(profileType, exportFormat)
 	end
 
 	local profileKey, profileExport = GetProfileExport(profileType, exportFormat)
+
 	return profileKey, profileExport
 end
 

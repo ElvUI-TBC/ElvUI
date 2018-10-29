@@ -163,7 +163,6 @@ function E:SetupTheme(theme, noDisplayMsg)
 		E.db.general.bordercolor = (E.PixelMode and E:GetColor(0, 0, 0) or E:GetColor(.31, .31, .31))
 		E.db.general.backdropcolor = E:GetColor(.1, .1, .1)
 		E.db.general.backdropfadecolor = E:GetColor(.06, .06, .06, .8)
-
 		E.db.unitframe.colors.borderColor = (E.PixelMode and E:GetColor(0, 0, 0) or E:GetColor(.31, .31, .31))
 		E.db.unitframe.colors.healthclass = false
 		E.db.unitframe.colors.health = E:GetColor(.31, .31, .31)
@@ -219,6 +218,8 @@ function E:SetupResolution(noDataReset)
 		if not noDataReset then
 			E.db.chat.panelWidth = 400
 			E.db.chat.panelHeight = 180
+			E.db.chat.panelWidthRight = 400
+			E.db.chat.panelHeightRight = 180
 
 			E.db.bags.bagWidth = 394
 			E.db.bags.bankWidth = 394
@@ -396,6 +397,7 @@ function E:SetupLayout(layout, noDataReset)
 		end
 
 		if not E.db.movers then E.db.movers = {} end
+		 --Make sure we account for EyeFinity or other scenarious where ElvUIParent is not the same size as UIParent
 		local xOffset = ((GetScreenWidth() - E.diffGetLeft - E.diffGetRight) * 0.34375)
 
 		if E.PixelMode then
@@ -403,7 +405,6 @@ function E:SetupLayout(layout, noDataReset)
 			E.db.movers.ElvAB_5 = "BOTTOM,ElvUIParent,BOTTOM,-312,4"
 			E.db.movers.ElvUF_PartyMover = "BOTTOMRIGHT,ElvUIParent,BOTTOMLEFT,"..xOffset..",450"
 			E.db.movers.ElvUF_RaidMover = "BOTTOMRIGHT,ElvUIParent,BOTTOMLEFT,"..xOffset..",450"
-
 			E.db.movers.ElvUF_Raid40Mover = "BOTTOMRIGHT,ElvUIParent,BOTTOMLEFT,"..xOffset..",450"
 
 			if not E.db.lowresolutionset then
@@ -602,6 +603,7 @@ local function SetupAuras(style)
 	end
 
 	if not style then
+		--PLAYER
 		E.db.unitframe.units.player.buffs.enable = true
 		E.db.unitframe.units.player.buffs.attachTo = "FRAME"
 		E.db.unitframe.units.player.debuffs.attachTo = "BUFFS"
@@ -610,6 +612,7 @@ local function SetupAuras(style)
 			E:GetModule("UnitFrames"):CreateAndUpdateUF("player")
 		end
 
+		--TARGET
 		E.db.unitframe.units.target.debuffs.enable = true
 		E.db.unitframe.units.target.aurabar.enable = false
 		if E.private.unitframe.enable then
@@ -815,6 +818,27 @@ function E:Install()
 
 		imsg.firstShow = false
 
+		imsg.bg = imsg:CreateTexture(nil, "BACKGROUND")
+		imsg.bg:SetTexture([[Interface\AddOns\ElvUI\media\textures\LevelUpTex]])
+		imsg.bg:Point('BOTTOM')
+		imsg.bg:Size(326, 103)
+		imsg.bg:SetTexCoord(0.00195313, 0.63867188, 0.03710938, 0.23828125)
+		imsg.bg:SetVertexColor(1, 1, 1, 0.6)
+
+		imsg.lineTop = imsg:CreateTexture(nil, "BACKGROUND")
+		imsg.lineTop:SetDrawLayer('BACKGROUND', 2)
+		imsg.lineTop:SetTexture([[Interface\AddOns\ElvUI\media\textures\LevelUpTex]])
+		imsg.lineTop:Point("TOP")
+		imsg.lineTop:Size(418, 7)
+		imsg.lineTop:SetTexCoord(0.00195313, 0.81835938, 0.01953125, 0.03320313)
+
+		imsg.lineBottom = imsg:CreateTexture(nil, "BACKGROUND")
+		imsg.lineBottom:SetDrawLayer('BACKGROUND', 2)
+		imsg.lineBottom:SetTexture([[Interface\AddOns\ElvUI\media\textures\LevelUpTex]])
+		imsg.lineBottom:Point("BOTTOM")
+		imsg.lineBottom:Size(418, 7)
+		imsg.lineBottom:SetTexCoord(0.00195313, 0.81835938, 0.01953125, 0.03320313)
+
 		imsg.text = imsg:CreateFontString(nil, "OVERLAY")
 		imsg.text:FontTemplate(E["media"].normFont, 32, "OUTLINE")
 		imsg.text:Point("BOTTOM", 0, 16)
@@ -822,12 +846,13 @@ function E:Install()
 		imsg.text:SetJustifyH("CENTER")
 	end
 
+	--Create Frame
 	if not ElvUIInstallFrame then
 		local f = CreateFrame("Button", "ElvUIInstallFrame", E.UIParent)
 		f.SetPage = SetPage
 		f:Size(550, 400)
 		f:SetTemplate("Transparent")
-		f:SetPoint("CENTER")
+		f:Point("CENTER")
 		f:SetFrameStrata("TOOLTIP")
 
 		f.Title = f:CreateFontString(nil, "OVERLAY")
@@ -863,7 +888,7 @@ function E:Install()
 		f.Status:SetMinMaxValues(0, MAX_PAGE)
 		f.Status:Point("TOPLEFT", f.Prev, "TOPRIGHT", 6, -2)
 		f.Status:Point("BOTTOMRIGHT", f.Next, "BOTTOMLEFT", -6, 2)
-
+		-- Setup StatusBar Animation
 		f.Status.anim = CreateAnimationGroup(f.Status)
 		f.Status.anim.progress = f.Status.anim:CreateAnimation("Progress")
 		f.Status.anim.progress:SetSmoothing("Out")
@@ -871,7 +896,7 @@ function E:Install()
 
 		f.Status.text = f.Status:CreateFontString(nil, "OVERLAY")
 		f.Status.text:FontTemplate()
-		f.Status.text:SetPoint("CENTER")
+		f.Status.text:Point("CENTER")
 		f.Status.text:SetFormattedText("%d / %d", CURRENT_PAGE, MAX_PAGE)
 
 		f.Option1 = CreateFrame("Button", "InstallOption1Button", f, "UIPanelButtonTemplate")
@@ -888,8 +913,8 @@ function E:Install()
 		f.Option2:Point("BOTTOMLEFT", f, "BOTTOM", 4, 45)
 		f.Option2:SetText("")
 		f.Option2:Hide()
-		f.Option2:SetScript("OnShow", function() f.Option1:SetWidth(110) f.Option1:ClearAllPoints() f.Option1:Point("BOTTOMRIGHT", f, "BOTTOM", -4, 45) end)
-		f.Option2:SetScript("OnHide", function() f.Option1:SetWidth(160) f.Option1:ClearAllPoints() f.Option1:Point("BOTTOM", 0, 45) end)
+		f.Option2:SetScript("OnShow", function() f.Option1:Width(110) f.Option1:ClearAllPoints() f.Option1:Point("BOTTOMRIGHT", f, "BOTTOM", -4, 45) end)
+		f.Option2:SetScript("OnHide", function() f.Option1:Width(160) f.Option1:ClearAllPoints() f.Option1:Point("BOTTOM", 0, 45) end)
 		E.Skins:HandleButton(f.Option2, true)
 
 		f.Option3 = CreateFrame("Button", "InstallOption3Button", f, "UIPanelButtonTemplate")
@@ -898,8 +923,8 @@ function E:Install()
 		f.Option3:Point("LEFT", f.Option2, "RIGHT", 4, 0)
 		f.Option3:SetText("")
 		f.Option3:Hide()
-		f.Option3:SetScript("OnShow", function() f.Option1:SetWidth(100) f.Option1:ClearAllPoints() f.Option1:Point("RIGHT", f.Option2, "LEFT", -4, 0) f.Option2:SetWidth(100) f.Option2:ClearAllPoints() f.Option2:Point("BOTTOM", f, "BOTTOM", 0, 45) end)
-		f.Option3:SetScript("OnHide", function() f.Option1:SetWidth(160) f.Option1:ClearAllPoints() f.Option1:Point("BOTTOM", 0, 45) f.Option2:SetWidth(110) f.Option2:ClearAllPoints() f.Option2:Point("BOTTOMLEFT", f, "BOTTOM", 4, 45) end)
+		f.Option3:SetScript("OnShow", function() f.Option1:Width(100) f.Option1:ClearAllPoints() f.Option1:Point("RIGHT", f.Option2, "LEFT", -4, 0) f.Option2:SetWidth(100) f.Option2:ClearAllPoints() f.Option2:Point("BOTTOM", f, "BOTTOM", 0, 45) end)
+		f.Option3:SetScript("OnHide", function() f.Option1:Width(160) f.Option1:ClearAllPoints() f.Option1:Point("BOTTOM", 0, 45) f.Option2:SetWidth(110) f.Option2:ClearAllPoints() f.Option2:Point("BOTTOMLEFT", f, "BOTTOM", 4, 45) end)
 		E.Skins:HandleButton(f.Option3, true)
 
 		f.Option4 = CreateFrame("Button", "InstallOption4Button", f, "UIPanelButtonTemplate")
@@ -917,7 +942,7 @@ function E:Install()
 			f.Option2:ClearAllPoints()
 			f.Option2:Point("BOTTOMRIGHT", f, "BOTTOM", -4, 45)
 		end)
-		f.Option4:SetScript("OnHide", function() f.Option1:SetWidth(160) f.Option1:ClearAllPoints() f.Option1:Point("BOTTOM", 0, 45) f.Option2:SetWidth(110) f.Option2:ClearAllPoints() f.Option2:Point("BOTTOMLEFT", f, "BOTTOM", 4, 45) end)
+		f.Option4:SetScript("OnHide", function() f.Option1:Width(160) f.Option1:ClearAllPoints() f.Option1:Point("BOTTOM", 0, 45) f.Option2:SetWidth(110) f.Option2:ClearAllPoints() f.Option2:Point("BOTTOMLEFT", f, "BOTTOM", 4, 45) end)
 		E.Skins:HandleButton(f.Option4, true)
 
 		f.SubTitle = f:CreateFontString(nil, "OVERLAY")
@@ -940,7 +965,7 @@ function E:Install()
 		f.Desc3:Width(f:GetWidth() - 40)
 
 		local close = CreateFrame("Button", "InstallCloseButton", f, "UIPanelCloseButton")
-		close:SetPoint("TOPRIGHT", f, "TOPRIGHT")
+		close:Point("TOPRIGHT", f, "TOPRIGHT")
 		close:SetScript("OnClick", function()
 			f:Hide()
 		end)
@@ -948,9 +973,8 @@ function E:Install()
 
 		f.tutorialImage = f:CreateTexture("InstallTutorialImage", "OVERLAY")
 		f.tutorialImage:Size(256, 128)
-		f.tutorialImage:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\logo.tga")
+		f.tutorialImage:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\logo")
 		f.tutorialImage:Point("BOTTOM", 0, 70)
-
 	end
 
 	ElvUIInstallFrame:Show()
