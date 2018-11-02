@@ -291,7 +291,10 @@ function RB:UpdateDefaultIcons()
 	if E.Role == "Caster" then
 		self.Spell5Buffs = self.CasterSpell5Buffs
 		self.Spell6Buffs = self.CasterSpell6Buffs
+		self.Spell7Buffs = self.DamagerSpell7Buffs
 	elseif E.Role == "Tank" then
+		self.Spell5Buffs = self.MeleeSpell5Buffs
+		self.Spell6Buffs = self.MeleeSpell6Buffs
 		self.Spell7Buffs = self.TankSpell7Buffs
 	else
 		self.Spell5Buffs = self.MeleeSpell5Buffs
