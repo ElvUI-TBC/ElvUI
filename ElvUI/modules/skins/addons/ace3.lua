@@ -1,13 +1,10 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
---Cache global variables
---Lua functions
 local _G = _G
 local select = select
---WoW API / Variables
-local CreateFrame = CreateFrame
 
+local CreateFrame = CreateFrame
 local RegisterAsWidget, RegisterAsContainer
 
 local function SkinButton(f, strip, noTemplate)
@@ -85,37 +82,53 @@ function S:SkinAce3()
 			scrollBG:Point("BOTTOMLEFT", widget.button, "TOPLEFT")
 			widget.scrollFrame:Point("BOTTOMRIGHT", scrollBG, "BOTTOMRIGHT", -4, 8)
 		elseif TYPE == "CheckBox" then
-			widget.checkbg:Kill()
-			widget.highlight:Kill()
+			widget.checkbg:CreateBackdrop("Default")
+			widget.checkbg.backdrop:SetInside(widget.checkbg, 4, 4)
+			widget.checkbg.backdrop:SetFrameLevel(widget.checkbg.backdrop:GetFrameLevel() + 1)
+			widget.checkbg:SetTexture("")
+			widget.checkbg.SetTexture = E.noop
 
-			if not widget.skinnedCheckBG then
-				widget.skinnedCheckBG = CreateFrame("Frame", nil, widget.frame)
-				widget.skinnedCheckBG:SetTemplate("Default")
-				widget.skinnedCheckBG:Point("TOPLEFT", widget.checkbg, "TOPLEFT", 4, -4)
-				widget.skinnedCheckBG:Point("BOTTOMRIGHT", widget.checkbg, "BOTTOMRIGHT", -4, 4)
-			end
+			widget.check:SetTexture(E["media"].normTex)
+			widget.check.SetTexture = E.noop
+			widget.check:SetVertexColor(unpack(E["media"].rgbvaluecolor))
+			widget.check:SetInside(widget.checkbg.backdrop)
+			widget.check:SetParent(widget.checkbg.backdrop)
 
-			widget.check:SetParent(widget.skinnedCheckBG)
+			widget.highlight:SetTexture("")
+			widget.highlight.SetTexture = E.noop
 		elseif TYPE == "Dropdown" then
 			local frame = widget.dropdown
 			local button = widget.button
 			local button_cover = widget.button_cover
 			local text = widget.text
-			frame:StripTextures()
 
-			button:ClearAllPoints()
-			button:Point("RIGHT", frame, "RIGHT", -20, 0)
+			frame:StripTextures()
 
 			S:HandleNextPrevButton(button, true)
 
 			if not frame.backdrop then
 				frame:CreateBackdrop("Default")
-				frame.backdrop:Point("TOPLEFT", 20, -2)
-				frame.backdrop:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
 			end
+
+			frame.backdrop:Point("TOPLEFT", 15, -2)
+			frame.backdrop:Point("BOTTOMRIGHT", -21, 0)
+
+			widget.label:ClearAllPoints()
+			widget.label:Point("BOTTOMLEFT", frame.backdrop, "TOPLEFT", 2, 0)
+
+			button:SetSize(20, 20)
+			button:ClearAllPoints()
+			button:Point("RIGHT", frame.backdrop, "RIGHT", -2, 0)
+
+			text:ClearAllPoints()
+			text:SetJustifyH("RIGHT")
+			text:Point("RIGHT", button, "LEFT", -3, 0)
+
 			button:SetParent(frame.backdrop)
 			text:SetParent(frame.backdrop)
+
 			button:HookScript2("OnClick", SkinDropdownPullout)
+
 			if button_cover then
 				button_cover:HookScript2("OnClick", SkinDropdownPullout)
 			end
@@ -123,38 +136,45 @@ function S:SkinAce3()
 			local frame = widget.frame
 			local button = frame.dropButton
 			local text = frame.text
+
 			frame:StripTextures()
 
 			S:HandleNextPrevButton(button, true)
-			frame.text:ClearAllPoints()
-			frame.text:Point("RIGHT", button, "LEFT", -2, 0)
-
-			button:ClearAllPoints()
-			button:Point("RIGHT", frame, "RIGHT", -10, -6)
 
 			if not frame.backdrop then
 				frame:CreateBackdrop("Default")
-				if TYPE == "LSM30_Font" then
-					frame.backdrop:Point("TOPLEFT", 20, -17)
-				elseif TYPE == "LSM30_Sound" then
-					frame.backdrop:Point("TOPLEFT", 20, -17)
-					widget.soundbutton:SetParent(frame.backdrop)
-					widget.soundbutton:ClearAllPoints()
-					widget.soundbutton:Point("LEFT", frame.backdrop, "LEFT", 2, 0)
-				elseif TYPE == "LSM30_Statusbar" then
-					frame.backdrop:Point("TOPLEFT", 20, -17)
-					widget.bar:SetParent(frame.backdrop)
-					widget.bar:SetInside()
-				elseif TYPE == "LSM30_Border" or TYPE == "LSM30_Background" then
-					frame.backdrop:Point("TOPLEFT", 42, -16)
-				end
-
-				frame.backdrop:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
 			end
+
+			frame.label:ClearAllPoints()
+			frame.label:Point("BOTTOMLEFT", frame.backdrop, "TOPLEFT", 2, 0)
+
+			text:ClearAllPoints()
+			text:Point("RIGHT", button, "LEFT", -2, 0)
+			
+			button:SetSize(20, 20)
+			button:ClearAllPoints()
+			button:Point("RIGHT", frame.backdrop, "RIGHT", -2, 0)
+
+			frame.backdrop:Point("TOPLEFT", 0, -21)
+			frame.backdrop:Point("BOTTOMRIGHT", -4, -1)
+
+			if TYPE == "LSM30_Sound" then
+				widget.soundbutton:SetParent(frame.backdrop)
+				widget.soundbutton:ClearAllPoints()
+				widget.soundbutton:Point("LEFT", frame.backdrop, "LEFT", 2, 0)
+			elseif TYPE == "LSM30_Statusbar" then
+				widget.bar:SetParent(frame.backdrop)
+				widget.bar:ClearAllPoints()
+				widget.bar:Point("TOPLEFT", frame.backdrop, "TOPLEFT", 2, -2)
+				widget.bar:Point("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
+			--elseif TYPE == "LSM30_Border" or TYPE == "LSM30_Background" then -- Leave this here please. - Azilroka
+			end
+
 			button:SetParent(frame.backdrop)
 			text:SetParent(frame.backdrop)
-			button:HookScript("OnClick", function(this)
-				local dropdown = this.obj.dropdown
+
+			button:HookScript2("OnClick", function(self)
+				local dropdown = self.obj.dropdown
 				if dropdown then
 					dropdown:SetTemplate("Default", true)
 					if dropdown.slider then
@@ -170,7 +190,7 @@ function S:SkinAce3()
 					end
 
 					if TYPE == "LSM30_Sound" then
-						local frame = this.obj.frame
+						local frame = self.obj.frame
 						local width = frame:GetWidth()
 						dropdown:Point("TOPLEFT", frame, "BOTTOMLEFT")
 						dropdown:Point("TOPRIGHT", frame, "BOTTOMRIGHT", width < 160 and (160 - width) or 30, 0)
@@ -180,35 +200,36 @@ function S:SkinAce3()
 		elseif TYPE == "EditBox" then
 			local frame = widget.editbox
 			local button = widget.button
+
 			_G[frame:GetName().."Left"]:Kill()
 			_G[frame:GetName().."Middle"]:Kill()
 			_G[frame:GetName().."Right"]:Kill()
+
 			frame:Height(17)
 			frame:CreateBackdrop("Default")
 			frame.backdrop:Point("TOPLEFT", -2, 0)
 			frame.backdrop:Point("BOTTOMRIGHT", 2, 0)
 			frame.backdrop:SetParent(widget.frame)
 			frame:SetParent(frame.backdrop)
+
 			SkinButton(button)
-		elseif TYPE == "Button" then
+		elseif TYPE == "Button" or TYPE == "Button-ElvUI" then
 			local frame = widget.frame
+
 			SkinButton(frame, nil, true)
+
 			frame:StripTextures()
 			frame:CreateBackdrop("Default", true)
 			frame.backdrop:SetInside()
-			widget.text:SetParent(frame.backdrop)
-		elseif TYPE == "Button-ElvUI" then
-			local frame = widget.frame
-			SkinButton(frame, nil, true)
-			frame:StripTextures()
-			frame:CreateBackdrop("Default", true)
-			frame.backdrop:SetInside()
+
 			widget.text:SetParent(frame.backdrop)
 		elseif TYPE == "Keybinding" then
 			local button = widget.button
 			local msgframe = widget.msgframe
 			local msg = widget.msgframe.msg
+
 			SkinButton(button)
+
 			msgframe:StripTextures()
 			msgframe:CreateBackdrop("Default", true)
 			msgframe.backdrop:SetInside()
@@ -239,12 +260,35 @@ function S:SkinAce3()
 
 			lowtext:Point("TOPLEFT", frame, "BOTTOMLEFT", 2, -2)
 			hightext:Point("TOPRIGHT", frame, "BOTTOMRIGHT", -2, -2)
-
-		--[[elseif TYPE == "ColorPicker" then
+		elseif (TYPE == "ColorPicker-ElvUI" or TYPE == "ColorPicker") then
 			local frame = widget.frame
 			local colorSwatch = widget.colorSwatch
-		]]
+
+			if not frame.backdrop then
+				frame:CreateBackdrop("Default")
+			end
+
+			frame.backdrop:SetSize(16, 16)
+			frame.backdrop:ClearAllPoints()
+			frame.backdrop:Point("LEFT", frame, "LEFT", 4, 0)
+			frame.backdrop:SetBackdropColor(0, 0, 0, 0)
+
+			colorSwatch:SetTexture(E["media"].blankTex)
+			colorSwatch:ClearAllPoints()
+			colorSwatch:SetParent(frame.backdrop)
+			colorSwatch:SetInside(frame.backdrop)
+
+			if frame.texture then
+				frame.texture:SetTexture(0, 0, 0, 0)
+			end
+
+			if frame.checkers then
+				frame.checkers:ClearAllPoints()
+				frame.checkers:SetParent(frame.backdrop)
+				frame.checkers:SetInside(frame.backdrop)
+			end
 		end
+
 		return oldRegisterAsWidget(self, widget)
 	end
 	AceGUI.RegisterAsWidget = RegisterAsWidget
@@ -256,8 +300,7 @@ function S:SkinAce3()
 		end
 		local TYPE = widget.type
 		if TYPE == "ScrollFrame" then
-			local frame = widget.scrollbar
-			S:HandleScrollBar(frame)
+			S:HandleScrollBar(widget.scrollbar)
 		elseif TYPE == "InlineGroup" or TYPE == "TreeGroup" or TYPE == "TabGroup" or TYPE == "Frame" or TYPE == "DropdownGroup" or TYPE == "Window" then
 			local frame = widget.content:GetParent()
 			if TYPE == "Frame" then
