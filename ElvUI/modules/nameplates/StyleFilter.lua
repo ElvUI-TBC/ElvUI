@@ -214,7 +214,7 @@ function mod:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, F
 	if NameOnlyChanged then
 		frame.NameOnlyChanged = nil
 		frame.TopLevelFrame = nil --We can safely clear this here because it is set upon `UpdateElement_Auras` if needed
-		if self.db.units[frame.UnitType].healthbar.enable or (frame.isTarget and self.db.alwaysShowTargetHealth) then
+		if (frame.UnitType and self.db.units[frame.UnitType].healthbar.enable) or (frame.isTarget and self.db.alwaysShowTargetHealth) then
 			frame.HealthBar:Show()
 			self:UpdateElement_Glow(frame)
 		end
@@ -411,7 +411,8 @@ function mod:StyleFilterPass(frame, actions, castbarTriggered)
 		frame.castbarTriggered = castbarTriggered
 	end
 
-	local healthBarShown = frame.HealthBar:IsShown()
+	local healthBarEnabled = (frame.UnitType and mod.db.units[frame.UnitType].healthbar.enable) or (frame.isTarget and mod.db.alwaysShowTargetHealth)
+	local healthBarShown = healthBarEnabled and frame.HealthBar:IsShown()
 	self:StyleFilterSetChanges(frame, actions,
 		(healthBarShown and actions.color and actions.color.health), --HealthColorChanged
 		(healthBarShown and actions.color and actions.color.border and frame.HealthBar.backdrop), --BorderChanged
