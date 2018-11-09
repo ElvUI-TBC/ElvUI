@@ -445,8 +445,8 @@ local function LoadSkin()
 		tab.backdrop:Point("TOPLEFT", 1, -10)
 		tab.backdrop:Point("BOTTOMRIGHT", -1, 2)
 
-		tab:HookScript("OnEnter", S.SetModifiedBackdrop)
-		tab:HookScript("OnLeave", S.SetOriginalBackdrop)
+		tab:HookScript2("OnEnter", S.SetModifiedBackdrop)
+		tab:HookScript2("OnLeave", S.SetOriginalBackdrop)
 	end
 
 	S:HandleButton(ChatConfigFrameDefaultButton)
