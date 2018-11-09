@@ -50,9 +50,9 @@ local function SkinDropdownPullout(self)
 		self.obj.pullout.slider:Point("TOPRIGHT", self.obj.pullout.frame, "TOPRIGHT", -10, -10)
 		self.obj.pullout.slider:Point("BOTTOMRIGHT", self.obj.pullout.frame, "BOTTOMRIGHT", -10, 10)
 		if self.obj.pullout.slider:GetThumbTexture() then
-			self.obj.pullout.slider:SetThumbTexture(E["media"].blankTex)
-			self.obj.pullout.slider:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
-			self.obj.pullout.slider:GetThumbTexture():Size(10, 12)
+			self.obj.pullout.slider:SetThumbTexture(E.media.normTex)
+			self.obj.pullout.slider:GetThumbTexture():SetVertexColor(unpack(E.media.rgbvaluecolor))
+			self.obj.pullout.slider:GetThumbTexture():Size(10, 14)
 		end
 	end
 end
@@ -82,20 +82,24 @@ function S:SkinAce3()
 			scrollBG:Point("BOTTOMLEFT", widget.button, "TOPLEFT")
 			widget.scrollFrame:Point("BOTTOMRIGHT", scrollBG, "BOTTOMRIGHT", -4, 8)
 		elseif TYPE == "CheckBox" then
-			widget.checkbg:CreateBackdrop("Default")
-			widget.checkbg.backdrop:SetInside(widget.checkbg, 4, 4)
-			widget.checkbg.backdrop:SetFrameLevel(widget.checkbg.backdrop:GetFrameLevel() + 1)
-			widget.checkbg:SetTexture("")
-			widget.checkbg.SetTexture = E.noop
+			local check = widget.check
+			local checkbg = widget.checkbg
+			local highlight = widget.highlight
 
-			widget.check:SetTexture(E["media"].normTex)
-			widget.check.SetTexture = E.noop
-			widget.check:SetVertexColor(unpack(E["media"].rgbvaluecolor))
-			widget.check:SetInside(widget.checkbg.backdrop)
-			widget.check:SetParent(widget.checkbg.backdrop)
+			checkbg:CreateBackdrop("Default")
+			checkbg.backdrop:SetInside(checkbg, 4, 4)
+			checkbg.backdrop:SetFrameLevel(checkbg.backdrop:GetFrameLevel() + 1)
+			checkbg:SetTexture("")
+			checkbg.SetTexture = E.noop
 
-			widget.highlight:SetTexture("")
-			widget.highlight.SetTexture = E.noop
+			check:SetTexture(E.media.normTex)
+			check.SetTexture = E.noop
+			check:SetVertexColor(unpack(E.media.rgbvaluecolor))
+			check:SetInside(checkbg.backdrop)
+			check:SetParent(checkbg.backdrop)
+
+			highlight:SetTexture("")
+			highlight.SetTexture = E.noop
 		elseif TYPE == "Dropdown" then
 			local frame = widget.dropdown
 			local button = widget.button
@@ -183,9 +187,9 @@ function S:SkinAce3()
 						dropdown.slider:Point("BOTTOMRIGHT", dropdown, "BOTTOMRIGHT", -10, 10)
 
 						if dropdown.slider:GetThumbTexture() then
-							dropdown.slider:SetThumbTexture(E["media"].blankTex)
-							dropdown.slider:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
-							dropdown.slider:GetThumbTexture():Size(10, 12)
+							dropdown.slider:SetThumbTexture(E.media.normTex)
+							dropdown.slider:GetThumbTexture():SetVertexColor(unpack(E.media.rgbvaluecolor))
+							dropdown.slider:GetThumbTexture():Size(10, 14)
 						end
 					end
 
@@ -250,9 +254,10 @@ function S:SkinAce3()
 			frame:StripTextures()
 			frame:SetTemplate("Default")
 			frame:Height(HEIGHT)
-			frame:SetThumbTexture(E["media"].blankTex)
+
+			frame:SetThumbTexture(E.media.normTex)
 			frame:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
-			frame:GetThumbTexture():Size(HEIGHT - 2, HEIGHT + 2)
+			frame:GetThumbTexture():Size(HEIGHT - 2, HEIGHT - 2)
 
 			editbox:SetTemplate("Default")
 			editbox:Height(15)
@@ -260,7 +265,7 @@ function S:SkinAce3()
 
 			lowtext:Point("TOPLEFT", frame, "BOTTOMLEFT", 2, -2)
 			hightext:Point("TOPRIGHT", frame, "BOTTOMRIGHT", -2, -2)
-		elseif (TYPE == "ColorPicker-ElvUI" or TYPE == "ColorPicker") then
+		elseif (TYPE == "ColorPicker" or TYPE == "ColorPicker-ElvUI") then
 			local frame = widget.frame
 			local colorSwatch = widget.colorSwatch
 
@@ -274,7 +279,7 @@ function S:SkinAce3()
 			frame.backdrop:SetBackdropColor(0, 0, 0, 0)
 			frame.backdrop.SetBackdropColor = E.noop
 
-			colorSwatch:SetTexture(E["media"].blankTex)
+			colorSwatch:SetTexture(E.media.blankTex)
 			colorSwatch:ClearAllPoints()
 			colorSwatch:SetParent(frame.backdrop)
 			colorSwatch:SetInside(frame.backdrop)
@@ -285,6 +290,7 @@ function S:SkinAce3()
 
 			if frame.checkers then
 				frame.checkers:ClearAllPoints()
+				frame.checkers:SetDrawLayer("ARTWORK")
 				frame.checkers:SetParent(frame.backdrop)
 				frame.checkers:SetInside(frame.backdrop)
 			end
@@ -327,19 +333,6 @@ function S:SkinAce3()
 				widget.treeframe:SetTemplate("Transparent")
 				frame:Point("TOPLEFT", widget.treeframe, "TOPRIGHT", 1, 0)
 
-				local oldCreateButton = widget.CreateButton
-				widget.CreateButton = function(self)
-					local button = oldCreateButton(self)
-					button.toggle:StripTextures()
-					button.toggle.SetNormalTexture = E.noop
-					button.toggle.SetPushedTexture = E.noop
-					button.toggleText = button.toggle:CreateFontString(nil, "OVERLAY")
-					button.toggleText:FontTemplate(nil, 19)
-					button.toggleText:Point("CENTER")
-					button.toggleText:SetText("+")
-					return button
-				end
-
 				local oldRefreshTree = widget.RefreshTree
 				widget.RefreshTree = function(self, scrollToSelection)
 					oldRefreshTree(self, scrollToSelection)
@@ -353,9 +346,17 @@ function S:SkinAce3()
 					for i = offset + 1, #lines do
 						local button = buttons[i - offset]
 						if groupstatus[lines[i].uniquevalue] and button then
-							button.toggleText:SetText("-")
+							button.toggle:SetNormalTexture([[Interface\AddOns\ElvUI\media\textures\PlusMinusButton]])
+							button.toggle:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+							button.toggle:SetPushedTexture([[Interface\AddOns\ElvUI\media\textures\PlusMinusButton]])
+							button.toggle:GetPushedTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+							button.toggle:SetHighlightTexture("")
 						elseif button then
-							button.toggleText:SetText("+")
+							button.toggle:SetNormalTexture([[Interface\AddOns\ElvUI\media\textures\PlusMinusButton]])
+							button.toggle:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+							button.toggle:SetPushedTexture([[Interface\AddOns\ElvUI\media\textures\PlusMinusButton]])
+							button.toggle:GetPushedTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+							button.toggle:SetHighlightTexture("")
 						end
 					end
 				end
