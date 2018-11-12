@@ -825,18 +825,21 @@ function B:FormatMoney(amount)
 end
 
 function B:GetGraysValue()
-	local value, itemLink, rarity, itype, stackCount, stackPrice, _ = 0
+	local value, itemLink, rarity, itype, itemPrice, stackCount, stackPrice, _ = 0
 
 	for bag = 0, NUM_BAG_FRAMES do
 		for slot = 1, GetContainerNumSlots(bag) do
 			itemLink = GetContainerItemLink(bag, slot)
 			if itemLink then
 				_, _, rarity, _, _, itype = GetItemInfo(itemLink)
+				itemPrice = LIP:GetSellValue(itemLink)
 
-				stackCount = select(2, GetContainerItemInfo(bag, slot)) or 1
-				stackPrice = LIP:GetSellValue(itemLink) * stackCount
-				if (rarity and rarity == 0) and (itype and itype ~= "Quest") and (stackPrice and stackPrice > 0) then
-					value = value + stackPrice
+				if itemPrice then
+					stackCount = select(2, GetContainerItemInfo(bag, slot)) or 1
+					stackPrice = itemPrice * stackCount
+					if (rarity and rarity == 0) and (itype and itype ~= "Quest") and (stackPrice and stackPrice > 0) then
+						value = value + stackPrice
+					end
 				end
 			end
 		end
@@ -1275,6 +1278,7 @@ end
 function B:OpenBags()
 	self.BagFrame:Show()
 	self.BagFrame:UpdateAllSlots()
+	PlaySound("igBackPackOpen")
 
 	E:GetModule("Tooltip"):GameTooltip_SetDefaultAnchor(GameTooltip)
 end
