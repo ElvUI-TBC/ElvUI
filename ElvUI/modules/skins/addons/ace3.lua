@@ -123,12 +123,8 @@ function S:SkinAce3()
 			button:SetSize(20, 20)
 			button:ClearAllPoints()
 			button:Point("RIGHT", frame.backdrop, "RIGHT", -2, 0)
-
-			text:ClearAllPoints()
-			text:SetJustifyH("RIGHT")
-			text:Point("RIGHT", button, "LEFT", -3, 0)
-
 			button:SetParent(frame.backdrop)
+
 			text:SetParent(frame.backdrop)
 
 			button:HookScript2("OnClick", SkinDropdownPullout)
@@ -211,12 +207,21 @@ function S:SkinAce3()
 
 			frame:Height(17)
 			frame:CreateBackdrop("Default")
-			frame.backdrop:Point("TOPLEFT", -2, 0)
-			frame.backdrop:Point("BOTTOMRIGHT", 2, 0)
+			frame.backdrop:Point("TOPLEFT", 2, -2)
+			frame.backdrop:Point("BOTTOMRIGHT", -2, 0)
 			frame.backdrop:SetParent(widget.frame)
 			frame:SetParent(frame.backdrop)
+			frame:SetTextInsets(4, 43, 3, 3)
+			frame.SetTextInsets = E.noop
 
 			SkinButton(button)
+			button:Point("RIGHT", frame.backdrop, "RIGHT", -2, 0)
+
+			hooksecurefunc(frame, "SetPoint", function(self, a, b, c, d, e)
+				if d == 7 then
+					self:SetPoint(a, b, c, 0, e)
+				end
+			end)
 		elseif TYPE == "Button" or TYPE == "Button-ElvUI" then
 			local frame = widget.frame
 
@@ -256,7 +261,7 @@ function S:SkinAce3()
 			frame:Height(HEIGHT)
 
 			frame:SetThumbTexture(E.media.normTex)
-			frame:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
+			frame:GetThumbTexture():SetVertexColor(unpack(E.media.rgbvaluecolor))
 			frame:GetThumbTexture():Size(HEIGHT - 2, HEIGHT - 2)
 
 			editbox:SetTemplate("Default")
@@ -345,18 +350,18 @@ function S:SkinAce3()
 
 					for i = offset + 1, #lines do
 						local button = buttons[i - offset]
-						if groupstatus[lines[i].uniquevalue] and button then
+						if button then
 							button.toggle:SetNormalTexture([[Interface\AddOns\ElvUI\media\textures\PlusMinusButton]])
-							button.toggle:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
 							button.toggle:SetPushedTexture([[Interface\AddOns\ElvUI\media\textures\PlusMinusButton]])
-							button.toggle:GetPushedTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
 							button.toggle:SetHighlightTexture("")
-						elseif button then
-							button.toggle:SetNormalTexture([[Interface\AddOns\ElvUI\media\textures\PlusMinusButton]])
-							button.toggle:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
-							button.toggle:SetPushedTexture([[Interface\AddOns\ElvUI\media\textures\PlusMinusButton]])
-							button.toggle:GetPushedTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
-							button.toggle:SetHighlightTexture("")
+
+							if groupstatus[lines[i].uniquevalue] then
+								button.toggle:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+								button.toggle:GetPushedTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+							else
+								button.toggle:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+								button.toggle:GetPushedTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+							end
 						end
 					end
 				end
@@ -372,6 +377,7 @@ function S:SkinAce3()
 					tab.backdrop:SetFrameLevel(tab:GetFrameLevel() - 1)
 					tab.backdrop:Point("TOPLEFT", 10, -3)
 					tab.backdrop:Point("BOTTOMRIGHT", -10, 0)
+
 					return tab
 				end
 			end
