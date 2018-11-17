@@ -7,37 +7,6 @@ local select = select
 local CreateFrame = CreateFrame
 local RegisterAsWidget, RegisterAsContainer
 
-local function SkinButton(f, strip, noTemplate)
-	local name = f:GetName()
-	if name then
-		local left = _G[name.."Left"]
-		local middle = _G[name.."Middle"]
-		local right = _G[name.."Right"]
-
-		if left then left:Kill() end
-		if middle then middle:Kill() end
-		if right then right:Kill() end
-	end
-
-	if f.Left then f.Left:Kill() end
-	if f.Middle then f.Middle:Kill() end
-	if f.Right then f.Right:Kill() end
-
-	if f.SetNormalTexture then f:SetNormalTexture("") end
-	if f.SetHighlightTexture then f:SetHighlightTexture("") end
-	if f.SetPushedTexture then f:SetPushedTexture("") end
-	if f.SetDisabledTexture then f:SetDisabledTexture("") end
-
-	if strip then f:StripTextures() end
-
-	if not f.template and not noTemplate then
-		f:SetTemplate("Default", true)
-	end
-
-	f:HookScript2("OnEnter", S.SetModifiedBackdrop)
-	f:HookScript2("OnLeave", S.SetOriginalBackdrop)
-end
-
 local function SkinDropdownPullout(self)
 	if self.obj.pullout.frame.template and self.obj.pullout.slider.template then return end
 
@@ -75,7 +44,7 @@ function S:SkinAce3()
 				scrollBG:SetTemplate("Default")
 			end
 
-			SkinButton(widget.button)
+			S:HandleButton(widget.button)
 			S:HandleScrollBar(widget.scrollBar)
 			widget.scrollBar:Point("RIGHT", frame, "RIGHT", 0 -4)
 			scrollBG:Point("TOPRIGHT", widget.scrollBar, "TOPLEFT", -2, 19)
@@ -114,7 +83,7 @@ function S:SkinAce3()
 				frame:CreateBackdrop("Default")
 			end
 
-			frame.backdrop:Point("TOPLEFT", 15, -2)
+			frame.backdrop:Point("TOPLEFT", 17, -2)
 			frame.backdrop:Point("BOTTOMRIGHT", -21, 0)
 
 			widget.label:ClearAllPoints()
@@ -125,6 +94,9 @@ function S:SkinAce3()
 			button:Point("RIGHT", frame.backdrop, "RIGHT", -2, 0)
 			button:SetParent(frame.backdrop)
 
+			text:ClearAllPoints()
+			text:Point("RIGHT", frame.backdrop, "RIGHT", -26, 2)
+			text:Point("LEFT", frame.backdrop, "LEFT", 2, 0)
 			text:SetParent(frame.backdrop)
 
 			button:HookScript2("OnClick", SkinDropdownPullout)
@@ -150,7 +122,7 @@ function S:SkinAce3()
 
 			text:ClearAllPoints()
 			text:Point("RIGHT", button, "LEFT", -2, 0)
-			
+
 			button:SetSize(20, 20)
 			button:ClearAllPoints()
 			button:Point("RIGHT", frame.backdrop, "RIGHT", -2, 0)
@@ -214,7 +186,7 @@ function S:SkinAce3()
 			frame:SetTextInsets(4, 43, 3, 3)
 			frame.SetTextInsets = E.noop
 
-			SkinButton(button)
+			S:HandleButton(button)
 			button:Point("RIGHT", frame.backdrop, "RIGHT", -2, 0)
 
 			hooksecurefunc(frame, "SetPoint", function(self, a, b, c, d, e)
@@ -225,30 +197,13 @@ function S:SkinAce3()
 		elseif TYPE == "Button" or TYPE == "Button-ElvUI" then
 			local frame = widget.frame
 
-			SkinButton(frame, nil, true)
+			S:HandleButton(frame)
 
 			frame:StripTextures()
 			frame:CreateBackdrop("Default", true)
 			frame.backdrop:SetInside()
 
 			widget.text:SetParent(frame.backdrop)
-		elseif TYPE == "Keybinding" then
-			local button = widget.button
-			local msgframe = widget.msgframe
-			local msg = widget.msgframe.msg
-
-			SkinButton(button)
-
-			msgframe:StripTextures()
-			msgframe:CreateBackdrop("Default", true)
-			msgframe.backdrop:SetInside()
-			msgframe:SetToplevel(true)
-
-			msg:ClearAllPoints()
-			msg:Point("LEFT", 10, 0)
-			msg:Point("RIGHT", -10, 0)
-			msg:SetJustifyV("MIDDLE")
-			msg:Width(msg:GetWidth() + 10)
 		elseif TYPE == "Slider" then
 			local frame = widget.slider
 			local editbox = widget.editbox
@@ -270,6 +225,23 @@ function S:SkinAce3()
 
 			lowtext:Point("TOPLEFT", frame, "BOTTOMLEFT", 2, -2)
 			hightext:Point("TOPRIGHT", frame, "BOTTOMRIGHT", -2, -2)
+		elseif TYPE == "Keybinding" then
+			local button = widget.button
+			local msgframe = widget.msgframe
+			local msg = widget.msgframe.msg
+
+			S:HandleButton(button)
+
+			msgframe:StripTextures()
+			msgframe:CreateBackdrop("Default", true)
+			msgframe.backdrop:SetInside()
+			msgframe:SetToplevel(true)
+
+			msg:ClearAllPoints()
+			msg:Point("LEFT", 10, 0)
+			msg:Point("RIGHT", -10, 0)
+			msg:SetJustifyV("MIDDLE")
+			msg:Width(msg:GetWidth() + 10)
 		elseif (TYPE == "ColorPicker" or TYPE == "ColorPicker-ElvUI") then
 			local frame = widget.frame
 			local colorSwatch = widget.colorSwatch
@@ -283,6 +255,8 @@ function S:SkinAce3()
 			frame.backdrop:Point("LEFT", frame, "LEFT", 4, 0)
 			frame.backdrop:SetBackdropColor(0, 0, 0, 0)
 			frame.backdrop.SetBackdropColor = E.noop
+			frame.backdrop:SetBackdropBorderColor(1, 1, 1)
+			frame.backdrop.SetBackdropBorderColor = E.noop
 
 			colorSwatch:SetTexture(E.media.blankTex)
 			colorSwatch:ClearAllPoints()
@@ -323,7 +297,7 @@ function S:SkinAce3()
 				for i = 1, frame:GetNumChildren() do
 					local child = select(i, frame:GetChildren())
 					if child:GetObjectType() == "Button" and child:GetText() then
-						SkinButton(child)
+						S:HandleButton(child)
 					else
 						child:StripTextures()
 					end

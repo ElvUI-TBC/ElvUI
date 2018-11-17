@@ -744,7 +744,7 @@ do
 		self.text = text
 		text.obj = self
 		text:ClearAllPoints()
-		text:SetPoint("RIGHT", right, "RIGHT", -46, 2)
+		text:SetPoint("RIGHT", right, "RIGHT", -43, 2)
 		text:SetPoint("LEFT", left, "LEFT", 25, 2)
 
 		local label = frame:CreateFontString(nil,"OVERLAY","GameFontNormalSmall")

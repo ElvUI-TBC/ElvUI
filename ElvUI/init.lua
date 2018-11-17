@@ -132,6 +132,9 @@ function AddOn:OnInitialize()
 			GameMenuButtonLogout:Point("TOPLEFT", GameMenuFrame[AddOnName], "BOTTOMLEFT", 0, -16)
 		end
 	end)
+
+	if AddOn.private.skins.blizzard.enable ~= true or AddOn.private.skins.blizzard.BlizzardOptions ~= true then return end
+
 	local S = AddOn:GetModule("Skins")
 	S:HandleButton(GameMenuButton)
 end
