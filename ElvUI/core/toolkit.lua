@@ -217,18 +217,28 @@ local function Kill(object)
 	object:Hide()
 end
 
-local function StripTextures(object, kill)
-	for i = 1, object:GetNumRegions() do
-		local region = select(i, object:GetRegions())
-		if region and region:GetObjectType() == "Texture" then
-			if kill and type(kill) == "boolean" then
-				region:Kill()
-			elseif region:GetDrawLayer() == kill then
-				region:SetTexture(nil)
-			elseif kill and type(kill) == "string" and region:GetTexture() ~= kill then
-				region:SetTexture(nil)
-			else
-				region:SetTexture(nil)
+local function StripTextures(object, kill, alpha)
+	if object:IsObjectType("Texture") then
+		if kill then
+			object:Kill()
+		elseif alpha then
+			object:SetAlpha(0)
+		else
+			object:SetTexture(nil)
+		end
+	else
+		if object.GetNumRegions then
+			for i = 1, object:GetNumRegions() do
+				local region = select(i, object:GetRegions())
+				if region and region.IsObjectType and region:IsObjectType("Texture") then
+					if kill then
+						region:Kill()
+					elseif alpha then
+						region:SetAlpha(0)
+					else
+						region:SetTexture(nil)
+					end
+				end
 			end
 		end
 	end

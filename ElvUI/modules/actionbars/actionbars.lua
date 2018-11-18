@@ -224,7 +224,7 @@ function AB:PositionAndSizeBar(barName)
 
 	E:SetMoverSnapOffset("ElvAB_"..bar.id, bar.db.buttonspacing / 2)
 
-	if self.LBFGroup and E.private.actionbar.lbf.enable then self.LBFGroup:Skin(E.private.actionbar.lbf.skin); end
+	if self.LBFGroup and E.private.actionbar.lbf.enable then self.LBFGroup:Skin(E.private.actionbar.lbf.skin) end
 end
 
 function AB:CreateBar(id)
@@ -325,7 +325,7 @@ function AB:UpdateBar1Paging()
 		AB.barDefaults.bar1.conditions = "[bonusbar:5] 11; [actionbar:2] 2; [actionbar:3] 3; [actionbar:4] 4; [actionbar:5] 5; [actionbar:6] 6;"
 	end
 
-	if (E.private.actionbar.enable ~= true or InCombatLockdown()) or not self.isInitialized then return; end
+	if (E.private.actionbar.enable ~= true or InCombatLockdown()) or not self.isInitialized then return end
 	local bar2Option = InterfaceOptionsActionBarsPanelBottomRight
 	local bar3Option = InterfaceOptionsActionBarsPanelBottomLeft
 	local bar4Option = InterfaceOptionsActionBarsPanelRightTwo

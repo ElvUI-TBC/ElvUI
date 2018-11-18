@@ -42,7 +42,7 @@ local function LoadSkin()
 	TradeSkillRankFrameBorder:StripTextures()
 	TradeSkillRankFrame:Size(447, 16)
 	TradeSkillRankFrame:ClearAllPoints()
-	TradeSkillRankFrame:Point("TOP", 10, -45)
+	TradeSkillRankFrame:Point("TOP", -20, -45)
 	TradeSkillRankFrame:CreateBackdrop()
 	TradeSkillRankFrame:SetStatusBarColor(0.22, 0.39, 0.84)
 	TradeSkillRankFrame.SetStatusBarColor = E.noop
@@ -53,17 +53,17 @@ local function LoadSkin()
 	TradeSkillRankFrameSkillRank:Point("CENTER", TradeSkillRankFrame, "CENTER", 0, 0)
 
 	S:HandleCheckBox(TradeSkillFrameAvailableFilterCheckButton)
-	TradeSkillFrameAvailableFilterCheckButton:Point("TOPLEFT", 122, -65)
+	TradeSkillFrameAvailableFilterCheckButton:Point("TOPLEFT", 70, -65)
 
 	TradeSkillFrameEditBox:ClearAllPoints()
 	TradeSkillFrameEditBox:Point("LEFT", TradeSkillFrameAvailableFilterCheckButton, "RIGHT", 100, 0)
 	S:HandleEditBox(TradeSkillFrameEditBox)
 
-	S:HandleDropDownBox(TradeSkillInvSlotDropDown, 140)
+	S:HandleDropDownBox(TradeSkillInvSlotDropDown, 160)
 	TradeSkillInvSlotDropDown:ClearAllPoints()
 	TradeSkillInvSlotDropDown:Point("LEFT", TradeSkillFrameEditBox, "RIGHT", -16, -3)
 
-	S:HandleDropDownBox(TradeSkillSubClassDropDown, 140)
+	S:HandleDropDownBox(TradeSkillSubClassDropDown, 160)
 	TradeSkillSubClassDropDown:ClearAllPoints()
 	TradeSkillSubClassDropDown:Point("LEFT", TradeSkillInvSlotDropDown, "RIGHT", -25, 0)
 
@@ -71,7 +71,7 @@ local function LoadSkin()
 	TradeSkillFrameTitleText:Point("TOP", TradeSkillRankFrameSkillRank, "TOP", 0, 30)
 
 	for i = 9, 25 do
-		CreateFrame("Button", "TradeSkillSkill" .. i, TradeSkillFrame, "TradeSkillSkillButtonTemplate"):Point("TOPLEFT", _G["TradeSkillSkill" .. i - 1], "BOTTOMLEFT")
+		CreateFrame("Button", "TradeSkillSkill"..i, TradeSkillFrame, "TradeSkillSkillButtonTemplate"):Point("TOPLEFT", _G["TradeSkillSkill"..i - 1], "BOTTOMLEFT")
 	end
 
 	TradeSkillExpandButtonFrame:StripTextures()
@@ -239,8 +239,8 @@ local function LoadSkin()
 			local _, _, reagentCount, playerReagentCount = GetTradeSkillReagentInfo(id, i)
 			local reagentLink = GetTradeSkillReagentItemLink(id, i)
 			local reagent = _G["TradeSkillReagent"..i]
-			local icon = _G["TradeSkillReagent" .. i .. "IconTexture"]
-			local name = _G["TradeSkillReagent" .. i .. "Name"]
+			local icon = _G["TradeSkillReagent"..i.."IconTexture"]
+			local name = _G["TradeSkillReagent"..i.."Name"]
 
 			if reagentLink then
 				local quality = select(3, GetItemInfo(reagentLink))

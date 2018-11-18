@@ -43,20 +43,26 @@ local function LoadSkin()
 
 	CraftRankFrame:Size(447, 16)
 	CraftRankFrame:ClearAllPoints()
-	CraftRankFrame:Point("TOP", 10, -45)
+	CraftRankFrame:Point("TOP", -20, -45)
 	CraftRankFrame:CreateBackdrop()
 	CraftRankFrame:SetStatusBarTexture(E["media"].normTex)
+	CraftRankFrame:SetStatusBarColor(0.22, 0.39, 0.84)
+	CraftRankFrame.SetStatusBarColor = E.noop
 	E:RegisterStatusBar(CraftRankFrame)
 
 	CraftRankFrameSkillRank:ClearAllPoints()
 	CraftRankFrameSkillRank:Point("CENTER", CraftRankFrame, "CENTER", 0, 0)
 
 	S:HandleCheckBox(CraftFrameAvailableFilterCheckButton)
-	CraftFrameAvailableFilterCheckButton:Point("TOPLEFT", 122, -65)
+	CraftFrameAvailableFilterCheckButton:Point("TOPLEFT", 107, -65)
 
 	CraftFrameEditBox:ClearAllPoints()
-	CraftFrameEditBox:Point("LEFT", CraftFrameAvailableFilterCheckButton, "RIGHT", 100, 0)
+	CraftFrameEditBox:Point("LEFT", CraftFrameAvailableFilterCheckButton, "RIGHT", 165, 0)
 	S:HandleEditBox(CraftFrameEditBox)
+
+	S:HandleDropDownBox(CraftFrameFilterDropDown, 160)
+	CraftFrameFilterDropDown:ClearAllPoints()
+	CraftFrameFilterDropDown:Point("LEFT", CraftFrameEditBox, "RIGHT", -16, -3)
 
 	CraftExpandButtonFrame:StripTextures()
 
@@ -84,12 +90,11 @@ local function LoadSkin()
 		end
 	end)
 
-	S:HandleDropDownBox(CraftFrameFilterDropDown, 140)
-	CraftFrameFilterDropDown:ClearAllPoints()
-	CraftFrameFilterDropDown:Point("LEFT", CraftFrameEditBox, "RIGHT", -16, -3)
+	CraftFrameTitleText:ClearAllPoints()
+	CraftFrameTitleText:Point("TOP", CraftRankFrame, "TOP", 0, 30)
 
 	for i = 9, 25 do
-		CreateFrame("Button", "Craft" .. i, CraftFrame, "CraftButtonTemplate"):Point("TOPLEFT", _G["Craft" .. i - 1], "BOTTOMLEFT")
+		CreateFrame("Button", "Craft"..i, CraftFrame, "CraftButtonTemplate"):Point("TOPLEFT", _G["Craft"..i - 1], "BOTTOMLEFT")
 	end
 
 	for i = 1, CRAFTS_DISPLAYED do
@@ -193,10 +198,6 @@ local function LoadSkin()
 	CraftReagent6:Point("LEFT", CraftReagent5, "RIGHT", 3, 0)
 	CraftReagent7:Point("TOPLEFT", CraftReagent5, "BOTTOMLEFT", 0, -3)
 	CraftReagent8:Point("LEFT", CraftReagent7, "RIGHT", 3, 0)
-
-	hooksecurefunc("CraftFrame_Update", function()
-		CraftRankFrame:SetStatusBarColor(0.13, 0.28, 0.85)
-	end)
 
 	hooksecurefunc("CraftFrame_SetSelection", function(id)
 		if CraftIcon:GetNormalTexture() then
