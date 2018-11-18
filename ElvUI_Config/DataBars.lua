@@ -43,19 +43,22 @@ E.Options.args.databars = {
 				mouseover = {
 					order = 3,
 					type = "toggle",
-					name = L["Mouseover"]
+					name = L["Mouseover"],
+					disabled = function() return not mod.db.experience.enable end
 				},
 				hideAtMaxLevel = {
 					order = 4,
 					type = "toggle",
 					name = L["Hide At Max Level"],
-					set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:UpdateExperience(); end
+					set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:UpdateExperience() end,
+					disabled = function() return not mod.db.experience.enable end
 				},
 				hideInCombat = {
 					order = 5,
 					type = "toggle",
 					name = L["Hide in Combat"],
 					set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:UpdateExperience() end,
+					disabled = function() return not mod.db.experience.enable end
 				},
 				spacer = {
 					order = 6,
@@ -70,31 +73,36 @@ E.Options.args.databars = {
 					values = {
 						["HORIZONTAL"] = L["Horizontal"],
 						["VERTICAL"] = L["Vertical"]
-					}
+					},
+					disabled = function() return not mod.db.experience.enable end
 				},
 				width = {
 					order = 8,
 					type = "range",
 					name = L["Width"],
-					min = 5, max = ceil(GetScreenWidth() or 800), step = 1
+					min = 5, max = ceil(GetScreenWidth() or 800), step = 1,
+					disabled = function() return not mod.db.experience.enable end
 				},
 				height = {
 					order = 9,
 					type = "range",
 					name = L["Height"],
-					min = 5, max = ceil(GetScreenHeight() or 800), step = 1
+					min = 5, max = ceil(GetScreenHeight() or 800), step = 1,
+					disabled = function() return not mod.db.experience.enable end
 				},
 				font = {
 					order = 10,
 					type = "select", dialogControl = "LSM30_Font",
 					name = L["Font"],
-					values = AceGUIWidgetLSMlists.font
+					values = AceGUIWidgetLSMlists.font,
+					disabled = function() return not mod.db.experience.enable end
 				},
 				textSize = {
 					order = 11,
 					type = "range",
 					name = FONT_SIZE,
-					min = 6, max = 22, step = 1
+					min = 6, max = 22, step = 1,
+					disabled = function() return not mod.db.experience.enable end
 				},
 				fontOutline = {
 					order = 12,
@@ -105,7 +113,8 @@ E.Options.args.databars = {
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE"
-					}
+					},
+					disabled = function() return not mod.db.experience.enable end
 				},
 				textFormat = {
 					order = 13,
@@ -122,7 +131,8 @@ E.Options.args.databars = {
 						CURREM = L["Current - Remaining"],
 						CURPERCREM = L["Current - Percent (Remaining)"],
 					},
-					set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:UpdateExperience() end
+					set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:UpdateExperience() end,
+					disabled = function() return not mod.db.experience.enable end
 				}
 			}
 		},
@@ -147,13 +157,15 @@ E.Options.args.databars = {
 				mouseover = {
 					order = 3,
 					type = "toggle",
-					name = L["Mouseover"]
+					name = L["Mouseover"],
+					disabled = function() return not mod.db.reputation.enable end
 				},
 				hideInCombat = {
 					order = 4,
 					type = "toggle",
 					name = L["Hide in Combat"],
 					set = function(info, value) mod.db.reputation[ info[#info] ] = value; mod:UpdateReputation() end,
+					disabled = function() return not mod.db.reputation.enable end
 				},
 				spacer = {
 					order = 5,
@@ -168,31 +180,36 @@ E.Options.args.databars = {
 					values = {
 						["HORIZONTAL"] = L["Horizontal"],
 						["VERTICAL"] = L["Vertical"]
-					}
+					},
+					disabled = function() return not mod.db.reputation.enable end
 				},
 				width = {
 					order = 7,
 					type = "range",
 					name = L["Width"],
-					min = 5, max = ceil(GetScreenWidth() or 800), step = 1
+					min = 5, max = ceil(GetScreenWidth() or 800), step = 1,
+					disabled = function() return not mod.db.reputation.enable end
 				},
 				height = {
 					order = 8,
 					type = "range",
 					name = L["Height"],
-					min = 5, max = ceil(GetScreenHeight() or 800), step = 1
+					min = 5, max = ceil(GetScreenHeight() or 800), step = 1,
+					disabled = function() return not mod.db.reputation.enable end
 				},
 				font = {
 					order = 9,
 					type = "select", dialogControl = "LSM30_Font",
 					name = L["Font"],
-					values = AceGUIWidgetLSMlists.font
+					values = AceGUIWidgetLSMlists.font,
+					disabled = function() return not mod.db.reputation.enable end
 				},
 				textSize = {
 					order = 10,
 					name = FONT_SIZE,
 					type = "range",
-					min = 6, max = 22, step = 1
+					min = 6, max = 22, step = 1,
+					disabled = function() return not mod.db.reputation.enable end
 				},
 				fontOutline = {
 					order = 11,
@@ -203,7 +220,8 @@ E.Options.args.databars = {
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE"
-					}
+					},
+					disabled = function() return not mod.db.reputation.enable end
 				},
 				textFormat = {
 					order = 12,
@@ -220,7 +238,8 @@ E.Options.args.databars = {
 						CURREM = L["Current - Remaining"],
 						CURPERCREM = L["Current - Percent (Remaining)"],
 					},
-					set = function(info, value) mod.db.reputation[ info[#info] ] = value; mod:UpdateReputation() end
+					set = function(info, value) mod.db.reputation[ info[#info] ] = value; mod:UpdateReputation() end,
+					disabled = function() return not mod.db.reputation.enable end
 				}
 			}
 		}

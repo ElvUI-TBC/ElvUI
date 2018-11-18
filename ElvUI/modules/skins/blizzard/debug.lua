@@ -18,6 +18,7 @@ end
 local function LoadSkin2()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.debug ~= true then return end
 
+	local ScriptErrorsFrame = _G["ScriptErrorsFrame"]
 	ScriptErrorsFrame:SetParent(E.UIParent)
 	ScriptErrorsFrame:SetTemplate("Transparent")
 
@@ -28,6 +29,8 @@ local function LoadSkin2()
 	ScriptErrorsFrameScrollFrameText:FontTemplate(nil, 13)
 
 	ScriptErrorsFrameScrollFrame:CreateBackdrop("Default")
+	ScriptErrorsFrameScrollFrame.backdrop:Point("TOPLEFT", 0, 2)
+	ScriptErrorsFrameScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, -3)
 	ScriptErrorsFrameScrollFrame:SetFrameLevel(ScriptErrorsFrameScrollFrame:GetFrameLevel() + 2)
 
 	EventTraceFrame:SetTemplate("Transparent")

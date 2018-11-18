@@ -227,7 +227,7 @@ G["profileCopy"] = {
 		["visibility"] = true,
 		["healthBar"] = true
 	},
-	["unitframes"] = {
+	["unitframe"] = {
 		["general"] = true,
 		["cooldown"] = true,
 		["colors"] = {

@@ -2,26 +2,54 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local _G = _G
-local select = select
+local select, unpack = select, unpack
 
 local CreateFrame = CreateFrame
 local RegisterAsWidget, RegisterAsContainer
 
 local function SkinDropdownPullout(self)
-	if self.obj.pullout.frame.template and self.obj.pullout.slider.template then return end
+	if self and self.obj then
+		local pullout = self.obj.pullout
+		local dropdown = self.obj.dropdown
 
-	if not self.obj.pullout.frame.template then
-		self.obj.pullout.frame:SetTemplate("Default", true)
-	end
+		if pullout and pullout.frame then
+			if pullout.frame.template and pullout.slider.template then return end
 
-	if not self.obj.pullout.slider.template then
-		self.obj.pullout.slider:SetTemplate("Default")
-		self.obj.pullout.slider:Point("TOPRIGHT", self.obj.pullout.frame, "TOPRIGHT", -10, -10)
-		self.obj.pullout.slider:Point("BOTTOMRIGHT", self.obj.pullout.frame, "BOTTOMRIGHT", -10, 10)
-		if self.obj.pullout.slider:GetThumbTexture() then
-			self.obj.pullout.slider:SetThumbTexture(E.media.normTex)
-			self.obj.pullout.slider:GetThumbTexture():SetVertexColor(unpack(E.media.rgbvaluecolor))
-			self.obj.pullout.slider:GetThumbTexture():Size(10, 14)
+			if not pullout.frame.template then
+				pullout.frame:SetTemplate("Default", true)
+			end
+
+			if not pullout.slider.template then
+				pullout.slider:SetTemplate("Default")
+				pullout.slider:Point("TOPRIGHT", pullout.frame, "TOPRIGHT", -10, -10)
+				pullout.slider:Point("BOTTOMRIGHT", pullout.frame, "BOTTOMRIGHT", -10, 10)
+				if pullout.slider:GetThumbTexture() then
+					pullout.slider:SetThumbTexture(E.media.normTex)
+					pullout.slider:GetThumbTexture():SetVertexColor(unpack(E.media.rgbvaluecolor))
+					pullout.slider:GetThumbTexture():Size(10, 14)
+				end
+			end
+		elseif dropdown then
+			dropdown:SetTemplate("Default", true)
+
+			if dropdown.slider then
+				dropdown.slider:SetTemplate("Default")
+				dropdown.slider:Point("TOPRIGHT", dropdown, "TOPRIGHT", -10, -10)
+				dropdown.slider:Point("BOTTOMRIGHT", dropdown, "BOTTOMRIGHT", -10, 10)
+
+				if dropdown.slider:GetThumbTexture() then
+					dropdown.slider:SetThumbTexture(E.media.normTex)
+					dropdown.slider:GetThumbTexture():SetVertexColor(unpack(E.media.rgbvaluecolor))
+					dropdown.slider:GetThumbTexture():Size(10, 14)
+				end
+			end
+
+			if TYPE == "LSM30_Sound" then
+				local frame = self.obj.frame
+				local width = frame:GetWidth()
+				dropdown:Point("TOPLEFT", frame, "BOTTOMLEFT")
+				dropdown:Point("TOPRIGHT", frame, "BOTTOMRIGHT", width < 160 and (160 - width) or 30, 0)
+			end
 		end
 	end
 end
@@ -145,30 +173,7 @@ function S:SkinAce3()
 			button:SetParent(frame.backdrop)
 			text:SetParent(frame.backdrop)
 
-			button:HookScript2("OnClick", function(self)
-				local dropdown = self.obj.dropdown
-				if dropdown then
-					dropdown:SetTemplate("Default", true)
-					if dropdown.slider then
-						dropdown.slider:SetTemplate("Transparent")
-						dropdown.slider:Point("TOPRIGHT", dropdown, "TOPRIGHT", -10, -10)
-						dropdown.slider:Point("BOTTOMRIGHT", dropdown, "BOTTOMRIGHT", -10, 10)
-
-						if dropdown.slider:GetThumbTexture() then
-							dropdown.slider:SetThumbTexture(E.media.normTex)
-							dropdown.slider:GetThumbTexture():SetVertexColor(unpack(E.media.rgbvaluecolor))
-							dropdown.slider:GetThumbTexture():Size(10, 14)
-						end
-					end
-
-					if TYPE == "LSM30_Sound" then
-						local frame = self.obj.frame
-						local width = frame:GetWidth()
-						dropdown:Point("TOPLEFT", frame, "BOTTOMLEFT")
-						dropdown:Point("TOPRIGHT", frame, "BOTTOMRIGHT", width < 160 and (160 - width) or 30, 0)
-					end
-				end
-			end)
+			button:HookScript2("OnClick", SkinDropdownPullout)
 		elseif TYPE == "EditBox" then
 			local frame = widget.editbox
 			local button = widget.button
