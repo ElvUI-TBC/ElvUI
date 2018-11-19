@@ -133,7 +133,7 @@ function AddOn:OnInitialize()
 		end
 	end)
 
-	if AddOn.private.skins.blizzard.enable ~= true or AddOn.private.skins.blizzard.BlizzardOptions ~= true then return end
+	if AddOn.private.skins.blizzard.enable ~= true or AddOn.private.skins.blizzard.misc ~= true then return end
 
 	local S = AddOn:GetModule("Skins")
 	S:HandleButton(GameMenuButton)

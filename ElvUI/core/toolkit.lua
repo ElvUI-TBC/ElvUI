@@ -128,7 +128,6 @@ local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode, isUnit
 			})
 		end
 
-
 		if not E.private.general.pixelPerfect and not f.forcePixelMode then
 			if not f.iborder then
 				local border = CreateFrame("Frame", nil, f)

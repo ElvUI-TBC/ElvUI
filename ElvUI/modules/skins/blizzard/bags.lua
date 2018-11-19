@@ -5,8 +5,10 @@ local _G = _G
 local unpack = unpack
 
 local CreateFrame = CreateFrame
+local ContainerIDToInventoryID = ContainerIDToInventoryID
 local GetContainerItemLink = GetContainerItemLink
 local GetContainerNumFreeSlots = GetContainerNumFreeSlots
+local GetInventoryItemLink = GetInventoryItemLink
 local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local hooksecurefunc = hooksecurefunc
@@ -142,14 +144,18 @@ local function LoadSkin()
 	S:HandleButton(BankFramePurchaseButton)
 
 	hooksecurefunc("BankFrameItemButton_Update", function(button)
-		if button.isBag then return end
-
 		local id = button:GetID()
-		local link = GetContainerItemLink(BANK_CONTAINER, id)
-		if link then
-			local _, _, quality = GetItemInfo(link)
+		local link, quality
 
-			if quality and quality > 1 then
+		if button.isBag then
+			link = GetInventoryItemLink("player", ContainerIDToInventoryID(id))
+		else
+			link = GetContainerItemLink(BANK_CONTAINER, id)
+		end
+
+		if link then
+			quality = select(3, GetItemInfo(link))
+			if quality then
 				button:SetBackdropBorderColor(GetItemQualityColor(quality))
 				button.ignoreBorderColors = true
 			else
