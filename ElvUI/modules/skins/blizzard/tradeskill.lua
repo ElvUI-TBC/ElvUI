@@ -40,13 +40,15 @@ local function LoadSkin()
 	TradeSkillFrame.bg2:SetFrameLevel(TradeSkillFrame.bg2:GetFrameLevel() - 1)
 
 	TradeSkillRankFrameBorder:StripTextures()
+
+	TradeSkillRankFrame:StripTextures()
 	TradeSkillRankFrame:Size(447, 16)
 	TradeSkillRankFrame:ClearAllPoints()
 	TradeSkillRankFrame:Point("TOP", -20, -45)
 	TradeSkillRankFrame:CreateBackdrop()
-	TradeSkillRankFrame:SetStatusBarColor(0.22, 0.39, 0.84)
-	TradeSkillRankFrame.SetStatusBarColor = E.noop
 	TradeSkillRankFrame:SetStatusBarTexture(E["media"].normTex)
+	TradeSkillRankFrame:SetStatusBarColor(0.13, 0.28, 0.85)
+	TradeSkillRankFrame.SetStatusBarColor = E.noop
 	E:RegisterStatusBar(TradeSkillRankFrame)
 
 	TradeSkillRankFrameSkillRank:ClearAllPoints()
@@ -68,7 +70,7 @@ local function LoadSkin()
 	TradeSkillSubClassDropDown:Point("LEFT", TradeSkillInvSlotDropDown, "RIGHT", -25, 0)
 
 	TradeSkillFrameTitleText:ClearAllPoints()
-	TradeSkillFrameTitleText:Point("TOP", TradeSkillRankFrameSkillRank, "TOP", 0, 30)
+	TradeSkillFrameTitleText:Point("TOP", TradeSkillRankFrameSkillRank, "TOP", 0, 25)
 
 	for i = 9, 25 do
 		CreateFrame("Button", "TradeSkillSkill"..i, TradeSkillFrame, "TradeSkillSkillButtonTemplate"):Point("TOPLEFT", _G["TradeSkillSkill"..i - 1], "BOTTOMLEFT")

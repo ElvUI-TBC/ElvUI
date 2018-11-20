@@ -65,7 +65,7 @@ local function LoadSkin()
 
 	S:HandleCloseButton(ClassTrainerFrameCloseButton)
 
-	ClassTrainerSkillName:Point("TOPLEFT", 58, -3)
+	ClassTrainerSkillName:Point("TOPLEFT", 55, -3)
 
 	ClassTrainerSkillIcon:StripTextures()
 	ClassTrainerSkillIcon:SetTemplate("Default")
@@ -76,9 +76,11 @@ local function LoadSkin()
 	hooksecurefunc("ClassTrainer_SetSelection", function()
 		local skillIcon = ClassTrainerSkillIcon:GetNormalTexture()
 
-		if skillIcon then
+		if skillIcon and not skillIcon.isSkinned then
 			skillIcon:SetInside()
 			skillIcon:SetTexCoord(unpack(E.TexCoords))
+			
+			skillIcon.isSkinned = true
 		end
 	end)
 

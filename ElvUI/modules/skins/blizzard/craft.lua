@@ -41,12 +41,13 @@ local function LoadSkin()
 
 	CraftRankFrameBorder:StripTextures()
 
+	CraftRankFrame:StripTextures()
 	CraftRankFrame:Size(447, 16)
 	CraftRankFrame:ClearAllPoints()
 	CraftRankFrame:Point("TOP", -20, -45)
 	CraftRankFrame:CreateBackdrop()
 	CraftRankFrame:SetStatusBarTexture(E["media"].normTex)
-	CraftRankFrame:SetStatusBarColor(0.22, 0.39, 0.84)
+	CraftRankFrame:SetStatusBarColor(0.13, 0.28, 0.85)
 	CraftRankFrame.SetStatusBarColor = E.noop
 	E:RegisterStatusBar(CraftRankFrame)
 
@@ -91,7 +92,7 @@ local function LoadSkin()
 	end)
 
 	CraftFrameTitleText:ClearAllPoints()
-	CraftFrameTitleText:Point("TOP", CraftRankFrame, "TOP", 0, 30)
+	CraftFrameTitleText:Point("TOP", CraftRankFrame, "TOP", 0, 25)
 
 	for i = 9, 25 do
 		CreateFrame("Button", "Craft"..i, CraftFrame, "CraftButtonTemplate"):Point("TOPLEFT", _G["Craft"..i - 1], "BOTTOMLEFT")
@@ -157,6 +158,8 @@ local function LoadSkin()
 	S:HandleButton(CraftCreateButton)
 
 	S:HandleCloseButton(CraftFrameCloseButton, CraftFrame.backdrop)
+
+	CraftRequirements:SetTextColor(1, 0.80, 0.10)
 
 	for i = 1, MAX_CRAFT_REAGENTS do
 		local reagent = _G["CraftReagent"..i]
