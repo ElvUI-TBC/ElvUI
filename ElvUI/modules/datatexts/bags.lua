@@ -56,7 +56,7 @@ local function OnEnter(self)
 		if i == 0 then
 			DT.tooltip:AddDoubleLine(join("", BACKPACK_TOOLTIP), format("%d / %d", used, total), 1, 1, 1)
 		else
-			if name then
+			if link then
 				DT.tooltip:AddDoubleLine(join("", name), format("%d / %d", used, total), r, g, b)
 			end
 		end

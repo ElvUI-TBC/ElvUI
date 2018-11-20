@@ -182,8 +182,10 @@ local function CreateBackdrop(f, t, tex, ignoreUpdates, forcePixelMode, isUnitFr
 	end
 	b:SetTemplate(t, tex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
 
-	if (parent:GetFrameLevel() - 1) >= 0 then
-		b:SetFrameLevel(parent:GetFrameLevel() - 1)
+	local frameLevel = parent.GetFrameLevel and parent:GetFrameLevel()
+	local frameLevelMinusOne = frameLevel and (frameLevel - 1)
+	if frameLevelMinusOne and (frameLevelMinusOne >= 0) then
+		b:SetFrameLevel(frameLevelMinusOne)
 	else
 		b:SetFrameLevel(0)
 	end
