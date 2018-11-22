@@ -318,6 +318,20 @@ function S:HandleCheckBox(frame, noBackdrop)
 	end
 end
 
+function S:HandleColorSwatch(frame, size)
+	frame:StripTextures()
+	frame:CreateBackdrop("Default")
+	frame.backdrop:SetFrameLevel(frame:GetFrameLevel())
+
+	if size then
+		frame:Size(size)
+	end
+
+	frame:GetNormalTexture():SetTexture(E.media.blankTex)
+	frame:GetNormalTexture():ClearAllPoints()
+	frame:GetNormalTexture():SetInside(frame.backdrop)
+end
+
 function S:HandleIcon(icon, parent)
 	parent = parent or icon:GetParent()
 

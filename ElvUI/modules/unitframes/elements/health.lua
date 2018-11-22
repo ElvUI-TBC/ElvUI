@@ -17,9 +17,9 @@ assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 function UF:Construct_HealthBar(frame, bg, text, textPos)
 	local health = CreateFrame("StatusBar", nil, frame)
-	UF["statusbars"][health] = true
+	UF.statusbars[health] = true
 
-	health:SetFrameLevel(10)
+	health:SetFrameLevel(10) --Make room for Portrait and Power which should be lower by default
 	health.PostUpdate = self.PostUpdateHealth
 
 	CreateStatusBarTexturePointer(health)
@@ -27,7 +27,7 @@ function UF:Construct_HealthBar(frame, bg, text, textPos)
 	if bg then
 		health.bg = health:CreateTexture(nil, "BORDER")
 		health.bg:SetAllPoints()
-		health.bg:SetTexture(E["media"].blankTex)
+		health.bg:SetTexture(E.media.blankTex)
 		health.bg.multiplier = 0.25
 	end
 
@@ -76,7 +76,7 @@ function UF:Configure_HealthBar(frame)
 		health.colorClass = true
 		health.colorReaction = true
 	elseif db.colorOverride and db.colorOverride == "FORCE_OFF" then
-		if self.db["colors"].colorhealthbyvalue == true then
+		if self.db.colors.colorhealthbyvalue == true then
 			health.colorSmooth = true
 		else
 			health.colorHealth = true
@@ -147,8 +147,6 @@ function UF:Configure_HealthBar(frame)
 		health.bg:SetParent(frame.Portrait.overlay)
 	end
 
-	health.bg:SetTexture(E.LSM:Fetch("statusbar", E.private.general.normTex))
-
 	if db.health then
 		--Party/Raid Frames allow to change statusbar orientation
 		if db.health.orientation then
@@ -158,6 +156,12 @@ function UF:Configure_HealthBar(frame)
 		--Party/Raid Frames can toggle frequent updates
 		if db.health.frequentUpdates then
 			health.frequentUpdates = db.health.frequentUpdates
+		end
+
+		if db.health.bgUseBarTexture then
+			health.bg:SetTexture(E.LSM:Fetch("statusbar", E.private.general.normTex))
+		else
+			health.bg:SetTexture(E.media.blankTex)
 		end
 	end
 
@@ -189,19 +193,22 @@ function UF:PostUpdateHealth(unit, min, max)
 		self:SetValue(min)
 	end
 
-	local r, g, b = self:GetStatusBarColor()
-	local colors = E.db["unitframe"]["colors"]
-	if ((colors.healthclass == true and colors.colorhealthbyvalue == true) or (colors.colorhealthbyvalue and parent.isForced)) and not (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit)) then
-		local newr, newg, newb = ElvUF.ColorGradient(min, max, 1, 0, 0, 1, 1, 0, r, g, b)
+	-- Health by Value
+	local colors = E.db.unitframe.colors
+	local multiplier = colors.healthmultiplier
 
+	if ((colors.healthclass == true and colors.colorhealthbyvalue == true) or (colors.colorhealthbyvalue and parent.isForced)) and not (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit)) then
+		local r, g, b = self:GetStatusBarColor()
+		local newr, newg, newb = ElvUF.ColorGradient(min, max, 1, 0, 0, 1, 1, 0, r, g, b)
 		self:SetStatusBarColor(newr, newg, newb)
-		if self.bg and self.bg.multiplier then
-			local mu = self.bg.multiplier
-			self.bg:SetVertexColor(newr * mu, newg * mu, newb * mu)
+
+		if multiplier then
+			self.bg:SetVertexColor(newr * multiplier, newg * multiplier, newb * multiplier)
 		end
 	end
 
-	if colors.classbackdrop then
+	-- Class Backdrop
+	if self.bg and colors.classbackdrop then
 		local reaction = UnitReaction(unit, "player")
 		local t
 		if UnitIsPlayer(unit) then
@@ -212,17 +219,17 @@ function UF:PostUpdateHealth(unit, min, max)
 		end
 
 		if t then
-			self.bg:SetVertexColor(t[1] * 0.25 , t[2] * 0.25, t[3] * 0.25)
+			self.bg:SetVertexColor(t[1] * multiplier , t[2] * multiplier, t[3] * multiplier)
 		end
 	end
 
-	--Backdrop
-	if colors.customhealthbackdrop then
+	-- Custom Backdrop
+	if self.bg and colors.customhealthbackdrop then
 		local backdrop = colors.health_backdrop
 		self.bg:SetVertexColor(backdrop.r, backdrop.g, backdrop.b)
 	end
 
-	if colors.useDeadBackdrop and UnitIsDeadOrGhost(unit) then
+	if self.bg and colors.useDeadBackdrop and UnitIsDeadOrGhost(unit) then
 		local backdrop = colors.health_backdrop_dead
 		self.bg:SetVertexColor(backdrop.r, backdrop.g, backdrop.b)
 	end

@@ -213,6 +213,7 @@ local function LoadSkin()
 			for j = 1, UIDROPDOWNMENU_MAXBUTTONS do
 				_G["DropDownList"..i.."Button"..j]:SetFrameLevel(_G["DropDownList"..i.."Backdrop"]:GetFrameLevel() + 1)
 				_G["DropDownList"..i.."Button"..j.."Highlight"]:SetTexture(1, 1, 1, 0.3)
+				S:HandleColorSwatch(_G["DropDownList"..i.."Button"..j.."ColorSwatch"], 14)
 			end
 		end
 	end)

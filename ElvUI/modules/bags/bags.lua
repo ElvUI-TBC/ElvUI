@@ -801,6 +801,9 @@ end
 
 function B:UpdateGoldText()
 	self.BagFrame.goldText:SetText(E:FormatMoney(GetMoney(), E.db["bags"].moneyFormat, not E.db["bags"].moneyCoins))
+
+	local goldPos = E.db["bags"].moneyCoins and (E.db["bags"].moneyFormat == "SMART" or E.db["bags"].moneyFormat == "FULL" or E.db["bags"].moneyFormat == "BLIZZARD")
+	self.BagFrame.goldText:Point("BOTTOMRIGHT", self.BagFrame.holderFrame, "TOPRIGHT", goldPos and -20 or -10, 4)
 end
 
 function B:FormatMoney(amount)

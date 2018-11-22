@@ -55,8 +55,8 @@ local function SkinDropdownPullout(self)
 				pullout.slider:Point("TOPRIGHT", pullout.frame, "TOPRIGHT", -10, -10)
 				pullout.slider:Point("BOTTOMRIGHT", pullout.frame, "BOTTOMRIGHT", -10, 10)
 				if pullout.slider:GetThumbTexture() then
-					pullout.slider:SetThumbTexture(E.media.normTex)
-					pullout.slider:GetThumbTexture():SetVertexColor(unpack(E.media.rgbvaluecolor))
+					pullout.slider:SetThumbTexture([[Interface\AddOns\ElvUI\media\textures\melli]])
+					pullout.slider:GetThumbTexture():SetVertexColor(1, 0.82, 0, 0.8)
 					pullout.slider:GetThumbTexture():Size(10, 14)
 				end
 			end
@@ -69,8 +69,8 @@ local function SkinDropdownPullout(self)
 				dropdown.slider:Point("BOTTOMRIGHT", dropdown, "BOTTOMRIGHT", -10, 10)
 
 				if dropdown.slider:GetThumbTexture() then
-					dropdown.slider:SetThumbTexture(E.media.normTex)
-					dropdown.slider:GetThumbTexture():SetVertexColor(unpack(E.media.rgbvaluecolor))
+					dropdown.slider:SetThumbTexture([[Interface\AddOns\ElvUI\media\textures\melli]])
+					dropdown.slider:GetThumbTexture():SetVertexColor(1, 0.82, 0, 0.8)
 					dropdown.slider:GetThumbTexture():Size(10, 14)
 				end
 			end
@@ -121,9 +121,9 @@ function S:SkinAce3()
 			checkbg:SetTexture("")
 			checkbg.SetTexture = E.noop
 
-			check:SetTexture(E.media.normTex)
+			check:SetTexture([[Interface\AddOns\ElvUI\media\textures\melli]])
 			check.SetTexture = E.noop
-			check:SetVertexColor(unpack(E.media.rgbvaluecolor))
+			check:SetVertexColor(1, 0.82, 0, 0.8)
 			check:SetInside(checkbg.backdrop)
 			check:SetParent(checkbg.backdrop)
 
@@ -252,8 +252,8 @@ function S:SkinAce3()
 			frame:SetTemplate("Default")
 			frame:Height(HEIGHT)
 
-			frame:SetThumbTexture(E.media.normTex)
-			frame:GetThumbTexture():SetVertexColor(unpack(E.media.rgbvaluecolor))
+			frame:SetThumbTexture([[Interface\AddOns\ElvUI\media\textures\melli]])
+			frame:GetThumbTexture():SetVertexColor(1, 0.82, 0, 0.8)
 			frame:GetThumbTexture():Size(HEIGHT - 2, HEIGHT - 2)
 
 			editbox:SetTemplate("Default")

@@ -739,6 +739,11 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				desc = L["This opens the UnitFrames Color settings. These settings affect all unitframes."],
 				func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "allColorsGroup", "healthGroup") end
 			},
+			bgUseBarTexture = {
+				order = 7,
+				type = "toggle",
+				name = L["Use Health Texture Backdrop"]
+			},
 			text_format = {
 				order = 100,
 				type = "input",
@@ -2631,18 +2636,26 @@ E.Options.args.unitframe = {
 									type = "color",
 									name = L["Health Backdrop"]
 								},
-								tapped = {
+								healthmultiplier = {
 									order = 11,
+									type = "range",
+									name = L["Health Backdrop Multiplier"],
+									min = 0, max = 1, step = .01,
+									get = function(info) return E.db.unitframe.colors[ info[#info] ] end,
+									set = function(info, value) E.db.unitframe.colors[ info[#info] ] = value UF:Update_AllFrames() end
+								},
+								tapped = {
+									order = 12,
 									type = "color",
 									name = L["Tapped"]
 								},
 								disconnected = {
-									order = 12,
+									order = 13,
 									type = "color",
 									name = L["Disconnected"]
 								},
 								health_backdrop_dead = {
-									order = 13,
+									order = 14,
 									type = "color",
 									name = L["Custom Dead Backdrop"],
 									desc = L["Use this backdrop color for units that are dead or ghosts."]
