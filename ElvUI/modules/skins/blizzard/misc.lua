@@ -204,6 +204,8 @@ local function LoadSkin()
 	-- Ticket Frame
 	local ticketBG = select(2, TicketStatusFrame:GetChildren())
 	ticketBG:SetTemplate("Transparent")
+	ticketBG:HookScript2("OnEnter", S.SetModifiedBackdrop)
+	ticketBG:HookScript2("OnLeave", S.SetOriginalBackdrop)
 
 	-- Dropdown Menu
 	hooksecurefunc("UIDropDownMenu_Initialize", function()

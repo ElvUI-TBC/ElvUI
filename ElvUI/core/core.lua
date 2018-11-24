@@ -3,7 +3,7 @@ local LSM = LibStub("LibSharedMedia-3.0")
 
 local _G = _G
 local tonumber, pairs, ipairs, error, unpack, select, tostring = tonumber, pairs, ipairs, error, unpack, select, tostring
-local assert, print, type, collectgarbage, pcall, date = assert, print, type, collectgarbage, pcall, date
+local assert, type, collectgarbage, pcall, date = assert, type, collectgarbage, pcall, date
 local twipe, tinsert, tremove, next = table.wipe, tinsert, tremove, next
 local floor = floor
 local format, find, match, strrep, len, sub, gsub, strjoin = string.format, string.find, string.match, strrep, string.len, string.sub, string.gsub, strjoin

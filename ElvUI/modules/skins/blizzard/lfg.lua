@@ -27,13 +27,16 @@ local function LoadSkin()
 		S:HandleButton(_G[button])
 	end
 
+	LFMFrameGroupInviteButton:Point("BOTTOMRIGHT", -40, 85)
+	LFGFrameDoneButton:Point("BOTTOMRIGHT", -40, 85)
+
 	local lfgDropDowns = {
 		"TypeDropDown1",
 		"NameDropDown1",
 		"TypeDropDown2",
 		"NameDropDown2",
 		"TypeDropDown3",
-		"NameDropDown3",
+		"NameDropDown3"
 	}
 
 	for i = 1, 6 do
@@ -43,7 +46,6 @@ local function LoadSkin()
 			S:HandleDropDownBox(ddown, 250)
 		end
 	end
-
 
 	for i = 1, 2 do
 		local tab = _G["LFGParentFrameTab"..i]
@@ -63,6 +65,9 @@ local function LoadSkin()
 	S:HandleIcon(LookingForMoreIcon)
 
 	S:HandleEditBox(LFGComment)
+	LFGComment:Size(323, 19)
+	LFGComment:Point("BOTTOMLEFT", LFGParentFrame, "BOTTOMLEFT", 20, 110)
+	LFGComment.SetPoint = E.noop
 
 	AutoJoinBackground:StripTextures()
 	AddMemberBackground:StripTextures()
@@ -74,8 +79,13 @@ local function LoadSkin()
 	S:HandleCheckBox(AutoAddMembersCheckButton)
 	AutoAddMembersCheckButton:Point("LEFT", -35, 0)
 
-	S:HandleDropDownBox(LFMFrameTypeDropDown, 150)
+	S:HandleDropDownBox(LFMFrameTypeDropDown, 155)
+	LFMFrameTypeDropDown:Point("TOPLEFT", 0, -80)
+	LFMFrameTypeDropDownText:ClearAllPoints()
+	LFMFrameTypeDropDownText:Point("RIGHT", LFMFrameTypeDropDownButton, "LEFT", -20, 0)
+
 	S:HandleDropDownBox(LFMFrameNameDropDown, 220)
+	LFMFrameNameDropDown:Point("LEFT", LFMFrameTypeDropDown, "RIGHT", -25, 0)
 
 	for i = 1, 4 do
 		_G["LFMFrameColumnHeader"..i]:StripTextures()
@@ -108,7 +118,7 @@ local function LoadSkin()
 
 		button:CreateBackdrop("Default", true)
 		button.backdrop:SetAllPoints(button.icon)
-		button:StyleButton()
+		S:HandleButtonHighlight(button)
 
 		level:ClearAllPoints()
 		level:Point("TOPLEFT", 0, -1)
