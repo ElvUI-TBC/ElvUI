@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local UF = E:GetModule("UnitFrames")
 
-local type, pairs, tonumber, tostring = type, pairs, tonumber, tostring
+local type, next, pairs, tonumber, tostring = type, next, pairs, tonumber, tostring
 local gsub, match, format, lower = string.gsub, string.match, string.format, string.lower
 
 local GetSpellInfo = GetSpellInfo
@@ -463,7 +463,7 @@ local function UpdateFilterGroup()
 						for _, spell in pairs(list) do
 							if spell.id then
 								local name = GetSpellInfo(spell.id)
-								if name:lower():find(searchText) then values[spell.id] = name end
+								if name and name:lower():find(searchText) then values[spell.id] = name end
 							end
 						end
 						return values
@@ -512,119 +512,123 @@ local function UpdateFilterGroup()
 
 		if selectedSpell then
 			local name = GetSpellInfo(selectedSpell)
-			E.Options.args.filters.args.filterGroup.args[name] = {
-				order = -10,
-				type = "group",
-				name = name.." ("..selectedSpell..")",
-				get = function(info) return E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ] end,
-				set = function(info, value) E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ] = value UF:CreateAndUpdateUF("pet") end,
-				args = {
-					enabled = {
-						order = 0,
-						type = "toggle",
-						name = L["Enable"],
-					},
-					point = {
-						order = 1,
-						type = "select",
-						name = L["Anchor Point"],
-						values = {
-							["TOPLEFT"] = "TOPLEFT",
-							["TOPRIGHT"] = "TOPRIGHT",
-							["BOTTOMLEFT"] = "BOTTOMLEFT",
-							["BOTTOMRIGHT"] = "BOTTOMRIGHT",
-							["LEFT"] = "LEFT",
-							["RIGHT"] = "RIGHT",
-							["TOP"] = "TOP",
-							["BOTTOM"] = "BOTTOM"
-						}
-					},
-					sizeOverride = {
-						order = 2,
-						type = "range",
-						name = L["Size Override"],
-						min = 0, max = 50, step = 1
-					},
-					xOffset = {
-						order = 3,
-						type = "range",
-						name = L["xOffset"],
-						min = -75, max = 75, step = 1
-					},
-					yOffset = {
-						order = 4,
-						type = "range",
-						name = L["yOffset"],
-						min = -75, max = 75, step = 1
-					},
-					style = {
-						order = 5,
-						type = "select",
-						name = L["Style"],
-						values = {
-							["coloredIcon"] = L["Colored Icon"],
-							["texturedIcon"] = L["Textured Icon"],
-							["NONE"] = NONE
-						}
-					},
-					color = {
-						order = 6,
-						type = "color",
-						name = COLOR,
-						get = function(info)
-							local t = E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ]
-							return t.r, t.g, t.b, t.a
-						end,
-						set = function(info, r, g, b)
-							local t = E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ]
-							t.r, t.g, t.b = r, g, b
-							UF:CreateAndUpdateUF("pet")
-						end
-					},
-					displayText = {
-						order = 7,
-						type = "toggle",
-						name = L["Display Text"]
-					},
-					textColor = {
-						order = 8,
-						type = "color",
-						name = L["Text Color"],
-						get = function(info)
-							local t = E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ]
-							if t then
+			if name then
+				E.Options.args.filters.args.filterGroup.args[name] = {
+					order = -10,
+					type = "group",
+					name = name.." ("..selectedSpell..")",
+					get = function(info) return E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ] end,
+					set = function(info, value) E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ] = value UF:CreateAndUpdateUF("pet") end,
+					args = {
+						enabled = {
+							order = 0,
+							type = "toggle",
+							name = L["Enable"],
+						},
+						point = {
+							order = 1,
+							type = "select",
+							name = L["Anchor Point"],
+							values = {
+								["TOPLEFT"] = "TOPLEFT",
+								["TOPRIGHT"] = "TOPRIGHT",
+								["BOTTOMLEFT"] = "BOTTOMLEFT",
+								["BOTTOMRIGHT"] = "BOTTOMRIGHT",
+								["LEFT"] = "LEFT",
+								["RIGHT"] = "RIGHT",
+								["TOP"] = "TOP",
+								["BOTTOM"] = "BOTTOM"
+							}
+						},
+						sizeOverride = {
+							order = 2,
+							type = "range",
+							name = L["Size Override"],
+							min = 0, max = 50, step = 1
+						},
+						xOffset = {
+							order = 3,
+							type = "range",
+							name = L["xOffset"],
+							min = -75, max = 75, step = 1
+						},
+						yOffset = {
+							order = 4,
+							type = "range",
+							name = L["yOffset"],
+							min = -75, max = 75, step = 1
+						},
+						style = {
+							order = 5,
+							type = "select",
+							name = L["Style"],
+							values = {
+								["coloredIcon"] = L["Colored Icon"],
+								["texturedIcon"] = L["Textured Icon"],
+								["NONE"] = NONE
+							}
+						},
+						color = {
+							order = 6,
+							type = "color",
+							name = COLOR,
+							get = function(info)
+								local t = E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ]
 								return t.r, t.g, t.b, t.a
-							else
-								return 1, 1, 1, 1
+							end,
+							set = function(info, r, g, b)
+								local t = E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ]
+								t.r, t.g, t.b = r, g, b
+								UF:CreateAndUpdateUF("pet")
 							end
-						end,
-						set = function(info, r, g, b)
-							local t = E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ]
-							t.r, t.g, t.b = r, g, b
-							UF:CreateAndUpdateUF("pet")
-						end
-					},
-					decimalThreshold = {
-						order = 9,
-						type = "range",
-						name = L["Decimal Threshold"],
-						desc = L["Threshold before text goes into decimal form. Set to -1 to disable decimals."],
-						min = -1, max = 10, step = 1
-					},
-					textThreshold = {
-						order = 10,
-						type = "range",
-						name = L["Text Threshold"],
-						desc = L["At what point should the text be displayed. Set to -1 to disable."],
-						min = -1, max = 60, step = 1
-					},
-					onlyShowMissing = {
-						order = 11,
-						type = "toggle",
-						name = L["Show When Not Active"]
+						},
+						displayText = {
+							order = 7,
+							type = "toggle",
+							name = L["Display Text"]
+						},
+						textColor = {
+							order = 8,
+							type = "color",
+							name = L["Text Color"],
+							get = function(info)
+								local t = E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ]
+								if t then
+									return t.r, t.g, t.b, t.a
+								else
+									return 1, 1, 1, 1
+								end
+							end,
+							set = function(info, r, g, b)
+								local t = E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ]
+								t.r, t.g, t.b = r, g, b
+								UF:CreateAndUpdateUF("pet")
+							end
+						},
+						decimalThreshold = {
+							order = 9,
+							type = "range",
+							name = L["Decimal Threshold"],
+							desc = L["Threshold before text goes into decimal form. Set to -1 to disable decimals."],
+							min = -1, max = 10, step = 1
+						},
+						textThreshold = {
+							order = 10,
+							type = "range",
+							name = L["Text Threshold"],
+							desc = L["At what point should the text be displayed. Set to -1 to disable."],
+							min = -1, max = 60, step = 1
+						},
+						onlyShowMissing = {
+							order = 11,
+							type = "toggle",
+							name = L["Show When Not Active"]
+						}
 					}
 				}
-			}
+			else
+				E:Print(L["Not valid spell id"])
+			end
 		end
 	elseif selectedFilter == "Buff Indicator" then
 		if not E.global.unitframe.buffwatch[E.myclass] then
@@ -705,7 +709,7 @@ local function UpdateFilterGroup()
 						for _, spell in pairs(list) do
 							if spell.id then
 								local name = GetSpellInfo(spell.id)
-								if name:lower():find(searchText) then values[spell.id] = name end
+								if name and name:lower():find(searchText) then values[spell.id] = name end
 							end
 						end
 						return values
@@ -955,7 +959,7 @@ local function UpdateFilterGroup()
 						for _, spell in pairs(list) do
 							if spell.id then
 								local name = GetSpellInfo(spell.id)
-								if name:lower():find(searchText) then values[spell.id] = name end
+								if name and name:lower():find(searchText) then values[spell.id] = name end
 							end
 						end
 						return values
