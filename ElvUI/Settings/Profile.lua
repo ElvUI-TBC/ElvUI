@@ -133,6 +133,7 @@ P["bags"] = {
 	["bankWidth"] = 406,
 	["moneyFormat"] = "SMART",
 	["moneyCoins"] = true,
+	["junkIcon"] = false,
 	["ignoredItems"] = {},
 	["itemLevel"] = true,
 	["itemLevelThreshold"] = 1,

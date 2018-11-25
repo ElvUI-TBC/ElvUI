@@ -288,18 +288,20 @@ function B:UpdateSlot(bagID, slotID)
 	local bagType = self.Bags[bagID].type
 	local texture, count, locked, _, readable = GetContainerItemInfo(bagID, slotID)
 	local clink = GetContainerItemLink(bagID, slotID)
+	local itemPrice = LIP:GetSellValue(clink)
 
 	slot.name, slot.rarity = nil, nil
 
 	slot:Show()
 	slot.itemLevel:SetText("")
+	slot.JunkIcon:Hide()
 
 	if B.ProfessionColors[bagType] then
 		slot:SetBackdropBorderColor(unpack(B.ProfessionColors[bagType]))
 		slot.ignoreBorderColors = true
 	elseif clink then
-		local iLvl, itemEquipLoc
-		slot.name, _, slot.rarity, iLvl, _, _, _, _, itemEquipLoc = GetItemInfo(clink)
+		local iLvl, iType, itemEquipLoc
+		slot.name, _, slot.rarity, iLvl, _, iType, _, _, itemEquipLoc = GetItemInfo(clink)
 
 		local r, g, b
 
@@ -316,6 +318,14 @@ function B:UpdateSlot(bagID, slotID)
 				else
 					slot.itemLevel:SetTextColor(r, g, b)
 				end
+			end
+		end
+
+		if slot.JunkIcon then
+			if (slot.rarity and slot.rarity == 0) and (itemPrice and itemPrice > 0) and (iType and iType ~= "Quest") and E.db.bags.junkIcon then
+				slot.JunkIcon:Show()
+			else
+				slot.JunkIcon:Hide()
 			end
 		end
 
@@ -564,6 +574,14 @@ function B:Layout(isBank)
 					f.Bags[bagID][slotID].Count:FontTemplate(E.LSM:Fetch("font", E.db.bags.countFont), E.db.bags.countFontSize, E.db.bags.countFontOutline)
 					f.Bags[bagID][slotID].Count:SetTextColor(countColor.r, countColor.g, countColor.b)
 
+					if not f.Bags[bagID][slotID].JunkIcon then
+						local JunkIcon = f.Bags[bagID][slotID]:CreateTexture(nil, "OVERLAY")
+						JunkIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagJunkIcon")
+						JunkIcon:Point("TOPLEFT", 1, 0)
+						JunkIcon:Hide()
+						f.Bags[bagID][slotID].JunkIcon = JunkIcon
+					end
+
 					f.Bags[bagID][slotID].iconTexture = _G[f.Bags[bagID][slotID]:GetName().."IconTexture"]
 					f.Bags[bagID][slotID].iconTexture:SetInside(f.Bags[bagID][slotID])
 					f.Bags[bagID][slotID].iconTexture:SetTexCoord(unpack(E.TexCoords))
@@ -583,6 +601,10 @@ function B:Layout(isBank)
 
 				f.Bags[bagID][slotID]:SetID(slotID)
 				f.Bags[bagID][slotID]:Size(buttonSize)
+
+				if f.Bags[bagID][slotID].JunkIcon then
+					f.Bags[bagID][slotID].JunkIcon:Size(buttonSize/2)
+				end
 
 				f:UpdateSlot(bagID, slotID)
 
