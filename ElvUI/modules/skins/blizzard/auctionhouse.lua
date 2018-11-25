@@ -92,7 +92,7 @@ local function LoadSkin()
 
 	AuctionsItemButton:StripTextures()
 	AuctionsItemButton:SetTemplate("Default", true)
-	AuctionsItemButton:StyleButton()
+	AuctionsItemButton:StyleButton(nil, true)
 
 	AuctionsItemButton:HookScript2("OnEvent", function(self, event)
 		if event == "NEW_AUCTION_UPDATE" and self:GetNormalTexture() then
@@ -102,11 +102,14 @@ local function LoadSkin()
 			local _, _, _, quality = GetAuctionSellItemInfo()
 			if quality then
 				self:SetBackdropBorderColor(GetItemQualityColor(quality))
+				AuctionsItemButtonName:SetTextColor(GetItemQualityColor(quality))
 			else
 				self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				AuctionsItemButtonName:SetTextColor(1, 1, 1)
 			end
 		else
 			self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			AuctionsItemButtonName:SetTextColor(1, 1, 1)
 		end
 	end)
 

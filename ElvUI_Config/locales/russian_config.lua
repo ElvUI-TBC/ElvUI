@@ -198,6 +198,7 @@ L["Panel Width (Bags)"] = "Ширина сумок"
 L["Panel Width (Bank)"] = "Ширина банка"
 L["Player"] = "Игрок"
 L["Profession Bags"] = "Сумки профессий"
+L["Progress Bar"] = true
 L["Reverse Bag Slots"] = "Обратный порядок слотов"
 L["Search Syntax"] = "Синтаксис поиска"
 L["Sell Interval"] = "Интервал продажи"

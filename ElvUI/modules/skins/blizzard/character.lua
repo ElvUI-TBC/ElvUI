@@ -56,6 +56,7 @@ local function LoadSkin()
 
 	S:HandleDropDownBox(PlayerStatFrameLeftDropDown)
 	PlayerStatFrameLeftDropDown:HookScript("OnShow", FixWidth)
+	S:SquareButton_SetIcon(PlayerStatFrameLeftDropDownButton, "DOWN")
 
 	S:HandleDropDownBox(PlayerStatFrameRightDropDown)
 	PlayerStatFrameRightDropDown:HookScript("OnShow", FixWidth)

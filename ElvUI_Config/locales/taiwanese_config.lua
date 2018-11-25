@@ -198,6 +198,7 @@ L["Panel Width (Bags)"] = "框架寬度 (背包)"
 L["Panel Width (Bank)"] = "框架寬度 (銀行)"
 L["Player"] = "玩家"
 L["Profession Bags"] = "專業背包"
+L["Progress Bar"] = true
 L["Reverse Bag Slots"] = "反向背包格子"
 L["Search Syntax"] = "搜尋語法"
 L["Sell Interval"] = "販賣間格"

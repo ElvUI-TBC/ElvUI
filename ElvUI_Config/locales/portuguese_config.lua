@@ -198,6 +198,7 @@ L["Panel Width (Bags)"] = "Largura do Painel (Bolsas)"
 L["Panel Width (Bank)"] = "Largura do Painel (Banco)"
 L["Player"] = true
 L["Profession Bags"] = true
+L["Progress Bar"] = true
 L["Reverse Bag Slots"] = true
 L["Search Syntax"] = true
 L["Sell Interval"] = true

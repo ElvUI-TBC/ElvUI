@@ -291,6 +291,7 @@ function S:HandleDropDownBox(frame, width)
 		end)
 
 		self:HandleNextPrevButton(button, true)
+		button:Size(button:GetWidth() + 1, button:GetHeight() + 1)
 	end
 
 	frame:CreateBackdrop("Default")

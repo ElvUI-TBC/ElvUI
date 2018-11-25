@@ -166,7 +166,8 @@ P["bags"] = {
 	["vendorGrays"] = {
 		["enable"] = false,
 		["interval"] = 0.2,
-		["details"] = false
+		["details"] = false,
+		["progressBar"] = true
 	},
 	["split"] = {
 		["bagSpacing"] = 5,
