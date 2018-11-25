@@ -62,7 +62,10 @@ local function LoadSkin()
 	end
 
 	S:HandleIcon(LookingForGroupIcon)
+	LookingForGroupIcon:SetDrawLayer("ARTWORK")
+
 	S:HandleIcon(LookingForMoreIcon)
+	LookingForMoreIcon:SetDrawLayer("ARTWORK")
 
 	S:HandleEditBox(LFGComment)
 	LFGComment:Size(323, 19)
