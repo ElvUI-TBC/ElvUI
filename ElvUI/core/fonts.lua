@@ -4,7 +4,7 @@ local LSM = LibStub("LibSharedMedia-3.0")
 local SetCVar = SetCVar
 
 local function SetFont(obj, font, size, style, r, g, b, sr, sg, sb, sox, soy)
-	if not obj then return; end
+	if not obj then return end
 
 	obj:SetFont(font, size, style)
 	if sr and sg and sb then obj:SetShadowColor(sr, sg, sb) end

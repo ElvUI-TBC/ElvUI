@@ -54,6 +54,7 @@ local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
 local BINDING_NAME_TOGGLEKEYRING = BINDING_NAME_TOGGLEKEYRING
 local SEARCH = SEARCH
 
+local TooltipModule, SkinModule
 local SEARCH_STRING = ""
 
 function B:GetContainerFrame(arg)
@@ -928,6 +929,8 @@ function B:VendorGrayCheck()
 end
 
 function B:ContructContainerFrame(name, isBank)
+	if not SkinModule then SkinModule = E:GetModule("Skins") end
+
 	local strata = E.db.bags.strata or "MEDIUM"
 
 	local f = CreateFrame("Button", name, E.UIParent)
@@ -979,7 +982,7 @@ function B:ContructContainerFrame(name, isBank)
 	f.closeButton = CreateFrame("Button", name.."CloseButton", f, "UIPanelCloseButton")
 	f.closeButton:Point("TOPRIGHT", 2, 2)
 
-	E:GetModule("Skins"):HandleCloseButton(f.closeButton)
+	SkinModule:HandleCloseButton(f.closeButton)
 
 	f.holderFrame = CreateFrame("Frame", nil, f)
 	f.holderFrame:Point("TOP", f, "TOP", 0, -f.topOffset)
@@ -1305,7 +1308,8 @@ function B:OpenBags()
 	self.BagFrame:UpdateAllSlots()
 	PlaySound("igBackPackOpen")
 
-	E:GetModule("Tooltip"):GameTooltip_SetDefaultAnchor(GameTooltip)
+	if not TooltipModule then TooltipModule = E:GetModule("Tooltip") end
+	TooltipModule:GameTooltip_SetDefaultAnchor(GameTooltip)
 end
 
 function B:CloseBags()
@@ -1315,7 +1319,8 @@ function B:CloseBags()
 		self.BankFrame:Hide()
 	end
 
-	E:GetModule("Tooltip"):GameTooltip_SetDefaultAnchor(GameTooltip)
+	if not TooltipModule then TooltipModule = E:GetModule("Tooltip") end
+	TooltipModule:GameTooltip_SetDefaultAnchor(GameTooltip)
 end
 
 function B:OpenBank()
@@ -1479,7 +1484,7 @@ function B:ProgressQuickVendor()
 	local item = B.SellFrame.Info.itemList[1]
 	if not item then return nil, true end --No more to sell
 	local bag, slot, itemPrice, itemLink = unpack(item)
-	
+
 	local stackPrice
 	local stackCount = select(2, GetContainerItemInfo(bag, slot)) or 1
 	if B.SellFrame.Info.delete then
@@ -1520,7 +1525,7 @@ end
 
 function B:CreateSellFrame()
 	B.SellFrame = CreateFrame("Frame", "ElvUIVendorGraysFrame", E.UIParent)
-	B.SellFrame:Size(200,40)
+	B.SellFrame:Size(200, 40)
 	B.SellFrame:Point("CENTER", E.UIParent)
 	B.SellFrame:CreateBackdrop("Transparent")
 	B.SellFrame:SetAlpha(E.db.bags.vendorGrays.progressBar and 1 or 0)
@@ -1541,7 +1546,7 @@ function B:CreateSellFrame()
 	B.SellFrame.statusbar.ValueText:FontTemplate(nil, 12, "OUTLINE")
 	B.SellFrame.statusbar.ValueText:Point("CENTER", B.SellFrame.statusbar)
 	B.SellFrame.statusbar.ValueText:SetText("0 / 0 ( 0s )")
-	
+
 	B.SellFrame.Info = {
 		delete = false,
 		ProgressTimer = 0,
