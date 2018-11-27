@@ -88,7 +88,15 @@ local function LoadSkin()
 	end
 
 	for i = 1, AuctionFrame.numTabs do
-		S:HandleTab(_G["AuctionFrameTab"..i])
+		local tab = _G["AuctionFrameTab"..i]
+
+		S:HandleTab(tab)
+
+		if i == 1 then
+			tab:ClearAllPoints()
+			tab:Point("BOTTOMLEFT", AuctionFrame, "BOTTOMLEFT", 25, -20)
+			tab.SetPoint = E.noop
+		end
 	end
 
 	for _, Tab in pairs(SortTabs) do
@@ -103,10 +111,6 @@ local function LoadSkin()
 		tab:StripTextures()
 		S:HandleButtonHighlight(tab)
 	end
-
-	AuctionFrameTab1:ClearAllPoints()
-	AuctionFrameTab1:Point("BOTTOMLEFT", AuctionFrame, "BOTTOMLEFT", 25, -20)
-	AuctionFrameTab1.SetPoint = E.noop
 
 	S:HandleCloseButton(AuctionFrameCloseButton)
 

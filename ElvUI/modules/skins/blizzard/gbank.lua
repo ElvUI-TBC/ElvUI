@@ -40,12 +40,18 @@ local function LoadSkin()
 	GuildBankInfoScrollFrame:Width(572)
 
 	S:HandleScrollBar(GuildBankInfoScrollFrameScrollBar)
+	GuildBankInfoScrollFrameScrollBar:ClearAllPoints()
+	GuildBankInfoScrollFrameScrollBar:Point("TOPRIGHT", GuildBankInfoScrollFrame, "TOPRIGHT", 29, -9)
+	GuildBankInfoScrollFrameScrollBar:Point("BOTTOMRIGHT", GuildBankInfoScrollFrame, "BOTTOMRIGHT", 0, 17)
 
 	GuildBankTabInfoEditBox:Width(702)
 
 	GuildBankTransactionsScrollFrame:StripTextures()
 
 	S:HandleScrollBar(GuildBankTransactionsScrollFrameScrollBar)
+	GuildBankTransactionsScrollFrameScrollBar:ClearAllPoints()
+	GuildBankTransactionsScrollFrameScrollBar:Point("TOPRIGHT", GuildBankTransactionsScrollFrame, "TOPRIGHT", 29, -8)
+	GuildBankTransactionsScrollFrameScrollBar:Point("BOTTOMRIGHT", GuildBankTransactionsScrollFrame, "BOTTOMRIGHT", 0, 16)
 
 	GuildBankFrame.inset = CreateFrame("Frame", nil, GuildBankFrame)
 	GuildBankFrame.inset:SetTemplate("Default")
@@ -89,7 +95,7 @@ local function LoadSkin()
 		button:SetTemplate()
 		button:StyleButton()
 
-		button:GetCheckedTexture():SetTexture(1, 1, 1)
+		button:GetCheckedTexture():SetTexture(1, 1, 1, 0.3)
 		button:GetCheckedTexture():SetInside()
 
 		texture:SetInside()
