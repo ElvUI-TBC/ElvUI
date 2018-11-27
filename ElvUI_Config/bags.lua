@@ -299,67 +299,99 @@ E.Options.args.bags = {
 					type = "header",
 					name = COLORS
 				},
-				profession = {
+				bags = {
 					order = 2,
 					type = "group",
-					name = L["Profession Bags"],
+					name = L["Bags"],
+					guiInline = true,
+					args = {
+						profession = {
+							order = 1,
+							type = "group",
+							name = L["Profession Bags"],
+							guiInline = true,
+							get = function(info)
+								local t = E.db.bags.colors.profession[ info[#info] ]
+								local d = P.bags.colors.profession[info[#info]]
+								return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+							end,
+							set = function(info, r, g, b)
+								local t = E.db.bags.colors.profession[ info[#info] ]
+								t.r, t.g, t.b = r, g, b
+								B:UpdateBagColors("ProfessionColors", info[#info], r, g, b)
+								B:UpdateAllBagSlots()
+							end,
+							args = {
+								quiver = {
+									order = 1,
+									type = "color",
+									name = L["Quiver"]
+								},
+								ammoPouch = {
+									order = 2,
+									type = "color",
+									name = L["Ammo Pouch"]
+								},
+								soulBag = {
+									order = 3,
+									type = "color",
+									name = L["Soul Bag"]
+								},
+								leatherworking = {
+									order = 4,
+									type = "color",
+									name = L["Leatherworking"]
+								},
+								herbs = {
+									order = 5,
+									type = "color",
+									name = L["Herbalism"]
+								},
+								enchanting = {
+									order = 6,
+									type = "color",
+									name = L["Enchanting"]
+								},
+								engineering = {
+									order = 7,
+									type = "color",
+									name = L["Engineering"]
+								},
+								gems = {
+									order = 8,
+									type = "color",
+									name = L["Gems"]
+								},
+								mining = {
+									order = 9,
+									type = "color",
+									name = L["Mining"]
+								}
+							}
+						}
+					}
+				},
+				items = {
+					order = 3,
+					type = "group",
+					name = ITEMS,
 					guiInline = true,
 					get = function(info)
-						local t = E.db.bags.colors.profession[ info[#info] ]
-						local d = P.bags.colors.profession[info[#info]]
+						local t = E.db.bags.colors.items[ info[#info] ]
+						local d = P.bags.colors.items[info[#info]]
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 					end,
 					set = function(info, r, g, b)
-						local t = E.db.bags.colors.profession[ info[#info] ]
+						local t = E.db.bags.colors.items[ info[#info] ]
 						t.r, t.g, t.b = r, g, b
-						B:UpdateBagColors("ProfessionColors", info[#info], r, g, b)
+						B:UpdateQuestColors("QuestColors", info[#info], r, g, b)
 						B:UpdateAllBagSlots()
 					end,
 					args = {
-						quiver = {
-							order = 1,
-							type = "color",
-							name = L["Quiver"]
-						},
-						ammoPouch = {
+						questItem = {
 							order = 2,
 							type = "color",
-							name = L["Ammo Pouch"]
-						},
-						soulBag = {
-							order = 3,
-							type = "color",
-							name = L["Soul Bag"]
-						},
-						leatherworking = {
-							order = 4,
-							type = "color",
-							name = L["Leatherworking"]
-						},
-						herbs = {
-							order = 5,
-							type = "color",
-							name = L["Herbalism"]
-						},
-						enchanting = {
-							order = 6,
-							type = "color",
-							name = L["Enchanting"]
-						},
-						engineering = {
-							order = 7,
-							type = "color",
-							name = L["Engineering"]
-						},
-						gems = {
-							order = 8,
-							type = "color",
-							name = L["Gems"]
-						},
-						mining = {
-							order = 9,
-							type = "color",
-							name = L["Mining"]
+							name = ITEM_BIND_QUEST
 						}
 					}
 				}

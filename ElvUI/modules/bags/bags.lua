@@ -331,7 +331,10 @@ function B:UpdateSlot(bagID, slotID)
 		end
 
 		-- color slot according to item quality
-		if slot.rarity and slot.rarity > 1 then
+		if iType and iType == "Quest" then
+			slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
+			slot.ignoreBorderColors = true
+		elseif slot.rarity and slot.rarity > 1 then
 			slot:SetBackdropBorderColor(r, g, b)
 			slot.ignoreBorderColors = true
 		else
@@ -1581,8 +1584,16 @@ B.BagIndice = {
 	mining = 0x0400
 }
 
+B.QuestKeys = {
+	questItem = "questItem"
+}
+
 function B:UpdateBagColors(table, indice, r, g, b)
 	self[table][B.BagIndice[indice]] = {r, g, b}
+end
+
+function B:UpdateQuestColors(table, indice, r, g, b)
+	self[table][B.QuestKeys[indice]] = {r, g, b}
 end
 
 function B:Initialize()
@@ -1623,6 +1634,10 @@ function B:Initialize()
 		[0x0080] = {self.db.colors.profession.engineering.r, self.db.colors.profession.engineering.g, self.db.colors.profession.engineering.b},
 		[0x0200] = {self.db.colors.profession.gems.r, self.db.colors.profession.gems.g, self.db.colors.profession.gems.b},
 		[0x0400] = {self.db.colors.profession.mining.r, self.db.colors.profession.mining.g, self.db.colors.profession.mining.b}
+	}
+
+	self.QuestColors = {
+		["questItem"] = {self.db.colors.items.questItem.r, self.db.colors.items.questItem.g, self.db.colors.items.questItem.b},
 	}
 
 	--Bag Mover: Set default anchor point and create mover

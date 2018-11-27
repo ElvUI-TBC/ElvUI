@@ -162,6 +162,9 @@ P["bags"] = {
 			["engineering"] = {r = 0.91, g = 0.46, b = 0.18},
 			["gems"] = {r = 0.03, g = 0.71, b = 0.81},
 			["mining"] = {r = 0.54, g = 0.40, b = 0.04}
+		},
+		["items"] = {
+			["questItem"] = {r = 1, g = 0.30, b = 0.30}
 		}
 	},
 	["vendorGrays"] = {
