@@ -284,3 +284,28 @@ lib.QuestItemSarterIDs = {
 	"35569",	-- Flame of the Exodar
 	"35723",	-- Shards of Ahune
 }
+
+-- For some reason these are tagged as quest items. They are not.
+lib.InvalidQuestItemIDs = {
+	"20076",	-- Zandalar Signet of Mojo
+	"20078",	-- Zandalar Signet of Serenity
+	"20077",	-- Zandalar Signet of Might
+	"23545",	-- Power of the Scourge
+	"23547",	-- Resilience of the Scourge
+	"23548",	-- Might of the Scourge
+	"23549",	-- Fortitude of the Scourge
+	"28886",	-- Greater Inscription of Discipline
+	"28887",	-- Greater Inscription of Faith
+	"28888",	-- Greater Inscription of Vengeance
+	"28889",	-- Greater Inscription of Warding
+	"29186",	-- Glyph of the Defender
+	"29189",	-- Glyph of Renewal
+	"29190",	-- Glyph of Renewal
+	"29191",	-- Glyph of Power
+	"29192",	-- Glyph of Ferocity
+	"30846",	-- Glyph of the Outcast
+	"35728",	-- Greater Inscription of the Blade
+	"35729",	-- Greater Inscription of the Knight
+	"35730",	-- Greater Inscription of the Oracle
+	"35731",	-- Greater Inscription of the Orb
+}

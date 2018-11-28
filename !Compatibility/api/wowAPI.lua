@@ -318,3 +318,11 @@ function GetQuestItemSarterInfo(link)
 		end
 	end
 end
+
+function GetInvalidQuestItemInfo(link)
+	for _, info in pairs(QIS.InvalidQuestItemIDs) do
+		if match(link, "item:(%d+):") == info then
+			return true
+		end
+	end
+end
