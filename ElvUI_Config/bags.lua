@@ -388,6 +388,11 @@ E.Options.args.bags = {
 						B:UpdateAllBagSlots()
 					end,
 					args = {
+						questStarter = {
+							order = 1,
+							type = "color",
+							name = L["Quest Starter"]
+						},
 						questItem = {
 							order = 2,
 							type = "color",

@@ -294,15 +294,16 @@ function B:UpdateSlot(bagID, slotID)
 	slot.name, slot.rarity = nil, nil
 
 	slot:Show()
-	slot.itemLevel:SetText("")
+	slot.QuestIcon:Hide()
 	slot.JunkIcon:Hide()
+	slot.itemLevel:SetText("")
 
 	if B.ProfessionColors[bagType] then
 		slot:SetBackdropBorderColor(unpack(B.ProfessionColors[bagType]))
 		slot.ignoreBorderColors = true
 	elseif clink then
-		local iLvl, iType, itemEquipLoc
-		slot.name, _, slot.rarity, iLvl, _, iType, _, _, itemEquipLoc = GetItemInfo(clink)
+		local iLink, iLvl, iType, itemEquipLoc
+		slot.name, iLink, slot.rarity, iLvl, _, iType, _, _, itemEquipLoc = GetItemInfo(clink)
 
 		local r, g, b
 
@@ -325,14 +326,17 @@ function B:UpdateSlot(bagID, slotID)
 		if slot.JunkIcon then
 			if (slot.rarity and slot.rarity == 0) and (itemPrice and itemPrice > 0) and (iType and iType ~= "Quest") and E.db.bags.junkIcon then
 				slot.JunkIcon:Show()
-			else
-				slot.JunkIcon:Hide()
 			end
 		end
 
 		-- color slot according to item quality
 		if iType and iType == "Quest" then
-			slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
+			if GetQuestItemSarterInfo(iLink) then
+				slot.QuestIcon:Show()
+				slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
+			else
+				slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
+			end
 			slot.ignoreBorderColors = true
 		elseif slot.rarity and slot.rarity > 1 then
 			slot:SetBackdropBorderColor(r, g, b)
@@ -578,6 +582,15 @@ function B:Layout(isBank)
 					f.Bags[bagID][slotID].Count:FontTemplate(E.LSM:Fetch("font", E.db.bags.countFont), E.db.bags.countFontSize, E.db.bags.countFontOutline)
 					f.Bags[bagID][slotID].Count:SetTextColor(countColor.r, countColor.g, countColor.b)
 
+					if not f.Bags[bagID][slotID].QuestIcon then
+						local QuestIcon = f.Bags[bagID][slotID]:CreateTexture(nil, "OVERLAY")
+						QuestIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagQuestIcon")
+						QuestIcon:SetTexCoord(0, 1, 0, 1)
+						QuestIcon:SetInside()
+						QuestIcon:Hide()
+						f.Bags[bagID][slotID].QuestIcon = QuestIcon
+					end
+
 					if not f.Bags[bagID][slotID].JunkIcon then
 						local JunkIcon = f.Bags[bagID][slotID]:CreateTexture(nil, "OVERLAY")
 						JunkIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagJunkIcon")
@@ -687,6 +700,15 @@ function B:Layout(isBank)
 				f.keyFrame.slots[i].cooldown = _G[f.keyFrame.slots[i]:GetName().."Cooldown"]
 				E:RegisterCooldown(f.keyFrame.slots[i].cooldown)
 
+				if not f.keyFrame.slots[i].QuestIcon then
+					local QuestIcon = f.keyFrame.slots[i]:CreateTexture(nil, "OVERLAY")
+					QuestIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagQuestIcon")
+					QuestIcon:SetTexCoord(0, 1, 0, 1)
+					QuestIcon:SetInside()
+					QuestIcon:Hide()
+					f.keyFrame.slots[i].QuestIcon = QuestIcon
+				end
+
 				f.keyFrame.slots[i].iconTexture = _G[f.keyFrame.slots[i]:GetName().."IconTexture"]
 				f.keyFrame.slots[i].iconTexture:SetInside(f.keyFrame.slots[i])
 				f.keyFrame.slots[i].iconTexture:SetTexCoord(unpack(E.TexCoords))
@@ -729,17 +751,27 @@ function B:UpdateKeySlot(slotID)
 
 	slot.name, slot.rarity = nil, nil
 	slot:Show()
+	slot.QuestIcon:Hide()
 
 	if clink then
 		local _, r, g, b
+		local iLink, iType
 
-		slot.name, _, slot.rarity = GetItemInfo(clink)
+		slot.name, iLink, slot.rarity, _, _, iType = GetItemInfo(clink)
 
 		if slot.rarity then
 			r, g, b = GetItemQualityColor(slot.rarity)
 		end
 
-		if slot.rarity and slot.rarity > 1 then
+		if iType and iType == "Quest" then
+			if GetQuestItemSarterInfo(iLink) then
+				slot.QuestIcon:Show()
+				slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
+			else
+				slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
+			end
+			slot.ignoreBorderColors = true
+		elseif slot.rarity and slot.rarity > 1 then
 			slot:SetBackdropBorderColor(r, g, b)
 			slot.ignoreBorderColors = true
 		else
@@ -1585,6 +1617,7 @@ B.BagIndice = {
 }
 
 B.QuestKeys = {
+	questStarter = "questStarter",
 	questItem = "questItem"
 }
 
@@ -1637,7 +1670,8 @@ function B:Initialize()
 	}
 
 	self.QuestColors = {
-		["questItem"] = {self.db.colors.items.questItem.r, self.db.colors.items.questItem.g, self.db.colors.items.questItem.b},
+		["questStarter"] = {self.db.colors.items.questStarter.r, self.db.colors.items.questStarter.g, self.db.colors.items.questStarter.b},
+		["questItem"] = {self.db.colors.items.questItem.r, self.db.colors.items.questItem.g, self.db.colors.items.questItem.b}
 	}
 
 	--Bag Mover: Set default anchor point and create mover

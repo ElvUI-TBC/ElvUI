@@ -198,6 +198,7 @@ L["Panel Width (Bank)"] = "银行面板宽度"
 L["Player"] = "玩家"
 L["Profession Bags"] = "专业背包"
 L["Progress Bar"] = true
+L["Quest Starter"] = true
 L["Reverse Bag Slots"] = "反向背包格子"
 L["Search Syntax"] = "搜索语法"
 L["Sell Interval"] = "售卖周期"

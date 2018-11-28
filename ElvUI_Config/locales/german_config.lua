@@ -201,6 +201,7 @@ L["Panel Width (Bank)"] = "Leistenbreite (Bank)"
 L["Player"] = "Spieler"
 L["Profession Bags"] = "Berufstaschen"
 L["Progress Bar"] = "Fortschrittsbalken"
+L["Quest Starter"] = true
 L["Reverse Bag Slots"] = "Umgekehrte Taschenslots"
 L["Search Syntax"] = "Suchsyntax"
 L["Sell Interval"] = "Verkaufsintervall"

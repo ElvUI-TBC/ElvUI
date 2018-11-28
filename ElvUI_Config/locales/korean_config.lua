@@ -246,6 +246,7 @@ L["Panel Width (Bank)"] = "통합은행 프레임 가로길이"
 L["Player"] = true
 L["Profession Bags"] = true
 L["Progress Bar"] = true
+L["Quest Starter"] = true
 L["Reverse Bag Slots"] = true
 L["Search Syntax"] = "아이템 검색법"
 L["Sell Interval"] = true

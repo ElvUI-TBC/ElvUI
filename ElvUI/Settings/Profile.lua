@@ -164,6 +164,7 @@ P["bags"] = {
 			["mining"] = {r = 0.54, g = 0.40, b = 0.04}
 		},
 		["items"] = {
+			["questStarter"] = {r = 1, g = 1, b = 0},
 			["questItem"] = {r = 1, g = 0.30, b = 0.30}
 		}
 	},
