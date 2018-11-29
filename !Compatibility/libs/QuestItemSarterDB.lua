@@ -247,11 +247,11 @@ lib.QuestItemSarterIDs = {
 	"25459",	-- "Count" Ungula's Mandible
 	"25705",	-- Luanga's Orders
 	"25706",	-- Luanga's Orders
-	"28336",	-- Belmara's Tome
-	"28351",	-- Dathric's Blade
-	"28352",	-- Luminrath's Mantle
-	"28353",	-- Cohlien's Cap
 	"28552",	-- A Mysterious Tome
+	"29233",	-- Dathric's Blade
+	"29234",	-- Belmara's Tome
+	"29235",	-- Luminrath's Mantle
+	"29236",	-- Cohlien's Cap
 	"29476",	-- Crimson Crystal Shard
 	"29589",	-- Burning Legion Missive
 	"29738",	-- Vial of Void Horror Ooze
@@ -285,6 +285,10 @@ lib.QuestItemSarterIDs = {
 	"35568",	-- Flame of Silvermoon
 	"35569",	-- Flame of the Exodar
 	"35723",	-- Shards of Ahune
+	"37571",	-- "Brew of the Month" Club Membership Form
+	"37599",	-- "Brew of the Month" Club Membership Form
+	"38280",	-- Direbrew's Dire Brew
+	"38281",	-- Direbrew's Dire Brew
 }
 
 -- For some reason these are tagged as quest items. They are not.
