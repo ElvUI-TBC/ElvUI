@@ -39,7 +39,7 @@ L["Sort Bags"] = "背包整理"
 L["Temporary Move"] = "移动背包"
 L["Toggle Bags"] = "背包开关"
 L["Vendor / Delete Grays"] = "出售/删除灰色物品"
-L["Vendoring Grays"] = true
+L["Vendoring Grays"] = "正在出售灰色物品"
 
 --Chat
 L["AFK"] = "离开" --Also used in datatexts and tooltip

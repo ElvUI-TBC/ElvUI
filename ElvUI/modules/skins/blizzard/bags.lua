@@ -57,6 +57,13 @@ local function LoadSkin()
 			icon:SetInside()
 			icon:SetTexCoord(unpack(E.TexCoords))
 
+			local QuestIcon = item:CreateTexture(nil, "OVERLAY")
+			QuestIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagQuestIcon")
+			QuestIcon:SetTexCoord(0, 1, 0, 1)
+			QuestIcon:SetInside()
+			QuestIcon:Hide()
+			item.QuestIcon = QuestIcon
+
 			cooldown.CooldownOverride = "bags"
 			E:RegisterCooldown(cooldown)
 		end
@@ -65,30 +72,40 @@ local function LoadSkin()
 	hooksecurefunc("ContainerFrame_Update", function(self)
 		local id = self:GetID()
 		local name = self:GetName()
-		local itemButton, itemLink
-		local quality
+		local item, link
+		local iLink, quality, iType
 		local _, bagType = GetContainerNumFreeSlots(id)
 
 		for i = 1, self.size, 1 do
-			itemButton = _G[name.."Item"..i]
-			itemLink = GetContainerItemLink(id, itemButton:GetID())
+			item = _G[name.."Item"..i]
+			link = GetContainerItemLink(id, item:GetID())
+
+			item.QuestIcon:Hide()
 
 			if ProfessionColors[bagType] then
-				itemButton:SetBackdropBorderColor(unpack(ProfessionColors[bagType]))
-				itemButton.ignoreBorderColors = true
-			elseif itemLink then
-				_, _, quality = GetItemInfo(itemLink)
+				item:SetBackdropBorderColor(unpack(ProfessionColors[bagType]))
+				item.ignoreBorderColors = true
+			elseif link then
+				_, iLink, quality, _, _, iType = GetItemInfo(link)
 
-				if quality then
-					itemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
-					itemButton.ignoreBorderColors = true
+				if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
+					if GetQuestItemSarterInfo(iLink) then
+						item.QuestIcon:Show()
+						item:SetBackdropBorderColor(1, 1, 0)
+					else
+						item:SetBackdropBorderColor(1.0, 0.3, 0.3)
+					end
+					item.ignoreBorderColors = true
+				elseif quality then
+					item:SetBackdropBorderColor(GetItemQualityColor(quality))
+					item.ignoreBorderColors = true
 				else
-					itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-					itemButton.ignoreBorderColors = true
+					item:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					item.ignoreBorderColors = true
 				end
 			else
-				itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-				itemButton.ignoreBorderColors = true
+				item:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				item.ignoreBorderColors = true
 			end
 		end
 	end)
@@ -112,6 +129,13 @@ local function LoadSkin()
 
 		icon:SetInside()
 		icon:SetTexCoord(unpack(E.TexCoords))
+
+		local QuestIcon = button:CreateTexture(nil, "OVERLAY")
+		QuestIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagQuestIcon")
+		QuestIcon:SetTexCoord(0, 1, 0, 1)
+		QuestIcon:SetInside()
+		QuestIcon:Hide()
+		button.QuestIcon = QuestIcon
 	end
 
 	BankFrame.itemBackdrop = CreateFrame("Frame", "BankFrameItemBackdrop", BankFrame)
@@ -145,17 +169,28 @@ local function LoadSkin()
 
 	hooksecurefunc("BankFrameItemButton_Update", function(button)
 		local id = button:GetID()
-		local link, quality
+		local link
+		local iLink, quality, iType
 
 		if button.isBag then
 			link = GetInventoryItemLink("player", ContainerIDToInventoryID(id))
 		else
 			link = GetContainerItemLink(BANK_CONTAINER, id)
+			button.QuestIcon:Hide()
 		end
 
 		if link then
-			quality = select(3, GetItemInfo(link))
-			if quality then
+			_, iLink, quality, _, _, iType = GetItemInfo(link)
+
+			if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
+				if GetQuestItemSarterInfo(iLink) then
+					button.QuestIcon:Show()
+					button:SetBackdropBorderColor(1, 1, 0)
+				else
+					button:SetBackdropBorderColor(1.0, 0.3, 0.3)
+				end
+				button.ignoreBorderColors = true
+			elseif quality then
 				button:SetBackdropBorderColor(GetItemQualityColor(quality))
 				button.ignoreBorderColors = true
 			else

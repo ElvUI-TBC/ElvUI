@@ -94,6 +94,7 @@ lib.QuestItemSarterIDs = {
 	"18362",	-- Holy Bologna: What the Light Won't Tell You
 	"18363",	-- Frost Shock and You
 	"18364",	-- The Emerald Dream
+	"18401",	-- Foror's Compendium of Dragon Slaying
 	"18422",	-- Head of Onyxia
 	"18423",	-- Head of Onyxia
 	"18565",	-- Vessel of Rebirth DEPRECATED
@@ -139,6 +140,7 @@ lib.QuestItemSarterIDs = {
 	"20945",	-- Tactical Task Briefing II
 	"20947",	-- Tactical Task Briefing IV
 	"20948",	-- Tactical Task Briefing V
+	"20949",	-- Magical Ledger
 	"21165",	-- Tactical Task Briefing VI
 	"21166",	-- Tactical Task Briefing VII
 	"21167",	-- Tactical Task Briefing VIII
