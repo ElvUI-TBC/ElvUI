@@ -373,7 +373,7 @@ local function LoadSkin()
 	GuildControlPopupFrame:Point("TOPLEFT", GuildFrame, "TOPRIGHT", -35, -6)
 
 	S:HandleDropDownBox(GuildControlPopupFrameDropDown, 185)
-	GuildControlPopupFrameDropDownButton:Size(16)
+	GuildControlPopupFrameDropDownButton:Width(18)
 
 	local function SkinPlusMinus(button, minus)
 		button:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
