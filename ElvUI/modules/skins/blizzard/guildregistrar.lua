@@ -35,6 +35,7 @@ local function LoadSkin()
 
 	for i = 1, 2 do
 		_G["GuildRegistrarButton"..i]:GetFontString():SetTextColor(1, 1, 1)
+		S:HandleButtonHighlight(_G["GuildRegistrarButton"..i])
 	end
 
 	GuildRegistrarPurchaseText:SetTextColor(1, 1, 1)

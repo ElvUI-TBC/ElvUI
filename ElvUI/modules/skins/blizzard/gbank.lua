@@ -81,6 +81,13 @@ local function LoadSkin()
 			icon:SetDrawLayer("OVERLAY")
 
 			count:SetDrawLayer("OVERLAY")
+
+			local QuestIcon = button:CreateTexture(nil, "OVERLAY")
+			QuestIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagQuestIcon")
+			QuestIcon:SetTexCoord(0, 1, 0, 1)
+			QuestIcon:SetInside()
+			QuestIcon:Hide()
+			button.QuestIcon = QuestIcon
 		end
 	end
 
@@ -118,39 +125,55 @@ local function LoadSkin()
 		if GuildBankFrame.mode ~= "bank" then return end
 
 		local tab = GetCurrentGuildBankTab()
-		local button, index, column, link, quality, r, g, b
+		local button, index, column, link
+		local _, iLink, quality, iType
+
 		for i = 1, MAX_GUILDBANK_SLOTS_PER_TAB do
 			index = mod(i, NUM_SLOTS_PER_GUILDBANK_GROUP)
+
 			if index == 0 then
 				index = NUM_SLOTS_PER_GUILDBANK_GROUP
 			end
+
 			column = ceil((i - 0.5) / NUM_SLOTS_PER_GUILDBANK_GROUP)
 			button = _G["GuildBankColumn"..column.."Button"..index]
-
+			button.QuestIcon:Hide()
 			link = GetGuildBankItemLink(tab, i)
+
 			if link then
-				quality = select(3, GetItemInfo(link))
-				if quality then
-					r, g, b = GetItemQualityColor(quality)
+				_, iLink, quality, _, _, iType = GetItemInfo(link)
+
+				if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
+					if GetQuestItemSarterInfo(iLink) then
+						button.QuestIcon:Show()
+						button:SetBackdropBorderColor(1, 1, 0)
+					else
+						button:SetBackdropBorderColor(1.0, 0.3, 0.3)
+					end
+				elseif quality then
+					button:SetBackdropBorderColor(GetItemQualityColor(quality))
 				else
-					r, g, b = unpack(E.media.bordercolor)
+					button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
 			else
-				r, g, b = unpack(E.media.bordercolor)
+				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
-			button:SetBackdropBorderColor(r, g, b)
 		end
 	end)
 
 	-- Popup
 	S:HandleIconSelectionFrame(GuildBankPopupFrame, NUM_GUILDBANK_ICONS_SHOWN, "GuildBankPopupButton", "GuildBankPopup")
+	GuildBankPopupFrame:Width(270)
 
 	S:HandleScrollBar(GuildBankPopupScrollFrameScrollBar)
+	GuildBankPopupScrollFrameScrollBar:ClearAllPoints()
+	GuildBankPopupScrollFrameScrollBar:Point("TOPRIGHT", GuildBankPopupScrollFrame, "TOPRIGHT", 15, -14)
+	GuildBankPopupScrollFrameScrollBar:Point("BOTTOMRIGHT", GuildBankPopupScrollFrame, "BOTTOMRIGHT", 0, 18)
 
 	GuildBankPopupScrollFrame:CreateBackdrop("Transparent")
 	GuildBankPopupScrollFrame.backdrop:Point("TOPLEFT", 92, 2)
 	GuildBankPopupScrollFrame.backdrop:Point("BOTTOMRIGHT", -5, 2)
-	GuildBankPopupScrollFrame:Point("TOPRIGHT", GuildBankPopupFrame, "TOPRIGHT", -30, -66)
+	GuildBankPopupScrollFrame:Point("TOPRIGHT", GuildBankPopupFrame, "TOPRIGHT", -49, -66)
 
 	GuildBankPopupButton1:Point("TOPLEFT", GuildBankPopupFrame, "TOPLEFT", 30, -86)
 	GuildBankPopupFrame:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", 36, 0)

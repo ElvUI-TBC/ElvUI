@@ -73,7 +73,7 @@ local function LoadSkin()
 		local id = self:GetID()
 		local name = self:GetName()
 		local item, link
-		local iLink, quality, iType
+		local _, iLink, quality, iType
 		local _, bagType = GetContainerNumFreeSlots(id)
 
 		for i = 1, self.size, 1 do
@@ -170,7 +170,7 @@ local function LoadSkin()
 	hooksecurefunc("BankFrameItemButton_Update", function(button)
 		local id = button:GetID()
 		local link
-		local iLink, quality, iType
+		local _, iLink, quality, iType
 
 		if button.isBag then
 			link = GetInventoryItemLink("player", ContainerIDToInventoryID(id))

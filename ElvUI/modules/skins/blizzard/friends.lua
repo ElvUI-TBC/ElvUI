@@ -370,34 +370,41 @@ local function LoadSkin()
 	GuildControlPopupFrame:CreateBackdrop("Transparent")
 	GuildControlPopupFrame.backdrop:Point("TOPLEFT", 3, -6)
 	GuildControlPopupFrame.backdrop:Point("BOTTOMRIGHT", -27, 27)
+	GuildControlPopupFrame:Point("TOPLEFT", GuildFrame, "TOPRIGHT", -35, -6)
 
 	S:HandleDropDownBox(GuildControlPopupFrameDropDown, 185)
 	GuildControlPopupFrameDropDownButton:Size(16)
 
-	local function SkinPlusMinus(f, minus)
-		f:SetNormalTexture("")
-		f.SetNormalTexture = E.noop
-		f:SetPushedTexture("")
-		f.SetPushedTexture = E.noop
-		f:SetHighlightTexture("")
-		f.SetHighlightTexture = E.noop
-		f:SetDisabledTexture("")
-		f.SetDisabledTexture = E.noop
+	local function SkinPlusMinus(button, minus)
+		button:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		button.SetNormalTexture = E.noop
 
-		f.Text = f:CreateFontString(nil, "OVERLAY")
-		f.Text:FontTemplate(nil, 22)
-		f.Text:Point("LEFT", 5, 0)
+		button:SetPushedTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		button.SetPushedTexture = E.noop
+
+		button:SetHighlightTexture("")
+		button.SetHighlightTexture = E.noop
+
+		button:SetDisabledTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		button.SetDisabledTexture = E.noop
+		button:GetDisabledTexture():SetDesaturated(true)
+
 		if minus then
-			f.Text:SetText("-")
+			button:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+			button:GetPushedTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+			button:GetDisabledTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
 		else
-			f.Text:SetText("+")
+			button:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+			button:GetPushedTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+			button:GetDisabledTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
 		end
 	end
 
 	SkinPlusMinus(GuildControlPopupFrameAddRankButton)
-	GuildControlPopupFrameAddRankButton:Point("LEFT", GuildControlPopupFrameDropDown, "RIGHT", -8, 3)
+	GuildControlPopupFrameAddRankButton:Point("LEFT", GuildControlPopupFrameDropDown, "RIGHT", -5, 3)
 
 	SkinPlusMinus(GuildControlPopupFrameRemoveRankButton, true)
+	GuildControlPopupFrameRemoveRankButton:Point("LEFT", GuildControlPopupFrameAddRankButton, "RIGHT", 4, 0)
 
 	S:HandleEditBox(GuildControlPopupFrameEditBox)
 	GuildControlPopupFrameEditBox.backdrop:Point("TOPLEFT", 0, -5)
@@ -415,7 +422,7 @@ local function LoadSkin()
 	GuildControlWithdrawGoldEditBox.backdrop:Point("BOTTOMRIGHT", 0, 5)
 
 	for i = 1, MAX_GUILDBANK_TABS do
-		local tab = _G["GuildBankTabPermissionsTab" .. i]
+		local tab = _G["GuildBankTabPermissionsTab"..i]
 
 		tab:StripTextures()
 		tab:CreateBackdrop("Default")
