@@ -144,7 +144,7 @@ local function LoadSkin()
 				_, iLink, quality, _, _, iType = GetItemInfo(link)
 
 				if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
-					if GetQuestItemSarterInfo(iLink) then
+					if GetQuestItemStarterInfo(iLink) then
 						button.QuestIcon:Show()
 						button:SetBackdropBorderColor(1, 1, 0)
 					else

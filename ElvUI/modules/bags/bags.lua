@@ -331,7 +331,7 @@ function B:UpdateSlot(bagID, slotID)
 
 		-- color slot according to item quality
 		if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
-			if GetQuestItemSarterInfo(iLink) then
+			if GetQuestItemStarterInfo(iLink) then
 				slot.QuestIcon:Show()
 				slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
 			else
@@ -764,7 +764,7 @@ function B:UpdateKeySlot(slotID)
 		end
 
 		if iType and iType == "Quest" then
-			if GetQuestItemSarterInfo(iLink) then
+			if GetQuestItemStarterInfo(iLink) then
 				slot.QuestIcon:Show()
 				slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
 			else

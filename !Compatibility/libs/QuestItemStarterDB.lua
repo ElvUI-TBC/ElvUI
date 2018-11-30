@@ -1,10 +1,10 @@
-local MAJOR_VERSION = "QuestItemSarterDB"
+local MAJOR_VERSION = "QuestItemStarterDB"
 local MINOR_VERSION = 90000 + tonumber(string.match("$Revision: 1 $", "%d+"))
 
 local lib = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
 if not lib then return end
 
-lib.QuestItemSarterIDs = {
+lib.QuestItemStarterIDs = {
 	"1307",		-- Gold Pickup Schedule
 	"1357",		-- Captain Sanders' Treasure Map
 	"1962",		-- Glowing Shadowhide Pendant

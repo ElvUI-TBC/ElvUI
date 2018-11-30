@@ -89,7 +89,7 @@ local function LoadSkin()
 				_, iLink, quality, _, _, iType = GetItemInfo(link)
 
 				if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
-					if GetQuestItemSarterInfo(iLink) then
+					if GetQuestItemStarterInfo(iLink) then
 						item.QuestIcon:Show()
 						item:SetBackdropBorderColor(1, 1, 0)
 					else
@@ -183,7 +183,7 @@ local function LoadSkin()
 			_, iLink, quality, _, _, iType = GetItemInfo(link)
 
 			if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
-				if GetQuestItemSarterInfo(iLink) then
+				if GetQuestItemStarterInfo(iLink) then
 					button.QuestIcon:Show()
 					button:SetBackdropBorderColor(1, 1, 0)
 				else
