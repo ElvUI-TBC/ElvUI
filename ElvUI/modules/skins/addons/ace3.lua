@@ -292,8 +292,8 @@ function S:SkinAce3()
 			frame.backdrop:Point("LEFT", frame, "LEFT", 4, 0)
 			frame.backdrop:SetBackdropColor(0, 0, 0, 0)
 			frame.backdrop.SetBackdropColor = E.noop
-			--frame.backdrop:SetBackdropBorderColor(1, 1, 1)
-			--frame.backdrop.SetBackdropBorderColor = E.noop
+			frame.backdrop:SetBackdropBorderColor(1, 1, 1)
+			frame.backdrop.SetBackdropBorderColor = E.noop
 
 			colorSwatch:SetTexture(E.media.blankTex)
 			colorSwatch:ClearAllPoints()

@@ -275,7 +275,7 @@ local function LoadSkin()
 
 	QuestLogListScrollFrame:StripTextures()
 	QuestLogListScrollFrame:CreateBackdrop("Default", true)
-	QuestLogListScrollFrame.backdrop:Point("TOPLEFT", 0, 2)
+	QuestLogListScrollFrame.backdrop:Point("TOPLEFT", -1, 2)
 	QuestLogListScrollFrame:Size(305, 375)
 
 	QuestLogDetailScrollFrame:StripTextures()

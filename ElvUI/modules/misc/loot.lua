@@ -11,6 +11,7 @@ local CursorOnUpdate = CursorOnUpdate
 local CursorUpdate = CursorUpdate
 local GetCVar = GetCVar
 local GetCursorPosition = GetCursorPosition
+local GetItemInfo = GetItemInfo
 local GetLootSlotInfo = GetLootSlotInfo
 local GetLootSlotLink = GetLootSlotLink
 local GetNumLootItems = GetNumLootItems
@@ -143,6 +144,13 @@ local function createSlot(id)
 	drop:SetAllPoints(frame)
 	frame.drop = drop
 
+	local questTexture = iconFrame:CreateTexture(nil, "OVERLAY")
+	questTexture:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagQuestIcon")
+	questTexture:SetTexCoord(0, 1, 0, 1)
+	questTexture:SetInside()
+	questTexture:Hide()
+	frame.questTexture = questTexture
+
 	lootFrame.slots[id] = frame
 	return frame
 end
@@ -208,6 +216,7 @@ function M:LOOT_OPENED(_, autoLoot)
 		for i = 1, items do
 			local slot = lootFrame.slots[i] or createSlot(i)
 			local texture, item, quantity, quality = GetLootSlotInfo(i)
+			local itemLink = GetLootSlotLink(i)
 			local color = ITEM_QUALITY_COLORS[quality]
 
 			if LootSlotIsCoin(i) then
@@ -239,6 +248,15 @@ function M:LOOT_OPENED(_, autoLoot)
 				m = max(m, quality)
 			end
 			w = max(w, slot.name:GetStringWidth())
+
+			slot.questTexture:Hide()
+			if itemLink then
+				local _, iLink, _, _, _, iType = GetItemInfo(itemLink)
+
+				if ((iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink)) and GetQuestItemStarterInfo(iLink) then
+					slot.questTexture:Show()
+				end
+			end
 
 			slot:Enable()
 			slot:Show()

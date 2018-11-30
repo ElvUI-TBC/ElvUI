@@ -43,7 +43,6 @@ lib.QuestItemStarterIDs = {
 	"6776",		-- Tome of Valor
 	"6916",		-- Tome of Divinity
 	"7666",		-- Shattered Necklace
-	"8244",		-- Flawless Draenethyst Sphere
 	"8524",		-- Model 4711-FTZ Power Source
 	"8623",		-- OOX-17/TN Distress Beacon
 	"8704",		-- OOX-09/HL Distress Beacon
@@ -56,7 +55,6 @@ lib.QuestItemStarterIDs = {
 	"10441",	-- Glowing Shard
 	"10454",	-- Essence of Eranikus
 	"10589",	-- Oathstone of Ysera's Dragonflight
-	"10593",	-- Imperfect Draenethyst Fragment
 	"10621",	-- Runed Scroll
 	"11116",	-- A Mangled Journal
 	"11463",	-- Undelivered Parcel

@@ -18,20 +18,25 @@ local NUM_BANKBAGSLOTS = NUM_BANKBAGSLOTS
 local NUM_BANKGENERIC_SLOTS = NUM_BANKGENERIC_SLOTS
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
 
-local ProfessionColors = {
-	[0x0001] = {225/255, 142/255, 186/255},	-- Quiver
-	[0x0002] = {225/255, 142/255, 186/255},	-- Ammo Pouch
-	[0x0004] = {120/255, 66/255, 255/255},	-- Soul Bag
-	[0x0008] = {224/255, 187/255, 74/255},	-- Leatherworking
-	[0x0020] = {18/255, 181/255, 32/255},	-- Herbs
-	[0x0040] = {160/255, 3/255, 168/255},	-- Enchanting
-	[0x0080] = {232/255, 118/255, 46/255},	-- Engineering
-	[0x0200] = {8/255, 180/255, 207/255},	-- Gems
-	[0x0400] = {105/255, 79/255, 7/255},	-- Mining
-}
-
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable and E.private.skins.blizzard.bags and not E.private.bags.enable then return end
+
+	local ProfessionColors = {
+		[0x0001] = {E.db.bags.colors.profession.quiver.r, E.db.bags.colors.profession.quiver.g, E.db.bags.colors.profession.quiver.b},
+		[0x0002] = {E.db.bags.colors.profession.ammoPouch.r, E.db.bags.colors.profession.ammoPouch.g, E.db.bags.colors.profession.ammoPouch.b},
+		[0x0004] = {E.db.bags.colors.profession.soulBag.r, E.db.bags.colors.profession.soulBag.g, E.db.bags.colors.profession.soulBag.b},
+		[0x0008] = {E.db.bags.colors.profession.leatherworking.r, E.db.bags.colors.profession.leatherworking.g, E.db.bags.colors.profession.leatherworking.b},
+		[0x0020] = {E.db.bags.colors.profession.herbs.r, E.db.bags.colors.profession.herbs.g, E.db.bags.colors.profession.herbs.b},
+		[0x0040] = {E.db.bags.colors.profession.enchanting.r, E.db.bags.colors.profession.enchanting.g, E.db.bags.colors.profession.enchanting.b},
+		[0x0080] = {E.db.bags.colors.profession.engineering.r, E.db.bags.colors.profession.engineering.g, E.db.bags.colors.profession.engineering.b},
+		[0x0200] = {E.db.bags.colors.profession.gems.r, E.db.bags.colors.profession.gems.g, E.db.bags.colors.profession.gems.b},
+		[0x0400] = {E.db.bags.colors.profession.mining.r, E.db.bags.colors.profession.mining.g, E.db.bags.colors.profession.mining.b}
+	}
+
+	local QuestColors = {
+		["questStarter"] = {E.db.bags.colors.items.questStarter.r, E.db.bags.colors.items.questStarter.g, E.db.bags.colors.items.questStarter.b},
+		["questItem"] =	{E.db.bags.colors.items.questItem.r, E.db.bags.colors.items.questItem.g, E.db.bags.colors.items.questItem.b}
+	}
 
 	-- ContainerFrame
 	for i = 1, NUM_CONTAINER_FRAMES, 1 do
@@ -91,20 +96,20 @@ local function LoadSkin()
 				if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
 					if GetQuestItemStarterInfo(iLink) then
 						item.QuestIcon:Show()
-						item:SetBackdropBorderColor(1, 1, 0)
+						item:SetBackdropBorderColor(unpack(QuestColors.questStarter))
 					else
-						item:SetBackdropBorderColor(1.0, 0.3, 0.3)
+						item:SetBackdropBorderColor(unpack(QuestColors.questItem))
 					end
 					item.ignoreBorderColors = true
 				elseif quality then
 					item:SetBackdropBorderColor(GetItemQualityColor(quality))
 					item.ignoreBorderColors = true
 				else
-					item:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					item:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					item.ignoreBorderColors = true
 				end
 			else
-				item:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				item:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				item.ignoreBorderColors = true
 			end
 		end
@@ -156,7 +161,7 @@ local function LoadSkin()
 		icon:SetTexCoord(unpack(E.TexCoords))
 
 		_G["BankFrameBag"..i.."HighlightFrameTexture"]:SetInside()
-		_G["BankFrameBag"..i.."HighlightFrameTexture"]:SetTexture(unpack(E["media"].rgbvaluecolor), 0.3)
+		_G["BankFrameBag"..i.."HighlightFrameTexture"]:SetTexture(unpack(E.media.rgbvaluecolor), 0.3)
 	end
 
 	BankFrame.bagBackdrop = CreateFrame("Frame", "BankFrameBagBackdrop", BankFrame)
@@ -185,20 +190,20 @@ local function LoadSkin()
 			if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
 				if GetQuestItemStarterInfo(iLink) then
 					button.QuestIcon:Show()
-					button:SetBackdropBorderColor(1, 1, 0)
+					button:SetBackdropBorderColor(unpack(QuestColors.questStarter))
 				else
-					button:SetBackdropBorderColor(1.0, 0.3, 0.3)
+					button:SetBackdropBorderColor(unpack(QuestColors.questItem))
 				end
 				button.ignoreBorderColors = true
 			elseif quality then
 				button:SetBackdropBorderColor(GetItemQualityColor(quality))
 				button.ignoreBorderColors = true
 			else
-				button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				button.ignoreBorderColors = true
 			end
 		else
-			button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			button.ignoreBorderColors = true
 		end
 	end)

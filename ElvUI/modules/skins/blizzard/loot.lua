@@ -4,11 +4,13 @@ local S = E:GetModule("Skins")
 local _G = _G
 local unpack, select = unpack, select
 
-local UnitName = UnitName
-local IsFishingLoot = IsFishingLoot
 local GetLootRollItemInfo = GetLootRollItemInfo
+local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
-local GetLootSlotInfo = GetLootSlotInfo
+local IsFishingLoot = IsFishingLoot
+local UnitIsDead = UnitIsDead
+local UnitIsFriend = UnitIsFriend
+local UnitName = UnitName
 local LOOTFRAME_NUMBUTTONS = LOOTFRAME_NUMBUTTONS
 local NUM_GROUP_LOOT_FRAMES = NUM_GROUP_LOOT_FRAMES
 local LOOT, ITEMS = LOOT, ITEMS
@@ -86,6 +88,13 @@ local function LoadSkin()
 		button.bg:SetFrameLevel(button.bg:GetFrameLevel() - 1)
 
 		nameFrame:Hide()
+
+		local QuestIcon = button:CreateTexture(nil, "OVERLAY")
+		QuestIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagQuestIcon")
+		QuestIcon:SetTexCoord(0, 1, 0, 1)
+		QuestIcon:SetInside()
+		QuestIcon:Hide()
+		button.QuestIcon = QuestIcon
 	end
 
 	hooksecurefunc("LootFrame_Update", function()
@@ -94,24 +103,39 @@ local function LoadSkin()
 		if numLootItems > LOOTFRAME_NUMBUTTONS then
 			numLootToShow = numLootToShow - 1
 		end
-		local texture, item, quantity, quality
-		local button, countString, color
+		local button, slot
+		local itemLink
+		local _, quality, iLink, iType
 
 		for index = 1, LOOTFRAME_NUMBUTTONS do
 			button = _G["LootButton"..index]
-			local slot = (numLootToShow * (LootFrame.page - 1)) + index
-			if slot <= numLootItems then 
+			slot = (numLootToShow * (LootFrame.page - 1)) + index
+
+			if slot <= numLootItems then
+				button.QuestIcon:Hide()
 				if LootSlotIsItem(slot) and index <= numLootToShow then
-					texture, _, _, quality = GetLootSlotInfo(slot)
-					if texture then
-						if quality then
+					itemLink = GetLootSlotLink(slot)
+
+					if itemLink then
+						_, iLink, quality, _, _, iType = GetItemInfo(itemLink)
+
+						if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
+							if GetQuestItemStarterInfo(iLink) then
+								button.QuestIcon:Show()
+								button.backdrop:SetBackdropBorderColor(E.db.bags.colors.items.questStarter.r, E.db.bags.colors.items.questStarter.g, E.db.bags.colors.items.questStarter.b)
+							else
+								button.backdrop:SetBackdropBorderColor(E.db.bags.colors.items.questItem.r, E.db.bags.colors.items.questItem.g, E.db.bags.colors.items.questItem.b)
+							end
+						elseif quality then
 							button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 						else
-							button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+							button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 						end
+					else
+						button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					end
 				else
-					button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
 			end
 		end

@@ -292,7 +292,6 @@ E.Options.args.bags = {
 			order = 5,
 			type = "group",
 			name = COLORS,
-			disabled = function() return not E.bags end,
 			args = {
 				header = {
 					order = 1,
@@ -318,6 +317,7 @@ E.Options.args.bags = {
 							set = function(info, r, g, b)
 								local t = E.db.bags.colors.profession[ info[#info] ]
 								t.r, t.g, t.b = r, g, b
+								if not E.bags then return end
 								B:UpdateBagColors("ProfessionColors", info[#info], r, g, b)
 								B:UpdateAllBagSlots()
 							end,
@@ -384,6 +384,7 @@ E.Options.args.bags = {
 					set = function(info, r, g, b)
 						local t = E.db.bags.colors.items[ info[#info] ]
 						t.r, t.g, t.b = r, g, b
+						if not E.bags then return end
 						B:UpdateQuestColors("QuestColors", info[#info], r, g, b)
 						B:UpdateAllBagSlots()
 					end,

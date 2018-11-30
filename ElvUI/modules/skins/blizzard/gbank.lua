@@ -146,9 +146,9 @@ local function LoadSkin()
 				if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
 					if GetQuestItemStarterInfo(iLink) then
 						button.QuestIcon:Show()
-						button:SetBackdropBorderColor(1, 1, 0)
+						button:SetBackdropBorderColor(E.db.bags.colors.items.questStarter.r, E.db.bags.colors.items.questStarter.g, E.db.bags.colors.items.questStarter.b)
 					else
-						button:SetBackdropBorderColor(1.0, 0.3, 0.3)
+						button:SetBackdropBorderColor(E.db.bags.colors.items.questItem.r, E.db.bags.colors.items.questItem.g, E.db.bags.colors.items.questItem.b)
 					end
 				elseif quality then
 					button:SetBackdropBorderColor(GetItemQualityColor(quality))
