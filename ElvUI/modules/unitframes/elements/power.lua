@@ -206,7 +206,7 @@ function UF:PostUpdatePower(unit, cur, max)
 
 	if parent.isForced then
 		local pType = random(0, 3)
-		local color = ElvUF["colors"].power[pType]
+		local color = ElvUF.colors.power[pType]
 		cur = random(1, max)
 		self:SetValue(cur)
 

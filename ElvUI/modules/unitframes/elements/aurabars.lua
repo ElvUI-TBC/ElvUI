@@ -43,7 +43,7 @@ function UF:Construct_AuraBars()
 
 		if auraName then
 			E:Print(format(L["The spell '%s' has been added to the Blacklist unitframe aura filter."], auraName))
-			E.global["unitframe"]["aurafilters"]["Blacklist"]["spells"][auraName] = {
+			E.global.unitframe.aurafilters.Blacklist.spells[auraName] = {
 				["enable"] = true,
 				["priority"] = 0
 			}
@@ -210,7 +210,7 @@ function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration)
 	end
 
 	if UF:CheckFilter(db.useBlacklist, isFriend) then
-		local blackList = E.global["unitframe"]["aurafilters"]["Blacklist"].spells[name]
+		local blackList = E.global.unitframe.aurafilters.Blacklist.spells[name]
 		if blackList and blackList.enable then
 			returnValue = false
 		end
@@ -219,7 +219,7 @@ function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration)
 	end
 
 	if UF:CheckFilter(db.useWhitelist, isFriend) then
-		local whiteList = E.global["unitframe"]["aurafilters"]["Whitelist"].spells[name]
+		local whiteList = E.global.unitframe.aurafilters.Whitelist.spells[name]
 		if whiteList and whiteList.enable then
 			returnValue = true
 		elseif not anotherFilterExists then
@@ -229,9 +229,9 @@ function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration)
 		anotherFilterExists = true
 	end
 
-	if db.useFilter and E.global["unitframe"]["aurafilters"][db.useFilter] then
-		local type = E.global["unitframe"]["aurafilters"][db.useFilter].type
-		local spellList = E.global["unitframe"]["aurafilters"][db.useFilter].spells
+	if db.useFilter and E.global.unitframe.aurafilters[db.useFilter] then
+		local type = E.global.unitframe.aurafilters[db.useFilter].type
+		local spellList = E.global.unitframe.aurafilters[db.useFilter].spells
 		local spell = spellList[name]
 
 		if type == "Whitelist" then

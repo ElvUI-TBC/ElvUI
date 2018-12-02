@@ -448,6 +448,7 @@ function mod:OnHide()
 	self.UnitFrame.isMouseover = nil
 	self.UnitFrame.UnitName = nil
 	self.UnitFrame.UnitType = nil
+	self.UnitFrame.UnitClass = nil
 	self.UnitFrame.UnitReaction = nil
 	self.UnitFrame.TopLevelFrame = nil
 	self.UnitFrame.TopOffset = nil

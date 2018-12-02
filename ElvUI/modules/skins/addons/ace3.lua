@@ -199,7 +199,6 @@ function S:SkinAce3()
 				widget.bar:ClearAllPoints()
 				widget.bar:Point("TOPLEFT", frame.backdrop, "TOPLEFT", 2, -2)
 				widget.bar:Point("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
-			--elseif TYPE == "LSM30_Border" or TYPE == "LSM30_Background" then -- Leave this here please. - Azilroka
 			end
 
 			button:SetParent(frame.backdrop)
@@ -287,13 +286,11 @@ function S:SkinAce3()
 				frame:CreateBackdrop("Default")
 			end
 
-			frame.backdrop:SetSize(16, 16)
+			frame.backdrop:SetSize(24, 16)
 			frame.backdrop:ClearAllPoints()
 			frame.backdrop:Point("LEFT", frame, "LEFT", 4, 0)
 			frame.backdrop:SetBackdropColor(0, 0, 0, 0)
 			frame.backdrop.SetBackdropColor = E.noop
-			frame.backdrop:SetBackdropBorderColor(1, 1, 1)
-			frame.backdrop.SetBackdropBorderColor = E.noop
 
 			colorSwatch:SetTexture(E.media.blankTex)
 			colorSwatch:ClearAllPoints()

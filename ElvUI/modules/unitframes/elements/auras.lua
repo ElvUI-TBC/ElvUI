@@ -339,8 +339,8 @@ function UF:UpdateAuraIconSettings(auras, noCycle)
 	if not frame.db then return end
 
 	local db = frame.db[type]
-	local unitframeFont = LSM:Fetch("font", E.db["unitframe"].font)
-	local unitframeFontOutline = E.db["unitframe"].fontOutline
+	local unitframeFont = LSM:Fetch("font", E.db.unitframe.font)
+	local unitframeFontOutline = E.db.unitframe.fontOutline
 	local button, cooldownFont
 	local index = 1
 	auras.db = db
@@ -514,7 +514,7 @@ function UF:AuraFilter(unit, button, name, _, _, _, _, duration)
 	button.name = name
 	button.priority = 0
 
-	local turtleBuff = E.global["unitframe"]["aurafilters"]["TurtleBuffs"].spells[name]
+	local turtleBuff = E.global.unitframe.aurafilters.TurtleBuffs.spells[name]
 	if turtleBuff and turtleBuff.enable then
 		button.priority = turtleBuff.priority
 	end
@@ -544,7 +544,7 @@ function UF:AuraFilter(unit, button, name, _, _, _, _, duration)
 	end
 
 	if UF:CheckFilter(db.useBlacklist, isFriend) then
-		local blackList = E.global["unitframe"]["aurafilters"]["Blacklist"].spells[name]
+		local blackList = E.global.unitframe.aurafilters.Blacklist.spells[name]
 		if blackList and blackList.enable then
 			returnValue = false
 		end
@@ -553,7 +553,7 @@ function UF:AuraFilter(unit, button, name, _, _, _, _, duration)
 	end
 
 	if UF:CheckFilter(db.useWhitelist, isFriend) then
-		local whiteList = E.global["unitframe"]["aurafilters"]["Whitelist"].spells[name]
+		local whiteList = E.global.unitframe.aurafilters.Whitelist.spells[name]
 		if whiteList and whiteList.enable then
 			returnValue = true
 			button.priority = whiteList.priority
@@ -564,9 +564,9 @@ function UF:AuraFilter(unit, button, name, _, _, _, _, duration)
 		anotherFilterExists = true
 	end
 
-	if db.useFilter and E.global["unitframe"]["aurafilters"][db.useFilter] then
-		local type = E.global["unitframe"]["aurafilters"][db.useFilter].type
-		local spellList = E.global["unitframe"]["aurafilters"][db.useFilter].spells
+	if db.useFilter and E.global.unitframe.aurafilters[db.useFilter] then
+		local type = E.global.unitframe.aurafilters[db.useFilter].type
+		local spellList = E.global.unitframe.aurafilters[db.useFilter].spells
 		local spell = spellList[name]
 
 		if type == "Whitelist" then
