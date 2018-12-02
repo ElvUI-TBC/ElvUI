@@ -125,7 +125,7 @@ function UF:Update_Raid40Header(header, db)
 end
 
 function UF:Update_Raid40Frames(frame, db)
-	if InCombatLockdown() then return end
+	--if InCombatLockdown() then return end
 
 	frame.db = db
 

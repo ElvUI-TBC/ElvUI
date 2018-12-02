@@ -91,7 +91,7 @@ function UF:Update_RaidpetHeader(header, db)
 end
 
 function UF:Update_RaidpetFrames(frame, db)
-	if InCombatLockdown() then return end
+	--if InCombatLockdown() then return end
 
 	frame.db = db
 
