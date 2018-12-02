@@ -135,7 +135,7 @@ local function LoadSkin()
 					if quality then
 						itemButton:SetBackdropBorderColor(r, g, b)
 					else
-						itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+						itemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					end
 				end
 			end
@@ -149,10 +149,10 @@ local function LoadSkin()
 				if quality then
 					MerchantBuyBackItemItemButton:SetBackdropBorderColor(r, g, b)
 				else
-					MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
 			else
-				MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 		end
 	end)
@@ -174,7 +174,7 @@ local function LoadSkin()
 					if quality then
 						itemButton:SetBackdropBorderColor(r, g, b)
 					else
-						itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+						itemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					end
 				end
 			end

@@ -5,11 +5,11 @@ local CreateFrame = CreateFrame
 
 function UF:Construct_HealComm(frame)
 	local mhpb = CreateFrame("StatusBar", nil, frame.Health)
-	mhpb:SetStatusBarTexture(E["media"].blankTex)
+	mhpb:SetStatusBarTexture(E.media.blankTex)
 	mhpb:Hide()
 
 	local ohpb = CreateFrame("StatusBar", nil, frame.Health)
-	ohpb:SetStatusBarTexture(E["media"].blankTex)
+	ohpb:SetStatusBarTexture(E.media.blankTex)
 	ohpb:Hide()
 
 	CreateStatusBarTexturePointer(mhpb)

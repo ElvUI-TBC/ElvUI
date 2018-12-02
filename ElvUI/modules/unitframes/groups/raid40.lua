@@ -20,8 +20,8 @@ function UF:Construct_Raid40Frames()
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 
-	self:SetAttribute("initial-width", UF.db["units"]["raid40"].width)
-	self:SetAttribute("initial-height", UF.db["units"]["raid40"].height)
+	self:SetAttribute("initial-width", UF.db.units.raid40.width)
+	self:SetAttribute("initial-height", UF.db.units.raid40.height)
 
 	self.RaisedElementParent = CreateFrame("Frame", nil, self)
 	self.RaisedElementParent.TextureParent = CreateFrame("Frame", nil, self.RaisedElementParent)
@@ -57,7 +57,7 @@ function UF:Construct_Raid40Frames()
 
 	self.unitframeType = "raid40"
 
-	UF:Update_Raid40Frames(self, UF.db["units"]["raid40"])
+	UF:Update_Raid40Frames(self, UF.db.units.raid40)
 
 	return self
 end
@@ -117,7 +117,7 @@ function UF:Update_Raid40Header(header, db)
 
 		header:RegisterEvent("PLAYER_LOGIN")
 		header:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		header:SetScript("OnEvent", UF["Raid40SmartVisibility"])
+		header:SetScript("OnEvent", UF.Raid40SmartVisibility)
 		header.positioned = true
 	end
 
@@ -233,4 +233,4 @@ function UF:Update_Raid40Frames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-UF["headerstoload"]["raid40"] = true
+UF.headerstoload.raid40 = true

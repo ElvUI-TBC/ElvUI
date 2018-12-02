@@ -493,7 +493,7 @@ E.Options.args.bags = {
 						if value and value:match("[\n\r]") then
 							value = value:gsub("[\n\r]","")
 						end
-						E.db.bags.bagBar["visibility"] = value
+						E.db.bags.bagBar.visibility = value
 						B:SizeAndPositionBagBar()
 					end,
 					disabled = function() return not E.private.bags.bagBar end

@@ -243,9 +243,9 @@ function CH:StyleChat(frame)
 	end)
 
 	tab.text = _G[name.."TabText"]
-	tab.text:SetTextColor(unpack(E["media"].rgbvaluecolor))
+	tab.text:SetTextColor(unpack(E.media.rgbvaluecolor))
 	hooksecurefunc(tab.text, "SetTextColor", function(self, r, g, b)
-		local rR, gG, bB = unpack(E["media"].rgbvaluecolor)
+		local rR, gG, bB = unpack(E.media.rgbvaluecolor)
 		if r ~= rR or g ~= gG or b ~= bB then
 			self:SetTextColor(rR, gG, bB)
 		end
@@ -448,8 +448,8 @@ local function FindRightChatID()
 end
 
 function CH:UpdateChatTabs()
-	local fadeUndockedTabs = E.db["chat"].fadeUndockedTabs
-	local fadeTabsNoBackdrop = E.db["chat"].fadeTabsNoBackdrop
+	local fadeUndockedTabs = E.db.chat.fadeUndockedTabs
+	local fadeTabsNoBackdrop = E.db.chat.fadeTabsNoBackdrop
 
 	for i = 1, CreatedFrames do
 		local chat = _G[format("ChatFrame%d", i)]
@@ -487,8 +487,8 @@ function CH:PositionChat(override)
 	if not self.db.lockPositions or E.private.chat.enable ~= true then return end
 
 	local chat, tab, id, isDocked
-	local fadeUndockedTabs = E.db["chat"].fadeUndockedTabs
-	local fadeTabsNoBackdrop = E.db["chat"].fadeTabsNoBackdrop
+	local fadeUndockedTabs = E.db.chat.fadeUndockedTabs
+	local fadeTabsNoBackdrop = E.db.chat.fadeTabsNoBackdrop
 
 	for i = 1, CreatedFrames do
 		local BASE_OFFSET = 57 + E.Spacing*3
@@ -576,7 +576,7 @@ local function UpdateChatTabColor(_, r, g, b)
 		_G["ChatFrame"..i.."TabText"]:SetTextColor(r, g, b)
 	end
 end
-E["valueColorUpdateFuncs"][UpdateChatTabColor] = true
+E.valueColorUpdateFuncs[UpdateChatTabColor] = true
 
 function CH:ScrollToBottom(frame)
 	frame:ScrollToBottom()
@@ -1174,7 +1174,7 @@ function CH:CheckKeyword(message)
 	for hyperLink in message:gmatch("|%x+|H.-|h.-|h|r") do
 		protectLinks[hyperLink]=gsub(hyperLink,"%s","|s")
 
-		for keyword, _ in pairs(CH.Keywords) do
+		for keyword in pairs(CH.Keywords) do
 			if hyperLink == keyword then
 				if (self.db.keywordSound ~= "None") and not self.SoundTimer then
 					if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
@@ -1197,7 +1197,7 @@ function CH:CheckKeyword(message)
 		if not next(protectLinks) or not protectLinks[gsub(gsub(word,"%s",""),"|s"," ")] then
 			tempWord = gsub(word, "[%s%p]", "")
 			lowerCaseWord = tempWord:lower()
-			for keyword, _ in pairs(CH.Keywords) do
+			for keyword in pairs(CH.Keywords) do
 				if lowerCaseWord == keyword:lower() then
 					word = gsub(word, tempWord, format("%s%s|r", E.media.hexvaluecolor, tempWord))
 					if (self.db.keywordSound ~= "None") and not self.SoundTimer then
@@ -1378,10 +1378,10 @@ function CH:DisplayChatHistory()
 	CH.SoundTimer = nil
 end
 
-tremove(ChatTypeGroup["GUILD"], 2)
+tremove(ChatTypeGroup.GUILD, 2)
 function CH:DelayGuildMOTD()
 	local delay, checks, delayFrame, chat = 0, 0, CreateFrame("Frame")
-	tinsert(ChatTypeGroup["GUILD"], 2, "GUILD_MOTD")
+	tinsert(ChatTypeGroup.GUILD, 2, "GUILD_MOTD")
 	delayFrame:SetScript("OnUpdate", function(df, elapsed)
         delay = delay + elapsed
 		if delay < 5 then return end
@@ -1780,7 +1780,7 @@ function CH:Initialize()
 	CombatLogQuickButtonFrame_Custom.backdrop:Point("BOTTOMRIGHT", -22, 1)
 
 	CombatLogQuickButtonFrame_CustomProgressBar:StripTextures()
-	CombatLogQuickButtonFrame_CustomProgressBar:SetStatusBarTexture(E["media"].normTex)
+	CombatLogQuickButtonFrame_CustomProgressBar:SetStatusBarTexture(E.media.normTex)
 	CombatLogQuickButtonFrame_CustomProgressBar:Point("TOPLEFT", 0, 3)
 
 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Size(20, 22)

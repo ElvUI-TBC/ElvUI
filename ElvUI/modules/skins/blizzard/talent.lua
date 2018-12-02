@@ -7,6 +7,7 @@ local unpack = unpack
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true then return end
 
+	local PlayerTalentFrame = _G["PlayerTalentFrame"]
 	PlayerTalentFrame:StripTextures()
 	PlayerTalentFrame:CreateBackdrop("Transparent")
 	PlayerTalentFrame.backdrop:Point("TOPLEFT", 13, -12)

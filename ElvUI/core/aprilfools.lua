@@ -19,7 +19,7 @@ do
 		SetCVar("Sound_EnableMusic", self.oldEnableMusic)
 
 --		self:StopShakeHorizontal(ElvUI_StaticPopup1)
-		for _, object in pairs(self["massiveShakeObjects"]) do
+		for _, object in pairs(self.massiveShakeObjects) do
 			if object then
 --				self:StopShake(object)
 			end
@@ -39,7 +39,7 @@ do
 		E.isMassiveShaking = true
 		ElvUI_StaticPopup1Button1:Enable()
 
-		for _, object in pairs(self["massiveShakeObjects"]) do
+		for _, object in pairs(self.massiveShakeObjects) do
 			if object and object:IsShown() then
 --				self:Shake(object)
 			end
@@ -72,15 +72,15 @@ do
 		tinsert(self.massiveShakeObjects, LeftChatToggleButton)
 		tinsert(self.massiveShakeObjects, RightChatToggleButton)
 
-		for unit in pairs(UF["units"]) do
+		for unit in pairs(UF.units) do
 			tinsert(self.massiveShakeObjects, UF[unit])
 		end
 
-		for _, header in pairs(UF["headers"]) do
+		for _, header in pairs(UF.headers) do
 			tinsert(self.massiveShakeObjects, header)
 		end
 
-		for button, _ in pairs(AB["handledbuttons"]) do
+		for button, _ in pairs(AB.handledbuttons) do
 			if button then
 				tinsert(self.massiveShakeObjects, button)
 			end

@@ -36,10 +36,10 @@ function UF:Construct_PartyFrames()
 
 		self.originalParent = self:GetParent()
 
-		local childDB = UF.db["units"]["party"].petsGroup
+		local childDB = UF.db.units.party.petsGroup
 		self.childType = "pet"
 		if self == _G[self.originalParent:GetName().."Target"] then
-			childDB = UF.db["units"]["party"].targetsGroup
+			childDB = UF.db.units.party.targetsGroup
 			self.childType = "target"
 		end
 
@@ -48,8 +48,8 @@ function UF:Construct_PartyFrames()
 		self:SetAttribute("initial-width", childDB.width)
 		self:SetAttribute("initial-height", childDB.height)
 	else
-		self:SetAttribute("initial-width", UF.db["units"]["party"].width)
-		self:SetAttribute("initial-height", UF.db["units"]["party"].height)
+		self:SetAttribute("initial-width", UF.db.units.party.width)
+		self:SetAttribute("initial-height", UF.db.units.party.height)
 
 		self.Health = UF:Construct_HealthBar(self, true, true, "RIGHT")
 
@@ -84,7 +84,7 @@ function UF:Construct_PartyFrames()
 	UF:Update_StatusBars()
 	UF:Update_FontStrings()
 
-	UF:Update_PartyFrames(self, UF.db["units"]["party"])
+	UF:Update_PartyFrames(self, UF.db.units.party)
 
 	return self
 end
@@ -101,7 +101,7 @@ function UF:Update_PartyHeader(header, db)
 
 		header:RegisterEvent("PLAYER_LOGIN")
 		header:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		header:SetScript("OnEvent", UF["PartySmartVisibility"])
+		header:SetScript("OnEvent", UF.PartySmartVisibility)
 	end
 
 	UF.PartySmartVisibility(header)
@@ -268,4 +268,4 @@ function UF:Update_PartyFrames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-UF["headerstoload"]["party"] = {nil, "ELVUI_UNITPET, ELVUI_UNITTARGET"}
+UF.headerstoload.party = {nil, "ELVUI_UNITPET, ELVUI_UNITTARGET"}

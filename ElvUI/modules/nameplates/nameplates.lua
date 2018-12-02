@@ -227,7 +227,7 @@ function mod:StyleFrame(parent, noBackdrop, point)
 	if not noBackdrop then
 		point.backdrop = parent:CreateTexture(nil, "BACKGROUND")
 		point.backdrop:SetAllPoints(point)
-		point.backdrop:SetTexture(unpack(E["media"].backdropfadecolor))
+		point.backdrop:SetTexture(unpack(E.media.backdropfadecolor))
 	end
 
 	if E.PixelMode then
@@ -235,25 +235,25 @@ function mod:StyleFrame(parent, noBackdrop, point)
 		point.bordertop:SetPoint("TOPLEFT", point, "TOPLEFT", -noscalemult, noscalemult)
 		point.bordertop:SetPoint("TOPRIGHT", point, "TOPRIGHT", noscalemult, noscalemult)
 		point.bordertop:SetHeight(noscalemult)
-		point.bordertop:SetTexture(unpack(E["media"].bordercolor))
+		point.bordertop:SetTexture(unpack(E.media.bordercolor))
 
 		point.borderbottom = parent:CreateTexture()
 		point.borderbottom:SetPoint("BOTTOMLEFT", point, "BOTTOMLEFT", -noscalemult, -noscalemult)
 		point.borderbottom:SetPoint("BOTTOMRIGHT", point, "BOTTOMRIGHT", noscalemult, -noscalemult)
 		point.borderbottom:SetHeight(noscalemult)
-		point.borderbottom:SetTexture(unpack(E["media"].bordercolor))
+		point.borderbottom:SetTexture(unpack(E.media.bordercolor))
 
 		point.borderleft = parent:CreateTexture()
 		point.borderleft:SetPoint("TOPLEFT", point, "TOPLEFT", -noscalemult, noscalemult)
 		point.borderleft:SetPoint("BOTTOMLEFT", point, "BOTTOMLEFT", noscalemult, -noscalemult)
 		point.borderleft:SetWidth(noscalemult)
-		point.borderleft:SetTexture(unpack(E["media"].bordercolor))
+		point.borderleft:SetTexture(unpack(E.media.bordercolor))
 
 		point.borderright = parent:CreateTexture()
 		point.borderright:SetPoint("TOPRIGHT", point, "TOPRIGHT", noscalemult, noscalemult)
 		point.borderright:SetPoint("BOTTOMRIGHT", point, "BOTTOMRIGHT", -noscalemult, -noscalemult)
 		point.borderright:SetWidth(noscalemult)
-		point.borderright:SetTexture(unpack(E["media"].bordercolor))
+		point.borderright:SetTexture(unpack(E.media.bordercolor))
 	else
 		point.bordertop = parent:CreateTexture(nil, "OVERLAY")
 		point.bordertop:SetPoint("TOPLEFT", point, "TOPLEFT", -noscalemult, noscalemult*2)
@@ -872,9 +872,9 @@ function mod:ClassCache_ClassUpdated(_, name, class)
 end
 
 function mod:Initialize()
-	self.db = E.db["nameplates"]
+	self.db = E.db.nameplates
 
-	if E.private["nameplates"].enable ~= true then return end
+	if E.private.nameplates.enable ~= true then return end
 
 	self.hasTarget = false
 

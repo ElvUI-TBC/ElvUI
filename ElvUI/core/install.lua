@@ -124,11 +124,11 @@ local function SetupChat()
 
 	if E.Chat then
 		E.Chat:PositionChat(true)
-		if E.db["RightChatPanelFaded"] then
+		if E.db.RightChatPanelFaded then
 			RightChatToggleButton:Click()
 		end
 
-		if E.db["LeftChatPanelFaded"] then
+		if E.db.LeftChatPanelFaded then
 			LeftChatToggleButton:Click()
 		end
 	end
@@ -569,7 +569,7 @@ end
 local function SetupAuras(style)
 	local UF = E:GetModule("UnitFrames")
 
-	local frame = UF["player"]
+	local frame = UF.player
 	E:CopyTable(E.db.unitframe.units.player.buffs, P.unitframe.units.player.buffs)
 	E:CopyTable(E.db.unitframe.units.player.debuffs, P.unitframe.units.player.debuffs)
 	E:CopyTable(E.db.unitframe.units.player.aurabar, P.unitframe.units.player.aurabar)
@@ -580,7 +580,7 @@ local function SetupAuras(style)
 		UF:Configure_AuraBars(frame)
 	end
 
-	frame = UF["target"]
+	frame = UF.target
 	E:CopyTable(E.db.unitframe.units.target.buffs, P.unitframe.units.target.buffs)
 	E:CopyTable(E.db.unitframe.units.target.debuffs, P.unitframe.units.target.debuffs)
 	E:CopyTable(E.db.unitframe.units.target.aurabar, P.unitframe.units.target.aurabar)
@@ -591,7 +591,7 @@ local function SetupAuras(style)
 		UF:Configure_AuraBars(frame)
 	end
 
-	frame = UF["focus"]
+	frame = UF.focus
 	E:CopyTable(E.db.unitframe.units.focus.buffs, P.unitframe.units.focus.buffs)
 	E:CopyTable(E.db.unitframe.units.focus.debuffs, P.unitframe.units.focus.debuffs)
 	E:CopyTable(E.db.unitframe.units.focus.aurabar, P.unitframe.units.focus.aurabar)
@@ -820,7 +820,7 @@ function E:Install()
 
 		imsg.bg = imsg:CreateTexture(nil, "BACKGROUND")
 		imsg.bg:SetTexture([[Interface\AddOns\ElvUI\media\textures\LevelUpTex]])
-		imsg.bg:Point('BOTTOM')
+		imsg.bg:Point("BOTTOM")
 		imsg.bg:Size(326, 103)
 		imsg.bg:SetTexCoord(0.00195313, 0.63867188, 0.03710938, 0.23828125)
 		imsg.bg:SetVertexColor(1, 1, 1, 0.6)
@@ -840,7 +840,7 @@ function E:Install()
 		imsg.lineBottom:SetTexCoord(0.00195313, 0.81835938, 0.01953125, 0.03320313)
 
 		imsg.text = imsg:CreateFontString(nil, "OVERLAY")
-		imsg.text:FontTemplate(E["media"].normFont, 32, "OUTLINE")
+		imsg.text:FontTemplate(E.media.normFont, 32, "OUTLINE")
 		imsg.text:Point("BOTTOM", 0, 16)
 		imsg.text:SetTextColor(1, 0.82, 0)
 		imsg.text:SetJustifyH("CENTER")
@@ -883,7 +883,7 @@ function E:Install()
 		f.Status = CreateFrame("StatusBar", "InstallStatus", f)
 		f.Status:SetFrameLevel(f.Status:GetFrameLevel() + 2)
 		f.Status:CreateBackdrop("Default")
-		f.Status:SetStatusBarTexture(E["media"].normTex)
+		f.Status:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(f.Status)
 		f.Status:SetMinMaxValues(0, MAX_PAGE)
 		f.Status:Point("TOPLEFT", f.Prev, "TOPRIGHT", 6, -2)

@@ -86,17 +86,17 @@ local function BuildABConfig()
 				name = L["RightClick Self-Cast"],
 				set = function(info, value)
 					E.db.actionbar.rightClickSelfCast = value;
-					for _, bar in pairs(AB["handledBars"]) do
+					for _, bar in pairs(AB.handledBars) do
 						AB:UpdateButtonConfig(bar, bar.bindButtons)
 					end
-				end,
+				end
 			},
 			desaturateOnCooldown = {
 				order = 10,
 				type = "toggle",
 				name = L["Desaturate On Cooldown"],
 				set = function(info, value)
-					E.db.actionbar.desaturateOnCooldown = value;
+					E.db.actionbar.desaturateOnCooldown = value
 					AB:ToggleDesaturation(value)
 				end
 			},
@@ -235,8 +235,8 @@ local function BuildABConfig()
 		type = "group",
 		guiInline = false,
 		disabled = function() return not E.ActionBars end,
-		get = function(info) return E.db.actionbar["barPet"][ info[#info] ] end,
-		set = function(info, value) E.db.actionbar["barPet"][ info[#info] ] = value AB:PositionAndSizeBarPet() end,
+		get = function(info) return E.db.actionbar.barPet[ info[#info] ] end,
+		set = function(info, value) E.db.actionbar.barPet[ info[#info] ] = value AB:PositionAndSizeBarPet() end,
 		args = {
 			info = {
 				order = 1,
@@ -254,7 +254,7 @@ local function BuildABConfig()
 				name = L["Restore Bar"],
 				desc = L["Restore the actionbars default settings"],
 				buttonElvUI = true,
-				func = function() E:CopyTable(E.db.actionbar["barPet"], P.actionbar["barPet"]) E:ResetMovers(L["Pet Bar"]) AB:PositionAndSizeBarPet() end,
+				func = function() E:CopyTable(E.db.actionbar.barPet, P.actionbar.barPet) E:ResetMovers(L["Pet Bar"]) AB:PositionAndSizeBarPet() end,
 				disabled = function() return not E.db.actionbar.barPet.enabled end
 			},
 			spacer = {
@@ -366,7 +366,7 @@ local function BuildABConfig()
 					if value and value:match("[\n\r]") then
 						value = value:gsub("[\n\r]","")
 					end
-					E.db.actionbar["barPet"]["visibility"] = value
+					E.db.actionbar.barPet.visibility = value
 					AB:UpdateButtonSettings()
 				end,
 				disabled = function() return not E.db.actionbar.barPet.enabled end
@@ -379,8 +379,8 @@ local function BuildABConfig()
 		type = "group",
 		guiInline = false,
 		disabled = function() return not E.ActionBars end,
-		get = function(info) return E.db.actionbar["barShapeShift"][ info[#info] ] end,
-		set = function(info, value) E.db.actionbar["barShapeShift"][ info[#info] ] = value AB:PositionAndSizeBarShapeShift() end,
+		get = function(info) return E.db.actionbar.barShapeShift[ info[#info] ] end,
+		set = function(info, value) E.db.actionbar.barShapeShift[ info[#info] ] = value AB:PositionAndSizeBarShapeShift() end,
 		args = {
 			info = {
 				order = 1,
@@ -398,7 +398,7 @@ local function BuildABConfig()
 				name = L["Restore Bar"],
 				desc = L["Restore the actionbars default settings"],
 				buttonElvUI = true,
-				func = function() E:CopyTable(E.db.actionbar["barShapeShift"], P.actionbar["barShapeShift"]) E:ResetMovers(L["Stance Bar"]) AB:PositionAndSizeBarShapeShift() end,
+				func = function() E:CopyTable(E.db.actionbar.barShapeShift, P.actionbar.barShapeShift) E:ResetMovers(L["Stance Bar"]) AB:PositionAndSizeBarShapeShift() end,
 				disabled = function() return not E.db.actionbar.barShapeShift.enabled end
 			},
 			spacer = {
@@ -521,7 +521,7 @@ local function BuildABConfig()
 					if value and value:match("[\n\r]") then
 						value = value:gsub("[\n\r]","")
 					end
-					E.db.actionbar["barShapeShift"]["visibility"] = value;
+					E.db.actionbar.barShapeShift.visibility = value
 					AB:UpdateButtonSettings()
 				end
 			}
@@ -551,7 +551,7 @@ local function BuildABConfig()
 				name = L["Restore Bar"],
 				desc = L["Restore the actionbars default settings"],
 				buttonElvUI = true,
-				func = function() E:CopyTable(E.db.actionbar["microbar"], P.actionbar["microbar"]) E:ResetMovers(L["Micro Bar"]) AB:UpdateMicroPositionDimensions() end,
+				func = function() E:CopyTable(E.db.actionbar.microbar, P.actionbar.microbar) E:ResetMovers(L["Micro Bar"]) AB:UpdateMicroPositionDimensions() end,
 				disabled = function() return not E.db.actionbar.microbar.enabled end
 			},
 			spacer = {
@@ -610,7 +610,7 @@ local function BuildABConfig()
 					if value and value:match("[\n\r]") then
 						value = value:gsub("[\n\r]","")
 					end
-					E.db.actionbar["microbar"]["visibility"] = value
+					E.db.actionbar.microbar.visibility = value
 					AB:UpdateMicroPositionDimensions()
 				end,
 				disabled = function() return not E.db.actionbar.microbar.enabled end
@@ -763,16 +763,16 @@ local function BuildABConfig()
 					desc = L["This works like a macro, you can run different situations to get the actionbar to page differently.\n Example: '[combat] 2;'"],
 					width = "full",
 					multiline = true,
-					get = function(info) return E.db.actionbar["bar"..i]["paging"][E.myclass] end,
+					get = function(info) return E.db.actionbar["bar"..i].paging[E.myclass] end,
 					set = function(info, value)
 						if value and value:match("[\n\r]") then
 							value = value:gsub("[\n\r]","")
 						end
-						if not E.db.actionbar["bar"..i]["paging"][E.myclass] then
-							E.db.actionbar["bar"..i]["paging"][E.myclass] = {}
+						if not E.db.actionbar["bar"..i].paging[E.myclass] then
+							E.db.actionbar["bar"..i].paging[E.myclass] = {}
 						end
 
-						E.db.actionbar["bar"..i]["paging"][E.myclass] = value
+						E.db.actionbar["bar"..i].paging[E.myclass] = value
 						AB:UpdateButtonSettings()
 					end,
 					disabled = function() return not E.db.actionbar["bar"..i].enabled end
@@ -788,7 +788,7 @@ local function BuildABConfig()
 						if value and value:match("[\n\r]") then
 							value = value:gsub("[\n\r]","")
 						end
-						E.db.actionbar["bar"..i]["visibility"] = value
+						E.db.actionbar["bar"..i].visibility = value
 						AB:UpdateButtonSettings()
 					end,
 					disabled = function() return not E.db.actionbar["bar"..i].enabled end

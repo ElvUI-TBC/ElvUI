@@ -72,6 +72,6 @@ local function ValueColorUpdate(hex)
 		OnEvent(lastPanel)
 	end
 end
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
+E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
 DT:RegisterDatatext("Haste", {"UNIT_ATTACK_SPEED"}, OnEvent, nil, nil, OnEnter, nil, L["Haste"])

@@ -29,9 +29,9 @@ local LBF = LibStub("LibButtonFacade", true)
 
 local UIHider
 
-AB["handledBars"] = {}
-AB["handledbuttons"] = {}
-AB["barDefaults"] = {
+AB.handledBars = {} --List of all bars
+AB.handledbuttons = {} --List of all buttons that have been modified.
+AB.barDefaults = {
 	["bar1"] = {
 		["page"] = 1,
 		["bindButtons"] = "ACTIONBUTTON",
@@ -81,7 +81,7 @@ function AB:PositionAndSizeBar(barName)
 	local widthMult = self.db[barName].widthMult
 	local heightMult = self.db[barName].heightMult
 	local visibility = self.db[barName].visibility
-	local bar = self["handledBars"][barName]
+	local bar = self.handledBars[barName]
 
 	bar.db = self.db[barName]
 	bar.db.position = nil
@@ -197,7 +197,7 @@ function AB:PositionAndSizeBar(barName)
 			bar:SetAlpha(self.db[barName].alpha)
 		end
 
-		local page = self:GetPage(barName, self["barDefaults"][barName].page, self["barDefaults"][barName].conditions)
+		local page = self:GetPage(barName, self.barDefaults[barName].page, self.barDefaults[barName].conditions)
 		bar:Show()
 		RegisterStateDriver(bar, "page", page)
 
@@ -229,7 +229,7 @@ end
 
 function AB:CreateBar(id)
 	local bar = CreateFrame("Frame", "ElvUI_Bar"..id, E.UIParent, "SecureStateHeaderTemplate")
-	local point, anchor, attachTo, x, y = split(",", self["barDefaults"]["bar"..id].position)
+	local point, anchor, attachTo, x, y = split(",", self.barDefaults["bar"..id].position)
 	bar:Point(point, anchor, attachTo, x, y)
 	bar.id = id
 	bar:CreateBackdrop("Default")
@@ -239,7 +239,7 @@ function AB:CreateBar(id)
 	bar.backdrop:SetPoint("TOPLEFT", bar, "TOPLEFT", offset, -offset)
 	bar.backdrop:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", -offset, offset)
 	bar.buttons = {}
-	bar.bindButtons = self["barDefaults"]["bar"..id].bindButtons
+	bar.bindButtons = self.barDefaults["bar"..id].bindButtons
 	self:HookScript(bar, "OnEnter", "Bar_OnEnter")
 	self:HookScript(bar, "OnLeave", "Bar_OnLeave")
 
@@ -259,7 +259,7 @@ function AB:CreateBar(id)
 	end
 	self:UpdateButtonConfig(bar, bar.bindButtons)
 
-	self["handledBars"]["bar"..id] = bar
+	self.handledBars["bar"..id] = bar
 	E:CreateMover(bar, "ElvAB_"..id, L["Bar "]..id, nil, nil, nil,"ALL,ACTIONBARS",nil,"actionbar,bar"..id)
 	self:PositionAndSizeBar("bar"..id)
 
@@ -289,7 +289,7 @@ function AB:ReassignBindings(event)
 
 	if InCombatLockdown() then return end
 
-	for _, bar in pairs(self["handledBars"]) do
+	for _, bar in pairs(self.handledBars) do
 		if not bar then return end
 
 		ClearOverrideBindings(bar)
@@ -309,7 +309,7 @@ end
 function AB:RemoveBindings()
 	if InCombatLockdown() then return end
 
-	for _, bar in pairs(self["handledBars"]) do
+	for _, bar in pairs(self.handledBars) do
 		if not bar then return end
 
 		ClearOverrideBindings(bar)
@@ -363,7 +363,7 @@ function AB:UpdateBar1Paging()
 end
 
 function AB:UpdateButtonSettingsForBar(barName)
-	local bar = self["handledBars"][barName]
+	local bar = self.handledBars[barName]
 	self:UpdateButtonConfig(bar, bar.bindButtons)
 end
 
@@ -376,30 +376,31 @@ function AB:UpdateButtonSettings()
 		return
 	end
 
-	for button, _ in pairs(self["handledbuttons"]) do
+	for button in pairs(self.handledbuttons) do
 		if button then
 			self:StyleButton(button, button.noBackdrop)
 		else
-			self["handledbuttons"][button] = nil
+			self.handledbuttons[button] = nil
 		end
 	end
 
 	self:UpdatePetBindings()
 	self:UpdateStanceBindings()
-	for _, bar in pairs(self["handledBars"]) do
-		self:UpdateButtonConfig(bar, bar.bindButtons)
+
+	for barName, bar in pairs(self.handledBars) do
+		if bar then
+			self:UpdateButtonConfig(bar, bar.bindButtons)
+			self:PositionAndSizeBar(barName)
+		end
 	end
 
-	for i = 1, 6 do
-		self:PositionAndSizeBar("bar"..i)
-	end
 	self:AdjustMaxStanceButtons()
 	self:PositionAndSizeBarPet()
 	self:PositionAndSizeBarShapeShift()
 end
 
 function AB:GetPage(bar, defaultPage, condition)
-	local page = self.db[bar]["paging"][E.myclass]
+	local page = self.db[bar].paging[E.myclass]
 	if not condition then condition = "" end
 	if not page then page = "" end
 	if page then

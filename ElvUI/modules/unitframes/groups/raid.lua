@@ -20,8 +20,8 @@ function UF:Construct_RaidFrames()
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 
-	self:SetAttribute("initial-width", UF.db["units"]["raid"].width)
-	self:SetAttribute("initial-height", UF.db["units"]["raid"].height)
+	self:SetAttribute("initial-width", UF.db.units.raid.width)
+	self:SetAttribute("initial-height", UF.db.units.raid.height)
 
 	self.RaisedElementParent = CreateFrame("Frame", nil, self)
 	self.RaisedElementParent.TextureParent = CreateFrame("Frame", nil, self.RaisedElementParent)
@@ -58,7 +58,7 @@ function UF:Construct_RaidFrames()
 
 	self.unitframeType = "raid"
 
-	UF:Update_RaidFrames(self, UF.db["units"]["raid"])
+	UF:Update_RaidFrames(self, UF.db.units.raid)
 
 	return self
 end
@@ -118,7 +118,7 @@ function UF:Update_RaidHeader(header, db)
 
 		header:RegisterEvent("PLAYER_LOGIN")
 		header:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		header:SetScript("OnEvent", UF["RaidSmartVisibility"])
+		header:SetScript("OnEvent", UF.RaidSmartVisibility)
 		header.positioned = true
 	end
 
@@ -233,4 +233,4 @@ function UF:Update_RaidFrames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-UF["headerstoload"]["raid"] = true
+UF.headerstoload.raid = true

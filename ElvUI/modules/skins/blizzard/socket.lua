@@ -7,10 +7,12 @@ local format = string.format
 
 local GetNumSockets = GetNumSockets
 local GetSocketTypes = GetSocketTypes
+local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.socket ~= true then return end
 
+	local ItemSocketingFrame = _G["ItemSocketingFrame"]
 	ItemSocketingFrame:StripTextures()
 	ItemSocketingFrame:CreateBackdrop("Transparent")
 	ItemSocketingFrame.backdrop:Point("TOPLEFT", 11, -12)

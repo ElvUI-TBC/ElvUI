@@ -7,6 +7,7 @@ local unpack = unpack
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.macro ~= true then return end
 
+	local MacroFrame = _G["MacroFrame"]
 	MacroFrame:StripTextures()
 	MacroFrame:CreateBackdrop("Transparent")
 	MacroFrame.backdrop:Point("TOPLEFT", 10, -11)
@@ -39,7 +40,7 @@ local function LoadSkin()
 	end
 
 	for i = 1, 2 do
-		local tab = _G["MacroFrameTab" .. i]
+		local tab = _G["MacroFrameTab"..i]
 
 		tab:Height(22)
 	end

@@ -26,10 +26,10 @@ AddOn.callbacks = AddOn.callbacks or LibStub("CallbackHandler-1.0"):New(AddOn)
 
 -- Defaults
 AddOn.DF = {}
-AddOn.DF["profile"] = {}
-AddOn.DF["global"] = {}
+AddOn.DF.profile = {}
+AddOn.DF.global = {}
 AddOn.privateVars = {}
-AddOn.privateVars["profile"] = {}
+AddOn.privateVars.profile = {}
 
 AddOn.Options = {
 	type = "group",
@@ -40,9 +40,9 @@ AddOn.Options = {
 local Locale = LibStub("AceLocale-3.0"):GetLocale(AddOnName, false)
 Engine[1] = AddOn
 Engine[2] = Locale
-Engine[3] = AddOn.privateVars["profile"]
-Engine[4] = AddOn.DF["profile"]
-Engine[5] = AddOn.DF["global"]
+Engine[3] = AddOn.privateVars.profile
+Engine[4] = AddOn.DF.profile
+Engine[5] = AddOn.DF.global
 
 _G[AddOnName] = Engine
 local tcopy = table.copy
@@ -158,7 +158,7 @@ function AddOn:PLAYER_REGEN_DISABLED()
 	end
 
 	if self.CreatedMovers then
-		for name, _ in pairs(self.CreatedMovers) do
+		for name in pairs(self.CreatedMovers) do
 			if _G[name] and _G[name]:IsShown() then
 				err = true
 				_G[name]:Hide()

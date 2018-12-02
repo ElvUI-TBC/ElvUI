@@ -4,6 +4,8 @@ local S = E:GetModule("Skins")
 local _G = _G
 local unpack, select = unpack, select
 
+local CreateFrame = CreateFrame
+local hooksecurefunc = hooksecurefunc
 local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local GetTradePlayerItemLink = GetTradePlayerItemLink
@@ -12,6 +14,7 @@ local GetTradeTargetItemLink = GetTradeTargetItemLink
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trade ~= true then return end
 
+	local TradeFrame = _G["TradeFrame"]
 	TradeFrame:StripTextures(true)
 	TradeFrame:Width(400)
 	TradeFrame:CreateBackdrop("Transparent")
@@ -25,12 +28,12 @@ local function LoadSkin()
 	S:HandleEditBox(TradePlayerInputMoneyFrameCopper)
 
 	for i = 1, MAX_TRADE_ITEMS do
-		local player = _G["TradePlayerItem" .. i]
-		local recipient = _G["TradeRecipientItem" .. i]
-		local playerButton = _G["TradePlayerItem" .. i .. "ItemButton"]
-		local playerButtonIcon = _G["TradePlayerItem" .. i .. "ItemButtonIconTexture"]
-		local recipientButton = _G["TradeRecipientItem" .. i .. "ItemButton"]
-		local recipientButtonIcon = _G["TradeRecipientItem" .. i .. "ItemButtonIconTexture"]
+		local player = _G["TradePlayerItem"..i]
+		local recipient = _G["TradeRecipientItem"..i]
+		local playerButton = _G["TradePlayerItem"..i.."ItemButton"]
+		local playerButtonIcon = _G["TradePlayerItem"..i.."ItemButtonIconTexture"]
+		local recipientButton = _G["TradeRecipientItem"..i.."ItemButton"]
+		local recipientButtonIcon = _G["TradeRecipientItem"..i.."ItemButtonIconTexture"]
 		local playerNameFrame = _G["TradePlayerItem"..i.."NameFrame"]
 		local recipientNameFrame = _G["TradeRecipientItem"..i.."NameFrame"]
 
@@ -98,11 +101,11 @@ local function LoadSkin()
 				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
 				tradeItemName:SetTextColor(GetItemQualityColor(quality))
 			else
-				tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				tradeItemName:SetTextColor(1, 1, 1)
 			end
 		else
-			tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 	end)
 
@@ -117,11 +120,11 @@ local function LoadSkin()
 				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
 				tradeItemName:SetTextColor(GetItemQualityColor(quality))
 			else
-				tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				tradeItemName:SetTextColor(1, 1, 1)
 			end
 		else
-			tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 	end)
 end

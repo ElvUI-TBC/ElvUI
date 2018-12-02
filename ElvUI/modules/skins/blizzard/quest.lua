@@ -123,8 +123,8 @@ local function LoadSkin()
 			text:SetTextColor(GetItemQualityColor(quality))
 		else
 			if frame then
-				frame:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-				frame.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				frame.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 			text:SetTextColor(1, 1, 1)
 		end
@@ -137,7 +137,7 @@ local function LoadSkin()
 	QuestRewardItemHighlight:Size(142, 40)
 
 	hooksecurefunc("QuestRewardItem_OnClick", function()
-		QuestRewardItemHighlight:ClearAllPoints();
+		QuestRewardItemHighlight:ClearAllPoints()
 		QuestRewardItemHighlight:SetOutside(this:GetName().."IconTexture")
 		_G[this:GetName().."Name"]:SetTextColor(1, 1, 0)
 

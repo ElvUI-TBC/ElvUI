@@ -385,7 +385,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 			if (UnitIsUnit(groupUnit.."target", unit)) and (not UnitIsUnit(groupUnit,"player")) then
 				local _, class = UnitClass(groupUnit)
 				local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
-				if not color then color = RAID_CLASS_COLORS["PRIEST"] end
+				if not color then color = RAID_CLASS_COLORS.PRIEST end
 				tinsert(targetList, format("%s%s", E:RGBToHex(color.r, color.g, color.b), UnitName(groupUnit)))
 			end
 		end

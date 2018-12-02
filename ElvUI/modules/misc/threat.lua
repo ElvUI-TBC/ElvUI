@@ -58,7 +58,7 @@ function THREAT:GetColor(unit)
 		if not class then return 194, 194, 194 end
 		return class.r * 255, class.g * 255, class.b * 255
 	elseif unitReaction then
-		local reaction = ElvUF["colors"].reaction[unitReaction]
+		local reaction = ElvUF.colors.reaction[unitReaction]
 		return reaction[1] * 255, reaction[2] * 255, reaction[3] * 255
 	else
 		return 194, 194, 194
@@ -188,7 +188,7 @@ function THREAT:Initialize()
 	self.playerGUID = UnitGUID("player")
 
 	self.bar = CreateFrame("StatusBar", "ElvUI_ThreatBar", E.UIParent)
-	self.bar:SetStatusBarTexture(E["media"].normTex)
+	self.bar:SetStatusBarTexture(E.media.normTex)
 	E:RegisterStatusBar(self.bar)
 	self.bar:SetMinMaxValues(0, 100)
 	self.bar:CreateBackdrop("Default")

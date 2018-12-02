@@ -46,7 +46,7 @@ local function LoadSkin()
 	CraftRankFrame:ClearAllPoints()
 	CraftRankFrame:Point("TOP", -20, -45)
 	CraftRankFrame:CreateBackdrop()
-	CraftRankFrame:SetStatusBarTexture(E["media"].normTex)
+	CraftRankFrame:SetStatusBarTexture(E.media.normTex)
 	CraftRankFrame:SetStatusBarColor(0.13, 0.28, 0.85)
 	CraftRankFrame.SetStatusBarColor = E.noop
 	E:RegisterStatusBar(CraftRankFrame)
@@ -220,7 +220,7 @@ local function LoadSkin()
 				CraftIcon:SetBackdropBorderColor(GetItemQualityColor(quality))
 				CraftName:SetTextColor(GetItemQualityColor(quality))
 			else
-				CraftIcon:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				CraftIcon:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				CraftName:SetTextColor(1, 1, 1)
 			end
 		end
@@ -244,8 +244,8 @@ local function LoadSkin()
 						name:SetTextColor(GetItemQualityColor(quality))
 					end
 				else
-					reagent:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-					icon.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					reagent:SetBackdropBorderColor(unpack(E.media.bordercolor))
+					icon.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
 			end
 		end

@@ -53,7 +53,7 @@ local function UpdateStyleLists()
 			args = {}
 		}
 		if next(E.global.nameplates.filters[selectedNameplateFilter].triggers.names) then
-			for name, _ in pairs(E.global.nameplates.filters[selectedNameplateFilter].triggers.names) do
+			for name in pairs(E.global.nameplates.filters[selectedNameplateFilter].triggers.names) do
 				E.Options.args.nameplate.args.filters.args.triggers.args.names.args.names.args[name] = {
 					order = -1,
 					type = "toggle",
@@ -79,7 +79,7 @@ local function UpdateStyleLists()
 		}
 		if next(E.global.nameplates.filters[selectedNameplateFilter].triggers.casting.spells) then
 			local spell, spellName, notDisabled
-			for name, _ in pairs(E.global.nameplates.filters[selectedNameplateFilter].triggers.casting.spells) do
+			for name in pairs(E.global.nameplates.filters[selectedNameplateFilter].triggers.casting.spells) do
 				spell = name
 				if tonumber(spell) then
 					spellName = GetSpellInfo(spell)
@@ -118,7 +118,7 @@ local function UpdateStyleLists()
 		}
 		if next(E.global.nameplates.filters[selectedNameplateFilter].triggers.cooldowns.names) then
 			local spell, spellName, notDisabled
-			for name, _ in pairs(E.global.nameplates.filters[selectedNameplateFilter].triggers.cooldowns.names) do
+			for name in pairs(E.global.nameplates.filters[selectedNameplateFilter].triggers.cooldowns.names) do
 				spell = name
 				if tonumber(spell) then
 					spellName = GetSpellInfo(spell)
@@ -162,7 +162,7 @@ local function UpdateStyleLists()
 		}
 		if next(E.global.nameplates.filters[selectedNameplateFilter].triggers.buffs.names) then
 			local spell, spellName, notDisabled
-			for name, _ in pairs(E.global.nameplates.filters[selectedNameplateFilter].triggers.buffs.names) do
+			for name in pairs(E.global.nameplates.filters[selectedNameplateFilter].triggers.buffs.names) do
 				spell = name
 				if tonumber(spell) then
 					spellName = GetSpellInfo(spell)
@@ -202,7 +202,7 @@ local function UpdateStyleLists()
 		}
 		if next(E.global.nameplates.filters[selectedNameplateFilter].triggers.debuffs.names) then
 			local spell, spellName, notDisabled
-			for name, _ in pairs(E.global.nameplates.filters[selectedNameplateFilter].triggers.debuffs.names) do
+			for name in pairs(E.global.nameplates.filters[selectedNameplateFilter].triggers.debuffs.names) do
 				spell = name
 				if tonumber(spell) then
 					spellName = GetSpellInfo(spell)
@@ -1593,7 +1593,7 @@ local function GetUnitSettings(unit, name)
 								desc = L["These filters don't use a list of spells like the regular filters. Instead they use the WoW API and some code logic to determine if an aura should be allowed or blocked."],
 								values = function()
 									local filters = {}
-									local list = E.global.nameplates["specialFilters"]
+									local list = E.global.nameplates.specialFilters
 									if not list then return end
 									for filter in pairs(list) do
 										filters[filter] = filter
@@ -1612,7 +1612,7 @@ local function GetUnitSettings(unit, name)
 								desc = L["These filters use a list of spells to determine if an aura should be allowed or blocked. The content of these filters can be modified in the 'Filters' section of the config."],
 								values = function()
 									local filters = {}
-									local list = E.global.unitframe["aurafilters"]
+									local list = E.global.unitframe.aurafilters
 									if not list then return end
 									for filter in pairs(list) do
 										filters[filter] = filter
@@ -1755,7 +1755,7 @@ local function GetUnitSettings(unit, name)
 								desc = L["These filters don't use a list of spells like the regular filters. Instead they use the WoW API and some code logic to determine if an aura should be allowed or blocked."],
 								values = function()
 									local filters = {}
-									local list = E.global.nameplates["specialFilters"]
+									local list = E.global.nameplates.specialFilters
 									if not list then return end
 									for filter in pairs(list) do
 										filters[filter] = filter
@@ -1774,7 +1774,7 @@ local function GetUnitSettings(unit, name)
 								desc = L["These filters use a list of spells to determine if an aura should be allowed or blocked. The content of these filters can be modified in the 'Filters' section of the config."],
 								values = function()
 									local filters = {}
-									local list = E.global.unitframe["aurafilters"]
+									local list = E.global.unitframe.aurafilters
 									if not list then return end
 									for filter in pairs(list) do
 										filters[filter] = filter
@@ -2785,7 +2785,7 @@ E.Options.args.nameplate = {
 						if match(value, "^[%s%p]-$") then
 							return
 						end
-						if E.global["nameplates"]["filters"][value] then
+						if E.global.nameplate.filters[value] then
 							E:Print(L["Filter already exists!"])
 							return
 						end

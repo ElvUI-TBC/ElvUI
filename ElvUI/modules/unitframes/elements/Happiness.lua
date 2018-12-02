@@ -15,7 +15,7 @@ function UF:Construct_Happiness(frame)
 
 	HappinessIndicator.bg = HappinessIndicator:CreateTexture(nil, "BORDER")
 	HappinessIndicator.bg:SetAllPoints(HappinessIndicator)
-	HappinessIndicator.bg:SetTexture(E["media"].blankTex)
+	HappinessIndicator.bg:SetTexture(E.media.blankTex)
 	HappinessIndicator.bg.multiplier = 0.3
 
 	HappinessIndicator.Override = UF.HappinessOverride

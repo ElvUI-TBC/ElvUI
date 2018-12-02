@@ -14,6 +14,7 @@ local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect then return end
 
 	-- Inspect Frame
+	local InspectFrame = _G["InspectFrame"]
 	InspectFrame:StripTextures(true)
 	InspectFrame:CreateBackdrop("Transparent")
 	InspectFrame.backdrop:Point("TOPLEFT", 10, -12)

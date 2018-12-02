@@ -253,11 +253,11 @@ local function LoadSkin()
 				self:SetBackdropBorderColor(GetItemQualityColor(quality))
 				AuctionsItemButtonName:SetTextColor(GetItemQualityColor(quality))
 			else
-				self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				AuctionsItemButtonName:SetTextColor(1, 1, 1)
 			end
 		else
-			self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			self:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			AuctionsItemButtonName:SetTextColor(1, 1, 1)
 		end
 	end)

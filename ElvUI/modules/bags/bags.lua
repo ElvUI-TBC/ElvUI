@@ -858,9 +858,9 @@ function B:OnEvent(event, ...)
 end
 
 function B:UpdateGoldText()
-	self.BagFrame.goldText:SetText(E:FormatMoney(GetMoney(), E.db["bags"].moneyFormat, not E.db["bags"].moneyCoins))
+	self.BagFrame.goldText:SetText(E:FormatMoney(GetMoney(), E.db.bags.moneyFormat, not E.db.bags.moneyCoins))
 
-	local goldPos = E.db["bags"].moneyCoins and (E.db["bags"].moneyFormat == "SMART" or E.db["bags"].moneyFormat == "FULL" or E.db["bags"].moneyFormat == "BLIZZARD")
+	local goldPos = E.db.bags.moneyCoins and (E.db.bags.moneyFormat == "SMART" or E.db.bags.moneyFormat == "FULL" or E.db.bags.moneyFormat == "BLIZZARD")
 	self.BagFrame.goldText:Point("BOTTOMRIGHT", self.BagFrame.holderFrame, "TOPRIGHT", goldPos and -20 or -10, 4)
 end
 
@@ -1573,7 +1573,7 @@ function B:CreateSellFrame()
 	B.SellFrame.statusbar = CreateFrame("StatusBar", "ElvUIVendorGraysFrameStatusbar", B.SellFrame)
 	B.SellFrame.statusbar:Size(180, 16)
 	B.SellFrame.statusbar:Point("BOTTOM", B.SellFrame, "BOTTOM", 0, 4)
-	B.SellFrame.statusbar:SetStatusBarTexture(E["media"].normTex)
+	B.SellFrame.statusbar:SetStatusBarTexture(E.media.normTex)
 	B.SellFrame.statusbar:SetStatusBarColor(1, 0, 0)
 	B.SellFrame.statusbar:CreateBackdrop("Transparent")
 

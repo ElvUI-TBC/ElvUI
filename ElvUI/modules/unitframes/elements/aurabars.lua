@@ -15,7 +15,7 @@ function UF:Construct_AuraBars()
 	self:SetTemplate("Default", nil, nil, UF.thinBorders, true)
 	local inset = UF.thinBorders and E.mult or nil
 	bar:SetInside(self, inset, inset)
-	UF["statusbars"][bar] = true
+	UF.statusbars[bar] = true
 	UF:Update_StatusBar(bar)
 
 	CreateStatusBarTexturePointer(bar)

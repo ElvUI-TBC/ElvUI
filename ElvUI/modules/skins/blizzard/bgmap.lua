@@ -4,6 +4,7 @@ local S = E:GetModule("Skins")
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bgmap ~= true then return end
 
+	local BattlefieldMinimap = _G["BattlefieldMinimap"]
 	BattlefieldMinimap:SetClampedToScreen(true)
 	BattlefieldMinimapCorner:Kill()
 	BattlefieldMinimapBackground:Kill()

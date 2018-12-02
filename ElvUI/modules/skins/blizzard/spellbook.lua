@@ -4,16 +4,20 @@ local S = E:GetModule("Skins")
 local _G = _G
 local select, unpack = select, unpack
 
+local CreateFrame = CreateFrame
+local hooksecurefunc = hooksecurefunc
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.spellbook ~= true then return end
 
+	local SpellBookFrame = _G["SpellBookFrame"]
 	SpellBookFrame:StripTextures(true)
 	SpellBookFrame:CreateBackdrop("Transparent")
 	SpellBookFrame.backdrop:Point("TOPLEFT", 10, -12)
 	SpellBookFrame.backdrop:Point("BOTTOMRIGHT", -31, 75)
 
 	for i = 1, 3 do
-		local tab = _G["SpellBookFrameTabButton" .. i]
+		local tab = _G["SpellBookFrameTabButton"..i]
 
 		tab:GetNormalTexture():SetTexture(nil)
 		tab:GetDisabledTexture():SetTexture(nil)
@@ -80,7 +84,7 @@ local function LoadSkin()
 	end)
 
 	for i = 1, MAX_SKILLLINE_TABS do
-		local tab = _G["SpellBookSkillLineTab" .. i]
+		local tab = _G["SpellBookSkillLineTab"..i]
 
 		tab:StripTextures()
 		tab:StyleButton(nil, true)

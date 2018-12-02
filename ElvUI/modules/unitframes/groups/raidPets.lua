@@ -19,8 +19,8 @@ function UF:Construct_RaidpetFrames()
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 
-	self:SetAttribute("initial-width", UF.db["units"]["raidpet"].width)
-	self:SetAttribute("initial-height", UF.db["units"]["raidpet"].height)
+	self:SetAttribute("initial-width", UF.db.units.raidpet.width)
+	self:SetAttribute("initial-height", UF.db.units.raidpet.height)
 
 	self.RaisedElementParent = CreateFrame("Frame", nil, self)
 	self.RaisedElementParent.TextureParent = CreateFrame("Frame", nil, self.RaisedElementParent)
@@ -48,7 +48,7 @@ function UF:Construct_RaidpetFrames()
 
 	self.unitframeType = "raidpet"
 
-	UF:Update_RaidpetFrames(self, UF.db["units"]["raidpet"])
+	UF:Update_RaidpetFrames(self, UF.db.units.raidpet)
 
 	return self
 end
@@ -84,7 +84,7 @@ function UF:Update_RaidpetHeader(header, db)
 
 		header:RegisterEvent("PLAYER_LOGIN")
 		header:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		header:SetScript("OnEvent", UF["RaidPetsSmartVisibility"])
+		header:SetScript("OnEvent", UF.RaidPetsSmartVisibility)
 	end
 
 	UF.RaidPetsSmartVisibility(header)
@@ -178,5 +178,4 @@ function UF:Update_RaidpetFrames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
---Added an additional argument at the end, specifying the header Template we want to use
-UF["headerstoload"]["raidpet"] = {nil, nil, "SecureGroupPetHeaderTemplate"}
+UF.headerstoload.raidpet = {nil, nil, "SecureGroupPetHeaderTemplate"}

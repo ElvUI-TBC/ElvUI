@@ -155,4 +155,4 @@ function UF:Update_PlayerFrame(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-tinsert(UF["unitstoload"], "player")
+tinsert(UF.unitstoload, "player")

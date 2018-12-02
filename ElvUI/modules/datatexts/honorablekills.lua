@@ -25,6 +25,6 @@ local function ValueColorUpdate(hex)
 		OnEvent(lastPanel)
 	end
 end
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
+E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
 DT:RegisterDatatext("Honorable Kills", {"PLAYER_PVP_KILLS_CHANGED", "PLAYER_PVP_RANK_CHANGED"}, OnEvent, nil, nil, nil, nil, HONORABLE_KILLS)

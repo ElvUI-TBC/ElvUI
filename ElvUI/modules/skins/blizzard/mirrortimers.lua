@@ -37,7 +37,7 @@ local function LoadSkin()
 
 		statusBar:CreateBackdrop()
 		statusBar:Size(222, 18)
-		statusBar:SetStatusBarTexture(E["media"].normTex)
+		statusBar:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(statusBar)
 
 		text:Hide()

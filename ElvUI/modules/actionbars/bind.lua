@@ -288,7 +288,7 @@ function AB:LoadKeyBinder()
 		b = EnumerateFrames(b)
 	end
 
-	for b, _ in pairs(self["handledbuttons"]) do
+	for b in pairs(self.handledbuttons) do
 		self:RegisterButton(b, true)
 	end
 

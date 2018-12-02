@@ -6,6 +6,7 @@ local _G = _G
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.help ~= true then return end
 
+	local HelpFrame = _G["HelpFrame"]
 	HelpFrame:StripTextures()
 	HelpFrame:CreateBackdrop("Transparent")
 	HelpFrame.backdrop:Point("TOPLEFT", 6, -2)

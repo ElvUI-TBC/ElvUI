@@ -30,8 +30,8 @@ function UF:Construct_TankFrames()
 	self.Range = UF:Construct_Range(self)
 
 	if not self.isChild then
-		self:SetAttribute("initial-width", UF.db["units"]["tank"].width)
-		self:SetAttribute("initial-height", UF.db["units"]["tank"].height)
+		self:SetAttribute("initial-width", UF.db.units.tank.width)
+		self:SetAttribute("initial-height", UF.db.units.tank.height)
 
 		self.Buffs = UF:Construct_Buffs(self)
 		self.Debuffs = UF:Construct_Debuffs(self)
@@ -41,18 +41,17 @@ function UF:Construct_TankFrames()
 
 		self.unitframeType = "tank"
 	else
-		self:SetAttribute("initial-width", UF.db["units"]["tank"].targetsGroup.width)
-		self:SetAttribute("initial-height", UF.db["units"]["tank"].targetsGroup.height)
+		self:SetAttribute("initial-width", UF.db.units.tank.targetsGroup.width)
+		self:SetAttribute("initial-height", UF.db.units.tank.targetsGroup.height)
 
 		self.unitframeType = "tanktarget"
 	end
 
+	UF:Update_TankFrames(self, E.db.unitframe.units.tank)
 	UF:Update_StatusBars()
 	UF:Update_FontStrings()
 
 	self.originalParent = self:GetParent()
-
-	UF:Update_TankFrames(self, E.db["unitframe"]["units"]["tank"])
 
 	return self
 end
@@ -172,4 +171,4 @@ function UF:Update_TankFrames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-UF["headerstoload"]["tank"] = {"MAINTANK", "ELVUI_UNITTARGET"}
+UF.headerstoload.tank = {"MAINTANK", "ELVUI_UNITTARGET"}

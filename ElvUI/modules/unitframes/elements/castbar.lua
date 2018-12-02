@@ -30,7 +30,7 @@ local ticks = {}
 function UF:Construct_Castbar(frame, moverName)
 	local castbar = CreateFrame("StatusBar", nil, frame)
 	castbar:SetFrameLevel(frame.RaisedElementParent:GetFrameLevel() + 30) --Make it appear above everything else
-	self["statusbars"][castbar] = true
+	self.statusbars[castbar] = true
 
 	CreateStatusBarTexturePointer(castbar)
 
@@ -61,7 +61,7 @@ function UF:Construct_Castbar(frame, moverName)
 
 	--Set to castbar.SafeZone
 	castbar.LatencyTexture = castbar:CreateTexture(nil, "OVERLAY")
-	castbar.LatencyTexture:SetTexture(E["media"].blankTex)
+	castbar.LatencyTexture:SetTexture(E.media.blankTex)
 	castbar.LatencyTexture:SetVertexColor(0.69, 0.31, 0.31, 0.75)
 
 	castbar.bg = castbar:CreateTexture(nil, "BORDER")
@@ -317,7 +317,7 @@ function UF:SetCastTicks(frame, numTicks)
 	for i = 1, numTicks do
 		if not ticks[i] then
 			ticks[i] = frame:CreateTexture(nil, "OVERLAY")
-			ticks[i]:SetTexture(E["media"].normTex)
+			ticks[i]:SetTexture(E.media.normTex)
 			E:RegisterStatusBar(ticks[i])
 			ticks[i]:SetVertexColor(frame.tickColor.r, frame.tickColor.g, frame.tickColor.b, frame.tickColor.a)
 			ticks[i]:Width(frame.tickWidth)

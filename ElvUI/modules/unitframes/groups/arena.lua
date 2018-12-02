@@ -134,4 +134,4 @@ function UF:Update_ArenaFrames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-UF["unitgroupstoload"]["arena"] = {5}
+UF.unitgroupstoload.arena = {5}

@@ -19,11 +19,11 @@ local function OnEvent(self)
 
 	local NewMoney = GetMoney()
 	ElvDB = ElvDB or {}
-	ElvDB["gold"] = ElvDB["gold"] or {}
-	ElvDB["gold"][E.myrealm] = ElvDB["gold"][E.myrealm] or {}
-	ElvDB["gold"][E.myrealm][E.myname] = ElvDB["gold"][E.myrealm][E.myname] or NewMoney
+	ElvDB.gold = ElvDB.gold or {}
+	ElvDB.gold[E.myrealm] = ElvDB.gold[E.myrealm] or {}
+	ElvDB.gold[E.myrealm][E.myname] = ElvDB.gold[E.myrealm][E.myname] or NewMoney
 
-	local OldMoney = ElvDB["gold"][E.myrealm][E.myname] or NewMoney
+	local OldMoney = ElvDB.gold[E.myrealm][E.myname] or NewMoney
 
 	local Change = NewMoney - OldMoney
 	if OldMoney > NewMoney then
@@ -34,7 +34,7 @@ local function OnEvent(self)
 
 	self.text:SetText(E:FormatMoney(NewMoney, E.db.datatexts.goldFormat or "BLIZZARD", not E.db.datatexts.goldCoins))
 
-	ElvDB["gold"][E.myrealm][E.myname] = NewMoney
+	ElvDB.gold[E.myrealm][E.myname] = NewMoney
 end
 
 local function OnClick(self, btn)
@@ -62,19 +62,19 @@ local function OnEnter(self)
 	DT.tooltip:AddDoubleLine(L["Earned:"], E:FormatMoney(Profit, style, textOnly), 1, 1, 1, 1, 1, 1)
 	DT.tooltip:AddDoubleLine(L["Spent:"], E:FormatMoney(Spent, style, textOnly), 1, 1, 1, 1, 1, 1)
 	if Profit < Spent then
-		DT.tooltip:AddDoubleLine(L["Deficit:"], E:FormatMoney(Profit-Spent, style, textOnly), 1, 0, 0, 1, 1, 1)
+		DT.tooltip:AddDoubleLine(L["Deficit:"], E:FormatMoney(Profit - Spent, style, textOnly), 1, 0, 0, 1, 1, 1)
 	elseif (Profit - Spent) > 0 then
-		DT.tooltip:AddDoubleLine(L["Profit:"], E:FormatMoney(Profit-Spent, style, textOnly), 0, 1, 0, 1, 1, 1)
+		DT.tooltip:AddDoubleLine(L["Profit:"], E:FormatMoney(Profit - Spent, style, textOnly), 0, 1, 0, 1, 1, 1)
 	end
 	DT.tooltip:AddLine(" ")
 
 	local totalGold = 0
 	DT.tooltip:AddLine(L["Character: "])
 
-	for k, _ in pairs(ElvDB["gold"][E.myrealm]) do
-		if ElvDB["gold"][E.myrealm][k] then
-			DT.tooltip:AddDoubleLine(k, E:FormatMoney(ElvDB["gold"][E.myrealm][k], style, textOnly), 1, 1, 1, 1, 1, 1)
-			totalGold = totalGold + ElvDB["gold"][E.myrealm][k]
+	for k,_ in pairs(ElvDB.gold[E.myrealm]) do
+		if ElvDB.gold[E.myrealm][k] then
+			DT.tooltip:AddDoubleLine(k, E:FormatMoney(ElvDB.gold[E.myrealm][k], style, textOnly), 1, 1, 1, 1, 1, 1)
+			totalGold = totalGold + ElvDB.gold[E.myrealm][k]
 		end
 	end
 

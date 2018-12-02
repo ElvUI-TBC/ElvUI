@@ -182,7 +182,7 @@ local function LoadSkin()
 
 	PetPaperDollFrameExpBar:StripTextures()
 	PetPaperDollFrameExpBar:CreateBackdrop("Default")
-	PetPaperDollFrameExpBar:SetStatusBarTexture(E["media"].normTex)
+	PetPaperDollFrameExpBar:SetStatusBarTexture(E.media.normTex)
 	E:RegisterStatusBar(PetPaperDollFrameExpBar)
 
 	local function updHappiness(self)

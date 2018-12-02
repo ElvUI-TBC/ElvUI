@@ -177,12 +177,12 @@ function UF:Construct_DruidAltMana(frame)
 	druidAltMana.PostUpdate = UF.PostUpdateDruidAltMana
 	druidAltMana.PostUpdateVisibility = UF.PostVisibilityDruidAltMana
 	druidAltMana:CreateBackdrop("Default")
-	UF["statusbars"][druidAltMana] = true
-	druidAltMana:SetStatusBarTexture(E["media"].blankTex)
+	UF.statusbars[druidAltMana] = true
+	druidAltMana:SetStatusBarTexture(E.media.blankTex)
 
 	druidAltMana.bg = druidAltMana:CreateTexture(nil, "BORDER")
 	druidAltMana.bg:SetAllPoints(druidAltMana)
-	druidAltMana.bg:SetTexture(E["media"].blankTex)
+	druidAltMana.bg:SetTexture(E.media.blankTex)
 	druidAltMana.bg.multiplier = 0.3
 
 	druidAltMana.text = druidAltMana:CreateFontString(nil, "OVERLAY")
@@ -205,7 +205,7 @@ function UF:PostUpdateDruidAltMana(_, cur, max, event)
 			local powerValueText = powerValue:GetText()
 			local powerValueParent = powerValue:GetParent()
 			local powerTextPosition = db.power.position
-			local color = ElvUF["colors"].power[0]
+			local color = ElvUF.colors.power[0]
 			color = E:RGBToHex(color[1], color[2], color[3])
 
 			--Attempt to remove |cFFXXXXXX color codes in order to determine if power text is really empty

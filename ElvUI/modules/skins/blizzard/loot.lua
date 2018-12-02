@@ -176,7 +176,7 @@ local function LoadSkin2()
 
 		statusBar:StripTextures()
 		statusBar:CreateBackdrop("Default")
-		statusBar:SetStatusBarTexture(E["media"].normTex)
+		statusBar:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(statusBar)
 		
 		decoration:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Gold-Dragon")

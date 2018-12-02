@@ -149,9 +149,9 @@ local function OnClick(_, btn)
 				info = friendTable[i]
 				if info[5] then
 					shouldSkip = false
-					if (info[6] == statusTable[1]) and E.db.datatexts.friends["hideAFK"] then
+					if (info[6] == statusTable[1]) and E.db.datatexts.friends.hideAFK then
 						shouldSkip = true
-					elseif (info[6] == statusTable[2]) and E.db.datatexts.friends["hideDND"] then
+					elseif (info[6] == statusTable[2]) and E.db.datatexts.friends.hideDND then
 						shouldSkip = true
 					end
 					if not shouldSkip then
@@ -196,9 +196,9 @@ local function OnEnter(self)
 			info = friendTable[i]
 			if info[5] then
 				shouldSkip = false
-				if (info[6] == statusTable[1]) and E.db.datatexts.friends["hideAFK"] then
+				if (info[6] == statusTable[1]) and E.db.datatexts.friends.hideAFK then
 					shouldSkip = true
-				elseif (info[6] == statusTable[2]) and E.db.datatexts.friends["hideDND"] then
+				elseif (info[6] == statusTable[2]) and E.db.datatexts.friends.hideDND then
 					shouldSkip = true
 				end
 				if not shouldSkip then
@@ -224,6 +224,6 @@ local function ValueColorUpdate(hex)
 		OnEvent(lastPanel, "ELVUI_COLOR_UPDATE")
 	end
 end
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
+E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
 DT:RegisterDatatext("Friends", {"PLAYER_LOGIN", "FRIENDLIST_UPDATE", "CHAT_MSG_SYSTEM"}, OnEvent, nil, OnClick, OnEnter, nil, FRIENDS)

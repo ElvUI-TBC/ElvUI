@@ -24,7 +24,7 @@ function UF:Construct_Threat(frame)
 
 	threat.texIcon = threat:CreateTexture(nil, "OVERLAY")
 	threat.texIcon:Size(8)
-	threat.texIcon:SetTexture(E["media"].blankTex)
+	threat.texIcon:SetTexture(E.media.blankTex)
 	threat.texIcon:Hide()
 
 	threat.PostUpdate = self.UpdateThreat

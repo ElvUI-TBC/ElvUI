@@ -62,8 +62,8 @@ function UF:Construct_AuraIcon(button)
 
 	button.timerOptions.reverseToggle = UF.db.cooldown.reverse
 
-	if UF.db.cooldown.override and E.TimeColors["unitframe"] then
-		button.timerOptions.timeColors, button.timerOptions.timeThreshold = E.TimeColors["unitframe"], UF.db.cooldown.threshold
+	if UF.db.cooldown.override and E.TimeColors.unitframe then
+		button.timerOptions.timeColors, button.timerOptions.timeThreshold = E.TimeColors.unitframe, UF.db.cooldown.threshold
 	else
 		button.timerOptions.timeColors, button.timerOptions.timeThreshold = nil, nil
 	end
@@ -102,7 +102,7 @@ function UF:Construct_AuraIcon(button)
 
 		if auraName then
 			E:Print(format(L["The spell '%s' has been added to the Blacklist unitframe aura filter."], auraName))
-			E.global["unitframe"]["aurafilters"]["Blacklist"]["spells"][auraName] = {
+			E.global.unitframe.aurafilters.Blacklist.spells[auraName] = {
 				["enable"] = true,
 				["priority"] = 0
 			}
@@ -116,8 +116,8 @@ function UF:Construct_AuraIcon(button)
 		button.CooldownOverride = "unitframe"
 		button.isRegisteredCooldown = true
 
-		if not E.RegisteredCooldowns["unitframe"] then E.RegisteredCooldowns["unitframe"] = {} end
-		tinsert(E.RegisteredCooldowns["unitframe"], button)
+		if not E.RegisteredCooldowns.unitframe then E.RegisteredCooldowns.unitframe = {} end
+		tinsert(E.RegisteredCooldowns.unitframe, button)
 	end
 
 	UF:UpdateAuraIconSettings(button, true)
@@ -423,7 +423,7 @@ function UF:PostUpdateAura(unit, button, index)
 			button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
 		end
 	else
-		button:SetBackdropBorderColor(unpack(E["media"].unitframeBorderColor))
+		button:SetBackdropBorderColor(unpack(E.media.unitframeBorderColor))
 	end
 
 	local size = button:GetParent().size

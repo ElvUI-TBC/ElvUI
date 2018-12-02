@@ -10,6 +10,7 @@ local UnitExists = UnitExists
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.stable ~= true then return end
 
+	local PetStableFrame = _G["PetStableFrame"]
 	PetStableFrame:StripTextures()
 	PetStableFramePortrait:Kill()
 	PetStableFrame:CreateBackdrop("Transparent")

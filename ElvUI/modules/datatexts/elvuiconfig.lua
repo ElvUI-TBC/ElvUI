@@ -64,6 +64,6 @@ local function ValueColorUpdate(hex)
 		OnEvent(lastPanel, "ELVUI_COLOR_UPDATE")
 	end
 end
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
+E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
 DT:RegisterDatatext("ElvUI Config", {"PLAYER_LOGIN"}, OnEvent, nil, OnClick, OnEnter, nil, L["ElvUI Config"])

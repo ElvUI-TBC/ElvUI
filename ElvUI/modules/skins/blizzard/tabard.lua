@@ -3,11 +3,14 @@ local S = E:GetModule("Skins")
 
 local _G = _G
 
+local hooksecurefunc = hooksecurefunc
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tabard ~= true then return end
 
 	TabardFramePortrait:Kill()
 
+	local TabardFrame = _G["TabardFrame"]
 	TabardFrame:StripTextures()
 	TabardFrame:CreateBackdrop("Transparent")
 	TabardFrame.backdrop:Point("TOPLEFT", 10, -12)
