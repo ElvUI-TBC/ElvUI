@@ -251,9 +251,9 @@ function M:LOOT_OPENED(_, autoLoot)
 
 			slot.questTexture:Hide()
 			if itemLink then
-				local _, iLink, _, _, _, iType = GetItemInfo(itemLink)
+				local _, isQuestStarter, isQuestActive = GetQuestItemStarterInfo(itemLink)
 
-				if ((iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink)) and GetQuestItemStarterInfo(iLink) then
+				if isQuestStarter and isQuestActive then
 					slot.questTexture:Show()
 				end
 			end

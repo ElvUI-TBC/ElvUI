@@ -105,7 +105,8 @@ local function LoadSkin()
 		end
 		local button, slot
 		local itemLink
-		local _, quality, iLink, iType
+		local _, quality
+		local isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem
 
 		for index = 1, LOOTFRAME_NUMBUTTONS do
 			button = _G["LootButton"..index]
@@ -117,15 +118,14 @@ local function LoadSkin()
 					itemLink = GetLootSlotLink(slot)
 
 					if itemLink then
-						_, iLink, quality, _, _, iType = GetItemInfo(itemLink)
+						quality = select(3, GetItemInfo(itemLink))
+						isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem = GetQuestItemStarterInfo(itemLink)
 
-						if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
-							if GetQuestItemStarterInfo(iLink) then
-								button.QuestIcon:Show()
-								button.backdrop:SetBackdropBorderColor(E.db.bags.colors.items.questStarter.r, E.db.bags.colors.items.questStarter.g, E.db.bags.colors.items.questStarter.b)
-							else
-								button.backdrop:SetBackdropBorderColor(E.db.bags.colors.items.questItem.r, E.db.bags.colors.items.questItem.g, E.db.bags.colors.items.questItem.b)
-							end
+						if isQuestStarter and isQuestActive then
+							button.QuestIcon:Show()
+							button.backdrop:SetBackdropBorderColor(E.db.bags.colors.items.questStarter.r, E.db.bags.colors.items.questStarter.g, E.db.bags.colors.items.questStarter.b)
+						elseif (isQuestItem and not invalidQuestItem) or (isQuestStarter and not isQuestActive) then
+							button.backdrop:SetBackdropBorderColor(E.db.bags.colors.items.questItem.r, E.db.bags.colors.items.questItem.g, E.db.bags.colors.items.questItem.b)
 						elseif quality then
 							button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 						else

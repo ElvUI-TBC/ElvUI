@@ -125,8 +125,8 @@ local function LoadSkin()
 		if GuildBankFrame.mode ~= "bank" then return end
 
 		local tab = GetCurrentGuildBankTab()
-		local button, index, column, link
-		local _, iLink, quality, iType
+		local button, index, column, link, quality
+		local isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem
 
 		for i = 1, MAX_GUILDBANK_SLOTS_PER_TAB do
 			index = mod(i, NUM_SLOTS_PER_GUILDBANK_GROUP)
@@ -141,15 +141,14 @@ local function LoadSkin()
 			link = GetGuildBankItemLink(tab, i)
 
 			if link then
-				_, iLink, quality, _, _, iType = GetItemInfo(link)
+				quality = select(3, GetItemInfo(link))
+				isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem = GetQuestItemStarterInfo(link)
 
-				if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
-					if GetQuestItemStarterInfo(iLink) then
-						button.QuestIcon:Show()
-						button:SetBackdropBorderColor(E.db.bags.colors.items.questStarter.r, E.db.bags.colors.items.questStarter.g, E.db.bags.colors.items.questStarter.b)
-					else
-						button:SetBackdropBorderColor(E.db.bags.colors.items.questItem.r, E.db.bags.colors.items.questItem.g, E.db.bags.colors.items.questItem.b)
-					end
+				if isQuestStarter and isQuestActive then
+					button.QuestIcon:Show()
+					button:SetBackdropBorderColor(E.db.bags.colors.items.questStarter.r, E.db.bags.colors.items.questStarter.g, E.db.bags.colors.items.questStarter.b)
+				elseif (isQuestItem and not invalidQuestItem) or (isQuestStarter and not isQuestActive) then
+					button:SetBackdropBorderColor(E.db.bags.colors.items.questItem.r, E.db.bags.colors.items.questItem.g, E.db.bags.colors.items.questItem.b)
 				elseif quality then
 					button:SetBackdropBorderColor(GetItemQualityColor(quality))
 				else

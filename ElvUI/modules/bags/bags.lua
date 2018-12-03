@@ -302,9 +302,10 @@ function B:UpdateSlot(bagID, slotID)
 		slot:SetBackdropBorderColor(unpack(B.ProfessionColors[bagType]))
 		slot.ignoreBorderColors = true
 	elseif clink then
-		local iLink, iLvl, iType, itemEquipLoc
-		slot.name, iLink, slot.rarity, iLvl, _, iType, _, _, itemEquipLoc = GetItemInfo(clink)
+		local iLvl, iType, itemEquipLoc, _
+		slot.name, _, slot.rarity, iLvl, _, iType, _, _, itemEquipLoc = GetItemInfo(clink)
 
+		local isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem = GetQuestItemStarterInfo(clink)
 		local r, g, b
 
 		if slot.rarity then
@@ -330,13 +331,12 @@ function B:UpdateSlot(bagID, slotID)
 		end
 
 		-- color slot according to item quality
-		if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
-			if GetQuestItemStarterInfo(iLink) then
-				slot.QuestIcon:Show()
-				slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
-			else
-				slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
-			end
+		if isQuestStarter and isQuestActive then
+			slot.QuestIcon:Show()
+			slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
+			slot.ignoreBorderColors = true
+		elseif (isQuestItem and not invalidQuestItem) or (isQuestStarter and not isQuestActive) then
+			slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
 			slot.ignoreBorderColors = true
 		elseif slot.rarity and slot.rarity > 1 then
 			slot:SetBackdropBorderColor(r, g, b)
@@ -755,21 +755,20 @@ function B:UpdateKeySlot(slotID)
 
 	if clink then
 		local _, r, g, b
-		local iLink, iType
 
-		slot.name, iLink, slot.rarity, _, _, iType = GetItemInfo(clink)
+		slot.name, _, slot.rarity = GetItemInfo(clink)
+		local isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem = GetQuestItemStarterInfo(clink)
 
 		if slot.rarity then
 			r, g, b = GetItemQualityColor(slot.rarity)
 		end
 
-		if iType and iType == "Quest" then
-			if GetQuestItemStarterInfo(iLink) then
-				slot.QuestIcon:Show()
-				slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
-			else
-				slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
-			end
+		if isQuestStarter and isQuestActive then
+			slot.QuestIcon:Show()
+			slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
+			slot.ignoreBorderColors = true
+		elseif (isQuestItem and not invalidQuestItem) or (isQuestStarter and not isQuestActive) then
+			slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
 			slot.ignoreBorderColors = true
 		elseif slot.rarity and slot.rarity > 1 then
 			slot:SetBackdropBorderColor(r, g, b)
@@ -853,6 +852,11 @@ function B:OnEvent(event, ...)
 			B:Layout(true)
 		else
 			self:UpdateBagSlots(-1)
+		end
+	elseif event == "QUEST_LOG_UPDATE" and self:IsShown() then
+		self:UpdateAllSlots()
+		for slotID = 1, GetKeyRingSize() do
+			B:UpdateKeySlot(slotID)
 		end
 	end
 end
@@ -977,7 +981,7 @@ function B:ContructContainerFrame(name, isBank)
 	f.UpdateCooldowns = B.UpdateCooldowns
 	f:RegisterEvent("BAG_UPDATE") -- Has to be on both frames
 	f:RegisterEvent("BAG_UPDATE_COOLDOWN") -- Has to be on both frames
-	f.events = isBank and {"PLAYERBANKSLOTS_CHANGED"} or {"ITEM_LOCK_CHANGED", "ITEM_UNLOCKED"}
+	f.events = isBank and {"PLAYERBANKSLOTS_CHANGED"} or {"ITEM_LOCK_CHANGED", "ITEM_UNLOCKED", "QUEST_LOG_UPDATE"}
 
 	for _, event in pairs(f.events) do
 		f:RegisterEvent(event)

@@ -311,18 +311,45 @@ function GetThreatStatus(currentThreat, maxThreat)
 	end
 end
 
-function GetQuestItemStarterInfo(link)
-	for _, info in pairs(QIS.QuestItemStarterIDs) do
-		if match(link, "item:(%d+):") == info then
-			return true
+local function GetActiveQuestID(quest)
+	local questLink, activeQuestID
+	for i = 1, GetNumQuestLogEntries() do
+		questLink = GetQuestLink(i)
+
+		if questLink then
+			activeQuestID = match(questLink, "Hquest:(%d+)")
+			if activeQuestID == quest then
+				return true
+			end
 		end
 	end
 end
 
-function GetInvalidQuestItemInfo(link)
-	for _, info in pairs(QIS.InvalidQuestItemIDs) do
-		if match(link, "item:(%d+):") == info then
-			return true
+function GetQuestItemStarterInfo(link)
+	local isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem = false, false, false, false
+
+	if link then
+		local itemType = select(6, GetItemInfo(link))
+		if itemType and itemType == "Quest" then
+			isQuestItem = true
+		end
+
+		for _, info in pairs(QIS.QuestItemStarterIDs) do
+			if (match(link, "item:(%d+):") == info.ITEM) then
+				isQuestStarter = true
+			end
+		
+			if (match(link, "item:(%d+):") == info.ITEM) and not GetActiveQuestID(info.QUEST) then
+				isQuestActive = true
+			end
+		end
+
+		for _, info in pairs(QIS.InvalidQuestItemIDs) do
+			if match(link, "item:(%d+):") == info then
+				invalidQuestItem = true
+			end
 		end
 	end
+
+	return isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem
 end

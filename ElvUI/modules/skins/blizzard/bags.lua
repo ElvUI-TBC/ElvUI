@@ -77,8 +77,8 @@ local function LoadSkin()
 	hooksecurefunc("ContainerFrame_Update", function(self)
 		local id = self:GetID()
 		local name = self:GetName()
-		local item, link
-		local _, iLink, quality, iType
+		local item, link, quality
+		local isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem
 		local _, bagType = GetContainerNumFreeSlots(id)
 
 		for i = 1, self.size, 1 do
@@ -91,15 +91,15 @@ local function LoadSkin()
 				item:SetBackdropBorderColor(unpack(ProfessionColors[bagType]))
 				item.ignoreBorderColors = true
 			elseif link then
-				_, iLink, quality, _, _, iType = GetItemInfo(link)
+				quality = select(3, GetItemInfo(link))
+				isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem = GetQuestItemStarterInfo(link)
 
-				if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
-					if GetQuestItemStarterInfo(iLink) then
-						item.QuestIcon:Show()
-						item:SetBackdropBorderColor(unpack(QuestColors.questStarter))
-					else
-						item:SetBackdropBorderColor(unpack(QuestColors.questItem))
-					end
+				if isQuestStarter and isQuestActive then
+					item.QuestIcon:Show()
+					item:SetBackdropBorderColor(unpack(QuestColors.questStarter))
+					item.ignoreBorderColors = true
+				elseif (isQuestItem and not invalidQuestItem) or (isQuestStarter and not isQuestActive) then
+					item:SetBackdropBorderColor(unpack(QuestColors.questItem))
 					item.ignoreBorderColors = true
 				elseif quality then
 					item:SetBackdropBorderColor(GetItemQualityColor(quality))
@@ -174,8 +174,8 @@ local function LoadSkin()
 
 	hooksecurefunc("BankFrameItemButton_Update", function(button)
 		local id = button:GetID()
-		local link
-		local _, iLink, quality, iType
+		local link, quality
+		local isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem
 
 		if button.isBag then
 			link = GetInventoryItemLink("player", ContainerIDToInventoryID(id))
@@ -185,15 +185,15 @@ local function LoadSkin()
 		end
 
 		if link then
-			_, iLink, quality, _, _, iType = GetItemInfo(link)
+			quality = select(3, GetItemInfo(link))
+			isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem = GetQuestItemStarterInfo(link)
 
-			if (iType and iType == "Quest") and not GetInvalidQuestItemInfo(iLink) then
-				if GetQuestItemStarterInfo(iLink) then
-					button.QuestIcon:Show()
-					button:SetBackdropBorderColor(unpack(QuestColors.questStarter))
-				else
-					button:SetBackdropBorderColor(unpack(QuestColors.questItem))
-				end
+			if isQuestStarter and isQuestActive then
+				button.QuestIcon:Show()
+				button:SetBackdropBorderColor(unpack(QuestColors.questStarter))
+				button.ignoreBorderColors = true
+			elseif (isQuestItem and not invalidQuestItem) or (isQuestStarter and not isQuestActive) then
+				button:SetBackdropBorderColor(unpack(QuestColors.questItem))
 				button.ignoreBorderColors = true
 			elseif quality then
 				button:SetBackdropBorderColor(GetItemQualityColor(quality))
