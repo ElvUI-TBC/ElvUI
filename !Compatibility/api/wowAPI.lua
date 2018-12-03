@@ -335,12 +335,10 @@ function GetQuestItemStarterInfo(link)
 		end
 
 		for _, info in pairs(QIS.QuestItemStarterIDs) do
-			if (match(link, "item:(%d+):") == info.ITEM) then
-				isQuestStarter = true
-			end
-		
 			if (match(link, "item:(%d+):") == info.ITEM) and not GetActiveQuestID(info.QUEST) then
 				isQuestActive = true
+			elseif (match(link, "item:(%d+):") == info.ITEM) then
+				isQuestStarter = true
 			end
 		end
 
