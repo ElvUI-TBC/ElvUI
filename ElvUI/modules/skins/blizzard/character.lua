@@ -35,7 +35,8 @@ local function LoadSkin()
 	-- Character Frame
 	PaperDollFrame:StripTextures()
 
-	CharacterModelFrame:Point("TOPLEFT", 65, -60)
+	CharacterModelFrame:Point("TOPLEFT", 65, -76)
+	CharacterModelFrame:Height(195)
 
 	PlayerTitleDropDown:Point("TOP", CharacterLevelText, "BOTTOM", 0, -2)
 	S:HandleDropDownBox(PlayerTitleDropDown, 210)
@@ -61,8 +62,7 @@ local function LoadSkin()
 	S:HandleDropDownBox(PlayerStatFrameRightDropDown)
 	PlayerStatFrameRightDropDown:HookScript("OnShow", FixWidth)
 
-	CharacterResistanceFrame:CreateBackdrop("Default")
-	CharacterResistanceFrame.backdrop:SetOutside(MagicResFrame1, nil, nil, MagicResFrame5)
+	CharacterResistanceFrame:Point("TOPRIGHT", PaperDollFrame, "TOPLEFT", 297, -80)
 
 	local function HandleResistanceFrame(frameName)
 		for i = 1, 5 do
@@ -73,7 +73,7 @@ local function LoadSkin()
 
 			if i ~= 1 then
 				frame:ClearAllPoints()
-				frame:Point("TOP", _G[frameName..i - 1], "BOTTOM", 0, -(E.Border + E.Spacing))
+				frame:Point("TOP", _G[frameName..i - 1], "BOTTOM", 0, -(E.Border + E.Spacing) - 2)
 			end
 
 			select(1, _G[frameName..i]:GetRegions()):SetInside()
@@ -168,9 +168,6 @@ local function LoadSkin()
 	PetModelFrameRotateRightButton:Point("TOPLEFT", PetModelFrameRotateLeftButton, "TOPRIGHT", 3, 0)
 
 	PetAttributesFrame:StripTextures()
-
-	PetResistanceFrame:CreateBackdrop("Default")
-	PetResistanceFrame.backdrop:SetOutside(PetMagicResFrame1, nil, nil, PetMagicResFrame5)
 
 	HandleResistanceFrame("PetMagicResFrame")
 

@@ -207,6 +207,15 @@ local function LoadSkin()
 	ticketBG:HookScript2("OnEnter", S.SetModifiedBackdrop)
 	ticketBG:HookScript2("OnLeave", S.SetOriginalBackdrop)
 
+	TicketStatusFrameButton:StripTextures()
+	TicketStatusFrameButton:SetTemplate()
+	TicketStatusFrameButton:Point("TOPRIGHT", -3, -5)
+
+	TicketStatusFrameButton.tex = TicketStatusFrameButton:CreateTexture(nil, "ARTWORK")
+	TicketStatusFrameButton.tex:SetTexture("Interface\\Icons\\INV_Scroll_09")
+	TicketStatusFrameButton.tex:SetTexCoord(unpack(E.TexCoords))
+	TicketStatusFrameButton.tex:SetInside()
+
 	-- Dropdown Menu
 	hooksecurefunc("UIDropDownMenu_Initialize", function()
 		for i = 1, UIDROPDOWNMENU_MAXLEVELS do

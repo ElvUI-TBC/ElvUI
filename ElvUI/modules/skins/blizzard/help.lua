@@ -45,7 +45,7 @@ local function LoadSkin()
 
 	S:HandleCloseButton(HelpFrameCloseButton)
 	HelpFrameCloseButton:Point("TOPRIGHT", -42, 0)
-	
+
 	KnowledgeBaseFrame:StripTextures()
 
 	KnowledgeBaseFrameHeader:SetTexture("")
@@ -54,12 +54,22 @@ local function LoadSkin()
 
 	HelpFrameOpenTicketDivider:StripTextures()
 
-	S:HandleScrollBar(HelpFrameOpenTicketScrollFrame)
+	HelpFrameOpenTicketScrollFrame:CreateBackdrop()
+	HelpFrameOpenTicketScrollFrame.backdrop:Point("TOPLEFT", -4, 2)
+	HelpFrameOpenTicketScrollFrame.backdrop:Point("BOTTOMRIGHT", 4, 0)
+
 	S:HandleScrollBar(HelpFrameOpenTicketScrollFrameScrollBar)
 	S:HandleScrollBar(KnowledgeBaseArticleScrollFrameScrollBar)
 
 	HelpFrameOpenTicketSubmit:Point("RIGHT", HelpFrameOpenTicketCancel, "LEFT", -2, 0)
+
+	KnowledgeBaseFrameGMTalk:Height(21)
+
+	KnowledgeBaseFrameReportIssue:Point("LEFT", KnowledgeBaseFrameGMTalk, "RIGHT", 2, 0)
+	KnowledgeBaseFrameReportIssue:Height(21)
+
 	KnowledgeBaseFrameStuck:Point("LEFT", KnowledgeBaseFrameReportIssue, "RIGHT", 2, 0)
+	KnowledgeBaseFrameStuck:Height(21)
 
 	KnowledgeBaseFrameDivider:Kill()
 	KnowledgeBaseFrameDivider2:Kill()
@@ -67,10 +77,10 @@ local function LoadSkin()
 	S:HandleEditBox(KnowledgeBaseFrameEditBox)
 
 	KnowledgeBaseFrameEditBox.backdrop:Point("TOPLEFT", -E.Border, -4)
-	KnowledgeBaseFrameEditBox.backdrop:Point("BOTTOMRIGHT", E.Border, 7)
+	KnowledgeBaseFrameEditBox.backdrop:Point("BOTTOMRIGHT", E.Border, 6)
 
 	S:HandleDropDownBox(KnowledgeBaseFrameCategoryDropDown)
-	KnowledgeBaseFrameCategoryDropDown:Point("TOPLEFT", "KnowledgeBaseFrameEditBox", "TOPRIGHT", -14, -3)
+	KnowledgeBaseFrameCategoryDropDown:Point("TOPLEFT", "KnowledgeBaseFrameEditBox", "TOPRIGHT", -14, -2)
 
 	S:HandleDropDownBox(KnowledgeBaseFrameSubCategoryDropDown)
 	KnowledgeBaseFrameSubCategoryDropDown:Point("TOPLEFT", "KnowledgeBaseFrameCategoryDropDown","TOPRIGHT", -24, 0)

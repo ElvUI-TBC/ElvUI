@@ -44,7 +44,7 @@ local function LoadSkin()
 	GuildBankInfoScrollFrameScrollBar:Point("TOPRIGHT", GuildBankInfoScrollFrame, "TOPRIGHT", 29, -9)
 	GuildBankInfoScrollFrameScrollBar:Point("BOTTOMRIGHT", GuildBankInfoScrollFrame, "BOTTOMRIGHT", 0, 17)
 
-	GuildBankTabInfoEditBox:Width(702)
+	GuildBankTabInfoEditBox:Width(570)
 
 	GuildBankTransactionsScrollFrame:StripTextures()
 
