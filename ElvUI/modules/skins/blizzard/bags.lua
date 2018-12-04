@@ -74,6 +74,18 @@ local function LoadSkin()
 		end
 	end
 
+	hooksecurefunc("ContainerFrame_OnEvent", function(_, event)
+		if event == "QUEST_LOG_UPDATE" then
+			ContainerFrame_Update(this)
+		end
+	end)
+	hooksecurefunc("ContainerFrame_OnShow", function()
+		this:RegisterEvent("QUEST_LOG_UPDATE")
+	end)
+	hooksecurefunc("ContainerFrame_OnHide", function()
+		this:UnregisterEvent("QUEST_LOG_UPDATE")
+	end)
+
 	hooksecurefunc("ContainerFrame_Update", function(self)
 		local id = self:GetID()
 		local name = self:GetName()

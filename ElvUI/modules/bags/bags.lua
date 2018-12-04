@@ -700,15 +700,6 @@ function B:Layout(isBank)
 				f.keyFrame.slots[i].cooldown = _G[f.keyFrame.slots[i]:GetName().."Cooldown"]
 				E:RegisterCooldown(f.keyFrame.slots[i].cooldown)
 
-				if not f.keyFrame.slots[i].QuestIcon then
-					local QuestIcon = f.keyFrame.slots[i]:CreateTexture(nil, "OVERLAY")
-					QuestIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagQuestIcon")
-					QuestIcon:SetTexCoord(0, 1, 0, 1)
-					QuestIcon:SetInside()
-					QuestIcon:Hide()
-					f.keyFrame.slots[i].QuestIcon = QuestIcon
-				end
-
 				f.keyFrame.slots[i].iconTexture = _G[f.keyFrame.slots[i]:GetName().."IconTexture"]
 				f.keyFrame.slots[i].iconTexture:SetInside(f.keyFrame.slots[i])
 				f.keyFrame.slots[i].iconTexture:SetTexCoord(unpack(E.TexCoords))
@@ -751,7 +742,6 @@ function B:UpdateKeySlot(slotID)
 
 	slot.name, slot.rarity = nil, nil
 	slot:Show()
-	slot.QuestIcon:Hide()
 
 	if clink then
 		local _, r, g, b
@@ -763,11 +753,7 @@ function B:UpdateKeySlot(slotID)
 			r, g, b = GetItemQualityColor(slot.rarity)
 		end
 
-		if isQuestStarter and isQuestActive then
-			slot.QuestIcon:Show()
-			slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
-			slot.ignoreBorderColors = true
-		elseif (isQuestItem and not invalidQuestItem) or (isQuestStarter and not isQuestActive) then
+		if (isQuestItem and not invalidQuestItem) or (isQuestStarter and not isQuestActive) then
 			slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
 			slot.ignoreBorderColors = true
 		elseif slot.rarity and slot.rarity > 1 then

@@ -92,6 +92,7 @@ lib.QuestItemStarterIDs = {
 	[18401]	= {ITEM = "18401",	QUEST = "7507"},	-- Item : Foror's Compendium of Dragon Slaying - Quest: Foror's Compendium
 	[18422]	= {ITEM = "18422",	QUEST = "7490"},	-- Item : Head of Onyxia - Quest: Victory for the Horde (H)
 	[18423]	= {ITEM = "18423",	QUEST = "7495"},	-- Item : Head of Onyxia - Quest: Victory for the Alliance (A)
+	[18513]	= {ITEM = "18513",	QUEST = "7508"},	-- Item : A Dull and Flat Elven Blade - Quest: The Forging of Quel'Serrar
 	[18565]	= {ITEM = "18565",	QUEST = "7522"},	-- Item : Vessel of Rebirth DEPRECATED - Quest: Examine the Vessel
 	[18628]	= {ITEM = "18628",	QUEST = "7604"},	-- Item : Thorium Brotherhood Contract - Quest: A Binding Contract
 	[18703]	= {ITEM = "18703",	QUEST = "7632"},	-- Item : Ancient Petrified Leaf - Quest: The Ancient Leaf
@@ -283,8 +284,54 @@ lib.QuestItemStarterIDs = {
 	[35723]	= {ITEM = "35723",	QUEST = "11972"},	-- Item : Shards of Ahune - Quest: Shards of Ahune
 }
 
+-- Keys that are quest items and they are not tagged as quest items.
+lib.QuestItemKeyIDs = {
+	"2629",		-- Intrepid Strongbox Key
+	"2719",		-- Small Brass Key
+	"3467",		-- Dull Iron Key
+	"3499",		-- Burnished Gold Key
+	"3704",		-- Rusted Iron Key
+	"3930",		-- Maury's Key
+	"4103",		-- Shackle Key
+	"4483",		-- Burning Key
+	"4484",		-- Cresting Key
+	"4485",		-- Thundering Key
+	"5089",		-- Console Key
+	"5475",		-- Wooden Key
+	"5050",		-- Ignition Key
+	"5851",		-- Cozzle's Key
+	"7923",		-- Defias Tower Key
+	"8072",		-- Silixiz's Tower Key
+	"9299",		-- Thermaplugg's Safe Combination
+	"10757",	-- Ward of the Defiler
+	"11000",	-- Shadowforge Key
+	"11079",	-- Gor'tesh's Lopped Off Head
+	"13704",	-- Skeleton Key
+	"12301",	-- Bamboo Cage Key
+	"20022",	-- Azure Key
+	"23801",	-- Bristlelimb Key
+	"24099",	-- The High Chief's Key
+	"25604",	-- Warmaul Prison Key
+	"29742",	-- The Warden's Key
+	"31536",	-- Camp Anger Key
+	"31664",	-- Zuluhed's Key
+	"31655",	-- Veil Skith Prison Key
+	"31705",	-- Derelict Caravan Chest Key
+	"31956",	-- Salvaged Ethereum Prison Key
+	"31994",	-- Ethereum Key Tablet - Alpha
+	"32069",	-- Mana-Tombs Stasis Chamber Key
+	"33061",	-- Grimtotem Key
+	"34477",	-- Darkspine Chest Key
+}
+
 -- For some reason these are tagged as quest items. They are not.
 lib.InvalidQuestItemIDs = {
+	"18169",	-- Flame Mantle of the Dawn
+	"18170",	-- Frost Mantle of the Dawn
+	"18171",	-- Arcane Mantle of the Dawn
+	"18172",	-- Nature Mantle of the Dawn
+	"18173",	-- Shadow Mantle of the Dawn
+	"18182",	-- Chromatic Mantle of the Dawn
 	"20076",	-- Zandalar Signet of Mojo
 	"20078",	-- Zandalar Signet of Serenity
 	"20077",	-- Zandalar Signet of Might
