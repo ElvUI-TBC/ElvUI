@@ -60,11 +60,13 @@ local function LoadSkin()
 
 	StopwatchTabFrame:StripTextures()
 	StopwatchTabFrame:CreateBackdrop("Default", true)
-	StopwatchTabFrame.backdrop:Point("TOPLEFT", 5, 4)
+	StopwatchTabFrame.backdrop:Point("TOPLEFT", 5, 7)
 	StopwatchTabFrame.backdrop:Point("BOTTOMRIGHT", 3, 11)
 	StopwatchTabFrame:Point("TOP", 1, 5)
 
-	S:HandleCloseButton(StopwatchCloseButton, StopwatchTabFrame.backdrop)
+	S:HandleCloseButton(StopwatchCloseButton)
+	StopwatchCloseButton:Size(32)
+	StopwatchCloseButton:Point("TOPRIGHT", StopwatchTabFrame.backdrop, 6, 6)
 
 	StopwatchPlayPauseButton:CreateBackdrop("Default", true)
 	StopwatchPlayPauseButton:Size(12)
@@ -74,6 +76,7 @@ local function LoadSkin()
 	StopwatchPlayPauseButton:HookScript("OnEnter", S.SetModifiedBackdrop)
 	StopwatchPlayPauseButton:HookScript("OnLeave", S.SetOriginalBackdrop)
 	StopwatchPlayPauseButton:Point("RIGHT", StopwatchResetButton, "LEFT", -4, 0)
+
 	S:HandleButton(StopwatchResetButton)
 	StopwatchResetButton:Size(16)
 	StopwatchResetButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\reset")

@@ -173,7 +173,7 @@ do
 			t.auraBarBuff = {r = c.r, g = c.g, b = c.b}
 			t.transparentAurabars = self.db.unitframe.colors.transparentAurabars
 
-			self.db.general.backdropfadecolor = {r =131/255, g =36/255, b = 130/255, a = 0.36}
+			self.db.general.backdropfadecolor = {r = 131/255, g = 36/255, b = 130/255, a = 0.36}
 			self.db.general.backdropcolor = {r = 223/255, g = 76/255, b = 188/255}
 			self.db.general.bordercolor = {r = 223/255, g = 217/255, b = 47/255}
 			self.db.general.valuecolor = {r = 223/255, g = 217/255, b = 47/255}

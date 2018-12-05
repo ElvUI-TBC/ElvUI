@@ -198,6 +198,7 @@ local function BuildABConfig()
 						order = 7,
 						type = "color",
 						name = COLOR,
+						width = "full",
 						get = function(info)
 							local t = E.db.actionbar[ info[#info] ]
 							local d = P.actionbar[info[#info]]
@@ -208,6 +209,64 @@ local function BuildABConfig()
 							t.r, t.g, t.b = r, g, b
 							AB:UpdateButtonSettings()
 						end
+					},
+					textPosition = {
+						order = 8,
+						type = "group",
+						name = L["Text Position"],
+						guiInline = true,
+						args = {
+							countTextPosition = {
+								order = 1,
+								type = "select",
+								name = L["Stack Text Position"],
+								values = {
+									["BOTTOMRIGHT"] = "BOTTOMRIGHT",
+									["BOTTOMLEFT"] = "BOTTOMLEFT",
+									["TOPRIGHT"] = "TOPRIGHT",
+									["TOPLEFT"] = "TOPLEFT",
+									["BOTTOM"] = "BOTTOM",
+									["TOP"] = "TOP"
+								}
+							},
+							countTextXOffset = {
+								order = 2,
+								type = "range",
+								name = L["Stack Text X-Offset"],
+								min = -10, max = 10, step = 1
+							},
+							countTextYOffset = {
+								order = 3,
+								type = "range",
+								name = L["Stack Text Y-Offset"],
+								min = -10, max = 10, step = 1
+							},
+							hotkeyTextPosition  = {
+								order = 4,
+								type = "select",
+								name = L["Hotkey Text Position"],
+								values = {
+									["BOTTOMRIGHT"] = "BOTTOMRIGHT",
+									["BOTTOMLEFT"] = "BOTTOMLEFT",
+									["TOPRIGHT"] = "TOPRIGHT",
+									["TOPLEFT"] = "TOPLEFT",
+									["BOTTOM"] = "BOTTOM",
+									["TOP"] = "TOP"
+								}
+							},
+							hotkeyTextXOffset = {
+								order = 5,
+								type = "range",
+								name = L["Hotkey Text X-Offset"],
+								min = -10, max = 10, step = 1
+							},
+							hotkeyTextYOffset = {
+								order = 6,
+								type = "range",
+								name = L["Hotkey Text Y-Offset"],
+								min = -10, max = 10, step = 1
+							}
+						}
 					}
 				}
 			},

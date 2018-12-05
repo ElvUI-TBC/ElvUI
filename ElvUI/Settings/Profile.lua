@@ -2918,6 +2918,15 @@ P["actionbar"] = {
 
 	["macrotext"] = false,
 	["hotkeytext"] = true,
+
+	["hotkeyTextPosition"] = "TOPRIGHT",
+	["hotkeyTextXOffset"] = 0,
+	["hotkeyTextYOffset"] = -3,
+
+	["countTextPosition"] = "BOTTOMRIGHT",
+	["countTextXOffset"] = 0,
+	["countTextYOffset"] = 2,
+
 	["keyDown"] = true,
 	["movementModifier"] = "SHIFT",
 	["globalFadeAlpha"] = 0,

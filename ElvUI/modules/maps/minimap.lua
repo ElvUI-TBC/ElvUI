@@ -414,7 +414,7 @@ function M:Initialize()
 	end)
 
 	UIParent:HookScript("OnShow", function()
-		if(not FarmModeMap.enabled) then
+		if not FarmModeMap.enabled then
 			FarmModeMap:Hide()
 		end
 	end)
