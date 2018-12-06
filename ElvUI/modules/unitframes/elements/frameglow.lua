@@ -1,6 +1,10 @@
 local E, L, V, P, G = unpack(ElvUI)
 local UF = E:GetModule("UnitFrames")
 
+local ns = oUF
+local ElvUF = ns.oUF
+assert(ElvUF, "ElvUI was unable to locate oUF.")
+
 local _G = _G
 local assert, pairs, select = assert, pairs, select
 local tinsert = table.insert
@@ -161,8 +165,12 @@ function UF:FrameGlow_CreateGlow(frame, mouse)
 			end
 		end)
 
-		frame:HookScript2("OnUpdate", function() -- Temporary Bugfix. "UPDATE_MOUSEOVER_UNIT" does not fire when mouseover a unitframe.
-			UF:FrameGlow_CheckMouseover(frame)
+		frame:HookScript2("OnEnter", function()
+			for _, frame in ipairs(ElvUF.objects) do
+				if frame.unit then
+					UF:FrameGlow_CheckMouseover(frame)
+				end
+			end
 		end)
 	end
 
