@@ -26,7 +26,7 @@ function SetUIPanelAttribute(frame, name, value)
 
 	if not frame:GetAttribute("UIPanelLayout-defined") then
 		frame:SetAttribute("UIPanelLayout-defined", true)
-		for name,value in pairs(info) do
+		for name, value in pairs(info) do
 			frame:SetAttribute("UIPanelLayout-"..name, value)
 		end
 	end

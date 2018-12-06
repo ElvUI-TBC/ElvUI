@@ -10,6 +10,7 @@ local floor = math.floor
 local format, strsub = string.format, strsub
 
 local CreateFrame = CreateFrame
+local IsAddOnLoaded = IsAddOnLoaded
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local CLASS, DEFAULT = CLASS, DEFAULT
 
@@ -76,7 +77,7 @@ local function UpdateColor(tbox)
 	end
 
 	-- This takes care of updating the hex entry when changing rgb fields and vice versa
-	UpdateColorTexts(r,g,b)
+	UpdateColorTexts(r, g, b)
 
 	editingText = true
 	ColorPickerFrame:SetColorRGB(r, g, b)
@@ -111,15 +112,15 @@ function B:EnhanceColorPicker()
 
 	S:HandleButton(ColorPickerOkayButton)
 	ColorPickerOkayButton:ClearAllPoints()
-	ColorPickerOkayButton:Point("BOTTOMLEFT", ColorPickerFrame,"BOTTOMLEFT", 6, 6)
-	ColorPickerOkayButton:Point("RIGHT", ColorPickerCancelButton,"LEFT", -4, 0)
+	ColorPickerOkayButton:Point("BOTTOMLEFT", ColorPickerFrame, "BOTTOMLEFT", 6, 6)
+	ColorPickerOkayButton:Point("RIGHT", ColorPickerCancelButton, "LEFT", -4, 0)
 
 	S:HandleSliderFrame(OpacitySliderFrame)
 
 	ColorPickerFrame:HookScript("OnShow", function(self)
 		-- get color that will be replaced
 		local r, g, b = ColorPickerFrame:GetColorRGB()
-		ColorPPOldColorSwatch:SetTexture(r,g,b)
+		ColorPPOldColorSwatch:SetTexture(r, g, b)
 
 			-- show/hide the alpha box
 		if ColorPickerFrame.hasOpacity then
@@ -258,7 +259,7 @@ function B:EnhanceColorPicker()
 		self.colors = nil
 	end)
 	b:SetScript("OnShow", function(self)
-		if(self.colors) then
+		if self.colors then
 			self:Enable()
 		else
 			self:Disable()
@@ -286,7 +287,7 @@ function B:EnhanceColorPicker()
 	OpacitySliderFrame:Point("RIGHT", "ColorPickerFrame", "RIGHT", -35, 18)
 
 	-- set up edit box frames and interior label and text areas
-	local boxes = { "R", "G", "B", "H", "A" }
+	local boxes = {"R", "G", "B", "H", "A"}
 	for i = 1, #boxes do
 
 		local rgb = boxes[i]

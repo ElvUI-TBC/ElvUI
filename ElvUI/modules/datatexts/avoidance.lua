@@ -13,6 +13,7 @@ local GetItemInfo = GetItemInfo
 local GetParryChance = GetParryChance
 local UnitLevel = UnitLevel
 local BOSS = BOSS
+local DEFENSE = DEFENSE
 local DODGE_CHANCE = DODGE_CHANCE
 local PARRY_CHANCE = PARRY_CHANCE
 local BLOCK_CHANCE = BLOCK_CHANCE

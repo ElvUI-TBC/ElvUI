@@ -308,7 +308,7 @@ function M:CHAT_MSG_LOOT(_, msg)
 		local class = select(2, UnitClass(playername))
 		for _, f in ipairs(M.RollBars) do
 			if f.rollID and f.button.link == itemname and not f.rolls[playername] then
-				f.rolls[playername] = { rolltype, class }
+				f.rolls[playername] = {rolltype, class}
 				f[rolltype]:SetText(tonumber(f[rolltype]:GetText()) + 1)
 				return
 			end

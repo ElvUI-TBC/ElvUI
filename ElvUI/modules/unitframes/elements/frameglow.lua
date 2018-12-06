@@ -6,7 +6,7 @@ local ElvUF = ns.oUF
 assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 local _G = _G
-local assert, pairs, select = assert, pairs, select
+local assert, ipairs, pairs, select = assert, ipairs, pairs, select
 local tinsert = table.insert
 
 local CreateFrame = CreateFrame
