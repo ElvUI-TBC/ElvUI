@@ -167,10 +167,8 @@ function UF:FrameGlow_CreateGlow(frame, mouse)
 
 		frame:HookScript2("OnEnter", function()
 			for _, f in ipairs(ElvUF.objects) do
-				if frame.unit then
-					if f:GetAttribute("unit") and f:IsVisible() then
-						UF:FrameGlow_CheckMouseover(f)
-					end
+				if f:GetAttribute("unit") and f:IsVisible() then
+					UF:FrameGlow_CheckMouseover(f)
 				end
 			end
 		end)
