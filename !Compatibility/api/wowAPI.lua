@@ -325,36 +325,31 @@ local function GetActiveQuestID(quest)
 	end
 end
 
-function GetQuestItemStarterInfo(link)
+function GetQuestItemStarterInfo(itemLink)
 	local isQuestItem, isQuestStarter, isQuestActive, invalidQuestItem = false, false, false, false
 
-	if link then
-		local itemType = select(6, GetItemInfo(link))
+	if itemLink then
+		local itemID = match(itemLink, "item:(%d+):")
 
-		if itemType and itemType == "Quest" then
+		if QIS.QuestItemKeyIDs[itemID] then
 			isQuestItem = true
-		end
-
-		for _, info in pairs(QIS.QuestItemKeyIDs) do
-			if match(link, "item:(%d+):") == info then
+		else
+			local _, _, _, _, _, itemType = GetItemInfo(itemID)
+			if itemType == "Quest" then
 				isQuestItem = true
 			end
 		end
 
-		for _, info in pairs(QIS.QuestItemStarterIDs) do
-			if (match(link, "item:(%d+):") == info.ITEM) then
-				isQuestStarter = true
-			end
-
-			if (match(link, "item:(%d+):") == info.ITEM) and not GetActiveQuestID(info.QUEST) then
-				isQuestActive = true
-			end
+		if QIS.QuestItemStarterIDs[itemID] then
+			isQuestStarter = true
 		end
 
-		for _, info in pairs(QIS.InvalidQuestItemIDs) do
-			if match(link, "item:(%d+):") == info then
-				invalidQuestItem = true
-			end
+		if QIS.QuestItemStarterIDs[itemID] and not GetActiveQuestID(QIS.QuestItemStarterIDs[itemID].QUEST) then
+			isQuestActive = true
+		end
+
+		if QIS.InvalidQuestItemIDs[itemID] then
+			invalidQuestItem = true
 		end
 	end
 
