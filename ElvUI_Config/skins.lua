@@ -1,10 +1,5 @@
 local E, L, V, P, G = unpack(ElvUI)
 
-local AUCTIONS, FRIENDS, INSPECT, TALENTS, TRADE, MERCHANT, MACROS, SPELLBOOK = AUCTIONS, FRIENDS, INSPECT, TALENTS, TRADE, MERCHANT, MACROS, SPELLBOOK
-local GUILD_BANK, TRADESKILLS, WORLD_MAP, QUEST_TIMERS = GUILD_BANK, TRADESKILLS, WORLD_MAP, QUEST_TIMERS
-local MAIL_LABEL, TIMEMANAGER_TITLE, KEY_BINDING = MAIL_LABEL, TIMEMANAGER_TITLE, KEY_BINDING
-local INTERFACE_OPTIONS, DRESSUP_FRAME = INTERFACE_OPTIONS, DRESSUP_FRAME
-
 E.Options.args.skins = {
 	type = "group",
 	name = L["Skins"],
@@ -55,7 +50,7 @@ E.Options.args.skins = {
 				},
 				auctionhouse = {
 					type = "toggle",
-					name = AUCTIONS,
+					name = L["Auctions"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				bags = {
@@ -86,12 +81,12 @@ E.Options.args.skins = {
 				},
 				binding = {
 					type = "toggle",
-					name = KEY_BINDING,
+					name = L["Key Binding"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				BlizzardOptions = {
 					type = "toggle",
-					name = INTERFACE_OPTIONS,
+					name = L["Interface Options"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				character = {
@@ -106,17 +101,17 @@ E.Options.args.skins = {
 				},
 				dressingroom = {
 					type = "toggle",
-					name = DRESSUP_FRAME,
+					name = L["Dressing Room"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				friends = {
 					type = "toggle",
-					name = FRIENDS,
+					name = L["Friends"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				gbank = {
 					type = "toggle",
-					name = GUILD_BANK,
+					name = L["Guild Bank"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				gmchat = {
@@ -146,7 +141,7 @@ E.Options.args.skins = {
 				},
 				inspect = {
 					type = "toggle",
-					name = INSPECT,
+					name = L["Inspect"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				lfg = {
@@ -168,17 +163,17 @@ E.Options.args.skins = {
 				},
 				macro = {
 					type = "toggle",
-					name = MACROS,
+					name = L["Macros"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				mail = {
 					type = "toggle",
-					name = MAIL_LABEL,
+					name = L["Mail"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				merchant = {
 					type = "toggle",
-					name = MERCHANT,
+					name = L["Merchant"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				misc = {
@@ -198,7 +193,7 @@ E.Options.args.skins = {
 				},
 				questtimer = {
 					type = "toggle",
-					name = QUEST_TIMERS,
+					name = L["Quest Timers"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				raid = {
@@ -213,7 +208,7 @@ E.Options.args.skins = {
 				},
 				spellbook = {
 					type = "toggle",
-					name = SPELLBOOK,
+					name = L["Spellbook"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				stable = {
@@ -228,7 +223,7 @@ E.Options.args.skins = {
 				},
 				talent = {
 					type = "toggle",
-					name = TALENTS,
+					name = L["Talents"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				taxi = {
@@ -238,7 +233,7 @@ E.Options.args.skins = {
 				},
 				timemanager = {
 					type = "toggle",
-					name = TIMEMANAGER_TITLE,
+					name = L["Clock"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				tooltip = {
@@ -248,12 +243,12 @@ E.Options.args.skins = {
 				},
 				trade = {
 					type = "toggle",
-					name = TRADE,
+					name = L["Trade"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				tradeskill = {
 					type = "toggle",
-					name = TRADESKILLS,
+					name = L["Tradeskills"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				trainer = {
@@ -268,7 +263,7 @@ E.Options.args.skins = {
 				},
 				worldmap = {
 					type = "toggle",
-					name = WORLD_MAP,
+					name = L["World Map"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				mirrorTimers = {

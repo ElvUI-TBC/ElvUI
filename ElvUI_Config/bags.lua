@@ -5,7 +5,6 @@ local _G = _G
 local gsub, match = string.gsub, string.match
 
 local GameTooltip = _G["GameTooltip"]
-local FONT_SIZE, NONE, COLOR, COLORS =  FONT_SIZE, NONE, COLOR, COLORS
 
 E.Options.args.bags = {
 	type = "group",
@@ -122,7 +121,7 @@ E.Options.args.bags = {
 						countFontSize = {
 							order = 2,
 							type = "range",
-							name = FONT_SIZE,
+							name = L["Font Size"],
 							min = 4, max = 22, step = 1,
 							set = function(info, value) E.db.bags.countFontSize = value B:UpdateCountDisplay() end
 						},
@@ -132,7 +131,7 @@ E.Options.args.bags = {
 							name = L["Font Outline"],
 							set = function(info, value) E.db.bags.countFontOutline = value B:UpdateCountDisplay() end,
 							values = {
-								["NONE"] = NONE,
+								["NONE"] = L["None"],
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
@@ -141,7 +140,7 @@ E.Options.args.bags = {
 						countFontColor = {
 							order = 4,
 							type = "color",
-							name = COLOR,
+							name = L["Color"],
 							get = function(info)
 								local t = E.db.bags[ info[#info] ]
 								local d = P.bags[info[#info]]
@@ -216,7 +215,7 @@ E.Options.args.bags = {
 						itemLevelFontSize = {
 							order = 7,
 							type = "range",
-							name = FONT_SIZE,
+							name = L["Font Size"],
 							min = 6, max = 33, step = 1,
 							disabled = function() return not E.db.bags.itemLevel end,
 							set = function(info, value) E.db.bags.itemLevelFontSize = value B:UpdateItemLevelDisplay() end
@@ -228,7 +227,7 @@ E.Options.args.bags = {
 							disabled = function() return not E.db.bags.itemLevel end,
 							set = function(info, value) E.db.bags.itemLevelFontOutline = value B:UpdateItemLevelDisplay() end,
 							values = {
-								["NONE"] = NONE,
+								["NONE"] = L["None"],
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
@@ -291,12 +290,12 @@ E.Options.args.bags = {
 		colorGroup = {
 			order = 5,
 			type = "group",
-			name = COLORS,
+			name = L["Colors"],
 			args = {
 				header = {
 					order = 1,
 					type = "header",
-					name = COLORS
+					name = L["Colors"]
 				},
 				bags = {
 					order = 2,
@@ -374,7 +373,7 @@ E.Options.args.bags = {
 				items = {
 					order = 3,
 					type = "group",
-					name = ITEMS,
+					name = L["Items"],
 					guiInline = true,
 					get = function(info)
 						local t = E.db.bags.colors.items[ info[#info] ]
@@ -397,7 +396,7 @@ E.Options.args.bags = {
 						questItem = {
 							order = 2,
 							type = "color",
-							name = ITEM_BIND_QUEST
+							name = L["Quest Item"]
 						}
 					}
 				}

@@ -7,8 +7,6 @@ local find, upper = string.find, string.upper
 
 local HideLeftChat = HideLeftChat
 local HideRightChat = HideRightChat
-local FRIENDS = FRIENDS
-local AFK, DND, FONT_SIZE, HIDE, NONE = AFK, DND, FONT_SIZE, HIDE, NONE
 
 local datatexts = {}
 
@@ -16,7 +14,7 @@ function DT:PanelLayoutOptions()
 	for name, data in pairs(DT.RegisteredDataTexts) do
 		datatexts[name] = data.localizedName or L[name]
 	end
-	datatexts[""] = NONE;
+	datatexts[""] = L["None"]
 
 	local order
 	local table = E.Options.args.datatexts.args.panels.args
@@ -161,7 +159,7 @@ E.Options.args.datatexts = {
 						fontSize = {
 							order = 2,
 							type = "range",
-							name = FONT_SIZE,
+							name = L["Font Size"],
 							min = 4, max = 22, step = 1
 						},
 						fontOutline = {
@@ -170,7 +168,7 @@ E.Options.args.datatexts = {
 							name = L["Font Outline"],
 							desc = L["Set the font outline."],
 							values = {
-								["NONE"] = NONE,
+								["NONE"] = L["None"],
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
@@ -312,7 +310,7 @@ E.Options.args.datatexts = {
 					type = "select",
 					name = L["Time Format"],
 					values = {
-						[""] = NONE,
+						[""] = L["None"],
 						["%I:%M"] = "03:27",
 						["%I:%M:%S"] = "03:27:32",
 						["%I:%M %p"] = "03:27 PM",
@@ -326,7 +324,7 @@ E.Options.args.datatexts = {
 					type = "select",
 					name = L["Date Format"],
 					values = {
-						[""] = NONE,
+						[""] = L["None"],
 						["%d/%m/%y "] = "DD/MM/YY",
 						["%m/%d/%y "] = "MM/DD/YY",
 						["%y/%m/%d "] = "YY/MM/DD",
@@ -340,12 +338,12 @@ E.Options.args.datatexts = {
 		friends = {
 			order = 6,
 			type = "group",
-			name = FRIENDS,
+			name = L["Friends"],
 			args = {
 				header = {
 					order = 1,
 					type = "header",
-					name = FRIENDS
+					name = L["Friends"]
 				},
 				description = {
 					order = 2,
@@ -356,19 +354,19 @@ E.Options.args.datatexts = {
 					order = 3,
 					type = "group",
 					guiInline = true,
-					name = HIDE,
+					name = L["Hide"],
 					args = {
 						hideAFK = {
 							order = 1,
 							type = "toggle",
-							name = AFK,
+							name = L["Away"],
 							get = function(info) return E.db.datatexts.friends.hideAFK end,
 							set = function(info, value) E.db.datatexts.friends.hideAFK = value DT:LoadDataTexts() end
 						},
 						hideDND = {
 							order = 2,
 							type = "toggle",
-							name = DND,
+							name = L["Busy"],
 							get = function(info) return E.db.datatexts.friends.hideDND end,
 							set = function(info, value) E.db.datatexts.friends.hideDND = value DT:LoadDataTexts() end
 						}

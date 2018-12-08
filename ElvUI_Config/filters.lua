@@ -5,7 +5,6 @@ local type, next, pairs, tonumber, tostring = type, next, pairs, tonumber, tostr
 local gsub, match, format, lower = string.gsub, string.match, string.format, string.lower
 
 local GetSpellInfo = GetSpellInfo
-local NONE, COLOR, FILTERS = NONE, COLOR, FILTERS
 
 local selectedSpell
 local selectedFilter
@@ -126,7 +125,7 @@ local function UpdateFilterGroup()
 							end
 							if filter:lower():find(searchText) then filters[filter] = filter end
 						end
-						if not next(filters) then filters[""] = NONE end
+						if not next(filters) then filters[""] = L["None"] end
 						return filters
 					end
 				}
@@ -208,7 +207,7 @@ local function UpdateFilterGroup()
 				color = {
 					order = 1,
 					type = "color",
-					name = COLOR,
+					name = L["Color"],
 					hasAlpha = true,
 					get = function(info)
 						local t = E.global.unitframe.DebuffHighlightColors[selectedSpell].color
@@ -304,7 +303,7 @@ local function UpdateFilterGroup()
 							end
 							if filter:lower():find(searchText) then filters[filter] = filter end
 						end
-						if not next(filters) then filters[""] = NONE end
+						if not next(filters) then filters[""] = L["None"] end
 						return filters
 					end
 				}
@@ -358,7 +357,7 @@ local function UpdateFilterGroup()
 				color = {
 					order = 1,
 					type = "color",
-					name = COLOR,
+					name = L["Color"],
 					get = function(info)
 						local t = E.global.unitframe.AuraBarColors[selectedSpell]
 						if type(t) == "boolean" then
@@ -565,13 +564,13 @@ local function UpdateFilterGroup()
 							values = {
 								["coloredIcon"] = L["Colored Icon"],
 								["texturedIcon"] = L["Textured Icon"],
-								["NONE"] = NONE
+								["NONE"] = L["None"]
 							}
 						},
 						color = {
 							order = 6,
 							type = "color",
-							name = COLOR,
+							name = L["Color"],
 							get = function(info)
 								local t = E.global.unitframe.buffwatch.PET[selectedSpell][ info[#info] ]
 								return t.r, t.g, t.b, t.a
@@ -817,13 +816,13 @@ local function UpdateFilterGroup()
 						values = {
 							["coloredIcon"] = L["Colored Icon"],
 							["texturedIcon"] = L["Textured Icon"],
-							["NONE"] = NONE
+							["NONE"] = L["None"]
 						}
 					},
 					color = {
 						order = 6,
 						type = "color",
-						name = COLOR,
+						name = L["Color"],
 						get = function(info)
 							local t = E.global.unitframe.buffwatch[E.myclass][selectedSpell][ info[#info] ]
 							return t.r, t.g, t.b, t.a
@@ -1071,13 +1070,13 @@ local function UpdateFilterGroup()
 						values = {
 							["coloredIcon"] = L["Colored Icon"],
 							["texturedIcon"] = L["Textured Icon"],
-							["NONE"] = NONE
+							["NONE"] = L["None"]
 						}
 					},
 					color = {
 						order = 6,
 						type = "color",
-						name = COLOR,
+						name = L["Color"],
 						get = function(info)
 							if E.db.unitframe.filters.buffwatch[selectedSpell] then
 								local t = E.db.unitframe.filters.buffwatch[selectedSpell][ info[#info] ]
@@ -1246,7 +1245,7 @@ local function UpdateFilterGroup()
 							end
 							if filter:lower():find(searchText) then filters[filter] = filter end
 						end
-						if not next(filters) then filters[""] = NONE end
+						if not next(filters) then filters[""] = L["None"] end
 						return filters
 					end
 				}
@@ -1365,7 +1364,7 @@ end
 E.Options.args.filters = {
 	order = -10, --Always Last Hehehe
 	type = "group",
-	name = FILTERS,
+	name = L["Filters"],
 	args = {
 		createFilter = {
 			order = 1,
@@ -1413,7 +1412,7 @@ E.Options.args.filters = {
 			end,
 			values = function()
 				local filters = {}
-				filters[""] = NONE
+				filters[""] = L["None"]
 				local list = E.global.unitframe.aurafilters
 				if not list then return end
 				for filter in pairs(list) do

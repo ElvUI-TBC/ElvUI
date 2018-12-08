@@ -7,8 +7,6 @@ local tremove, tinsert, tsort, tconcat = table.remove, table.insert, table.sort,
 local format, match, gsub, strsplit = string.format, string.match, string.gsub, strsplit
 
 local GetSpellInfo = GetSpellInfo
-local FACTION_STANDING_LABEL2, FACTION_STANDING_LABEL4, FACTION_STANDING_LABEL5 = FACTION_STANDING_LABEL2, FACTION_STANDING_LABEL4, FACTION_STANDING_LABEL5
-local COLOR, DISABLE, HEALTH, LEVEL, NAME, NONE, COMBAT, FILTERS = COLOR, DISABLE, HEALTH, LEVEL, NAME, NONE, COMBAT, FILTERS
 
 local selectedNameplateFilter
 
@@ -136,7 +134,7 @@ local function UpdateStyleLists()
 					type = "select",
 					name = spell,
 					values = {
-						["DISABLED"] = DISABLE,
+						["DISABLED"] = L["Disable"],
 						["ONCD"] = L["On Cooldown"],
 						["OFFCD"] = L["Off Cooldown"],
 					},
@@ -306,7 +304,7 @@ local function UpdateFilterGroup()
 				names = {
 					order = 4,
 					type = "group",
-					name = NAME,
+					name = L["Name"],
 					disabled = function() return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and E.db.nameplates.filters[selectedNameplateFilter].triggers and E.db.nameplates.filters[selectedNameplateFilter].triggers.enable) end,
 					args = {
 						addName = {
@@ -417,7 +415,7 @@ local function UpdateFilterGroup()
 				combat = {
 					order = 7,
 					type = "group",
-					name = COMBAT,
+					name = L["Combat"],
 					disabled = function() return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and E.db.nameplates.filters[selectedNameplateFilter].triggers and E.db.nameplates.filters[selectedNameplateFilter].triggers.enable) end,
 					args = {
 						inCombat = {
@@ -580,7 +578,7 @@ local function UpdateFilterGroup()
 				levels = {
 					order = 11,
 					type = "group",
-					name = LEVEL,
+					name = L["Level"],
 					disabled = function() return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and E.db.nameplates.filters[selectedNameplateFilter].triggers and E.db.nameplates.filters[selectedNameplateFilter].triggers.enable) end,
 					args = {
 						enable = {
@@ -1020,7 +1018,7 @@ local function UpdateFilterGroup()
 								hostile = {
 									order = 1,
 									type = "toggle",
-									name = FACTION_STANDING_LABEL2,
+									name = L["Hostile"],
 									get = function(info)
 										return E.global.nameplates.filters[selectedNameplateFilter].triggers.reactionType.hostile
 									end,
@@ -1032,7 +1030,7 @@ local function UpdateFilterGroup()
 								neutral = {
 									order = 2,
 									type = "toggle",
-									name = FACTION_STANDING_LABEL4,
+									name = L["Neutral"],
 									get = function(info)
 										return E.global.nameplates.filters[selectedNameplateFilter].triggers.reactionType.neutral
 									end,
@@ -1044,7 +1042,7 @@ local function UpdateFilterGroup()
 								friendly = {
 									order = 3,
 									type = "toggle",
-									name = FACTION_STANDING_LABEL5,
+									name = L["Friendly"],
 									get = function(info)
 										return E.global.nameplates.filters[selectedNameplateFilter].triggers.reactionType.friendly
 									end,
@@ -1139,14 +1137,14 @@ local function UpdateFilterGroup()
 				color = {
 					order = 10,
 					type = "group",
-					name = COLOR,
+					name = L["Color"],
 					guiInline = true,
 					disabled = function() return E.global.nameplates.filters[selectedNameplateFilter].actions.hide end,
 					args = {
 						health = {
 							order = 1,
 							type = "toggle",
-							name = HEALTH,
+							name = L["Health"],
 							get = function(info)
 								return E.global.nameplates.filters[selectedNameplateFilter].actions.color.health
 							end,
@@ -1212,7 +1210,7 @@ local function UpdateFilterGroup()
 						name = {
 							order = 7,
 							type = "toggle",
-							name = NAME,
+							name = L["Name"],
 							get = function(info)
 								return E.global.nameplates.filters[selectedNameplateFilter].actions.color.name
 							end,
@@ -1312,7 +1310,7 @@ local function UpdateFilterGroup()
 						color = {
 							order = 3,
 							type = "color",
-							name = COLOR,
+							name = L["Color"],
 							hasAlpha = true,
 							disabled = function() return E.global.nameplates.filters[selectedNameplateFilter].actions.hide end,
 							get = function(info)
@@ -1377,14 +1375,14 @@ local function GetUnitSettings(unit, name)
 			healthGroup = {
 				order = 1,
 				type = "group",
-				name = HEALTH,
+				name = L["Health"],
 				get = function(info) return E.db.nameplates.units[unit].healthbar[ info[#info] ] end,
 				set = function(info, value) E.db.nameplates.units[unit].healthbar[ info[#info] ] = value NP:ConfigureAll() end,
 				args = {
 					header = {
 						order = 1,
 						type = "header",
-						name = HEALTH
+						name = L["Health"]
 					},
 					enable = {
 						order = 2,
@@ -1557,7 +1555,7 @@ local function GetUnitSettings(unit, name)
 					filtersGroup = {
 						order = 5,
 						type = "group",
-						name = FILTERS,
+						name = L["Filters"],
 						guiInline = true,
 						args = {
 							minDuration = {
@@ -1719,7 +1717,7 @@ local function GetUnitSettings(unit, name)
 					filtersGroup = {
 						order = 5,
 						type = "group",
-						name = FILTERS,
+						name = L["Filters"],
 						guiInline = true,
 						args = {
 							minDuration = {
@@ -1842,12 +1840,12 @@ local function GetUnitSettings(unit, name)
 			levelGroup = {
 				order = 5,
 				type = "group",
-				name = LEVEL,
+				name = L["Level"],
 				args = {
 					header = {
 						order = 1,
 						type = "header",
-						name = LEVEL
+						name = L["Level"]
 					},
 					enable = {
 						order = 2,
@@ -1861,14 +1859,14 @@ local function GetUnitSettings(unit, name)
 			nameGroup = {
 				order = 6,
 				type = "group",
-				name = NAME,
+				name = L["Name"],
 				get = function(info) return E.db.nameplates.units[unit].name[ info[#info] ] end,
 				set = function(info, value) E.db.nameplates.units[unit].name[ info[#info] ] = value NP:ConfigureAll() end,
 				args = {
 					header = {
 						order = 1,
 						type = "header",
-						name = NAME
+						name = L["Name"]
 					},
 					enable = {
 						order = 2,
@@ -2265,7 +2263,7 @@ E.Options.args.nameplate = {
 							name = L["Enemy Combat Toggle"],
 							desc = L["Control enemy nameplates toggling on or off when in combat."],
 							values = {
-								["DISABLED"] = DISABLE,
+								["DISABLED"] = L["Disable"],
 								["TOGGLE_ON"] = L["Toggle On While In Combat"],
 								["TOGGLE_OFF"] = L["Toggle Off While In Combat"]
 							},
@@ -2280,7 +2278,7 @@ E.Options.args.nameplate = {
 							name = L["Friendly Combat Toggle"],
 							desc = L["Control friendly nameplates toggling on or off when in combat."],
 							values = {
-								["DISABLED"] = DISABLE,
+								["DISABLED"] = L["Disable"],
 								["TOGGLE_ON"] = L["Toggle On While In Combat"],
 								["TOGGLE_OFF"] = L["Toggle Off While In Combat"]
 							},
@@ -2372,7 +2370,7 @@ E.Options.args.nameplate = {
 									get = function(info) return E.db.nameplates.targetGlow end,
 									set = function(info, value) E.db.nameplates.targetGlow = value NP:ConfigureAll() end,
 									values = {
-										["none"] = NONE,
+										["none"] = L["None"],
 										["style1"] = L["Border Glow"],
 										["style2"] = L["Background Glow"],
 										["style3"] = L["Top Arrow"],
@@ -2418,7 +2416,7 @@ E.Options.args.nameplate = {
 								fontSize = {
 									order = 2,
 									type = "range",
-									name = FONT_SIZE,
+									name = L["Font Size"],
 									min = 4, max = 23, step = 1
 								},
 								fontOutline = {
@@ -2427,7 +2425,7 @@ E.Options.args.nameplate = {
 									name = L["Font Outline"],
 									desc = L["Set the font outline."],
 									values = {
-										["NONE"] = NONE,
+										["NONE"] = L["None"],
 										["OUTLINE"] = "OUTLINE",
 										["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 										["THICKOUTLINE"] = "THICKOUTLINE"
@@ -2438,7 +2436,7 @@ E.Options.args.nameplate = {
 						health = {
 							order = 3,
 							type = "group",
-							name = HEALTH,
+							name = L["Health"],
 							guiInline = true,
 							args = {
 								healthFont = {
@@ -2449,7 +2447,7 @@ E.Options.args.nameplate = {
 								},
 								healthFontSize = {
 									order = 2,
-									name = FONT_SIZE,
+									name = L["Font Size"],
 									type = "range",
 									min = 4, max = 36, step = 1
 								},
@@ -2459,7 +2457,7 @@ E.Options.args.nameplate = {
 									name = L["Font Outline"],
 									desc = L["Set the font outline."],
 									values = {
-										["NONE"] = NONE,
+										["NONE"] = L["None"],
 										["OUTLINE"] = "OUTLINE",
 										["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 										["THICKOUTLINE"] = "THICKOUTLINE"
@@ -2483,7 +2481,7 @@ E.Options.args.nameplate = {
 								},
 								durationFontSize = {
 									order = 2,
-									name = FONT_SIZE,
+									name = L["Font Size"],
 									type = "range",
 									min = 4, max = 20, step = 1,
 									set = function(info, value) E.db.nameplates[ info[#info] ] = value; NP:UpdatePlateFonts() end
@@ -2494,7 +2492,7 @@ E.Options.args.nameplate = {
 									name = L["Font Outline"],
 									desc = L["Set the font outline."],
 									values = {
-										["NONE"] = NONE,
+										["NONE"] = L["None"],
 										["OUTLINE"] = "OUTLINE",
 										["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 										["THICKOUTLINE"] = "THICKOUTLINE",
@@ -2531,7 +2529,7 @@ E.Options.args.nameplate = {
 								stackFontSize = {
 									order = 2,
 									type = "range",
-									name = FONT_SIZE,
+									name = L["Font Size"],
 									min = 4, max = 20, step = 1,
 									set = function(info, value) E.db.nameplates[ info[#info] ] = value; NP:UpdatePlateFonts() end
 								},
@@ -2541,7 +2539,7 @@ E.Options.args.nameplate = {
 									name = L["Font Outline"],
 									desc = L["Set the font outline."],
 									values = {
-										["NONE"] = NONE,
+										["NONE"] = L["None"],
 										["OUTLINE"] = "OUTLINE",
 										["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 										["THICKOUTLINE"] = "THICKOUTLINE",

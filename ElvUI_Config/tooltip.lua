@@ -5,10 +5,6 @@ local _G = _G
 local tonumber, tostring = tonumber, tostring
 
 local GameTooltipStatusBar = _G["GameTooltipStatusBar"]
-local COMBAT = COMBAT
-local OPACITY = OPACITY
-local NONE, FONT_SIZE = NONE, FONT_SIZE
-local ALT_KEY, CTRL_KEY, SHIFT_KEY = ALT_KEY, CTRL_KEY, SHIFT_KEY
 
 E.Options.args.tooltip = {
 	type = "group",
@@ -106,13 +102,13 @@ E.Options.args.tooltip = {
 						["BAGS_ONLY"] = L["Bags Only"],
 						["BANK_ONLY"] = L["Bank Only"],
 						["BOTH"] = L["Both"],
-						["NONE"] = NONE
+						["NONE"] = L["None"]
 					}
 				},
 				colorAlpha = {
 					order = 12,
 					type = "range",
-					name = OPACITY,
+					name = L["Opacity"],
 					isPercent = true,
 					min = 0, max = 1, step = 0.01
 				},
@@ -135,7 +131,7 @@ E.Options.args.tooltip = {
 							type = "select",
 							name = L["Font Outline"],
 							values = {
-								["NONE"] = NONE,
+								["NONE"] = L["None"],
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
@@ -222,9 +218,9 @@ E.Options.args.tooltip = {
 					values = {
 						["ALL"] = L["Always Hide"],
 						["NONE"] = L["Never Hide"],
-						["SHIFT"] = SHIFT_KEY,
-						["ALT"] = ALT_KEY,
-						["CTRL"] = CTRL_KEY
+						["SHIFT"] = L["Shift Key"],
+						["ALT"] = L["ALT-Key"],
+						["CTRL"] = L["CTRL-Key"]
 					}
 				},
 				bags = {
@@ -235,9 +231,9 @@ E.Options.args.tooltip = {
 					values = {
 						["ALL"] = L["Always Hide"],
 						["NONE"] = L["Never Hide"],
-						["SHIFT"] = SHIFT_KEY,
-						["ALT"] = ALT_KEY,
-						["CTRL"] = CTRL_KEY
+						["SHIFT"] = L["Shift Key"],
+						["ALT"] = L["ALT-Key"],
+						["CTRL"] = L["CTRL-Key"]
 					}
 				},
 				unitFrames = {
@@ -248,15 +244,15 @@ E.Options.args.tooltip = {
 					values = {
 						["ALL"] = L["Always Hide"],
 						["NONE"] = L["Never Hide"],
-						["SHIFT"] = SHIFT_KEY,
-						["ALT"] = ALT_KEY,
-						["CTRL"] = CTRL_KEY
+						["SHIFT"] = L["Shift Key"],
+						["ALT"] = L["ALT-Key"],
+						["CTRL"] = L["CTRL-Key"]
 					}
 				},
 				combat = {
 					order = 5,
 					type = "toggle",
-					name = COMBAT,
+					name = L["Combat"],
 					desc = L["Hide tooltip while in combat."]
 				}
 			}
@@ -310,7 +306,7 @@ E.Options.args.tooltip = {
 				fontSize = {
 					order = 6,
 					type = "range",
-					name = FONT_SIZE,
+					name = L["Font Size"],
 					min = 4, max = 33, step = 1,
 					set = function(info, value)
 						E.db.tooltip.healthBar.fontSize = value
@@ -323,7 +319,7 @@ E.Options.args.tooltip = {
 					type = "select",
 					name = L["Font Outline"],
 					values = {
-						["NONE"] = NONE,
+						["NONE"] = L["None"],
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE"

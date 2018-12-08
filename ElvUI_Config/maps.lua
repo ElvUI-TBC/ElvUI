@@ -2,12 +2,6 @@ local E, L, V, P, G = unpack(ElvUI)
 local WM = E:GetModule("WorldMap")
 local MM = E:GetModule("Minimap")
 
-local FONT_SIZE, HIDE, NONE = FONT_SIZE, HIDE, NONE
-local MAIL_LABEL = MAIL_LABEL
-local MINIMAP_LABEL = MINIMAP_LABEL
-local TIMEMANAGER_TOOLTIP_TITLE = TIMEMANAGER_TOOLTIP_TITLE
-local WORLD_MAP = WORLD_MAP
-
 E.Options.args.maps = {
 	type = "group",
 	name = L["Maps"],
@@ -16,12 +10,12 @@ E.Options.args.maps = {
 		worldMap = {
 			order = 1,
 			type = "group",
-			name = WORLD_MAP,
+			name = L["World Map"],
 			args = {
 				header = {
 					order = 0,
 					type = "header",
-					name = WORLD_MAP
+					name = L["World Map"]
 				},
 				generalGroup = {
 					order = 1,
@@ -104,14 +98,14 @@ E.Options.args.maps = {
 		minimap = {
 			order = 2,
 			type = "group",
-			name = MINIMAP_LABEL,
+			name = L["Minimap"],
 			get = function(info) return E.db.general.minimap[ info[#info] ]; end,
 			childGroups = "tab",
 			args = {
 				header = {
 					order = 0,
 					type = "header",
-					name = MINIMAP_LABEL
+					name = L["Minimap"]
 				},
 				generalGroup = {
 					order = 1,
@@ -159,7 +153,7 @@ E.Options.args.maps = {
 							values = {
 								["MOUSEOVER"] = L["Minimap Mouseover"],
 								["SHOW"] = L["Always Display"],
-								["HIDE"] = HIDE
+								["HIDE"] = L["Hide"]
 							},
 							disabled = function() return not E.private.general.minimap.enable; end
 						},
@@ -180,7 +174,7 @@ E.Options.args.maps = {
 						locationFontSize = {
 							order = 4,
 							type = "range",
-							name = FONT_SIZE,
+							name = L["Font Size"],
 							min = 6, max = 36, step = 1,
 							set = function(info, value) E.db.general.minimap.locationFontSize = value; MM:Update_ZoneText(); end,
 							disabled = function() return not E.private.general.minimap.enable end,
@@ -192,7 +186,7 @@ E.Options.args.maps = {
 							set = function(info, value) E.db.general.minimap.locationFontOutline = value; MM:Update_ZoneText(); end,
 							disabled = function() return not E.private.general.minimap.enable; end,
 							values = {
-								["NONE"] = NONE,
+								["NONE"] = L["None"],
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
@@ -242,19 +236,19 @@ E.Options.args.maps = {
 						calendar = {
 							order = 1,
 							type = "group",
-							name = TIMEMANAGER_TOOLTIP_TITLE,
+							name = L["Time Info"],
 							get = function(info) return E.db.general.minimap.icons.calendar[ info[#info] ]; end,
 							set = function(info, value) E.db.general.minimap.icons.calendar[ info[#info] ] = value; MM:UpdateSettings(); end,
 							args = {
 								header = {
 									order = 0,
 									type = "header",
-									name = TIMEMANAGER_TOOLTIP_TITLE
+									name = L["Time Info"]
 								},
 								hideCalendar = {
 									order = 1,
 									type = "toggle",
-									name = HIDE,
+									name = L["Hide"],
 									get = function(info) return E.private.general.minimap.hideCalendar; end,
 									set = function(info, value) E.private.general.minimap.hideCalendar = value; MM:UpdateSettings(); end,
 									width = "full"
@@ -307,14 +301,14 @@ E.Options.args.maps = {
 						mail = {
 							order = 2,
 							type = "group",
-							name = MAIL_LABEL,
+							name = L["Mail"],
 							get = function(info) return E.db.general.minimap.icons.mail[ info[#info] ]; end,
 							set = function(info, value) E.db.general.minimap.icons.mail[ info[#info] ] = value; MM:UpdateSettings(); end,
 							args = {
 								header = {
 									order = 0,
 									type = "header",
-									name = MAIL_LABEL
+									name = L["Mail"]
 								},
 								position = {
 									order = 1,

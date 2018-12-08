@@ -9,9 +9,6 @@ local gsub, match = string.gsub, string.match
 
 local GameTooltip = _G["GameTooltip"]
 local SetCVar = SetCVar
-local FONT_SIZE, NONE, COLOR, COLORS = FONT_SIZE, NONE, COLOR, COLORS
-local SHIFT_KEY, ALT_KEY, CTRL_KEY = SHIFT_KEY, ALT_KEY, CTRL_KEY
-local LOCK_ACTIONBAR_TEXT = LOCK_ACTIONBAR_TEXT
 
 local points = {
 	["TOPLEFT"] = "TOPLEFT",
@@ -71,7 +68,7 @@ local function BuildABConfig()
 			lockActionBars = {
 				order = 8,
 				type = "toggle",
-				name = LOCK_ACTIONBAR_TEXT,
+				name = L["Lock Actionbars"],
 				desc = L["If you unlock actionbars then trying to move a spell might instantly cast it if you cast spells on key press instead of key release."],
 				set = function(info, value)
 					E.db.actionbar[ info[#info] ] = value
@@ -107,10 +104,10 @@ local function BuildABConfig()
 				desc = L["The button you must hold down in order to drag an ability to another action button."],
 				disabled = function() return (not E.private.actionbar.enable or not E.db.actionbar.lockActionBars) end,
 				values = {
-					["NONE"] = NONE,
-					["SHIFT"] = SHIFT_KEY,
-					["ALT"] = ALT_KEY,
-					["CTRL"] = CTRL_KEY
+					["NONE"] = L["None"],
+					["SHIFT"] = L["Shift Key"],
+					["ALT"] = L["ALT-Key"],
+					["CTRL"] = L["CTRL-Key"]
 				}
 			},
 			globalFadeAlpha = {
@@ -125,7 +122,7 @@ local function BuildABConfig()
 			colorGroup = {
 				order = 13,
 				type = "group",
-				name = COLORS,
+				name = L["Colors"],
 				guiInline = true,
 				get = function(info)
 					local t = E.db.actionbar[ info[#info] ]
@@ -179,7 +176,7 @@ local function BuildABConfig()
 					fontSize = {
 						order = 5,
 						type = "range",
-						name = FONT_SIZE,
+						name = L["Font Size"],
 						min = 4, max = 32, step = 1
 					},
 					fontOutline = {
@@ -188,7 +185,7 @@ local function BuildABConfig()
 						name = L["Font Outline"],
 						desc = L["Set the font outline."],
 						values = {
-							["NONE"] = NONE,
+							["NONE"] = L["None"],
 							["OUTLINE"] = "OUTLINE",
 							["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 							["THICKOUTLINE"] = "THICKOUTLINE"
@@ -197,7 +194,7 @@ local function BuildABConfig()
 					fontColor = {
 						order = 7,
 						type = "color",
-						name = COLOR,
+						name = L["Color"],
 						width = "full",
 						get = function(info)
 							local t = E.db.actionbar[ info[#info] ]

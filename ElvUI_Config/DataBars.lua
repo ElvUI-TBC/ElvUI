@@ -1,10 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("DataBars")
 
-local FONT_SIZE, NONE = FONT_SIZE, NONE
-local REPUTATION = REPUTATION
-local XPBAR_LABEL = XPBAR_LABEL
-
 E.Options.args.databars = {
 	type = "group",
 	name = L["DataBars"],
@@ -25,14 +21,14 @@ E.Options.args.databars = {
 		experience = {
 			order = 3,
 			type = "group",
-			name = XPBAR_LABEL,
+			name = L["XP Bar"],
 			get = function(info) return mod.db.experience[ info[#info] ] end,
 			set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:UpdateExperienceDimensions() end,
 			args = {
 				header = {
  					order = 1,
 					type = "header",
-					name = XPBAR_LABEL
+					name = L["XP Bar"]
 				},
 				enable = {
 					order = 2,
@@ -100,7 +96,7 @@ E.Options.args.databars = {
 				textSize = {
 					order = 11,
 					type = "range",
-					name = FONT_SIZE,
+					name = L["Font Size"],
 					min = 6, max = 22, step = 1,
 					disabled = function() return not mod.db.experience.enable end
 				},
@@ -109,7 +105,7 @@ E.Options.args.databars = {
 					type = "select",
 					name = L["Font Outline"],
 					values = {
-						["NONE"] = NONE,
+						["NONE"] = L["None"],
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE"
@@ -122,7 +118,7 @@ E.Options.args.databars = {
 					name = L["Text Format"],
 					width = "double",
 					values = {
-						NONE = NONE,
+						NONE = L["None"],
 						PERCENT = L["Percent"],
 						CUR = L["Current"],
 						REM = L["Remaining"],
@@ -139,14 +135,14 @@ E.Options.args.databars = {
 		reputation = {
 			order = 4,
 			type = "group",
-			name = REPUTATION,
+			name = L["Reputation"],
 			get = function(info) return mod.db.reputation[ info[#info] ] end,
 			set = function(info, value) mod.db.reputation[ info[#info] ] = value; mod:UpdateReputationDimensions() end,
 			args = {
 				header = {
  					order = 1,
 					type = "header",
-					name = REPUTATION
+					name = L["Reputation"]
 				},
 				enable = {
 					order = 2,
@@ -206,7 +202,7 @@ E.Options.args.databars = {
 				},
 				textSize = {
 					order = 10,
-					name = FONT_SIZE,
+					name = L["Font Size"],
 					type = "range",
 					min = 6, max = 22, step = 1,
 					disabled = function() return not mod.db.reputation.enable end
@@ -216,7 +212,7 @@ E.Options.args.databars = {
 					type = "select",
 					name = L["Font Outline"],
 					values = {
-						["NONE"] = NONE,
+						["NONE"] = L["None"],
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE"
@@ -229,7 +225,7 @@ E.Options.args.databars = {
 					name = L["Text Format"],
 					width = "double",
 					values = {
-						NONE = NONE,
+						NONE = L["None"],
 						CUR = L["Current"],
 						REM = L["Remaining"],
 						PERCENT = L["Percent"],

@@ -2,8 +2,6 @@ local E, L, V, P, G = unpack(ElvUI)
 
 local pairs = pairs
 
-local COLORS, ENABLE, FONT_SIZE, NONE = COLORS, ENABLE, FONT_SIZE, NONE
-
 local function profile(db)
 	return (db == "global" and E.db.cooldown) or E.db[db].cooldown
 end
@@ -82,7 +80,7 @@ local function group(order, db, label)
 					override = {
 						order = 1,
 						type = "toggle",
-						name = ENABLE,
+						name = L["Enable"],
 						desc = L["This will override the global cooldown settings."],
 						get = function(info) return (profile(db))[ info[#info] ] end,
 						set = function(info, value) (profile(db))[ info[#info] ] = value E:UpdateCooldownSettings(db) end,
@@ -168,7 +166,7 @@ local function group(order, db, label)
 					enable = {
 						order = 1,
 						type = "toggle",
-						name = ENABLE,
+						name = L["Enable"],
 						desc = L["This will override the global cooldown settings."],
 						disabled = E.noop,
 					},
@@ -180,7 +178,7 @@ local function group(order, db, label)
 					fontSize = {
 						order = 3,
 						type = "range",
-						name = FONT_SIZE,
+						name = L["Font Size"],
 						min = 10, max = 32, step = 1
 					},
 					font = {
@@ -195,7 +193,7 @@ local function group(order, db, label)
 						type = "select",
 						name = L["Font Outline"],
 						values = {
-							["NONE"] = NONE,
+							["NONE"] = L["None"],
 							["OUTLINE"] = "OUTLINE",
 							["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 							["THICKOUTLINE"] = "THICKOUTLINE"
@@ -217,7 +215,7 @@ local function group(order, db, label)
 		end
 
 		-- rename the tab
-		E.Options.args.cooldown.args[db].args.colorGroup.name = COLORS
+		E.Options.args.cooldown.args[db].args.colorGroup.name = L["Colors"]
 	else
 		E.Options.args.cooldown.args[db].args.colorGroup.args.spacer2 = nil
 	end
@@ -248,7 +246,7 @@ E.Options.args.cooldown = {
 		enable = {
 			order = 2,
 			type = "toggle",
-			name = ENABLE,
+			name = L["Enable"],
 			desc = L["Display cooldown text on anything with the cooldown spiral."]
 		}
 	}

@@ -1,8 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local A = E:GetModule("Auras")
 
-local FONT_SIZE, NONE = FONT_SIZE, NONE
-
 E.Options.args.auras = {
 	type = "group",
 	name = L["Auras"],
@@ -119,7 +117,7 @@ E.Options.args.auras = {
 				fontSize = {
 					order = 8,
 					type = "range",
-					name = FONT_SIZE,
+					name = L["Font Size"],
 					min = 6, max = 22, step = 1
 				},
 				fontOutline = {
@@ -128,7 +126,7 @@ E.Options.args.auras = {
 					name = L["Font Outline"],
 					desc = L["Set the font outline."],
 					values = {
-						["NONE"] = NONE,
+						["NONE"] = L["None"],
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROME"] = "MONOCHROME",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
@@ -202,7 +200,7 @@ E.Options.args.auras = {
 						},
 						fontSize = {
 							order = 2,
-							name = FONT_SIZE,
+							name = L["Font Size"],
 							type = "range",
 							min = 6, max = 22, step = 1
 						},
@@ -212,7 +210,7 @@ E.Options.args.auras = {
 							desc = L["Set the font outline."],
 							type = "select",
 							values = {
-								["NONE"] = NONE,
+								["NONE"] = L["None"],
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"

@@ -4,9 +4,8 @@ local CC = E:GetModule("ClassCache")
 local _G = _G
 
 local FCF_GetNumActiveChatFrames = FCF_GetNumActiveChatFrames
-local NONE, FONT_SIZE, COLORS, DISABLE = NONE, FONT_SIZE, COLORS, DISABLE
-local GUILD, PLAYER, LOOT = GUILD, PLAYER, LOOT
-local SAY, CHAT_MSG_EMOTE = SAY, CHAT_MSG_EMOTE
+
+_G.GetLocale = function() return GAME_LOCALE end
 
 local function GetChatWindowInfo()
 	local ChatTabInfo = {}
@@ -55,12 +54,12 @@ E.Options.args.general = {
 					name = L["Announce Interrupts"],
 					desc = L["Announce when you interrupt a spell to the specified chat channel."],
 					values = {
-						["NONE"] = NONE,
-						["SAY"] = SAY,
+						["NONE"] = L["None"],
+						["SAY"] = L["Say"],
 						["PARTY"] = L["Party Only"],
 						["RAID"] = L["Party / Raid"],
 						["RAID_ONLY"] = L["Raid Only"],
-						["EMOTE"] = CHAT_MSG_EMOTE
+						["EMOTE"] = L["Emote"]
 					}
 				},
 				autoRepair = {
@@ -69,9 +68,9 @@ E.Options.args.general = {
 					name = L["Auto Repair"],
 					desc = L["Automatically repair using the following method when visiting a merchant."],
 					values = {
-						["NONE"] = NONE,
-						["GUILD"] = GUILD,
-						["PLAYER"] = PLAYER
+						["NONE"] = L["None"],
+						["GUILD"] = L["Guild"],
+						["PLAYER"] = L["Player"]
 					}
 				},
 				pixelPerfect = {
@@ -98,7 +97,7 @@ E.Options.args.general = {
 				loot = {
 					order = 8,
 					type = "toggle",
-					name = LOOT,
+					name = L["Loot"],
 					desc = L["Enable/Disable the loot frame."],
 					get = function(info) return E.private.general.loot; end,
 					set = function(info, value) E.private.general.loot = value; E:StaticPopup_Show("PRIVATE_RL"); end
@@ -205,6 +204,25 @@ E.Options.args.general = {
 						["KOREAN"] = "Korean (천, 만, 억)",
 						["GERMAN"] = "German (Tsd, Mio, Mrd)"
 					}
+				},
+				GameLocale = {
+					order = 22,
+					type = "select",
+					name = L["Change Language"],
+					desc = L["Change the ElvUI option to a different language."],
+					get = function(info) return GAME_LOCALE end,
+					set = function(info, value) GAME_LOCALE = value E:StaticPopup_Show("PRIVATE_RL") end,
+					values = {
+						["enUS"] = "English (enUS/enGB)",
+						["esES"] = "Spanish (esES/esMX)",
+						["ptBR"] = "Portuguese (ptBR)",
+						["frFR"] = "French (frFR)",
+						["deDE"] = "German (deDE)",
+						["koKR"] = "Korean (koKR)",
+						["zhCN"] = "Chinese (zhCN)",
+						["zhTW"] = "Taiwanese (zhTW)",
+						["ruRU"] = "Russian (ruRU)"
+					}
 				}
 			}
 		},
@@ -223,7 +241,7 @@ E.Options.args.general = {
 				fontSize = {
 					order = 2,
 					type = "range",
-					name = FONT_SIZE,
+					name = L["Font Size"],
 					desc = L["Set the font size for everything in UI. Note: This doesn't effect somethings that have their own seperate options (UnitFrame Font, Datatext Font, ect..)"],
 					min = 4, max = 33, step = 1,
 					set = function(info, value) E.db.general[ info[#info] ] = value; E:UpdateMedia(); E:UpdateFontTemplates(); end
@@ -331,7 +349,7 @@ E.Options.args.general = {
 				colorsHeader = {
 					order = 14,
 					type = "header",
-					name = COLORS
+					name = L["Colors"]
 				},
 				bordercolor = {
 					type = "color",
@@ -553,7 +571,7 @@ E.Options.args.general = {
 						["backdrop"] = L["Skin Backdrop"],
 						["nobackdrop"] = L["Remove Backdrop"],
 						["backdrop_noborder"] = L["Skin Backdrop (No Borders)"],
-						["disabled"] = DISABLE
+						["disabled"] = L["Disable"]
 					}
 				},
 				name = {
@@ -583,7 +601,7 @@ E.Options.args.general = {
 				fontSize = {
 					order = 6,
 					type = "range",
-					name = FONT_SIZE,
+					name = L["Font Size"],
 					get = function(info) return E.private.general.chatBubbleFontSize; end,
 					set = function(info, value) E.private.general.chatBubbleFontSize = value; E:StaticPopup_Show("PRIVATE_RL"); end,
 					min = 4, max = 33, step = 1,
@@ -597,7 +615,7 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general.chatBubbleFontOutline = value; E:StaticPopup_Show("PRIVATE_RL"); end,
 					disabled = function() return E.private.general.chatBubbles == "disabled" end,
 					values = {
-						["NONE"] = NONE,
+						["NONE"] = L["None"],
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE",
@@ -664,7 +682,7 @@ E.Options.args.general = {
 				threatTextSize = {
 					order = 7,
 					type = "range",
-					name = FONT_SIZE,
+					name = L["Font Size"],
 					min = 6, max = 22, step = 1,
 					get = function(info) return E.db.general.threat.textSize; end,
 					set = function(info, value) E.db.general.threat.textSize = value E:GetModule("Threat"):UpdatePosition() end,
@@ -676,7 +694,7 @@ E.Options.args.general = {
 					name = L["Font Outline"],
 					desc = L["Set the font outline."],
 					values = {
-						["NONE"] = NONE,
+						["NONE"] = L["None"],
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE"
