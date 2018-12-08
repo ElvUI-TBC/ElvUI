@@ -183,7 +183,6 @@ L["ABOVE_THREAT_FORMAT"] = "%s: %.0f%% [%.0f%% above |cff%02x%02x%02x%s|r]"
 L["Bars"] = true --Also used in UnitFrames
 L["Can't Roll"] = true
 L["Copy"] = true
-L["Disband Group"] = true
 L["Empty Slot"] = true
 L["Enable"] = true --Doesn't fit a section since it's used a lot of places
 L["Experience"] = true
@@ -295,7 +294,6 @@ L["A setting you have changed will change an option for this character only. Thi
 L["Accepting this will reset the UnitFrame settings for %s. Are you sure?"] = true
 L["Accepting this will reset your Filter Priority lists for all auras on NamePlates. Are you sure?"] = true
 L["Are you sure you want to apply this font to all ElvUI elements?"] = true
-L["Are you sure you want to disband the group?"] = true
 L["Are you sure you want to reset all the settings on this profile?"] = true
 L["Are you sure you want to reset every mover back to it's default position?"] = true
 L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = true

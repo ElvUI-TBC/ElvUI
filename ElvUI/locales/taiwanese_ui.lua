@@ -183,7 +183,6 @@ L["ABOVE_THREAT_FORMAT"] = "%s: %.0f%% [%.0f%% 以上 |cff%02x%02x%02x%s|r]"
 L["Bars"] = "條" --Also used in UnitFrames
 L["Can't Roll"] = "無法需求此裝備"
 L["Copy"] = "複製"
-L["Disband Group"] = "解散隊伍"
 L["Empty Slot"] = "空格"
 L["Enable"] = "啟用" --Doesn't fit a section since it's used a lot of places
 L["Experience"] = "經驗/聲望條"
@@ -295,7 +294,6 @@ L["A setting you have changed will change an option for this character only. Thi
 L["Accepting this will reset the UnitFrame settings for %s. Are you sure?"] = "接受將會重置 %s 的單位框架設定. 你確定嗎?"
 L["Accepting this will reset your Filter Priority lists for all auras on NamePlates. Are you sure?"] = "接受將會重置所有姓名板(血條)的過濾器優先度列表. 你確定嗎?"
 L["Are you sure you want to apply this font to all ElvUI elements?"] = "你確定要將此字型應用到所有 ElvUI 元素嗎?"
-L["Are you sure you want to disband the group?"] = "確定要解散隊伍?"
 L["Are you sure you want to reset all the settings on this profile?"] = "確定需要重置這個設定檔中的所有設定?"
 L["Are you sure you want to reset every mover back to it's default position?"] = "確定需要重置所有框架至預設位置?"
 L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = "因為新的光環系統造成了大量的混亂因此我導入了一個新的步驟到安裝過程中. 這是可選的, 如果你喜歡你現在的設定請跳到最後一個步驟並點擊「完成」將不會再提示. 如果由於某些原因反復提示, 請重新開啟遊戲."

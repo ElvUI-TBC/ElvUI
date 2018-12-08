@@ -382,15 +382,6 @@ E.PopupDialogs["HELLO_KITTY_END"] = {
 	whileDead = 1
 }
 
-E.PopupDialogs["DISBAND_RAID"] = {
-	text = L["Are you sure you want to disband the group?"],
-	button1 = ACCEPT,
-	button2 = CANCEL,
-	OnAccept = function() E:GetModule("Misc"):DisbandRaidGroup() end,
-	timeout = 0,
-	whileDead = 1
-}
-
 E.PopupDialogs["CONFIRM_LOOT_DISTRIBUTION"] = {
 	text = CONFIRM_LOOT_DISTRIBUTION,
 	button1 = YES,
