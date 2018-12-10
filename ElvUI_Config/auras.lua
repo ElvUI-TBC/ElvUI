@@ -181,9 +181,9 @@ E.Options.args.auras = {
 							values = {
 								["LEFT"] = L["Left"],
 								["RIGHT"] = L["Right"]
-							},
-						},
-					},
+							}
+						}
+					}
 				},
 				fontGroup = {
 					order = 3,

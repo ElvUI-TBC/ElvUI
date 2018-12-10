@@ -1,5 +1,5 @@
-local E, L, V, P, G = unpack(ElvUI);
-local TT = E:GetModule("Tooltip");
+local E, L, V, P, G = unpack(ElvUI)
+local TT = E:GetModule("Tooltip")
 
 local _G = _G
 local tonumber, tostring = tonumber, tostring

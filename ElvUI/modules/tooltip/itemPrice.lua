@@ -1,7 +1,8 @@
 local E, L, V, P, G = unpack(ElvUI)
 local IP = E:NewModule("Tooltip_ItemPrice", "AceHook-3.0")
-
 local LIP = LibStub:GetLibrary("ItemPrice-1.1")
+
+local pairs, select, tonumber = pairs, select, tonumber
 
 local GetActionCount = GetActionCount
 local GetAuctionItemInfo = GetAuctionItemInfo

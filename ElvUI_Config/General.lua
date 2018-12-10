@@ -19,9 +19,9 @@ local function GetChatWindowInfo()
 end
 
 E.Options.args.general = {
+	order = 1,
 	type = "group",
 	name = L["General"],
-	order = 1,
 	childGroups = "tab",
 	get = function(info) return E.db.general[ info[#info] ]; end,
 	set = function(info, value) E.db.general[ info[#info] ] = value; end,
@@ -238,31 +238,43 @@ E.Options.args.general = {
 					type = "header",
 					name = L["Fonts"]
 				},
-				fontSize = {
-					order = 2,
-					type = "range",
-					name = L["Font Size"],
-					desc = L["Set the font size for everything in UI. Note: This doesn't effect somethings that have their own seperate options (UnitFrame Font, Datatext Font, ect..)"],
-					min = 4, max = 33, step = 1,
-					set = function(info, value) E.db.general[ info[#info] ] = value; E:UpdateMedia(); E:UpdateFontTemplates(); end
-				},
 				font = {
-					order = 3,
+					order = 2,
 					type = "select", dialogControl = "LSM30_Font",
 					name = L["Default Font"],
 					desc = L["The font that the core of the UI will use."],
 					values = AceGUIWidgetLSMlists.font,
-					set = function(info, value) E.db.general[ info[#info] ] = value; E:UpdateMedia(); E:UpdateFontTemplates(); end,
+					set = function(info, value) E.db.general[ info[#info] ] = value E:UpdateMedia() E:UpdateFontTemplates() end
+				},
+				fontSize = {
+					order = 3,
+					type = "range",
+					name = L["Font Size"],
+					desc = L["Set the font size for everything in UI. Note: This doesn't effect somethings that have their own seperate options (UnitFrame Font, Datatext Font, ect..)"],
+					min = 4, max = 33, step = 1,
+					set = function(info, value) E.db.general[ info[#info] ] = value E:UpdateMedia() E:UpdateFontTemplates() end
+				},
+				fontStyle = {
+					order = 4,
+					type = "select",
+					name = L["Font Outline"],
+					values = {
+						["NONE"] = L["None"],
+						["OUTLINE"] = "OUTLINE",
+						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
+						["THICKOUTLINE"] = "THICKOUTLINE"
+					},
+					set = function(info, value) E.db.general[ info[#info] ] = value E:UpdateMedia() E:UpdateFontTemplates() end
 				},
 				applyFontToAll = {
-					order = 4,
+					order = 5,
 					type = "execute",
 					name = L["Apply Font To All"],
 					desc = L["Applies the font and font size settings throughout the entire user interface. Note: Some font size settings will be skipped due to them having a smaller font size by default."],
 					func = function() E:StaticPopup_Show("APPLY_FONT_WARNING"); end
 				},
 				dmgfont = {
-					order = 5,
+					order = 6,
 					type = "select", dialogControl = "LSM30_Font",
 					name = L["CombatText Font"],
 					desc = L["The font that combat text will use. |cffFF0000WARNING: This requires a game restart or re-log for this change to take effect.|r"],
@@ -271,7 +283,7 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general[ info[#info] ] = value; E:UpdateMedia(); E:UpdateFontTemplates(); E:StaticPopup_Show("PRIVATE_RL"); end
 				},
 				namefont = {
-					order = 6,
+					order = 7,
 					type = "select", dialogControl = "LSM30_Font",
 					name = L["Name Font"],
 					desc = L["The font that appears on the text above players heads. |cffFF0000WARNING: This requires a game restart or re-log for this change to take effect.|r"],
@@ -280,7 +292,7 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general[ info[#info] ] = value; E:UpdateMedia(); E:UpdateFontTemplates(); E:StaticPopup_Show("PRIVATE_RL"); end
 				},
 				replaceBlizzFonts = {
-					order = 7,
+					order = 8,
 					type = "toggle",
 					name = L["Replace Blizzard Fonts"],
 					desc = L["Replaces the default Blizzard fonts on various panels and frames with the fonts chosen in the Media section of the ElvUI config. NOTE: Any font that inherits from the fonts ElvUI usually replaces will be affected as well if you disable this. Enabled by default."],
@@ -288,17 +300,17 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general[ info[#info] ] = value; E:StaticPopup_Show("PRIVATE_RL"); end
 				},
 				texturesHeaderSpacing = {
-					order = 8,
+					order = 9,
 					type = "description",
 					name = " "
 				},
 				texturesHeader = {
-					order = 9,
+					order = 10,
 					type = "header",
 					name = L["Textures"]
 				},
 				normTex = {
-					order = 10,
+					order = 11,
 					type = "select", dialogControl = "LSM30_Statusbar",
 					name = L["Primary Texture"],
 					desc = L["The texture that will be used mainly for statusbars."],
@@ -318,7 +330,7 @@ E.Options.args.general = {
 					end
 				},
 				glossTex = {
-					order = 11,
+					order = 12,
 					type = "select", dialogControl = "LSM30_Statusbar",
 					name = L["Secondary Texture"],
 					desc = L["This texture will get used on objects like chat windows and dropdown menus."],
@@ -331,7 +343,7 @@ E.Options.args.general = {
 					end
 				},
 				applyTextureToAll = {
-					order = 12,
+					order = 13,
 					type = "execute",
 					name = L["Apply Texture To All"],
 					desc = L["Applies the primary texture to all statusbars."],
@@ -341,19 +353,27 @@ E.Options.args.general = {
 						E:UpdateAll(true);
 					end
 				},
+				cropIcon = {
+					order = 14,
+					type = "toggle",
+					name = L["Crop Icons"],
+					desc = L["This is for Customized Icons in your Interface/Icons folder."],
+					get = function(info) return E.db.general[ info[#info] ] end,
+					set = function(info, value) E.db.general[ info[#info] ] = value; E:StaticPopup_Show("PRIVATE_RL") end
+				},
 				colorsHeaderSpacing = {
-					order = 13,
+					order = 15,
 					type = "description",
 					name = " "
 				},
 				colorsHeader = {
-					order = 14,
+					order = 16,
 					type = "header",
 					name = L["Colors"]
 				},
 				bordercolor = {
+					order = 17,
 					type = "color",
-					order = 15,
 					name = L["Border Color"],
 					desc = L["Main border color of the UI."],
 					hasAlpha = false,
@@ -370,8 +390,8 @@ E.Options.args.general = {
 					end,
 				},
 				backdropcolor = {
+					order = 18,
 					type = "color",
-					order = 32,
 					name = L["Backdrop Color"],
 					desc = L["Main backdrop color of the UI."],
 					hasAlpha = false,
@@ -388,8 +408,8 @@ E.Options.args.general = {
 					end
 				},
 				backdropfadecolor = {
+					order = 19,
 					type = "color",
-					order = 33,
 					name = L["Backdrop Faded Color"],
 					desc = L["Backdrop color of transparent frames"],
 					hasAlpha = true,
@@ -406,8 +426,8 @@ E.Options.args.general = {
 					end
 				},
 				valuecolor = {
+					order = 20,
 					type = "color",
-					order = 34,
 					name = L["Value Color"],
 					desc = L["Color some texts use."],
 					hasAlpha = false,

@@ -3,6 +3,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local LMH = LibStub("LibMobHealth-4.0")
 
 local _G = _G
+local unpack = unpack
 local floor = math.floor
 local format = string.format
 
@@ -217,11 +218,11 @@ end
 
 ElvUF.Tags.Events["powercolor"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_MAXPOWER"
 ElvUF.Tags.Methods["powercolor"] = function(unit)
-	local color = ElvUF["colors"].power[UnitPowerType(unit)]
+	local color = ElvUF.colors.power[UnitPowerType(unit)]
 	if color then
 		return Hex(color[1], color[2], color[3])
 	else
-		return Hex(unpack(ElvUF["colors"].power[0]))
+		return Hex(unpack(ElvUF.colors.power[0]))
 	end
 end
 

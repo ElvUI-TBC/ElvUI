@@ -444,4 +444,4 @@ E.Options.args.maps = {
 			}
 		}
 	}
-};
+}

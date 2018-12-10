@@ -22,6 +22,17 @@ local ToggleQuestLog = ToggleQuestLog
 local ToggleSpellBook = ToggleSpellBook
 local ToggleTalentFrame = ToggleTalentFrame
 local ToggleTimeManager = ToggleTimeManager
+local BATTLEFIELD_MINIMAP = BATTLEFIELD_MINIMAP
+local CHARACTER_BUTTON = CHARACTER_BUTTON
+local HELP_BUTTON = HELP_BUTTON
+local LFG_TITLE = LFG_TITLE
+local MINIMAP_LABEL = MINIMAP_LABEL
+local PLAYER_V_PLAYER = PLAYER_V_PLAYER
+local QUEST_LOG = QUEST_LOG
+local SOCIAL_BUTTON = SOCIAL_BUTTON
+local SPELLBOOK_ABILITIES_BUTTON = SPELLBOOK_ABILITIES_BUTTON
+local TALENTS_BUTTON = TALENTS_BUTTON
+local TIMEMANAGER_TITLE = TIMEMANAGER_TITLE
 
 local menuFrame = CreateFrame("Frame", "MinimapRightClickMenu", E.UIParent, "UIDropDownMenuTemplate")
 local menuList = {

@@ -307,6 +307,8 @@ function S:SkinAce3()
 				frame.checkers:SetParent(frame.backdrop)
 				frame.checkers:SetInside(frame.backdrop)
 			end
+		elseif TYPE == "Icon" then
+			widget.frame:StripTextures()
 		end
 
 		return oldRegisterAsWidget(self, widget)

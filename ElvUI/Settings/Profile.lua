@@ -22,11 +22,14 @@ P["general"] = {
 
 	["fontSize"] = 12,
 	["font"] = "PT Sans Narrow",
+	["fontStyle"] = "OUTLINE",
 
 	["bordercolor"] = {r = 0, g = 0, b = 0},
 	["backdropcolor"] = {r = 0.1, g = 0.1, b = 0.1},
 	["backdropfadecolor"] = {r = .06, g = .06, b = .06, a = 0.8},
 	["valuecolor"] = {r = 254/255, g = 123/255, b = 44/255},
+
+	["cropIcon"] = true,
 
 	["classCacheStoreInDB"] = true,
 	["classCacheRequestInfo"] = false,
