@@ -39,8 +39,8 @@ function UF:Construct_Combobar(frame)
 
 	for i = 1, MAX_COMBO_POINTS do
 		ComboPoints[i] = CreateFrame("StatusBar", frame:GetName().."ComboBarButton"..i, ComboPoints)
-		UF["statusbars"][ComboPoints[i]] = true
-		ComboPoints[i]:SetStatusBarTexture(E["media"].blankTex)
+		UF.statusbars[ComboPoints[i]] = true
+		ComboPoints[i]:SetStatusBarTexture(E.media.blankTex)
 		ComboPoints[i]:SetAlpha(0.15)
 		ComboPoints[i]:CreateBackdrop("Default", nil, nil, UF.thinBorders, true)
 		ComboPoints[i].backdrop:SetParent(ComboPoints)

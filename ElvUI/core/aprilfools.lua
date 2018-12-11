@@ -105,6 +105,7 @@ do
 	end
 end
 
+--Hello Kitty (Activate with command: /hellokitty)
 do
 	local function OnDragStart(self)
 		self:StartMoving()
@@ -142,6 +143,7 @@ do
 			self.db.tempSettings = {}
 		end
 
+		--Store old settings
 		local t = self.db.tempSettings
 		local c = self.db.general.backdropcolor
 		if self:HelloKittyFixCheck() then
@@ -158,6 +160,9 @@ do
 			c = self.db.general.valuecolor
 			t.valuecolor = {r = c.r, g = c.g, b = c.b}
 
+			local chatPanel = self.db.chat.panelColor
+			t.panelColor = {r = chatPanel.r, g = chatPanel.g, b = chatPanel.b, a = chatPanel.a}
+
 			t.panelBackdropNameLeft = self.db.chat.panelBackdropNameLeft
 			t.panelBackdropNameRight = self.db.chat.panelBackdropNameRight
 
@@ -173,13 +178,16 @@ do
 			t.auraBarBuff = {r = c.r, g = c.g, b = c.b}
 			t.transparentAurabars = self.db.unitframe.colors.transparentAurabars
 
+			--Apply new settings
 			self.db.general.backdropfadecolor = {r = 131/255, g = 36/255, b = 130/255, a = 0.36}
 			self.db.general.backdropcolor = {r = 223/255, g = 76/255, b = 188/255}
 			self.db.general.bordercolor = {r = 223/255, g = 217/255, b = 47/255}
 			self.db.general.valuecolor = {r = 223/255, g = 217/255, b = 47/255}
 
-			self.db.chat.panelBackdropNameLeft = [[Interface\AddOns\ElvUI\media\textures\helloKittyChat.tga]]
-			self.db.chat.panelBackdropNameRight = [[Interface\AddOns\ElvUI\media\textures\helloKittyChat.tga]]
+			self.db.chat.panelColor = {r = 223/255, g = 76/255, b = 188/255, a = 255/255}
+
+			self.db.chat.panelBackdropNameLeft = [[Interface\AddOns\ElvUI\media\textures\helloKittyChat]]
+			self.db.chat.panelBackdropNameRight = [[Interface\AddOns\ElvUI\media\textures\helloKittyChat]]
 
 			self.db.unitframe.colors.castColor = {r = 223/255, g = 76/255, b = 188/255}
 			self.db.unitframe.colors.transparentCastbar = true
@@ -203,6 +211,7 @@ do
 	end
 
 	function E:RestoreHelloKitty()
+		--Store old settings
 		self.db.general.kittys = false
 		if HelloKittyLeft then
 			HelloKittyLeft:Hide()
@@ -226,6 +235,9 @@ do
 
 		c = self.db.tempSettings.valuecolor
 		self.db.general.valuecolor = {r = c.r, g = c.g, b = c.b}
+
+		local chatPanel = self.db.tempSettings.panelColor
+		self.db.chat.panelColor = {r = chatPanel.r, g = chatPanel.g, b = chatPanel.b, a = chatPanel.a}
 
 		self.db.chat.panelBackdropNameLeft = self.db.tempSettings.panelBackdropNameLeft
 		self.db.chat.panelBackdropNameRight = self.db.tempSettings.panelBackdropNameRight
@@ -288,6 +300,7 @@ do
 		helloKittyRight:SetScript("OnUpdate", OnUpdate)
 	end
 
+	--When it bugged out for a user the command "/hellokittyfix" attempted to restore the changed settings to default
 	function E:HelloKittyFixCheck(secondCheck)
 		local t = self.db.tempSettings
 		if not t and not secondCheck then t = self.db.general end
@@ -308,6 +321,9 @@ do
 
 		c = P.general.valuecolor
 		self.db.general.valuecolor = {r = c.r, g = c.g, b = c.b}
+
+		local chatPanel = P.chat.panelColor
+		self.db.chat.panelColor = {r = chatPanel.r, g = chatPanel.g, b = chatPanel.b, a = chatPanel.a}
 
 		self.db.chat.panelBackdropNameLeft = ""
 		self.db.chat.panelBackdropNameRight = ""

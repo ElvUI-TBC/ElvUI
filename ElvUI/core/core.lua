@@ -900,6 +900,7 @@ function E:UpdateAll(ignoreInstall)
 	Chat:PositionChat(true)
 	Chat:SetupChat()
 	Chat:UpdateAnchors()
+	Chat:Panels_ColorUpdate()
 	DataBars:EnableDisable_ExperienceBar()
 	DataBars:EnableDisable_ReputationBar()
 	DataBars:UpdateDataBarDimensions()
@@ -1196,9 +1197,9 @@ function E:Initialize()
 --		E.global.aprilFools = nil
 --	end
 
---	if self:HelloKittyFixCheck() then
---		self:HelloKittyFix()
---	end
+	if self:HelloKittyFixCheck() then
+		self:HelloKittyFix()
+	end
 
 	self:UpdateMedia()
 	self:UpdateFrameTemplates()
@@ -1221,6 +1222,6 @@ function E:Initialize()
 	collectgarbage("collect")
 
 	if self.db.general.loginmessage then
-		self:Print(select(2, E:GetModule("Chat").FindURL(format(L["LOGIN_MSG"], self["media"].hexvaluecolor, self["media"].hexvaluecolor, self.version)))..".")
+		self:Print(select(2, E:GetModule("Chat").FindURL(format(L["LOGIN_MSG"], self.media.hexvaluecolor, self.media.hexvaluecolor, self.version)))..".")
 	end
 end

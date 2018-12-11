@@ -189,7 +189,7 @@ function S:HandleNextPrevButton(btn, useVertical, inverseDirection)
 		btn.icon = btn:CreateTexture(nil, "ARTWORK")
 		btn.icon:Size(13)
 		btn.icon:Point("CENTER")
-		btn.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]])
+		btn.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures]])
 		btn.icon:SetTexCoord(0.01562500, 0.20312500, 0.01562500, 0.20312500)
 
 		btn:SetScript("OnMouseDown", function(self)

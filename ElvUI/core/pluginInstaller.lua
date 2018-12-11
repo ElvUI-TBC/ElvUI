@@ -49,7 +49,7 @@
 	StepTitleTextJustification - The justification of the text on each step button ("LEFT", "RIGHT", "CENTER"). Default: "CENTER"
 ]]
 
-local E, L, V, P, G, _ = unpack(ElvUI)
+local E, L, V, P, G = unpack(ElvUI)
 local PI = E:NewModule("PluginInstaller")
 
 --Cache global variables
@@ -172,7 +172,7 @@ function PI:CreateStepComplete()
 	imsg.firstShow = false
 
 	imsg.bg = imsg:CreateTexture(nil, "BACKGROUND")
-	imsg.bg:SetTexture([[Interface\LevelUp\LevelUpTex]])
+	imsg.bg:SetTexture([[Interface\AddOns\ElvUI\media\textures\LevelUpTex]])
 	imsg.bg:SetPoint("BOTTOM")
 	imsg.bg:Size(326, 103)
 	imsg.bg:SetTexCoord(0.00195313, 0.63867188, 0.03710938, 0.23828125)
@@ -180,20 +180,20 @@ function PI:CreateStepComplete()
 
 	imsg.lineTop = imsg:CreateTexture(nil, "BACKGROUND")
 	imsg.lineTop:SetDrawLayer("BACKGROUND", 2)
-	imsg.lineTop:SetTexture([[Interface\LevelUp\LevelUpTex]])
+	imsg.lineTop:SetTexture([[Interface\AddOns\ElvUI\media\textures\LevelUpTex]])
 	imsg.lineTop:SetPoint("TOP")
 	imsg.lineTop:Size(418, 7)
 	imsg.lineTop:SetTexCoord(0.00195313, 0.81835938, 0.01953125, 0.03320313)
 
 	imsg.lineBottom = imsg:CreateTexture(nil, "BACKGROUND")
 	imsg.lineBottom:SetDrawLayer("BACKGROUND", 2)
-	imsg.lineBottom:SetTexture([[Interface\LevelUp\LevelUpTex]])
+	imsg.lineBottom:SetTexture([[Interface\AddOns\ElvUI\media\textures\LevelUpTex]])
 	imsg.lineBottom:SetPoint("BOTTOM")
 	imsg.lineBottom:Size(418, 7)
 	imsg.lineBottom:SetTexCoord(0.00195313, 0.81835938, 0.01953125, 0.03320313)
 
 	imsg.text = imsg:CreateFontString(nil, "ARTWORK")
-	imsg.text:FontTemplate(E["media"].normFont, 32, "OUTLINE")
+	imsg.text:FontTemplate(E.media.normFont, 32, "OUTLINE")
 	imsg.text:Point("BOTTOM", 0, 12)
 	imsg.text:SetTextColor(1, 0.82, 0)
 	imsg.text:SetJustifyH("CENTER")
@@ -286,9 +286,9 @@ function PI:CreateFrame()
 		f.Option1:Width(100)
 		f.Option2:Width(100)
 
-		f.Option1:ClearAllPoints();
-		f.Option1:Point("RIGHT", f.Option2, "LEFT", -4, 0);
-		f.Option2:ClearAllPoints();
+		f.Option1:ClearAllPoints()
+		f.Option1:Point("RIGHT", f.Option2, "LEFT", -4, 0)
+		f.Option2:ClearAllPoints()
 		f.Option2:Point("BOTTOMRIGHT", f, "BOTTOM", -4, 45)
 	end)
 	f.Option4:SetScript("OnHide", function() f.Option1:SetWidth(160); f.Option1:ClearAllPoints(); f.Option1:Point("BOTTOM", 0, 45); f.Option2:SetWidth(110); f.Option2:ClearAllPoints(); f.Option2:Point("BOTTOMLEFT", f, "BOTTOM", 4, 45) end)
@@ -329,10 +329,10 @@ function PI:CreateFrame()
 	f.pending.tex = f.pending:CreateTexture(nil, "OVERLAY")
 	f.pending.tex:Point("TOPLEFT", f.pending, "TOPLEFT", 2, -2)
 	f.pending.tex:Point("BOTTOMRIGHT", f.pending, "BOTTOMRIGHT", -2, 2)
-	f.pending.tex:SetTexture([[Interface\OptionsFrame\UI-OptionsFrame-NewFeatureIcon]])
+	f.pending.tex:SetTexture([[Interface\AddOns\ElvUI\media\textures\UI-OptionsFrame-NewFeatureIcon]])
 	f.pending:CreateBackdrop("Transparent")
 	f.pending:SetScript("OnEnter", function(self)
-		_G["GameTooltip"]:SetOwner(self, "ANCHOR_BOTTOMLEFT", E.PixelMode and -7 or -9);
+		_G["GameTooltip"]:SetOwner(self, "ANCHOR_BOTTOMLEFT", E.PixelMode and -7 or -9)
 		_G["GameTooltip"]:AddLine(L["List of installations in queue:"], 1, 1, 1)
 		_G["GameTooltip"]:AddLine(" ")
 		for i = 1, #PI.Installs do
@@ -419,7 +419,7 @@ function PI:RunInstall()
 		f.Title:SetText(db.Title or L["ElvUI Plugin Installation"])
 		f.Status:SetMinMaxValues(0, f.MaxPage)
 		f.Status.text:SetText(f.CurrentPage.." / "..f.MaxPage)
-		f.tutorialImage:SetTexture(db.tutorialImage or [[Interface\AddOns\ElvUI\media\textures\logo.tga]])
+		f.tutorialImage:SetTexture(db.tutorialImage or [[Interface\AddOns\ElvUI\media\textures\logo]])
 
 		f.Pages = db.Pages
 
