@@ -9,7 +9,7 @@ function UF:Construct_GPS(frame)
 	gps:Hide()
 
 	gps.Texture = gps:CreateTexture("OVERLAY")
-	gps.Texture:SetTexture([[Interface\AddOns\ElvUI\media\textures\arrow.tga]])
+	gps.Texture:SetTexture([[Interface\AddOns\ElvUI\media\textures\arrow]])
 	gps.Texture:SetBlendMode("BLEND")
 	gps.Texture:SetVertexColor(214/255, 41/255, 41/255)
 	gps.Texture:SetAllPoints()

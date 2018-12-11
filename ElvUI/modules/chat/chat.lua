@@ -95,15 +95,15 @@ end
 local specialChatIcons
 do --this can save some main file locals
 	local IconPath	 = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\"
-	local ElvPurple	 = IconPath.."elvui_purple.tga:13:25|t"
-	local ElvPink	 = IconPath.."elvui_pink.tga:13:25|t"
-	local ElvBlue	 = IconPath.."elvui_blue.tga:13:25|t"
-	local ElvGreen	 = IconPath.."elvui_green.tga:13:25|t"
-	local ElvOrange	 = IconPath.."elvui_orange.tga:13:25|t"
-	local ElvRed	 = IconPath.."elvui_red.tga:13:25|t"
-	local ElvRainbow = IconPath.."elvui_rainbow.tga:13:25|t"
-	local Bathrobe	 = IconPath.."bathrobe.blp:15:15|t"
-	local MrHankey	 = IconPath.."mr_hankey.tga:16:18|t"
+	local ElvPurple	 = IconPath.."elvui_purple:13:25|t"
+	local ElvPink	 = IconPath.."elvui_pink:13:25|t"
+	local ElvBlue	 = IconPath.."elvui_blue:13:25|t"
+	local ElvGreen	 = IconPath.."elvui_green:13:25|t"
+	local ElvOrange	 = IconPath.."elvui_orange:13:25|t"
+	local ElvRed	 = IconPath.."elvui_red:13:25|t"
+	local ElvRainbow = IconPath.."elvui_rainbow:13:25|t"
+	local Bathrobe	 = IconPath.."bathrobe:15:15|t"
+	local MrHankey	 = IconPath.."mr_hankey:16:18|t"
 	specialChatIcons = {
 --		["Smolderforge"] = {
 --			["Loaal"] = ElvBlue,
@@ -276,7 +276,7 @@ function CH:StyleChat(frame)
 
 	frame.button.tex = frame.button:CreateTexture(nil, "OVERLAY")
 	frame.button.tex:SetInside()
-	frame.button.tex:SetTexture([[Interface\AddOns\ElvUI\media\textures\copy.tga]])
+	frame.button.tex:SetTexture([[Interface\AddOns\ElvUI\media\textures\copy]])
 
 	frame.button:SetScript("OnMouseUp", function(_, btn)
 		if btn == "LeftButton" then
@@ -866,7 +866,7 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 			if arg6 ~= "" then
 				if arg6 == "GM" then
 					--Add Blizzard Icon, this was sent by a GM
-					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz.blp:0:2:0:-3|t "
+					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:0:2:0:-3|t "
 				elseif arg6 == "DND" or arg6 == "AFK" then
 					pflag = (pflag or "").._G["CHAT_FLAG_"..arg6]
 				else
