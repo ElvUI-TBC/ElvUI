@@ -257,7 +257,7 @@ L["Use coin icons instead of colored text."] = "显示硬币图标而不是颜�
 L["Will attempt to sell another item in set interval after previous one was sold."] = "尝试在设定的周期后卖下一个物品"
 
 --Bag Colors
-L["Ammo Pouch"] = true
+L["Ammo Pouch"] = "弹药袋"
 L["Enchanting"] = "附魔"
 L["Engineering"] = "工程"
 L["Gems"] = "珠宝"

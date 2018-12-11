@@ -305,13 +305,13 @@ L["Use coin icons instead of colored text."] = "골드 이미지를 글자가 �
 L["Will attempt to sell another item in set interval after previous one was sold."] = true
 
 --Bag Colors
-L["Ammo Pouch"] = true
-L["Enchanting"] = true
-L["Engineering"] = true
-L["Gems"] = true
-L["Herbalism"] = true
-L["Leatherworking"] = true
-L["Mining"] = true
+L["Ammo Pouch"] = "탄환 주머니"
+L["Enchanting"] = "마법부여"
+L["Engineering"] = "기계공학"
+L["Gems"] = "보석"
+L["Herbalism"] = "약초 채집"
+L["Leatherworking"] = "가죽세공"
+L["Mining"] = "채광"
 L["Quiver"] = "화살통"
 L["Soul Bag"] = "영혼의 가방"
 

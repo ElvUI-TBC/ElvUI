@@ -259,13 +259,13 @@ L["Use coin icons instead of colored text."] = "Utiliser les icônes de pièces 
 L["Will attempt to sell another item in set interval after previous one was sold."] = true
 
 --Bag Colors
-L["Ammo Pouch"] = true
-L["Enchanting"] = true
-L["Engineering"] = true
-L["Gems"] = true
-L["Herbalism"] = true
-L["Leatherworking"] = true
-L["Mining"] = true
+L["Ammo Pouch"] = "Giberne"
+L["Enchanting"] = "Enchantement"
+L["Engineering"] = "Ingénierie"
+L["Gems"] = "Gemme"
+L["Herbalism"] = "Herboristerie"
+L["Leatherworking"] = "Travail du cuir"
+L["Mining"] = "Minage"
 L["Quiver"] = "Carquois"
 L["Soul Bag"] = "Sac d'âme"
 

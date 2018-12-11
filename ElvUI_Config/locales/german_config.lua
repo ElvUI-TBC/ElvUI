@@ -260,7 +260,7 @@ L["Use coin icons instead of colored text."] = "Benutze Währungssymbole anstatt
 L["Will attempt to sell another item in set interval after previous one was sold."] = "Versucht einen anderen Gegenstand in einem bestimmten Intervall zu verkaufen, nachdem der vorherige verkauft wurde."
 
 --Bag Colors
-L["Ammo Pouch"] = true
+L["Ammo Pouch"] = "Munitionsbeutel"
 L["Enchanting"] = "Verzauberkunst"
 L["Engineering"] = "Ingenieurskunst"
 L["Gems"] = "Edelsteine"

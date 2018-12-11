@@ -259,15 +259,15 @@ L["Use coin icons instead of colored text."] = "使用硬幣圖示取代上色�
 L["Will attempt to sell another item in set interval after previous one was sold."] = "將會嘗試使用設定的時間間格後販賣下一個物品"
 
 --Bag Colors
-L["Ammo Pouch"] = true
+L["Ammo Pouch"] = "彈藥包"
 L["Enchanting"] = "附魔"
 L["Engineering"] = "工程學"
 L["Gems"] = "寶石"
 L["Herbalism"] = "草藥學"
 L["Leatherworking"] = "製皮"
 L["Mining"] = "採礦"
-L["Quiver"] = true
-L["Soul Bag"] = true
+L["Quiver"] = "箭袋"
+L["Soul Bag"] = "靈魂裂片包"
 
 --Buffs and Debuffs
 L["Auras Spacing"] = true
