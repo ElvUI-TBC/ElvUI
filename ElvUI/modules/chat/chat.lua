@@ -753,7 +753,7 @@ function CH:GetColoredName(event, _, arg2)
 end
 
 local function GetChatIcons(sender)
-	for realm, _ in pairs(specialChatIcons) do
+	for realm in pairs(specialChatIcons) do
 		for character, texture in pairs(specialChatIcons[realm]) do
 			if (realm == PLAYER_REALM and sender == character) or sender == character.."-"..realm then
 				return texture
@@ -1644,7 +1644,7 @@ function CH:Initialize()
 	end
 
 	--First get all pre-existing filters and copy them to our version of chatFilters using ChatFrame_GetMessageEventFilters
-	for name, _ in pairs(ChatTypeGroup) do
+	for name in pairs(ChatTypeGroup) do
 		for i = 1, #ChatTypeGroup[name] do
 			local filterFuncTable = ChatFrame_GetMessageEventFilters(ChatTypeGroup[name][i])
 			if filterFuncTable then

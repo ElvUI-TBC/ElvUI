@@ -80,7 +80,7 @@ do
 			tinsert(self.massiveShakeObjects, header)
 		end
 
-		for button, _ in pairs(AB.handledbuttons) do
+		for button in pairs(AB.handledbuttons) do
 			if button then
 				tinsert(self.massiveShakeObjects, button)
 			end

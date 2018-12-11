@@ -1950,7 +1950,7 @@ local function GetOptionsTable_CustomText(updateFunc, groupName, numUnits)
 				width = "full",
 				get = function() return "" end,
 				set = function(info, textName)
-					for object, _ in pairs(E.db.unitframe.units[groupName]) do
+					for object in pairs(E.db.unitframe.units[groupName]) do
 						if object:lower() == textName:lower() then
 							E:Print(L["The name you have selected is already in use by another element."])
 							return
