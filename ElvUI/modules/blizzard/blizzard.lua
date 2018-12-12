@@ -9,6 +9,8 @@ local GetQuestLogRewardSpell = GetQuestLogRewardSpell
 local GetRewardHonor = GetRewardHonor
 local GetRewardMoney = GetRewardMoney
 local GetRewardSpell = GetRewardSpell
+local REWARD_ITEMS = REWARD_ITEMS
+local REWARD_ITEMS_ONLY = REWARD_ITEMS_ONLY
 
 E.Blizzard = B
 

@@ -22,7 +22,7 @@ P["general"] = {
 
 	["fontSize"] = 12,
 	["font"] = "PT Sans Narrow",
-	["fontStyle"] = "OUTLINE",
+	["fontStyle"] = "NONE",
 
 	["bordercolor"] = {r = 0, g = 0, b = 0},
 	["backdropcolor"] = {r = 0.1, g = 0.1, b = 0.1},
@@ -755,7 +755,7 @@ P["unitframe"] = {
 		["customhealthbackdrop"] = false,
 		["useDeadBackdrop"] = false,
 		["classbackdrop"] = false,
-		["healthmultiplier"] = 0.6,
+		["healthmultiplier"] = 0.2,
 		["bgUseBarTexture"] = false,
 		["auraBarByType"] = true,
 		["auraBarTurtle"] = true,

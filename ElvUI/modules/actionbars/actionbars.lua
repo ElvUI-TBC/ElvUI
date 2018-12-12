@@ -844,7 +844,7 @@ function AB:Initialize()
 
 	SetCVar("lockActionBars", (self.db.lockActionBars == true and 1 or 0))
 	LOCK_ACTIONBAR = (self.db.lockActionBars == true and "1" or "0")
-	
+
 	self:ToggleDesaturation()
 end
 

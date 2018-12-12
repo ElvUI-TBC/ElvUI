@@ -43,10 +43,13 @@ local function LoadSkin()
 		local tab = _G["MacroFrameTab"..i]
 
 		tab:Height(22)
-	end
 
-	MacroFrameTab1:Point("TOPLEFT", MacroFrame, "TOPLEFT", 85, -39)
-	MacroFrameTab2:Point("LEFT", MacroFrameTab1, "RIGHT", 4, 0)
+		if i == 1 then
+			tab:Point("TOPLEFT", MacroFrame, "TOPLEFT", 60, -39)
+		else
+			tab:Point("LEFT", MacroFrameTab1, "RIGHT", 4, 0)
+		end
+	end
 
 	S:HandleCloseButton(MacroFrameCloseButton)
 

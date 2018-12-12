@@ -1378,7 +1378,7 @@ end
 local playerEnteringWorldFunc = function() B:UpdateBagTypes() B:Layout() end
 function B:PLAYER_ENTERING_WORLD()
 	self:UpdateGoldText()
-	
+
 	E:Delay(2, playerEnteringWorldFunc) -- Update bag types for bagslot coloring
 end
 

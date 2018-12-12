@@ -2,6 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local hooksecurefunc = hooksecurefunc
+local QUEST_TIMERS = QUEST_TIMERS
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.questtimer ~= true then return end

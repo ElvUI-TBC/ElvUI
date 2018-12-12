@@ -14,6 +14,7 @@ local GetNumGuildMembers = GetNumGuildMembers
 local GetNumPartyMembers = GetNumPartyMembers
 local GetNumRaidMembers = GetNumRaidMembers
 local GetPartyMember = GetPartyMember
+local GetRaidRosterInfo = GetRaidRosterInfo
 local GetRepairAllCost = GetRepairAllCost
 local GuildRoster = GuildRoster
 local InCombatLockdown = InCombatLockdown

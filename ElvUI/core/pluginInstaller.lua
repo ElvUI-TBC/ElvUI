@@ -131,7 +131,7 @@ local function SetPage(PageNum, PrevPage)
 			if i == f.CurrentPage then
 				color = f.StepTitlesColorSelected or {.09,.52,.82}
 			else
-				color = f.StepTitlesColor or {1,1,1}
+				color = f.StepTitlesColor or {1, 1, 1}
 			end
 			b.text:SetTextColor(color[1] or color.r, color[2] or color.g, color[3] or color.b)
 		end

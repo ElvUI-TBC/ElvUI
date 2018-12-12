@@ -141,22 +141,26 @@ local function LoadSkin()
 
 	hooksecurefunc("WhoList_Update", function()
 		local whoOffset = FauxScrollFrame_GetOffset(WhoListScrollFrame)
+		local button, nameText, levelText, classText, variableText
+		local _, guild, level, race, zone, classFileName
+		local classTextColor, levelTextColor
+		local index, columnTable
+
 		local playerZone = GetRealZoneText()
 		local playerGuild = GetGuildInfo("player")
-		local playerRace = UnitRace("player")
 
 		for i = 1, WHOS_TO_DISPLAY, 1 do
-			local index = whoOffset + i
-			local button = _G["WhoFrameButton"..i]
-			local nameText = _G["WhoFrameButton"..i.."Name"]
-			local levelText = _G["WhoFrameButton"..i.."Level"]
-			local classText = _G["WhoFrameButton"..i.."Class"]
-			local variableText = _G["WhoFrameButton"..i.."Variable"]
+			index = whoOffset + i
+			button = _G["WhoFrameButton"..i]
+			nameText = _G["WhoFrameButton"..i.."Name"]
+			levelText = _G["WhoFrameButton"..i.."Level"]
+			classText = _G["WhoFrameButton"..i.."Class"]
+			variableText = _G["WhoFrameButton"..i.."Variable"]
 
-			local _, guild, level, race, _, zone, classFileName = GetWhoInfo(index)
+			_, guild, level, race, _, zone, classFileName = GetWhoInfo(index)
 
-			local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName]
-			local levelTextColor = GetQuestDifficultyColor(level)
+			classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName]
+			levelTextColor = GetQuestDifficultyColor(level)
 
 			if classFileName then
 				button.icon:Show()
@@ -165,17 +169,11 @@ local function LoadSkin()
 				nameText:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b)
 				levelText:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b)
 
-				if zone == playerZone then
-					zone = "|cff00ff00"..zone
-				end
-				if guild == playerGuild then
-					guild = "|cff00ff00"..guild
-				end
-				if race == playerRace then
-					race = "|cff00ff00"..race
-				end
+				if zone == playerZone then zone = "|cff00ff00"..zone end
+				if guild == playerGuild then guild = "|cff00ff00"..guild end
+				if race == E.myrace then race = "|cff00ff00"..race end
 
-				local columnTable = {zone, guild, race}
+				columnTable = {zone, guild, race}
 
 				variableText:SetText(columnTable[UIDropDownMenu_GetSelectedID(WhoFrameDropDown)])
 			else
@@ -237,6 +235,7 @@ local function LoadSkin()
 			for i = 1, GUILDMEMBERS_TO_DISPLAY, 1 do
 				button = _G["GuildFrameButton"..i]
 				_, _, _, level, _, zone, _, _, online, _, classFileName = GetGuildRosterInfo(button.guildIndex)
+
 				if classFileName then
 					if online then
 						classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName]
@@ -247,18 +246,20 @@ local function LoadSkin()
 						buttonText = _G["GuildFrameButton"..i.."Level"]
 						buttonText:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b)
 						buttonText = _G["GuildFrameButton"..i.."Zone"]
+
 						if zone == playerZone then
 							buttonText:SetTextColor(0, 1, 0)
 						end
 					end
+
 					button.icon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFileName]))
 				end
 			end
 		else
-			local classFileName
 			for i = 1, GUILDMEMBERS_TO_DISPLAY, 1 do
 				button = _G["GuildFrameGuildStatusButton"..i]
 				_, _, _, _, _, _, _, _, online, _, classFileName = GetGuildRosterInfo(button.guildIndex)
+
 				if classFileName then
 					if online then
 						classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName]

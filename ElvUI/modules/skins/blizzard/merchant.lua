@@ -4,6 +4,13 @@ local S = E:GetModule("Skins")
 local _G = _G
 local unpack, select = unpack, select
 
+local CreateFrame = CreateFrame
+local GetBuybackItemInfo = GetBuybackItemInfo
+local GetItemInfo = GetItemInfo
+local GetItemQualityColor = GetItemQualityColor
+local GetNumBuybackItems = GetNumBuybackItems
+local GetMerchantItemLink = GetMerchantItemLink
+local GetMerchantNumItems = GetMerchantNumItems
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
@@ -24,7 +31,7 @@ local function LoadSkin()
 		else
 			if MerchantNextPageButton:IsShown() and MerchantNextPageButton:IsEnabled() == 1 then
 				MerchantNextPageButton_OnClick()
-			end	
+			end
 		end
 	end)
 

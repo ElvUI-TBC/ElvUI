@@ -162,7 +162,7 @@ local function LoadSkin()
 
 			border:Point("CENTER", talent, "BOTTOMRIGHT", 3, -5)
 
-			rank:SetFont(E.LSM:Fetch("font", E.db["general"].font), 12, "OUTLINE")
+			rank:SetFont(E.LSM:Fetch("font", E.db.general.font), 12, "OUTLINE")
 		end
 	end
 end

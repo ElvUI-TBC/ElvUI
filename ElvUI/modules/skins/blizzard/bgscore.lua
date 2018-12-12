@@ -39,7 +39,6 @@ local function LoadSkin()
 	WorldStateScoreFrameName:StyleButton()
 	WorldStateScoreFrameClass:StyleButton()
 	WorldStateScoreFrameTeam:StyleButton()
-	--WorldStateScoreFrameRatingChange:StyleButton()
 
 	for i = 1, 5 do
 		_G["WorldStateScoreColumn"..i]:StyleButton()
@@ -48,19 +47,21 @@ local function LoadSkin()
 	hooksecurefunc("WorldStateScoreFrame_Update", function()
 		local inArena = IsActiveBattlefieldArena()
 		local offset = FauxScrollFrame_GetOffset(WorldStateScoreScrollFrame)
+		local _, index, name, faction, classToken, classTextColor
+		local nameText, realmText, color
 
 		for i = 1, MAX_WORLDSTATE_SCORE_BUTTONS do
-			local index = offset + i
-			local name, _, _, _, _, faction, _, _, _, classToken = GetBattlefieldScore(index)
+			index = offset + i
+			name, _, _, _, _, faction, _, _, _, classToken = GetBattlefieldScore(index)
+
 			if name then
-				local n, r = split("-", name, 2)
+				nameText, realmText = split("-", name, 2)
 
 				if name == E.myname then
-					n = "> "..n.." <"
+					nameText = "> "..nameText.." <"
 				end
 
-				if r then
-					local color
+				if realmText then
 					if inArena then
 						if faction == 1 then
 							color = "|cffffd100"
@@ -74,13 +75,14 @@ local function LoadSkin()
 							color = "|cffff1919"
 						end
 					end
-					r = color..r.."|r"
-					n = n.."|cffffffff - |r"..r
+
+					realmText = color..realmText.."|r"
+					nameText = nameText.."|cffffffff - |r"..realmText
 				end
 
-				local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classToken] or RAID_CLASS_COLORS[classToken]
+				classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classToken] or RAID_CLASS_COLORS[classToken]
 
-				_G["WorldStateScoreButton"..i.."NameText"]:SetText(n)
+				_G["WorldStateScoreButton"..i.."NameText"]:SetText(nameText)
 				_G["WorldStateScoreButton"..i.."NameText"]:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b)
 			end
 		end
