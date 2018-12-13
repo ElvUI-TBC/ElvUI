@@ -222,7 +222,9 @@ local function LoadSkin()
 			_G["DropDownList"..i.."Backdrop"]:SetTemplate("Transparent")
 			_G["DropDownList"..i.."MenuBackdrop"]:SetTemplate("Transparent")
 			for j = 1, UIDROPDOWNMENU_MAXBUTTONS do
-				_G["DropDownList"..i.."Button"..j]:SetFrameLevel(_G["DropDownList"..i.."Backdrop"]:GetFrameLevel() + 1)
+				local button = _G["DropDownList"..i.."Button"..j]
+				button:SetFrameLevel(_G["DropDownList"..i.."Backdrop"]:GetFrameLevel() + 1)
+				button:SetFont(E.media.normFont, 12)
 				_G["DropDownList"..i.."Button"..j.."Highlight"]:SetTexture(1, 1, 1, 0.3)
 				S:HandleColorSwatch(_G["DropDownList"..i.."Button"..j.."ColorSwatch"], 14)
 			end

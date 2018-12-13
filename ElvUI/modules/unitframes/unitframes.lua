@@ -1156,7 +1156,7 @@ function UF:Initialize()
 
 	for k in pairs(UnitPopupMenus) do
 		for x, y in pairs(UnitPopupMenus[k]) do
-			if y == "SET_FOCUS" or y == "CLEAR_FOCUS" or y == "LOCK_FOCUS_FRAME" or y == "UNLOCK_FOCUS_FRAME" or (E.myclass == "HUNTER" and y == "PET_DISMISS") then
+			if E.myclass == "HUNTER" and y == "PET_DISMISS" then
 				tremove(UnitPopupMenus[k], x)
 			end
 		end

@@ -20,13 +20,11 @@ function E:UpdateBlizzardFonts()
 	local NAMEFONT			= LSM:Fetch("font", self.private.general.namefont)
 	local MONOCHROME		= ""
 
-	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
 	CHAT_FONT_HEIGHTS = {10, 12, 13, 14, 15, 16, 17, 18, 19, 20}
 
 	UNIT_NAME_FONT		= NAMEFONT
 	NAMEPLATE_FONT		= NAMEFONT
 	DAMAGE_TEXT_FONT	= COMBAT
-	STANDARD_TEXT_FONT	= NORMAL
 
 	if self.db.general.font == "Homespun" then
 		MONOCHROME = "MONOCHROME"
