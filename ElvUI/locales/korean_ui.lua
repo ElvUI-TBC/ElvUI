@@ -200,7 +200,6 @@ L["XP:"] = "경험치:"
 L["You don't have permission to mark targets."] = "레이드 아이콘을 지정할 권한이 없습니다."
 
 --Movers
-L["Arena Frames"] = "투기장 프레임"
 L["Auras Frame"] = true
 L["Bag Mover (Grow Down)"] = "가방 조정자(아래로 성장)"
 L["Bag Mover (Grow Up)"] = "가방 조정자(위로 성장)"

@@ -200,7 +200,6 @@ L["XP:"] = "EP:"
 L["You don't have permission to mark targets."] = "Du hast keine Rechte ein Ziel zu markieren."
 
 --Movers
-L["Arena Frames"] = "Arena Fenster" --Also used in UnitFrames
 L["Auras Frame"] = true
 L["Bag Mover (Grow Down)"] = "Taschen Anker (Nach unten wachsen)"
 L["Bag Mover (Grow Up)"] = "Taschen Anker (Nach oben wachsen)"

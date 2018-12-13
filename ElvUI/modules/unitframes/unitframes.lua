@@ -27,13 +27,11 @@ ElvUF = ns.oUF
 assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 UF.headerstoload = {}
-UF.unitgroupstoload = {}
 UF.unitstoload = {}
 
 UF.groupPrototype = {}
 UF.headerPrototype = {}
 UF.headers = {}
-UF.groupunits = {}
 UF.units = {}
 
 UF.statusbars = {}
@@ -84,7 +82,7 @@ UF.headerGroupBy = {
 		header:SetAttribute("sortMethod", "NAME")
 		header:SetAttribute("groupBy", nil)
 		header:SetAttribute("filterOnPet", true)  --This is the line that matters. Without this, it sorts based on the owners name
-	end,
+	end
 }
 
 local POINT_COLUMN_ANCHOR_TO_DIRECTION = {
@@ -218,15 +216,11 @@ function UF:Construct_UF(frame, unit)
 	frame.RaisedElementParent.TextureParent = CreateFrame("Frame", nil, frame.RaisedElementParent)
 	frame.RaisedElementParent:SetFrameLevel(frame:GetFrameLevel() + 100)
 
-	if not self.groupunits[unit] then
-		local stringTitle = E:StringTitle(unit)
-		if stringTitle:find("target") then
-			stringTitle = gsub(stringTitle, "target", "Target")
-		end
-		self["Construct_"..stringTitle.."Frame"](self, frame, unit)
-	else
-		UF["Construct_"..E:StringTitle(self.groupunits[unit]).."Frames"](self, frame, unit)
+	local stringTitle = E:StringTitle(unit)
+	if stringTitle:find("target") then
+		stringTitle = gsub(stringTitle, "target", "Target")
 	end
+	self["Construct_"..stringTitle.."Frame"](self, frame, unit)
 
 	self:Update_StatusBars()
 	self:Update_FontStrings()
@@ -285,10 +279,6 @@ function UF:GetAuraAnchorFrame(frame, attachTo, isConflict)
 
 	if isConflict or attachTo == "FRAME" then
 		return frame
-	elseif attachTo == "TRINKET" then
-		if select(2, IsInInstance()) == "arena" then
-			return frame.Trinket
-		end
 	elseif attachTo == "BUFFS" then
 		return frame.Buffs
 	elseif attachTo == "DEBUFFS" then
@@ -401,54 +391,7 @@ function UF:Update_AllFrames()
 		end
 	end
 
-	for unit, group in pairs(self.groupunits) do
-		if self.db.units[group].enable then
-			self[unit]:Enable()
-			self[unit]:Update()
-			E:EnableMover(self[unit].mover:GetName())
-		else
-			self[unit]:Disable()
-			E:DisableMover(self[unit].mover:GetName())
-		end
-	end
-
 	self:UpdateAllHeaders()
-end
-
-function UF:CreateAndUpdateUFGroup(group, numGroup)
-	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
-
-	for i = 1, numGroup do
-		local unit = group..i
-		local frameName = E:StringTitle(unit)
-		frameName = frameName:gsub("t(arget)", "T%1")
-		if not self[unit] then
-			self.groupunits[unit] = group
-			self[unit] = ElvUF:Spawn(unit, "ElvUF_"..frameName)
-			self[unit].index = i
-			self[unit]:SetParent(ElvUF_Parent)
-			self[unit]:SetID(i)
-		end
-
-		frameName = E:StringTitle(group)
-		frameName = frameName:gsub("t(arget)", "T%1")
-		self[unit].Update = function()
-			UF["Update_"..E:StringTitle(frameName).."Frames"](self, self[unit], self.db.units[group])
-		end
-
-		if self.db.units[group].enable then
-			self[unit]:Enable()
-			self[unit].Update()
-
-			if self[unit].isForced then
-				self:ForceShow(self[unit])
-			end
-			E:EnableMover(self[unit].mover:GetName())
-		else
-			self[unit]:Disable()
-			E:DisableMover(self[unit].mover:GetName())
-		end
-	end
 end
 
 function UF:HeaderUpdateSpecificElement(group, elementName)
@@ -631,7 +574,7 @@ end
 
 function UF.groupPrototype:UpdateHeader(self)
 	local group = self.groupName
-	UF["Update_"..E:StringTitle(group).."Header"](UF, self, UF.db["units"][group])
+	UF["Update_"..E:StringTitle(group).."Header"](UF, self, UF.db.units[group])
 end
 
 function UF.headerPrototype:ClearChildPoints()
@@ -882,12 +825,6 @@ function UF:LoadUnits()
 		self:CreateAndUpdateUF(unit)
 	end
 	self.unitstoload = nil
-
-	for group, groupOptions in pairs(self.unitgroupstoload) do
-		local numGroup, template = unpack(groupOptions)
-		self:CreateAndUpdateUFGroup(group, numGroup, template)
-	end
-	self.unitgroupstoload = nil
 
 	for group, groupOptions in pairs(self.headerstoload) do
 		local groupFilter, template, headerTemplate
@@ -1225,7 +1162,7 @@ function UF:Initialize()
 		end
 	end
 
-	if E.private.unitframe.disabledBlizzardFrames.arena and E.private.unitframe.disabledBlizzardFrames.focus and E.private.unitframe.disabledBlizzardFrames.party then
+	if E.private.unitframe.disabledBlizzardFrames.focus and E.private.unitframe.disabledBlizzardFrames.party then
 		InterfaceOptionsFrameCategoriesButton10:SetScale(0.0001)
 	end
 

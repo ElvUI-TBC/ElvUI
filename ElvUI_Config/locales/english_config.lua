@@ -1129,7 +1129,6 @@ L["Priority"] = true
 L["Profile Specific"] = true
 L["PvP Icon"] = true
 L["PvP Text"] = true
-L["PVP Trinket"] = true
 L["Rage"] = true
 L["Raid Icon"] = true
 L["Raid-Wide Sorting"] = true

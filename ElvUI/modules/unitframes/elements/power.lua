@@ -78,7 +78,7 @@ function UF:Configure_Power(frame)
 		power.colorClass = nil
 		power.colorReaction = nil
 		power.colorPower = nil
-		if self.db["colors"].powerclass then
+		if self.db.colors.powerclass then
 			power.colorClass = true
 			power.colorReaction = true
 		else

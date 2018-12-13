@@ -200,7 +200,6 @@ L["XP:"] = "Опыт:"
 L["You don't have permission to mark targets."] = "У вас нет разрешения на установку меток"
 
 --Movers
-L["Arena Frames"] = "Арена" --Also used in UnitFrames
 L["Auras Frame"] = true
 L["Bag Mover (Grow Down)"] = "Сумки (Рост вниз)"
 L["Bag Mover (Grow Up)"] = "Сумки (Рост вверх)"

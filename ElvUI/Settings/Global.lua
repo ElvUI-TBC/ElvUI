@@ -248,7 +248,6 @@ G["profileCopy"] = {
 			["focustarget"] = true,
 			["pet"] = true,
 			["pettarget"] = true,
-			["arena"] = true,
 			["party"] = true,
 			["raid"] = true,
 			["raid40"] = true,

@@ -116,7 +116,6 @@ V["unitframe"] = {
 		["player"] = true,
 		["target"] = true,
 		["focus"] = true,
-		["arena"] = true,
 		["party"] = true
 	}
 }

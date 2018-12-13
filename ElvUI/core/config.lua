@@ -19,7 +19,6 @@ E.ConfigModeLayouts = {
 	"GENERAL",
 	"SOLO",
 	"PARTY",
-	"ARENA",
 	"RAID",
 	"ACTIONBARS"
 }
@@ -29,7 +28,6 @@ E.ConfigModeLocalizedStrings = {
 	GENERAL = GENERAL,
 	SOLO = SOLO,
 	PARTY = PARTY,
-	ARENA = ARENA,
 	RAID = RAID,
 	ACTIONBARS = ACTIONBARS_LABEL
 }

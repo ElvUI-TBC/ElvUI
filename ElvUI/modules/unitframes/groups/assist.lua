@@ -30,8 +30,8 @@ function UF:Construct_AssistFrames()
 	self.Range = UF:Construct_Range(self)
 
 	if not self.isChild then
-		self:SetAttribute("initial-width", UF.db["units"]["assist"].width)
-		self:SetAttribute("initial-height", UF.db["units"]["assist"].height)
+		self:SetAttribute("initial-width", UF.db.units.assist.width)
+		self:SetAttribute("initial-height", UF.db.units.assist.height)
 
 		self.Buffs = UF:Construct_Buffs(self)
 		self.Debuffs = UF:Construct_Debuffs(self)
@@ -41,8 +41,8 @@ function UF:Construct_AssistFrames()
 
 		self.unitframeType = "assist"
 	else
-		self:SetAttribute("initial-width", UF.db["units"]["assist"].targetsGroup.width)
-		self:SetAttribute("initial-height", UF.db["units"]["assist"].targetsGroup.height)
+		self:SetAttribute("initial-width", UF.db.units.assist.targetsGroup.width)
+		self:SetAttribute("initial-height", UF.db.units.assist.targetsGroup.height)
 
 		self.unitframeType = "assisttarget"
 	end

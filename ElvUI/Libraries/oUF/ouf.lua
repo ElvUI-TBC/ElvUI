@@ -237,9 +237,6 @@ local function InitializeSecureMenu()
 		menu = 'PARTY'
 	elseif(unitType == 'focus') then
 		menu = 'RAID_TARGET_ICON'
---	elseif(unitType == 'arenapet' or unitType == 'arena') then
-	elseif(unitType == 'arena') then
-		menu = 'RAID_TARGET_ICON'
 	elseif(UnitIsUnit(unit, 'player')) then
 		menu = 'SELF'
 	elseif(UnitIsUnit(unit, 'pet')) then

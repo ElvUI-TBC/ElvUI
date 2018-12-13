@@ -349,38 +349,33 @@ local function CreateUnitframesConfig()
 				type = "toggle",
 				name = L["PetTarget Frame"]
 			},
-			["arena"] = {
-				order = 9,
-				type = "toggle",
-				name = L["Arena Frames"]
-			},
 			["party"] = {
-				order = 10,
+				order = 9,
 				type = "toggle",
 				name = L["Party Frames"]
 			},
 			["raid"] = {
-				order = 11,
+				order = 10,
 				type = "toggle",
 				name = L["Raid Frames"]
 			},
 			["raid40"] = {
-				order = 12,
+				order = 11,
 				type = "toggle",
 				name = L["Raid-40 Frames"]
 			},
 			["raidpet"] = {
-				order = 13,
+				order = 12,
 				type = "toggle",
 				name = L["Raid Pet Frames"]
 			},
 			["tank"] = {
-				order = 14,
+				order = 13,
 				type = "toggle",
 				name = L["Tank Frames"]
 			},
 			["assist"] = {
-				order = 15,
+				order = 14,
 				type = "toggle",
 				name = L["Assist Frames"]
 			}

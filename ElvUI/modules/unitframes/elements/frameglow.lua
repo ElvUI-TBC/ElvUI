@@ -409,11 +409,6 @@ function UF:FrameGlow_UpdateFrames()
 		UF:FrameGlow_ConfigureGlow(self[unit], unit, dbTexture)
 	end
 
-	-- arena{1-5}, boss{1-5}
-	for unit in pairs(self.groupunits) do
-		UF:FrameGlow_ConfigureGlow(self[unit], unit, dbTexture)
-	end
-
 	-- assist, tank, party, raid, raid40, raidpet
 	for groupName in pairs(self.headers) do
 		assert(self[groupName], "UF FrameGlow: Invalid group specified.")

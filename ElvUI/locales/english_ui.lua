@@ -200,7 +200,6 @@ L["XP:"] = true
 L["You don't have permission to mark targets."] = true
 
 --Movers
-L["Arena Frames"] = true --Also used in UnitFrames
 L["Auras Frame"] = true
 L["Bag Mover (Grow Down)"] = true
 L["Bag Mover (Grow Up)"] = true

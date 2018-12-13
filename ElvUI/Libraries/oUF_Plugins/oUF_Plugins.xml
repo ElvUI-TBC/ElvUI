@@ -5,7 +5,6 @@
 	<Include file="oUF_DruidMana\oUF_DruidMana.xml"/>
 	<Script file="oUF_DebuffHighlight\oUF_DebuffHighlight.lua"/>
 	<Script file="oUF_Smooth\oUF_Smooth.lua"/>
-	<Script file="oUF_Trinkets\oUF_Trinkets.lua"/>
 	<Script file="oUF_CombatFader\oUF_CombatFader.lua"/>
 	<Include file="oUF_HealComm3\oUF_HealComm3.xml"/>
 	<Include file="oUF_ResComm\oUF_ResComm.xml"/>

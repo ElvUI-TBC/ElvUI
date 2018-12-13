@@ -1145,7 +1145,6 @@ L["Priority"] = "prioridade"
 L["Profile Specific"] = true
 L["PvP Icon"] = true
 L["PvP Text"] = true
-L["PVP Trinket"] = "Berloque de JXJ"
 L["Rage"] = "Raiva"
 L["Raid Icon"] = "Icone de Raide"
 L["Raid-Wide Sorting"] = true

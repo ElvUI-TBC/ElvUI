@@ -200,7 +200,6 @@ L["XP:"] = "經驗:"
 L["You don't have permission to mark targets."] = "你沒有標記目標的權限."
 
 --Movers
-L["Arena Frames"] = "競技場框架" --Also used in UnitFrames
 L["Auras Frame"] = true
 L["Bag Mover (Grow Down)"] = "背包錨點 (向下增長)"
 L["Bag Mover (Grow Up)"] = "背包錨點 (向上增長)"

@@ -1194,7 +1194,6 @@ L["Priority"] = "우선도"
 L["Profile Specific"] = true
 L["PvP Icon"] = true
 L["PvP Text"] = "PVP 문자"
-L["PVP Trinket"] = "PvP 장신구"
 L["Rage"] = "분노"
 L["Raid Icon"] = "레이드 아이콘"
 L["Raid-Wide Sorting"] = "빈칸없이 나열"

@@ -200,7 +200,6 @@ L["XP:"] = "XP:"
 L["You don't have permission to mark targets."] = "Você não tem permissão para marcar alvos."
 
 --Movers
-L["Arena Frames"] = "Quadros de Arenas"
 L["Auras Frame"] = true
 L["Bag Mover (Grow Down)"] = true
 L["Bag Mover (Grow Up)"] = true
