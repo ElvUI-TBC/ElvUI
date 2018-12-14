@@ -269,20 +269,24 @@ local function LoadSkin()
 			local Texture = _G[Frame.."Button"..i.."ItemIconTexture"]
 			local Name = _G[Frame.."Button"..i.."Name"]
 
-			ItemButton:SetTemplate()
-			ItemButton:StyleButton()
-			ItemButton:GetNormalTexture():SetTexture("")
-			ItemButton:Point("TOPLEFT", 0, -1)
-			ItemButton:Size(34)
+			if Button then
+				Button:StripTextures()
+				S:HandleButtonHighlight(Button)
+			end
 
-			Button:StripTextures()
-			S:HandleButtonHighlight(Button)
+			if ItemButton then
+				ItemButton:SetTemplate()
+				ItemButton:StyleButton()
+				ItemButton:GetNormalTexture():SetTexture("")
+				ItemButton:Point("TOPLEFT", 0, -1)
+				ItemButton:Size(34)
 
-			Texture:SetTexCoord(unpack(E.TexCoords))
-			Texture:SetInside()
+				Texture:SetTexCoord(unpack(E.TexCoords))
+				Texture:SetInside()
 
-			hooksecurefunc(Name, "SetVertexColor", function(_, r, g, b) ItemButton:SetBackdropBorderColor(r, g, b) end)
-			hooksecurefunc(Name, "Hide", function() ItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor)) end)
+				hooksecurefunc(Name, "SetVertexColor", function(_, r, g, b) ItemButton:SetBackdropBorderColor(r, g, b) end)
+				hooksecurefunc(Name, "Hide", function() ItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor)) end)
+			end
 		end
 	end
 
