@@ -754,7 +754,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 			if db.enable ~= true then
 				UnregisterStateDriver(UF[group], "visibility")
 				UF[group]:Hide()
-				if(UF[group].mover) then
+				if UF[group].mover then
 					E:DisableMover(UF[group].mover:GetName())
 				end
 				return

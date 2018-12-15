@@ -198,7 +198,6 @@ function CC:PLAYER_ENTERING_WORLD()
 		self:UnregisterEvent("PARTY_MEMBERS_CHANGED")
 		self:UnregisterEvent("RAID_ROSTER_UPDATE")
 
-
 		self:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
 
 		if self.onBattleground then

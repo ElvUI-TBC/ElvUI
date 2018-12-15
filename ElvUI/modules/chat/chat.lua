@@ -1554,7 +1554,6 @@ function CH:DefaultSmileys()
 	CH:AddSmiley(':;:',		format(t,'semi_colon'))
 	CH:AddSmiley(';o;',		format(t,'sob'))
 
-
 	-- old keys
 	CH:AddSmiley(':%-@',	format(t,'angry'))
 	CH:AddSmiley(':@',		format(t,'angry'))

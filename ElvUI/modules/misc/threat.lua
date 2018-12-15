@@ -137,7 +137,6 @@ function THREAT:Update(event, srcGuid, dstGuid)
 	end
 end
 
-
 function THREAT:GetLibStatus()
 	if ThreatLib then
 		return true

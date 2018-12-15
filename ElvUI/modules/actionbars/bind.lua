@@ -336,14 +336,14 @@ function AB:LoadKeyBinder()
 	desc:SetText(L["Hover your mouse over any actionbutton or spellbook button to bind it. Press the escape key or right click to clear the current actionbutton's keybinding."])
 
 	local perCharCheck = CreateFrame("CheckButton", f:GetName().."CheckButton", f, "OptionsCheckButtonTemplate")
-	_G[perCharCheck:GetName() .. "Text"]:SetText(CHARACTER_SPECIFIC_KEYBINDINGS)
+	_G[perCharCheck:GetName().."Text"]:SetText(CHARACTER_SPECIFIC_KEYBINDINGS)
 
 	perCharCheck:SetScript("OnShow", function(self)
 		self:SetChecked(GetCurrentBindingSet() == 2)
 	end)
 
 	perCharCheck:SetScript("OnClick", function()
-		if (AB.bindingsChanged) then
+		if AB.bindingsChanged then
 			E:StaticPopup_Show("CONFIRM_LOSE_BINDING_CHANGES")
 		else
 			AB:ChangeBindingProfile()

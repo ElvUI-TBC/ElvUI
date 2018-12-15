@@ -767,7 +767,7 @@ function mod:PLAYER_REGEN_DISABLED()
 	elseif self.db.showEnemyCombat == "TOGGLE_OFF" then
 		HideNameplates()
 	end
-	
+
 	mod:ForEachPlate("UpdateElement_Filters", "PLAYER_REGEN_DISABLED")
 end
 
@@ -784,7 +784,7 @@ function mod:PLAYER_REGEN_ENABLED()
 	elseif self.db.showEnemyCombat == "TOGGLE_OFF" then
 		ShowNameplates()
 	end
-	
+
 	mod:ForEachPlate("UpdateElement_Filters", "PLAYER_REGEN_ENABLED")
 end
 
