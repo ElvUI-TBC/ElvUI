@@ -230,12 +230,12 @@ local function Update(self, event, unit)
 			local name, rank, icon, count, debuffType, duration, expirationTime = UnitAura(unit, index, helpOrHarm)
 			if not name then break end
 
-			--[[if expirationTime then
+			if expirationTime then
 				expirationTime = expirationTime + GetTime()
 			else
 				duration = 0
 				expirationTime = 0
-			end]]
+			end
 
 			if (auraBars.filter or DefaultFilter)(self, unit, name, rank, icon, count, debuffType, duration, expirationTime) then
 				lastAuraIndex = lastAuraIndex + 1
