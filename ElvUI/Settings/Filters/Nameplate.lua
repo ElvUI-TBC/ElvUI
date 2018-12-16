@@ -25,6 +25,11 @@ E["StyleFilterDefaults"] = {
 		["casting"] = {
 			["spells"] = {}
 		},
+		["role"] = {
+			["tank"] = false,
+			["healer"] = false,
+			["damager"] = false
+		},
 		["curlevel"] = 0,
 		["maxlevel"] = 0,
 		["minlevel"] = 0,

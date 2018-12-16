@@ -92,6 +92,13 @@ E.DispelClasses = {
 	}
 }
 
+E.HealingClasses = {
+	PALADIN = 1,
+	SHAMAN = 3,
+	DRUID = 3,
+	PRIEST = {1, 2}
+}
+
 E.ClassRole = {
 	PALADIN = {
 		[1] = "Caster",
@@ -169,6 +176,16 @@ function E:ShapeshiftDelayedUpdate(func, ...)
 		twipe(delayedFuncs)
 		delayedTimer = nil
 	end, 0.05) 
+end
+
+function E:GetPlayerRole()
+	if self.HealingClasses[self.myclass] ~= nil and self:CheckTalentTree(self.HealingClasses[E.myclass]) then
+		return "HEALER"
+	elseif E.Role == "Tank" then
+		return "TANK"
+	else
+		return "DAMAGER"
+	end
 end
 
 --Basically check if another class border is being used on a class that doesn't match. And then return true if a match is found.
@@ -463,6 +480,19 @@ function E:GetTalentSpecInfo(isInspect)
 	return specIdx, specName, specIcon
 end
 
+function E:CheckTalentTree(tree)
+	local talentTree = self.TalentTree
+	if not talentTree then return false end
+
+	if type(tree) == "number" then
+		return tree == talentTree
+	elseif type(tree) == "table" then
+		for _, index in pairs(tree) do
+			return index == talentTree
+		end
+	end
+end
+
 function E:CheckRole()
 	local talentTree = self:GetTalentSpecInfo()
 	local role
@@ -481,6 +511,7 @@ function E:CheckRole()
 
 	if self.Role ~= role then
 		self.Role = role
+		self.TalentTree = talentTree
 		self.callbacks:Fire("RoleChanged")
 	end
 end
@@ -1206,7 +1237,8 @@ function E:Initialize()
 	self:UpdateBorderColors()
 	self:UpdateBackdropColors()
 	self:UpdateStatusBars()
-	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "CheckRole")
+
+	self:RegisterEvent("PLAYER_TALENT_UPDATE", "CheckRole")
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckRole")
 	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")

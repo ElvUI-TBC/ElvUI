@@ -230,7 +230,7 @@ end
 
 function mod:StyleFilterConditionCheck(frame, filter, trigger, failed)
 	local condition, name, inCombat, reaction, spell
-	local level, myLevel, curLevel, minLevel, maxLevel, matchMyLevel
+	local level, myLevel, curLevel, minLevel, maxLevel, matchMyLevel, myRole
 	local power, maxPower, percPower, underPowerThreshold, overPowerThreshold
 	local health, maxHealth, percHealth, underHealthThreshold, overHealthThreshold
 
@@ -322,6 +322,16 @@ function mod:StyleFilterConditionCheck(frame, filter, trigger, failed)
 	if not failed and (trigger.isTarget or trigger.notTarget) then
 		condition = false
 		if (trigger.isTarget and frame.isTarget) or (trigger.notTarget and not frame.isTarget) then
+			condition = true
+		end
+		failed = not condition
+	end
+
+	--Try to match by role conditions
+	if not failed and (trigger.role.tank or trigger.role.healer or trigger.role.damager) then
+		condition = false
+		myRole = E:GetPlayerRole()
+		if myRole and ((trigger.role.tank and myRole == "TANK") or (trigger.role.healer and myRole == "HEALER") or (trigger.role.damager and myRole == "DAMAGER")) then
 			condition = true
 		end
 		failed = not condition
@@ -461,10 +471,6 @@ function mod:StyleFilterConfigureEvents()
 							break
 						end
 					end
-				end
-
-				if filter.triggers.casting.interruptible or filter.triggers.casting.notInterruptible then
-					self.StyleFilterEvents["UpdateElement_Cast"] = 1
 				end
 
 				-- real events

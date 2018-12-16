@@ -446,6 +446,50 @@ local function UpdateFilterGroup()
 						}
 					}
 				},
+				role = {
+					order = 8,
+					type = "group",
+					name = L["Role"],
+					disabled = function() return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and E.db.nameplates.filters[selectedNameplateFilter].triggers and E.db.nameplates.filters[selectedNameplateFilter].triggers.enable) end,
+					args = {
+						tank = {
+							order = 1,
+							type = "toggle",
+							name = L["Tank"],
+							get = function(info)
+								return E.global.nameplates.filters[selectedNameplateFilter].triggers.role.tank
+							end,
+							set = function(info, value)
+								E.global.nameplates.filters[selectedNameplateFilter].triggers.role.tank = value
+								NP:ConfigureAll()
+							end
+						},
+						healer = {
+							order = 2,
+							type = "toggle",
+							name = L["Healer"],
+							get = function(info)
+								return E.global.nameplates.filters[selectedNameplateFilter].triggers.role.healer
+							end,
+							set = function(info, value)
+								E.global.nameplates.filters[selectedNameplateFilter].triggers.role.healer = value
+								NP:ConfigureAll()
+							end
+						},
+						damager = {
+							order = 3,
+							type = "toggle",
+							name = L["Damager"],
+							get = function(info)
+								return E.global.nameplates.filters[selectedNameplateFilter].triggers.role.damager
+							end,
+							set = function(info, value)
+								E.global.nameplates.filters[selectedNameplateFilter].triggers.role.damager = value
+								NP:ConfigureAll()
+							end
+						}
+					}
+				},
 				health = {
 					order = 9,
 					type = "group",
