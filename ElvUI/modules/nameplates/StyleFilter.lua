@@ -44,16 +44,16 @@ end
 
 function mod:StyleFilterCooldownCheck(names, mustHaveAll)
 	local total, count, duration, _ = 0, 0
-	local _, gcd = GetSpellCooldown(61304)
+	local spellID
 
 	for name, value in pairs(names) do
 		if value == "ONCD" or value == "OFFCD" then --only if they are turned on
 			total = total + 1 --keep track of the names
 
-			_, duration = GetSpellCooldown(name)
+			spellID = GetSpellInfo(name)
+			_, duration = GetSpellCooldown(spellID)
 
-			if (duration > gcd and value == "ONCD")
-			or (duration <= gcd and value == "OFFCD") then
+			if (duration > 0 and value == "ONCD") or (duration <= 0 and value == "OFFCD") then
 				count = count + 1
 				--print(((charges and charges == 0 and value == "ONCD") and name.." (charge) passes because it is on cd") or ((charges and charges > 0 and value == "OFFCD") and name.." (charge) passes because it is offcd") or ((charges == nil and (duration > gcd and value == "ONCD")) and name.."passes because it is on cd.") or ((charges == nil and (duration <= gcd and value == "OFFCD")) and name.." passes because it is off cd."))
 			end
