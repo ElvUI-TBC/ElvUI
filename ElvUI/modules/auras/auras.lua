@@ -251,12 +251,12 @@ function A:Initialize()
 		local offHand = GetInventoryItemQuality("player", 17)
 
 		if hasMainHandEnchant and hasOffHandEnchant then
-			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand))
-			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+			if offHand then TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand)) end
+			if mainHand then TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(mainHand)) end
 		elseif hasMainHandEnchant and not hasOffHandEnchant then
-			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+			if mainHand then TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(mainHand)) end
 		elseif not hasMainHandEnchant and hasOffHandEnchant then
-			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand))
+			if offHand then TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand)) end
 		end
 	end)
 
