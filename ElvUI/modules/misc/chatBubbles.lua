@@ -88,9 +88,9 @@ function M:SkinBubble(frame)
 	local mult = E.mult * UIParent:GetScale()
 	for i = 1, frame:GetNumRegions() do
 		local region = select(i, frame:GetRegions())
-		if region:GetObjectType() == "Texture" then
+		if region:IsObjectType("Texture") then
 			region:SetTexture(nil)
-		elseif region:GetObjectType() == "FontString" then
+		elseif region:IsObjectType("FontString") then
 			frame.text = region
 		end
 	end

@@ -159,7 +159,7 @@ function UF:Configure_HealthBar(frame)
 		end
 
 		if db.health.bgUseBarTexture then
-			health.bg:SetTexture(E.LSM:Fetch("statusbar", E.private.general.normTex))
+			health.bg:SetTexture(E.LSM:Fetch("statusbar", E.db.unitframe.statusbar))
 		else
 			health.bg:SetTexture(E.media.blankTex)
 		end
