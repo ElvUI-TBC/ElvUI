@@ -97,7 +97,9 @@ local function LoadSkin()
 			item = _G[name.."Item"..i]
 			link = GetContainerItemLink(id, item:GetID())
 
-			item.QuestIcon:Hide()
+			if item.QuestIcon then
+				item.QuestIcon:Hide()
+			end
 
 			if ProfessionColors[bagType] then
 				item:SetBackdropBorderColor(unpack(ProfessionColors[bagType]))
