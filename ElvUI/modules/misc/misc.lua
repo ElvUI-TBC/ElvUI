@@ -39,32 +39,33 @@ function M:ErrorFrameToggle(event)
 	end
 end
 
-function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, sourceGUID, _, _, _, destName, _, spellID, spellName)
+function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, sourceGUID, _, _, _, destName, _, _, _, _, spellID, spellName)
 	if E.db.general.interruptAnnounce == "NONE" then return end
-	if not event == "SPELL_INTERRUPT" and (sourceGUID == E.myguid or sourceGUID == UnitGUID("pet")) then return end
 
-	if E.db.general.interruptAnnounce == "SAY" then
-		SendChatMessage(format(interruptMsg, destName, spellID, spellName), "SAY")
-	elseif E.db.general.interruptAnnounce == "EMOTE" then
-		SendChatMessage(format(interruptMsg, destName, spellID, spellName), "EMOTE")
-	else
-		local party, raid = GetNumPartyMembers(), GetNumRaidMembers()
-		local _, instanceType = IsInInstance()
-		local battleground = instanceType == "pvp"
+	if event == "SPELL_INTERRUPT" and (sourceGUID == E.myguid or sourceGUID == UnitGUID("pet")) then
+		if E.db.general.interruptAnnounce == "SAY" then
+			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "SAY")
+		elseif E.db.general.interruptAnnounce == "EMOTE" then
+			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "EMOTE")
+		else
+			local party, raid = GetNumPartyMembers(), GetNumRaidMembers()
+			local _, instanceType = IsInInstance()
+			local battleground = instanceType == "pvp"
 
-		if E.db.general.interruptAnnounce == "PARTY" then
-			if party > 0 then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY")
-			end
-		elseif E.db.general.interruptAnnounce == "RAID" then
-			if raid > 0 then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID")
-			elseif party > 0 then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY")
-			end
-		elseif E.db.general.interruptAnnounce == "RAID_ONLY" then
-			if raid > 0 then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID")
+			if E.db.general.interruptAnnounce == "PARTY" then
+				if party > 0 then
+					SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY")
+				end
+			elseif E.db.general.interruptAnnounce == "RAID" then
+				if raid > 0 then
+					SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID")
+				elseif party > 0 then
+					SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY")
+				end
+			elseif E.db.general.interruptAnnounce == "RAID_ONLY" then
+				if raid > 0 then
+					SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID")
+				end
 			end
 		end
 	end
@@ -185,7 +186,7 @@ function M:Initialize()
 	self:RegisterEvent("MERCHANT_SHOW")
 	self:RegisterEvent("PLAYER_REGEN_DISABLED", "ErrorFrameToggle")
 	self:RegisterEvent("PLAYER_REGEN_ENABLED", "ErrorFrameToggle")
-	--self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	self:RegisterEvent("CHAT_MSG_BG_SYSTEM_HORDE", "PVPMessageEnhancement")
 	self:RegisterEvent("CHAT_MSG_BG_SYSTEM_ALLIANCE", "PVPMessageEnhancement")
 	self:RegisterEvent("CHAT_MSG_BG_SYSTEM_NEUTRAL", "PVPMessageEnhancement")
