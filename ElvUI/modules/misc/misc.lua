@@ -32,6 +32,7 @@ local interruptMsg = INTERRUPTED.." %s's \124cff71d5ff\124Hspell:%d\124h[%s]\124
 
 function M:ErrorFrameToggle(event)
 	if not E.db.general.hideErrorFrame then return end
+
 	if event == "PLAYER_REGEN_DISABLED" then
 		UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
 	else
@@ -99,28 +100,9 @@ function M:MERCHANT_SHOW()
 	end
 end
 
-function M:DisbandRaidGroup()
-	if InCombatLockdown() then return end -- Prevent user error in combat
-
-	if UnitInRaid("player") then
-		for i = 1, GetNumRaidMembers() do
-			local name, _, _, _, _, _, _, online = GetRaidRosterInfo(i)
-			if online and name ~= E.myname then
-				UninviteUnit(name)
-			end
-		end
-	else
-		for i = MAX_PARTY_MEMBERS, 1, -1 do
-			if GetPartyMember(i) then
-				UninviteUnit(UnitName("party"..i))
-			end
-		end
-	end
-	LeaveParty()
-end
-
 function M:PVPMessageEnhancement(_, msg)
 	if not E.db.general.enhancedPvpMessages then return end
+
 	local _, instanceType = IsInInstance()
 	if instanceType == "pvp" or instanceType == "arena" then
 		RaidNotice_AddMessage(RaidBossEmoteFrame, msg, ChatTypeInfo["RAID_BOSS_EMOTE"])
@@ -182,6 +164,7 @@ function M:Initialize()
 	self:LoadLoot()
 	self:LoadLootRoll()
 	self:LoadChatBubbles()
+
 	self:RegisterEvent("MERCHANT_SHOW")
 	self:RegisterEvent("PLAYER_REGEN_DISABLED", "ErrorFrameToggle")
 	self:RegisterEvent("PLAYER_REGEN_ENABLED", "ErrorFrameToggle")
