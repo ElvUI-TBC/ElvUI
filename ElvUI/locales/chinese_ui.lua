@@ -293,7 +293,6 @@ L["Accepting this will reset your Filter Priority lists for all auras on NamePla
 L["Are you sure you want to apply this font to all ElvUI elements?"] = "确定要对所有ElvUI元素使用这个字体?"
 L["Are you sure you want to reset all the settings on this profile?"] = "确定需要重置这个配置文件中的所有设置?"
 L["Are you sure you want to reset every mover back to it's default position?"] = "确定需要重置所有框架至默认位置?"
-L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = "由于大量的改动导致光环系统需要一个新的安装过程. 这是可选的, 最后一步将设置你的光环样式. 点击「完成」将不再提示. 如果由于某些原因反复提示, 请重新开启游戏."
 L["Can't buy anymore slots!"] = "银行背包栏位已达最大值"
 L["Delete gray items?"] = "删除灰色物品?"
 L["Detected that your ElvUI Config addon is out of date. Not having your ElvUI Config addon up to date will result in missing options."] = "检测到您的ElvUI设置插件已过期.ElvUI设置插件过期会造成某些选项丢失"
@@ -316,7 +315,6 @@ L["The profile you tried to import already exists. Choose a new name or accept t
 L["Type /hellokitty to revert to old settings."] = "输入/hellokitty以撤销到原来的设定"
 L["Using the healer layout it is highly recommended you download the addon Clique if you wish to have the click-to-heal function."] = "使用治疗布局时建议你下载 Clique 插件，从而拥有点击施法功能"
 L["Yes, Keep Changes!"] = "是的，保存修改！"
-L["You have changed the Thin Border Theme option. You will have to complete the installation process to remove any graphical bugs."] = "你选择了细边框主题选项，你必须完成安装程序来移除任何图像错误"
 L["You have imported settings which may require a UI reload to take effect. Reload now?"] = "你导入的设置可能需要重载界面才能生效。确认重载？"
 L["You must purchase a bank slot first!"] = "你必需购买一个银行背包栏位"
 

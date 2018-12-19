@@ -166,24 +166,6 @@ E.PopupDialogs["INCOMPATIBLE_ADDON"] = {
 	hideOnEscape = false
 }
 
-E.PopupDialogs["PIXELPERFECT_CHANGED"] = {
-	text = L["You have changed the Thin Border Theme option. You will have to complete the installation process to remove any graphical bugs."],
-	button1 = ACCEPT,
-	OnAccept = E.noop,
-	timeout = 0,
-	whileDead = 1,
-	hideOnEscape = false
-}
-
-E.PopupDialogs["CONFIGAURA_SET"] = {
-	text = L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."],
-	button1 = ACCEPT,
-	OnAccept = E.noop,
-	timeout = 0,
-	whileDead = 1,
-	hideOnEscape = false
-}
-
 E.PopupDialogs["FAILED_UISCALE"] = {
 	text = L["You have changed your UIScale, however you still have the AutoScale option enabled in ElvUI. Press accept if you would like to disable the Auto Scale option."],
 	button1 = ACCEPT,
