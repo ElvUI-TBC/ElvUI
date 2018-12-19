@@ -288,19 +288,9 @@ function RB:UpdateDefaultIcons()
 		[7] = (E.Role == "Tank" and "Interface\\Icons\\Spell_Holy_GreaterBlessingofSanctuary") or "Interface\\Icons\\Spell_Holy_GreaterBlessingofSalvation"
 	}
 
-	if E.Role == "Caster" then
-		self.Spell5Buffs = self.CasterSpell5Buffs
-		self.Spell6Buffs = self.CasterSpell6Buffs
-		self.Spell7Buffs = self.DamagerSpell7Buffs
-	elseif E.Role == "Tank" then
-		self.Spell5Buffs = self.MeleeSpell5Buffs
-		self.Spell6Buffs = self.MeleeSpell6Buffs
-		self.Spell7Buffs = self.TankSpell7Buffs
-	else
-		self.Spell5Buffs = self.MeleeSpell5Buffs
-		self.Spell6Buffs = self.MeleeSpell6Buffs
-		self.Spell7Buffs = self.DamagerSpell7Buffs
-	end
+	self.Spell5Buffs = E.Role == "Caster" and self.CasterSpell5Buffs or self.MeleeSpell5Buffs
+	self.Spell6Buffs = E.Role == "Caster" and self.CasterSpell6Buffs or self.MeleeSpell6Buffs
+	self.Spell7Buffs = E.Role == "Tank" and self.TankSpell7Buffs or self.DamagerSpell7Buffs
 end
 
 function RB:Enable()
