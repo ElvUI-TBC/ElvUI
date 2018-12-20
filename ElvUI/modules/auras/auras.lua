@@ -8,7 +8,7 @@ local format = string.format
 local mainhand, offhand, _
 
 function A:BuffFrame_Update()
-	BUFF_ACTUAL_DISPLAY = 0;
+	BUFF_ACTUAL_DISPLAY = 0
 	for i = 1, BUFF_MAX_DISPLAY do
 		if BuffButton_Update("BuffButton", i, "HELPFUL") then
 			BUFF_ACTUAL_DISPLAY = BUFF_ACTUAL_DISPLAY + 1
@@ -134,7 +134,7 @@ function A:BuffButton_UpdateAnchors(buttonName, index, filter)
 			if index == self.db.perRow + 1 then
 				buff:SetPoint("RIGHT", AurasHolder, "RIGHT", 0, 0)
 			else
-				buff:SetPoint("TOPRIGHT", getglobal(buttonName..(index-BUFFS_PER_ROW)), "TOPRIGHT", 0, 0)
+				buff:SetPoint("TOPRIGHT", _G[buttonName..(index - BUFFS_PER_ROW)], "TOPRIGHT", 0, 0)
 			end
 		elseif index == 1 then
 			mainhand, _, _, offhand = GetWeaponEnchantInfo()
@@ -146,7 +146,7 @@ function A:BuffButton_UpdateAnchors(buttonName, index, filter)
 				buff:SetPoint("TOPRIGHT", AurasHolder, "TOPRIGHT", 0, 0)
 			end
 		else
-			buff:SetPoint("RIGHT", _G[buttonName..(index-1)], "LEFT", -self.db.spacing, 0)
+			buff:SetPoint("RIGHT", _G[buttonName..(index - 1)], "LEFT", -self.db.spacing, 0)
 		end
 
 		if index > (self.db.perRow*2) then
@@ -159,7 +159,7 @@ function A:BuffButton_UpdateAnchors(buttonName, index, filter)
 		if index == 1 then
 			buff:SetPoint("BOTTOMRIGHT", AurasHolder, "BOTTOMRIGHT", 0, 0)
 		else
-			buff:SetPoint("RIGHT", _G[buttonName..(index-1)], "LEFT", -self.db.spacing, 0)
+			buff:SetPoint("RIGHT", _G[buttonName..(index - 1)], "LEFT", -self.db.spacing, 0)
 		end
 
 		if index > self.db.perRow then

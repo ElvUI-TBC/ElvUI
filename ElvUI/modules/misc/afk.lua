@@ -38,7 +38,7 @@ local printKeys = {
 	["PRINTSCREEN"] = true,
 }
 
-if IsMacClient() then
+if E.isMacClient then
 	printKeys[_G["KEY_PRINTSCREEN_MAC"]] = true
 end
 

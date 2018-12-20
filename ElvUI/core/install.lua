@@ -233,7 +233,7 @@ function E:SetupResolution(noDataReset)
 		end
 
 		if not noDataReset then
-			E.db.auras.wrapAfter = 10
+			E.db.auras.perRow = 10
 		end
 
 		E.db.movers.ElvAB_2 = "CENTER,ElvUIParent,BOTTOM,0,56.18"
@@ -283,7 +283,7 @@ function E:SetupResolution(noDataReset)
 
 		E:CopyTable(E.db.actionbar, P.actionbar)
 		E:CopyTable(E.db.unitframe.units, P.unitframe.units)
-		E.db.auras.wrapAfter = P.auras.wrapAfter
+		E.db.auras.perRow = P.auras.perRow
 
 		E.db.lowresolutionset = nil
 	end

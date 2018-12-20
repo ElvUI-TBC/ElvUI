@@ -546,7 +546,7 @@ local function LoadSkin()
 	end)
 
 	-- Mac Options
-	if IsMacClient() then
+	if E.isMacClient then
 		S:HandleButton(GameMenuButtonMacOptions)
 
 		-- Skin main frame and reposition the header

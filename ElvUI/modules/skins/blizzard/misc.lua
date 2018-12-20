@@ -5,7 +5,6 @@ local _G = _G
 local unpack, select = unpack, select
 
 local GetLocale = GetLocale
-local IsMacClient = IsMacClient
 local UnitIsUnit = UnitIsUnit
 
 local function LoadSkin()
@@ -36,7 +35,7 @@ local function LoadSkin()
 		end
 	end
 
-	if IsMacClient() then
+	if E.isMacClient then
 		S:HandleButton(GameMenuButtonMacOptions)
 	end
 

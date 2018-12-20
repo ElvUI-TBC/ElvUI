@@ -1114,7 +1114,7 @@ function CH.CHAT_MSG_CHANNEL(message, author, ...)
 	if msg == nil then return CH.FindURL(message, author, ...) end
 
 	-- ignore player messages
-	if author and author == UnitName("player") then return CH.FindURL(message, author, ...) end
+	if author and author == E.myname then return CH.FindURL(message, author, ...) end
 	if msgList[msg] and CH.db.throttleInterval ~= 0 then
 		if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
 			blockFlag = true
@@ -1141,7 +1141,7 @@ function CH.CHAT_MSG_YELL(message, author, ...)
 	if msg == nil then return CH.FindURL(message, author, ...) end
 
 	-- ignore player messages
-	if author and author == UnitName("player") then return CH.FindURL(message, author, ...) end
+	if author and author == E.myname then return CH.FindURL(message, author, ...) end
 	if msgList[msg] and msgCount[msg] > 1 and CH.db.throttleInterval ~= 0 then
 		if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
 			blockFlag = true
