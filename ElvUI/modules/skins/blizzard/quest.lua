@@ -467,6 +467,7 @@ local function LoadSkin()
  		end
 	end)
 
+--[[
 	-- Quest Watch
 	hooksecurefunc("QuestWatch_Update", function()
 		local questIndex, numObjectives, objectivesCompleted
@@ -525,6 +526,7 @@ local function LoadSkin()
 			end
 		end
 	end)
+]]
 end
 
 S:AddCallback("Quest", LoadSkin)
