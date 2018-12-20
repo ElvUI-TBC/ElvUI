@@ -11,7 +11,7 @@ License: LGPL v2.1
 if(select(2, UnitClass("player")) ~= "DRUID") then return; end
 
 local MAJOR_VERSION = "LibDruidMana-1.0"
-local MINOR_VERSION = 90001 + tonumber(("$Revision: 29 $"):match("%d+"))
+local MINOR_VERSION = 90002 + tonumber(("$Revision: 29 $"):match("%d+"))
 
 local floor = math.floor
 
@@ -25,6 +25,8 @@ local UnitMana = UnitMana
 local UnitManaMax = UnitManaMax
 local UnitPowerType = UnitPowerType
 local UnitStat = UnitStat
+
+local MANA_PER_INTELLECT = MANA_PER_INTELLECT
 
 local lib, oldMinor = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
 if not lib then return end
@@ -40,6 +42,79 @@ end
 local regenMana, maxMana, currMana, currInt, fiveSecondRule
 currMana, maxMana = 0, 0
 local bearID, bearName, catName
+
+local baseDruidMana = {
+	[1] = 60,
+	[2] = 66,
+	[3] = 73,
+	[4] = 81,
+	[5] = 90,
+	[6] = 100,
+	[7] = 111,
+	[8] = 123,
+	[9] = 136,
+	[10] = 150,
+	[11] = 165,
+	[12] = 182,
+	[13] = 200,
+	[14] = 219,
+	[15] = 239,
+	[16] = 260,
+	[17] = 282,
+	[18] = 305,
+	[19] = 329,
+	[20] = 354,
+	[21] = 380,
+	[22] = 392,
+	[23] = 420,
+	[24] = 449,
+	[25] = 479,
+	[26] = 509,
+	[27] = 524,
+	[28] = 554,
+	[29] = 584,
+	[30] = 614,
+	[31] = 629,
+	[32] = 659,
+	[33] = 689,
+	[34] = 704,
+	[35] = 734,
+	[36] = 749,
+	[37] = 779,
+	[38] = 809,
+	[39] = 824,
+	[40] = 854,
+	[41] = 869,
+	[42] = 899,
+	[43] = 914,
+	[44] = 944,
+	[45] = 959,
+	[46] = 989,
+	[47] = 1004,
+	[48] = 1019,
+	[49] = 1049,
+	[50] = 1064,
+	[51] = 1079,
+	[52] = 1109,
+	[53] = 1124,
+	[54] = 1139,
+	[55] = 1154,
+	[56] = 1169,
+	[57] = 1199,
+	[58] = 1214,
+	[59] = 1229,
+	[60] = 1244,
+	[61] = 1357,
+	[62] = 1469,
+	[63] = 1582,
+	[64] = 1694,
+	[65] = 1807,
+	[66] = 1919,
+	[67] = 2032,
+	[68] = 2145,
+	[69] = 2257,
+	[70] = 2370,
+}
 
 -- frame for events and OnUpdate
 local frame
@@ -102,6 +177,19 @@ local function getShapeshiftCost()
 	return line or 0
 end
 
+local function updateStatsInForm()
+	local level = UnitLevel("player")
+	local baseMana = baseDruidMana[level]
+
+	local _, int = UnitStat("player", 4)
+	local baseInt = math.min(20, int)
+	local intMana = baseInt + (int - baseInt) * MANA_PER_INTELLECT
+
+	maxMana = baseMana + intMana
+	currMana = maxMana
+	currInt = int
+end
+
 frame:SetScript("OnEvent", function(this, event, ...)
 	this[event](this, ...)
 end)
@@ -135,6 +223,8 @@ function frame:PLAYER_LOGIN()
 
 	if UnitPowerType("player") == 0 then
 		self:UNIT_DISPLAYPOWER("player")
+	else
+		updateStatsInForm()
 	end
 end
 
@@ -201,7 +291,7 @@ function frame:UNIT_MAXMANA(unit)
 		currInt = int
 	elseif currInt ~= int then
 		-- int buff maybe
-		maxMana = maxMana + ((int - currInt) * 15)
+		maxMana = maxMana + ((int - currInt) * MANA_PER_INTELLECT)
 		currInt = int
 		if currMana > maxMana then
 			currMana = maxMana
