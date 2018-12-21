@@ -10,6 +10,7 @@ Dependencies: LibStub
 local _G = _G
 local print = print
 local pairs = pairs
+local select = select
 local tostring = tostring
 local tonumber = tonumber
 local strsplit = strsplit
@@ -137,13 +138,13 @@ do
 	local dstGUID
 	function ResetUnitAuras(unitID)
 		dstGUID = UnitGUID(unitID)
-		lib:RemoveAllAurasFromGUID(dstGUID, true)
+		lib:RemoveAllAurasFromGUID(dstGUID)
 	end
 end
 
 do
 	local currentTime
-	function lib:AddAuraFromUnitID(dstGUID, name, texture, stackCount, debuffType, duration, expirationTime, srcGUID, spellID, filter, isCombatLog)
+	function lib:AddAuraFromUnitID(dstGUID, name, texture, stackCount, debuffType, duration, expirationTime, srcGUID, spellID, filter)
 		currentTime = GetTime()
 
 		self.GUIDAuras[dstGUID] = self.GUIDAuras[dstGUID] or {}
@@ -157,8 +158,7 @@ do
 			duration = duration,
 			expirationTime = expirationTime,
 			spellID = spellID,
-			srcGUID = srcGUID,
-			isCombatLog = isCombatLog
+			srcGUID = srcGUID
 		})
 	end
 end
@@ -166,7 +166,7 @@ end
 local CheckUnitAuras
 do
 	local i
-	local _, name, rank, texture, stackCount, dispelType, duration, expirationTime, auraData, casterGUID, spellID, isCombatLog
+	local _, name, rank, texture, stackCount, dispelType, duration, expirationTime, auraData, casterGUID, spellID
 	local dstGUID, dstName, srcGUID
 	function CheckUnitAuras(unitID, filterType)
 	--~ 	name, rank, icon, count, debuffType, duration, expirationTime  = UnitAura("unit", index or "name"[, "rank"[, "filter"]])
@@ -179,9 +179,7 @@ do
 
 		if lib.GUIDAuras[dstGUID] and lib.GUIDAuras[dstGUID][filterType] then
 			for i = #lib.GUIDAuras[dstGUID][filterType], 1, -1 do
-				if not self.GUIDAuras[dstGUID][filter].isCombatLog then
-					table_remove(lib.GUIDAuras[dstGUID][filterType], i)
-				end
+				table_remove(lib.GUIDAuras[dstGUID][filterType], i)
 			end
 			auraData = true
 		end
@@ -196,7 +194,6 @@ do
 						duration, expirationTime = lib.GUIDAuras[dstGUID][filterType][i].duration, lib.GUIDAuras[dstGUID][filterType][i].expirationTime
 						casterGUID, spellID = lib.GUIDAuras[dstGUID][filterType][i].srcGUID, lib.GUIDAuras[dstGUID][filterType][i].spellID
 						table_remove(lib.GUIDAuras[dstGUID][filterType], i)
-						isCombatLog = true
 						break
 					end
 				end
@@ -231,8 +228,7 @@ do
 				expirationTime,
 				casterGUID,
 				spellID,
-				filterType,
-				isCombatLog
+				filterType
 			)
 
 			i = i + 1
@@ -799,270 +795,178 @@ do
 			SaveGUIDInfo(dstGUID, dstName, dstFlags)
 		end
 
-		if self[eventType] then
-			self[eventType](self, eventType, timestamp, eventType, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, ...)
+		if lib[eventType] then
+			lib[eventType](lib, eventType, timestamp, eventType, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, ...)
 		end
 	end
 end
 
-do
-	local data, getTime
-	----------------------------------------------
-	function lib:RemoveExpiredAuras(dstGUID)	--
-	-- Remove expired auras from a GUID. 		--
-	----------------------------------------------
-		if self.GUIDAuras[dstGUID] then
-			getTime = GetTime()
-			for filter in pairs(self.GUIDAuras[dstGUID]) do
-				for i = #self.GUIDAuras[dstGUID][filter], 1, -1 do 
-					data = self.GUIDAuras[dstGUID][filter][i]
-					if getTime > data.expirationTime then
-						table_remove(self.GUIDAuras[dstGUID][filter], i)
-					end
-				end
+function lib:RemoveExpiredAuras(dstGUID)
+	if not lib.GUIDAuras[dstGUID] then return end
+
+	for filter in pairs(lib.GUIDAuras[dstGUID]) do
+		for i = #lib.GUIDAuras[dstGUID][filter], 1, -1 do 
+			local data = lib.GUIDAuras[dstGUID][filter][i]
+			if GetTime() > data.expirationTime then
+				table_remove(lib.GUIDAuras[dstGUID][filter], i)
 			end
 		end
 	end
 end
 
-do
-	local data, spellName, newName, oldName
-	local spellName
-	----------------------------------------------------------------------
-	function lib:checkIfAuraAlreadyOnGUID(dstGUID, spellID, srcGUID, filter)	--
-	-- Used for debuging and learning the combatlog. 					--
-	----------------------------------------------------------------------
-		spellName = GetSpellInfo(spellID)
-		for i = #self.GUIDAuras[dstGUID][filter], 1, -1  do 
-			data = self.GUIDAuras[dstGUID][filter][i]
-			if data.spellID == spellID  then --and srcGUID ~= data.srcGUID
-				if srcGUID ~= data.srcGUID then
-					newName = self:GetGUIDInfo(srcGUID)
-					oldName = self:GetGUIDInfo(data.srcGUID)
-					if newName == oldName then
-						debugPrint("checkIfAuraAlreadyOnGUID", spellID, spellName, "new:"..tostring(srcGUID), "old:"..tostring(data.srcGUID))
-					else
-						debugPrint("checkIfAuraAlreadyOnGUID", spellID, spellName, "new:"..tostring(newName), "old:"..tostring(oldName))
-					end
-				end
+function lib:AddAuraToGUID(dstGUID, name, texture, spellID, srcGUID, filter)
+	lib.GUIDAuras[dstGUID] = lib.GUIDAuras[dstGUID] or {}
+	lib.GUIDAuras[dstGUID][filter] = lib.GUIDAuras[dstGUID][filter] or {}
+
+	local duration = lib:GetDuration(spellID, srcGUID, dstGUID)
+	table_insert(lib.GUIDAuras[dstGUID][filter], #lib.GUIDAuras[dstGUID][filter] + 1, {
+		name = name,
+		texture = texture,
+		debuffType = lib:GetDebuffType(spellID),
+		duration = duration,
+		expirationTime = duration == 0 and 0 or GetTime() + duration,
+		spellID = spellID,
+		srcGUID = srcGUID,
+		isDebuff = filter
+	})
+end
+
+function lib:AddAuraDose(dstGUID, spellID, srcGUID, filter)
+	if not lib.GUIDAuras[dstGUID] then return end
+	if not lib.GUIDAuras[dstGUID][filter] then return end
+
+	if srcGUID then
+		for i = 1, #lib.GUIDAuras[dstGUID][filter] do
+			local data = lib.GUIDAuras[dstGUID][filter][i]
+			if data.spellID == spellID and data.srcGUID == srcGUID then
+				data.stackCount = (data.stackCount or 1) + 1
+				data.expirationTime = data.duration + GetTime()
+
+				return true, data.stackCount, data.expirationTime
 			end
-		
+		end
+	end
+
+	for i = 1, #lib.GUIDAuras[dstGUID][filter] do
+		local data = lib.GUIDAuras[dstGUID][filter][i]
+		if data.spellID == spellID then
+			data.stackCount = (data.stackCount or 1) + 1
+			data.expirationTime = data.duration + GetTime()
+
+			return true, data.stackCount, data.expirationTime
+		end
+	end
+
+	return false
+end
+
+function lib:RemoveAuraDose(dstGUID, spellID, srcGUID, filter)
+	if not lib.GUIDAuras[dstGUID] then return end
+	if not lib.GUIDAuras[dstGUID][filter] then return end
+
+	if srcGUID then
+		for i = 1, #lib.GUIDAuras[dstGUID][filter] do
+			local data = lib.GUIDAuras[dstGUID][filter][i]
+			if data.spellID == spellID and data.srcGUID == srcGUID then
+				data.stackCount = (data.stackCount or 1) - 1
+--~ 					data.expirationTime = data.duration + GetTime()
+
+				return true, data.stackCount, data.expirationTime
+			end
+		end
+	end
+
+	for i = 1, #lib.GUIDAuras[dstGUID][filter] do
+		local data = lib.GUIDAuras[dstGUID][filter][i]
+		if data.spellID == spellID then
+			data.stackCount = (data.stackCount or 1) - 1
+--~ 				data.expirationTime = data.duration + GetTime()
+
+			return true, data.stackCount, data.expirationTime
+		end
+	end
+
+	return false
+end
+
+function lib:RefreshAura(dstGUID, spellID, srcGUID, filter)
+	if not lib.GUIDAuras[dstGUID] then return end
+	if not lib.GUIDAuras[dstGUID][filter] then return end
+
+	if srcGUID then
+		for i = 1, #lib.GUIDAuras[dstGUID][filter] do
+			local data = lib.GUIDAuras[dstGUID][filter][i]
+			if data.spellID == spellID and data.srcGUID == srcGUID then
+				data.expirationTime = data.duration + GetTime()
+
+				return true, data.expirationTime
+			end
+		end
+	end
+
+	for i = 1, #lib.GUIDAuras[dstGUID][filter] do
+		local data = lib.GUIDAuras[dstGUID][filter][i]
+		if data.spellID == spellID then
+			data.expirationTime = data.duration + GetTime()
+
+			return true, data.expirationTime
+		end
+	end
+
+	return false
+end
+
+function lib:RemoveAuraFromGUID(dstGUID, spellID, srcGUID, filter)
+	if not lib.GUIDAuras[dstGUID] then return end
+	if not lib.GUIDAuras[dstGUID][filter] then return end
+
+	if srcGUID then
+		for i = #lib.GUIDAuras[dstGUID][filter], 1, -1 do
+			local data = lib.GUIDAuras[dstGUID][filter][i]
+			if data.spellID == spellID and srcGUID == data.srcGUID then
+				table_remove(lib.GUIDAuras[dstGUID][filter], i)
+				lib.callbacks:Fire("RemoveAuraFromGUID", dstGUID)
+				return
+			end
+		end
+	end
+
+	for i = #lib.GUIDAuras[dstGUID][filter], 1, -1 do
+		local data = lib.GUIDAuras[dstGUID][filter][i]
+		if data.spellID == spellID then
+			table_remove(lib.GUIDAuras[dstGUID][filter], i)
+			lib.callbacks:Fire("RemoveAuraFromGUID", dstGUID)
+			return
 		end
 	end
 end
 
-do
-	local duration, debuffType, currentTime
-	-------------------------------------------------------------------------------
-	function lib:AddAuraToGUID(dstGUID, name, texture, spellID, srcGUID, filter) --
-	-- Add a auraID to our GUID list.											 --
-	-------------------------------------------------------------------------------
-		duration = self:GetDuration(spellID, srcGUID, dstGUID)
-		debuffType = self:GetDebuffType(spellID)
-		currentTime = GetTime()
+function lib:HasAuraFromGUID(dstGUID, spellID, srcGUID, filter)
+	if not lib.GUIDAuras[dstGUID] then return end
+	if not lib.GUIDAuras[dstGUID][filter] then return end
 
-		self.GUIDAuras[dstGUID] = self.GUIDAuras[dstGUID] or {}
-		self.GUIDAuras[dstGUID][filter] = self.GUIDAuras[dstGUID][filter] or {}
-
-		--[===[@debug@
-	--~ 	self:checkIfAuraAlreadyOnGUID(dstGUID, spellID, srcGUID, filter)
-		--@end-debug@]===]
-
-		--[[
-			I didn't want to use tables this way when I started the project but due to multiple instnces of a spellID being on a GUID I couldn't do a hash table lookup.
-			I wanted do something like
-			GUIDAuras_Duration[dstGUID..spellID..srcGUID] = 30
-			but because UnitAura() sometimes doesn't return a unitID to get srcGUID, I had to do a index table. meh
-
-		]]
-
-		table_insert(self.GUIDAuras[dstGUID][filter], #self.GUIDAuras[dstGUID][filter]+1, {
-			name = name,
-			texture = texture,
-			debuffType = debuffType,
-			duration = duration,
-			expirationTime = duration == 0 and 0 or currentTime + duration,
-			spellID = spellID,
-			srcGUID = srcGUID,
-			isDebuff = filter,
-			isCombatLog = true,
-		})
-
-	--~ 	table.sort(self.GUIDAuras[dstGUID], function(a,b)
-	--~ 		return a.expirationTime < b.expirationTime
-	--~ 	end)
-	end
-end
-
-do
-	local data
-	--------------------------------------------------------------
-	function lib:AddAuraDose(dstGUID, spellID, srcGUID, filter)	--
-	-- Increase stack count of a aura.							--
-	--------------------------------------------------------------
-		if self.GUIDAuras[dstGUID] and self.GUIDAuras[dstGUID][filter] then
-			if srcGUID then
-				for i = 1, #self.GUIDAuras[dstGUID][filter] do
-					data = self.GUIDAuras[dstGUID][filter][i]
-					if data.spellID == spellID and data.srcGUID == srcGUID then
-						data.stackCount = (data.stackCount or 1) + 1
-						data.expirationTime = data.duration + GetTime()
-
-						return true, data.stackCount, data.expirationTime
-					end
-				end
-			end
-
-			for i = 1, #self.GUIDAuras[dstGUID][filter] do
-				data = self.GUIDAuras[dstGUID][filter][i]
-				if data.spellID == spellID then
-					data.stackCount = (data.stackCount or 1) + 1
-					data.expirationTime = data.duration + GetTime()
-
-					return true, data.stackCount, data.expirationTime
-				end
+	if srcGUID then
+		for i = #lib.GUIDAuras[dstGUID][filter], 1, -1 do
+			local data = lib.GUIDAuras[dstGUID][filter][i]
+			if data.spellID == spellID and srcGUID == data.srcGUID then
+				return true
 			end
 		end
-
-		return false
 	end
-end
 
-do
-	local data
-	------------------------------------------------------------------
-	function lib:RemoveAuraDose(dstGUID, spellID, srcGUID, filter)	--
-	-- Remove 1 stack from a aura.									--
-	------------------------------------------------------------------
-		if self.GUIDAuras[dstGUID] and self.GUIDAuras[dstGUID][filter] then
-			if srcGUID then
-				for i = 1, #self.GUIDAuras[dstGUID][filter] do
-					data = self.GUIDAuras[dstGUID][filter][i]
-					if data.spellID == spellID and data.srcGUID == srcGUID then
-						data.stackCount = (data.stackCount or 1) - 1
-	--~ 					data.expirationTime = data.duration + GetTime()
-
-						return true, data.stackCount, data.expirationTime
-					end
-				end
-			end
-
-			for i = 1, #self.GUIDAuras[dstGUID][filter] do
-				data = self.GUIDAuras[dstGUID][filter][i]
-				if data.spellID == spellID then
-					data.stackCount = (data.stackCount or 1) - 1
-	--~ 				data.expirationTime = data.duration + GetTime()
-
-					return true, data.stackCount, data.expirationTime
-				end
-			end
-		end
-
-		return false
-	end
-end
-
-do
-	local data
-	--------------------------------------------------------------
-	function lib:RefreshAura(dstGUID, spellID, srcGUID, filter)	--
-	-- Refresh the start and expiration time of a aura.			--
-	--------------------------------------------------------------
-		if self.GUIDAuras[dstGUID] and self.GUIDAuras[dstGUID][filter] then
-			if srcGUID then
-				for i = 1, #self.GUIDAuras[dstGUID][filter] do
-					data = self.GUIDAuras[dstGUID][filter][i]
-					if data.spellID == spellID and data.srcGUID == srcGUID then
-						data.expirationTime = data.duration + GetTime()
-
-						return true, data.expirationTime
-					end
-				end
-			end
-
-			for i = 1, #self.GUIDAuras[dstGUID][filter] do
-				data = self.GUIDAuras[dstGUID][filter][i]
-				if data.spellID == spellID then
-					data.expirationTime = data.duration + GetTime()
-
-					return true, data.expirationTime
-				end
-			end
-		end
-
-		return false
-	end
-end
-
-do
-	local data
-	----------------------------------------------------------------------
-	function lib:RemoveAuraFromGUID(dstGUID, spellID, srcGUID, filter)	--
-	-- Remove a aura from a GUID.										--
-	----------------------------------------------------------------------
-		if lib.GUIDAuras[dstGUID] and lib.GUIDAuras[dstGUID][filter] then
-			if srcGUID then
-				for i = #lib.GUIDAuras[dstGUID][filter],1, -1 do
-					data = lib.GUIDAuras[dstGUID][filter][i]
-					if data.spellID == spellID and srcGUID == data.srcGUID then
-						table_remove(lib.GUIDAuras[dstGUID][filter], i)
-						lib.callbacks:Fire("RemoveAuraFromGUID", dstGUID)
-						return
-					end
-				end
-			end
-
-			for i = #lib.GUIDAuras[dstGUID][filter],1, -1 do
-				data = lib.GUIDAuras[dstGUID][filter][i]
-				if data.spellID == spellID then
-					table_remove(lib.GUIDAuras[dstGUID][filter], i)
-					lib.callbacks:Fire("RemoveAuraFromGUID", dstGUID)
-					return
-				end
-			end
-
+	for i = #lib.GUIDAuras[dstGUID][filter], 1, -1 do
+		local data = lib.GUIDAuras[dstGUID][filter][i]
+		if data.spellID == spellID then
+			return true
 		end
 	end
 end
 
-do
-	local data
-	----------------------------------------------------------------------
-	function lib:HasAuraFromGUID(dstGUID, spellID, srcGUID, filter)	--
-	-- Remove a aura from a GUID.										--
-	----------------------------------------------------------------------
-		if lib.GUIDAuras[dstGUID] and lib.GUIDAuras[dstGUID][filter] then
-			if srcGUID then
-				for i = #lib.GUIDAuras[dstGUID][filter],1, -1 do
-					data = lib.GUIDAuras[dstGUID][filter][i]
-					if data.spellID == spellID and srcGUID == data.srcGUID then
-						table_remove(lib.GUIDAuras[dstGUID][filter], i)
-						lib.callbacks:Fire("RemoveAuraFromGUID", dstGUID)
-						return
-					end
-				end
-			end
-
-			for i = #lib.GUIDAuras[dstGUID][filter],1, -1 do
-				data = lib.GUIDAuras[dstGUID][filter][i]
-				if data.spellID == spellID then
-					return true
-				end
-			end
-		end
-	end
-end
-
-------------------------------------------------------
-function lib:RemoveAllAurasFromGUID(dstGUID, isCombatLog)		--
--- Remove all auras on a GUID. They must have died.	--
-------------------------------------------------------
-	if self.GUIDAuras[dstGUID] then
-		for filter in pairs(self.GUIDAuras[dstGUID]) do
-			for i=#self.GUIDAuras[dstGUID][filter], 1, -1 do
-				if isCombatLog and not self.GUIDAuras[dstGUID][filter].isCombatLog then
-					table_remove(self.GUIDAuras[dstGUID][filter], i)
-				end
+function lib:RemoveAllAurasFromGUID(dstGUID)
+	if lib.GUIDAuras[dstGUID] then
+		for filter in pairs(lib.GUIDAuras[dstGUID]) do
+			for i = #lib.GUIDAuras[dstGUID][filter], 1, -1 do
+				table_remove(lib.GUIDAuras[dstGUID][filter], i)
 			end
 		end
 	end
