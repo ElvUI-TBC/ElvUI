@@ -1593,8 +1593,17 @@ local function GetUnitSettings(unit, name)
 						get = function(info) return E.db.nameplates.units[unit].buffs[ info[#info] ] end,
 						set = function(info, value) E.db.nameplates.units[unit].buffs[ info[#info] ] = value NP:ConfigureAll() end
 					},
-					filtersGroup = {
+					widthOverride = {
 						order = 5,
+						type = "range",
+						name = L["Icon Width Override"],
+						desc = L["If not set to 0 then set the width of the Aura Icon to this"],
+						min = 0, max = 60, step = 1,
+						get = function(info) return E.db.nameplates.units[unit].buffs[ info[#info]] end,
+						set = function(info, value) E.db.nameplates.units[unit].buffs[ info[#info] ] = value NP:ConfigureAll() end
+					},
+					filtersGroup = {
+						order = 6,
 						type = "group",
 						name = L["Filters"],
 						guiInline = true,
@@ -1754,8 +1763,17 @@ local function GetUnitSettings(unit, name)
 						get = function(info) return E.db.nameplates.units[unit].debuffs[ info[#info] ] end,
 						set = function(info, value) E.db.nameplates.units[unit].debuffs[ info[#info] ] = value NP:ConfigureAll() end
 					},
-					filtersGroup = {
+					widthOverride = {
 						order = 5,
+						type = "range",
+						name = L["Icon Width Override"],
+						desc = L["If not set to 0 then set the width of the Aura Icon to this"],
+						min = 0, max = 60, step = 1,
+						get = function(info) return E.db.nameplates.units[unit].debuffs[ info[#info]] end,
+						set = function(info, value) E.db.nameplates.units[unit].debuffs[ info[#info] ] = value NP:ConfigureAll() end
+					},
+					filtersGroup = {
+						order = 6,
 						type = "group",
 						name = L["Filters"],
 						guiInline = true,
@@ -2341,8 +2359,7 @@ E.Options.args.nameplate = {
 							type = "execute",
 							func = function(info, value)
 								E:StaticPopup_Show("RESET_NP_AF") --reset nameplate aurafilters
-							end,
-							hidden = true
+							end
 						},
 						nameColoredGlow = {
 							order = 7,
@@ -2510,7 +2527,6 @@ E.Options.args.nameplate = {
 							type = "group",
 							name = L["Duration"],
 							guiInline = true,
-							hidden = true,
 							args = {
 								durationFont = {
 									order = 1,
@@ -2557,7 +2573,6 @@ E.Options.args.nameplate = {
 							type = "group",
 							name = L["Stack Counter"],
 							guiInline = true,
-							hidden = true,
 							args = {
 								stackFont = {
 									order = 1,
