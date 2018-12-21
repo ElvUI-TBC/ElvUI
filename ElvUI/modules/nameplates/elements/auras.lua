@@ -147,7 +147,7 @@ end
 
 function mod:AuraFilter(frame, frameNum, index, buffType, minDuration, maxDuration, priority, isAura, name, texture, count, dispelType, duration, expiration, caster, spellID)
 	if not isAura then return nil end -- checking for an aura that is not there, pass nil to break while loop
-	local filterCheck, isPlayer, allowDuration, noDuration = false, false, false, false, false, false
+	--local filterCheck, isPlayer, allowDuration, noDuration = false, false, false, false, false, false
 
 	--noDuration = (not duration or duration == 0)
 	--allowDuration = noDuration or (duration and (duration > 0) and (maxDuration == 0 or duration <= maxDuration) and (minDuration == 0 or duration >= minDuration))

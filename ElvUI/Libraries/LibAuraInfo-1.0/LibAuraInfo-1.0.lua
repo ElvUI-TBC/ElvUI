@@ -137,13 +137,13 @@ do
 	local dstGUID
 	function ResetUnitAuras(unitID)
 		dstGUID = UnitGUID(unitID)
-		lib:RemoveAllAurasFromGUID(dstGUID)
+		lib:RemoveAllAurasFromGUID(dstGUID, true)
 	end
 end
 
 do
 	local currentTime
-	function lib:AddAuraFromUnitID(dstGUID, name, texture, stackCount, debuffType, duration, expirationTime, srcGUID, spellID, filter)
+	function lib:AddAuraFromUnitID(dstGUID, name, texture, stackCount, debuffType, duration, expirationTime, srcGUID, spellID, filter, isCombatLog)
 		currentTime = GetTime()
 
 		self.GUIDAuras[dstGUID] = self.GUIDAuras[dstGUID] or {}
@@ -157,7 +157,8 @@ do
 			duration = duration,
 			expirationTime = expirationTime,
 			spellID = spellID,
-			srcGUID = srcGUID
+			srcGUID = srcGUID,
+			isCombatLog = isCombatLog
 		})
 	end
 end
@@ -165,60 +166,74 @@ end
 local CheckUnitAuras
 do
 	local i
-	local _, name, rank, texture, stackCount, dispelType, duration, expirationTime, unitCaster, isStealable, spellID
+	local _, name, rank, texture, stackCount, dispelType, duration, expirationTime, auraData, casterGUID, spellID, isCombatLog
 	local dstGUID, dstName, srcGUID
 	function CheckUnitAuras(unitID, filterType)
-	--~ 	name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId  = UnitAura("unit", index or "name"[, "rank"[, "filter"]])
-		i = 1
+	--~ 	name, rank, icon, count, debuffType, duration, expirationTime  = UnitAura("unit", index or "name"[, "rank"[, "filter"]])
+		i, j = 1, 1
 		dstGUID, dstName = UnitGUID(unitID), UnitName(unitID)
 
 		if lib.GUIDData_name[dstGUID] ~= dstName then
 			lib.GUIDData_name[dstGUID] = dstName
 		end
 
-		--Since we have a unitID, lets clear our aura table and use 100% accurate aura info.
 		if lib.GUIDAuras[dstGUID] and lib.GUIDAuras[dstGUID][filterType] then
 			for i = #lib.GUIDAuras[dstGUID][filterType], 1, -1 do
-				table_remove(lib.GUIDAuras[dstGUID][filterType], i)
+				if not self.GUIDAuras[dstGUID][filter].isCombatLog then
+					table_remove(lib.GUIDAuras[dstGUID][filterType], i)
+				end
 			end
+			auraData = true
 		end
 
 		while true do
-			name, rank, texture, stackCount, dispelType, duration, expirationTime, unitCaster, isStealable, _, spellID = UnitAura(unitID, i, filterType)
+			name, rank, texture, stackCount, dispelType, duration, expirationTime = UnitAura(unitID, i, filterType)
 			if not name then break end
 
+			if lib.GUIDAuras[dstGUID] and lib.GUIDAuras[dstGUID][filterType] then
+				for i = #lib.GUIDAuras[dstGUID][filterType], 1, -1 do
+					if lib.GUIDAuras[dstGUID][filterType][i].name == name then
+						duration, expirationTime = lib.GUIDAuras[dstGUID][filterType][i].duration, lib.GUIDAuras[dstGUID][filterType][i].expirationTime
+						casterGUID, spellID = lib.GUIDAuras[dstGUID][filterType][i].srcGUID, lib.GUIDAuras[dstGUID][filterType][i].spellID
+						table_remove(lib.GUIDAuras[dstGUID][filterType], i)
+						isCombatLog = true
+						break
+					end
+				end
+			end
+	
 			duration = Round(duration)
 
-			if not lib.auraInfo[spellID] then
-				lib.auraInfo[spellID] = (duration or 0) .. ";" .. (dispelType and lib.debuffTypes[dispelType] or 0)--add it temporarily.
-			elseif not lib.auraInfoPvP[spellID] then
-				if unitCaster and UnitExists(unitCaster) then
-					srcGUID = UnitGUID(unitCaster)
-					local baseDuration = lib:GetDuration(spellID) --, nil, nil, UnitIsPlayer(unitID)
-					if baseDuration and baseDuration ~= duration then
-						if duration > 0 then -- Sometimes UnitAura says a spell has 0 duration when it realy has more.
-							--caster's duration doesn't match our DB, they're probably speced into something. lets remember that.
-							lib.GUIDDurations[srcGUID.."-"..spellID] = duration
+			if spellID then
+				if not lib.auraInfo[spellID] then
+					lib.auraInfo[spellID] = (duration or 0) .. ";" .. (dispelType and lib.debuffTypes[dispelType] or 0)--add it temporarily.
+				elseif not lib.auraInfoPvP[spellID] then
+					if casterGUID then
+						srcGUID = UnitGUID(unitCaster)
+						local baseDuration = lib:GetDuration(spellID) --, nil, nil, UnitIsPlayer(unitID)
+						if baseDuration and baseDuration ~= duration then
+							if duration > 0 then -- Sometimes UnitAura says a spell has 0 duration when it realy has more.
+								--caster's duration doesn't match our DB, they're probably speced into something. lets remember that.
+								lib.GUIDDurations[casterGUID.."-"..spellID] = duration
+							end
 						end
 					end
 				end
 			end
 
-			if unitCaster and expirationTime > 0 then
-				srcGUID = srcGUID or UnitGUID(unitCaster)
-				lib:AddAuraFromUnitID(
-					dstGUID,
-					name,
-					texture,
-					stackCount and stackCount > 1 and stackCount or nil,
-					dispelType,
-					duration,
-					expirationTime,
-					srcGUID,
-					spellID,
-					filterType
-				)
-			end
+			lib:AddAuraFromUnitID(
+				dstGUID,
+				name,
+				texture,
+				stackCount and stackCount > 1 and stackCount or nil,
+				dispelType,
+				duration,
+				expirationTime,
+				casterGUID,
+				spellID,
+				filterType,
+				isCombatLog
+			)
 
 			i = i + 1
 		end
@@ -234,14 +249,14 @@ end
 
 function lib.frame:UPDATE_MOUSEOVER_UNIT()
 	ResetUnitAuras("mouseover")
-	--CheckUnitAuras("mouseover", "HELPFUL")
-	--CheckUnitAuras("mouseover", "HARMFUL")
+	CheckUnitAuras("mouseover", "HELPFUL")
+	CheckUnitAuras("mouseover", "HARMFUL")
 end
 
 function lib.frame:PLAYER_TARGET_CHANGED()
 	ResetUnitAuras("target")
-	--CheckUnitAuras("target", "HELPFUL")
-	--CheckUnitAuras("target", "HARMFUL")
+	CheckUnitAuras("target", "HELPFUL")
+	CheckUnitAuras("target", "HARMFUL")
 end
 
 do
@@ -250,16 +265,16 @@ do
 		if not UnitIsUnit(unitID, "player") then
 			targetID = unitID.."target"
 			ResetUnitAuras(targetID)
-			--CheckUnitAuras(targetID, "HELPFUL")
-			--CheckUnitAuras(targetID, "HARMFUL")
+			CheckUnitAuras(targetID, "HELPFUL")
+			CheckUnitAuras(targetID, "HARMFUL")
 		end
 	end
 end
 
 function lib.frame:UNIT_AURA(unitID)
 	ResetUnitAuras(unitID)
-	--CheckUnitAuras(unitID, "HELPFUL")
-	--CheckUnitAuras(unitID, "HARMFUL")
+	CheckUnitAuras(unitID, "HELPFUL")
+	CheckUnitAuras(unitID, "HARMFUL")
 end
 
 function lib.frame:PLAYER_LOGOUT(unitID)
@@ -870,6 +885,7 @@ do
 			spellID = spellID,
 			srcGUID = srcGUID,
 			isDebuff = filter,
+			isCombatLog = true,
 		})
 
 	--~ 	table.sort(self.GUIDAuras[dstGUID], function(a,b)
@@ -1009,14 +1025,44 @@ do
 	end
 end
 
+do
+	local data
+	----------------------------------------------------------------------
+	function lib:HasAuraFromGUID(dstGUID, spellID, srcGUID, filter)	--
+	-- Remove a aura from a GUID.										--
+	----------------------------------------------------------------------
+		if lib.GUIDAuras[dstGUID] and lib.GUIDAuras[dstGUID][filter] then
+			if srcGUID then
+				for i = #lib.GUIDAuras[dstGUID][filter],1, -1 do
+					data = lib.GUIDAuras[dstGUID][filter][i]
+					if data.spellID == spellID and srcGUID == data.srcGUID then
+						table_remove(lib.GUIDAuras[dstGUID][filter], i)
+						lib.callbacks:Fire("RemoveAuraFromGUID", dstGUID)
+						return
+					end
+				end
+			end
+
+			for i = #lib.GUIDAuras[dstGUID][filter],1, -1 do
+				data = lib.GUIDAuras[dstGUID][filter][i]
+				if data.spellID == spellID then
+					return true
+				end
+			end
+		end
+	end
+end
+
 ------------------------------------------------------
-function lib:RemoveAllAurasFromGUID(dstGUID)		--
+function lib:RemoveAllAurasFromGUID(dstGUID, isCombatLog)		--
 -- Remove all auras on a GUID. They must have died.	--
 ------------------------------------------------------
 	if self.GUIDAuras[dstGUID] then
 		for filter in pairs(self.GUIDAuras[dstGUID]) do
 			for i=#self.GUIDAuras[dstGUID][filter], 1, -1 do
-				table_remove(self.GUIDAuras[dstGUID][filter], i)
+				if isCombatLog and not self.GUIDAuras[dstGUID][filter].isCombatLog then
+					table_remove(self.GUIDAuras[dstGUID][filter], i)
+				end
 			end
 		end
 	end
@@ -1057,6 +1103,7 @@ do
 	local refreshed, expirationTime
 	function lib.frame:SPELL_AURA_REFRESH(event, timestamp, eventType, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, ...)
 		spellID, spellName, spellSchool, auraType = ...
+		if not lib:HasAuraFromGUID(dstGUID, spellID, srcGUID, auraType == "DEBUFF" and "HARMFUL" or "HELPFUL") then return end
 
 		if lib.drSpells[spellID] then
 			lib:GUIDRemovedDRAura(dstGUID, spellID, lib:FlagIsPlayer(dstFlags))
@@ -1236,6 +1283,15 @@ do
 		if self.GUIDAuras[dstGUID] and self.GUIDAuras[dstGUID][filter] and self.GUIDAuras[dstGUID][filter][i] then
 			data = self.GUIDAuras[dstGUID][filter][i]
 			return true, data.name, data.texture, data.count or 0, data.debuffType, data.duration, data.expirationTime, data.srcGUID, data.spellID
+		end
+		return false
+	end
+end
+
+do
+	function lib:GUIDAura2(dstGUID, i, filter)
+		if self.GUIDAuras[dstGUID] and self.GUIDAuras[dstGUID][filter] and self.GUIDAuras[dstGUID][filter][i] then
+			return true, self.GUIDAuras[dstGUID][filter][i]
 		end
 		return false
 	end
