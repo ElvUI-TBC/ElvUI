@@ -1,6 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:NewModule("NamePlates", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
 local LSM = LibStub("LibSharedMedia-3.0")
+local LAI = LibStub("LibAuraInfo-1.0-ElvUI", true)
 local CC = E:GetModule("ClassCache")
 
 local _G = _G
@@ -46,6 +47,8 @@ local healClasses = {
 mod.CreatedPlates = {}
 mod.VisiblePlates = {}
 mod.Healers = {}
+
+mod.ByName = {}
 
 function mod:CheckBGHealers()
 	local name, class, damageDone, healingDone, _
@@ -126,7 +129,7 @@ function mod:SetTargetFrame(frame)
 			frame.guid = UnitGUID("target")
 
 			self:RegisterEvents(frame)
-			mod:UpdateElement_AurasByUnitID("target")
+			mod:UpdateElement_AurasByGUID(frame.guid)
 
 			if self.db.units[frame.UnitType].healthbar.enable ~= true and self.db.alwaysShowTargetHealth then
 				frame.Name:ClearAllPoints()
@@ -190,7 +193,7 @@ function mod:SetTargetFrame(frame)
 			frame.unit = "mouseover"
 			frame.guid = UnitGUID("mouseover")
 
-			mod:UpdateElement_AurasByUnitID("mouseover")
+			mod:UpdateElement_AurasByGUID(frame.guid)
 			mod:UpdateElement_Highlight(frame)
 			mod:UpdateElement_Cast(frame, nil, frame.unit)
 		end
@@ -729,7 +732,6 @@ function mod:CopySettings(from, to)
 end
 
 function mod:PLAYER_ENTERING_WORLD()
-	self:CleanAuraLists()
 	twipe(self.Healers)
 	local inInstance, instanceType = IsInInstance()
 	if inInstance and (instanceType == "pvp") and self.db.units.ENEMY_PLAYER.markHealers then
@@ -745,9 +747,9 @@ end
 
 function mod:UNIT_AURA(_, unit)
 	if unit == "target" then
-		self:UpdateElement_AurasByUnitID("target")
+	--	self:UpdateElement_AurasByUnitID("target")
 	elseif unit == "focus" then
-		self:UpdateElement_AurasByUnitID("focus")
+	--	self:UpdateElement_AurasByUnitID("focus")
 	end
 end
 
@@ -772,7 +774,6 @@ function mod:PLAYER_REGEN_DISABLED()
 end
 
 function mod:PLAYER_REGEN_ENABLED()
-	self:CleanAuraLists()
 	if self.db.showFriendlyCombat == "TOGGLE_ON" then
 		HideFriendNameplates()
 	elseif self.db.showFriendlyCombat == "TOGGLE_OFF" then
@@ -902,7 +903,15 @@ function mod:Initialize()
 	self:RegisterEvent("UNIT_FOCUS")
 	self:RegisterEvent("UNIT_RAGE")
 	self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
-	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+
+	LAI.UnregisterAllCallbacks(self)
+	LAI.RegisterCallback(self, "LibAuraInfo_AURA_APPLIED")
+	LAI.RegisterCallback(self, "LibAuraInfo_AURA_REMOVED")
+	LAI.RegisterCallback(self, "LibAuraInfo_AURA_REFRESH")
+	LAI.RegisterCallback(self, "LibAuraInfo_AURA_APPLIED_DOSE")
+	LAI.RegisterCallback(self, "LibAuraInfo_AURA_CLEAR")
+	LAI.RegisterCallback(self, "RemoveAuraFromGUID")
+
 	self:RegisterEvent("UNIT_AURA")
 	self:RegisterEvent("PLAYER_COMBO_POINTS")
 	self:RegisterEvent("UNIT_FACTION")

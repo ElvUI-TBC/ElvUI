@@ -764,7 +764,6 @@ local function UpdateFilterGroup()
 					type = "group",
 					name = L["Buffs"],
 					disabled = function() return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and E.db.nameplates.filters[selectedNameplateFilter].triggers and E.db.nameplates.filters[selectedNameplateFilter].triggers.enable) end,
-					hidden = true,
 					args = {
 						mustHaveAll = {
 							order = 1,
@@ -863,7 +862,6 @@ local function UpdateFilterGroup()
 					type = "group",
 					name = L["Debuffs"],
 					disabled = function() return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and E.db.nameplates.filters[selectedNameplateFilter].triggers and E.db.nameplates.filters[selectedNameplateFilter].triggers.enable) end,
-					hidden = true,
 					args = {
 						mustHaveAll = {
 							order = 1,
@@ -1564,7 +1562,6 @@ local function GetUnitSettings(unit, name)
 				get = function(info) return E.db.nameplates.units[unit].buffs.filters[ info[#info] ] end,
 				set = function(info, value) E.db.nameplates.units[unit].buffs.filters[ info[#info] ] = value NP:ConfigureAll() end,
 				disabled = function() return not E.db.nameplates.units[unit].healthbar.enable end,
-				hidden = true,
 				args = {
 					header = {
 						order = 1,
@@ -1726,7 +1723,6 @@ local function GetUnitSettings(unit, name)
 				get = function(info) return E.db.nameplates.units[unit].debuffs.filters[ info[#info] ] end,
 				set = function(info, value) E.db.nameplates.units[unit].debuffs.filters[ info[#info] ] = value NP:ConfigureAll() end,
 				disabled = function() return not E.db.nameplates.units[unit].healthbar.enable end,
-				hidden = true,
 				args = {
 					header = {
 						order = 1,
