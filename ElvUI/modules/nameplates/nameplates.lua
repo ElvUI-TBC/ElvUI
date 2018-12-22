@@ -645,7 +645,7 @@ function mod:OnUpdate()
 	end
 
 	for frame in pairs(mod.VisiblePlates) do
-		if mod.hasTarget then 
+		if mod.hasTarget then
 			frame.alpha = frame:GetParent():GetAlpha()
 		else
 			frame.alpha = 1

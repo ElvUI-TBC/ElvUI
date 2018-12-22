@@ -195,7 +195,7 @@ function E:GetXYOffset(position, override)
 	end
 end
 
-local styles = {
+local gftStyles, gftDec, gftUseStyle, gftDeficit = {
 	-- keep percents in this table with `PERCENT` in the key, and `%.1f%%` in the value somewhere.
 	-- we use these two things to follow our setting for decimal length. they need to be EXACT.
 	["CURRENT"] = "%s",
@@ -206,9 +206,8 @@ local styles = {
 	["DEFICIT"] = "-%s"
 }
 
-local gftDec, gftUseStyle, gftDeficit
 function E:GetFormattedText(style, min, max)
-	assert(styles[style], "Invalid format style: "..style)
+	assert(gftStyles[style], "Invalid format style: "..style)
 	assert(min, "You need to provide a current value. Usage: E:GetFormattedText(style, min, max)")
 	assert(max, "You need to provide a maximum value. Usage: E:GetFormattedText(style, min, max)")
 
@@ -216,9 +215,9 @@ function E:GetFormattedText(style, min, max)
 
 	gftDec = (E.db.general.decimalLength or 1)
 	if (gftDec ~= 1) and style:find("PERCENT") then
-		gftUseStyle = styles[style]:gsub("%%%.1f%%%%", "%%."..gftDec.."f%%%%")
+		gftUseStyle = gftStyles[style]:gsub("%%%.1f%%%%", "%%."..gftDec.."f%%%%")
 	else
-		gftUseStyle = styles[style]
+		gftUseStyle = gftStyles[style]
 	end
 
 	if style == "DEFICIT" then
@@ -227,7 +226,7 @@ function E:GetFormattedText(style, min, max)
 	elseif style == "PERCENT" then
 		return format(gftUseStyle, min / max * 100)
 	elseif style == "CURRENT" or ((style == "CURRENT_MAX" or style == "CURRENT_MAX_PERCENT" or style == "CURRENT_PERCENT") and min == max) then
-		return format(styles.CURRENT, E:ShortValue(min))
+		return format(gftStyles.CURRENT, E:ShortValue(min))
 	elseif style == "CURRENT_MAX" then
 		return format(gftUseStyle,  E:ShortValue(min), E:ShortValue(max))
 	elseif style == "CURRENT_PERCENT" then
@@ -386,10 +385,10 @@ function E:FormatMoney(amount, style, textonly)
 	local silvername = textonly and L.silverabbrev or ICON_SILVER
 	local goldname = textonly and L.goldabbrev or ICON_GOLD
 
-	local value = abs(amount)
-	local gold = floor(value / 10000)
-	local silver = floor(mod(value / 100, 100))
-	local copper = floor(mod(value, 100))
+	local val = abs(amount)
+	local gold = floor(val / 10000)
+	local silver = floor(mod(val / 100, 100))
+	local copper = floor(mod(val, 100))
 
 	if not style or style == "SMART" then
 		local str = ""
@@ -399,7 +398,7 @@ function E:FormatMoney(amount, style, textonly)
 		if silver > 0 then
 			str = format("%s%d%s%s", str, silver, silvername, copper > 0 and " " or "")
 		end
-		if copper > 0 or value == 0 then
+		if copper > 0 or val == 0 then
 			str = format("%s%d%s", str, copper, coppername)
 		end
 		return str

@@ -2,6 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local AB = E:GetModule("ActionBars")
 
 local _G = _G
+local unpack = unpack
 local gsub, match = string.gsub, string.match
 
 local CreateFrame = CreateFrame
@@ -21,15 +22,23 @@ local MICRO_BUTTONS = {
 	"HelpMicroButton"
 }
 
-local function onEnter()
+local function onEnter(button)
 	if AB.db.microbar.mouseover then
 		E:UIFrameFadeIn(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), AB.db.microbar.alpha)
 	end
+
+	if button.backdrop then
+		button.backdrop:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
+	end
 end
 
-local function onLeave()
+local function onLeave(button)
 	if AB.db.microbar.mouseover then
 		E:UIFrameFadeOut(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), 0)
+	end
+
+	if button.backdrop then
+		button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 	end
 end
 

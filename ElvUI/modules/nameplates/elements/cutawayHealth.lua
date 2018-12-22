@@ -53,7 +53,7 @@ function mod:ConfigureElement_CutawayHealth(frame)
 	local cutawayHealth = frame.CutawayHealth
 	local healthBar = frame.HealthBar
 
-	cutawayHealth:SetAllPoints(healthBar)	
+	cutawayHealth:SetAllPoints(healthBar)
 	cutawayHealth:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar))
 end
 
