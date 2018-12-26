@@ -21,7 +21,7 @@ local function LoadSkin()
 	MacroFrameTextBackground:StripTextures()
 	MacroFrameTextBackground:CreateBackdrop("Default")
 	MacroFrameTextBackground.backdrop:Point("TOPLEFT", 6, -3)
-	MacroFrameTextBackground.backdrop:Point("BOTTOMRIGHT", -2, 3)
+	MacroFrameTextBackground.backdrop:Point("BOTTOMRIGHT", -3, 3)
 
 	local Buttons = {
 		"MacroFrameTab1",
@@ -30,8 +30,6 @@ local function LoadSkin()
 		"MacroNewButton",
 		"MacroExitButton",
 		"MacroEditButton",
-		"MacroPopupOkayButton",
-		"MacroPopupCancelButton"
 	}
 
 	for i = 1, #Buttons do
@@ -54,7 +52,6 @@ local function LoadSkin()
 	S:HandleCloseButton(MacroFrameCloseButton)
 
 	S:HandleScrollBar(MacroFrameScrollFrameScrollBar)
-	S:HandleScrollBar(MacroPopupScrollFrameScrollBar)
 
 	MacroEditButton:ClearAllPoints()
 	MacroEditButton:Point("BOTTOMLEFT", MacroFrameSelectedMacroButton, "BOTTOMRIGHT", 10, 0)
@@ -87,13 +84,23 @@ local function LoadSkin()
 		end
 	end
 
+	-- PopUp Frame
 	S:HandleIconSelectionFrame(MacroPopupFrame, NUM_MACRO_ICONS_SHOWN, "MacroPopupButton", "MacroPopup")
 
-	MacroPopupScrollFrame:CreateBackdrop("Transparent")
-	MacroPopupScrollFrame.backdrop:Point("TOPLEFT", 51, 2)
-	MacroPopupScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, 4)
-
 	MacroPopupFrame:Point("TOPLEFT", MacroFrame, "TOPRIGHT", -41, 1)
+
+	MacroPopupEditBox:Point("TOPLEFT", 20, -35)
+
+	MacroPopupScrollFrame:CreateBackdrop("Transparent")
+	MacroPopupScrollFrame.backdrop:Point("TOPLEFT", 57, 2)
+	MacroPopupScrollFrame.backdrop:Point("BOTTOMRIGHT", -9, 4)
+
+	S:HandleScrollBar(MacroPopupScrollFrameScrollBar)
+	MacroPopupScrollFrameScrollBar:ClearAllPoints()
+	MacroPopupScrollFrameScrollBar:Point("TOPRIGHT", MacroPopupScrollFrame, 12, -14)
+	MacroPopupScrollFrameScrollBar:Point("BOTTOMRIGHT", MacroPopupScrollFrame, 0, 20)
+
+	MacroPopupCancelButton:Point("BOTTOMRIGHT", MacroPopupFrame, -26, 13)
 end
 
 S:AddCallbackForAddon("Blizzard_MacroUI", "Macro", LoadSkin)
