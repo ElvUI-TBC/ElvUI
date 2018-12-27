@@ -42,7 +42,7 @@ function AB:UpdatePet(event, unit)
 		button.isToken = isToken
 		button.tooltipSubtext = subtext
 
-		if isActive and name ~= "PET_ACTION_FOLLOW" then
+		if isActive --[[and name ~= "PET_ACTION_FOLLOW"]] then
 			button:SetChecked(true)
 		else
 			button:SetChecked(false)
