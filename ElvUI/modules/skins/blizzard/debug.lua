@@ -56,9 +56,18 @@ local function LoadSkin2()
 	end
 
 	S:HandleButton(ScriptErrorsFrame.reload)
-	S:HandleNextPrevButton(ScriptErrorsFrame.previous)
-	S:HandleNextPrevButton(ScriptErrorsFrame.next)
+	ScriptErrorsFrame.reload:Point("BOTTOMLEFT", 12, 12)
+
 	S:HandleButton(ScriptErrorsFrame.close)
+	ScriptErrorsFrame.close:Point("BOTTOMRIGHT", -11, 12)
+
+	S:HandleNextPrevButton(ScriptErrorsFrame.previous)
+	ScriptErrorsFrame.previous:Point("BOTTOM", -51, 12)
+	ScriptErrorsFrame.previous:Height(24)
+
+	S:HandleNextPrevButton(ScriptErrorsFrame.next)
+	ScriptErrorsFrame.next:Point("BOTTOM", 51, 12)
+	ScriptErrorsFrame.next:Height(24)
 
 	local function SkinFirstLast()
 		S:HandleButton(ScriptErrorsFrame.firstButton)
@@ -71,9 +80,6 @@ local function LoadSkin2()
 	else
 		hooksecurefunc(DT, "ModifyErrorFrame", SkinFirstLast)
 	end
-
-	ScriptErrorsFrame.previous:Point("BOTTOM", ScriptErrorsFrame, "BOTTOM", -50, 12)
-	ScriptErrorsFrame.next:Point("BOTTOM", ScriptErrorsFrame, "BOTTOM", 50, 12)
 
 	if E.private.skins.blizzard.tooltip then
 		local noscalemult = E.mult * GetCVar("uiScale")

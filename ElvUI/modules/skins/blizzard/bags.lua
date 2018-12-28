@@ -19,7 +19,7 @@ local NUM_BANKGENERIC_SLOTS = NUM_BANKGENERIC_SLOTS
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
 
 local function LoadSkin()
-	if not E.private.skins.blizzard.enable and E.private.skins.blizzard.bags and not E.private.bags.enable then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bags ~= true then return end
 
 	local ProfessionColors = {
 		[0x0001] = {E.db.bags.colors.profession.quiver.r, E.db.bags.colors.profession.quiver.g, E.db.bags.colors.profession.quiver.b},
