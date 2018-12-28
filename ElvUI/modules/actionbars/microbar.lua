@@ -141,8 +141,8 @@ end
 function AB:SetupMicroBar()
 	ElvUI_MicroBar:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -48)
 	ElvUI_MicroBar:EnableMouse(true)
-	ElvUI_MicroBar:SetScript("OnEnter", onEnter)
-	ElvUI_MicroBar:SetScript("OnLeave", onLeave)
+	ElvUI_MicroBar:SetScript("OnEnter", onEnterBar)
+	ElvUI_MicroBar:SetScript("OnLeave", onLeaveBar)
 
 	for i = 1, #MICRO_BUTTONS do
 		self:HandleMicroButton(_G[MICRO_BUTTONS[i]])
