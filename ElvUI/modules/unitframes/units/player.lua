@@ -26,9 +26,7 @@ function UF:Construct_PlayerFrame(frame)
 	if CAN_HAVE_CLASSBAR then
 		frame.ClassBarHolder = CreateFrame("Frame", nil, frame)
 		frame.ClassBarHolder:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 150)
-	end
 
-	if E.myclass == "DRUID" then
 		frame.DruidAltMana = self:Construct_DruidAltMana(frame)
 		frame.ClassBar = "DruidAltMana"
 	end

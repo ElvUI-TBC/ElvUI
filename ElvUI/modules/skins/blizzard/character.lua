@@ -73,7 +73,7 @@ local function LoadSkin()
 
 			if i ~= 1 then
 				frame:ClearAllPoints()
-				frame:Point("TOP", _G[frameName..i - 1], "BOTTOM", 0, -(E.Border + E.Spacing) - 2)
+				frame:Point("TOP", _G[frameName..i - 1], "BOTTOM", 0, -(E.Border + E.Spacing) - 1)
 			end
 
 			select(1, _G[frameName..i]:GetRegions()):SetInside()

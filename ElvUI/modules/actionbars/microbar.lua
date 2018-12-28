@@ -22,7 +22,19 @@ local MICRO_BUTTONS = {
 	"HelpMicroButton"
 }
 
-local function onEnter(button)
+local function onEnterBar()
+	if AB.db.microbar.mouseover then
+		E:UIFrameFadeIn(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), AB.db.microbar.alpha)
+	end
+end
+
+local function onLeaveBar()
+	if AB.db.microbar.mouseover then
+		E:UIFrameFadeOut(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), 0)
+	end
+end
+
+local function onEnterButton(button)
 	if AB.db.microbar.mouseover then
 		E:UIFrameFadeIn(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), AB.db.microbar.alpha)
 	end
@@ -32,7 +44,7 @@ local function onEnter(button)
 	end
 end
 
-local function onLeave(button)
+local function onLeaveButton(button)
 	if AB.db.microbar.mouseover then
 		E:UIFrameFadeOut(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), 0)
 	end
@@ -55,8 +67,8 @@ function AB:HandleMicroButton(button)
 
 	button:SetParent(ElvUI_MicroBar)
 	button:GetHighlightTexture():Kill()
-	button:HookScript2("OnEnter", onEnter)
-	button:HookScript2("OnLeave", onLeave)
+	button:HookScript2("OnEnter", onEnterButton)
+	button:HookScript2("OnLeave", onLeaveButton)
 	button:SetHitRectInsets(0, 0, 0, 0)
 	button:Show()
 
