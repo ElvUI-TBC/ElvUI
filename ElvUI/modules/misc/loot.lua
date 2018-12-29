@@ -258,8 +258,10 @@ function M:LOOT_OPENED(_, autoLoot)
 				end
 			end
 
-			slot:Enable()
-			slot:Show()
+			if GetLootSlotInfo(i) then
+				slot:Enable()
+				slot:Show()
+			end
 		end
 	else
 		local slot = lootFrame.slots[1] or createSlot(1)
