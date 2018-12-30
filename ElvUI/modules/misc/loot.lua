@@ -258,7 +258,7 @@ function M:LOOT_OPENED(_, autoLoot)
 				end
 			end
 
-			if GetLootSlotInfo(i) then
+			if texture then
 				slot:Enable()
 				slot:Show()
 			end

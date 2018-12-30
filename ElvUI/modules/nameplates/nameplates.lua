@@ -355,7 +355,11 @@ function mod:GetUnitInfo(frame)
 	end
 end
 
-function mod:OnShow()
+function mod:OnShow(isUpdate)
+	if not isUpdate then
+		self.UnitFrame.moveUp:Play()
+	end
+
 	mod.VisiblePlates[self.UnitFrame] = true
 
 	self.UnitFrame.UnitName = gsub(self.UnitFrame.oldName:GetText(), FSPAT, "")
@@ -461,7 +465,7 @@ end
 
 function mod:UpdateAllFrame(frame)
 	mod.OnHide(frame:GetParent())
-	mod.OnShow(frame:GetParent())
+	mod.OnShow(frame:GetParent(), true)
 end
 
 function mod:ConfigureAll()
@@ -534,8 +538,28 @@ function mod:OnCreated(frame)
 
 	frame.UnitFrame = CreateFrame("Frame", format("ElvUI_NamePlate%d", plateID), frame)
 	frame.UnitFrame:SetAllPoints(frame)
-	frame.UnitFrame:SetScript("OnEvent", self.OnEvent)
 	frame.UnitFrame.plateID = plateID
+
+	frame.UnitFrame:SetScript("OnEvent", self.OnEvent)
+
+	frame.UnitFrame.moveUp = CreateAnimationGroup(frame.UnitFrame)
+	local moveUp = frame.UnitFrame.moveUp:CreateAnimation("Move")
+	moveUp:SetDuration(0)
+	moveUp:SetOffset(0, -35)
+	moveUp = frame.UnitFrame.moveUp:CreateAnimation("Move")
+	moveUp:SetDuration(0.3)
+	moveUp:SetOffset(0, 35)
+	moveUp:SetSmoothing("Out")
+	moveUp:SetOrder(2)
+
+	frame.UnitFrame.moveDown = CreateAnimationGroup(frame.UnitFrame)
+	local moveDown = frame.UnitFrame.moveDown:CreateAnimation("Move")
+	moveDown:SetDuration(0.1)
+	moveDown:SetOffset(0, -35)
+	moveDown:SetSmoothing("In")
+	moveDown:SetScript("OnFinished", function(self)
+		self:Reset()
+	end)
 
 	frame.UnitFrame.HealthBar = self:ConstructElement_HealthBar(frame.UnitFrame)
 	frame.UnitFrame.CutawayHealth = self:ConstructElement_CutawayHealth(frame.UnitFrame)
