@@ -251,12 +251,12 @@ function CH:StyleChat(frame)
 		end
 	end)
 
-	if id ~= 2 then --Don't add timestamps to combat log, they don't work.
+	if id ~= 2 then
 		tab.text:Point("LEFT", _G[name.."TabLeft"], "RIGHT", 0, -4)
-		--This usually taints, but LibChatAnims should make sure it doesn't.
-		frame.OldAddMessage = frame.AddMessage
-		frame.AddMessage = CH.AddMessage
 	end
+	--This usually taints, but LibChatAnims should make sure it doesn't.
+	frame.OldAddMessage = frame.AddMessage
+	frame.AddMessage = CH.AddMessage
 
 	tab.flash = _G[name.."TabFlash"]
 	tab.flash:ClearAllPoints()
