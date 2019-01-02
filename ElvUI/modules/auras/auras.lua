@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local A = E:NewModule("Auras", "AceHook-3.0", "AceEvent-3.0")
+local LSM = E.LSM
 
 local _G = _G
 local unpack = unpack
@@ -43,7 +44,7 @@ function A:TempEnchant_Update()
 end
 
 function A:StyleBuffs(buttonName, index)
-	local font = E.LSM:Fetch("font", self.db.font)
+	local font = LSM:Fetch("font", self.db.font)
 
 	local button = _G[buttonName..index]
 	local icon = _G[buttonName..index.."Icon"]

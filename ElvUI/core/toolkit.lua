@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(ElvUI)
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.LSM
 
 local _G = _G
 local unpack, type, select, getmetatable, assert = unpack, type, select, getmetatable, assert

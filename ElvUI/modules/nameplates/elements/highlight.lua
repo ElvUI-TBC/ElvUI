@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("NamePlates")
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.LSM
 
 function mod:UpdateElement_Highlight(frame)
 	if frame:IsShown() and frame.isMouseover and (frame.NameOnlyChanged or (not self.db.units[frame.UnitType].healthbar.enable and self.db.units[frame.UnitType].showName)) and not frame.isTarget then

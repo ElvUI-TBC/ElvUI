@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("DataBars")
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.LSM
 
 local _G = _G
 local format = format

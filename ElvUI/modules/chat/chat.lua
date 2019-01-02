@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local CH = E:NewModule("Chat", "AceTimer-3.0", "AceHook-3.0", "AceEvent-3.0")
 local CC = E:GetModule("ClassCache")
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.LSM
 
 local _G = _G
 local time, difftime = time, difftime

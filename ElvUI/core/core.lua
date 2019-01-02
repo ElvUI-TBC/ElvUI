@@ -1217,12 +1217,14 @@ function E:Initialize()
 	twipe(self.global)
 	twipe(self.private)
 
+	local AceDB = LibStub("AceDB-3.0")
+
 	self.myguid = UnitGUID("player")
-	self.data = LibStub("AceDB-3.0"):New("ElvDB", self.DF)
+	self.data = AceDB:New("ElvDB", self.DF)
 	self.data.RegisterCallback(self, "OnProfileChanged", "UpdateAll")
 	self.data.RegisterCallback(self, "OnProfileCopied", "UpdateAll")
 	self.data.RegisterCallback(self, "OnProfileReset", "OnProfileReset")
-	self.charSettings = LibStub("AceDB-3.0"):New("ElvPrivateDB", self.privateVars)
+	self.charSettings = AceDB:New("ElvPrivateDB", self.privateVars)
 	self.private = self.charSettings.profile
 	self.db = self.data.profile
 	self.global = self.data.global

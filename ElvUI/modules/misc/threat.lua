@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local THREAT = E:NewModule("Threat", "AceEvent-3.0")
 local ThreatLib = LibStub("Threat-2.0", true)
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.LSM
 
 local pairs, select = pairs, select
 local twipe = table.wipe

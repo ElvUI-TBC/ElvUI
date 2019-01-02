@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("NamePlates")
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.LSM
 
 function mod:UpdateElement_Level(frame)
 	if not self.db.units[frame.UnitType].showLevel then return end

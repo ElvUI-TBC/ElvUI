@@ -1,11 +1,11 @@
 local E, L, V, P, G = unpack(ElvUI)
-
 local LMH = LibStub("LibMobHealth-4.0")
 
 local _G = _G
 local unpack = unpack
 local floor = math.floor
-local format = string.format
+local gmatch, gsub, format = gmatch, gsub, format
+local strfind, strlower, strmatch, strsub = strfind, strlower, strmatch, strsub
 
 local GetTime = GetTime
 local UnitGUID = UnitGUID
@@ -391,8 +391,10 @@ end
 ElvUF.Tags.Events["namecolor"] = "UNIT_NAME_UPDATE UNIT_FACTION"
 ElvUF.Tags.Methods["namecolor"] = function(unit)
 	local unitReaction = UnitReaction(unit, "player")
-	local _, unitClass = UnitClass(unit)
-	if UnitIsPlayer(unit) then
+	local unitPlayer = UnitIsPlayer(unit)
+
+	if unitPlayer then
+		local _, unitClass = UnitClass(unit)
 		local class = ElvUF.colors.class[unitClass]
 		if not class then return "" end
 		return Hex(class[1], class[2], class[3])
@@ -438,6 +440,31 @@ ElvUF.Tags.Events["name:long"] = "UNIT_NAME_UPDATE"
 ElvUF.Tags.Methods["name:long"] = function(unit)
 	local name = UnitName(unit)
 	return name ~= nil and E:ShortenString(name, 20) or nil
+end
+
+local function abbrev(name)
+	local letters, lastWord = "", strmatch(name, ".+%s(.+)$")
+	if lastWord then
+		for word in gmatch(name, ".-%s") do
+			local firstLetter = strsub(gsub(word, "^[%s%p]*", ""), 1, 1)
+			if firstLetter ~= strlower(firstLetter) then
+				letters = format("%s%s. ", letters, firstLetter)
+			end
+		end
+		name = format("%s%s", letters, lastWord)
+	end
+	return name
+end
+
+ElvUF.Tags.Events["name:abbrev"] = "UNIT_NAME_UPDATE"
+ElvUF.Tags.Methods["name:abbrev"] = function(unit)
+	local name = UnitName(unit)
+
+	if name and strfind(name, "%s") then
+		name = abbrev(name)
+	end
+
+	return name ~= nil and E:ShortenString(name, 20) or "" --The value 20 controls how many characters are allowed in the name before it gets truncated. Change it to fit your needs.
 end
 
 ElvUF.Tags.Events["name:veryshort:status"] = "UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_HEALTH"

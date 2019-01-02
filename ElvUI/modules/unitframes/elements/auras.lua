@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local UF = E:GetModule("UnitFrames")
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.LSM
 
 local unpack = unpack
 local find = string.find

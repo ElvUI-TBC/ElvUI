@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local RB = E:NewModule("ReminderBuffs", "AceEvent-3.0")
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.LSM
 
 local ipairs, unpack = ipairs, unpack
 

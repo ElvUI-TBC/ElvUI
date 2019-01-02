@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local mod = E:GetModule("NamePlates")
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.LSM
 
 local select, unpack, pairs = select, unpack, pairs
 local tonumber = tonumber

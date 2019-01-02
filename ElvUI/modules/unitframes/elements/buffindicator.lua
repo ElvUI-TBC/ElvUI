@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local UF = E:GetModule("UnitFrames")
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.LSM
 
 local assert, select, pairs, unpack = assert, select, pairs, unpack
 local tinsert, wipe = tinsert, wipe
