@@ -55,10 +55,10 @@ function S:HandleButton(f, strip, isDeclineButton)
 		if right then right:Kill() end
 	end
 
-	if f.SetNormalTexture then f:SetNormalTexture(nil) end
-	if f.SetHighlightTexture then f:SetHighlightTexture(nil) end
-	if f.SetPushedTexture then f:SetPushedTexture(nil) end
-	if f.SetDisabledTexture then f:SetDisabledTexture(nil) end
+	if f.SetNormalTexture then f:SetNormalTexture("") end
+	if f.SetHighlightTexture then f:SetHighlightTexture("") end
+	if f.SetPushedTexture then f:SetPushedTexture("") end
+	if f.SetDisabledTexture then f:SetDisabledTexture("") end
 
 	if strip then f:StripTextures() end
 
