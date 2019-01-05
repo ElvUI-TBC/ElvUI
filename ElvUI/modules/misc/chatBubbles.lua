@@ -2,6 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local M = E:GetModule("Misc")
 local CH = E:GetModule("Chat")
 local CC = E:GetModule("ClassCache")
+local LSM = E.LSM
 
 local select, unpack, type = select, unpack, type
 local gsub, gmatch, format, lower = string.gsub, string.gmatch, string.format, string.lower
@@ -103,7 +104,7 @@ function M:SkinBubble(frame)
 	end
 	name:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", -5, -5)
 	name:SetJustifyH("LEFT")
-	name:FontTemplate(E.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize * 0.85, E.private.general.chatBubbleFontOutline)
+	name:FontTemplate(LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize * 0.85, E.private.general.chatBubbleFontOutline)
 	frame.Name = name
 
 	if E.private.general.chatBubbles == "backdrop" then
@@ -178,17 +179,17 @@ function M:SkinBubble(frame)
 			frame:SetBackdropBorderColor(r, g, b)
 		end
 
-		frame.text:FontTemplate(E.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline);
+		frame.text:FontTemplate(LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline);
 	elseif E.private.general.chatBubbles == "backdrop_noborder" then
 		frame:SetBackdrop(nil)
 		frame.backdrop = frame:CreateTexture(nil, "ARTWORK")
 		frame.backdrop:SetInside(frame, 4, 4)
 		frame.backdrop:SetTexture(unpack(E.media.backdropfadecolor))
-		frame.text:FontTemplate(E.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline)
+		frame.text:FontTemplate(LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline)
 		frame:SetClampedToScreen(false)
 	elseif E.private.general.chatBubbles == "nobackdrop" then
 		frame:SetBackdrop(nil)
-		frame.text:FontTemplate(E.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline)
+		frame.text:FontTemplate(LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline)
 		frame:SetClampedToScreen(false)
 		frame.Name:Hide()
 	end

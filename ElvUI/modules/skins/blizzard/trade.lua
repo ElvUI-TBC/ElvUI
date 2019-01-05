@@ -27,106 +27,92 @@ local function LoadSkin()
 	S:HandleEditBox(TradePlayerInputMoneyFrameSilver)
 	S:HandleEditBox(TradePlayerInputMoneyFrameCopper)
 
-	for i = 1, MAX_TRADE_ITEMS do
-		local player = _G["TradePlayerItem"..i]
-		local recipient = _G["TradeRecipientItem"..i]
-		local playerButton = _G["TradePlayerItem"..i.."ItemButton"]
-		local playerButtonIcon = _G["TradePlayerItem"..i.."ItemButtonIconTexture"]
-		local recipientButton = _G["TradeRecipientItem"..i.."ItemButton"]
-		local recipientButtonIcon = _G["TradeRecipientItem"..i.."ItemButtonIconTexture"]
-		local playerNameFrame = _G["TradePlayerItem"..i.."NameFrame"]
-		local recipientNameFrame = _G["TradeRecipientItem"..i.."NameFrame"]
-
-		player:StripTextures()
-		recipient:StripTextures()
-
-		playerButton:StripTextures()
-		playerButton:StyleButton()
-		playerButton:SetTemplate("Default", true)
-
-		playerButtonIcon:SetInside()
-		playerButtonIcon:SetTexCoord(unpack(E.TexCoords))
-
-		recipientButton:StripTextures()
-		recipientButton:StyleButton()
-		recipientButton:SetTemplate("Default", true)
-
-		recipientButtonIcon:SetInside()
-		recipientButtonIcon:SetTexCoord(unpack(E.TexCoords))
-
-		playerButton.bg = CreateFrame("Frame", nil, playerButton)
-		playerButton.bg:SetTemplate("Default")
-		playerButton.bg:Point("TOPLEFT", playerButton, "TOPRIGHT", 4, 0)
-		playerButton.bg:Point("BOTTOMRIGHT", playerNameFrame, "BOTTOMRIGHT", -5, 14)
-		playerButton.bg:SetFrameLevel(playerButton:GetFrameLevel() - 4)
-
-		recipientButton.bg = CreateFrame("Frame", nil, recipientButton)
-		recipientButton.bg:SetTemplate("Default")
-		recipientButton.bg:Point("TOPLEFT", recipientButton, "TOPRIGHT", 4, 0)
-		recipientButton.bg:Point("BOTTOMRIGHT", recipientNameFrame, "BOTTOMRIGHT", -5, 14)
-		recipientButton.bg:SetFrameLevel(recipientButton:GetFrameLevel() - 4)
-	end
-
-	TradePlayerItem1:Point("TOPLEFT", 24, -104)
-
-	TradeHighlightPlayerTop:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightPlayerBottom:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightPlayerMiddle:SetTexture(0, 1, 0, 0.2)
-
-	TradeHighlightPlayerEnchantTop:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightPlayerEnchantBottom:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightPlayerEnchantMiddle:SetTexture(0, 1, 0, 0.2)
-
-	TradeHighlightRecipientTop:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightRecipientBottom:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightRecipientMiddle:SetTexture(0, 1, 0, 0.2)
-
-	TradeHighlightRecipientEnchantTop:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightRecipientEnchantBottom:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightRecipientEnchantMiddle:SetTexture(0, 1, 0, 0.2)
-
 	S:HandleButton(TradeFrameTradeButton)
 	TradeFrameTradeButton:Point("BOTTOMRIGHT", -120, 55)
 
 	S:HandleButton(TradeFrameCancelButton)
 
+	TradePlayerItem1:Point("TOPLEFT", 24, -104)
+
+	for _, frame in pairs({"TradePlayerItem", "TradeRecipientItem"}) do
+		for i = 1, MAX_TRADE_ITEMS do
+			local item = _G[frame..i]
+			local button = _G[frame..i.."ItemButton"]
+			local icon = _G[frame..i.."ItemButtonIconTexture"]
+			local name = _G[frame..i.."NameFrame"]
+
+			item:StripTextures()
+
+			button:StripTextures()
+			button:SetTemplate("Default", true)
+			button:StyleButton()
+
+			button.bg = CreateFrame("Frame", nil, button)
+			button.bg:SetTemplate("Default")
+			button.bg:Point("TOPLEFT", button, "TOPRIGHT", 4, 0)
+			button.bg:Point("BOTTOMRIGHT", name, "BOTTOMRIGHT", -5, 14)
+			button.bg:SetFrameLevel(button:GetFrameLevel() - 4)
+
+			icon:SetTexCoord(unpack(E.TexCoords))
+			icon:SetInside()
+		end
+	end
+
 	hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
 		local link = GetTradePlayerItemLink(id)
-		local tradeItemButton = _G["TradePlayerItem"..id.."ItemButton"]
-		local tradeItemName = _G["TradePlayerItem"..id.."Name"]
+		local item = _G["TradePlayerItem"..id.."ItemButton"]
+		local name = _G["TradePlayerItem"..id.."Name"]
 
 		if link then
 			local quality = select(3, GetItemInfo(link))
 			if quality then
-				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
-				tradeItemName:SetTextColor(GetItemQualityColor(quality))
+				item:SetBackdropBorderColor(GetItemQualityColor(quality))
+				name:SetTextColor(GetItemQualityColor(quality))
 			else
-				tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
-				tradeItemName:SetTextColor(1, 1, 1)
+				item:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				name:SetTextColor(1, 1, 1)
 			end
 		else
-			tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			item:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 	end)
 
 	hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
 		local link = GetTradeTargetItemLink(id)
-		local tradeItemButton = _G["TradeRecipientItem"..id.."ItemButton"]
-		local tradeItemName = _G["TradeRecipientItem"..id.."Name"]
+		local item = _G["TradeRecipientItem"..id.."ItemButton"]
+		local name = _G["TradeRecipientItem"..id.."Name"]
 
 		if link then
 			local quality = select(3, GetItemInfo(link))
 			if quality  then
-				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
-				tradeItemName:SetTextColor(GetItemQualityColor(quality))
+				item:SetBackdropBorderColor(GetItemQualityColor(quality))
+				name:SetTextColor(GetItemQualityColor(quality))
 			else
-				tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
-				tradeItemName:SetTextColor(1, 1, 1)
+				item:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				name:SetTextColor(1, 1, 1)
 			end
 		else
-			tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			item:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 	end)
+
+	local highlights = {
+		"TradeHighlightPlayerTop",
+		"TradeHighlightPlayerBottom",
+		"TradeHighlightPlayerMiddle",
+		"TradeHighlightPlayerEnchantTop",
+		"TradeHighlightPlayerEnchantBottom",
+		"TradeHighlightPlayerEnchantMiddle",
+		"TradeHighlightRecipientTop",
+		"TradeHighlightRecipientBottom",
+		"TradeHighlightRecipientMiddle",
+		"TradeHighlightRecipientEnchantTop",
+		"TradeHighlightRecipientEnchantBottom",
+		"TradeHighlightRecipientEnchantMiddle",
+	}
+	for i = 1, #highlights do
+		_G[highlights[i]]:SetTexture(0, 1, 0, 0.2)
+	end
 end
 
 S:AddCallback("Trade", LoadSkin)

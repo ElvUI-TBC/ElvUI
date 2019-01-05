@@ -61,10 +61,8 @@ local GlobalStrings = {
 	["RAID_WARNING"] = RAID_WARNING
 }
 
-local CreatedFrames = 0
-local lines = {}
 local msgList, msgCount, msgTime = {}, {}, {}
-local chatFilters = {}
+local CreatedFrames = 0
 
 local PLAYER_REALM = gsub(E.myrealm,"[%s%-]","")
 local PLAYER_NAME = E.myname.."-"..PLAYER_REALM
@@ -105,17 +103,21 @@ do --this can save some main file locals
 	local Bathrobe	 = IconPath.."bathrobe:15:15|t"
 	local MrHankey	 = IconPath.."mr_hankey:16:18|t"
 	specialChatIcons = {
---		["Smolderforge"] = {
---			["Loaal"] = ElvBlue,
---		}
+		["Netherwing"] = {
+			["Cpy"] = ElvOrange,
+			["Toxins"] = ElvBlue,
+			["Weedmon"] = ElvBlue,
+			["Tyrannus"] = ElvRed,
+			["Ionas"] = ElvGreen,
+			["Pandemonus"] = ElvPurple,
+		}
 	}
 end
 
 CH.Keywords = {}
 
-local numScrollMessages
 local function ChatFrame_OnMouseScroll(frame, delta)
-	numScrollMessages = CH.db.numScrollMessages or 3
+	local numScrollMessages = CH.db.numScrollMessages or 3
 	if delta < 0 then
 		if IsShiftKeyDown() then
 			frame:ScrollToBottom()
@@ -162,10 +164,9 @@ function CH:GetGroupDistribution()
 end
 
 function CH:InsertEmotions(msg)
-	local emoji, pattern
-	for word in msg:gmatch("%s-%S+%s*") do
-		pattern = gsub(strtrim(word), "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1")
-		emoji = CH.Smileys[pattern]
+	for word in gmatch(msg, "%s-%S+%s*") do
+		local pattern = gsub(strtrim(word), "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1")
+		local emoji = CH.Smileys[pattern]
 		if emoji and strmatch(msg, "[%s%p]-"..pattern.."[%s%p]*") then
 			msg = gsub(msg, "([%s%p]-)"..pattern.."([%s%p]*)", "%1"..emoji.."%2")
 		end
@@ -182,11 +183,8 @@ function CH:GetSmileyReplacementText(msg)
 	local endpos, _
 
 	while(startpos <= origlen) do
-		endpos = origlen
 		local pos = find(msg,"|H",startpos,true)
-		if pos ~= nil then
-			endpos = pos
-		end
+		endpos = pos or origlen
 		outstr = outstr..CH:InsertEmotions(strsub(msg,startpos,endpos)) --run replacement on this bit
 		startpos = endpos + 1
 		if pos ~= nil then
@@ -293,7 +291,6 @@ function CH:StyleChat(frame)
 		else
 			self:SetAlpha(0)
 		end
-
 	end)
 
 	CreatedFrames = id
@@ -348,22 +345,29 @@ local function colorizeLine(text, r, g, b)
 	return text
 end
 
+local copyLines = {}
 function CH:GetLines(...)
 	local index = 1
-	wipe(lines)
+	wipe(copyLines)
 	for i = select("#", ...), 1, -1 do
 		local region = select(i, ...)
 		if region:GetObjectType() == "FontString" then
 			local line = tostring(region:GetText())
 			local r, g, b = region:GetTextColor()
+			--Set fallback color values
+			r, g, b = r or 1, g or 1, b or 1
 
+			--Remove icons
 			line = removeIconFromLine(line)
+
+			--Add text color
 			line = colorizeLine(line, r, g, b)
 
-			lines[index] = line
+			copyLines[index] = line
 			index = index + 1
 		end
 	end
+
 	return index - 1
 end
 
@@ -374,7 +378,7 @@ function CH:CopyChat(frame)
 		FCF_SetChatWindowFontSize(frame, 0.01)
 		CopyChatFrame:Show()
 		local lineCt = self:GetLines(frame:GetRegions())
-		local text = tconcat(lines, " \n", 1, lineCt)
+		local text = tconcat(copyLines, " \n", 1, lineCt)
 		FCF_SetChatWindowFontSize(frame, fontSize)
 		CopyChatFrameEditBox:SetText(text)
 	else
@@ -486,17 +490,16 @@ function CH:PositionChat(override)
 
 	if not self.db.lockPositions or E.private.chat.enable ~= true then return end
 
-	local chat, tab, id, isDocked
 	local fadeUndockedTabs = E.db.chat.fadeUndockedTabs
 	local fadeTabsNoBackdrop = E.db.chat.fadeTabsNoBackdrop
 
 	for i = 1, CreatedFrames do
 		local BASE_OFFSET = 57 + E.Spacing*3
 
-		chat = _G[format("ChatFrame%d", i)]
-		id = chat:GetID()
-		tab = _G[format("ChatFrame%sTab", i)]
-		isDocked = chat.isDocked
+		local chat = _G[format("ChatFrame%d", i)]
+		local id = chat:GetID()
+		local tab = _G[format("ChatFrame%sTab", i)]
+		local isDocked = chat.isDocked
 		tab.isDocked = chat.isDocked
 		tab.owner = chat
 
@@ -654,7 +657,6 @@ local function HyperLinkedURL(data)
 		if currentLink and currentLink ~= "" then
 			SetChatEditBoxMessage(currentLink)
 		end
-		return
 	end
 end
 
@@ -771,11 +773,10 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 		local type = strsub(event, 10)
 		local info = ChatTypeInfo[type]
 
-		local filter = false
-		if chatFilters[event] then
-			local newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11
-			for _, filterFunc in next, chatFilters[event] do
-				filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11 = filterFunc(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, event)
+		local chatFilters = ChatFrame_GetMessageEventFilters(event)
+		if chatFilters then
+			for _, filterFunc in next, chatFilters do
+				local filter, newarg1, newarg2, newarg3, newarg4, newarg5, newarg6, newarg7, newarg8, newarg9, newarg10, newarg11 = filterFunc(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, event)
 				arg1 = newarg1 or arg1
 				if filter then
 					return true
@@ -1066,8 +1067,24 @@ function CH:SetupChat()
 		editbox.historyIndex = 0
 		editbox:Hide()
 
-		editbox:HookScript("OnEditFocusGained", function(self) self:Show() if not LeftChatPanel:IsShown() then LeftChatPanel.editboxforced = true LeftChatToggleButton:GetScript("OnEnter")(LeftChatToggleButton) end end)
-		editbox:HookScript("OnEditFocusLost", function(self) if LeftChatPanel.editboxforced then LeftChatPanel.editboxforced = nil if LeftChatPanel:IsShown() then LeftChatToggleButton:GetScript("OnLeave")(LeftChatToggleButton) end end self.historyIndex = 0 self:Hide() end)
+		editbox:HookScript("OnEditFocusGained", function(self)
+			self:Show()
+			if not LeftChatPanel:IsShown() then
+				LeftChatPanel.editboxforced = true
+				LeftChatToggleButton:GetScript("OnEnter")(LeftChatToggleButton)
+			end
+		end)
+		editbox:HookScript("OnEditFocusLost", function(self)
+			if LeftChatPanel.editboxforced then
+				LeftChatPanel.editboxforced = nil
+				if LeftChatPanel:IsShown() then
+					LeftChatToggleButton:GetScript("OnLeave")(LeftChatToggleButton)
+				end
+			end
+
+			self.historyIndex = 0
+			self:Hide()
+		end)
 
 		for _, text in pairs(ElvCharacterDB.ChatEditHistory) do
 			editbox:AddHistoryLine(text)
@@ -1087,12 +1104,10 @@ end
 
 local function PrepareMessage(author, message)
 	if not author then return message end
-	return format("%s%s", strupper(author), message)
+	return strupper(author)..message
 end
 
-function CH:ChatThrottleHandler(_, ...)
-	local arg1, arg2 = ...
-
+function CH:ChatThrottleHandler(event, arg1, arg2)
 	if arg2 and arg2 ~= "" then
 		local message = PrepareMessage(arg2, arg1)
 		if msgList[message] == nil then
@@ -1191,14 +1206,14 @@ function CH:CheckKeyword(message)
 		message = gsub(message, gsub(hyperLink, "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1"), tempLink)
 	end
 
-	local classColorTable, tempWord, rebuiltString, lowerCaseWord, wordMatch, classMatch
+	local rebuiltString
 	local isFirstWord = true
 	for word in message:gmatch("%s-%S+%s*") do
 		if not next(protectLinks) or not protectLinks[gsub(gsub(word,"%s",""),"|s"," ")] then
-			tempWord = gsub(word, "[%s%p]", "")
-			lowerCaseWord = tempWord:lower()
+			local tempWord = gsub(word, "[%s%p]", "")
+			local lowerCaseWord = strlower(tempWord)
 			for keyword in pairs(CH.Keywords) do
-				if lowerCaseWord == keyword:lower() then
+				if lowerCaseWord == strlower(keyword) then
 					word = gsub(word, tempWord, format("%s%s|r", E.media.hexvaluecolor, tempWord))
 					if (self.db.keywordSound ~= "None") and not self.SoundTimer then
 						if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
@@ -1212,12 +1227,13 @@ function CH:CheckKeyword(message)
 
 			if self.db.classColorMentionsChat and E.private.general.classCache then
 				tempWord = gsub(word,"^[%s%p]-([^%s%p]+)([%-]?[^%s%p]-)[%s%p]*$","%1%2")
+				lowerCaseWord = strlower(tempWord)
 
-				classMatch = CC:GetCacheTable()[E.myrealm][tempWord]
-				wordMatch = classMatch and lowerCaseWord
+				local classMatch = CC:GetCacheTable()[E.myrealm][tempWord]
+				local wordMatch = classMatch and lowerCaseWord
 
 				if wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch] then
-					classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
+					local classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
 					word = gsub(word, gsub(tempWord, "%-","%%-"), format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, tempWord))
 				end
 			end
@@ -1227,7 +1243,7 @@ function CH:CheckKeyword(message)
 			rebuiltString = word
 			isFirstWord = false
 		else
-			rebuiltString = format("%s%s", rebuiltString, word)
+			rebuiltString = rebuiltString..word
 		end
 	end
 
@@ -1340,8 +1356,7 @@ function CH:UpdateChatKeywords()
 	local keywords = self.db.keywords
 	keywords = gsub(keywords,",%s",",")
 
-	for i = 1, #{split(",", keywords)} do
-		local stringValue = select(i, split(",", keywords))
+	for stringValue in gmatch(keywords, "[^,]+") do
 		if stringValue ~= "" then
 			CH.Keywords[stringValue] = true
 		end
@@ -1410,22 +1425,21 @@ function CH:SaveChatHistory(event, ...)
 	if not self.db.chatHistory then return end
 	local data = ElvCharacterDB.ChatHistoryLog
 
-	local temp = {}
+	local tempHistory = {}
 	for i = 1, select("#", ...) do
-		temp[i] = select(i, ...) or false
+		tempHistory[i] = select(i, ...) or false
 	end
 
-	if #temp > 0 then
-		temp[50] = event
-		temp[51] = time()
-		temp[52] = CH:GetColoredName(event, ...)
+	if #tempHistory > 0 then
+		tempHistory[50] = event
+		tempHistory[51] = time()
+		tempHistory[52] = CH:GetColoredName(event, ...)
 
-		tinsert(data, temp)
+		tinsert(data, tempHistory)
 		while #data >= 128 do
 			tremove(data, 1)
 		end
 	end
-	temp = nil -- Destory!
 
 	if self.db.throttleInterval ~= 0 and (event == "CHAT_MESSAGE_SAY" or event == "CHAT_MESSAGE_YELL" or event == "CHAT_MSG_CHANNEL") then
 		self:ChatThrottleHandler(event, ...)
@@ -1436,39 +1450,6 @@ function CH:SaveChatHistory(event, ...)
 			if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
 				return
 			end
-		end
-	end
-end
-
-function CH:ChatFrame_AddMessageEventFilter(event, filter)
-	assert(event and filter)
-
-	if chatFilters[event] then
-		-- Only allow a filter to be added once
-		for _, filterFunc in next, chatFilters[event] do
-			if filterFunc == filter then
-				return
-			end
-		end
-	else
-		chatFilters[event] = {}
-	end
-
-	tinsert(chatFilters[event], filter)
-end
-
-function CH:ChatFrame_RemoveMessageEventFilter(event, filter)
-	assert(event and filter)
-
-	if chatFilters[event] then
-		for index, filterFunc in next, chatFilters[event] do
-			if filterFunc == filter then
-				tremove(chatFilters[event], index)
-			end
-		end
-
-		if #chatFilters[event] == 0 then
-			chatFilters[event] = nil
 		end
 	end
 end
@@ -1641,36 +1622,6 @@ function CH:Initialize()
 	if not E.db.chat.lockPositions then
 		CH:UpdateChatTabs() --It was not done in PositionChat, so do it now
 	end
-
-	--First get all pre-existing filters and copy them to our version of chatFilters using ChatFrame_GetMessageEventFilters
-	for name in pairs(ChatTypeGroup) do
-		for i = 1, #ChatTypeGroup[name] do
-			local filterFuncTable = ChatFrame_GetMessageEventFilters(ChatTypeGroup[name][i])
-			if filterFuncTable then
-				chatFilters[ChatTypeGroup[name][i]] = {}
-
-				for j = 1, #filterFuncTable do
-					local filterFunc = filterFuncTable[j]
-					tinsert(chatFilters[ChatTypeGroup[name][i]], filterFunc)
-				end
-			end
-		end
-	end
-
-	--CHAT_MSG_CHANNEL isn't located inside ChatTypeGroup
-	local filterFuncTable = ChatFrame_GetMessageEventFilters("CHAT_MSG_CHANNEL")
-	if filterFuncTable then
-		chatFilters["CHAT_MSG_CHANNEL"] = {}
-
-		for j = 1, #filterFuncTable do
-			local filterFunc = filterFuncTable[j]
-			tinsert(chatFilters["CHAT_MSG_CHANNEL"], filterFunc)
-		end
-	end
-
-	--Now hook onto Blizzards functions for other addons
-	self:SecureHook("ChatFrame_AddMessageEventFilter")
-	self:SecureHook("ChatFrame_RemoveMessageEventFilter")
 
 	self:SecureHook("FCF_SetWindowAlpha")
 

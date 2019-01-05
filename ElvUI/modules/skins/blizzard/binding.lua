@@ -6,6 +6,7 @@ local _G = _G
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.binding ~= true then return end
 
+	local KeyBindingFrame = _G["KeyBindingFrame"]
 	KeyBindingFrame:StripTextures()
 	KeyBindingFrame:CreateBackdrop("Transparent")
 	KeyBindingFrame.backdrop:Point("TOPLEFT", 2, 0)

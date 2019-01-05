@@ -1,6 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local TT = E:NewModule("Tooltip", "AceHook-3.0", "AceEvent-3.0")
 local LMH = LibStub("LibMobHealth-4.0")
+local LSM = E.LSM
 
 local _G = _G
 local unpack, tonumber, select, pairs = unpack, tonumber, select, pairs
@@ -134,6 +135,7 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 				GameTooltipStatusBar.anchoredToTop = true
 			end
 		end
+
 		if self.db.cursorAnchor then
 			tt:SetOwner(parent, "ANCHOR_CURSOR")
 			return
@@ -142,24 +144,28 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 		end
 	end
 
-	if not E:HasMoverBeenMoved("TooltipMover") then
-		if ElvUI_ContainerFrame and ElvUI_ContainerFrame:IsShown() then
-			tt:SetPoint("BOTTOMRIGHT", ElvUI_ContainerFrame, "TOPRIGHT", 0, 18)
-		elseif RightChatPanel:GetAlpha() == 1 and RightChatPanel:IsShown() then
-			tt:SetPoint("BOTTOMRIGHT", RightChatPanel, "TOPRIGHT", 0, 18)
+	local _, anchor = tt:GetPoint()
+	if anchor == nil or (ElvUI_ContainerFrame and anchor == ElvUI_ContainerFrame) or anchor == RightChatPanel or anchor == TooltipMover or anchor == UIParent or anchor == E.UIParent then
+		tt:ClearAllPoints()
+		if not E:HasMoverBeenMoved("TooltipMover") then
+			if ElvUI_ContainerFrame and ElvUI_ContainerFrame:IsShown() then
+				tt:Point("BOTTOMRIGHT", ElvUI_ContainerFrame, "TOPRIGHT", 0, 18)
+			elseif RightChatPanel:GetAlpha() == 1 and RightChatPanel:IsShown() then
+				tt:Point("BOTTOMRIGHT", RightChatPanel, "TOPRIGHT", 0, 18)
+			else
+				tt:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", 0, 18)
+			end
 		else
-			tt:SetPoint("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", 0, 18)
-		end
-	else
-		local point = E:GetScreenQuadrant(TooltipMover)
-		if point == "TOPLEFT" then
-			tt:SetPoint("TOPLEFT", TooltipMover)
-		elseif point == "TOPRIGHT" then
-			tt:SetPoint("TOPRIGHT", TooltipMover)
-		elseif point == "BOTTOMLEFT" or point == "LEFT" then
-			tt:SetPoint("BOTTOMLEFT", TooltipMover)
-		else
-			tt:SetPoint("BOTTOMRIGHT", TooltipMover)
+			local point = E:GetScreenQuadrant(TooltipMover)
+			if point == "TOPLEFT" then
+				tt:Point("TOPLEFT", TooltipMover, "BOTTOMLEFT", 1, -4)
+			elseif point == "TOPRIGHT" then
+				tt:Point("TOPRIGHT", TooltipMover, "BOTTOMRIGHT", -1, -4)
+			elseif point == "BOTTOMLEFT" or point == "LEFT" then
+				tt:Point("BOTTOMLEFT", TooltipMover, "TOPLEFT", 1, 18)
+			else
+				tt:Point("BOTTOMRIGHT", TooltipMover, "TOPRIGHT", -1, 18)
+			end
 		end
 	end
 end
@@ -475,10 +481,10 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 		if self.db.itemCount == "BAGS_ONLY" then
 			right = ("|cFFCA3C3C%s|r %d"):format(L["Count"], num)
 		elseif self.db.itemCount == "BANK_ONLY" then
-			bankCount = ("|cFFCA3C3C%s|r %d"):format(L["Bank"],(numall - num))
+			bankCount = ("|cFFCA3C3C%s|r %d"):format(L["Bank"], (numall - num))
 		elseif self.db.itemCount == "BOTH" then
 			right = ("|cFFCA3C3C%s|r %d"):format(L["Count"], num)
-			bankCount = ("|cFFCA3C3C%s|r %d"):format(L["Bank"],(numall - num))
+			bankCount = ("|cFFCA3C3C%s|r %d"):format(L["Bank"], (numall - num))
 		end
 
 		if left ~= " " or right ~= " " then
@@ -554,7 +560,7 @@ function TT:CheckBackdropColor()
 end
 
 function TT:SetTooltipFonts()
-	local font = E.LSM:Fetch("font", E.db.tooltip.font)
+	local font = LSM:Fetch("font", E.db.tooltip.font)
 	local fontOutline = E.db.tooltip.fontOutline
 	local headerSize = E.db.tooltip.headerFontSize
 	local textSize = E.db.tooltip.textFontSize
@@ -563,6 +569,7 @@ function TT:SetTooltipFonts()
 	GameTooltipHeaderText:SetFont(font, headerSize, fontOutline)
 	GameTooltipText:SetFont(font, textSize, fontOutline)
 	GameTooltipTextSmall:SetFont(font, smallTextSize, fontOutline)
+
 	if GameTooltip.hasMoney then
 		for i = 1, GameTooltip.numMoneyFrames do
 			_G["GameTooltipMoneyFrame"..i.."PrefixText"]:SetFont(font, textSize, fontOutline)
@@ -601,7 +608,7 @@ function TT:Initialize()
 	GameTooltipStatusBar:SetScript("OnValueChanged", nil)
 	GameTooltipStatusBar.text = GameTooltipStatusBar:CreateFontString(nil, "OVERLAY")
 	GameTooltipStatusBar.text:Point("CENTER", GameTooltipStatusBar, 0, -3)
-	GameTooltipStatusBar.text:FontTemplate(E.LSM:Fetch("font", self.db.healthBar.font), self.db.healthBar.fontSize, self.db.healthBar.fontOutline)
+	GameTooltipStatusBar.text:FontTemplate(LSM:Fetch("font", self.db.healthBar.font), self.db.healthBar.fontSize, self.db.healthBar.fontOutline)
 
 	if not GameTooltip.hasMoney then
 		SetTooltipMoney(GameTooltip, 1, nil, "", "")

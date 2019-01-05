@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local M = E:NewModule("Minimap", "AceEvent-3.0")
+local LSM = E.LSM
 E.Minimap = M
 
 local _G = _G
@@ -111,7 +112,7 @@ function M:Update_ZoneText()
 	if E.db.general.minimap.locationText == "HIDE" or not E.private.general.minimap.enable then return end
 	Minimap.location:SetText(strsub(GetMinimapZoneText(), 1, 46))
 	Minimap.location:SetTextColor(self:GetLocTextColor())
-	Minimap.location:FontTemplate(E.LSM:Fetch("font", E.db.general.minimap.locationFont), E.db.general.minimap.locationFontSize, E.db.general.minimap.locationFontOutline)
+	Minimap.location:FontTemplate(LSM:Fetch("font", E.db.general.minimap.locationFont), E.db.general.minimap.locationFontSize, E.db.general.minimap.locationFontOutline)
 end
 
 function M:PLAYER_REGEN_ENABLED()

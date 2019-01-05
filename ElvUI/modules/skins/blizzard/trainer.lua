@@ -79,7 +79,7 @@ local function LoadSkin()
 		if skillIcon and not skillIcon.isSkinned then
 			skillIcon:SetInside()
 			skillIcon:SetTexCoord(unpack(E.TexCoords))
-			
+
 			skillIcon.isSkinned = true
 		end
 	end)

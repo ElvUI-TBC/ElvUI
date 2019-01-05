@@ -527,12 +527,10 @@ end
 function E:CheckIncompatible()
 	if E.global.ignoreIncompatible then return end
 
---[[
 	if IsAddOnLoaded("SnowfallKeyPress") and E.private.actionbar.enable then
 		E.private.actionbar.keyDown = true
 		E:IncompatibleAddOn("SnowfallKeyPress", "ActionBar")
 	end
-]]
 
 	if IsAddOnLoaded("Chatter") and E.private.chat.enable then
 		E:IncompatibleAddOn("Chatter", "Chat")

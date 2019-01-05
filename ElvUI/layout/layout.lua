@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local LO = E:NewModule("Layout", "AceEvent-3.0")
+local LSM = E.LSM
 
 local CreateFrame = CreateFrame
 local UIFrameFadeIn, UIFrameFadeOut = UIFrameFadeIn, UIFrameFadeOut
@@ -438,7 +439,7 @@ function LO:CreateMinimapPanels()
 	configtoggle:Width(E.RBRWidth)
 	configtoggle:SetTemplate(E.db.datatexts.panelTransparency and "Transparent" or "Default", true)
 	configtoggle.text = configtoggle:CreateFontString(nil, "OVERLAY")
-	configtoggle.text:FontTemplate(E.LSM:Fetch("font", E.db.datatexts.font), E.db.datatexts.fontSize, E.db.datatexts.fontOutline)
+	configtoggle.text:FontTemplate(LSM:Fetch("font", E.db.datatexts.font), E.db.datatexts.fontSize, E.db.datatexts.fontOutline)
 	configtoggle.text:SetText("C")
 	configtoggle.text:SetPoint("CENTER")
 	configtoggle.text:SetJustifyH("CENTER")

@@ -1,4 +1,5 @@
 local E, L, V, P, G = unpack(ElvUI)
+local LSM = E.LSM
 
 local next, ipairs, pairs = next, ipairs, pairs
 local floor = math.floor
@@ -60,7 +61,7 @@ function E:Cooldown_OnSizeChanged(cd, parent, width, force)
 	else
 		local text = cd.text or cd.time
 		if text then
-			local useCustomFont = (cd.timerOptions and cd.timerOptions.fontOptions and cd.timerOptions.fontOptions.enable) and E.LSM:Fetch("font", cd.timerOptions.fontOptions.font)
+			local useCustomFont = (cd.timerOptions and cd.timerOptions.fontOptions and cd.timerOptions.fontOptions.enable) and LSM:Fetch("font", cd.timerOptions.fontOptions.font)
 			if useCustomFont then
 				local customSize = (parent and parent.CooldownFontSize and cd.timerOptions.fontOptions.fontSize) or (fontScale * cd.timerOptions.fontOptions.fontSize)
 				text:FontTemplate(useCustomFont, customSize, cd.timerOptions.fontOptions.fontOutline)
@@ -254,14 +255,14 @@ function E:UpdateCooldownOverride(module)
 				if text then
 					if CD.timerOptions.fontOptions and CD.timerOptions.fontOptions.enable then
 						if not customFont then
-							customFont = E.LSM:Fetch("font", CD.timerOptions.fontOptions.font)
+							customFont = LSM:Fetch("font", CD.timerOptions.fontOptions.font)
 						end
 						if customFont then
 							text:FontTemplate(customFont, CD.timerOptions.fontOptions.fontSize, CD.timerOptions.fontOptions.fontOutline)
 						end
 					elseif cd.CooldownOverride then
 						if not customFont then
-							customFont = E.LSM:Fetch("font", E.db[cd.CooldownOverride].font)
+							customFont = LSM:Fetch("font", E.db[cd.CooldownOverride].font)
 						end
 						if customFont then
 							-- cd.auraType defined in `A:UpdateHeader` and `A:CreateIcon`

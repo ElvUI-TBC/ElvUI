@@ -69,8 +69,6 @@ local function LoadSkin()
 		"OptionsFrameDisplay",
 		"OptionsFrameBrightness",
 		"OptionsFrameWorldAppearance",
-		"OptionsFramePixelShaders",
-		"OptionsFrameMiscellaneous",
 		"AudioOptionsFrame",
 		"SoundOptionsFramePlayback",
 		"SoundOptionsFrameHardware",
@@ -79,6 +77,15 @@ local function LoadSkin()
 	for i = 1, #skins do
 		_G[skins[i]]:SetTemplate("Transparent")
 	end
+
+	OptionsFramePixelShaders:StripTextures()
+	OptionsFramePixelShaders:CreateBackdrop("Transparent")
+	OptionsFramePixelShaders.backdrop:Point("TOPLEFT", 0, -4)
+	OptionsFramePixelShaders.backdrop:Point("BOTTOMRIGHT", -2, -1)
+
+	OptionsFrameMiscellaneous:StripTextures()
+	OptionsFrameMiscellaneous:CreateBackdrop("Transparent")
+	OptionsFrameMiscellaneous.backdrop:Point("TOPLEFT", 0, -4)
 
 	local BlizzardHeader = {
 		"InterfaceOptionsFrame",
@@ -112,6 +119,9 @@ local function LoadSkin()
 		end
 	end
 
+	SoundOptionsFrameDefaults:Point("BOTTOMLEFT", 20, 16)
+	SoundOptionsFrameCancel:Point("BOTTOMRIGHT", -17, 16)
+
 	local frames = {
 		"OptionsFrameCategoryFrame",
 		"OptionsFramePanelContainer",
@@ -143,7 +153,7 @@ local function LoadSkin()
 	end
 
 	OptionsFrameCancel:ClearAllPoints()
-	OptionsFrameCancel:Point("BOTTOMLEFT", OptionsFrame, "BOTTOMRIGHT", -105, 15)
+	OptionsFrameCancel:Point("BOTTOMLEFT", OptionsFrame, "BOTTOMRIGHT", -103, 15)
 
 	OptionsFrameOkay:ClearAllPoints()
 	OptionsFrameOkay:Point("RIGHT", OptionsFrameCancel, "LEFT", -4, 0)
@@ -169,7 +179,7 @@ local function LoadSkin()
 	S:HandleScrollBar(InterfaceOptionsFrameAddOnsListScrollBar)
 
 	OptionsFrameDefaults:ClearAllPoints()
-	OptionsFrameDefaults:Point("TOPLEFT", OptionsFrame, "BOTTOMLEFT", 15, 36)
+	OptionsFrameDefaults:Point("TOPLEFT", OptionsFrame, "BOTTOMLEFT", 12, 36)
 
 	local interfacecheckbox = {
 		"ControlsPanelStickyTargeting",
@@ -457,7 +467,7 @@ local function LoadSkin()
 	S:HandleButton(CombatLogDefaultButton)
 
 	S:HandleButton(ChatConfigFrameCancelButton)
-	ChatConfigFrameCancelButton:Point("BOTTOMRIGHT", -11, 8)
+	ChatConfigFrameCancelButton:Point("BOTTOMRIGHT", -1, 8)
 
 	S:HandleButton(ChatConfigFrameOkayButton)
 

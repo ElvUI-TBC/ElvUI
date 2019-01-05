@@ -9,13 +9,13 @@ local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bgscore ~= true then return end
 
+	WorldStateScoreFrame:StripTextures()
 	WorldStateScoreFrame:CreateBackdrop("Transparent")
 	WorldStateScoreFrame.backdrop:Point("TOPLEFT", 10, -15)
 	WorldStateScoreFrame.backdrop:Point("BOTTOMRIGHT", -113, 67)
 
-	WorldStateScoreFrame:StripTextures()
-
 	WorldStateScoreScrollFrame:StripTextures()
+
 	S:HandleScrollBar(WorldStateScoreScrollFrameScrollBar)
 
 	local tab

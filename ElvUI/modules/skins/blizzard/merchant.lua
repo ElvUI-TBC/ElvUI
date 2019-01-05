@@ -37,7 +37,7 @@ local function LoadSkin()
 
 	S:HandleCloseButton(MerchantFrameCloseButton, MerchantFrame.backdrop)
 
-	for i = 1, 12 do
+	for i = 1, BUYBACK_ITEMS_PER_PAGE do
 		local item = _G["MerchantItem"..i]
 		local button = _G["MerchantItem"..i.."ItemButton"]
 		local icon = _G["MerchantItem"..i.."ItemButtonIconTexture"]
@@ -48,6 +48,7 @@ local function LoadSkin()
 
 		item:StripTextures(true)
 		item:CreateBackdrop("Default")
+		item.backdrop:Point("TOPLEFT", 0, 0)
 		item.backdrop:Point("BOTTOMRIGHT", 0, -4)
 
 		button:StripTextures()
@@ -125,8 +126,9 @@ local function LoadSkin()
 
 	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function()
 		local numMerchantItems = GetMerchantNumItems()
-		local index
-		local itemButton, itemName, itemLink
+		local index, itemButton, itemName, itemLink
+		local quality, r, g, b
+
 		for i = 1, BUYBACK_ITEMS_PER_PAGE do
 			index = (((MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE) + i)
 			itemButton = _G["MerchantItem"..i.."ItemButton"]
@@ -135,8 +137,8 @@ local function LoadSkin()
 			if index <= numMerchantItems then
 				itemLink = GetMerchantItemLink(index)
 				if itemLink then
-					local _, _, quality = GetItemInfo(itemLink)
-					local r, g, b = GetItemQualityColor(quality)
+					quality = select(3, GetItemInfo(itemLink))
+					r, g, b = GetItemQualityColor(quality)
 
 					itemName:SetTextColor(r, g, b)
 					if quality then
@@ -147,10 +149,9 @@ local function LoadSkin()
 				end
 			end
 
-			local buybackName = GetBuybackItemInfo(GetNumBuybackItems())
-			if buybackName then
-				local _, _, quality = GetItemInfo(buybackName)
-				local r, g, b = GetItemQualityColor(quality)
+			if GetBuybackItemInfo(GetNumBuybackItems()) then
+				quality = select(3, GetItemInfo(GetBuybackItemInfo(GetNumBuybackItems())))
+				r, g, b = GetItemQualityColor(quality)
 
 				MerchantBuyBackItemName:SetTextColor(r, g, b)
 				if quality then
@@ -167,15 +168,16 @@ local function LoadSkin()
 	hooksecurefunc("MerchantFrame_UpdateBuybackInfo", function()
 		local numBuybackItems = GetNumBuybackItems()
 		local itemButton, itemName
+		local quality, r, g, b
+
 		for i = 1, BUYBACK_ITEMS_PER_PAGE do
 			itemButton = _G["MerchantItem"..i.."ItemButton"]
 			itemName = _G["MerchantItem"..i.."Name"]
 
 			if i <= numBuybackItems then
-				local buybackName = GetBuybackItemInfo(i)
-				if buybackName then
-					local _, _, quality = GetItemInfo(buybackName)
-					local r, g, b = GetItemQualityColor(quality)
+				if GetBuybackItemInfo(i) then
+					quality = select(3, GetItemInfo(GetBuybackItemInfo(i)))
+					r, g, b = GetItemQualityColor(quality)
 
 					itemName:SetTextColor(r, g, b)
 					if quality then

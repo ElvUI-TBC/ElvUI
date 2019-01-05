@@ -29,20 +29,19 @@ local function LoadSkin()
 
 	for i = 1, MAX_NUM_SOCKETS do
 		local button = _G[format("ItemSocketingSocket%d", i)]
-		local button_bracket = _G[format("ItemSocketingSocket%dBracketFrame", i)]
-		local button_bg = _G[format("ItemSocketingSocket%dBackground", i)]
-		local button_icon = _G[format("ItemSocketingSocket%dIconTexture", i)]
+		local icon = _G[format("ItemSocketingSocket%dIconTexture", i)]
+		local bracket = _G[format("ItemSocketingSocket%dBracketFrame", i)]
+		local bg = _G[format("ItemSocketingSocket%dBackground", i)]
 
 		button:StripTextures()
-		button:StyleButton(false)
 		button:SetTemplate("Default", true)
+		button:StyleButton(false)
 
-		button_bracket:Kill()
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetInside()
 
-		button_bg:Kill()
-
-		button_icon:SetTexCoord(unpack(E.TexCoords))
-		button_icon:SetInside()
+		bracket:Kill()
+		bg:Kill()
 	end
 
 	hooksecurefunc("ItemSocketingFrame_Update", function()

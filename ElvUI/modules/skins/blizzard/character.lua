@@ -114,13 +114,13 @@ local function LoadSkin()
 	}
 
 	for _, slot in pairs(slots) do
+		local frame = _G["Character"..slot]
 		local icon = _G["Character"..slot.."IconTexture"]
 		local cooldown = _G["Character"..slot.."Cooldown"]
 
-		slot = _G["Character"..slot]
-		slot:StripTextures()
-		slot:StyleButton(false)
-		slot:SetTemplate("Default", true, true)
+		frame:StripTextures()
+		frame:StyleButton(false)
+		frame:SetTemplate("Default", true, true)
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
