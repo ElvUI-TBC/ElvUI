@@ -215,6 +215,11 @@ local function LoadSkin()
 	TicketStatusFrameButton.tex:SetTexCoord(unpack(E.TexCoords))
 	TicketStatusFrameButton.tex:SetInside()
 
+	-- Quest Timers
+	QuestTimerFrame:StripTextures()
+
+	QuestTimerHeader:Point("TOP", 0, 8)
+
 	-- Dropdown Menu
 	hooksecurefunc("UIDropDownMenu_Initialize", function()
 		for i = 1, UIDROPDOWNMENU_MAXLEVELS do

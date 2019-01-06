@@ -854,7 +854,6 @@ L["Mirror Timers"] = true
 L["Misc Frames"] = "其他"
 L["Petition Frame"] = "回報GM"
 L["Quest Frames"] = "任務"
-L["Quest Timers"] = "任務計時"
 L["Raid Frame"] = "團隊框架"
 L["Skins"] = "美化外觀"
 L["Spellbook"] = "法術書"

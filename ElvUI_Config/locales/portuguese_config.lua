@@ -854,7 +854,6 @@ L["Mirror Timers"] = true
 L["Misc Frames"] = "Diversos"
 L["Petition Frame"] = "Petição"
 L["Quest Frames"] = "Missões"
-L["Quest Timers"] = "Tempo restante"
 L["Raid Frame"] = "Quadro de Raide"
 L["Skins"] = "Aparências"
 L["Spellbook"] = "Grimório"

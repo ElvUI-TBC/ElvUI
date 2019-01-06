@@ -22,6 +22,7 @@ function B:Initialize()
 	self:PositionDurabilityFrame()
 	self:PositionGMFrames()
 	self:MoveWatchFrame()
+	self:MoveQuestTimerFrame()
 
 	self:RawHook("CombatConfig_Colorize_Update", function()
 		if not CHATCONFIG_SELECTED_FILTER_SETTINGS then return end

@@ -838,7 +838,6 @@ L["Mirror Timers"] = true
 L["Misc Frames"] = true
 L["Petition Frame"] = true
 L["Quest Frames"] = true
-L["Quest Timers"] = true
 L["Raid Frame"] = true
 L["Skins"] = true
 L["Spellbook"] = true

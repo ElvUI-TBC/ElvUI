@@ -854,7 +854,6 @@ L["Mirror Timers"] = "Fenêtre des Timers mirroirs" --need review
 L["Misc Frames"] = "Divers"
 L["Petition Frame"] = "Fenêtre de Charte"
 L["Quest Frames"] = "Fenêtre de Quête"
-L["Quest Timers"] = "Temps"
 L["Raid Frame"] = "Fenêtre de Raid"
 L["Skins"] = "Habillage"
 L["Spellbook"] = "Grimoire"

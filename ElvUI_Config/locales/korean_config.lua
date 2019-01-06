@@ -903,7 +903,6 @@ L["Mirror Timers"] = true
 L["Misc Frames"] = "기타 프레임"
 L["Petition Frame"] = "GM 요청 창"
 L["Quest Frames"] = "퀘스트 창"
-L["Quest Timers"] = "퀘스트 시간 제한"
 L["Raid Frame"] = "공격대 프레임"
 L["Skins"] = "스킨"
 L["Spellbook"] = "마법책"
