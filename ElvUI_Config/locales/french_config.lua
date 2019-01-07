@@ -936,6 +936,7 @@ L["Blacklist"] = "Liste noire"
 L["Block Auras Without Duration"] = "Bloquer les Auras sans durée"
 L["Block Blacklisted Auras"] = "Bloquer les Auras sur liste Noir"
 L["Block Mouseover Glow"] = true
+L["Block Non-Dispellable Auras"] = true
 L["Block Target Glow"] = true
 L["Borders"] = "Bordures"
 L["Buff Indicator"] = "Indicateur d'amélioration"
@@ -1013,6 +1014,7 @@ L["Display the castbar inside the information panel, the icon will be displayed 
 L["Display the target of your current cast. Useful for mouseover casts."] = "Afficher la cible de votre incantation en cours. Utile pour les incantations en survol de souris."
 L["Display tick marks on the castbar for channelled spells. This will adjust automatically for spells like Drain Soul and add additional ticks based on haste."] = "Affichage des marques de graduation (ticks) sur la barre de lancement de sort. Cela s'ajustera automatiquement pour les sorts comme Drain d'âme qui est basé sur la Hâte."
 L["Don't display any auras found on the 'Blacklist' filter."] = "Ne pas afficher les auras trouvés dans la 'Liste noire' du filtre."
+L["Don't display auras that cannot be dispelled by your class."] = true
 L["Don't display auras that have no duration."] = "Ne pas afficher les auras qui n'ont pas de durée."
 L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."] = "Ne pas afficher les auras qui dépassent cette durée (en secondes). 0 pour désactiver"
 L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."] = "Ne pas afficher les auras qui ont une durée plus courte que cette durée (en secondes). 0 pour désactiver."

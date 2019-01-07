@@ -958,6 +958,7 @@ P["unitframe"] = {
 				["useBlacklist"] = true,
 				["useWhitelist"] = false,
 				["noDuration"] = false,
+				["onlyDispellable"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1135,6 +1136,7 @@ P["unitframe"] = {
 				["useBlacklist"] = {friendly = true, enemy = true},
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
+				["onlyDispellable"] = {friendly = false, enemy = false},
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1293,6 +1295,7 @@ P["unitframe"] = {
 				["useBlacklist"] = {friendly = true, enemy = true},
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
+				["onlyDispellable"] = {friendly = false, enemy = false},
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1385,6 +1388,7 @@ P["unitframe"] = {
 				["useBlacklist"] = {friendly = true, enemy = true},
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
+				["onlyDispellable"] = {friendly = false, enemy = false},
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1481,6 +1485,7 @@ P["unitframe"] = {
 				["useBlacklist"] = {friendly = true, enemy = true},
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
+				["onlyDispellable"] = {friendly = false, enemy = false},
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1621,6 +1626,7 @@ P["unitframe"] = {
 				["useBlacklist"] = {friendly = true, enemy = true},
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
+				["onlyDispellable"] = {friendly = false, enemy = false},
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1719,6 +1725,7 @@ P["unitframe"] = {
 				["useBlacklist"] = true,
 				["useWhitelist"] = false,
 				["noDuration"] = false,
+				["onlyDispellable"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1848,6 +1855,7 @@ P["unitframe"] = {
 				["useBlacklist"] = {friendly = true, enemy = true},
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
+				["onlyDispellable"] = {friendly = false, enemy = false},
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1952,6 +1960,7 @@ P["unitframe"] = {
 				["useBlacklist"] = true,
 				["useWhitelist"] = false,
 				["noDuration"] = false,
+				["onlyDispellable"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0,
@@ -2174,6 +2183,7 @@ P["unitframe"] = {
 				["useBlacklist"] = true,
 				["useWhitelist"] = false,
 				["noDuration"] = false,
+				["onlyDispellable"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -2338,6 +2348,7 @@ P["unitframe"] = {
 				["useBlacklist"] = true,
 				["useWhitelist"] = false,
 				["noDuration"] = false,
+				["onlyDispellable"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -2488,6 +2499,7 @@ P["unitframe"] = {
 				["useBlacklist"] = true,
 				["useWhitelist"] = false,
 				["noDuration"] = false,
+				["onlyDispellable"] = false,
 				["useFilter"] = "",
  				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -2582,6 +2594,7 @@ P["unitframe"] = {
 				["useBlacklist"] = false,
 				["useWhitelist"] = false,
 				["noDuration"] = false,
+				["onlyDispellable"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 1
@@ -2701,6 +2714,7 @@ P["unitframe"] = {
 				["useBlacklist"] = false,
 				["useWhitelist"] = false,
 				["noDuration"] = false,
+				["onlyDispellable"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 1

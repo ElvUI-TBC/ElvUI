@@ -501,7 +501,7 @@ function UF:CheckFilter(filterType, isFriend)
 	return false
 end
 
-function UF:AuraFilter(unit, button, name, _, _, _, _, duration)
+function UF:AuraFilter(unit, button, name, _, _, _, dtype, duration)
 	local db = self:GetParent().db
 	if not db or not db[self.type] then return true end
 
@@ -517,6 +517,14 @@ function UF:AuraFilter(unit, button, name, _, _, _, _, duration)
 	local turtleBuff = E.global.unitframe.aurafilters.TurtleBuffs.spells[name]
 	if turtleBuff and turtleBuff.enable then
 		button.priority = turtleBuff.priority
+	end
+
+	if UF:CheckFilter(db.onlyDispellable, isFriend) then
+		if (self.type == "debuffs" and dtype and not E:IsDispellableByMe(dtype)) or dtype == nil then
+			returnValue = false
+		end
+
+		anotherFilterExists = true
 	end
 
 	if UF:CheckFilter(db.noDuration, isFriend) then

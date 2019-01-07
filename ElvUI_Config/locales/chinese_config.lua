@@ -934,6 +934,7 @@ L["Blacklist"] = "黑名单"
 L["Block Auras Without Duration"] = "不显示永久的光环"
 L["Block Blacklisted Auras"] = "不显示黑名单中的光环"
 L["Block Mouseover Glow"] = "屏蔽鼠标指向高亮"
+L["Block Non-Dispellable Auras"] = true
 L["Block Target Glow"] = "屏蔽目标高亮"
 L["Borders"] = "边框"
 L["Buff Indicator"] = "Buff提示器"
@@ -1011,6 +1012,7 @@ L["Display the castbar inside the information panel, the icon will be displayed 
 L["Display the target of your current cast. Useful for mouseover casts."] = "显示你当前的施法目标. 可以转换成鼠标滑过类型"
 L["Display tick marks on the castbar for channelled spells. This will adjust automatically for spells like Drain Soul and add additional ticks based on haste."] = "若为需引导的法术, 在施法条上显示每跳时间点. 这将针对吸取灵魂这类的法术根据急速自动调整显示每跳时间点和额外跳数."
 L["Don't display any auras found on the 'Blacklist' filter."] = "不显示任何'黑名单'过滤器中的光环"
+L["Don't display auras that cannot be dispelled by your class."] = true
 L["Don't display auras that have no duration."] = "不显示没有持续时间的光环"
 L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."] = "不显示高于此时间(单位:秒)的光环。设置为0以禁用"
 L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."] = "不显示低于此时间(单位:秒)的光环.设置为0以禁用"

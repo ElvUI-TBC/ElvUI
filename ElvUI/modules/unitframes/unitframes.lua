@@ -996,8 +996,6 @@ end
 
 local ignoreSettings = {
 	["position"] = true,
-	["playerOnly"] = true,
-	["noConsolidated"] = true,
 	["useBlacklist"] = true,
 	["useWhitelist"] = true,
 	["noDuration"] = true,

@@ -936,6 +936,7 @@ L["Blacklist"] = "黑名單"
 L["Block Auras Without Duration"] = "不顯示沒有持續時間的光環"
 L["Block Blacklisted Auras"] = "不顯示黑名單中的光環"
 L["Block Mouseover Glow"] = true
+L["Block Non-Dispellable Auras"] = true
 L["Block Target Glow"] = true
 L["Borders"] = "邊框"
 L["Buff Indicator"] = "Buff 提示器"
@@ -1013,6 +1014,7 @@ L["Display the castbar inside the information panel, the icon will be displayed 
 L["Display the target of your current cast. Useful for mouseover casts."] = "顯示你當前的施法目標. 可以轉換成鼠标滑過類型."
 L["Display tick marks on the castbar for channelled spells. This will adjust automatically for spells like Drain Soul and add additional ticks based on haste."] = "若為需引導的法術, 在施法條上顯示每跳週期傷害. 啟動此功能後, 針對吸取靈魂這類的法術, 將自動調整顯示每跳週期傷害, 並視加速等級增加額外的周期傷害."
 L["Don't display any auras found on the 'Blacklist' filter."] = "不顯示任何'黑名單'過濾器中的光環."
+L["Don't display auras that cannot be dispelled by your class."] = true
 L["Don't display auras that have no duration."] = "不限時沒有持續時間的光環."
 L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."] = "不顯示高於此時間(單位:秒)的光環.設置為0以禁用"
 L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."] = true

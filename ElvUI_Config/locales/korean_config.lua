@@ -985,6 +985,7 @@ L["Blacklist"] = "블랙리스트"
 L["Block Auras Without Duration"] = "지속시간이 없으면 제외"
 L["Block Blacklisted Auras"] = "차단목록에 있는건 제외"
 L["Block Mouseover Glow"] = true
+L["Block Non-Dispellable Auras"] = true
 L["Block Target Glow"] = true
 L["Borders"] = "테두리"
 L["Buff Indicator"] = "강화효과 알람"
@@ -1062,6 +1063,7 @@ L["Display the castbar inside the information panel, the icon will be displayed 
 L["Display the target of your current cast. Useful for mouseover casts."] = "현재 캐스팅중인 기술의 목표를 기술명에 표기합니다. 마우스오버로 기술을 시전할 때 대상을 파악하기 좋습니다."
 L["Display tick marks on the castbar for channelled spells. This will adjust automatically for spells like Drain Soul and add additional ticks based on haste."] = "시전바에 시전되는 주문의 틱을 표시합니다. 영혼 흡수나 가속이 추가되는 주문에 따라 틱이 자동 조절됩니다."
 L["Don't display any auras found on the 'Blacklist' filter."] = "차단 목록에 등록되어 있는 효과들을 표시하지 않게 합니다."
+L["Don't display auras that cannot be dispelled by your class."] = true
 L["Don't display auras that have no duration."] = "지속시간이 무한인 효과들을 표시하지 않게 합니다.|n|n즉, 유효시간이 있는 효과들만 보이게 됩니다."
 L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."] = "이 값보다 긴 시간(초단위)의 효과들을 표시하지 않습니다.|n|n0으로 설정하면 이 기능을 사용하지 않습니다."
 L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."] = "이 값보다 짧은 시간(초단위)의 효과들을 표시하지 않습니다.|n|n0으로 설정하면 이 기능을 사용하지 않습니다."

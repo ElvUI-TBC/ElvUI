@@ -936,6 +936,7 @@ L["Blacklist"] = "Черный список"
 L["Block Auras Without Duration"] = "Блокировать ауры без длительности"
 L["Block Blacklisted Auras"] = "Блокировать ауры из черного списка"
 L["Block Mouseover Glow"] = "Блокировать подсветку наведения."
+L["Block Non-Dispellable Auras"] = true
 L["Block Target Glow"] = "Блокировать подсветку цели."
 L["Borders"] = "Границы"
 L["Buff Indicator"] = "Индикатор баффов"
@@ -1013,6 +1014,7 @@ L["Display the castbar inside the information panel, the icon will be displayed 
 L["Display the target of your current cast. Useful for mouseover casts."] = "Отображать имя цели заклинания на полосе."
 L["Display tick marks on the castbar for channelled spells. This will adjust automatically for spells like Drain Soul and add additional ticks based on haste."] = "Отображать метки тиков на полосе заклинаний для поддерживаемых заклинаний. Они будут автоматически масштабироваться для заклинаний вроде Похищения души и добавлять новые тики, основываясь на показателе скорости."
 L["Don't display any auras found on the 'Blacklist' filter."] = "Не отображать ауры, обнаруженные в фильтре 'Blacklist'."
+L["Don't display auras that cannot be dispelled by your class."] = true
 L["Don't display auras that have no duration."] = "Не отображать ауры без длительности"
 L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."] = "Не отображать ауры длительностью более этого значения (в секундах). Установите на 0 для отключения."
 L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."] = "Не отображать ауры длительностью менее этого значения (в секундах). Установите на 0 для отключения."
