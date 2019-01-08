@@ -44,13 +44,14 @@ local function LoadSkin()
 	end
 
 	local questItems = {
-		"QuestLogItem",
-		"QuestDetailItem",
-		"QuestRewardItem"
+		["QuestLogItem"] = MAX_NUM_ITEMS,
+		["QuestDetailItem"] = MAX_NUM_ITEMS,
+		["QuestRewardItem"] = MAX_NUM_ITEMS,
+		["QuestProgressItem"] = MAX_REQUIRED_ITEMS
 	}
 
-	for _, frame in pairs(questItems) do
-		for i = 1, MAX_NUM_ITEMS do
+	for frame, numItems in pairs(questItems) do
+		for i = 1, numItems do
 			local item = _G[frame..i]
 			local icon = _G[frame..i.."IconTexture"]
 			local count = _G[frame..i.."Count"]
@@ -365,26 +366,6 @@ local function LoadSkin()
 
 		QuestLogListScrollFrame:Show()
 	end)
-
-	for i = 1, MAX_REQUIRED_ITEMS do
-		local item = _G["QuestProgressItem"..i]
-		local icon = _G["QuestProgressItem"..i.."IconTexture"]
-		local count = _G["QuestProgressItem"..i.."Count"]
-
-		item:StripTextures()
-		item:SetTemplate("Default")
-		item:StyleButton()
-		item:Size(143, 40)
-		item:SetFrameLevel(item:GetFrameLevel() + 2)
-
-		icon:Size(E.PixelMode and 38 or 32)
-		icon:SetDrawLayer("OVERLAY")
-		icon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
-		S:HandleIcon(icon)
-
-		count:SetParent(item.backdrop)
-		count:SetDrawLayer("OVERLAY")
-	end
 
 	hooksecurefunc("QuestFrameProgressItems_Update", function()
 		QuestProgressTitleText:SetTextColor(1, 0.80, 0.10)
