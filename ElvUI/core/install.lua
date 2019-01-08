@@ -141,6 +141,7 @@ local function SetupCVars()
 	SetCVar("UberTooltips", 1)
 	SetCVar("alwaysShowActionBars", 1)
 	SetCVar("lockActionBars", 1)
+	SetCVar("useSimpleChat", 0)
 
 	SetActionBarToggles(1, 0, 1, 1)
 	TutorialFrame_HideAllAlerts()

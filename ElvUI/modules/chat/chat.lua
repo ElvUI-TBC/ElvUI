@@ -1724,6 +1724,10 @@ function CH:Initialize()
 	close:EnableMouse(true)
 	S:HandleCloseButton(close)
 
+	-- Disable Blizzard
+	InterfaceOptionsSocialPanelSimpleChat:SetAlpha(0)
+	InterfaceOptionsSocialPanelSimpleChat:SetScale(0.0001)
+
 	CombatLogQuickButtonFrame_Custom:StripTextures()
 	CombatLogQuickButtonFrame_Custom:CreateBackdrop("Default", true)
 	CombatLogQuickButtonFrame_Custom.backdrop:Point("TOPLEFT", 0, -1)
