@@ -117,38 +117,34 @@ local function LoadSkin()
 		end
 
 		if quality then
-			if frame then
-				frame:SetBackdropBorderColor(GetItemQualityColor(quality))
-				frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-			end
+			frame:SetBackdropBorderColor(GetItemQualityColor(quality))
+			frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+
 			text:SetTextColor(GetItemQualityColor(quality))
 		else
-			if frame then
-				frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
-				frame.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
-			end
+			frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			frame.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+
 			text:SetTextColor(1, 1, 1)
 		end
 	end
 
 	QuestRewardItemHighlight:StripTextures()
-	QuestRewardItemHighlight:SetTemplate("Default", nil, true)
-	QuestRewardItemHighlight:SetBackdropBorderColor(1, 0.80, 0.10)
-	QuestRewardItemHighlight:SetBackdropColor(0, 0, 0, 0)
-	QuestRewardItemHighlight:Size(142, 40)
 
 	hooksecurefunc("QuestRewardItem_OnClick", function()
-		QuestRewardItemHighlight:ClearAllPoints()
-		QuestRewardItemHighlight:SetAllPoints(this:GetName())
-		_G[this:GetName().."Name"]:SetTextColor(1, 0.80, 0.10)
+		if this.type == "choice" then
+			_G[this:GetName()]:SetBackdropBorderColor(1, 0.80, 0.10)
+			_G[this:GetName()].backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
+			_G[this:GetName().."Name"]:SetTextColor(1, 0.80, 0.10)
 
-		for i = 1, MAX_NUM_ITEMS do
-			local questItem = _G["QuestRewardItem"..i]
-			local questName = _G["QuestRewardItem"..i.."Name"]
-			local link = questItem.type and GetQuestItemLink(questItem.type, questItem:GetID())
+			for i = 1, MAX_NUM_ITEMS do
+				local item = _G["QuestRewardItem"..i]
+				local name = _G["QuestRewardItem"..i.."Name"]
+				local link = item.type and GetQuestItemLink(item.type, item:GetID())
 
-			if questItem ~= this then
-				QuestQualityColors(nil, questName, nil, link)
+				if item ~= this then
+					QuestQualityColors(item, name, nil, link)
+				end
 			end
 		end
 	end)
