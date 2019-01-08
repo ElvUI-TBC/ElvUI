@@ -1297,8 +1297,10 @@ function B:ToggleBackpack()
 
 	if IsBagOpen(0) then
 		self:OpenBags()
+		PlaySound("igBackPackOpen")
 	else
 		self:CloseBags()
+		PlaySound("igBackPackClose")
 	end
 end
 
@@ -1332,7 +1334,6 @@ end
 function B:OpenBags()
 	self.BagFrame:Show()
 	self.BagFrame:UpdateAllSlots()
-	PlaySound("igBackPackOpen")
 
 	if not TooltipModule then TooltipModule = E:GetModule("Tooltip") end
 	TooltipModule:GameTooltip_SetDefaultAnchor(GameTooltip)

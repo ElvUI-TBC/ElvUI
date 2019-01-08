@@ -185,6 +185,13 @@ function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration)
 	local anotherFilterExists = false
 	local isFriend = UnitIsFriend("player", unit) == 1 and true or false
 
+	if UF:CheckFilter(db.onlyDispellable, isFriend) then
+		if (self.type == "debuffs" and debuffType and not E:IsDispellableByMe(debuffType)) or debuffType == nil then
+			returnValue = false
+		end
+		anotherFilterExists = true
+	end
+
 	if UF:CheckFilter(db.noDuration, isFriend) then
 		if duration == 0 or not duration then
 			returnValue = false

@@ -133,14 +133,14 @@ local function LoadSkin()
 
 	QuestRewardItemHighlight:StripTextures()
 	QuestRewardItemHighlight:SetTemplate("Default", nil, true)
-	QuestRewardItemHighlight:SetBackdropBorderColor(1, 1, 0)
+	QuestRewardItemHighlight:SetBackdropBorderColor(1, 0.80, 0.10)
 	QuestRewardItemHighlight:SetBackdropColor(0, 0, 0, 0)
 	QuestRewardItemHighlight:Size(142, 40)
 
 	hooksecurefunc("QuestRewardItem_OnClick", function()
 		QuestRewardItemHighlight:ClearAllPoints()
-		QuestRewardItemHighlight:SetOutside(this:GetName().."IconTexture")
-		_G[this:GetName().."Name"]:SetTextColor(1, 1, 0)
+		QuestRewardItemHighlight:SetAllPoints(this:GetName())
+		_G[this:GetName().."Name"]:SetTextColor(1, 0.80, 0.10)
 
 		for i = 1, MAX_NUM_ITEMS do
 			local questItem = _G["QuestRewardItem"..i]
