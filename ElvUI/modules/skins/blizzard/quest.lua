@@ -86,6 +86,21 @@ local function LoadSkin()
 
 		honor:SetTemplate("Default")
 		honor:Size(143, 40)
+		honor:EnableMouse(true)
+
+		honor:HookScript2("OnEnter", function(self)
+			GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+			GameTooltip:SetText(HONOR_POINTS, 1, 1, 1)
+			GameTooltip:AddLine(TOOLTIP_HONOR_POINTS, nil, nil, nil, 1)
+			GameTooltip:Show()
+		end)
+		honor:HookScript2("OnLeave", function()
+			GameTooltip:Hide()
+		end)
+
+		honor.highlight = honor:CreateTexture(nil, "HIGHLIGHT")
+		honor.highlight:SetTexture(1, 1, 1, 0.3)
+		honor.highlight:SetInside()
 
 		icon.backdrop = CreateFrame("Frame", nil, honor)
 		icon.backdrop:SetFrameLevel(honor:GetFrameLevel() - 1)
