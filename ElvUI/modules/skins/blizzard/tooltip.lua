@@ -24,6 +24,8 @@ local function LoadSkin()
 
 	for _, tt in pairs(tooltips) do
 		TT:SecureHookScript(tt, "OnShow", "SetStyle")
+
+		tt:SetClampedToScreen(true)
 	end
 
 	GameTooltipStatusBar:SetStatusBarTexture(E.media.normTex)
