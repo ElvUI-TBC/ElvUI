@@ -504,6 +504,8 @@ function TT:SetStyle(tt)
 	tt:SetTemplate("Transparent", nil, true)
 	local r, g, b = tt:GetBackdropColor()
 	tt:SetBackdropColor(r, g, b, self.db.colorAlpha)
+
+	tt:SetClampedToScreen(true)
 end
 
 function TT:MODIFIER_STATE_CHANGED(_, key)
