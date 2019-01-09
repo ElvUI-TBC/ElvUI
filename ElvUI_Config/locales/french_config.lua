@@ -834,6 +834,7 @@ L["Battlefield Frame"] = true
 L["BG Map"] = "Carte Champs de bataille"
 L["BG Score"] = "Scores Champs de bataille"
 L["Character Frame"] = "Fenêtre du Personnage"
+L["CheckBox Skin"] = true
 L["Debug Tools"] = "Outils de débogage"
 L["Dressing Room"] = "Cabine d'essayage"
 L["GM Chat"] = true

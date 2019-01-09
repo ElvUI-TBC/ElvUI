@@ -818,6 +818,7 @@ L["Battlefield Frame"] = true
 L["BG Map"] = true
 L["BG Score"] = true
 L["Character Frame"] = true
+L["CheckBox Skin"] = true
 L["Debug Tools"] = true
 L["Dressing Room"] = true
 L["GM Chat"] = true

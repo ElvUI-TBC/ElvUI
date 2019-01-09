@@ -883,6 +883,7 @@ L["Battlefield Frame"] = true
 L["BG Map"] = "전장 맵"
 L["BG Score"] = "전장 점수판"
 L["Character Frame"] = "캐릭터 창"
+L["CheckBox Skin"] = true
 L["Debug Tools"] = "오류 확인 창"
 L["Dressing Room"] = "미리보기"
 L["GM Chat"] = true

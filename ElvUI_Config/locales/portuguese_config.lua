@@ -834,6 +834,7 @@ L["Battlefield Frame"] = true
 L["BG Map"] = "Mapa do CB"
 L["BG Score"] = "Placar do CB"
 L["Character Frame"] = "Personagem"
+L["CheckBox Skin"] = true
 L["Debug Tools"] = "Ferramentas de Depuração"
 L["Dressing Room"] = "Provador"
 L["GM Chat"] = true

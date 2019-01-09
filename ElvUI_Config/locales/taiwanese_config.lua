@@ -834,6 +834,7 @@ L["Battlefield Frame"] = true
 L["BG Map"] = "戰場地圖"
 L["BG Score"] = "戰場積分"
 L["Character Frame"] = "角色"
+L["CheckBox Skin"] = true
 L["Debug Tools"] = "除錯工具"
 L["Dressing Room"] = "試衣間"
 L["GM Chat"] = true

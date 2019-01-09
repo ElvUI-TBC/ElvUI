@@ -116,16 +116,31 @@ function S:SkinAce3()
 			local highlight = widget.highlight
 
 			checkbg:CreateBackdrop("Default")
-			checkbg.backdrop:SetInside(checkbg, 4, 4)
 			checkbg.backdrop:SetFrameLevel(checkbg.backdrop:GetFrameLevel() + 1)
 			checkbg:SetTexture("")
 			checkbg.SetTexture = E.noop
 
-			check:SetTexture([[Interface\AddOns\ElvUI\media\textures\melli]])
-			check.SetTexture = E.noop
-			check:SetVertexColor(1, 0.82, 0, 0.8)
-			check:SetInside(checkbg.backdrop)
 			check:SetParent(checkbg.backdrop)
+
+			if E.private.skins.checkBoxSkin then
+				checkbg.backdrop:SetInside(checkbg, 5, 5)
+
+				check:SetTexture([[Interface\AddOns\ElvUI\media\textures\melli]])
+				check.SetTexture = E.noop
+				check:SetInside(checkbg.backdrop)
+
+				hooksecurefunc(check, "SetDesaturated", function(chk, value)
+					if value == true then
+						chk:SetVertexColor(0.6, 0.6, 0.6, 0.8)
+					else
+						chk:SetVertexColor(1, 0.82, 0, 0.8)
+					end
+				end)
+			else
+				checkbg.backdrop:SetInside(checkbg, 4, 4)
+
+				check:SetOutside(checkbg.backdrop, 3, 3)
+			end
 
 			highlight:SetTexture("")
 			highlight.SetTexture = E.noop

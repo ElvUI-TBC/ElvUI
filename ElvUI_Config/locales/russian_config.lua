@@ -834,6 +834,7 @@ L["Battlefield Frame"] = true
 L["BG Map"] = "Карта ПБ"
 L["BG Score"] = "Таблица ПБ"
 L["Character Frame"] = "Окно персонажа"
+L["CheckBox Skin"] = true
 L["Debug Tools"] = "Инструменты отладки"
 L["Dressing Room"] = "Примерочная"
 L["GM Chat"] = "ГМ чат"

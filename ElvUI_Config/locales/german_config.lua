@@ -835,6 +835,7 @@ L["Battlefield Frame"] = true
 L["BG Map"] = "Schlachtfeldkarte"
 L["BG Score"] = "Schlachtfeldpunkte"
 L["Character Frame"] = "Charakterfenster"
+L["CheckBox Skin"] = "Auswahlkästchen Skin"
 L["Debug Tools"] = "Debug Tools"
 L["Dressing Room"] = "Anprobe"
 L["GM Chat"] = true
