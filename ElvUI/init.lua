@@ -94,7 +94,7 @@ function AddOn:OnInitialize()
 	self:UpdateMedia()
 
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
-	self:RegisterEvent("PLAYER_LOGIN", "Initialize")
+	--self:RegisterEvent("PLAYER_LOGIN", "Initialize")
 	self:Contruct_StaticPopups()
 	self:InitializeInitialModules()
 
@@ -138,6 +138,12 @@ function AddOn:OnInitialize()
 	local S = AddOn:GetModule("Skins")
 	S:HandleButton(GameMenuButton)
 end
+
+local loginFrame = CreateFrame("Frame")
+loginFrame:RegisterEvent("PLAYER_LOGIN")
+loginFrame:SetScript("OnEvent", function(self)
+	AddOn:Initialize(self)
+end)
 
 function AddOn:PLAYER_REGEN_ENABLED()
 	self:ToggleConfig()

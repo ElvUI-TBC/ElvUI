@@ -52,16 +52,16 @@ function E:UIScale(event, loginFrame)
 
 	local minScale = E.global.general.minUiScale or 0.64
 	if E.global.general.autoScale then
-		scale = max(minScale, min(1.15, 768/height))
+		scale = max(minScale, min(1, 768/height))
 	else
-		scale = max(minScale, min(1.15, E.global.uiScale or (height > 0 and (768/height)) or UIParent:GetScale()))
+		scale = max(minScale, min(1, E.global.uiScale or (height > 0 and (768/height)) or UIParent:GetScale()))
 	end
 
 	if width < 1600 then
 		E.lowversion = true
 	elseif width >= 3840 and E.global.general.eyefinity then
 		-- because some user enable bezel compensation, we need to find the real width of a single monitor.
-		-- I don"t know how it really work, but i"m assuming they add pixel to width to compensate the bezel. :P
+		-- I don"t know how it really work, but i'm assuming they add pixel to width to compensate the bezel. :P
 
 		-- HQ resolution
 		if width >= 9840 then width = 3280 end						-- WQSXGA
@@ -103,7 +103,7 @@ function E:UIScale(event, loginFrame)
 		end
 	end
 
-	if event == "PLAYER_LOGIN" or event == "UPDATE_FLOATING_CHAT_WINDOWS" then
+	if event == "PLAYER_LOGIN" or (event == "CVAR_UPDATE" and arg1 == "USE_UISCALE") then
 		--Resize E.UIParent if Eyefinity is on.
 		if E.eyefinity then
 			-- if autoscale is off, find a new width value of E.UIParent for screen #1.
@@ -146,7 +146,7 @@ function E:UIScale(event, loginFrame)
 			change = abs((E:Round(UIParent:GetScale(), 5) * 100) - (E:Round(scale, 5) * 100))
 		end
 
-		if event == "UPDATE_FLOATING_CHAT_WINDOWS" and change and change > 1 then
+		if event == "CVAR_UPDATE" and arg1 == "USE_UISCALE" and change and change > 1 then
 			if E.global.general.autoScale then
 				E:StaticPopup_Show("FAILED_UISCALE")
 			else

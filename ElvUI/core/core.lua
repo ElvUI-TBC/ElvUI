@@ -1210,7 +1210,7 @@ function E:GetTopCPUFunc(msg)
 	self:Print("Calculating CPU Usage differences (module: "..(checkCore or module)..", showall: "..tostring(showall)..", minCalls: "..tostring(minCalls)..", delay: "..tostring(delay)..")")
 end
 
-function E:Initialize()
+function E:Initialize(loginFrame)
 	twipe(self.db)
 	twipe(self.global)
 	twipe(self.private)
@@ -1230,7 +1230,8 @@ function E:Initialize()
 	self:DBConversions()
 
 	self:ScheduleTimer("CheckRole", 0.01)
-	self:UIScale("PLAYER_LOGIN")
+
+	self:UIScale("PLAYER_LOGIN", loginFrame)
 
 	if not E.db.general.cropIcon then
 		E.TexCoords = {0, 1, 0, 1}
