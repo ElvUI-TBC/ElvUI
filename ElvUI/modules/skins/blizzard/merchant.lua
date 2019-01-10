@@ -146,6 +146,8 @@ local function LoadSkin()
 					else
 						itemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					end
+				else
+					itemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
 			end
 
@@ -185,6 +187,8 @@ local function LoadSkin()
 					else
 						itemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					end
+				else
+					itemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
 			end
 		end
