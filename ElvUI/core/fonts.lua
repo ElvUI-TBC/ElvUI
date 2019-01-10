@@ -20,7 +20,7 @@ function E:UpdateBlizzardFonts()
 	local NAMEFONT			= LSM:Fetch("font", self.private.general.namefont)
 	local MONOCHROME		= ""
 
-	CHAT_FONT_HEIGHTS = {10, 12, 13, 14, 15, 16, 17, 18, 19, 20}
+	CHAT_FONT_HEIGHTS = {10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}
 
 	UNIT_NAME_FONT		= NAMEFONT
 	NAMEPLATE_FONT		= NAMEFONT
