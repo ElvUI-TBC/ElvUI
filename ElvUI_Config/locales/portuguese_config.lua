@@ -1000,7 +1000,6 @@ L["Detached Width"] = "Largura quando Destacado"
 L["Direction the health bar moves when gaining/losing health."] = "Direção em que a barra da vida se move quando se ganha/perde vida."
 L["Disable Debuff Highlight"] = true
 L["Disabled Blizzard Frames"] = true
-L["Disables the focus and target of focus unitframes."] = true
 L["Disables the player and pet unitframes."] = true
 L["Disables the target and target of target unitframes."] = true
 L["Disconnected"] = "Desconectado"

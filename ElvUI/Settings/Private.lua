@@ -116,7 +116,6 @@ V["unitframe"] = {
 	["disabledBlizzardFrames"] = {
 		["player"] = true,
 		["target"] = true,
-		["focus"] = true,
 		["party"] = true
 	}
 }

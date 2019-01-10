@@ -984,7 +984,6 @@ L["Detached Width"] = true
 L["Direction the health bar moves when gaining/losing health."] = true
 L["Disable Debuff Highlight"] = true
 L["Disabled Blizzard Frames"] = true
-L["Disables the focus and target of focus unitframes."] = true
 L["Disables the player and pet unitframes."] = true
 L["Disables the target and target of target unitframes."] = true
 L["Disconnected"] = true

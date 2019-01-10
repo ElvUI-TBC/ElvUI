@@ -3044,14 +3044,8 @@ E.Options.args.unitframe = {
 							name = L["Target Frame"],
 							desc = L["Disables the target and target of target unitframes."]
 						},
-						focus = {
-							order = 4,
-							type = "toggle",
-							name = L["Focus Frame"],
-							desc = L["Disables the focus and target of focus unitframes."]
-						},
 						party = {
-							order = 6,
+							order = 4,
 							type = "toggle",
 							name = L["Party Frames"]
 						}
