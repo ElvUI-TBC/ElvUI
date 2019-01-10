@@ -53,7 +53,7 @@ end
 function DT:BattlegroundStats()
 	DT:SetupTooltip(self)
 	local CurrentMapID = GetCurrentMapAreaID()
-	local classColor = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[E.myclass]
+	local classColor = (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass]) or RAID_CLASS_COLORS[E.myclass]
 	local numStatInfo = GetNumBattlefieldStats()
 	if numStatInfo then
 		for index = 1, GetNumBattlefieldScores() do

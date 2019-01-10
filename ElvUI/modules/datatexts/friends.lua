@@ -155,7 +155,7 @@ local function OnClick(_, btn)
 						shouldSkip = true
 					end
 					if not shouldSkip then
-						classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[info[3]], GetQuestDifficultyColor(info[2])
+						classc, levelc = (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[info[3]]) or RAID_CLASS_COLORS[info[3]], GetQuestDifficultyColor(info[2])
 						classc = classc or GetQuestDifficultyColor(info[2])
 
 						menuCountWhispers = menuCountWhispers + 1
@@ -203,7 +203,7 @@ local function OnEnter(self)
 				end
 				if not shouldSkip then
 					if GetRealZoneText() == info[4] then zonec = activezone else zonec = inactivezone end
-					classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[info[3]], GetQuestDifficultyColor(info[2])
+					classc, levelc = (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[info[3]]) or RAID_CLASS_COLORS[info[3]], GetQuestDifficultyColor(info[2])
 
 					classc = classc or GetQuestDifficultyColor(info[2])
 

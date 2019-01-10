@@ -7,8 +7,8 @@ local LSM = E.LSM
 local _G = _G
 local type, ipairs, pairs, unpack, select, assert, pcall = type, ipairs, pairs, unpack, select, assert, pcall
 local tinsert, tremove, twipe, tmaxn = table.insert, table.remove, table.wipe, table.maxn
-local floor, ceil, abs, mod = math.floor, math.ceil, math.abs, math.fmod
-local format, len, sub, gsub = string.format, string.len, string.sub, string.gsub
+local floor, ceil, abs = math.floor, math.ceil, math.abs
+local format, sub, gsub = string.format, string.sub, string.gsub
 
 local BankFrameItemButton_Update = BankFrameItemButton_Update
 local BankFrameItemButton_UpdateLocked = BankFrameItemButton_UpdateLocked
@@ -117,7 +117,7 @@ function B:UpdateSearch()
 	local MIN_REPEAT_CHARACTERS = 3
 	local searchString = self:GetText()
 	local prevSearchString = SEARCH_STRING
-	if len(searchString) > MIN_REPEAT_CHARACTERS then
+	if #searchString > MIN_REPEAT_CHARACTERS then
 		local repeatChar = true
 		for i = 1, MIN_REPEAT_CHARACTERS, 1 do
 			if sub(searchString,(0 - i), (0 - i)) ~= sub(searchString,(-1 - i),(-1 - i)) then
@@ -161,7 +161,7 @@ function B:ResetAndClear()
 end
 
 function B:SetSearch(query)
-	local empty = len(query:gsub(" ", "")) == 0
+	local empty = #(query:gsub(" ", "")) == 0
 	for _, bagFrame in pairs(self.BagFrames) do
 		for _, bagID in ipairs(bagFrame.BagIDs) do
 			for slotID = 1, GetContainerNumSlots(bagID) do
@@ -197,7 +197,7 @@ function B:SetSearch(query)
 end
 
 function B:SetGuildBankSearch(query)
-	local empty = len(query:gsub(" ", "")) == 0
+	local empty = #(query:gsub(" ", "")) == 0
 	if GuildBankFrame and GuildBankFrame:IsShown() then
 		local tab = GetCurrentGuildBankTab()
 		local _, _, isViewable = GetGuildBankTabInfo(tab)
@@ -630,9 +630,8 @@ function B:Layout(isBank)
 					f.Bags[bagID][slotID]:ClearAllPoints()
 				end
 
-				local anchorPoint, relativePoint
 				if lastButton then
-					anchorPoint, relativePoint = (self.db.reverseSlots and "BOTTOM" or "TOP"), (self.db.reverseSlots and "TOP" or "BOTTOM")
+					local anchorPoint, relativePoint = (self.db.reverseSlots and "BOTTOM" or "TOP"), (self.db.reverseSlots and "TOP" or "BOTTOM")
 					if isSplit and newBag and slotID == 1 then
 						f.Bags[bagID][slotID]:Point(anchorPoint, lastRowButton, relativePoint, 0, self.db.reverseSlots and (buttonSpacing + bagSpacing) or -(buttonSpacing + bagSpacing))
 						lastRowButton = f.Bags[bagID][slotID]
@@ -652,7 +651,7 @@ function B:Layout(isBank)
 						f.Bags[bagID][slotID]:Point(anchorPoint, lastButton, relativePoint, self.db.reverseSlots and -buttonSpacing or buttonSpacing, 0)
 					end
 				else
-					anchorPoint = self.db.reverseSlots and "BOTTOMRIGHT" or "TOPLEFT"
+					local anchorPoint = self.db.reverseSlots and "BOTTOMRIGHT" or "TOPLEFT"
 					f.Bags[bagID][slotID]:Point(anchorPoint, f.holderFrame, anchorPoint)
 					lastRowButton = f.Bags[bagID][slotID]
 					numContainerRows = numContainerRows + 1
@@ -860,8 +859,8 @@ function B:FormatMoney(amount)
 
 	local value = abs(amount)
 	local gold = floor(value / 10000)
-	local silver = floor(mod(value / 100, 100))
-	local copper = floor(mod(value, 100))
+	local silver = floor((value / 100) % 100)
+	local copper = floor(value % 100)
 
 	if gold > 0 then
 		str = format("%d%s%s", gold, goldname, (silver > 0 or copper > 0) and " " or "")
@@ -1385,7 +1384,7 @@ function B:PLAYER_ENTERING_WORLD()
 end
 
 function B:updateContainerFrameAnchors()
-	local frame, xOffset, yOffset, screenHeight, freeScreenHeight, leftMostPoint, column
+	local xOffset, yOffset, screenHeight, freeScreenHeight, leftMostPoint, column
 	local screenWidth = GetScreenWidth()
 	local containerScale = 1
 	local leftLimit = 0
@@ -1404,9 +1403,8 @@ function B:updateContainerFrameAnchors()
 		leftMostPoint = screenWidth - xOffset
 		column = 1
 
-		local frameHeight
 		for _, frameName in ipairs(ContainerFrame1.bags) do
-			frameHeight = _G[frameName]:GetHeight()
+			local frameHeight = _G[frameName]:GetHeight()
 
 			if freeScreenHeight < frameHeight then
 				-- Start a new column
@@ -1439,7 +1437,7 @@ function B:updateContainerFrameAnchors()
 
 	local bagsPerColumn = 0
 	for index, frameName in ipairs(ContainerFrame1.bags) do
-		frame = _G[frameName]
+		local frame = _G[frameName]
 		frame:SetScale(1)
 
 		if index == 1 then
@@ -1512,12 +1510,12 @@ function B:ProgressQuickVendor()
 	if not item then return nil, true end --No more to sell
 	local bag, slot, itemPrice, itemLink = unpack(item)
 
-	local stackPrice
-	local stackCount = select(2, GetContainerItemInfo(bag, slot)) or 1
+	local stackPrice = 0
 	if B.SellFrame.Info.delete then
 		PickupContainerItem(bag, slot)
 		DeleteCursorItem()
 	else
+		local stackCount = select(2, GetContainerItemInfo(bag, slot)) or 1
 		stackPrice = (itemPrice or 0) * stackCount
 		if E.db.bags.vendorGrays.details and itemLink then
 			E:Print(format("%s|cFF00DDDDx%d|r %s", itemLink, stackCount, B:FormatMoney(stackPrice)))

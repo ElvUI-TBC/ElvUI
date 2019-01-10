@@ -18,6 +18,7 @@ local function LoadSkin()
 		"QuestDetailScrollChildFrame",
 		"QuestRewardScrollFrame",
 		"QuestRewardScrollChildFrame",
+		"QuestRewardItemHighlight",
 		"QuestFrameProgressPanel",
 		"QuestFrameRewardPanel",
 	}
@@ -72,13 +73,7 @@ local function LoadSkin()
 		end
 	end
 
-	local questHonorFrames = {
-		"QuestLogHonorFrame",
-		"QuestDetailHonorFrame",
-		"QuestRewardHonorFrame"
-	}
-
-	for _, frame in pairs(questHonorFrames) do
+	for _, frame in pairs({"QuestLogHonorFrame", "QuestDetailHonorFrame", "QuestRewardHonorFrame"}) do
 		local honor = _G[frame]
 		local icon = _G[frame.."Icon"]
 		local points = _G[frame.."Points"]
@@ -126,7 +121,7 @@ local function LoadSkin()
 		text:SetText(HONOR_POINTS)
 	end
 
-	local function QuestQualityColors(frame, text, quality, link)
+	local function QuestQualityColors(frame, text, link, quality)
 		if link and not quality then
 			quality = select(3, GetItemInfo(link))
 		end
@@ -144,8 +139,6 @@ local function LoadSkin()
 		end
 	end
 
-	QuestRewardItemHighlight:StripTextures()
-
 	hooksecurefunc("QuestRewardItem_OnClick", function()
 		if this.type == "choice" then
 			_G[this:GetName()]:SetBackdropBorderColor(1, 0.80, 0.10)
@@ -158,7 +151,7 @@ local function LoadSkin()
 				local link = item.type and GetQuestItemLink(item.type, item:GetID())
 
 				if item ~= this then
-					QuestQualityColors(item, name, nil, link)
+					QuestQualityColors(item, name, link)
 				end
 			end
 		end
@@ -238,31 +231,18 @@ local function LoadSkin()
 
 		QuestObjectiveTextColor()
 
-		local numQuestRewards, numQuestChoices
-		local numQuestSpellRewards = 0
-		if questState == "QuestLog" then
-			numQuestRewards, numQuestChoices = GetNumQuestLogRewards(), GetNumQuestLogChoices()
-			if GetQuestLogRewardSpell() then
-				numQuestSpellRewards = 1
-			end
-		else
-			numQuestRewards, numQuestChoices = GetNumQuestRewards(), GetNumQuestChoices()
-			if GetRewardSpell() then
-				numQuestSpellRewards = 1
-			end
-		end
+		local numQuestRewards = questState == "QuestLog" and GetNumQuestLogRewards() or GetNumQuestRewards()
+		local numQuestChoices = questState == "QuestLog" and GetNumQuestLogChoices() or GetNumQuestChoices()
+		local numQuestSpellRewards = questState == "QuestLog" and GetQuestLogRewardSpell() or GetRewardSpell()
+		local rewardsCount = numQuestChoices + numQuestRewards + (numQuestSpellRewards and 1 or 0)
 
-		local rewardsCount = numQuestChoices + numQuestRewards + numQuestSpellRewards
 		if rewardsCount > 0 then
-			local questItem, itemName, link
-			local questItemName = questState.."Item"
-
 			for i = 1, rewardsCount do
-				questItem = _G[questItemName..i]
-				itemName = _G[questItemName..i.."Name"]
-				link = questItem.type and (questState == "QuestLog" and GetQuestLogItemLink or GetQuestItemLink)(questItem.type, questItem:GetID())
+				local item = _G[questState.."Item"..i]
+				local name = _G[questState.."Item"..i.."Name"]
+				local link = item.type and (questState == "QuestLog" and GetQuestLogItemLink or GetQuestItemLink)(item.type, item:GetID())
 
-				QuestQualityColors(questItem, itemName, nil, link)
+				QuestQualityColors(item, name, link)
 			end
 		end
 	end)
@@ -396,7 +376,7 @@ local function LoadSkin()
 			local name = _G["QuestProgressItem"..i.."Name"]
 			local link = item.type and GetQuestItemLink(item.type, item:GetID())
 
-			QuestQualityColors(item, name, nil, link)
+			QuestQualityColors(item, name, link)
 		end
 	end)
 
