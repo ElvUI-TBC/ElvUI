@@ -331,7 +331,7 @@ function GetQuestItemStarterInfo(itemLink)
 	if itemLink then
 		local itemID = match(itemLink, "item:(%d+):")
 
-		if QIS.QuestItemKeyIDs[itemID] then
+		if QIS.QuestItemIDs[itemID] then
 			isQuestItem = true
 		else
 			local _, _, _, _, _, itemType = GetItemInfo(itemID)

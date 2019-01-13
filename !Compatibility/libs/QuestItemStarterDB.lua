@@ -284,8 +284,13 @@ lib.QuestItemStarterIDs = {
 	["35723"] = {QUEST = "11972"},	-- Item : Shards of Ahune - Quest: Shards of Ahune
 }
 
--- Keys that are quest items and they are not tagged as quest items.
-lib.QuestItemKeyIDs = {
+-- Items that are quest items and they are not tagged as quest items.
+lib.QuestItemIDs = {
+	-- Items
+	["6464"] = true,	-- Wailing Essence
+	["11148"] = true,	-- Samophlange Manual Page
+
+	-- Keys
 	["2629"] = true,	-- Intrepid Strongbox Key
 	["2719"] = true,	-- Small Brass Key
 	["3467"] = true,	-- Dull Iron Key
