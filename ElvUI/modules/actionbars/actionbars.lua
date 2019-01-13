@@ -695,7 +695,9 @@ function AB:UpdateButtonConfig(bar, buttonName)
 		button:SetAttribute("checkselfcast", true)
 		button:SetAttribute("checkfocuscast", true)
 		if self.db.rightClickSelfCast then
-			bar:SetAttribute("unit-S"..(bar:GetAttribute("state-page") or 0).."Right", "player")
+			E:Delay(0.1, bar:SetAttribute("unit-S"..(bar:GetAttribute("state-page") or 0).."Right", "player"))
+		else
+			bar:SetAttribute("unit-S"..(bar:GetAttribute("state-page") or 0).."Right")
 		end
 
 		button:UpdateConfig(bar.buttonConfig)
