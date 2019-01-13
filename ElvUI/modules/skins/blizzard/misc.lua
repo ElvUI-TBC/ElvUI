@@ -228,9 +228,13 @@ local function LoadSkin()
 			for j = 1, UIDROPDOWNMENU_MAXBUTTONS do
 				local button = _G["DropDownList"..i.."Button"..j]
 				button:SetFrameLevel(_G["DropDownList"..i.."Backdrop"]:GetFrameLevel() + 1)
-				button:SetFont(E.media.normFont, 12)
+				--button:SetFont(E.media.normFont, E.db.general.fontSize)
+
 				_G["DropDownList"..i.."Button"..j.."Highlight"]:SetTexture(1, 1, 1, 0.3)
 				S:HandleColorSwatch(_G["DropDownList"..i.."Button"..j.."ColorSwatch"], 14)
+				
+				local normalText = _G["DropDownList"..i.."Button"..j.."NormalText"]
+				normalText:SetFont(E.media.normFont, E.db.general.fontSize)
 			end
 		end
 	end)
