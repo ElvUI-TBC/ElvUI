@@ -432,7 +432,7 @@ function CH:UpdateAnchors()
 		frame:Point("TOPRIGHT", ChatFrame1, "TOPRIGHT", noBackdrop and 10 or 4, LeftChatTab:GetHeight()+(noBackdrop and 1 or 4))
 	end
 
-	-- CH:PositionChat(true)
+	CH:PositionChat(true)
 end
 
 local function FindRightChatID()
@@ -1098,8 +1098,9 @@ function CH:SetupChat()
 
 	DEFAULT_CHAT_FRAME:SetParent(LeftChatPanel)
 
---	self:PositionChat(true)
-	self:ScheduleTimer("PositionChat", 1)
+	-- self:ScheduleRepeatingTimer("PositionChat", 1)
+	E:Delay(0.05, function() self:PositionChat(true) end)
+	-- self:PositionChat(true)
 end
 
 local function PrepareMessage(author, message)
