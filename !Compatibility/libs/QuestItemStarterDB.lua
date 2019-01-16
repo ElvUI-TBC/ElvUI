@@ -287,8 +287,11 @@ lib.QuestItemStarterIDs = {
 -- Items that are quest items and they are not tagged as quest items.
 lib.QuestItemIDs = {
 	-- Items
+	["5880"] = true,	-- Crate With Holes
 	["6464"] = true,	-- Wailing Essence
 	["11148"] = true,	-- Samophlange Manual Page
+	["12884"] = true,	-- Arnak's Hoof
+	["14542"] = true,	-- Kravel's Crate
 
 	-- Keys
 	["2629"] = true,	-- Intrepid Strongbox Key

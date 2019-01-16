@@ -188,6 +188,7 @@ G.unitframe.aurafilters["Blacklist"] = {
 	["spells"] = {
 		[SpellName(6788)] = Defaults(),		-- Weakened Soul
 		[SpellName(8326)] = Defaults(),		-- Ghost
+		[SpellName(8733)] = Defaults(),		-- Blessing of Blackfathom
 		[SpellName(15007)] = Defaults(),	-- Resurrection Sickness
 		[SpellName(23445)] = Defaults(),	-- Evil Twin
 		[SpellName(24755)] = Defaults(),	-- Tricked or Treated

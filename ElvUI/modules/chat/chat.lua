@@ -209,9 +209,19 @@ function CH:StyleChat(frame)
 	frame:SetFrameLevel(4)
 
 	local id = frame:GetID()
-
 	local tab = _G[name.."Tab"]
+	local editbox = _G["ChatFrameEditBox"]
+
 	tab.isDocked = frame.isDocked
+
+	--Character count
+	editbox.characterCount = editbox:CreateFontString()
+	editbox.characterCount:FontTemplate()
+	editbox.characterCount:SetTextColor(190, 190, 190, 0.4)
+	editbox.characterCount:Point("TOPRIGHT", editbox, "TOPRIGHT", -5, 0)
+	editbox.characterCount:Point("BOTTOMRIGHT", editbox, "BOTTOMRIGHT", -5, 0)
+	editbox.characterCount:SetJustifyH("CENTER")
+	editbox.characterCount:Width(30)
 
 	for i = 1, #CHAT_FRAME_TEXTURES do
 		_G[name..CHAT_FRAME_TEXTURES[i]]:Kill()
@@ -985,6 +995,7 @@ end
 
 local function OnTextChanged(self)
 	local text = self:GetText()
+	local editbox = _G["ChatFrameEditBox"]
 
 	if InCombatLockdown() then
 		local MIN_REPEAT_CHARACTERS = E.db.chat.numAllowedCombatRepeat
@@ -1017,6 +1028,8 @@ local function OnTextChanged(self)
 			ChatEdit_ParseText(self, 0)
 		end
 	end
+
+	editbox.characterCount:SetText((255 - strlen(text)))
 end
 
 function CH:SetupChat()
@@ -1277,6 +1290,10 @@ function CH:ChatEdit_UpdateHeader(editbox)
 	elseif type then
 		editbox:SetBackdropBorderColor(ChatTypeInfo[type].r, ChatTypeInfo[type].g, ChatTypeInfo[type].b)
 	end
+
+	--Increase inset on right side to make room for character count text
+	local insetLeft, insetRight, insetTop, insetBottom = editbox:GetTextInsets()
+	editbox:SetTextInsets(insetLeft, insetRight + 25, insetTop, insetBottom)
 end
 
 function CH:ChatEdit_OnEnterPressed()
