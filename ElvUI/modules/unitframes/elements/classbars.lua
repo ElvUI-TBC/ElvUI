@@ -193,7 +193,7 @@ function UF:PostUpdateDruidAltMana(_, cur, max, event)
 	local db = frame.db
 
 	--if frame.USE_CLASSBAR and ((cur ~= max or (not db.classbar.autoHide)) and (event ~= "ElementDisable")) then
-	if frame.USE_CLASSBAR and ((cur ~= max or (not db.classbar.autoHide)) and (UnitPowerType("player") ~= 0)) then
+	if frame.USE_CLASSBAR and ((cur ~= max or (db.classbar and not db.classbar.autoHide)) and (UnitPowerType("player") ~= 0)) then
 		if db.classbar.additionalPowerText then
 			local powerValue = frame.Power.value
 			local powerValueText = powerValue:GetText()
