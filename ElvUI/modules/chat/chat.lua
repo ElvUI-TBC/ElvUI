@@ -1111,9 +1111,7 @@ function CH:SetupChat()
 
 	DEFAULT_CHAT_FRAME:SetParent(LeftChatPanel)
 
-	-- self:ScheduleRepeatingTimer("PositionChat", 1)
-	E:Delay(0.05, function() self:PositionChat(true) end)
-	-- self:PositionChat(true)
+	E:Delay(0.05, self:PositionChat(true))
 end
 
 local function PrepareMessage(author, message)

@@ -10,8 +10,8 @@ local hooksecurefunc = hooksecurefunc
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.gossip ~= true then return end
 
+	--ItemText Frame
 	ItemTextScrollFrame:StripTextures()
-	GossipFrameGreetingPanel:StripTextures()
 
 	ItemTextFrame:StripTextures(true)
 	ItemTextFrame:CreateBackdrop("Transparent")
@@ -21,8 +21,35 @@ local function LoadSkin()
 	ItemTextPageText:SetTextColor(1, 1, 1)
 	ItemTextPageText.SetTextColor = E.noop
 
+	ItemTextPageText:EnableMouseWheel(true)
+	ItemTextPageText:SetScript("OnMouseWheel", function(_, value)
+		if value > 0 then
+			if ItemTextPrevPageButton:IsShown() and ItemTextPrevPageButton:IsEnabled() == 1 then
+				ItemTextPrevPage()
+			end
+		else
+			if ItemTextNextPageButton:IsShown() and ItemTextNextPageButton:IsEnabled() == 1 then
+				ItemTextNextPage()
+			end
+		end
+	end)
+
+	ItemTextCurrentPage:Point("TOP", -15, -52)
+
+	ItemTextTitleText:ClearAllPoints()
+	ItemTextTitleText:Point("TOP", ItemTextCurrentPage, "TOP", 0, 30)
+
+	S:HandleNextPrevButton(ItemTextPrevPageButton)
+	ItemTextPrevPageButton:Point("CENTER", ItemTextFrame, "TOPLEFT", 45, -60)
+
+	S:HandleNextPrevButton(ItemTextNextPageButton)
+	ItemTextNextPageButton:Point("CENTER", ItemTextFrame, "TOPRIGHT", -80, -60)
+
+	S:HandleScrollBar(ItemTextScrollFrameScrollBar)
+
 	S:HandleCloseButton(ItemTextCloseButton)
 
+	-- Gossip Frame
 	GossipFramePortrait:Kill()
 
 	GossipGreetingText:SetTextColor(1, 1, 1)
@@ -34,20 +61,13 @@ local function LoadSkin()
 	GossipFrameNpcNameText:ClearAllPoints()
 	GossipFrameNpcNameText:Point("TOP", GossipFrame, "TOP", -5, -24)
 
+	GossipFrameGreetingPanel:StripTextures()
+
 	GossipGreetingScrollFrame:Height(402)
 
 	S:HandleButton(GossipFrameGreetingGoodbyeButton)
 	GossipFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", -37, 4)
 
-	S:HandleNextPrevButton(ItemTextPrevPageButton)
-	ItemTextPrevPageButton:Point("CENTER", ItemTextFrame, "TOPLEFT", 45, -60)
-
-	S:HandleNextPrevButton(ItemTextNextPageButton)
-	ItemTextNextPageButton:Point("CENTER", ItemTextFrame, "TOPRIGHT", -80, -60)
-
-	ItemTextCurrentPage:Point("TOP", -15, -52)
-
-	S:HandleScrollBar(ItemTextScrollFrameScrollBar)
 	S:HandleScrollBar(GossipGreetingScrollFrameScrollBar, 5)
 
 	S:HandleCloseButton(GossipFrameCloseButton)

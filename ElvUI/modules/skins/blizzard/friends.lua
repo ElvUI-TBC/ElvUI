@@ -57,6 +57,10 @@ local function LoadSkin()
 	FriendsFrameGroupInviteButton:Point("TOP", FriendsFrameSendMessageButton, "BOTTOM", 0, -2)
 
 	-- Ignore List Frame
+	FriendsFrameIgnoreScrollFrame:StripTextures()
+
+	S:HandleScrollBar(FriendsFrameIgnoreScrollFrameScrollBar)
+
 	for i = 1, 2 do
 		local Tab = _G["IgnoreFrameToggleTab"..i]
 		Tab:StripTextures()
