@@ -144,6 +144,8 @@ local function LoadSkin()
 
 	CraftName:Point("TOPLEFT", 58, -3)
 
+	CraftHighlight:SetTexture(1, 1, 1, 0.3)
+
 	CraftIcon:SetTemplate("Default")
 	CraftIcon:StyleButton(nil, true)
 	CraftIcon:Size(47)

@@ -280,6 +280,12 @@ local function LoadSkin()
 	QuestLogNoQuestsText:ClearAllPoints()
 	QuestLogNoQuestsText:Point("CENTER", EmptyQuestLogFrame, "CENTER", -45, 65)
 
+	QuestLogHighlightFrame:Width(301)
+	QuestLogHighlightFrame.SetWidth = E.noop
+
+	QuestLogSkillHighlight:SetTexture(1, 1, 1, 0.3)
+	QuestLogSkillHighlight:Point("TOPLEFT", QuestLogHighlightFrame, 4, 0)
+
 	QuestLogFrameAbandonButton:Point("BOTTOMLEFT", 18, 15)
 	QuestLogFrameAbandonButton:Width(101)
 	QuestLogFrameAbandonButton:SetText(L["Abandon"])

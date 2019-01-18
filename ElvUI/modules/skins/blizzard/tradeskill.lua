@@ -146,6 +146,8 @@ local function LoadSkin()
 
 	TradeSkillSkillName:Point("TOPLEFT", 58, -3)
 
+	TradeSkillHighlight:SetTexture(1, 1, 1, 0.3)
+
 	TradeSkillSkillIcon:SetTemplate("Default")
 	TradeSkillSkillIcon:StyleButton(nil, true)
 	TradeSkillSkillIcon:Size(47)

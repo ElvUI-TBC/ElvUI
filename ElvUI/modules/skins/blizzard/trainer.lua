@@ -100,6 +100,8 @@ local function LoadSkin()
 
 	ClassTrainerSkill1:Point("TOPLEFT", 22, -80)
 
+	ClassTrainerSkillHighlight:SetTexture(1, 1, 1, 0.3)
+
 	for i = 1, CLASS_TRAINER_SKILLS_DISPLAYED do
 		local skillButton = _G["ClassTrainerSkill"..i]
 		local highlight = _G["ClassTrainerSkill"..i.."Highlight"]
