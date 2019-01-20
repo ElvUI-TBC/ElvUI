@@ -144,7 +144,7 @@ local function LoadSkin()
 
 	CraftName:Point("TOPLEFT", 58, -3)
 
-	CraftHighlight:SetTexture(1, 1, 1, 0.3)
+	CraftHighlight:StripTextures()
 
 	CraftIcon:SetTemplate("Default")
 	CraftIcon:StyleButton(nil, true)
@@ -204,6 +204,16 @@ local function LoadSkin()
 	CraftReagent7:Point("TOPLEFT", CraftReagent5, "BOTTOMLEFT", 0, -3)
 	CraftReagent8:Point("LEFT", CraftReagent7, "RIGHT", 3, 0)
 
+	CraftHighlightFrame.Left = CraftHighlightFrame:CreateTexture(nil, "ARTWORK")
+	CraftHighlightFrame.Left:Size(152, 15)
+	CraftHighlightFrame.Left:SetPoint("LEFT", CraftHighlightFrame, "CENTER")
+	CraftHighlightFrame.Left:SetTexture(E.media.blankTex)
+
+	CraftHighlightFrame.Right = CraftHighlightFrame:CreateTexture(nil, "ARTWORK")
+	CraftHighlightFrame.Right:Size(152, 15)
+	CraftHighlightFrame.Right:SetPoint("RIGHT", CraftHighlightFrame, "CENTER")
+	CraftHighlightFrame.Right:SetTexture(E.media.blankTex)
+
 	hooksecurefunc("CraftFrame_SetSelection", function(id)
 		if CraftIcon:GetNormalTexture() then
 			CraftReagentLabel:SetAlpha(1)
@@ -225,6 +235,24 @@ local function LoadSkin()
 				CraftIcon:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				CraftName:SetTextColor(1, 1, 1)
 			end
+		end
+
+		local _, _, craftType = GetCraftInfo(id)
+		if craftType == "trivial" then
+			CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0.40, 0.5, 0.5, 0.5, 0)
+			CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0, 0.5, 0.5, 0.5, 0.40)
+		elseif craftType == "easy" then
+			CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", 0, 1, 0, 0.35, 0, 1, 0, 0)
+			CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", 0, 1, 0, 0, 0, 1, 0, 0.35)
+		elseif craftType == "medium" then
+			CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 1, 0, 0.35, 1, 1, 0, 0)
+			CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 1, 0, 0, 1, 1, 0, 0.35)
+		elseif craftType == "optimal" then
+			CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 0.45, 0.15, 0.35, 1, 0.45, 0.15, 0)
+			CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 0.45, 0.15, 0, 1, 0.45, 0.15, 0.35)
+		elseif craftType == "difficult" then
+			CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 0, 0, 0.35, 1, 0, 0, 0)
+			CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 0, 0, 0, 1, 0, 0, 0.35)
 		end
 
 		local numReagents = GetCraftNumReagents(id)

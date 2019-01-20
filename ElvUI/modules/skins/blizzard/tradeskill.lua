@@ -146,7 +146,7 @@ local function LoadSkin()
 
 	TradeSkillSkillName:Point("TOPLEFT", 58, -3)
 
-	TradeSkillHighlight:SetTexture(1, 1, 1, 0.3)
+	TradeSkillHighlight:StripTextures()
 
 	TradeSkillSkillIcon:SetTemplate("Default")
 	TradeSkillSkillIcon:StyleButton(nil, true)
@@ -216,6 +216,16 @@ local function LoadSkin()
 
 	S:HandleCloseButton(TradeSkillFrameCloseButton, TradeSkillFrame.backdrop)
 
+	TradeSkillHighlightFrame.Left = TradeSkillHighlightFrame:CreateTexture(nil, "ARTWORK")
+	TradeSkillHighlightFrame.Left:Size(152, 15)
+	TradeSkillHighlightFrame.Left:SetPoint("LEFT", TradeSkillHighlightFrame, "CENTER")
+	TradeSkillHighlightFrame.Left:SetTexture(E.media.blankTex)
+
+	TradeSkillHighlightFrame.Right = TradeSkillHighlightFrame:CreateTexture(nil, "ARTWORK")
+	TradeSkillHighlightFrame.Right:Size(152, 15)
+	TradeSkillHighlightFrame.Right:SetPoint("RIGHT", TradeSkillHighlightFrame, "CENTER")
+	TradeSkillHighlightFrame.Right:SetTexture(E.media.blankTex)
+
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
 		if TradeSkillSkillIcon:GetNormalTexture() then
 			TradeSkillReagentLabel:SetAlpha(1)
@@ -237,6 +247,24 @@ local function LoadSkin()
 				TradeSkillSkillIcon:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				TradeSkillSkillName:SetTextColor(1, 1, 1)
 			end
+		end
+
+		local _, skillType = GetTradeSkillInfo(id)
+		if skillType == "trivial" then
+			TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0.40, 0.5, 0.5, 0.5, 0)
+			TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0, 0.5, 0.5, 0.5, 0.40)
+		elseif skillType == "easy" then
+			TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 0, 1, 0, 0.35, 0, 1, 0, 0)
+			TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 0, 1, 0, 0, 0, 1, 0, 0.35)
+		elseif skillType == "medium" then
+			TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 1, 0, 0.35, 1, 1, 0, 0)
+			TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 1, 0, 0, 1, 1, 0, 0.35)
+		elseif skillType == "optimal" then
+			TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 0.45, 0.15, 0.35, 1, 0.45, 0.15, 0)
+			TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 0.45, 0.15, 0, 1, 0.45, 0.15, 0.35)
+		elseif skillType == "difficult" then
+			TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 0, 0, 0.35, 1, 0, 0, 0)
+			TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 0, 0, 0, 1, 0, 0, 0.35)
 		end
 
 		local numReagents = GetTradeSkillNumReagents(id)

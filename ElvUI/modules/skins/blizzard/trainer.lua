@@ -73,7 +73,19 @@ local function LoadSkin()
 	ClassTrainerSkillIcon:Size(47)
 	ClassTrainerSkillIcon:Point("TOPLEFT", 2, 0)
 
-	hooksecurefunc("ClassTrainer_SetSelection", function()
+	ClassTrainerSkillHighlight:StripTextures()
+
+	ClassTrainerSkillHighlightFrame.Left = ClassTrainerSkillHighlightFrame:CreateTexture(nil, "ARTWORK")
+	ClassTrainerSkillHighlightFrame.Left:Size(152, 15)
+	ClassTrainerSkillHighlightFrame.Left:SetPoint("LEFT", ClassTrainerSkillHighlightFrame, "CENTER")
+	ClassTrainerSkillHighlightFrame.Left:SetTexture(E.media.blankTex)
+
+	ClassTrainerSkillHighlightFrame.Right = ClassTrainerSkillHighlightFrame:CreateTexture(nil, "ARTWORK")
+	ClassTrainerSkillHighlightFrame.Right:Size(152, 15)
+	ClassTrainerSkillHighlightFrame.Right:SetPoint("RIGHT", ClassTrainerSkillHighlightFrame, "CENTER")
+	ClassTrainerSkillHighlightFrame.Right:SetTexture(E.media.blankTex)
+
+	hooksecurefunc("ClassTrainer_SetSelection", function(id)
 		local skillIcon = ClassTrainerSkillIcon:GetNormalTexture()
 
 		if skillIcon and not skillIcon.isSkinned then
@@ -81,6 +93,18 @@ local function LoadSkin()
 			skillIcon:SetTexCoord(unpack(E.TexCoords))
 
 			skillIcon.isSkinned = true
+		end
+
+		local _, _, serviceType = GetTrainerServiceInfo(id)
+		if serviceType == "available" then
+			ClassTrainerSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 0, 1, 0, 0.35, 0, 1, 0, 0)
+			ClassTrainerSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 0, 1, 0, 0, 0, 1, 0, 0.35)
+		elseif serviceType == "used" then
+			ClassTrainerSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0.40, 0.5, 0.5, 0.5, 0)
+			ClassTrainerSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0, 0.5, 0.5, 0.5, 0.40)
+		elseif serviceType == "unavailable" then
+			ClassTrainerSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 0, 0, 0.35, 1, 0, 0, 0)
+			ClassTrainerSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 0, 0, 0, 1, 0, 0, 0.35)
 		end
 	end)
 
@@ -99,8 +123,6 @@ local function LoadSkin()
 	end
 
 	ClassTrainerSkill1:Point("TOPLEFT", 22, -80)
-
-	ClassTrainerSkillHighlight:SetTexture(1, 1, 1, 0.3)
 
 	for i = 1, CLASS_TRAINER_SKILLS_DISPLAYED do
 		local skillButton = _G["ClassTrainerSkill"..i]
