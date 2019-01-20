@@ -96,16 +96,16 @@ local function LoadSkin()
 		end
 
 		local _, _, serviceType = GetTrainerServiceInfo(id)
+		local r, g, b
 		if serviceType == "available" then
-			ClassTrainerSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 0, 1, 0, 0.35, 0, 1, 0, 0)
-			ClassTrainerSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 0, 1, 0, 0, 0, 1, 0, 0.35)
+			r, g, b = 0, 1, 0
 		elseif serviceType == "used" then
-			ClassTrainerSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0.40, 0.5, 0.5, 0.5, 0)
-			ClassTrainerSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0, 0.5, 0.5, 0.5, 0.40)
+			r, g, b = 0.5, 0.5, 0.5
 		elseif serviceType == "unavailable" then
-			ClassTrainerSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 0, 0, 0.35, 1, 0, 0, 0)
-			ClassTrainerSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 0, 0, 0, 1, 0, 0, 0.35)
+			r, g, b = 1, 0, 0
 		end
+		ClassTrainerSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
+		ClassTrainerSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
 	end)
 
 	CLASS_TRAINER_SKILLS_DISPLAYED = 19

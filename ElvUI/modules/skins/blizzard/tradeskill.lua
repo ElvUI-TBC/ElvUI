@@ -250,22 +250,18 @@ local function LoadSkin()
 		end
 
 		local _, skillType = GetTradeSkillInfo(id)
+		local r, g, b
 		if skillType == "trivial" then
-			TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0.40, 0.5, 0.5, 0.5, 0)
-			TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0, 0.5, 0.5, 0.5, 0.40)
+			r, g, b = 0.5, 0.5, 0.5
 		elseif skillType == "easy" then
-			TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 0, 1, 0, 0.35, 0, 1, 0, 0)
-			TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 0, 1, 0, 0, 0, 1, 0, 0.35)
+			r, g, b = 0, 1, 0
 		elseif skillType == "medium" then
-			TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 1, 0, 0.35, 1, 1, 0, 0)
-			TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 1, 0, 0, 1, 1, 0, 0.35)
+			r, g, b = 1, 1, 0
 		elseif skillType == "optimal" then
-			TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 0.45, 0.15, 0.35, 1, 0.45, 0.15, 0)
-			TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 0.45, 0.15, 0, 1, 0.45, 0.15, 0.35)
-		elseif skillType == "difficult" then
-			TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 0, 0, 0.35, 1, 0, 0, 0)
-			TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 0, 0, 0, 1, 0, 0, 0.35)
+			r, g, b = 1, 0.45, 0.15
 		end
+		TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
+		TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
 
 		local numReagents = GetTradeSkillNumReagents(id)
 		for i = 1, numReagents, 1 do

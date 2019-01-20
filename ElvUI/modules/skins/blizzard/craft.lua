@@ -238,22 +238,18 @@ local function LoadSkin()
 		end
 
 		local _, _, craftType = GetCraftInfo(id)
+		local r, g, b
 		if craftType == "trivial" then
-			CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0.40, 0.5, 0.5, 0.5, 0)
-			CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", 0.5, 0.5, 0.5, 0, 0.5, 0.5, 0.5, 0.40)
+			r, g, b = 0.5, 0.5, 0.5
 		elseif craftType == "easy" then
-			CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", 0, 1, 0, 0.35, 0, 1, 0, 0)
-			CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", 0, 1, 0, 0, 0, 1, 0, 0.35)
+			r, g, b = 0, 1, 0
 		elseif craftType == "medium" then
-			CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 1, 0, 0.35, 1, 1, 0, 0)
-			CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 1, 0, 0, 1, 1, 0, 0.35)
+			r, g, b = 1, 1, 0
 		elseif craftType == "optimal" then
-			CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 0.45, 0.15, 0.35, 1, 0.45, 0.15, 0)
-			CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 0.45, 0.15, 0, 1, 0.45, 0.15, 0.35)
-		elseif craftType == "difficult" then
-			CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", 1, 0, 0, 0.35, 1, 0, 0, 0)
-			CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", 1, 0, 0, 0, 1, 0, 0, 0.35)
+			r, g, b = 1, 0.45, 0.15
 		end
+		CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
+		CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
 
 		local numReagents = GetCraftNumReagents(id)
 		for i = 1, numReagents, 1 do
