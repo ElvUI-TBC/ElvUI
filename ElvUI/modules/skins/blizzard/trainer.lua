@@ -86,6 +86,8 @@ local function LoadSkin()
 	ClassTrainerSkillHighlightFrame.Right:SetTexture(E.media.blankTex)
 
 	hooksecurefunc("ClassTrainer_SetSelection", function(id)
+		if not id then return; end -- We are often called without an id (nothing to skin in that case).
+
 		local skillIcon = ClassTrainerSkillIcon:GetNormalTexture()
 
 		if skillIcon and not skillIcon.isSkinned then
