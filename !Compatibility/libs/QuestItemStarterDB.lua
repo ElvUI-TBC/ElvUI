@@ -289,6 +289,7 @@ lib.QuestItemIDs = {
 	-- Items
 	["5880"] = true,	-- Crate With Holes
 	["6464"] = true,	-- Wailing Essence
+	["8548"] = true,	-- Divino-matic Rod
 	["11148"] = true,	-- Samophlange Manual Page
 	["12884"] = true,	-- Arnak's Hoof
 	["14542"] = true,	-- Kravel's Crate

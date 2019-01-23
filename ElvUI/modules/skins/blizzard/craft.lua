@@ -144,8 +144,6 @@ local function LoadSkin()
 
 	CraftName:Point("TOPLEFT", 58, -3)
 
-	CraftHighlight:StripTextures()
-
 	CraftIcon:SetTemplate("Default")
 	CraftIcon:StyleButton(nil, true)
 	CraftIcon:Size(47)
@@ -204,6 +202,8 @@ local function LoadSkin()
 	CraftReagent7:Point("TOPLEFT", CraftReagent5, "BOTTOMLEFT", 0, -3)
 	CraftReagent8:Point("LEFT", CraftReagent7, "RIGHT", 3, 0)
 
+	CraftHighlight:StripTextures()
+
 	CraftHighlightFrame.Left = CraftHighlightFrame:CreateTexture(nil, "ARTWORK")
 	CraftHighlightFrame.Left:Size(152, 15)
 	CraftHighlightFrame.Left:SetPoint("LEFT", CraftHighlightFrame, "CENTER")
@@ -213,6 +213,11 @@ local function LoadSkin()
 	CraftHighlightFrame.Right:Size(152, 15)
 	CraftHighlightFrame.Right:SetPoint("RIGHT", CraftHighlightFrame, "CENTER")
 	CraftHighlightFrame.Right:SetTexture(E.media.blankTex)
+
+	hooksecurefunc(CraftHighlight, "SetVertexColor", function(_, r, g, b)
+		CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
+		CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
+	end)
 
 	hooksecurefunc("CraftFrame_SetSelection", function(id)
 		if CraftIcon:GetNormalTexture() then
@@ -236,20 +241,6 @@ local function LoadSkin()
 				CraftName:SetTextColor(1, 1, 1)
 			end
 		end
-
-		local _, _, craftType = GetCraftInfo(id)
-		local r, g, b
-		if craftType == "trivial" then
-			r, g, b = 0.5, 0.5, 0.5
-		elseif craftType == "easy" then
-			r, g, b = 0, 1, 0
-		elseif craftType == "medium" then
-			r, g, b = 1, 1, 0
-		elseif craftType == "optimal" then
-			r, g, b = 1, 0.45, 0.15
-		end
-		CraftHighlightFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
-		CraftHighlightFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
 
 		local numReagents = GetCraftNumReagents(id)
 		for i = 1, numReagents, 1 do

@@ -280,7 +280,7 @@ local function LoadSkin()
 	QuestLogNoQuestsText:ClearAllPoints()
 	QuestLogNoQuestsText:Point("CENTER", EmptyQuestLogFrame, "CENTER", -45, 65)
 
-	QuestLogHighlightFrame:Width(301)
+	QuestLogHighlightFrame:Width(306)
 	QuestLogHighlightFrame.SetWidth = E.noop
 
 	QuestLogSkillHighlight:StripTextures()
@@ -295,18 +295,9 @@ local function LoadSkin()
 	QuestLogHighlightFrame.Right:SetPoint("RIGHT", QuestLogHighlightFrame, "CENTER")
 	QuestLogHighlightFrame.Right:SetTexture(E.media.blankTex)
 
-	hooksecurefunc("QuestLog_SetSelection", function(questID)
-		local _, level, _, _, isHeader = GetQuestLogTitle(questID)
-		local color = GetDifficultyColor(level)
-
-		if not isHeader then
-			local scrollFrameOffset = FauxScrollFrame_GetOffset(QuestLogListScrollFrame)
-
-			if questID > scrollFrameOffset and questID <= (scrollFrameOffset + QUESTS_DISPLAYED) and questID <= GetNumQuestLogEntries() then
-				QuestLogHighlightFrame.Left:SetGradientAlpha("Horizontal", color.r, color.g, color.b, 0.35, color.r, color.g, color.b, 0)
-				QuestLogHighlightFrame.Right:SetGradientAlpha("Horizontal", color.r, color.g, color.b, 0, color.r, color.g, color.b, 0.35)
-			end
-		end
+	hooksecurefunc(QuestLogSkillHighlight, "SetVertexColor", function(_, r, g, b)
+		QuestLogHighlightFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
+		QuestLogHighlightFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
 	end)
 
 	QuestLogFrameAbandonButton:Point("BOTTOMLEFT", 18, 15)

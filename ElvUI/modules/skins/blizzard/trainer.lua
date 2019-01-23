@@ -85,7 +85,12 @@ local function LoadSkin()
 	ClassTrainerSkillHighlightFrame.Right:SetPoint("RIGHT", ClassTrainerSkillHighlightFrame, "CENTER")
 	ClassTrainerSkillHighlightFrame.Right:SetTexture(E.media.blankTex)
 
-	hooksecurefunc("ClassTrainer_SetSelection", function(id)
+	hooksecurefunc(ClassTrainerSkillHighlight, "SetVertexColor", function(_, r, g, b)
+		ClassTrainerSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
+		ClassTrainerSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
+	end)
+
+	hooksecurefunc("ClassTrainer_SetSelection", function()
 		local skillIcon = ClassTrainerSkillIcon:GetNormalTexture()
 
 		if skillIcon and not skillIcon.isSkinned then
@@ -94,18 +99,6 @@ local function LoadSkin()
 
 			skillIcon.isSkinned = true
 		end
-
-		local _, _, serviceType = GetTrainerServiceInfo(id)
-		local r, g, b
-		if serviceType == "available" then
-			r, g, b = 0, 1, 0
-		elseif serviceType == "used" then
-			r, g, b = 0.5, 0.5, 0.5
-		elseif serviceType == "unavailable" then
-			r, g, b = 1, 0, 0
-		end
-		ClassTrainerSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
-		ClassTrainerSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
 	end)
 
 	CLASS_TRAINER_SKILLS_DISPLAYED = 19

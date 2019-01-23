@@ -146,8 +146,6 @@ local function LoadSkin()
 
 	TradeSkillSkillName:Point("TOPLEFT", 58, -3)
 
-	TradeSkillHighlight:StripTextures()
-
 	TradeSkillSkillIcon:SetTemplate("Default")
 	TradeSkillSkillIcon:StyleButton(nil, true)
 	TradeSkillSkillIcon:Size(47)
@@ -216,6 +214,8 @@ local function LoadSkin()
 
 	S:HandleCloseButton(TradeSkillFrameCloseButton, TradeSkillFrame.backdrop)
 
+	TradeSkillHighlight:StripTextures()
+
 	TradeSkillHighlightFrame.Left = TradeSkillHighlightFrame:CreateTexture(nil, "ARTWORK")
 	TradeSkillHighlightFrame.Left:Size(152, 15)
 	TradeSkillHighlightFrame.Left:SetPoint("LEFT", TradeSkillHighlightFrame, "CENTER")
@@ -225,6 +225,11 @@ local function LoadSkin()
 	TradeSkillHighlightFrame.Right:Size(152, 15)
 	TradeSkillHighlightFrame.Right:SetPoint("RIGHT", TradeSkillHighlightFrame, "CENTER")
 	TradeSkillHighlightFrame.Right:SetTexture(E.media.blankTex)
+
+	hooksecurefunc(TradeSkillHighlight, "SetVertexColor", function(_, r, g, b)
+		TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
+		TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
+	end)
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
 		if TradeSkillSkillIcon:GetNormalTexture() then
@@ -248,20 +253,6 @@ local function LoadSkin()
 				TradeSkillSkillName:SetTextColor(1, 1, 1)
 			end
 		end
-
-		local _, skillType = GetTradeSkillInfo(id)
-		local r, g, b
-		if skillType == "trivial" then
-			r, g, b = 0.5, 0.5, 0.5
-		elseif skillType == "easy" then
-			r, g, b = 0, 1, 0
-		elseif skillType == "medium" then
-			r, g, b = 1, 1, 0
-		elseif skillType == "optimal" then
-			r, g, b = 1, 0.45, 0.15
-		end
-		TradeSkillHighlightFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
-		TradeSkillHighlightFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
 
 		local numReagents = GetTradeSkillNumReagents(id)
 		for i = 1, numReagents, 1 do

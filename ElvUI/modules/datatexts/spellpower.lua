@@ -14,12 +14,13 @@ local function OnEvent(self)
 	local minModifier = GetSpellBonusDamage(holySchool)
 	local bonusHealing = GetSpellBonusHealing()
 	local bonusDamage
+
 	for i = (holySchool + 1), MAX_SPELL_SCHOOLS do
 		bonusDamage = GetSpellBonusDamage(i)
 		minModifier = max(minModifier, bonusDamage)
 	end
 
-	if bonusHealing > minModifier then
+	if E:GetPlayerRole() == "HEALER" then
 		self.text:SetFormattedText(displayNumberString, L["HP"], bonusHealing)
 	else
 		self.text:SetFormattedText(displayNumberString, L["SP"], minModifier)
