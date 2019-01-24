@@ -8,6 +8,7 @@ local match, gsub = string.match, string.gsub
 
 local CreateFrame = CreateFrame
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES
+local KEYRING = KEYRING
 
 local function OnEnter()
 	if not E.db.bags.bagBar.mouseover then return end
@@ -19,9 +20,10 @@ local function OnLeave()
 	E:UIFrameFadeOut(ElvUIBags, 0.2, ElvUIBags:GetAlpha(), 0)
 end
 
-function B:SkinBag(bag)
+function B:SkinBag(bag, keyring)
 	local icon = _G[bag:GetName().."IconTexture"]
-	bag.oldTex = icon:GetTexture()
+
+	bag.oldTex = keyring and "Interface\\ContainerFrame\\KeyRing-Bag-Icon" or icon:GetTexture()
 
 	bag:StripTextures()
 	bag:SetTemplate("Default", true)
@@ -132,27 +134,22 @@ function B:LoadBagBar()
 	self:SkinBag(MainMenuBarBackpackButton)
 
 	for i = 0, NUM_BAG_FRAMES - 1 do
-		local b = _G["CharacterBag"..i.."Slot"]
-		b:SetParent(ElvUIBags)
-		b.SetParent = E.dummy
-		b:HookScript("OnEnter", OnEnter)
-		b:HookScript("OnLeave", OnLeave)
+		local slot = _G["CharacterBag"..i.."Slot"]
 
-		self:SkinBag(b)
-		tinsert(ElvUIBags.buttons, b)
+		slot:SetParent(ElvUIBags)
+		slot.SetParent = E.dummy
+		slot:HookScript("OnEnter", OnEnter)
+		slot:HookScript("OnLeave", OnLeave)
+
+		self:SkinBag(slot)
+		tinsert(ElvUIBags.buttons, slot)
 	end
 
-	local ElvUIKeyRing = CreateFrame("CheckButton", "ElvUIKeyRingButton", UIParent, "ItemButtonTemplate")
-	ElvUIKeyRing:StripTextures()
-	ElvUIKeyRing:SetTemplate()
-	ElvUIKeyRing:StyleButton(true)
+	local ElvUIKeyRing = CreateFrame("CheckButton", "ElvUIKeyRingButton", E.UIParent, "ItemButtonTemplate")
 	ElvUIKeyRing:SetParent(ElvUIBags)
 	ElvUIKeyRing.SetParent = E.dummy
 	ElvUIKeyRing:RegisterForClicks("anyUp")
-
-	_G[ElvUIKeyRing:GetName().."IconTexture"]:SetTexture("Interface\\ContainerFrame\\KeyRing-Bag-Icon")
-	_G[ElvUIKeyRing:GetName().."IconTexture"]:SetInside()
-	_G[ElvUIKeyRing:GetName().."IconTexture"]:SetTexCoord(unpack(E.TexCoords))
+	self:SkinBag(ElvUIKeyRing, true)
 
 	ElvUIKeyRing:SetScript("OnClick", function()
 		if CursorHasItem() then
@@ -169,9 +166,8 @@ function B:LoadBagBar()
 		end
 	end)
 	ElvUIKeyRing:SetScript("OnReceiveDrag", function() if CursorHasItem() then PutKeyInKeyRing() end end)
-	ElvUIKeyRing:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_LEFT") local color = HIGHLIGHT_FONT_COLOR GameTooltip:SetText(KEYRING, color.r, color.g, color.b) GameTooltip:AddLine() end)
+	ElvUIKeyRing:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_LEFT") GameTooltip:SetText(KEYRING, 1, 1, 1) GameTooltip:AddLine() end)
 	ElvUIKeyRing:SetScript("OnLeave", function() GameTooltip:Hide() end)
-
 	ElvUIKeyRing:HookScript("OnEnter", OnEnter)
 	ElvUIKeyRing:HookScript("OnLeave", OnLeave)
 

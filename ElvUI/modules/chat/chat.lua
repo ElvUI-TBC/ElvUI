@@ -1740,10 +1740,6 @@ function CH:Initialize()
 	close:EnableMouse(true)
 	S:HandleCloseButton(close)
 
-	-- Disable Blizzard
-	InterfaceOptionsSocialPanelSimpleChat:SetAlpha(0)
-	InterfaceOptionsSocialPanelSimpleChat:SetScale(0.0001)
-
 	CombatLogQuickButtonFrame_Custom:StripTextures()
 	CombatLogQuickButtonFrame_Custom:CreateBackdrop("Default", true)
 	CombatLogQuickButtonFrame_Custom.backdrop:Point("TOPLEFT", 0, -1)
@@ -1751,11 +1747,17 @@ function CH:Initialize()
 
 	CombatLogQuickButtonFrame_CustomProgressBar:StripTextures()
 	CombatLogQuickButtonFrame_CustomProgressBar:SetStatusBarTexture(E.media.normTex)
-	CombatLogQuickButtonFrame_CustomProgressBar:Point("TOPLEFT", 0, 3)
+	CombatLogQuickButtonFrame_CustomProgressBar:SetStatusBarColor(0.31, 0.31, 0.31)
+	CombatLogQuickButtonFrame_CustomProgressBar:ClearAllPoints()
+	CombatLogQuickButtonFrame_CustomProgressBar:SetInside(CombatLogQuickButtonFrame_Custom.backdrop)
 
 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Size(20, 22)
 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Point("TOPRIGHT", CombatLogQuickButtonFrame_Custom, "TOPRIGHT", 0, -1)
 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:SetHitRectInsets(0, 0, 0, 0)
+
+	-- Disable Blizzard
+	InterfaceOptionsSocialPanelSimpleChat:SetAlpha(0)
+	InterfaceOptionsSocialPanelSimpleChat:SetScale(0.0001)
 
 	self:Panels_ColorUpdate()
 end

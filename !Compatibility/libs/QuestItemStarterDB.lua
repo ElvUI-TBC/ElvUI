@@ -291,6 +291,7 @@ lib.QuestItemIDs = {
 	["6464"] = true,	-- Wailing Essence
 	["8548"] = true,	-- Divino-matic Rod
 	["11148"] = true,	-- Samophlange Manual Page
+	["11568"] = true, 	-- Torwa's Pouch
 	["12884"] = true,	-- Arnak's Hoof
 	["14542"] = true,	-- Kravel's Crate
 

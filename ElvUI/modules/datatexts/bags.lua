@@ -65,8 +65,16 @@ local function OnEnter(self)
 	DT.tooltip:Show()
 end
 
-local function OnClick()
-	OpenAllBags()
+local function OnClick(_, btn)
+	if not E.bags then
+		if btn == "LeftButton" then
+			OpenAllBags()
+		elseif btn == "RightButton" then
+			ToggleKeyRing()
+		end
+	else
+		OpenAllBags()
+	end
 end
 
 local function ValueColorUpdate(hex)
