@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local CH = E:NewModule("Chat", "AceTimer-3.0", "AceHook-3.0", "AceEvent-3.0")
+local Base64 = LibStub("LibBase64-1.0-ElvUI")
 local CC = E:GetModule("ClassCache")
 local LSM = E.LSM
 
@@ -85,7 +86,7 @@ function CH:RemoveSmiley(key)
 end
 
 function CH:AddSmiley(key, texture)
-	if key and (type(key) == "string") and texture then
+	if key and (type(key) == "string" and not strfind(key, ":%%", 1, true)) and texture then
 		CH.Smileys[key] = texture
 	end
 end
@@ -165,10 +166,12 @@ end
 
 function CH:InsertEmotions(msg)
 	for word in gmatch(msg, "%s-%S+%s*") do
-		local pattern = gsub(strtrim(word), "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1")
+		word = strtrim(word)
+		local pattern = gsub(word, "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1")
 		local emoji = CH.Smileys[pattern]
 		if emoji and strmatch(msg, "[%s%p]-"..pattern.."[%s%p]*") then
-			msg = gsub(msg, "([%s%p]-)"..pattern.."([%s%p]*)", "%1"..emoji.."%2")
+			local base64 = Base64:Encode(word) -- btw keep `|h|cFFffffff|r|h` as it is
+			msg = gsub(msg, "([%s%p]-)"..pattern.."([%s%p]*)", (base64 and ("%1|Helvmoji:%%"..base64.."|h|cFFffffff|r|h") or "%1")..emoji.."%2")
 		end
 	end
 
@@ -336,11 +339,14 @@ local removeIconFromLine
 do
 	local raidIconFunc = function(x) x = x ~= "" and _G["RAID_TARGET_"..x] return x and ("{"..strlower(x).."}") or "" end
 	local stripTextureFunc = function(w, x, y) if x == "" then return (w ~= "" and w) or (y ~= "" and y) or "" end end
-	local hyperLinkFunc = function(x, y) if x == "" then return y end end
+	local hyperLinkFunc = function(w, x, y) if w ~= "" then return end
+		local emoji = (x ~= "" and x) and strmatch(x, "elvmoji:%%(.+)")
+		return (emoji and Base64:Decode(emoji)) or y
+	end
 	removeIconFromLine = function(text)
 		text = gsub(text, "|TInterface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d+):0|t", raidIconFunc) --converts raid icons into {star} etc, if possible.
 		text = gsub(text, "(%s?)(|?)|T.-|t(%s?)", stripTextureFunc) --strip any other texture out but keep a single space from the side(s).
-		text = gsub(text, "(|?)|H.-|h(.-)|h", hyperLinkFunc) --strip hyperlink data only keeping the actual text.
+		text = gsub(text, "(|?)|H(.-)|h(.-)|h", hyperLinkFunc) --strip hyperlink data only keeping the actual text.
 		return text
 	end
 end
@@ -601,7 +607,7 @@ function CH:PrintURL(url)
 	return "|cFFFFFFFF[|Hurl:"..url.."|h"..url.."|h]|r "
 end
 
-function CH.FindURL(msg, ...)
+function CH.FindURL(msg, author, ...)
 	if not msg then return end
 
 	local event = select(11, ...)
@@ -614,9 +620,9 @@ function CH.FindURL(msg, ...)
 	end
 
 	if not CH.db.url then
-		msg = CH:CheckKeyword(msg)
+		msg = CH:CheckKeyword(msg, author)
 		msg = CH:GetSmileyReplacementText(msg)
-		return false, msg, ...
+		return false, msg, author, ...
 	end
 
 	local text, tag = msg, strmatch(msg, "{(.-)}")
@@ -627,24 +633,24 @@ function CH.FindURL(msg, ...)
 	text = gsub(gsub(text, "(%S)(|c.-|H.-|h.-|h|r)", '%1 %2'), "(|c.-|H.-|h.-|h|r)(%S)", "%1 %2")
 	-- http://example.com
 	local newMsg, found = gsub(text, "(%a+)://(%S+)%s?", CH:PrintURL("%1://%2"))
-	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg)), ... end
+	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg, author)), author, ... end
 	-- www.example.com
 	newMsg, found = gsub(text, "www%.([_A-Za-z0-9-]+)%.(%S+)%s?", CH:PrintURL("www.%1.%2"))
-	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg)), ... end
+	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg, author)), author, ... end
 	-- example@example.com
 	newMsg, found = gsub(text, "([_A-Za-z0-9-%.]+)@([_A-Za-z0-9-]+)(%.+)([_A-Za-z0-9-%.]+)%s?", CH:PrintURL("%1@%2%3%4"))
-	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg)), ... end
+	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg, author)), author, ... end
 	-- IP address with port 1.1.1.1:1
 	newMsg, found = gsub(text, "(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)(:%d+)%s?", CH:PrintURL("%1.%2.%3.%4%5"))
-	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg)), ... end
+	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg, author)), author, ... end
 	-- IP address 1.1.1.1
 	newMsg, found = gsub(text, "(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%s?", CH:PrintURL("%1.%2.%3.%4"))
-	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg)), ... end
+	if found > 0 then return false, CH:GetSmileyReplacementText(CH:CheckKeyword(newMsg, author)), author, ... end
 
-	msg = CH:CheckKeyword(msg)
+	msg = CH:CheckKeyword(msg, author)
 	msg = CH:GetSmileyReplacementText(msg)
 
-	return false, msg, ...
+	return false, msg, author, ...
 end
 
 local function SetChatEditBoxMessage(message)
@@ -1197,18 +1203,19 @@ function CH:ThrottleSound()
 end
 
 local protectLinks = {}
-function CH:CheckKeyword(message)
-	for hyperLink in message:gmatch("|%x+|H.-|h.-|h|r") do
-		protectLinks[hyperLink]=gsub(hyperLink,"%s","|s")
+function CH:CheckKeyword(message, author)
+	if author ~= E.myname then
+		for hyperLink in gmatch(message, "|%x+|H.-|h.-|h|r") do
+			protectLinks[hyperLink] = gsub(hyperLink,"%s","|s")
+			for keyword in pairs(CH.Keywords) do
+				if hyperLink == keyword then
+					if (self.db.keywordSound ~= "None") and not self.SoundTimer then
+						if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
+							PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
+						end
 
-		for keyword in pairs(CH.Keywords) do
-			if hyperLink == keyword then
-				if (self.db.keywordSound ~= "None") and not self.SoundTimer then
-					if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
-						PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
+						self.SoundTimer = E:Delay(1, CH.ThrottleSound)
 					end
-
-					self.SoundTimer = E:Delay(1, CH.ThrottleSound)
 				end
 			end
 		end
@@ -1220,14 +1227,15 @@ function CH:CheckKeyword(message)
 
 	local rebuiltString
 	local isFirstWord = true
-	for word in message:gmatch("%s-%S+%s*") do
+	for word in gmatch(message, "%s-%S+%s*") do
 		if not next(protectLinks) or not protectLinks[gsub(gsub(word,"%s",""),"|s"," ")] then
 			local tempWord = gsub(word, "[%s%p]", "")
 			local lowerCaseWord = strlower(tempWord)
+
 			for keyword in pairs(CH.Keywords) do
 				if lowerCaseWord == strlower(keyword) then
 					word = gsub(word, tempWord, format("%s%s|r", E.media.hexvaluecolor, tempWord))
-					if (self.db.keywordSound ~= "None") and not self.SoundTimer then
+					if (author ~= E.myname) and (self.db.keywordSound ~= "None") and not self.SoundTimer then
 						if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
 							PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
 						end
