@@ -56,12 +56,12 @@ local function LoadSkin()
 		S:HandleIcon(searchBg)
 		searchBg:SetTexCoord(0.14, 0.78, 0.1, 0.74)
 		searchBg:SetDrawLayer("ARTWORK")
-		searchBg:Size(58)
+		searchBg:Size(47)
 		searchBg:ClearAllPoints()
-		searchBg:Point("LEFT", dropdownType, "RIGHT", 4, -10)
+		searchBg:Point("LEFT", dropdownType, "RIGHT", 10, -10)
 
 		searchIcon:SetAllPoints(searchBg)
-		searchIcon:SetTexCoord(0.1, 0.76, 0.1, 0.68)
+		searchIcon:SetTexCoord(0.05, 0.77, 0.05, 0.68)
 		searchIcon:SetDrawLayer("ARTWORK")
 	end
 
