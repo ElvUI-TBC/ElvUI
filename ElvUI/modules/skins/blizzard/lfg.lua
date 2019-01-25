@@ -64,12 +64,18 @@ local function LoadSkin()
 	for i = 1, 3 do
 		local searchBg = _G["LFGSearchBg"..i]
 		local searchIcon = _G["LFGSearchIcon"..i]
+		local dropdown = _G["LFGFrameTypeDropDown"..i]
 
 		S:HandleIcon(searchBg)
-		searchBg:SetTexCoord(0.12, 0.8, 0.08, 0.76)
+		searchBg:SetTexCoord(0.14, 0.78, 0.1, 0.74)
+		searchBg:SetDrawLayer("ARTWORK")
+		searchBg:Size(58)
+		searchBg:ClearAllPoints()
+		searchBg:Point("LEFT", dropdown, "RIGHT", 4, -10)
 
-		searchIcon:SetInside(searchBg)
+		searchIcon:SetAllPoints(searchBg)
 		searchIcon:SetTexCoord(0.1, 0.76, 0.1, 0.68)
+		searchIcon:SetDrawLayer("ARTWORK")
 	end
 
 	S:HandleIcon(LookingForGroupIcon)
