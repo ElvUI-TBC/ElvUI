@@ -61,6 +61,17 @@ local function LoadSkin()
 		end
 	end
 
+	for i = 1, 3 do
+		local searchBg = _G["LFGSearchBg"..i]
+		local searchIcon = _G["LFGSearchIcon"..i]
+
+		S:HandleIcon(searchBg)
+		searchBg:SetTexCoord(0.12, 0.8, 0.08, 0.76)
+
+		searchIcon:SetInside(searchBg)
+		searchIcon:SetTexCoord(0.1, 0.76, 0.1, 0.68)
+	end
+
 	S:HandleIcon(LookingForGroupIcon)
 	LookingForGroupIcon:SetDrawLayer("ARTWORK")
 
