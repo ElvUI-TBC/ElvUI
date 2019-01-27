@@ -113,14 +113,14 @@ local function LoadSkin()
 		"AmmoSlot"
 	}
 
-	for _, slot in pairs(slots) do
-		local frame = _G["Character"..slot]
-		local icon = _G["Character"..slot.."IconTexture"]
-		local cooldown = _G["Character"..slot.."Cooldown"]
+	for _, i in pairs(slots) do
+		local slot = _G["Character"..i]
+		local icon = _G["Character"..i.."IconTexture"]
+		local cooldown = _G["Character"..i.."Cooldown"]
 
-		frame:StripTextures()
-		frame:StyleButton(false)
-		frame:SetTemplate("Default", true, true)
+		slot:StripTextures()
+		slot:StyleButton(false)
+		slot:SetTemplate("Default", true, true)
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
@@ -131,19 +131,21 @@ local function LoadSkin()
 	local function ColorItemBorder(_, event, unit)
 		if event == "UNIT_INVENTORY_CHANGED" and unit ~= "player" then return end
 
-		for _, slot in pairs(slots) do
-			local target = _G["Character"..slot]
-			local slotId = GetInventorySlotInfo(slot)
-			local itemId = GetInventoryItemTexture("player", slotId)
-			if itemId then
-				local rarity = GetInventoryItemQuality("player", slotId)
+		for _, i in pairs(slots) do
+			local slot = _G["Character"..i]
+			local slotID = GetInventorySlotInfo(i)
+			local itemID = GetInventoryItemTexture("player", slotID)
+
+			if itemID then
+				local rarity = GetInventoryItemQuality("player", slotID)
+
 				if rarity then
-					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
+					slot:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
-					target:SetBackdropBorderColor(unpack(E.media.bordercolor))
+					slot:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
 			else
-				target:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				slot:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 		end
 	end

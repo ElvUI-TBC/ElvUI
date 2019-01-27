@@ -20,7 +20,6 @@ local SLOT_BORDER_COLORS = {
 function TOTEMS:Update()
 	local displayedTotems = 0
 	for i = 1, MAX_TOTEMS do
-		local color
 		local haveTotem, _, startTime, duration, icon = GetTotemInfo(i)
 
 		if haveTotem and icon and icon ~= "" then
@@ -30,7 +29,7 @@ function TOTEMS:Update()
 			CooldownFrame_SetTimer(self.bar[i].cooldown, startTime, duration, 1)
 
 			if E.myclass == "SHAMAN" then
-				color = SLOT_BORDER_COLORS[self.bar[i]:GetID()]
+				local color = SLOT_BORDER_COLORS[self.bar[i]:GetID()]
 				self.bar[i]:SetBackdropBorderColor(color.r, color.g, color.b)
 				self.bar[i].ignoreBorderColors = true
 			end

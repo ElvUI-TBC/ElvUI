@@ -1,4 +1,4 @@
-local E, L, V, P, G, _ = unpack(ElvUI)
+local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local _G = _G
@@ -12,13 +12,16 @@ local function LoadSkin()
 
 	local PetStableFrame = _G["PetStableFrame"]
 	PetStableFrame:StripTextures()
-	PetStableFramePortrait:Kill()
 	PetStableFrame:CreateBackdrop("Transparent")
 	PetStableFrame.backdrop:Point("TOPLEFT", 10, -11)
 	PetStableFrame.backdrop:Point("BOTTOMRIGHT", -32, 71)
 
+	PetStableFramePortrait:Kill()
+
 	S:HandleButton(PetStablePurchaseButton)
+
 	S:HandleCloseButton(PetStableFrameCloseButton)
+
 	S:HandleRotateButton(PetStableModelRotateRightButton)
 	S:HandleRotateButton(PetStableModelRotateLeftButton)
 
@@ -26,7 +29,7 @@ local function LoadSkin()
 	_G["PetStableCurrentPetIconTexture"]:SetDrawLayer("OVERLAY")
 
 	for i = 1, NUM_PET_STABLE_SLOTS do
-		S:HandleItemButton(_G["PetStableStabledPet" .. i], true)
+		S:HandleItemButton(_G["PetStableStabledPet"..i], true)
 		_G["PetStableStabledPet"..i.."IconTexture"]:SetDrawLayer("OVERLAY")
 	end
 

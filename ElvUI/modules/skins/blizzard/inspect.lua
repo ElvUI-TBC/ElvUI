@@ -52,9 +52,9 @@ local function LoadSkin()
 		"RangedSlot"
 	}
 
-	for _, slot in pairs(slots) do
-		local item = _G["Inspect"..slot]
-		local icon = _G["Inspect"..slot.."IconTexture"]
+	for _, i in pairs(slots) do
+		local item = _G["Inspect"..i]
+		local icon = _G["Inspect"..i.."IconTexture"]
 
 		item:StripTextures()
 		item:SetTemplate("Default", true, true)

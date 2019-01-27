@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local DT = E:GetModule("DataTexts")
 
-local pairs = pairs
+local ipairs, pairs = ipairs, pairs
 local format, join = string.format, string.join
 local tinsert, wipe = table.insert, wipe
 
@@ -82,7 +82,7 @@ local function OnEnter(self)
 	DT.tooltip:AddLine(L["Character: "])
 
 	wipe(myGold)
-	for k, _ in pairs(ElvDB.gold[E.myrealm]) do
+	for k in pairs(ElvDB.gold[E.myrealm]) do
 		if ElvDB.gold[E.myrealm][k] then
 			local class = ElvDB.class[E.myrealm][k] or "PRIEST"
 			local color = class and (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class])

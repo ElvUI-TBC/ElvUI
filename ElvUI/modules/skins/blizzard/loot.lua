@@ -178,7 +178,7 @@ local function LoadSkin2()
 		statusBar:CreateBackdrop("Default")
 		statusBar:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(statusBar)
-		
+
 		decoration:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Gold-Dragon")
 		decoration:Size(130)
 		decoration:Point("TOPLEFT", -37, 20)
