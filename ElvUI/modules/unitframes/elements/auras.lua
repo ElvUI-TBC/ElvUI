@@ -535,7 +535,7 @@ function UF:AuraFilter(unit, button, name, _, _, _, dtype, duration)
 		anotherFilterExists = true
 	end
 
-	if db.minDuration > 0 then
+	if db.minDuration and (db.minDuration > 0) then
 		if duration and (duration < db.minDuration) then
 			returnValue = false
 		end
@@ -543,7 +543,7 @@ function UF:AuraFilter(unit, button, name, _, _, _, dtype, duration)
 		anotherFilterExists = true
 	end
 
-	if db.maxDuration > 0 then
+	if db.maxDuration > 0 and (db.maxDuration > 0) then
 		if duration and (duration > db.maxDuration) then
 			returnValue = false
 		end
