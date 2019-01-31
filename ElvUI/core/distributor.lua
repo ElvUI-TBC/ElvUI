@@ -236,6 +236,9 @@ end
 --Keys that should not be exported
 local blacklistedKeys = {
 	["profile"] = {
+		["general"] = {
+			["numberPrefixStyle"] = true
+		},
 		["actionbar"] = {
 			--[[
 			["bar1"] = {
@@ -459,6 +462,7 @@ local function SetImportedProfile(profileType, profileKey, profileData, force)
 	D.profileData = nil
 
 	if profileType == "profile" then
+		profileData = E:FilterTableFromBlacklist(profileData, blacklistedKeys.profile) --Remove unwanted options from import
 		if not ElvDB.profiles[profileKey] or force then
 			if force and E.data.keys.profile == profileKey then
 				--Overwriting an active profile doesn't update when calling SetProfile
@@ -478,11 +482,13 @@ local function SetImportedProfile(profileType, profileKey, profileData, force)
 			return
 		end
 	elseif profileType == "private" then
+		profileData = E:FilterTableFromBlacklist(profileData, blacklistedKeys.private) --Remove unwanted options from import
 		local profileKey = ElvPrivateDB.profileKeys[E.myname.." - "..E.myrealm]
 		ElvPrivateDB.profiles[profileKey] = profileData
 		E:StaticPopup_Show("IMPORT_RL")
 
 	elseif profileType == "global" then
+		profileData = E:FilterTableFromBlacklist(profileData, blacklistedKeys.global) --Remove unwanted options from import
 		E:CopyTable(ElvDB.global, profileData)
 		E:StaticPopup_Show("IMPORT_RL")
 	elseif profileType == "filters" then
