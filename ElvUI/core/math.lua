@@ -368,10 +368,10 @@ function E:FormatMoney(amount, style, textonly)
 	local silvername = textonly and L.silverabbrev or ICON_SILVER
 	local goldname = textonly and L.goldabbrev or ICON_GOLD
 
-	local val = abs(amount)
-	local gold = floor(val / 10000)
-	local silver = floor(mod(val / 100, 100))
-	local copper = floor(mod(val, 100))
+	local value = abs(amount)
+	local gold = floor(value / 10000)
+	local silver = floor(mod(value / 100, 100))
+	local copper = floor(mod(value, 100))
 
 	if not style or style == "SMART" then
 		local str = ""

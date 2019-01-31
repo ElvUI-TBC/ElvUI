@@ -293,8 +293,12 @@ lib.QuestItemIDs = {
 	["11148"] = true,	-- Samophlange Manual Page
 	["11522"] = true,	-- Silver Totem of Aquementas
 	["11568"] = true, 	-- Torwa's Pouch
+	["12565"] = true,	-- Winna's Kitten Carrier
 	["12884"] = true,	-- Arnak's Hoof
+	["12922"] = true,	-- Empty Canteen
+	["13562"] = true,	-- Remains of Trey Lightforge
 	["14542"] = true,	-- Kravel's Crate
+	["19775"] = true,	-- Sealed Azure Bag
 
 	-- Keys
 	["2629"] = true,	-- Intrepid Strongbox Key
