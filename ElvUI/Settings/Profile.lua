@@ -154,6 +154,8 @@ P["bags"] = {
 	["disableBagSort"] = false,
 	["disableBankSort"] = false,
 	["strata"] = "DIALOG",
+	["qualityColors"] = true,
+	["showBindType"] = false,
 	["colors"] = {
 		["profession"] = {
 			["quiver"] = {r = 1, g = 0.56, b = 0.73},

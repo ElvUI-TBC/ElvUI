@@ -601,6 +601,11 @@ end
 function TT:Initialize()
 	self.db = E.db.tooltip
 
+	E.ScanTooltip = CreateFrame("GameTooltip", "ElvUI_ScanTooltip", UIParent, "GameTooltipTemplate")
+	E.ScanTooltip:SetPoint("CENTER")
+	E.ScanTooltip:SetSize(200, 200)
+	GameTooltip_SetDefaultAnchor(E.ScanTooltip, UIParent)
+
 	if E.private.tooltip.enable ~= true then return end
 	E.Tooltip = TT
 
