@@ -100,7 +100,7 @@ function UF:Configure_Castbar(frame)
 	local castbar = frame.Castbar
 	local db = frame.db
 
-	if db.castbar.enable then
+	if db.castbar and db.castbar.enable then
 		if not frame:IsElementEnabled("Castbar") then
 			frame:EnableElement("Castbar")
 		end
