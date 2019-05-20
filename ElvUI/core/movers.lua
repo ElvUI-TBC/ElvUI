@@ -509,7 +509,9 @@ end
 
 --Called from core.lua
 function E:LoadMovers()
-	for n, t in pairs(E.CreatedMovers) do
-		CreateMover(t.parent, n, t.overlay, t.snapoffset, t.postdrag, t.shouldDisable, t.configString)
+	for name, t in pairs(E.CreatedMovers) do
+		--All of these properties are cached in E.CreatedMovers by "E:CreateMover()",
+		--so that we can reproduce the function calls identically here.
+		CreateMover(t.parent, name, t.text, t.overlay, t.snapoffset, t.postdrag, t.shouldDisable, t.configString)
 	end
 end
