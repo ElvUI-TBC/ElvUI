@@ -291,7 +291,7 @@ E.Options.args.tooltip = {
 					order = 4,
 					type = "toggle",
 					name = L["Text"],
-					set = function(info, value) E.db.tooltip.healthBar.text = value if(value) then GameTooltipStatusBar.text:Show(); else GameTooltipStatusBar.text:Hide() end end
+					set = function(info, value) E.db.tooltip.healthBar.text = value if value then GameTooltipStatusBar.text:Show(); else GameTooltipStatusBar.text:Hide() end end
 				},
 				font = {
 					order = 5,
