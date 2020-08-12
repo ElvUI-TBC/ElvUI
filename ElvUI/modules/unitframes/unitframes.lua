@@ -656,22 +656,19 @@ end
 
 function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdate, headerTemplate)
 	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
-
 	local db = self.db.units[group]
 	local raidFilter = UF.db.smartRaidFilter
 	local numGroups = db.numGroups
 	if raidFilter and numGroups and (self[group] and not self[group].blockVisibilityChanges) then
-		local inInstance, instanceType = IsInInstance()
-		if inInstance and (instanceType == "raid" or instanceType == "pvp") then
-			local _, _, _, _, maxPlayers = GetInstanceInfo()
+		local _, instanceType, _, _, maxPlayers = GetInstanceInfo()
+		if instanceType == "raid" or instanceType == "pvp" then
 			local mapID = GetCurrentMapAreaID()
-
-			if UF.mapIDs[mapID] then
-				maxPlayers = UF.mapIDs[mapID]
+			if UF.instanceMapIDs[mapID] then
+				maxPlayers = UF.instanceMapIDs[mapID]
 			end
 
 			if maxPlayers > 0 then
-				numGroups = E:Round(maxPlayers / 5)
+				numGroups = E:Round(maxPlayers/5)
 			end
 		end
 	end
@@ -714,7 +711,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 			end
 		end
 
-		UF.headerFunctions[group]:AdjustVisibility(self[group])
+	--	UF.headerFunctions[group]:AdjustVisibility(self[group])
 
 		if headerUpdate or not self[group].mover then
 			UF.headerFunctions[group]:Configure_Groups(self[group])
@@ -722,15 +719,15 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 				RegisterStateDriver(self[group], "visibility", db.visibility)
 			end
 
-			--[[if not self[group].mover then
+			if not self[group].mover then
 				UF.headerFunctions[group]:Update(self[group])
-				UF.headerFunctions[group]:UpdateHeader(self[group])
-			end]]
+			end
 		else
 			UF.headerFunctions[group]:Configure_Groups(self[group])
-			UF.headerFunctions[group]:UpdateHeader(self[group])
 			UF.headerFunctions[group]:Update(self[group])
 		end
+
+		UF.headerFunctions[group]:AdjustVisibility(self[group])
 
 		if db.enable then
 			if self[group].mover then
@@ -749,7 +746,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 
 		if not UF.headerFunctions[group] then UF.headerFunctions[group] = {} end
 		UF.headerFunctions[group].Update = function()
-			local db = UF.db.units[group]
+		--	local db = UF.db.units[group]
 			if db.enable ~= true then
 				UnregisterStateDriver(UF[group], "visibility")
 				UF[group]:Hide()
